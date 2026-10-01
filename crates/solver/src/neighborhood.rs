@@ -8,10 +8,19 @@ pub fn change_moves<'a, V: Eq + Clone>(
     assignment: &'a Assignment<V>,
 ) -> Result<impl Iterator<Item = Move<V>> + 'a, ModelError> {
     problem.validate(assignment)?;
-    Ok(problem
-        .variables()
-        .iter()
-        .enumerate()
+    Ok(change_moves_ordered(
+        problem,
+        assignment,
+        0..problem.variables().len(),
+    ))
+}
+pub(crate) fn change_moves_ordered<'a, V: Eq + Clone>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    order: impl Iterator<Item = usize> + 'a,
+) -> impl Iterator<Item = Move<V>> + 'a {
+    order
+        .map(move |i| (i, &problem.variables()[i]))
         .filter(|(_, v)| !v.is_pinned())
         .flat_map(move |(i, variable)| {
             variable
@@ -24,7 +33,7 @@ pub fn change_moves<'a, V: Eq + Clone>(
                     variable: i,
                     value: value.cloned(),
                 })
-        }))
+        })
 }
 fn accepts<V: Eq>(variable: &Variable<V>, value: &Option<V>) -> bool {
     match value {
@@ -40,16 +49,25 @@ pub fn swap_moves<'a, V: Eq + Clone>(
     assignment: &'a Assignment<V>,
 ) -> Result<impl Iterator<Item = Move<V>> + 'a, ModelError> {
     problem.validate(assignment)?;
-    Ok(problem
-        .variables()
-        .iter()
-        .enumerate()
+    Ok(swap_moves_ordered(
+        problem,
+        assignment,
+        0..problem.variables().len(),
+    ))
+}
+pub(crate) fn swap_moves_ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    order: I,
+) -> impl Iterator<Item = Move<V>> + 'a {
+    let inner = order.clone();
+    order
+        .map(move |i| (i, &problem.variables()[i]))
         .filter(|(_, v)| !v.is_pinned())
         .flat_map(move |(i, a)| {
-            problem
-                .variables()
-                .iter()
-                .enumerate()
+            inner
+                .clone()
+                .map(move |j| (j, &problem.variables()[j]))
                 .filter_map(move |(j, b)| {
                     (i != j
                         && !b.is_pinned()
@@ -58,5 +76,5 @@ pub fn swap_moves<'a, V: Eq + Clone>(
                         && accepts(b, &assignment.values()[i]))
                     .then_some(Move::Swap { left: i, right: j })
                 })
-        }))
+        })
 }

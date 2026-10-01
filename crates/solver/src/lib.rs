@@ -31,6 +31,10 @@ pub mod neighborhood;
 pub use neighborhood::{change_moves, swap_moves};
 pub mod local_search;
 pub use local_search::{
-    Acceptance, LocalSearchConfig, LocalSearchResult, LocalSearchTermination, Neighborhood,
-    local_search,
+    Acceptance, LocalSearchConfig, LocalSearchError, LocalSearchResult, LocalSearchTermination,
+    MoveOrder, Neighborhood, local_search,
 };
+
+pub mod acceptance;
+pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance};
+mod random;

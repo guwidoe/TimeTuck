@@ -11,6 +11,9 @@ pub trait Score: Copy + Ord + fmt::Debug {
     /// Negative values identify a structurally flawed candidate.
     fn structural(self) -> i64;
 
+    /// Compare hard levels only, excluding structural and all soft levels.
+    fn hard_cmp(self, other: Self) -> std::cmp::Ordering;
+
     /// Whether the structural and hard constraints are satisfied.
     fn is_feasible(self) -> bool;
 }
@@ -165,6 +168,9 @@ macro_rules! fixed_score {
         }
 
         impl Score for $name {
+            fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
+                self.levels[..$hard].cmp(&other.levels[..$hard])
+            }
             fn structural(self) -> i64 { self.structural() }
             fn is_feasible(self) -> bool { self.is_feasible() }
         }

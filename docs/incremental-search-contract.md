@@ -59,8 +59,9 @@ Search scans changes, optionally followed by swaps, and commits the first accept
 candidate before restarting its scan. Default strict improvement accepts only
 better scores. `Acceptance::HillClimbing` also accepts ties, matching the adapted
 upstream acceptance assertions; plateaus may cycle, so limits remain essential.
-Neither policy currently accepts worsening moves. There is no randomized order,
-late acceptance, tabu, annealing, or parallel search in this increment.
+Late acceptance additionally permits a worse current score when it meets the
+historical threshold. It is described below. Tabu, annealing and parallel search
+remain unimplemented.
 
 Configuration requires finite evaluation and accepted-move limits (defaults are
 10,000 and 1,000). The initial score counts as one evaluation; each considered move
@@ -98,3 +99,42 @@ deterministic configuration finds `0hard/0soft` after 33,268 score evaluations a
 those evaluations would invoke 13,307,200. This is a callback-count comparison,
 not a Java comparison or measured runtime speedup. The existing dashboard benchmarks
 still cover score operations and two small exhaustive problems only.
+
+
+## Late acceptance and seeded ordering
+
+`Acceptance` is configuration. `start(initial_best)` creates a fresh `Acceptor`
+session; `accepts(current, candidate)` never mutates its state, and `step_ended`
+records only a committed move. Local search manages these calls automatically.
+This replaces the earlier stateless configuration-level `accepts` method.
+
+`LateAcceptance { history_size, hill_climbing }` uses a circular history initially
+filled with the phase's best score. A candidate is accepted if it is at least the
+current history entry, or (when enabled) at least the current score. Completing a
+step stores that step's score, even when worse than the global best, then advances
+the cursor. A new best that improves hard levels resets all history entries to
+that best; soft or medium improvements do not reset them. `Score::hard_cmp` compares
+hard levels only. Structural components are not hard levels, and local-search
+phases use complete assignments with structural zero.
+
+Zero history is rejected before scoring, even with zero evaluation budget. History
+allocation failure is reported as an error. The native size is unsigned; the
+upstream negative-Java-integer case remains pending, as does its Bendable score
+case. Four full upstream methods are adapted, preserving 72 acceptance assertions,
+all five hard-reset history assertions, and the zero-size rejection.
+
+`MoveOrder::Original` preserves the existing variable order. The optional
+`ShuffledVariables { seed }` uses SplitMix64 and a Fisher–Yates shuffle with
+rejection-sampled indices. Each neighborhood scan shuffles variable indices once;
+value order remains the declared domain order, and changes still precede swaps.
+Swaps use that same variable permutation on both axes. This requires linear index
+storage, not a materialized list of all moves. It is not uniform random sampling
+of moves and does not match Java's PRNG or trace. Reproducibility requires the same
+inputs, configuration, and implementation revision.
+
+Original tests demonstrate a seeded late-acceptance run crossing a score valley
+that stops strict hill climbing with the same seed. They also verify best retention
+after a worsening final step, history immutability during trial moves, size-one
+history, hard/medium distinctions, invalid configuration, and bounded/reproducible
+runs across 64 seeds. These tests establish specific behavior, not general solution
+quality. The dashboard still has no matched Java local-search benchmark.

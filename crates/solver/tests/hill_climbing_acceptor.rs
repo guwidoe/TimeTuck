@@ -3,7 +3,9 @@
 use timetuck::{Acceptance, SimpleScore};
 #[test]
 fn hill_climbing_enabled() {
-    let acceptor = Acceptance::HillClimbing;
+    let acceptor = Acceptance::HillClimbing
+        .start(SimpleScore::new(-1000))
+        .unwrap();
     let mut last = SimpleScore::new(-1000);
     for (candidate, expected) in [
         (-900, true),

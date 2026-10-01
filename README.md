@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic moves, exact search, incremental scoring and local search.**
-The solver is still under development. Scores, moves and acceptance behavior cover 66 adapted upstream
+The solver is still under development. Scores, moves and acceptance behavior cover 70 adapted upstream
 test methods. Three integer score types also pass 5,409 generated Java/Rust
 comparisons. Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 64 original complete-planning cases agree
@@ -25,7 +25,9 @@ reference submodule is initialized. See `docs/score-contract.md` and
 
 Run the exact scheduling example with `cargo run --example tiny_schedule`, or
 the larger incremental example with `cargo run --release --example graph_coloring`.
-See `docs/incremental-search-contract.md` for local-search limits and evidence.
+Local search supports strict improvement, hill climbing, and late acceptance,
+with original or seeded variable order. See `docs/incremental-search-contract.md`
+for limits and evidence.
 
 ## Upstream test reference
 

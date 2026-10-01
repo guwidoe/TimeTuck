@@ -1,24 +1,57 @@
 //! Bounded deterministic first-accepted local search using incremental scores.
 use crate::{
-    AdditiveScore, ConstraintNetwork, FiniteProblem, Score, ScoreDirector, ScoredAssignment,
-    ScoringError, change_moves, swap_moves,
+    AdditiveScore, ConstraintNetwork, FiniteProblem, ScoreDirector, ScoredAssignment, ScoringError,
 };
 
+pub use crate::acceptance::Acceptance;
+use crate::neighborhood::{change_moves_ordered, swap_moves_ordered};
+use crate::random::SplitMix64;
+use crate::{AcceptanceError, ModelError};
+use std::{error::Error, fmt};
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum Acceptance {
-    /// Accept only strictly better scores. Finite spaces cannot cycle.
-    StrictImprovement,
-    /// Accept equal or better scores, including plateaus. Limits bound cycles.
-    HillClimbing,
+pub enum MoveOrder {
+    Original,
+    ShuffledVariables { seed: u64 },
 }
-impl Acceptance {
-    pub fn accepts<S: Score>(self, current: S, candidate: S) -> bool {
+
+#[derive(Debug)]
+pub enum LocalSearchError {
+    Scoring(ScoringError),
+    Acceptance(AcceptanceError),
+}
+impl fmt::Display for LocalSearchError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::StrictImprovement => candidate > current,
-            Self::HillClimbing => candidate >= current,
+            Self::Scoring(e) => e.fmt(f),
+            Self::Acceptance(e) => e.fmt(f),
         }
     }
 }
+impl Error for LocalSearchError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        Some(match self {
+            Self::Scoring(e) => e,
+            Self::Acceptance(e) => e,
+        })
+    }
+}
+impl From<ScoringError> for LocalSearchError {
+    fn from(e: ScoringError) -> Self {
+        Self::Scoring(e)
+    }
+}
+impl From<ModelError> for LocalSearchError {
+    fn from(e: ModelError) -> Self {
+        Self::Scoring(e.into())
+    }
+}
+impl From<AcceptanceError> for LocalSearchError {
+    fn from(e: AcceptanceError) -> Self {
+        Self::Acceptance(e)
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
     Change,
@@ -34,6 +67,7 @@ pub struct LocalSearchConfig {
     pub max_accepted_moves: u64,
     pub neighborhood: Neighborhood,
     pub acceptance: Acceptance,
+    pub move_order: MoveOrder,
     pub assert_scores: bool,
 }
 impl Default for LocalSearchConfig {
@@ -43,6 +77,7 @@ impl Default for LocalSearchConfig {
             max_accepted_moves: 1_000,
             neighborhood: Neighborhood::ChangeAndSwap,
             acceptance: Acceptance::StrictImprovement,
+            move_order: MoveOrder::Original,
             assert_scores: false,
         }
     }
@@ -72,18 +107,21 @@ pub struct LocalSearchResult<V, S> {
 /// the first accepted move. Equal best scores retain the earliest best assignment.
 ///
 /// This initial construction is first-fit, not a score-aware construction
-/// heuristic. No random seed is used. Returned best solutions are complete, but
+/// heuristic. Original order is deterministic; shuffled-variable order uses an
+/// explicit reproducible seed and preserves value order within each variable. Returned best solutions are complete, but
 /// may be hard-infeasible. No termination here proves global optimality.
 pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     config: LocalSearchConfig,
-) -> Result<LocalSearchResult<V, S>, ScoringError> {
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    config.acceptance.validate()?;
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
             actual: problem.variables().len(),
-        });
+        }
+        .into());
     }
     let mut result = LocalSearchResult {
         best: None,
@@ -106,6 +144,11 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
         }
     }
     let mut director = ScoreDirector::new(problem, network, initial)?;
+    let mut acceptor = config.acceptance.start(director.score())?;
+    let mut random = match config.move_order {
+        MoveOrder::Original => None,
+        MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
+    };
     result.evaluations = 1;
     result.constraint_evaluations = network.constraint_count() as u128;
     result.best = Some(ScoredAssignment {
@@ -123,10 +166,13 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
         // Snapshot decouples lazy enumeration from the director's transaction.
         // No neighborhood-sized list of cloned moves is allocated.
         let snapshot = director.assignment().clone();
-        let changes = change_moves(problem, &snapshot)?;
+        let mut order: Vec<_> = (0..problem.variables().len()).collect();
+        if let Some(random) = &mut random {
+            random.shuffle(&mut order);
+        }
+        let changes = change_moves_ordered(problem, &snapshot, order.iter().copied());
         let swaps = (config.neighborhood == Neighborhood::ChangeAndSwap)
-            .then(|| swap_moves(problem, &snapshot))
-            .transpose()?
+            .then(|| swap_moves_ordered(problem, &snapshot, order.iter().copied()))
             .into_iter()
             .flatten();
         let mut accepted = false;
@@ -143,9 +189,9 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
                 if config.assert_scores
                     && network.calculate(problem, candidate.assignment())? != candidate.score()
                 {
-                    return Err(ScoringError::CorruptedTotal);
+                    return Err(ScoringError::CorruptedTotal.into());
                 }
-                if config.acceptance.accepts(current, candidate.score()) {
+                if acceptor.accepts(current, candidate.score()) {
                     if candidate.score() > result.best.as_ref().expect("initial best exists").score
                     {
                         result.best = Some(ScoredAssignment {
@@ -153,7 +199,9 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
                             score: candidate.score(),
                         });
                     }
+                    let completed_score = candidate.score();
                     candidate.commit();
+                    acceptor.step_ended(completed_score);
                     result.accepted_moves += 1;
                     accepted = true;
                 }
