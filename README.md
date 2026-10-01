@@ -4,8 +4,8 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scores, basic moves, exact search, incremental scoring and local search.**
-The solver is still under development. Scores, moves and acceptance behavior cover 70 adapted upstream
+**Status: scores, basic moves, exact search, incremental scoring, construction and local search.**
+The solver is still under development. Scores, moves, acceptance and construction behavior cover 74 adapted upstream
 test methods. Three integer score types also pass 5,409 generated Java/Rust
 comparisons. Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 64 original complete-planning cases agree
@@ -27,7 +27,8 @@ Run the exact scheduling example with `cargo run --example tiny_schedule`, or
 the larger incremental example with `cargo run --release --example graph_coloring`.
 Local search supports strict improvement, hill climbing, and late acceptance,
 with original or seeded variable order. See `docs/incremental-search-contract.md`
-for limits and evidence.
+for limits and evidence. Greedy construction evaluates values before choosing each
+unassigned required variable; `local_search_from` improves the resulting assignment.
 
 ## Upstream test reference
 

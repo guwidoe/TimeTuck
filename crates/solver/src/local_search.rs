@@ -6,7 +6,7 @@ use crate::{
 pub use crate::acceptance::Acceptance;
 use crate::neighborhood::{change_moves_ordered, swap_moves_ordered};
 use crate::random::SplitMix64;
-use crate::{AcceptanceError, ModelError};
+use crate::{AcceptanceError, Assignment, ModelError};
 use std::{error::Error, fmt};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -19,12 +19,16 @@ pub enum MoveOrder {
 pub enum LocalSearchError {
     Scoring(ScoringError),
     Acceptance(AcceptanceError),
+    IncompleteInitialAssignment,
 }
 impl fmt::Display for LocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Scoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
+            Self::IncompleteInitialAssignment => {
+                f.write_str("local search requires a complete initial assignment")
+            }
         }
     }
 }
@@ -33,6 +37,7 @@ impl Error for LocalSearchError {
         Some(match self {
             Self::Scoring(e) => e,
             Self::Acceptance(e) => e,
+            Self::IncompleteInitialAssignment => return None,
         })
     }
 }
@@ -115,6 +120,29 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
     network: &ConstraintNetwork<'_, V, S>,
     config: LocalSearchConfig,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    local_search_impl(problem, network, None, config)
+}
+
+/// Improve an explicit complete assignment, such as `ConstructionResult::solution`.
+/// Validates domains, pins and completeness even with a zero evaluation budget.
+/// The supplied assignment is scored once and that work counts toward this
+/// phase's budget. Add construction and search statistics for combined work;
+/// no score or cache from a different session is trusted.
+pub fn local_search_from<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    local_search_impl(problem, network, Some(initial), config)
+}
+
+fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.acceptance.validate()?;
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
@@ -122,6 +150,12 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
             actual: problem.variables().len(),
         }
         .into());
+    }
+    if let Some(initial) = &initial {
+        problem.validate(initial)?;
+        if !problem.is_complete(initial) {
+            return Err(LocalSearchError::IncompleteInitialAssignment);
+        }
     }
     let mut result = LocalSearchResult {
         best: None,
@@ -137,12 +171,15 @@ pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut initial = problem.initial_assignment();
-    for (i, variable) in problem.variables().iter().enumerate() {
-        if initial.values[i].is_none() && !variable.allows_unassigned() {
-            initial.values[i] = variable.domain().first().cloned();
+    let initial = initial.unwrap_or_else(|| {
+        let mut assignment = problem.initial_assignment();
+        for (i, variable) in problem.variables().iter().enumerate() {
+            if assignment.values[i].is_none() && !variable.allows_unassigned() {
+                assignment.values[i] = variable.domain().first().cloned();
+            }
         }
-    }
+        assignment
+    });
     let mut director = ScoreDirector::new(problem, network, initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {

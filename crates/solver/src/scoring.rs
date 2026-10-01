@@ -201,6 +201,18 @@ pub struct ScoreDirector<'p, 'c, V, S> {
     contributions: Vec<S>,
     score: S,
 }
+
+struct SelectedCandidate<V, S> {
+    assignment: Assignment<V>,
+    score: S,
+    updates: Vec<(usize, S)>,
+}
+
+pub(crate) struct Selection {
+    pub evaluations: u64,
+    pub constraint_evaluations: u128,
+    pub evaluation_limit: bool,
+}
 impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     pub fn new(
         problem: &'p FiniteProblem<V>,
@@ -228,6 +240,61 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     }
     pub fn score(&self) -> S {
         self.score
+    }
+    /// Evaluate against one unchanged base, retaining the first highest-scoring
+    /// candidate. The saved assignment and sparse cache updates stay inside this
+    /// exclusive director borrow. Installing them does not invoke callbacks again.
+    /// Errors/unwinding before installation leave the base and caches unchanged.
+    pub(crate) fn select_best(
+        &mut self,
+        moves: impl IntoIterator<Item = Move<V>>,
+        max_evaluations: u64,
+        quit_early: impl Fn(S) -> bool,
+        assert_scores: bool,
+    ) -> Result<Selection, ScoringError> {
+        let mut result = Selection {
+            evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut best: Option<SelectedCandidate<V, S>> = None;
+        let network = self.network;
+        let problem = self.problem;
+        for movement in moves {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let candidate = self.apply(&movement)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += candidate.constraint_evaluations() as u128;
+            if assert_scores
+                && network.calculate(problem, candidate.assignment())? != candidate.score()
+            {
+                return Err(ScoringError::CorruptedTotal);
+            }
+            if best
+                .as_ref()
+                .is_none_or(|saved| candidate.score() > saved.score)
+            {
+                best = Some(SelectedCandidate {
+                    assignment: candidate.assignment().clone(),
+                    score: candidate.score(),
+                    updates: candidate.updates.clone(),
+                });
+            }
+            if quit_early(candidate.score()) {
+                break;
+            }
+        }
+        if let Some(selected) = best {
+            self.assignment = selected.assignment;
+            for (i, contribution) in selected.updates {
+                self.contributions[i] = contribution;
+            }
+            self.score = selected.score;
+        }
+        Ok(result)
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.network
@@ -307,5 +374,57 @@ impl<V, S: Copy> ScoredMove<'_, V, S> {
         }
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
+    }
+}
+
+#[cfg(test)]
+mod selection_tests {
+    use super::*;
+    use crate::{SimpleScore, Variable};
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+
+    #[test]
+    fn selection_errors_and_panics_restore_the_base_after_a_saved_candidate() {
+        let problem =
+            FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
+        for panic in [false, true] {
+            let mut network = ConstraintNetwork::new(1);
+            network
+                .add_constraint("failure on second candidate", vec![0], |v| {
+                    let value = *v[0].unwrap();
+                    if value == 2 {
+                        if panic {
+                            panic!("callback failure");
+                        }
+                        return SimpleScore::new(0).with_structural(-1);
+                    }
+                    SimpleScore::new(value)
+                })
+                .unwrap();
+            let mut director =
+                ScoreDirector::new(&problem, &network, problem.initial_assignment()).unwrap();
+            let outcome = catch_unwind(AssertUnwindSafe(|| {
+                director.select_best(
+                    [1, 2].map(|v| Move::Change {
+                        variable: 0,
+                        value: Some(v),
+                    }),
+                    2,
+                    |_| false,
+                    false,
+                )
+            }));
+            if panic {
+                assert!(outcome.is_err());
+            } else {
+                assert!(matches!(
+                    outcome.unwrap(),
+                    Err(ScoringError::StructuralContribution { constraint: 0 })
+                ));
+            }
+            assert_eq!(director.assignment().values(), &[Some(0)]);
+            assert_eq!(director.score(), SimpleScore::ZERO);
+            director.assert_consistent().unwrap();
+        }
     }
 }

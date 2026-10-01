@@ -53,7 +53,8 @@ moves lazily without collecting a neighborhood-sized list.
 
 `local_search` starts with existing initial values and pins. It fills each required
 unassigned variable with its first domain value; optional `None` is retained. This
-is first-fit initialization, not a score-aware construction heuristic.
+is first-fit initialization. For a score-aware start, use `greedy_construction`
+and pass its complete assignment to `local_search_from` (described below).
 
 Search scans changes, optionally followed by swaps, and commits the first accepted
 candidate before restarting its scan. Default strict improvement accepts only
@@ -94,9 +95,10 @@ cargo run --release --example graph_coloring
 ```
 
 It solves 100 variables with four colors and 400 scoped constraints. The current
-deterministic configuration finds `0hard/0soft` after 33,268 score evaluations and
-227 accepted moves. It invokes 233,269 constraint callbacks; full rescoring of
-those evaluations would invoke 13,307,200. This is a callback-count comparison,
+deterministic configuration constructs `0hard/0soft` in 401 score evaluations,
+then checks local improvements in 301 further evaluations with no accepted moves.
+The combined 702 evaluations invoke 5,700 constraint callbacks; full rescoring of
+those evaluations would invoke 280,800. This is a callback-count comparison,
 not a Java comparison or measured runtime speedup. The existing dashboard benchmarks
 still cover score operations and two small exhaustive problems only.
 
@@ -138,3 +140,55 @@ after a worsening final step, history immutability during trial moves, size-one
 history, hard/medium distinctions, invalid configuration, and bounded/reproducible
 runs across 64 seeds. These tests establish specific behavior, not general solution
 quality. The dashboard still has no matched Java local-search benchmark.
+
+
+## Greedy construction and explicit phase handoff
+
+`greedy_construction` visits unassigned required basic variables in model order.
+It preserves all supplied values and pins, and leaves optional `None` values as
+complete choices. Every candidate for a variable is scored against the same prior
+assignment. The first highest-scoring domain value wins; with a budget limit, only
+the evaluated prefix participates. This is a greedy algorithm without backtracking.
+Callbacks must support partial assignments.
+
+`ConstructionPickEarly` can scan the full domain (`Never`), or stop at the first
+non-deteriorating ordinary score, first hard-feasible score, or first hard-feasible
+score / non-deteriorating hard score. These predicates ignore the network's
+negative structural count of required unassigned variables. A hard-feasible
+partial candidate is still incomplete. The four adapted upstream predicate tests
+preserve all score values, unassigned counts and assertions. The separate upstream
+structurally flawed rejection test remains pending: native incompleteness does not
+represent that additional validation state.
+
+Initial scoring counts once. Every trial counts once, including when no constraints
+are affected. Selecting the winner installs its retained assignment and sparse
+cache updates without replaying callbacks. The director owns selection for the
+whole scan, so a retained candidate cannot be installed into another session or
+against a changed base. Saving an improved candidate clones the assignment and
+its affected contributions; this is not a constant-time selection operation.
+Errors and ordinary panic unwinding before installation preserve the previous
+assignment and cache. Usual value-cloning and destructor limits still apply.
+
+Results expose the current assignment (possibly partial), optional score,
+completeness, assigned-variable count, score evaluations, constraint callbacks and
+termination. `solution()` returns a scored assignment only when complete. A zero
+budget performs no scoring, even for an already complete model. An impossible
+required domain reports `NoCompleteAssignment` before scoring. `EvaluationLimit`
+means a candidate remained unevaluated; the selected prefix can nevertheless have
+completed the final variable. An exactly exhausted full domain, or an early pick,
+can finish at the limit and report `Completed`. None implies hard feasibility or
+optimality. Diagnostic full recomputations are explicitly excluded from statistics.
+
+`local_search_from` validates a supplied complete assignment against the original
+model, including its pins. Incomplete or invalid assignments are errors even with
+zero budget. It initializes a fresh score director; this initial score counts
+against the local-search budget. Construction and search have separate budgets;
+sum their reported evaluations/callbacks for total work. The example performs this
+handoff and reports combined work. No untrusted external score cache is accepted.
+
+Original regressions exercise all budget boundaries, partial/complete separation,
+zero work, impossible/empty models, pins and optional values, tie order, infeasible
+complete results, early picking, callback counts without replay, phase handoff,
+and failure rollback after retaining an earlier candidate. Across 24 interacting
+constraint networks, incremental greedy choices match an independent full-score
+selection loop. The new work has no matched Java heuristic benchmark yet.

@@ -32,9 +32,15 @@ pub use neighborhood::{change_moves, swap_moves};
 pub mod local_search;
 pub use local_search::{
     Acceptance, LocalSearchConfig, LocalSearchError, LocalSearchResult, LocalSearchTermination,
-    MoveOrder, Neighborhood, local_search,
+    MoveOrder, Neighborhood, local_search, local_search_from,
 };
 
 pub mod acceptance;
 pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance};
 mod random;
+
+pub mod construction;
+pub use construction::{
+    ConstructionConfig, ConstructionPickEarly, ConstructionResult, ConstructionTermination,
+    greedy_construction,
+};

@@ -1,7 +1,7 @@
-//! Original larger-than-exhaustive example using incremental local search.
+//! Original larger-than-exhaustive example using greedy construction and local search.
 use timetuck::{
-    ConstraintNetwork, FiniteProblem, HardSoftScore, LocalSearchConfig, Neighborhood, Variable,
-    local_search,
+    ConstraintNetwork, ConstructionConfig, FiniteProblem, HardSoftScore, LocalSearchConfig,
+    Neighborhood, Variable, greedy_construction, local_search_from,
 };
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let count = 100;
@@ -21,9 +21,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             HardSoftScore::new(0, -i64::from(v[0] != Some(&preferred)))
         })?;
     }
-    let result = local_search(
+    let constructed = greedy_construction(&problem, &constraints, ConstructionConfig::default())?;
+    println!(
+        "Construction: {:?}; {} score evaluations; {} variables assigned",
+        constructed.termination, constructed.evaluations, constructed.assigned_variables
+    );
+    let initial = constructed
+        .solution()
+        .ok_or("construction did not produce a scored complete assignment")?;
+    let result = local_search_from(
         &problem,
         &constraints,
+        initial.assignment,
         LocalSearchConfig {
             max_evaluations: 100_000,
             max_accepted_moves: 1_000,
@@ -36,9 +45,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         result.termination, result.evaluations, result.accepted_moves
     );
     println!(
-        "{} constraint callbacks (full rescoring would use {})",
-        result.constraint_evaluations,
-        u128::from(result.evaluations) * constraints.constraint_count() as u128
+        "Combined: {} score evaluations; {} constraint callbacks (full rescoring would use {})",
+        constructed.evaluations + result.evaluations,
+        constructed.constraint_evaluations + result.constraint_evaluations,
+        u128::from(constructed.evaluations + result.evaluations)
+            * constraints.constraint_count() as u128
     );
     if let Some(best) = result.best {
         assert!(problem.is_complete(&best.assignment));
