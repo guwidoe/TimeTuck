@@ -1,4 +1,5 @@
-//! Reproducible ordering only; not for cryptography or Java PRNG compatibility.
+//! Reproducible search randomness; not for cryptography or Java PRNG compatibility.
+#[derive(Clone, Debug)]
 pub(crate) struct SplitMix64 {
     state: u64,
 }
@@ -12,6 +13,10 @@ impl SplitMix64 {
         z = (z ^ (z >> 30)).wrapping_mul(0xbf58476d1ce4e5b9);
         z = (z ^ (z >> 27)).wrapping_mul(0x94d049bb133111eb);
         z ^ (z >> 31)
+    }
+    /// Uniform grid of 2^53 values in [0, 1).
+    pub(crate) fn unit(&mut self) -> f64 {
+        (self.next() >> 11) as f64 * (1.0 / 9_007_199_254_740_992.0)
     }
     fn below(&mut self, bound: u64) -> u64 {
         let threshold = bound.wrapping_neg() % bound;

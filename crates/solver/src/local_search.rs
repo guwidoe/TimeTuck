@@ -85,18 +85,18 @@ pub enum RejectedMovePolicy {
 /// The accepted-move limit is separate. Optional diagnostic recomputations are
 /// excluded from both budgets and from the constraint-evaluation statistic.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct LocalSearchConfig {
+pub struct LocalSearchConfig<S = crate::SimpleScore> {
     pub max_evaluations: u64,
     pub max_accepted_moves: u64,
     pub max_steps: u64,
     pub neighborhood: Neighborhood,
-    pub acceptance: Acceptance,
+    pub acceptance: Acceptance<S>,
     pub move_order: MoveOrder,
     pub selection: MoveSelection,
     pub rejected_moves: RejectedMovePolicy,
     pub assert_scores: bool,
 }
-impl Default for LocalSearchConfig {
+impl<S> Default for LocalSearchConfig<S> {
     fn default() -> Self {
         Self {
             max_evaluations: 10_000,
@@ -145,7 +145,7 @@ pub struct LocalSearchResult<V, S> {
 pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
-    config: LocalSearchConfig,
+    config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     local_search_impl(problem, network, None, config)
 }
@@ -159,7 +159,7 @@ pub fn local_search_from<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
-    config: LocalSearchConfig,
+    config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     local_search_impl(problem, network, Some(initial), config)
 }
@@ -168,7 +168,7 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Option<Assignment<V>>,
-    config: LocalSearchConfig,
+    config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.acceptance.validate()?;
     if network.variable_count() != problem.variables().len() {

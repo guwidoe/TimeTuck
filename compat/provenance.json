@@ -1155,6 +1155,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all 6 acceptance assertions, repeated calls, ordered completed steps, candidate scores and supplied global best. Replace Java mock scopes/entities with TabuMemory and stable variable IDs. Every key in a multi-entity step ages together; aspiration receives the same global best as the upstream scope. Phase lifecycle maps to construction/drop of a fresh memory. No fading-tabu coverage claimed."
+    },
+    {
+      "id": "SimulatedAnnealingAcceptorTest.lateAcceptanceSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/simulatedannealing/SimulatedAnnealingAcceptorTest.java",
+      "upstream_test": "lateAcceptanceSize",
+      "local_path": "crates/solver/tests/simulated_annealing.rs",
+      "local_test": "late_acceptance_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all 12 acceptance assertions, starting temperature 200, each candidate/current score, supplied random thresholds, gradients 0/0.5/1, and selected scores. Replace Java mock scopes/TestRandom with explicit scalar draws and a native session; update current score after each selected step and additionally check the two-step cooling clock. Phase construction/drop replaces lifecycle callbacks. Multi-level energy and Java PRNG trace equivalence are not claimed."
+    },
+    {
+      "id": "SimulatedAnnealingAcceptorTest.negativeSimulatedAnnealingSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/simulatedannealing/SimulatedAnnealingAcceptorTest.java",
+      "upstream_test": "negativeSimulatedAnnealingSize",
+      "local_path": "crates/solver/tests/simulated_annealing.rs",
+      "local_test": "negative_simulated_annealing_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the (1, -1, 2) HardMediumSoft temperature and rejection assertion. Native constructor validation replaces Java phaseStarted validation; no null scope is required."
     }
   ],
   "fixtures": [

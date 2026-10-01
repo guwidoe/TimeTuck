@@ -1,9 +1,16 @@
 //! Acceptance configurations and per-search state.
-use crate::{Score, TabuMemory};
+use crate::{Score, SimpleScore, SimulatedAnnealing, TabuMemory};
 use std::{cmp::Ordering, error::Error, fmt};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum Acceptance {
+pub enum Acceptance<S = SimpleScore> {
+    /// Linearly cool to zero after this many completed steps. The random stream
+    /// is independent of move-order shuffling and does not match Java.
+    SimulatedAnnealing {
+        starting_temperature: S,
+        cooling_steps: u64,
+        seed: u64,
+    },
     StrictImprovement,
     HillClimbing,
     /// Forbid touching variables from recent completed steps, unless optional
@@ -22,10 +29,20 @@ pub enum AcceptanceError {
     EmptyHistory,
     EmptyTabu,
     HistoryAllocation,
+    InvalidTemperature,
+    ZeroCoolingSteps,
+    InvalidGradient,
+    InvalidRandomDraw,
 }
 impl fmt::Display for AcceptanceError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::InvalidTemperature => {
+                "temperature must have structural zero and nonnegative ordinary levels"
+            }
+            Self::ZeroCoolingSteps => "annealing cooling steps must be positive",
+            Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
+            Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
             Self::EmptyTabu => "tabu tenure must be positive",
             Self::EmptyHistory => "late-acceptance history must not be empty",
             Self::HistoryAllocation => "late-acceptance history could not be allocated",
@@ -33,8 +50,16 @@ impl fmt::Display for AcceptanceError {
     }
 }
 impl Error for AcceptanceError {}
-impl Acceptance {
+impl<S: Score> Acceptance<S> {
     pub fn validate(self) -> Result<(), AcceptanceError> {
+        if let Self::SimulatedAnnealing {
+            starting_temperature,
+            cooling_steps,
+            ..
+        } = self
+        {
+            SimulatedAnnealing::validate(starting_temperature, cooling_steps)?;
+        }
         if matches!(self, Self::VariableTabu { tenure: 0, .. }) {
             return Err(AcceptanceError::EmptyTabu);
         }
@@ -51,9 +76,18 @@ impl Acceptance {
         }
     }
     /// Start a fresh acceptance session. No state is shared between solver runs.
-    pub fn start<S: Score>(self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
+    pub fn start(self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
         self.validate()?;
         Ok(match self {
+            Self::SimulatedAnnealing {
+                starting_temperature,
+                cooling_steps,
+                seed,
+            } => Acceptor::SimulatedAnnealing(SimulatedAnnealing::new(
+                starting_temperature,
+                cooling_steps,
+                seed,
+            )?),
             Self::StrictImprovement => Acceptor::StrictImprovement,
             Self::HillClimbing => Acceptor::HillClimbing,
             Self::VariableTabu { tenure, aspiration } => Acceptor::VariableTabu {
@@ -73,6 +107,7 @@ impl Acceptance {
 }
 #[derive(Clone, Debug)]
 pub enum Acceptor<S> {
+    SimulatedAnnealing(SimulatedAnnealing<S>),
     StrictImprovement,
     HillClimbing,
     LateAcceptance(LateAcceptance<S>),
@@ -80,9 +115,11 @@ pub enum Acceptor<S> {
 }
 impl<S: Score> Acceptor<S> {
     /// Supply all variable indices written by the candidate (both sides of swaps).
-    /// Score-only acceptors ignore this slice. Trial checks never update state.
-    pub fn accepts(&self, current: S, candidate: S, variables: &[usize]) -> bool {
+    /// Score-only acceptors ignore this slice. Annealing trial checks may consume
+    /// a random draw; only completed steps advance cooling or acceptance history.
+    pub fn accepts(&mut self, current: S, candidate: S, variables: &[usize]) -> bool {
         match self {
+            Self::SimulatedAnnealing(state) => state.accepts(current, candidate),
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::LateAcceptance(state) => state.accepts(current, candidate),
@@ -92,6 +129,7 @@ impl<S: Score> Acceptor<S> {
     /// Record a completed step, never an unselected trial move.
     pub fn step_ended(&mut self, score: S, variables: &[usize]) {
         match self {
+            Self::SimulatedAnnealing(state) => state.step_ended(),
             Self::LateAcceptance(state) => state.step_ended(score),
             Self::VariableTabu { memory, best } => {
                 memory.step_ended(variables);

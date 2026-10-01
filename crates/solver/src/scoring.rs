@@ -254,7 +254,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
         allow_rejected: bool,
-        accepts: impl Fn(&Move<V>, S) -> bool,
+        mut accepts: impl FnMut(&Move<V>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
     ) -> Result<Selection<V>, ScoringError> {

@@ -30,7 +30,9 @@ moves add ten adapted cases; provider behavior and hill-climbing acceptance add
 nine more. Four late-acceptance methods validate history behavior and hard-score
 resets. Four construction-forager methods preserve early-pick decisions. Three
 entity-tabu methods preserve 96 assertions for expiry and aspiration, using native
-variable IDs as stable entity keys. See
+variable IDs as stable entity keys. Two annealing methods preserve all 12 scalar
+acceptance decisions and negative-temperature rejection. Native multi-level
+annealing energy and seeded traces are not covered by those upstream cases. See
 `docs/incremental-search-contract.md` for native incremental scoring
 and local-search evidence. Original finite-domain and exact-search regression
 tests are kept separate from upstream coverage. See `docs/planning-contract.md`. Separate Java

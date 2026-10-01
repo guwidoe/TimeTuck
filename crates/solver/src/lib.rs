@@ -47,3 +47,6 @@ pub use construction::{
 
 pub mod tabu;
 pub use tabu::TabuMemory;
+
+pub mod annealing;
+pub use annealing::SimulatedAnnealing;

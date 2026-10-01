@@ -8,6 +8,10 @@ use std::{error::Error, fmt, ops, str::FromStr};
 
 /// Common behavior required by optimization algorithms.
 pub trait Score: Copy + Ord + fmt::Debug {
+    /// Ordered ordinary integer levels, excluding structural state. The number
+    /// and order of levels must be constant for a score type.
+    fn ordinary_levels(&self) -> &[i64];
+
     /// Negative values identify a structurally flawed candidate.
     fn structural(self) -> i64;
 
@@ -168,6 +172,7 @@ macro_rules! fixed_score {
         }
 
         impl Score for $name {
+            fn ordinary_levels(&self) -> &[i64] { &self.levels }
             fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
                 self.levels[..$hard].cmp(&other.levels[..$hard])
             }

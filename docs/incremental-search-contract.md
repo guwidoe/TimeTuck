@@ -65,7 +65,8 @@ upstream acceptance assertions; plateaus may cycle, so limits remain essential.
 Late acceptance additionally permits a worse current score when it meets the
 historical threshold. Variable tabu allows worsening candidates that do not touch
 recently selected variables, with an optional global-best exception. Both are
-described below. Annealing and parallel search remain unimplemented.
+described below. Seeded simulated annealing is described below as well. Parallel
+search remains unimplemented.
 
 Configuration requires finite evaluation and accepted-move limits (defaults are
 10,000 and 1,000). The initial score counts as one evaluation; each considered move
@@ -110,7 +111,9 @@ heuristic problems; this incremental callback count is not a runtime benchmark.
 ## Late acceptance and seeded ordering
 
 `Acceptance` is configuration. `start(initial_best)` creates a fresh `Acceptor`
-session; `accepts(current, candidate, variables)` never mutates its state, and
+session; `accepts(current, candidate, variables)` takes a mutable session because
+annealing trials consume randomness. Deterministic acceptance checks do not
+change their state, and
 `step_ended(score, variables)` records only a committed move. Supply the touched
 variable indices for tabu; score-only acceptors ignore that slice. Local search manages these calls automatically.
 This replaces the earlier stateless configuration-level `accepts` method.
@@ -226,7 +229,7 @@ For a bounded tabu run with best-candidate selection:
 
 ```rust
 use timetuck::{Acceptance, LocalSearchConfig, MoveSelection};
-let config = LocalSearchConfig {
+let config: LocalSearchConfig = LocalSearchConfig {
     acceptance: Acceptance::VariableTabu { tenure: 2, aspiration: true },
     selection: MoveSelection::BestAccepted,
     max_evaluations: 10_000,
@@ -279,3 +282,69 @@ The benchmark enables fallback, disables an independent accepted-move cap, and
 uses the same completed-step cap as Java. This corrected the initial pilot's
 mismatched work counts; tested deterministic inputs then matched scores,
 assignments and callback counts. No general Java trace-equivalence claim follows.
+
+
+## Simulated annealing
+
+`Acceptance::SimulatedAnnealing { starting_temperature, cooling_steps, seed }`
+adds a separate seeded random stream to local search. `Acceptance<S>` and
+`LocalSearchConfig<S>` are now generic over the score so temperature has exactly
+the problem's score type. Type inference usually supplies `S` from the network;
+standalone configuration annotations default to `SimpleScore`. `Score` exposes
+ordered integer `ordinary_levels()` for the current integer score families.
+
+Starting temperature requires structural zero and nonnegative ordinary levels.
+The cooling duration must be positive; validation runs before scoring, including
+when evaluation budget is zero. All-zero temperature is valid hill climbing.
+The gradient is completed steps divided by cooling duration, capped at one.
+Temperature scales by `1 - gradient`. This is a deterministic step schedule, not
+wall-clock termination or a Java time-gradient claim. Search limits and cooling
+duration are independent; search can end before cooling finishes or continue cold.
+A discarded candidate does not cool. A selected rejected fallback does cool.
+
+For structurally sound scores, ties and lexicographic improvements always pass.
+For a worse candidate, native energy is the sum of each positive ordinary-level
+loss divided by that level's current temperature; probability is `exp(-energy)`.
+Softer improvements do not cancel losses. A declining level with zero temperature
+makes probability zero. Structural nonzero inputs to the standalone policy are
+rejected. Multi-level energy is an explicitly native policy: the adapted source
+assertions establish scalar acceptance and negative-temperature rejection only.
+
+Loss subtraction uses i128 before conversion to f64, avoiding wrapping and
+preserving adjacent integer deltas above 2^53. Exponential evaluation and cooling
+use floating point; no bit-identical probability/trace across platforms is promised.
+The PRNG draws from a 53-bit uniform grid in [0, 1), independent of variable-order
+shuffling. Draws occur only for probabilities strictly between zero and one.
+Cloning a session clones its random position and cooling state. Reproducibility
+requires the same problem, configuration, platform and implementation revision.
+
+The standalone `SimulatedAnnealing` exposes `probability_at` and `accepts_at` to
+inspect probabilities or replay supplied gradients/draws without mutating state.
+It rejects non-finite/out-of-range gradients and draws. `accepts` uses the internal
+clock/random stream; `step_ended` advances the capped clock. Local search manages
+these calls, including returned-best retention and evaluation/step accounting.
+The default first-accepted selection is appropriate for classic annealing;
+best-accepted selection and rejected fallback remain explicit alternatives.
+
+Two source methods preserve all 12 upstream acceptance decisions and negative
+HardMediumSoft temperature rejection. Ten original regression methods check
+probability boundaries, zero temperatures, native multi-level energy, large
+integer deltas, validation before callbacks, cooling and random consumption,
+seeded acceptance frequency, best retention, fallback and exact limits. Across
+32 fixed seeds, a two-variable valley test reaches an independently enumerated
+optimum that strict improvement cannot reach. This is a small correctness and
+quality case, not a general quality guarantee or measured annealing benchmark.
+
+```rust
+use timetuck::{Acceptance, HardSoftScore, LocalSearchConfig};
+let config: LocalSearchConfig<HardSoftScore> = LocalSearchConfig {
+    acceptance: Acceptance::SimulatedAnnealing {
+        starting_temperature: HardSoftScore::new(2, 100),
+        cooling_steps: 1_000,
+        seed: 20261001,
+    },
+    max_steps: 1_000,
+    max_evaluations: 50_000,
+    ..LocalSearchConfig::default()
+};
+```

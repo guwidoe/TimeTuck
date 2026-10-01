@@ -11,7 +11,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 77 fully adapted source test methods (47 score + 10 move + 8 provider + 8 acceptor + 4 construction), recorded in
+- 79 fully adapted source test methods (47 score + 10 move + 8 provider + 10 acceptor + 4 construction), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -19,11 +19,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   exhaustion/optimality reporting. Original `tiny_schedule` example.
 - Scoped incremental score networks and atomic scored-move transactions.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
-  strict-improvement, hill-climbing, late acceptance or variable tabu; explicit
+  strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 66 original integration regression methods, one original unit test, and one public API documentation test.
+- 76 original integration regression methods, one original unit test, and one public API documentation test.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -41,7 +41,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 77 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 79 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -56,7 +56,7 @@ initialization-score assumptions. No production implementation has been ported.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
 2. Expand the Java oracle to optional variables and entity-specific ranges using
    public APIs. Current complete-planning comparisons use homogeneous ranges/pins.
-3. Extend construction, tabu (fading and entity grouping) and add annealing with
+3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
 4. Extend matched Java heuristic evidence to incremental scoring, more workloads
@@ -77,9 +77,9 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (143 Rust integration methods,
+Latest verification: `scripts/check.sh` passed (155 Rust integration methods,
 one unit test, one doctest, 12 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
-also passed in release mode; the complete all-target suite passed after the tabu increment. Desktop 1440px and mobile 390px browser QA passed,
+also passed in release mode; the complete all-target suite passed after the annealing increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 5,409 score cases and 64 complete-planning cases. The benchmark
 ratios are workload-specific and noisy; retain raw sample ranges and scope labels.
@@ -120,3 +120,22 @@ accepted_moves remain separate. Benchmarks use max_steps=50 and effectively no
 accepted-move cap. The public API oracle exposed the need for this distinction.
 Source logs: work/heuristic-check.log, heuristic-release.log, heuristic-evidence.log.
 Dashboard server restarted after the report import change; reuse the live server.
+
+
+Annealing scope: `Acceptance<S>` and `LocalSearchConfig<S>` now carry the score
+(type parameter defaults to SimpleScore; inference works at search call sites).
+`Score::ordinary_levels()` exposes ordered i64 levels without structural state.
+`Acceptor::accepts` now takes `&mut self` because annealing trials consume PRNG
+state. Existing deterministic policies retain their behavior. The selection
+predicate is FnMut; winning candidates are still installed without replay.
+
+`SimulatedAnnealing` linearly cools on committed steps (including fallback steps),
+using its own SplitMix64 stream. A separate positive cooling_steps schedule can
+finish before the search step cap. Native multi-level energy sums only losses;
+lexicographic improvements/ties always pass. Upstream coverage covers scalar
+probability decisions plus invalid multi-level temperature only. No Java trace or
+multi-level annealing compatibility/performance claim. Ten original regressions
+include 32 fixed-seed valley escapes to an independently enumerated optimum,
+integer precision/overflow boundaries, seeded frequency, budgets and fallback.
+See the annealing section of docs/incremental-search-contract.md. Logs:
+work/annealing-check.log, work/annealing-release.log, work/annealing-evidence.log.
