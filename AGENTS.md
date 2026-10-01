@@ -1,0 +1,33 @@
+# Project instructions
+
+## Goal and boundaries
+
+Build an independent Rust constraint optimization solver from scratch. Use the
+pinned Timefold Community tests to establish behavior. Do not copy, translate,
+or mechanically port Timefold production implementation into `crates/`.
+Use tests and public API documentation as specifications. Do not claim a formal
+clean-room process: no organizational separation has been established.
+
+The current repository is a scaffold, not a solver. Read `docs/next-session.md`
+and `docs/compatibility.md` before implementation. Keep the scope to Community;
+Enterprise code, artifacts, and features are not an authorized source.
+
+## Work conventions
+
+- Keep Rust implementations idiomatic; no commitment to Java API or ABI parity.
+- Keep the upstream submodule unmodified. Change its pinned revision only as an
+  explicit compatibility update, together with `compat/upstream.json`.
+- Record each copied/adapted test or fixture in `compat/provenance.json` with its
+  upstream commit, path, test identity, local path, license, and modifications.
+  Preserve applicable notices; a translation is not automatically original work.
+- Never claim compatibility from a passing scaffold, skipped tests, or an empty
+  suite. Track implemented, pending, and intentionally excluded cases separately.
+- Prefer deterministic correctness cases. Stochastic solver tests need explicit
+  seeds, termination limits, and quality criteria; do not assume identical traces.
+- Run `bash scripts/check.sh` after Rust changes. Run the inventory after pin changes.
+- All crates remain `publish = false` until release preparation.
+
+## Commits
+
+Inspect staged changes and use Conventional Commits: `<type>(<scope>): <summary>`.
+Use imperative subjects under 72 characters. Never amend or rewrite commits.

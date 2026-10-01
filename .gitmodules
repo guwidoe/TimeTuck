@@ -1,0 +1,3 @@
+[submodule "upstream/timefold-solver"]
+	path = upstream/timefold-solver
+	url = https://github.com/TimefoldAI/timefold-solver.git

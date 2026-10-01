@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/TimefoldAI/timefold-solver.git",
+  "edition": "Community",
+  "tag": "v2.7.0",
+  "commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+  "path": "upstream/timefold-solver",
+  "license": "Apache-2.0"
+}
