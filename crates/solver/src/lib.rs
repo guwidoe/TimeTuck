@@ -50,3 +50,6 @@ pub use tabu::TabuMemory;
 
 pub mod annealing;
 pub use annealing::SimulatedAnnealing;
+
+pub mod bendable;
+pub use bendable::BendableScore;

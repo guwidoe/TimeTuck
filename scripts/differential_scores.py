@@ -58,12 +58,36 @@ def generate():
                 cases.append({'type': kind, 'operation': op, 'a': a, 'b': rhs})
         for structural in [-1, 0, 1]:
             cases.append({'type': kind, 'operation': 'parse', 'a': score([0] * len(labels), structural), 'b': ''})
+    for hard, soft in [(1,2),(2,3),(0,0),(0,2),(2,0)]:
+        kind = f'bendable_{hard}_{soft}'
+        def bendable(values, structural=0):
+            prefix = f'{structural}structural/' if structural else ''
+            return prefix + '[' + '/'.join(map(str,values[:hard])) + ']hard/[' + '/'.join(map(str,values[hard:])) + ']soft'
+        for i in range(100):
+            a = bendable([rng.choice(edge) if i<50 else rng.randint(-1000000,1000000) for _ in range(hard+soft)],rng.choice([-1,0,1]))
+            b = bendable([rng.choice(edge) for _ in range(hard+soft)],rng.choice([-1,0,1]))
+            for op in ['parse','add','sub','neg','abs','cmp','mul','div','pow']:
+                rhs = b if op in ['add','sub','cmp'] else rng.choice(['-2','-0.0','0','0.5','1','1.2','2','NaN','Infinity','-Infinity'])
+                if op == 'pow': rhs = rng.choice(['0','1','2'])
+                cases.append({'type':kind,'operation':op,'a':a,'b':rhs})
+        for structural in [-1,0,1]:
+            cases.append({'type':kind,'operation':'parse','a':bendable([0]*(hard+soft),structural),'b':''})
+        cases.append({'type':kind,'operation':'parse','a':bendable(['*']*(hard+soft)),'b':''})
+        valid = bendable([0]*(hard+soft))
+        # Public Java adapter checks dimensions just like a fixed score definition.
+        for invalid in ['', '-147', '[1]hard', valid+'junk', valid.replace('hard/','soft/'), 'badstructural/'+valid]:
+            cases.append({'type':kind,'operation':'parse','a':invalid,'b':'','expect_error':True})
     return cases
+
+
+def result_matches(case, java, rust):
+    return java == rust and (java == 'ERROR') == case.get('expect_error', False)
 
 
 def main():
     artifact = prepare_java()
     subprocess.run(['cargo', 'build', '--release', '--example', 'score_oracle', '--locked'], cwd=ROOT, check=True)
+    digest = source_digest()
     cases = generate()
     payload = ''.join('\t'.join([c['type'], c['operation'], c['a'], c['b']]) + '\n' for c in cases)
     commands = {
@@ -73,12 +97,14 @@ def main():
     outputs = {name: subprocess.run(cmd, input=payload, text=True, capture_output=True, check=True).stdout.splitlines() for name, cmd in commands.items()}
     if any(len(out) != len(cases) for out in outputs.values()):
         raise RuntimeError('Oracle response count mismatch')
-    failures = [{'case': case, 'java': j, 'rust': r} for case, j, r in zip(cases, outputs['java'], outputs['rust']) if j != r]
+    failures = [{'case': case, 'java': j, 'rust': r} for case, j, r in zip(cases, outputs['java'], outputs['rust']) if not result_matches(case,j,r)]
+    if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
-              'revision': REF['commit'], 'source_digest': source_digest(), 'seed': 20261001,
+              'revision': REF['commit'], 'source_digest': digest, 'seed': 20261001,
               'total': len(cases), 'passed': len(cases)-len(failures), 'failures': failures,
+              'expected_errors':sum(c.get('expect_error',False) for c in cases),
               'artifact': artifact, 'environment': platform.platform(),
-              'scope': 'Original generated score cases; not additional upstream test methods. Integer-exponent powers only.'}
+              'scope': 'Original generated integer score cases: three fixed families and five Bendable shapes, including empty hard/soft groups. Public Java shape validation matches native compile-time dimensions. Unexpected ERROR results cannot pass. No additional upstream method credit; integer-exponent powers only.'}
     (ROOT / 'work/differential.json').write_text(json.dumps(report, indent=2) + '\n')
     (WORK / 'cases.json').write_text(json.dumps({'schema_version': 1, 'cases': cases}, indent=2) + '\n')
     print(f'Differential score cases: {report["passed"]}/{report["total"]} passed')

@@ -5,7 +5,7 @@ use std::{
     ops::{Add, Neg, Sub},
     str::FromStr,
 };
-use timetuck::{HardMediumSoftScore, HardSoftScore, SimpleScore};
+use timetuck::{BendableScore, HardMediumSoftScore, HardSoftScore, SimpleScore};
 
 trait Oracle:
     Sized + Ord + Display + FromStr + Add<Output = Self> + Sub<Output = Self> + Neg<Output = Self>
@@ -43,6 +43,11 @@ macro_rules! oracle {
         }
     };
 }
+oracle!(BendableScore<1, 2>);
+oracle!(BendableScore<2, 3>);
+oracle!(BendableScore<0, 0>);
+oracle!(BendableScore<0, 2>);
+oracle!(BendableScore<2, 0>);
 oracle!(SimpleScore);
 oracle!(HardSoftScore);
 oracle!(HardMediumSoftScore);
@@ -80,6 +85,11 @@ fn main() {
             Err(())
         } else {
             match fields[0] {
+                "bendable_1_2" => evaluate::<BendableScore<1, 2>>(&fields),
+                "bendable_2_3" => evaluate::<BendableScore<2, 3>>(&fields),
+                "bendable_0_0" => evaluate::<BendableScore<0, 0>>(&fields),
+                "bendable_0_2" => evaluate::<BendableScore<0, 2>>(&fields),
+                "bendable_2_0" => evaluate::<BendableScore<2, 0>>(&fields),
                 "simple" => evaluate::<SimpleScore>(&fields),
                 "hard_soft" => evaluate::<HardSoftScore>(&fields),
                 "hard_medium_soft" => evaluate::<HardMediumSoftScore>(&fields),

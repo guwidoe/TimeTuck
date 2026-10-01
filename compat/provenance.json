@@ -1185,6 +1185,426 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the (1, -1, 2) HardMediumSoft temperature and rejection assertion. Native constructor validation replaces Java phaseStarted validation; no null scope is required."
+    },
+    {
+      "id": "BendableScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.getHardOrSoftScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "getHardOrSoftScore",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "get_hard_or_soft_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.feasibleHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "feasibleHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "feasible_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.addHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "addHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "add_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.subtractHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "subtractHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "subtract_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.multiplyHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "multiplyHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "multiply_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.divideHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "divideHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "divide_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.powerHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "powerHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "power_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.negateHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "negateHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "negate_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.absHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "absHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "abs_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.equalsAndHashCodeHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "equalsAndHashCodeHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "equals_and_hash_code_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.compareToHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "compareToHSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "compare_to_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.feasibleHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "feasibleHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "feasible_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.addHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "addHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "add_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.subtractHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "subtractHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "subtract_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.multiplyHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "multiplyHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "multiply_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.divideHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "divideHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "divide_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.powerHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "powerHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "power_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.negateHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "negateHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "negate_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.absHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "absHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "abs_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.equalsAndHashCodeHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "equalsAndHashCodeHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "equals_and_hash_code_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableScoreTest.compareToHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableScoreTest.java",
+      "upstream_test": "compareToHHSSS",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "local_test": "compare_to_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion and score value. Native const-generic hard/soft arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Rust Eq/Ord/Hash helpers preserve equality and ordering assertions. Single-level constructors and lookup return Option; valid results are unwrapped or compared to Some. ZERO replaces same-shape zero(). No Java ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "LateAcceptanceAcceptorTest.resetLateScoresForBendableScoreOnMediumImprovement",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceAcceptorTest.java",
+      "upstream_test": "resetLateScoresForBendableScoreOnMediumImprovement",
+      "local_path": "crates/solver/tests/late_acceptance.rs",
+      "local_test": "reset_late_scores_for_bendable_score_on_medium_improvement",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all nine history-slot assertions, three completed-step scores, history size, disabled hill climbing and initial best. Native BendableScore<1,2> replaces Java score definitions and fully assigned InnerScore wrappers. Fresh session construction/drop replaces lifecycle callbacks; soft changes update only the current slot, hard improvement resets all slots."
     }
   ],
   "fixtures": [
@@ -1252,6 +1672,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Inline initial [None, value1] and optional-variable metadata for null crossing and undo tests. Replace fixture objects by integer IDs; fixture only, not an executable upstream case."
+    },
+    {
+      "id": "AbstractScoreTest.bendable_feasibility_helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/AbstractScoreTest.java",
+      "upstream_test": "assertScoreFeasible(Score...), assertScoreNotFeasible(Score...)",
+      "local_path": "crates/solver/tests/bendable_score.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline each helper feasibility assertion into the adapted BendableScore tests. Helper only; no additional executable-method coverage credit."
     }
   ]
 }

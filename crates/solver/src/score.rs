@@ -10,7 +10,7 @@ use std::{error::Error, fmt, ops, str::FromStr};
 pub trait Score: Copy + Ord + fmt::Debug {
     /// Ordered ordinary integer levels, excluding structural state. The number
     /// and order of levels must be constant for a score type.
-    fn ordinary_levels(&self) -> &[i64];
+    fn ordinary_levels(&self) -> impl Iterator<Item = i64>;
 
     /// Negative values identify a structurally flawed candidate.
     fn structural(self) -> i64;
@@ -41,7 +41,7 @@ impl fmt::Display for ParseScoreError {
 }
 impl Error for ParseScoreError {}
 
-fn number(text: &str) -> Result<i64, ParseScoreError> {
+pub(crate) fn number(text: &str) -> Result<i64, ParseScoreError> {
     if text == "*" {
         Ok(i64::MIN)
     } else {
@@ -172,7 +172,7 @@ macro_rules! fixed_score {
         }
 
         impl Score for $name {
-            fn ordinary_levels(&self) -> &[i64] { &self.levels }
+            fn ordinary_levels(&self) -> impl Iterator<Item = i64> { self.levels.iter().copied() }
             fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
                 self.levels[..$hard].cmp(&other.levels[..$hard])
             }

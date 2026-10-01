@@ -18,6 +18,8 @@ The following test files adapt the pinned Community tests:
 - `crates/solver/tests/simple_score.rs` from `SimpleScoreTest.java`.
 - `crates/solver/tests/hard_soft_score.rs` from `HardSoftScoreTest.java`.
 - `crates/solver/tests/hard_medium_soft_score.rs` from `HardMediumSoftScoreTest.java`.
+- `crates/solver/tests/bendable_score.rs` from `BendableScoreTest.java`, including
+  inlined feasibility assertions from `AbstractScoreTest.java`.
 - `crates/solver/tests/basic_moves.rs` from `ChangeMoveTest.java`, `SwapMoveTest.java`,
   and initial states from the `TestdataSolution.generateSolution` test fixture.
 
@@ -35,7 +37,7 @@ The following test files adapt the pinned Community tests:
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 79 source methods are recorded individually in `compat/provenance.json`.
+All 107 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.

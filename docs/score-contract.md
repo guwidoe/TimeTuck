@@ -1,7 +1,7 @@
 # Integer score contract
 
 Reference: Timefold Solver Community 2.7.0 at
-`8b815bc6b5f3eb81feedc94dea0885a93b267762`. Specifications are the three
+`8b815bc6b5f3eb81feedc94dea0885a93b267762`. Specifications are the four
 `core/api/score/*ScoreTest.java` families listed in the provenance ledger, the
 pinned documentation's score overview, and observations of the public API in the
 released Maven artifact. No production source was translated.
@@ -48,15 +48,62 @@ Examples: `-147`, `-147hard/-258soft`, `-1structural/0hard/0medium/-5soft`.
 
 ## Verification boundaries
 
-47 adapted upstream methods pass, preserving all assertions with native equality,
-hash consistency, constructors and zero constants. Five original Rust regression
-methods cover boundary and malformed-input behavior. An independent line-protocol
-adapter compares 5,409 original deterministic generated cases with Java, including
+74 adapted upstream score methods pass, preserving all assertions with native equality,
+hash consistency, constructors and zero constants. Twelve original Rust regression
+methods cover boundary and malformed-input behavior plus BendableScore integration. An independent line-protocol
+adapter compares 9,959 original deterministic generated cases with Java, including
 large integers, structural values, nonfinite floating operands, and ordering.
 
 This is selected behavioral compatibility, not all possible input compatibility.
 Unicode numeric parsing is not promised. General fractional powers may differ
 across Rust's and the JVM's math libraries at rounding boundaries; the differential
 random matrix limits powers to integer exponents (the adapted square-root cases
-also pass). Bendable and BigDecimal scores remain pending. Initialization/domain
-assignment is separate from structural score and is not implemented yet.
+also pass). Exact decimal scores remain pending. Initialization/domain assignment
+is separate from structural score; see `planning-contract.md`.
+
+
+## Configurable hard and soft levels
+
+`BendableScore<const H: usize, const S: usize>` stores `[i64; H]` hard levels and
+`[i64; S]` soft levels, plus structural state. Dimensions belong to the type;
+`BendableScore<2, 3>` is a different type from `BendableScore<1, 4>`. A compile-fail
+documentation test verifies that incompatible shapes cannot be added. This agrees
+with the pinned public documentation's fixed dimensions during solving, while
+avoiding runtime shape mismatches in Rust. Dynamic resizing and Java array-mutation
+semantics are not supported. Empty hard groups, soft groups or both are valid.
+
+Order is structural, then every hard level in order, then every soft level in
+order. Feasibility requires structural and **all** hard levels to be nonnegative;
+a positive first hard level does not excuse a negative second hard level.
+`hard_cmp` compares only the complete hard group. Constructors and accessors copy
+fixed arrays. `of_hard`, `of_soft` and combined `level` access return `Option` for
+out-of-range indices. Arithmetic and checked operations follow the existing
+integer families, including wrapping, flooring and structural clearing.
+
+Full text uses bracketed groups, for example `[0/-2]hard/[-7/0/3]soft`, and must
+contain exactly the dimensions in the target Rust type. Empty groups print `[]`.
+Short text omits an entirely zero group but retains zeros inside a nonzero group.
+As with the fixed families, full text omits a positive structural prefix, while
+short text retains it. Parsing supports the `*` minimum-integer marker.
+
+All 27 methods of the pinned `BendableScoreTest` are adapted, preserving every
+assertion and value. The separate late-acceptance BendableScore test preserves all
+nine history-slot assertions: soft changes update the current slot; a new hard
+best resets the complete history. Seven original regressions cover arithmetic
+limits, malformed text, longer shapes, dimensions/index bounds, multi-hard
+feasibility, score-cache commit/undo, construction and local search checked against
+an independently calculated exact optimum, and annealing probability calculations.
+
+The Java score oracle now covers five Bendable shapes: (1,2), (2,3), (0,0), (0,2)
+and (2,0). It uses public score APIs plus explicit dimension checks matching the
+Rust target type. The 9,959-case matrix contains 9,929 valid operations and 30
+expected malformed-input rejections. Java runtime parse exceptions normalize to
+`ERROR`; both adapters returning `ERROR` for a valid case now fails validation.
+Exception-class equality is not claimed. These are correctness checks, not new
+BendableScore timing benchmarks; existing timing charts still cover three fixed
+integer families.
+
+`Score::ordinary_levels()` now returns an iterator of i64 values instead of a
+borrowed contiguous slice, allowing both fixed and split-array storage without
+allocation. Consumers must preserve the declared level order. Construction,
+incremental scoring, exact search and acceptance policies use the common traits.

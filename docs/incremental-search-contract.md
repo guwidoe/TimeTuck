@@ -129,8 +129,8 @@ phases use complete assignments with structural zero.
 
 Zero history is rejected before scoring, even with zero evaluation budget. History
 allocation failure is reported as an error. The native size is unsigned; the
-upstream negative-Java-integer case remains pending, as does its Bendable score
-case. Four full upstream methods are adapted, preserving 72 acceptance assertions,
+upstream negative-Java-integer case remains pending, while the Bendable score
+case is now adapted as described in `score-contract.md`. Four full upstream methods are adapted, preserving 72 acceptance assertions,
 all five hard-reset history assertions, and the zero-size rejection.
 
 `MoveOrder::Original` preserves the existing variable order. The optional
@@ -291,7 +291,8 @@ adds a separate seeded random stream to local search. `Acceptance<S>` and
 `LocalSearchConfig<S>` are now generic over the score so temperature has exactly
 the problem's score type. Type inference usually supplies `S` from the network;
 standalone configuration annotations default to `SimpleScore`. `Score` exposes
-ordered integer `ordinary_levels()` for the current integer score families.
+ordered integer `ordinary_levels()` as an iterator for the current integer score
+families, including BendableScore.
 
 Starting temperature requires structural zero and nonnegative ordinary levels.
 The cooling duration must be positive; validation runs before scoring, including

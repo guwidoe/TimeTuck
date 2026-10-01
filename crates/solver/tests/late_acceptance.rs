@@ -186,3 +186,27 @@ fn zero_late_acceptance_size() {
         Err(AcceptanceError::EmptyHistory)
     ));
 }
+
+#[test]
+fn reset_late_scores_for_bendable_score_on_medium_improvement() {
+    use timetuck::BendableScore;
+    type B = BendableScore<1, 2>;
+    let initial = B::new([-1], [0, 0]);
+    let mut state = LateAcceptance::new(3, false, initial).unwrap();
+    let soft_improved = B::new([-1], [1, 0]);
+    state.step_ended(soft_improved);
+    assert_eq!(state.history()[0], soft_improved);
+    for i in 1..3 {
+        assert_eq!(state.history()[i], initial);
+    }
+    let last_soft_improved = B::new([-1], [1, 1]);
+    state.step_ended(last_soft_improved);
+    assert_eq!(state.history()[0], soft_improved);
+    assert_eq!(state.history()[1], last_soft_improved);
+    assert_eq!(state.history()[2], initial);
+    let hard_improved = B::new([0], [-10, -10]);
+    state.step_ended(hard_improved);
+    for i in 0..3 {
+        assert_eq!(state.history()[i], hard_improved);
+    }
+}

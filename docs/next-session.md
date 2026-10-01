@@ -9,9 +9,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 
 ## Current implementation
 
-- Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore with structural
+- Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
+  BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 79 fully adapted source test methods (47 score + 10 move + 8 provider + 10 acceptor + 4 construction), recorded in
+- 107 fully adapted source test methods (74 score + 10 move + 8 provider + 11 acceptor + 4 construction), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -23,12 +24,12 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 80 original integration regression methods, one original unit test, and one public API documentation test.
+- 87 original integration regression methods, one original unit test, and two public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
   702 combined score evaluations, 5,700 callbacks, verified `0hard/0soft`.
-- Public-API Java oracle: 5,409 generated comparisons pass with seed 20261001.
+- Public-API Java oracle: 9,959 generated comparisons (30 expected malformed-input rejections) pass with seed 20261001.
 - 128 original complete-planning cases agree across Java, Rust and independent
   Python enumeration: 64 homogeneous required and 64 per-variable range cases,
   including mixed optionality, empty optional ranges and pinned nulls. Movable
@@ -43,7 +44,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 79 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 107 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -65,7 +66,7 @@ initialization-score assumptions. No production implementation has been ported.
 4. Extend matched Java heuristic evidence to incremental scoring, more workloads
    and randomized search. Current heuristic runs are deterministic and fully
    recompute scores. Scoped graph-example callbacks are not runtime benchmarks.
-5. Extend score coverage to Bendable and exact decimal families, inspecting tests
+5. Extend score coverage to exact decimal families, inspecting tests
    and public documentation only and preserving all test provenance.
 
 Run `bash scripts/check.sh` after Rust changes. It records all-target results and
@@ -80,18 +81,18 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (159 Rust integration methods,
-one unit test, one doctest, 16 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
-also passed in release mode; the complete all-target suite passed after the range-oracle increment. Desktop 1440px and mobile 390px browser QA passed,
+Latest verification: `scripts/check.sh` passed (194 Rust integration methods,
+one unit test, two doctests, 18 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+also passed in release mode; the complete all-target suite passed after the BendableScore increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
-evidence includes 5,409 score cases and 128 complete-planning cases. The benchmark
+evidence includes 9,959 score cases and 128 complete-planning cases. The benchmark
 ratios are workload-specific and noisy; retain raw sample ranges and scope labels.
 
 Late-acceptance scope: history uses completed-step scores; new hard-score bests
 reset every slot. Public acceptance configuration now creates a session with
 `start(initial_best)`; the session owns `accepts` and `step_ended`. Seeded variable
-ordering keeps value order unchanged. Negative Java history-size and Bendable
-late-acceptance cases remain pending, not excluded or counted as passing.
+ordering keeps value order unchanged. The negative Java history-size case remains pending. The Bendable
+late-acceptance case is now adapted and preserves nine history assertions.
 
 Construction scope: required unassigned basic variables only; existing values,
 pins and optional None stay unchanged. Network callbacks must handle partial
@@ -127,7 +128,7 @@ Dashboard server restarted after the report import change; reuse the live server
 
 Annealing scope: `Acceptance<S>` and `LocalSearchConfig<S>` now carry the score
 (type parameter defaults to SimpleScore; inference works at search call sites).
-`Score::ordinary_levels()` exposes ordered i64 levels without structural state.
+`Score::ordinary_levels()` exposes an ordered i64 iterator without structural state.
 `Acceptor::accepts` now takes `&mut self` because annealing trials consume PRNG
 state. Existing deterministic policies retain their behavior. The selection
 predicate is FnMut; winning candidates are still installed without replay.
@@ -158,3 +159,19 @@ No new upstream method credit. Four original Rust protocol tests and four Python
 validation tests added. Current logs: work/ranges-check.log,
 work/ranges-release.log and work/ranges-evidence.log. Timing comparisons are
 refreshed for the source revision but still cover the original workloads only.
+
+
+BendableScore: native const-generic hard/soft arrays, structural-first order,
+all-hard-level feasibility, checked/wrapping arithmetic, typed parsing and group
+formatting. Zero-sized groups are valid. All 27 BendableScoreTest methods are
+adapted by scripts/adapt_bendable_tests.py; the script reads test sources only
+and preserves unrelated provenance. One late-acceptance method adds nine history
+assertions. Seven original regressions cover boundaries and solver integration.
+The score oracle has five Bendable shapes; unexpected ERROR agreement is now a
+failure, with two Python guards. Original fixed-family adapter remains separate.
+Score::ordinary_levels now returns an iterator instead of a slice; annealing was
+updated accordingly. Read docs/score-contract.md. Timing benchmarks remain the
+existing fixed-score, exact and hill/tabu workloads; no Bendable performance claim.
+Current logs: work/bendable-check.log, work/bendable-release.log,
+work/bendable-evidence.log. Dashboard source freshness and measurement digests
+must be current before committing; all upstream source files remain unmodified.

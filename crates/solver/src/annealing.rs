@@ -12,8 +12,8 @@ pub struct SimulatedAnnealing<S> {
 impl<S: Score> SimulatedAnnealing<S> {
     pub(crate) fn validate(temperature: S, cooling_steps: u64) -> Result<(), AcceptanceError> {
         if temperature.structural() != 0
-            || temperature.ordinary_levels().is_empty()
-            || temperature.ordinary_levels().iter().any(|&level| level < 0)
+            || temperature.ordinary_levels().next().is_none()
+            || temperature.ordinary_levels().any(|level| level < 0)
         {
             return Err(AcceptanceError::InvalidTemperature);
         }
@@ -61,9 +61,8 @@ impl<S: Score> SimulatedAnnealing<S> {
             return Ok(1.0);
         }
         let mut energy = 0.0;
-        for ((&before, &after), &initial) in current
+        for ((before, after), initial) in current
             .ordinary_levels()
-            .iter()
             .zip(candidate.ordinary_levels())
             .zip(self.starting_temperature.ordinary_levels())
         {
