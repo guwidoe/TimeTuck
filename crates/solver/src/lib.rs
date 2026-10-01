@@ -13,7 +13,9 @@
 //! ```
 
 pub mod score;
-pub use score::{HardMediumSoftScore, HardSoftScore, ParseScoreError, Score, SimpleScore};
+pub use score::{
+    AdditiveScore, HardMediumSoftScore, HardSoftScore, ParseScoreError, Score, SimpleScore,
+};
 
 pub mod model;
 pub mod moves;
@@ -21,3 +23,14 @@ pub mod search;
 pub use model::{FiniteProblem, ModelError, Variable};
 pub use moves::{AppliedMove, Assignment, Move, MoveError, PriorValue};
 pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search};
+
+pub mod scoring;
+pub use scoring::{ConstraintNetwork, ScoreDirector, ScoredMove, ScoringError};
+
+pub mod neighborhood;
+pub use neighborhood::{change_moves, swap_moves};
+pub mod local_search;
+pub use local_search::{
+    Acceptance, LocalSearchConfig, LocalSearchResult, LocalSearchTermination, Neighborhood,
+    local_search,
+};

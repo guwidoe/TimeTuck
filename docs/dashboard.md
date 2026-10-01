@@ -22,8 +22,8 @@ The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
 ## Reading the numbers
 
 The percentage is **passing adapted upstream methods / statically discovered
-annotated Java test methods**. The current implemented slice has 57 / 4,855
-(1.174%). This includes 282 explicit JVM integration exclusions in the denominator;
+annotated Java test methods**. The current implemented slice has 66 / 4,855
+(1.359%). This includes 282 explicit JVM integration exclusions in the denominator;
 removing work from scope cannot increase the displayed percentage.
 
 The scanner recognizes `@Test`, `@ParameterizedTest`, `@RepeatedTest`, `@TestFactory`,

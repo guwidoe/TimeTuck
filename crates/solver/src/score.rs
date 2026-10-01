@@ -15,6 +15,14 @@ pub trait Score: Copy + Ord + fmt::Debug {
     fn is_feasible(self) -> bool;
 }
 
+/// Additive scores used by a scoped constraint network.
+/// Ordinary components must form an abelian group under addition/subtraction;
+/// arithmetic clears structural state, which the network sets separately.
+pub trait AdditiveScore: Score + ops::Add<Output = Self> + ops::Sub<Output = Self> {
+    const ZERO: Self;
+    fn with_structural(self, structural: i64) -> Self;
+}
+
 /// The input does not have the score type's complete, ordered level format.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ParseScoreError;
@@ -67,6 +75,11 @@ macro_rules! fixed_score {
         pub struct $name {
             structural: i64,
             levels: [i64; $n],
+        }
+
+        impl AdditiveScore for $name {
+            const ZERO: Self = Self::ZERO;
+            fn with_structural(self, structural: i64) -> Self { self.with_structural(structural) }
         }
 
         impl $name {

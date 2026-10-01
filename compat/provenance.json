@@ -855,6 +855,141 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "ChangeMoveProviderTest.fromSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "fromSolution",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "change_from_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "ChangeMoveProviderTest.pinnedEntitySkipped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "pinnedEntitySkipped",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "change_pinned_entity_skipped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "ChangeMoveProviderTest.crossingNullDefaultTrueAssignsAndUnassigns",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullDefaultTrueAssignsAndUnassigns",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "crossing_null_default_true_assigns_and_unassigns",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "ChangeMoveProviderTest.crossingNullUnassignMoveIsUndoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullUnassignMoveIsUndoable",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "crossing_null_unassign_move_is_undoable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "ChangeMoveProviderTest.crossingNullAssignMoveIsUndoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullAssignMoveIsUndoable",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "crossing_null_assign_move_is_undoable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "SwapMoveProviderTest.univariate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SwapMoveProviderTest.java",
+      "upstream_test": "univariate",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "swap_univariate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "SwapMoveProviderTest.pinnedEntitySkipped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SwapMoveProviderTest.java",
+      "upstream_test": "pinnedEntitySkipped",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "swap_pinned_entity_skipped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "SwapMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SwapMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "local_test": "swap_from_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all positive/negative move assertions using native Move values and lazy iterators; stable integer IDs replace entities and value descriptors. Inline fixture initial states; native transaction guards replace temporary MoveTester execution. Additional exact-count assertions strengthen the finite cases."
+    },
+    {
+      "id": "HillClimbingAcceptorTest.hillClimbingEnabled",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/hillclimbing/HillClimbingAcceptorTest.java",
+      "upstream_test": "hillClimbingEnabled",
+      "local_path": "crates/solver/tests/hill_climbing_acceptor.rs",
+      "local_test": "hill_climbing_enabled",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all fourteen acceptance assertions, including ties and repeated calls, using native stateless Acceptance with the last completed score passed explicitly. Replace Java lifecycle/scope mocks with native score transitions; best score is not an input to this acceptance rule."
     }
   ],
   "fixtures": [
@@ -883,6 +1018,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Inline initial assignments for the adapted basic move tests: entity i starts with value i modulo the value count. Replace object identities with integer IDs; omit unrelated fixture metadata. Fixture only, not an executable upstream test method."
+    },
+    {
+      "id": "TestdataSolution.neighborhood_initial_states",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize, boolean initialized)",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline modulo-value assignments for change and swap provider tests. Replace fixture objects by integer IDs; fixture only, not an executable upstream case."
+    },
+    {
+      "id": "TestdataPinnedSolution.neighborhood_initial_states",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedSolution.java",
+      "upstream_test": "generateSolution(int valueCount, int entityCount)",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline modulo-value assignments and apply the test-specified first-entity pin. Replace fixture objects by integer IDs; fixture only, not an executable upstream case."
+    },
+    {
+      "id": "TestdataAllowsUnassignedSolution.neighborhood_initial_states",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize)",
+      "local_path": "crates/solver/tests/neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline initial [None, value1] and optional-variable metadata for null crossing and undo tests. Replace fixture objects by integer IDs; fixture only, not an executable upstream case."
     }
   ]
 }

@@ -11,13 +11,18 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 57 fully adapted source test methods (47 score + 10 move), recorded in
+- 66 fully adapted source test methods (47 score + 10 move + 8 provider + 1 acceptor), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
 - Iterative exact search with explicit evaluation budgets and truthful
   exhaustion/optimality reporting. Original `tiny_schedule` example.
-- 21 original regression methods plus one public API documentation test.
+- Scoped incremental score networks and atomic scored-move transactions.
+- Lazy change/swap neighborhoods and deterministic first-accepted local search,
+  strict-improvement or hill-climbing acceptance, explicit evaluation/step limits.
+  Read `docs/incremental-search-contract.md` before modifying this layer.
+- 39 original regression methods plus one public API documentation test.
+- `graph_coloring` example solves 100 variables using 400 scoped constraints.
 - Public-API Java oracle: 5,409 generated comparisons pass with seed 20261001.
 - 64 original complete-planning cases agree across Java, Rust and independent
   Python enumeration; movable initial values reset before both solves.
@@ -28,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 57 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 66 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -43,10 +48,13 @@ initialization-score assumptions. No production implementation has been ported.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
 2. Expand the Java oracle to optional variables and entity-specific ranges using
    public APIs. Current complete-planning comparisons use homogeneous ranges/pins.
-3. Add incremental scoring validated against full recomputation, then deterministic
-   construction and local search. Adapt upstream behavior cases with explicit seeds,
-   limits and quality thresholds. Exact Java search-trace tests remain pending.
-4. Extend score coverage to Bendable and exact decimal families, inspecting tests
+3. Add score-aware construction and more capable metaheuristics (late acceptance,
+   tabu, annealing) with deterministic seeds, limits, quality checks and applicable
+   upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
+4. Add matched Java local-search quality/performance evidence; current benchmarks
+   still exercise only score operations and exact search. Scoped callback counts in
+   the graph example are not runtime benchmarks.
+5. Extend score coverage to Bendable and exact decimal families, inspecting tests
    and public documentation only and preserving all test provenance.
 
 Run `bash scripts/check.sh` after Rust changes. It records all-target results and
@@ -61,8 +69,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (78 Rust integration methods,
-one doctest, eight Python regressions). Original planning/search boundary tests
+Latest verification: `scripts/check.sh` passed (105 Rust integration methods,
+one doctest, eight Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 5,409 score cases and 64 complete-planning cases. The benchmark
