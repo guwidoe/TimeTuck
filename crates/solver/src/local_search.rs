@@ -72,6 +72,15 @@ pub enum MoveSelection {
     BestAccepted,
 }
 
+/// Behavior when a scanned neighborhood prefix has no accepted candidate.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RejectedMovePolicy {
+    Stop,
+    /// Pick the highest-scoring rejected candidate, with first-tie ordering.
+    /// Completed-step limits still bound progress when acceptance rejects all moves.
+    BestScore,
+}
+
 /// Evaluation budget includes the initial score and every candidate score.
 /// The accepted-move limit is separate. Optional diagnostic recomputations are
 /// excluded from both budgets and from the constraint-evaluation statistic.
@@ -79,10 +88,12 @@ pub enum MoveSelection {
 pub struct LocalSearchConfig {
     pub max_evaluations: u64,
     pub max_accepted_moves: u64,
+    pub max_steps: u64,
     pub neighborhood: Neighborhood,
     pub acceptance: Acceptance,
     pub move_order: MoveOrder,
     pub selection: MoveSelection,
+    pub rejected_moves: RejectedMovePolicy,
     pub assert_scores: bool,
 }
 impl Default for LocalSearchConfig {
@@ -90,10 +101,12 @@ impl Default for LocalSearchConfig {
         Self {
             max_evaluations: 10_000,
             max_accepted_moves: 1_000,
+            max_steps: 1_000,
             neighborhood: Neighborhood::ChangeAndSwap,
             acceptance: Acceptance::StrictImprovement,
             move_order: MoveOrder::Original,
             selection: MoveSelection::FirstAccepted,
+            rejected_moves: RejectedMovePolicy::Stop,
             assert_scores: false,
         }
     }
@@ -102,6 +115,7 @@ impl Default for LocalSearchConfig {
 pub enum LocalSearchTermination {
     EvaluationLimit,
     AcceptedMoveLimit,
+    StepLimit,
     /// No move in the configured neighborhood satisfied the acceptance rule.
     /// This is not proof of global optimality or hard feasibility.
     NoAcceptedMove,
@@ -113,6 +127,8 @@ pub struct LocalSearchResult<V, S> {
     pub best: Option<ScoredAssignment<V, S>>,
     pub evaluations: u64,
     pub accepted_moves: u64,
+    /// Includes selected rejected fallback moves.
+    pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: LocalSearchTermination,
 }
@@ -172,6 +188,7 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
         best: None,
         evaluations: 0,
         accepted_moves: 0,
+        completed_steps: 0,
         constraint_evaluations: 0,
         termination: LocalSearchTermination::EvaluationLimit,
     };
@@ -211,6 +228,10 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
             result.termination = LocalSearchTermination::AcceptedMoveLimit;
             return Ok(result);
         }
+        if result.completed_steps == config.max_steps {
+            result.termination = LocalSearchTermination::StepLimit;
+            return Ok(result);
+        }
         // Snapshot decouples lazy enumeration from the director's transaction.
         // No neighborhood-sized list of cloned moves is allocated.
         let snapshot = director.assignment().clone();
@@ -228,6 +249,7 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
         let selection = director.select_best(
             changes.chain(swaps),
             config.max_evaluations - result.evaluations,
+            config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
                 let variables = if tracks_variables {
                     movement.touched_variables()
@@ -254,7 +276,8 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
                 Vec::new()
             };
             acceptor.step_ended(director.score(), &variables);
-            result.accepted_moves += 1;
+            result.accepted_moves += u64::from(selection.selected_accepted);
+            result.completed_steps += 1;
         }
         if config.assert_scores {
             director.assert_consistent()?;

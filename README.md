@@ -52,13 +52,15 @@ python3 scripts/differential_scores.py
 python3 scripts/benchmark_scores.py
 python3 scripts/differential_solver.py
 python3 scripts/benchmark_solver.py
+python3 scripts/benchmark_heuristics.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
 
 Open [the local dashboard](http://localhost:8765). It shows pass counts and
 percentages by subsystem, individual test results, pending/excluded work, and
-separate score-operation and small exact-search benchmarks versus Java. Results reload every 15 seconds.
+separate heuristic, score-operation and small exact-search benchmarks versus Java.
+Heuristic timings include final scores, feasibility and score-calculation counts. Results reload every 15 seconds.
 The oracle/benchmarks need JDK 21 and Maven Central access; ordinary Rust tests
 need neither. See [dashboard measurement notes](docs/dashboard.md).
 

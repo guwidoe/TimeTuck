@@ -379,3 +379,76 @@ fn best_selection_installs_only_winners_sparse_contributions() {
     assert_eq!(result.evaluations, 3);
     assert_eq!(result.constraint_evaluations, 4);
 }
+
+#[test]
+fn rejected_fallback_is_explicit_and_completed_step_limits_bound_it() {
+    use timetuck::RejectedMovePolicy;
+    let problem = FiniteProblem::new(vec![Variable::new(vec![0, 1])]).unwrap();
+    let mut network = ConstraintNetwork::<i64, SimpleScore>::new(1);
+    network
+        .add_constraint("value", vec![0], |v| SimpleScore::new(*v[0].unwrap()))
+        .unwrap();
+    let cfg = LocalSearchConfig {
+        max_accepted_moves: u64::MAX,
+        max_steps: 3,
+        rejected_moves: RejectedMovePolicy::BestScore,
+        ..config()
+    };
+    let result = local_search(&problem, &network, cfg).unwrap();
+    assert_eq!(result.completed_steps, 3);
+    assert_eq!(result.accepted_moves, 2);
+    assert_eq!(result.evaluations, 4);
+    assert_eq!(result.termination, Stop::StepLimit);
+    assert_eq!(result.best.unwrap().score, SimpleScore::new(1));
+    let zero = local_search(
+        &problem,
+        &network,
+        LocalSearchConfig {
+            max_steps: 0,
+            ..cfg
+        },
+    )
+    .unwrap();
+    assert_eq!(zero.evaluations, 1);
+    assert_eq!(zero.completed_steps, 0);
+    assert_eq!(zero.termination, Stop::StepLimit);
+}
+
+#[test]
+fn accepted_candidate_outranks_better_rejected_fallback() {
+    use timetuck::RejectedMovePolicy;
+    // After the first step selects variable 0, changing it back is tabu but
+    // scores higher than changing variable 1. The accepted worsening candidate
+    // must still win; the next step can then reach the better solution.
+    let problem = FiniteProblem::new(vec![Variable::new(vec![0, 1]); 2]).unwrap();
+    let mut network = ConstraintNetwork::new(2);
+    network
+        .add_constraint("rank acceptance first", vec![0, 1], |v| {
+            SimpleScore::new(match v {
+                [Some(0), Some(0)] => 0,
+                [Some(1), Some(0)] => 3,
+                [Some(1), Some(1)] => -1,
+                _ => 5,
+            })
+        })
+        .unwrap();
+    let result = local_search(
+        &problem,
+        &network,
+        LocalSearchConfig {
+            acceptance: Acceptance::VariableTabu {
+                tenure: 1,
+                aspiration: true,
+            },
+            selection: MoveSelection::FirstAccepted,
+            rejected_moves: RejectedMovePolicy::BestScore,
+            max_accepted_moves: u64::MAX,
+            max_steps: 3,
+            ..config()
+        },
+    )
+    .unwrap();
+    assert_eq!(result.best.unwrap().score, SimpleScore::new(5));
+    assert_eq!(result.completed_steps, 3);
+    assert_eq!(result.accepted_moves, 3);
+}

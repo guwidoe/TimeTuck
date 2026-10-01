@@ -203,6 +203,7 @@ pub struct ScoreDirector<'p, 'c, V, S> {
 }
 
 struct SelectedCandidate<V, S> {
+    accepted: bool,
     movement: Move<V>,
     assignment: Assignment<V>,
     score: S,
@@ -210,6 +211,7 @@ struct SelectedCandidate<V, S> {
 }
 
 pub(crate) struct Selection<V> {
+    pub selected_accepted: bool,
     pub selected: Option<Move<V>>,
     pub evaluations: u64,
     pub constraint_evaluations: u128,
@@ -251,11 +253,13 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         &mut self,
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
+        allow_rejected: bool,
         accepts: impl Fn(&Move<V>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
     ) -> Result<Selection<V>, ScoringError> {
         let mut result = Selection {
+            selected_accepted: false,
             selected: None,
             evaluations: 0,
             constraint_evaluations: 0,
@@ -277,21 +281,23 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             {
                 return Err(ScoringError::CorruptedTotal);
             }
-            if !accepts(&movement, candidate.score()) {
+            let accepted = accepts(&movement, candidate.score());
+            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
                 continue;
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| candidate.score() > saved.score)
+                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
             {
                 best = Some(SelectedCandidate {
+                    accepted,
                     movement: movement.clone(),
                     assignment: candidate.assignment().clone(),
                     score: candidate.score(),
                     updates: candidate.updates.clone(),
                 });
             }
-            if quit_early(candidate.score()) {
+            if accepted && quit_early(candidate.score()) {
                 break;
             }
         }
@@ -302,6 +308,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             }
             self.score = selected.score;
             result.selected = Some(selected.movement);
+            result.selected_accepted = selected.accepted;
         }
         Ok(result)
     }
@@ -419,6 +426,7 @@ mod selection_tests {
                         value: Some(v),
                     }),
                     2,
+                    false,
                     |_, _| true,
                     |_| false,
                     false,

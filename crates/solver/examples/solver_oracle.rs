@@ -8,7 +8,7 @@ use timetuck::exhaustive_search;
 
 fn main() -> Result<(), Box<dyn Error>> {
     for line in io::stdin().lock().lines() {
-        let case = solver_support::Case::parse(&line?)?;
+        let case = solver_support::Case::parse(&line?, false)?;
         let budget: u64 = case
             .problem
             .search_space_size()

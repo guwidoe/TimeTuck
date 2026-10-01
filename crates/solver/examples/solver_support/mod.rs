@@ -9,7 +9,7 @@ pub struct Case {
     weights: Vec<Vec<i64>>,
 }
 impl Case {
-    pub fn parse(line: &str) -> Result<Self, Box<dyn Error>> {
+    pub fn parse(line: &str, retain_initial: bool) -> Result<Self, Box<dyn Error>> {
         let fields: Vec<_> = line.split('\t').collect();
         if fields.len() != 6 {
             return Err("expected six tab-separated fields".into());
@@ -36,7 +36,7 @@ impl Case {
             .zip(fields[3].bytes())
             .map(|(value, pin)| {
                 let mut variable = Variable::new((0..count).collect()).with_pinned(pin == b'1');
-                if pin == b'1'
+                if (retain_initial || pin == b'1')
                     && let Some(value) = value
                 {
                     variable = variable.with_initial(*value);
@@ -70,18 +70,19 @@ impl Case {
         })
     }
     pub fn score(&self, state: &Assignment<usize>) -> HardSoftScore {
+        self.score_by(|i| state.values()[i])
+    }
+    pub fn score_by(&self, value: impl Fn(usize) -> Option<usize>) -> HardSoftScore {
         let hard = -(self
             .edges
             .iter()
-            .filter(|&&(a, b)| {
-                state.values()[a].is_some() && state.values()[a] == state.values()[b]
-            })
+            .filter(|&&(a, b)| value(a).is_some() && value(a) == value(b))
             .count() as i64);
-        let soft = state
-            .values()
+        let soft = self
+            .weights
             .iter()
-            .zip(&self.weights)
-            .map(|(value, weights)| value.map_or(0, |value| weights[value]))
+            .enumerate()
+            .map(|(i, weights)| value(i).map_or(0, |value| weights[value]))
             .sum();
         HardSoftScore::new(hard, soft)
     }

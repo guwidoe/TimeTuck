@@ -142,6 +142,45 @@
                 </div>
                 <section
                     class="performance"
+                    aria-labelledby="heuristic-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="heuristic-performance-heading">
+                                Heuristic search vs. the original
+                            </h2>
+                            <p>
+                                Matched step budgets with solution quality
+                                beside every timing.
+                            </p>
+                        </div>
+                        <span class="tag">Hill climbing &amp; tabu</span>
+                    </div>
+                    <div id="heuristic-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Compare times together with feasibility and score; differences near 1× may be noise.
+                    </p>
+                    <div id="heuristic-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="heuristic-benchmark-caption"></p>
+                        <p>
+                            Both engines recalculate the full score. These bounded runs
+                            can finish with an infeasible solution; equal scores do not
+                            imply optimality. This is not an incremental-scoring benchmark.
+                        </p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
                     aria-labelledby="solver-performance-heading"
                 >
                     <div class="section-heading">
@@ -248,8 +287,12 @@
                             ><code>python3 scripts/benchmark_scores.py</code
                             ><code>python3 scripts/differential_solver.py</code
                             ><code>python3 scripts/benchmark_solver.py</code
+                            ><code>python3 scripts/benchmark_heuristics.py</code
                             ><code>python3 scripts/compat_report.py</code>
                         </div>
+                        <h3>Heuristic benchmark conditions</h3>
+                        <p id="heuristic-benchmark-method"></p>
+                        <pre id="heuristic-environment"></pre>
                         <h3>Exact-search benchmark conditions</h3>
                         <p id="solver-benchmark-method"></p>
                         <pre id="solver-environment"></pre>

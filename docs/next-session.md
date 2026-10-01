@@ -23,7 +23,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 64 original integration regression methods, one original unit test, and one public API documentation test.
+- 66 original integration regression methods, one original unit test, and one public API documentation test.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -33,7 +33,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Python enumeration; movable initial values reset before both solves.
 - Separate score microbenchmarks and two small matched exact-search workloads.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
-  No heuristic, incremental-scoring or large-instance performance claim.
+  Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
+  32/96 variables, 50-step budgets, scores and callback counts. 64 original small
+  heuristic cases are independently checked. No incremental-scoring or
+  large-instance performance claim.
 - Local visual dashboard: `python3 scripts/dashboard_server.py`, port 8765.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
@@ -56,9 +59,9 @@ initialization-score assumptions. No production implementation has been ported.
 3. Extend construction, tabu (fading and entity grouping) and add annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
-4. Add matched Java local-search quality/performance evidence; current benchmarks
-   still exercise only score operations and exact search. Scoped callback counts in
-   the graph example are not runtime benchmarks.
+4. Extend matched Java heuristic evidence to incremental scoring, more workloads
+   and randomized search. Current heuristic runs are deterministic and fully
+   recompute scores. Scoped graph-example callbacks are not runtime benchmarks.
 5. Extend score coverage to Bendable and exact decimal families, inspecting tests
    and public documentation only and preserving all test provenance.
 
@@ -74,8 +77,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (141 Rust integration methods,
-one unit test, one doctest, eight Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (143 Rust integration methods,
+one unit test, one doctest, 12 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target suite passed after the tabu increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 5,409 score cases and 64 complete-planning cases. The benchmark
@@ -102,3 +105,18 @@ policies ignore it). `MoveSelection::BestAccepted` selects the best accepted
 candidate from the scanned prefix; it may commit a candidate at EvaluationLimit.
 Selected swap keys include both variables. Fading and move/value tabu remain pending.
 Current latest logs: work/tabu-check.log, work/tabu-release.log, work/tabu-evidence.log.
+
+Heuristic comparisons: scripts/benchmark_heuristics.py builds Java/Rust adapters,
+checks 64 original cases, and measures four workloads with independent per-sample
+validation. work/heuristic-performance.json feeds a separate dashboard section
+showing time, quality, feasibility and score calls. Existing exact adapters still
+reset movable initial values; the heuristic adapter retains every initial value.
+Case::parse now takes retain_initial explicitly. Java config uses only public
+APIs, NO_ASSERT, original-order change moves, first tie and best rejected fallback.
+
+Fallback is explicit via RejectedMovePolicy::BestScore (default Stop). max_steps
+and completed_steps include rejected fallback steps; max_accepted_moves and
+accepted_moves remain separate. Benchmarks use max_steps=50 and effectively no
+accepted-move cap. The public API oracle exposed the need for this distinction.
+Source logs: work/heuristic-check.log, heuristic-release.log, heuristic-evidence.log.
+Dashboard server restarted after the report import change; reuse the live server.

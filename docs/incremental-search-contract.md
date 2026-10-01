@@ -103,7 +103,8 @@ then checks local improvements in 301 further evaluations with no accepted moves
 The combined 702 evaluations invoke 5,700 constraint callbacks; full rescoring of
 those evaluations would invoke 280,800. This is a callback-count comparison,
 not a Java comparison or measured runtime speedup. The existing dashboard benchmarks
-still cover score operations and two small exhaustive problems only.
+separate score operations, small exhaustive problems and bounded full-scoring
+heuristic problems; this incremental callback count is not a runtime benchmark.
 
 
 ## Late acceptance and seeded ordering
@@ -143,7 +144,8 @@ that stops strict hill climbing with the same seed. They also verify best retent
 after a worsening final step, history immutability during trial moves, size-one
 history, hard/medium distinctions, invalid configuration, and bounded/reproducible
 runs across 64 seeds. These tests establish specific behavior, not general solution
-quality. The dashboard still has no matched Java local-search benchmark.
+quality. The dashboard now includes a matched full-scoring heuristic comparison; see
+`dashboard.md`. It does not measure incremental-scoring performance.
 
 
 ## Greedy construction and explicit phase handoff
@@ -195,7 +197,8 @@ zero work, impossible/empty models, pins and optional values, tie order, infeasi
 complete results, early picking, callback counts without replay, phase handoff,
 and failure rollback after retaining an earlier candidate. Across 24 interacting
 constraint networks, incremental greedy choices match an independent full-score
-selection loop. The new work has no matched Java heuristic benchmark yet.
+selection loop. Construction itself is not included in the matched Java heuristic benchmark,
+which starts from supplied complete assignments.
 
 
 ## Variable tabu and best-accepted moves
@@ -248,5 +251,31 @@ a best solution after worsening, both sides of a selected swap, 32 seeded runs
 with pins/optional values/heterogeneous domains, best-vs-first selection, stable
 ties, sparse winning-cache updates and exact budget/callback accounting. Existing
 construction, late-acceptance and neighborhood tests still pass after sharing the
-candidate-selection mechanism. Java measurements still cover scores and tiny
-exact-search problems only; a matched heuristic comparison remains outstanding.
+candidate-selection mechanism. A separate Java/Rust benchmark now exercises these native policies with full
+score recalculation, matched completed-step budgets and independent result checks.
+
+
+## Rejected fallback and completed steps
+
+The public-API Java comparison exposed a forager difference: when all candidates
+are rejected, Timefold still chooses the highest-scoring rejected move. The pinned
+Community test `AcceptedLocalSearchForagerTest.pickMoveMaxScoreUnaccepted` confirms
+this behavior. Native `RejectedMovePolicy::BestScore` explicitly enables that
+fallback; the default `Stop` preserves existing stopping behavior. Accepted
+candidates always outrank rejected candidates, even when they score worse. A
+negative structural score is not eligible as a rejected fallback. This behavior
+has original regression tests, not additional adapted-method coverage credit.
+
+`max_steps` bounds every committed step, including rejected fallbacks. The result
+reports `completed_steps` separately from `accepted_moves`; fallback steps update
+acceptor history and the global best, but do not count as accepted moves. Both
+limits default to 1,000. At a step boundary, accepted-move limit takes precedence
+over completed-step limit; zero completed steps still permits initial scoring if
+the evaluation budget allows it. During a partial scan, `EvaluationLimit` takes
+precedence after retaining the selected prefix candidate. Exhausting an empty
+neighborhood still stops without synthesizing a step.
+
+The benchmark enables fallback, disables an independent accepted-move cap, and
+uses the same completed-step cap as Java. This corrected the initial pilot's
+mismatched work counts; tested deterministic inputs then matched scores,
+assignments and callback counts. No general Java trace-equivalence claim follows.

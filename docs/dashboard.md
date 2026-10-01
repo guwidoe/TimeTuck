@@ -8,6 +8,7 @@ python3 scripts/differential_scores.py
 python3 scripts/benchmark_scores.py
 python3 scripts/differential_solver.py
 python3 scripts/benchmark_solver.py
+python3 scripts/benchmark_heuristics.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
@@ -108,3 +109,31 @@ It verifies the downloaded Maven distribution checksum and records all resolved
 JAR SHA-256 hashes. No upstream files are changed; no Maven installation is needed.
 Restart the local dashboard server after editing Python reporting/fingerprint code
 so the live freshness endpoint uses that version.
+
+
+## Heuristic comparison
+
+The heuristic section compares deterministic hill climbing and tabu search on
+32- and 96-variable graph problems, with 50 completed steps at most. Both engines
+use original-order change moves, best-accepted selection, first ties and the best
+rejected fallback when no accepted candidate exists. Tabu tenure is two steps.
+Both start with exactly the supplied complete assignment and recalculate the full
+score for every candidate. This does not measure the Rust incremental network
+against Java incremental scoring. Setup and returned-result validation are timed;
+process startup, parsing and one-time model/factory/network setup are excluded.
+
+The report records each sample's time, score, assignment and score-call count.
+Python checks domain membership, pins, score recomputation and non-regression from
+the initial score for every sample. Four workloads use a planted optimum of
+`0hard/0soft`; reaching a step limit can leave them infeasible. The UI therefore
+shows scores and feasibility beside runtime, without treating faster execution as
+better quality. It labels differing scores explicitly. The recorded ratios apply
+only to the chosen algorithm, budget, full-scoring implementation and inputs.
+
+An additional 64 original checks (32 small inputs × two algorithms) compare valid
+results and scores, with independent exhaustive optima recorded per case. These
+checks contribute no upstream compatibility credit. Validity and Java/Rust score
+agreement are separate counts. Run `python3 scripts/benchmark_heuristics.py` to
+regenerate the combined quality/timing artifact; optional flags set completed
+steps, warmup solves, samples and process forks. Full conditions and raw data are
+included in the downloadable JSON and the measurement-notes disclosure.

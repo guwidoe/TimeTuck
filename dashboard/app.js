@@ -106,7 +106,8 @@ function render() {
     );
     renderDetail();
     renderBenchmarks();
-    renderBenchmarks(true);
+    renderBenchmarks("solver");
+    renderBenchmarks("heuristic");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -210,11 +211,13 @@ function renderTests() {
     $("show-more").hidden = limit >= methods.length;
     restoreFocus(focused);
 }
-function renderBenchmarks(solver = false) {
-    const prefix = solver ? "solver-" : "";
+function renderBenchmarks(kind = "score") {
+    const solver = kind !== "score";
+    const heuristic = kind === "heuristic";
+    const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
-    const p = (solver ? report.solver_performance : report.performance) || {},
+    const p = (solver ? report[`${kind}_performance`] : report.performance) || {},
         box = target("benchmarks");
     box.replaceChildren();
     const missing = !p.workloads?.length;
@@ -234,7 +237,7 @@ function renderBenchmarks(solver = false) {
             ratio = node("div", "benchmark-ratio");
         ratio.append(
             document.createTextNode(`${w.java_over_rust.toFixed(2)}×`),
-            node("span", "", "median ratio"),
+            node("span", "", heuristic && !w.equal_scores ? "time ratio · quality differs" : "median ratio"),
         );
         b.append(ratio, node("h3", "", label[w.name] || w.name));
         const maximum = Math.max(w.rust.median, w.java.median);
@@ -262,11 +265,21 @@ function renderBenchmarks(solver = false) {
                 `Observed ranges · Rust ${w.rust.min.toFixed(solver ? 3 : 2)}–${w.rust.max.toFixed(solver ? 3 : 2)} ${unit} · Java ${w.java.min.toFixed(solver ? 3 : 2)}–${w.java.max.toFixed(solver ? 3 : 2)} ${unit}`,
             ),
         );
+        if (heuristic) {
+            const scoreText = (runtime) => `${w[runtime].score[0]}hard/${w[runtime].score[1]}soft`;
+            const feasible = (runtime) => w[runtime].score[0] >= 0;
+            b.append(node("p", "range", `Solution quality · Rust ${scoreText("rust")} · Java ${scoreText("java")}`));
+            b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. Known optimum: 0hard/0soft.`));
+            b.append(node("p", "range", `Score calls · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
+        }
         box.append(b);
     });
     target("benchmark-caption").textContent = missing
         ? "No timing data is inferred from test duration."
         : `Medians per ${solver ? "solve" : "iteration"} · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} ${solver ? "solves" : "iterations"}; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Result checksums match.`;
+    if (heuristic && !missing) {
+        target("benchmark-caption").textContent = `At most ${p.config.steps} completed steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
     target("benchmark-method").textContent =
         p.methodology ||
         "Not measured. The benchmark will record its workload, warmup, sample counts, inputs, machine, and runtime versions.";
@@ -292,6 +305,13 @@ function renderDifferential() {
             box.append(node("p", "note", "Previous result: measured sources have changed; rerun the oracle."));
         if (d.failures?.length)
             box.append(node("p", "note", `${n(d.failures.length)} mismatches are recorded in the downloadable report.`));
+    }
+    const h = report.heuristic_performance || {};
+    if (h.validation) {
+        const v = h.validation, p = node("p");
+        p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(" original heuristic cases return valid, non-regressing solutions."));
+        box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
+        if (h.status === "stale" || !fresh) box.append(node("p", "note", "Previous heuristic result: measured sources have changed."));
     }
 }
 async function reload() {
@@ -333,7 +353,8 @@ async function reload() {
             lastStamp = report.generated_at;
         } else {
             renderBenchmarks();
-            renderBenchmarks(true);
+            renderBenchmarks("solver");
+            renderBenchmarks("heuristic");
             renderDifferential();
         }
         $("updated").textContent =

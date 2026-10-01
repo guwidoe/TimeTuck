@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("positive iterations and samples required".into());
     }
     let line = io::stdin().lock().lines().next().ok_or("missing case")??;
-    let case = solver_support::Case::parse(&line)?;
+    let case = solver_support::Case::parse(&line, false)?;
     black_box(&case.id);
     let budget = case
         .problem

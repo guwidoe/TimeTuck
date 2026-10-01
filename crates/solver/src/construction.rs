@@ -139,6 +139,7 @@ pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
         let selection = director.select_best(
             moves,
             config.max_evaluations - result.evaluations,
+            false,
             |_, _| true,
             |score| config.pick_early.should_pick(previous, score),
             config.assert_scores,
