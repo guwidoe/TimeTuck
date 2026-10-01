@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "constraint-solver-rs"
+name = "timetuck"
 version = "0.1.0"

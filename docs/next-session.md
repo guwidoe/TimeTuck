@@ -1,10 +1,16 @@
-# Implementation session handoff
+# Timetuck implementation session handoff
 
 ## User intent
 
 Implement Timefold-like constraint optimization from scratch in Rust and validate
 behavior using the open-source Timefold Community test suite. This session only
 created the scaffold. The user will start a separate session here for execution.
+
+## Open the project
+
+The repository is `/home/ralph/ralph-repos/timetuck`; its library crate is
+`timetuck` (`crates/solver`). Start the implementation session in that repository.
+The user selected the final project name; no naming decision is pending.
 
 ## Prepared
 

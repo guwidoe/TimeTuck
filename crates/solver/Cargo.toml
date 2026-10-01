@@ -1,5 +1,5 @@
 [package]
-name = "constraint-solver-rs"
+name = "timetuck"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

@@ -2,9 +2,11 @@
 
 ## Project identity
 
-Use an independent name. `timefold-rs` could suggest an official port or affiliation;
-adding `-rs` does not remove the underlying branding concern. A descriptive working
-name avoids incorporating Timefold's name, but is not a trademark clearance.
+The project name is **Timetuck**; the repository and Rust crate use `timetuck`.
+The user selected it on 2026-10-01. It is wordplay on folding/tucking time, not
+an official Timefold port. The name has not received formal trademark clearance.
+`timefold-rs` was avoided because it could suggest an official port or affiliation;
+adding `-rs` would not remove that concern.
 Use Timefold in factual compatibility/source descriptions and retain required
 attribution. Do not reuse its logos or imply endorsement.
 

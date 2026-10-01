@@ -15,3 +15,12 @@ jobs:
         run: rustup toolchain install stable --profile minimal --component clippy --component rustfmt
       - name: Check workspace
         run: bash scripts/check.sh
+
+  upstream-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Verify pinned reference and inventory test sources
+        run: python3 scripts/upstream_inventory.py

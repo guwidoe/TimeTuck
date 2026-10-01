@@ -1,4 +1,4 @@
-# constraint-solver-rs
+# Timetuck
 
 An independent constraint optimization solver being written from scratch in Rust.
 The goal is behavioral compatibility with selected **Timefold Solver Community**
@@ -6,7 +6,6 @@ features, using its open-source tests as a conformance reference.
 
 **Status: scaffold only.** No solver functionality, adapted tests, or compatibility
 claims yet. This project is not affiliated with or endorsed by Timefold.
-The name is provisional and has not received trademark clearance.
 
 ## Development
 

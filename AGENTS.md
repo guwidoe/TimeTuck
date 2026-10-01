@@ -1,4 +1,4 @@
-# Project instructions
+# Timetuck project instructions
 
 ## Goal and boundaries
 
