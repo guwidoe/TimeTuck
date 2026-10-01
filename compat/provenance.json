@@ -989,7 +989,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve all fourteen acceptance assertions, including ties and repeated calls, using a native hill-climbing acceptance session with the last completed score passed explicitly. Replace Java lifecycle/scope mocks with native score transitions; best score is not an input to this acceptance rule."
+      "modifications": "Preserve all fourteen acceptance assertions, including ties and repeated calls, using a native hill-climbing acceptance session with the last completed score passed explicitly. Replace Java lifecycle/scope mocks with native score transitions; best score is not an input to this acceptance rule. The unified move-aware acceptance session receives an empty variable slice because this score-only policy does not inspect variable identities."
     },
     {
       "id": "LateAcceptanceAcceptorTest.lateAcceptanceSize",
@@ -1110,6 +1110,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all candidate/prior score values, unassigned counts and early-stop assertions. Replace mocked Java phase/move scopes with native early-pick predicate calls; separate upstream unassigned counts map to native network structural counts and are ignored when comparing ordinary score levels. No credit for the distinct upstream structurally flawed move rejection method."
+    },
+    {
+      "id": "EntityTabuAcceptorTest.tabuSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/EntityTabuAcceptorTest.java",
+      "upstream_test": "tabuSize",
+      "local_path": "crates/solver/tests/entity_tabu.rs",
+      "local_test": "tabu_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all 30 acceptance assertions, repeated calls, ordered completed steps, candidate scores and supplied global best. Replace Java mock scopes/entities with TabuMemory and stable variable IDs. Every key in a multi-entity step ages together; aspiration receives the same global best as the upstream scope. Phase lifecycle maps to construction/drop of a fresh memory. No fading-tabu coverage claimed."
+    },
+    {
+      "id": "EntityTabuAcceptorTest.tabuSizeMultipleEntitiesPerStep",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/EntityTabuAcceptorTest.java",
+      "upstream_test": "tabuSizeMultipleEntitiesPerStep",
+      "local_path": "crates/solver/tests/entity_tabu.rs",
+      "local_test": "tabu_size_multiple_entities_per_step",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all 60 acceptance assertions, repeated calls, ordered completed steps, candidate scores and supplied global best. Replace Java mock scopes/entities with TabuMemory and stable variable IDs. Every key in a multi-entity step ages together; aspiration receives the same global best as the upstream scope. Phase lifecycle maps to construction/drop of a fresh memory. No fading-tabu coverage claimed."
+    },
+    {
+      "id": "EntityTabuAcceptorTest.aspiration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/EntityTabuAcceptorTest.java",
+      "upstream_test": "aspiration",
+      "local_path": "crates/solver/tests/entity_tabu.rs",
+      "local_test": "aspiration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all 6 acceptance assertions, repeated calls, ordered completed steps, candidate scores and supplied global best. Replace Java mock scopes/entities with TabuMemory and stable variable IDs. Every key in a multi-entity step ages together; aspiration receives the same global best as the upstream scope. Phase lifecycle maps to construction/drop of a fresh memory. No fading-tabu coverage claimed."
     }
   ],
   "fixtures": [

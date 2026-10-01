@@ -1,11 +1,17 @@
 //! Acceptance configurations and per-search state.
-use crate::Score;
+use crate::{Score, TabuMemory};
 use std::{cmp::Ordering, error::Error, fmt};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Acceptance {
     StrictImprovement,
     HillClimbing,
+    /// Forbid touching variables from recent completed steps, unless optional
+    /// aspiration beats the global best. Non-tabu worsening moves are allowed.
+    VariableTabu {
+        tenure: usize,
+        aspiration: bool,
+    },
     LateAcceptance {
         history_size: usize,
         hill_climbing: bool,
@@ -14,11 +20,13 @@ pub enum Acceptance {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum AcceptanceError {
     EmptyHistory,
+    EmptyTabu,
     HistoryAllocation,
 }
 impl fmt::Display for AcceptanceError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::EmptyTabu => "tabu tenure must be positive",
             Self::EmptyHistory => "late-acceptance history must not be empty",
             Self::HistoryAllocation => "late-acceptance history could not be allocated",
         })
@@ -27,6 +35,9 @@ impl fmt::Display for AcceptanceError {
 impl Error for AcceptanceError {}
 impl Acceptance {
     pub fn validate(self) -> Result<(), AcceptanceError> {
+        if matches!(self, Self::VariableTabu { tenure: 0, .. }) {
+            return Err(AcceptanceError::EmptyTabu);
+        }
         if matches!(
             self,
             Self::LateAcceptance {
@@ -45,6 +56,10 @@ impl Acceptance {
         Ok(match self {
             Self::StrictImprovement => Acceptor::StrictImprovement,
             Self::HillClimbing => Acceptor::HillClimbing,
+            Self::VariableTabu { tenure, aspiration } => Acceptor::VariableTabu {
+                memory: TabuMemory::new(tenure, aspiration)?,
+                best: initial_best,
+            },
             Self::LateAcceptance {
                 history_size,
                 hill_climbing,
@@ -61,19 +76,28 @@ pub enum Acceptor<S> {
     StrictImprovement,
     HillClimbing,
     LateAcceptance(LateAcceptance<S>),
+    VariableTabu { memory: TabuMemory<usize>, best: S },
 }
 impl<S: Score> Acceptor<S> {
-    pub fn accepts(&self, current: S, candidate: S) -> bool {
+    /// Supply all variable indices written by the candidate (both sides of swaps).
+    /// Score-only acceptors ignore this slice. Trial checks never update state.
+    pub fn accepts(&self, current: S, candidate: S, variables: &[usize]) -> bool {
         match self {
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::LateAcceptance(state) => state.accepts(current, candidate),
+            Self::VariableTabu { memory, best } => memory.accepts(variables, candidate, *best),
         }
     }
     /// Record a completed step, never an unselected trial move.
-    pub fn step_ended(&mut self, score: S) {
-        if let Self::LateAcceptance(state) = self {
-            state.step_ended(score);
+    pub fn step_ended(&mut self, score: S, variables: &[usize]) {
+        match self {
+            Self::LateAcceptance(state) => state.step_ended(score),
+            Self::VariableTabu { memory, best } => {
+                memory.step_ended(variables);
+                *best = (*best).max(score);
+            }
+            _ => {}
         }
     }
 }

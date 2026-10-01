@@ -1,4 +1,4 @@
-//! Bounded deterministic first-accepted local search using incremental scores.
+//! Bounded deterministic local search using incremental scores.
 use crate::{
     AdditiveScore, ConstraintNetwork, FiniteProblem, ScoreDirector, ScoredAssignment, ScoringError,
 };
@@ -63,6 +63,15 @@ pub enum Neighborhood {
     ChangeAndSwap,
 }
 
+/// Choose the first accepted candidate, or the first highest-scoring accepted
+/// candidate over the evaluated neighborhood prefix. BestAccepted can select a
+/// worsening step with tabu/late acceptance, while retaining the global best.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum MoveSelection {
+    FirstAccepted,
+    BestAccepted,
+}
+
 /// Evaluation budget includes the initial score and every candidate score.
 /// The accepted-move limit is separate. Optional diagnostic recomputations are
 /// excluded from both budgets and from the constraint-evaluation statistic.
@@ -73,6 +82,7 @@ pub struct LocalSearchConfig {
     pub neighborhood: Neighborhood,
     pub acceptance: Acceptance,
     pub move_order: MoveOrder,
+    pub selection: MoveSelection,
     pub assert_scores: bool,
 }
 impl Default for LocalSearchConfig {
@@ -83,6 +93,7 @@ impl Default for LocalSearchConfig {
             neighborhood: Neighborhood::ChangeAndSwap,
             acceptance: Acceptance::StrictImprovement,
             move_order: MoveOrder::Original,
+            selection: MoveSelection::FirstAccepted,
             assert_scores: false,
         }
     }
@@ -108,8 +119,8 @@ pub struct LocalSearchResult<V, S> {
 
 /// Start from the supplied initial values, filling unassigned required variables
 /// with their first domain value. Optional `None` values and pins are preserved.
-/// Then scan changes followed by swaps in deterministic order, restarting after
-/// the first accepted move. Equal best scores retain the earliest best assignment.
+/// Then scan changes followed by swaps in deterministic order. Choose the first
+/// accepted move by default, or the best accepted candidate when configured. Equal best scores retain the earliest best assignment.
 ///
 /// This initial construction is first-fit, not a score-aware construction
 /// heuristic. Original order is deterministic; shuffled-variable order uses an
@@ -212,45 +223,47 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
             .then(|| swap_moves_ordered(problem, &snapshot, order.iter().copied()))
             .into_iter()
             .flatten();
-        let mut accepted = false;
-        for movement in changes.chain(swaps) {
-            if result.evaluations == config.max_evaluations {
-                result.termination = LocalSearchTermination::EvaluationLimit;
-                return Ok(result);
+        let current = director.score();
+        let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
+        let selection = director.select_best(
+            changes.chain(swaps),
+            config.max_evaluations - result.evaluations,
+            |movement, score| {
+                let variables = if tracks_variables {
+                    movement.touched_variables()
+                } else {
+                    Vec::new()
+                };
+                acceptor.accepts(current, score, &variables)
+            },
+            |_| config.selection == MoveSelection::FirstAccepted,
+            config.assert_scores,
+        )?;
+        result.evaluations += selection.evaluations;
+        result.constraint_evaluations += selection.constraint_evaluations;
+        if let Some(movement) = &selection.selected {
+            if director.score() > result.best.as_ref().expect("initial best exists").score {
+                result.best = Some(ScoredAssignment {
+                    assignment: director.assignment().clone(),
+                    score: director.score(),
+                });
             }
-            let current = director.score();
-            {
-                let candidate = director.apply(&movement)?;
-                result.evaluations += 1;
-                result.constraint_evaluations += candidate.constraint_evaluations() as u128;
-                if config.assert_scores
-                    && network.calculate(problem, candidate.assignment())? != candidate.score()
-                {
-                    return Err(ScoringError::CorruptedTotal.into());
-                }
-                if acceptor.accepts(current, candidate.score()) {
-                    if candidate.score() > result.best.as_ref().expect("initial best exists").score
-                    {
-                        result.best = Some(ScoredAssignment {
-                            assignment: candidate.assignment().clone(),
-                            score: candidate.score(),
-                        });
-                    }
-                    let completed_score = candidate.score();
-                    candidate.commit();
-                    acceptor.step_ended(completed_score);
-                    result.accepted_moves += 1;
-                    accepted = true;
-                }
-            }
-            if config.assert_scores {
-                director.assert_consistent()?;
-            }
-            if accepted {
-                break;
-            }
+            let variables = if tracks_variables {
+                movement.touched_variables()
+            } else {
+                Vec::new()
+            };
+            acceptor.step_ended(director.score(), &variables);
+            result.accepted_moves += 1;
         }
-        if !accepted {
+        if config.assert_scores {
+            director.assert_consistent()?;
+        }
+        if selection.evaluation_limit {
+            result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if selection.selected.is_none() {
             result.termination = LocalSearchTermination::NoAcceptedMove;
             return Ok(result);
         }

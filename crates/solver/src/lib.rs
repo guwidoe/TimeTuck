@@ -32,7 +32,7 @@ pub use neighborhood::{change_moves, swap_moves};
 pub mod local_search;
 pub use local_search::{
     Acceptance, LocalSearchConfig, LocalSearchError, LocalSearchResult, LocalSearchTermination,
-    MoveOrder, Neighborhood, local_search, local_search_from,
+    MoveOrder, MoveSelection, Neighborhood, local_search, local_search_from,
 };
 
 pub mod acceptance;
@@ -44,3 +44,6 @@ pub use construction::{
     ConstructionConfig, ConstructionPickEarly, ConstructionResult, ConstructionTermination,
     greedy_construction,
 };
+
+pub mod tabu;
+pub use tabu::TabuMemory;

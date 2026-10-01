@@ -56,13 +56,16 @@ unassigned variable with its first domain value; optional `None` is retained. Th
 is first-fit initialization. For a score-aware start, use `greedy_construction`
 and pass its complete assignment to `local_search_from` (described below).
 
-Search scans changes, optionally followed by swaps, and commits the first accepted
-candidate before restarting its scan. Default strict improvement accepts only
+Search scans changes, optionally followed by swaps, and by default commits the
+first accepted candidate before restarting its scan. `MoveSelection::BestAccepted`
+selects the first highest-scoring accepted candidate over the evaluated prefix
+instead, using saved assignment and sparse cache updates without rescoring it. Default strict improvement accepts only
 better scores. `Acceptance::HillClimbing` also accepts ties, matching the adapted
 upstream acceptance assertions; plateaus may cycle, so limits remain essential.
 Late acceptance additionally permits a worse current score when it meets the
-historical threshold. It is described below. Tabu, annealing and parallel search
-remain unimplemented.
+historical threshold. Variable tabu allows worsening candidates that do not touch
+recently selected variables, with an optional global-best exception. Both are
+described below. Annealing and parallel search remain unimplemented.
 
 Configuration requires finite evaluation and accepted-move limits (defaults are
 10,000 and 1,000). The initial score counts as one evaluation; each considered move
@@ -106,8 +109,9 @@ still cover score operations and two small exhaustive problems only.
 ## Late acceptance and seeded ordering
 
 `Acceptance` is configuration. `start(initial_best)` creates a fresh `Acceptor`
-session; `accepts(current, candidate)` never mutates its state, and `step_ended`
-records only a committed move. Local search manages these calls automatically.
+session; `accepts(current, candidate, variables)` never mutates its state, and
+`step_ended(score, variables)` records only a committed move. Supply the touched
+variable indices for tabu; score-only acceptors ignore that slice. Local search manages these calls automatically.
 This replaces the earlier stateless configuration-level `accepts` method.
 
 `LateAcceptance { history_size, hill_climbing }` uses a circular history initially
@@ -192,3 +196,57 @@ complete results, early picking, callback counts without replay, phase handoff,
 and failure rollback after retaining an earlier candidate. Across 24 interacting
 constraint networks, incremental greedy choices match an independent full-score
 selection loop. The new work has no matched Java heuristic benchmark yet.
+
+
+## Variable tabu and best-accepted moves
+
+`Acceptance::VariableTabu { tenure, aspiration }` prohibits candidates touching
+variables from the most recent `tenure` completed steps. Tenure must be positive;
+zero is rejected before scoring, including with zero evaluation budget. Every
+variable touched by one step has the same lifetime, and repeated touches refresh
+it. A selected swap records both variables. Trial checks do not change memory,
+and only selected moves update the session's best score. When aspiration is on,
+a strictly better score than the global best bypasses tabu. A tie does not, and
+improving only the current score is insufficient. Non-tabu candidates may worsen
+the current score. Results continue to preserve the earliest global best.
+
+The native model has individual basic variables, not separate multi-variable
+entities. `TabuMemory<K>` supports stable equality-based keys; the integrated
+acceptor uses variable indices. Three upstream entity-tabu methods map each test
+entity to one variable ID, preserving all 96 assertions and every completed step.
+No general multi-variable entity, move/value tabu, fading probability, ratio-size
+strategy or Java negative-size compatibility is claimed. Memory uses countdowns
+rather than an ever-growing step counter, with no up-front tenure-sized allocation.
+Its current linear key lookup is a correctness baseline, not a throughput claim.
+
+For a bounded tabu run with best-candidate selection:
+
+```rust
+use timetuck::{Acceptance, LocalSearchConfig, MoveSelection};
+let config = LocalSearchConfig {
+    acceptance: Acceptance::VariableTabu { tenure: 2, aspiration: true },
+    selection: MoveSelection::BestAccepted,
+    max_evaluations: 10_000,
+    max_accepted_moves: 500,
+    ..LocalSearchConfig::default()
+};
+```
+
+Best-accepted selection evaluates candidates from one unchanged prior assignment
+and filters them through the acceptor before ranking. Equal accepted scores retain
+the first candidate. At an evaluation limit it may commit the best accepted prefix
+candidate and reports `EvaluationLimit`; this selected step counts toward the
+accepted-move statistic. If the scan completes, the ordinary step-boundary limits
+apply. Empty/rejected neighborhoods stop without aging tabu memory. This can happen
+when tenure covers all movable variables; search does not synthesize idle steps to
+wait for expiry. The default first-accepted mode retains its previous behavior.
+
+Original regressions check tabu against a separate 1,000-step history log for
+three tenures, duplicate keys, empty steps, very large tenure, strict aspiration,
+and rejected zero tenure. Search tests verify crossing a score valley, preserving
+a best solution after worsening, both sides of a selected swap, 32 seeded runs
+with pins/optional values/heterogeneous domains, best-vs-first selection, stable
+ties, sparse winning-cache updates and exact budget/callback accounting. Existing
+construction, late-acceptance and neighborhood tests still pass after sharing the
+candidate-selection mechanism. Java measurements still cover scores and tiny
+exact-search problems only; a matched heuristic comparison remains outstanding.

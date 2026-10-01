@@ -28,7 +28,9 @@ not this Rust implementation. Its cases must be classified and adapted.
 The first three integer score families have 47 adapted tests; basic change/swap
 moves add ten adapted cases; provider behavior and hill-climbing acceptance add
 nine more. Four late-acceptance methods validate history behavior and hard-score
-resets. Four construction-forager methods preserve early-pick decisions. See
+resets. Four construction-forager methods preserve early-pick decisions. Three
+entity-tabu methods preserve 96 assertions for expiry and aspiration, using native
+variable IDs as stable entity keys. See
 `docs/incremental-search-contract.md` for native incremental scoring
 and local-search evidence. Original finite-domain and exact-search regression
 tests are kept separate from upstream coverage. See `docs/planning-contract.md`. Separate Java

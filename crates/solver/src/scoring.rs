@@ -203,12 +203,14 @@ pub struct ScoreDirector<'p, 'c, V, S> {
 }
 
 struct SelectedCandidate<V, S> {
+    movement: Move<V>,
     assignment: Assignment<V>,
     score: S,
     updates: Vec<(usize, S)>,
 }
 
-pub(crate) struct Selection {
+pub(crate) struct Selection<V> {
+    pub selected: Option<Move<V>>,
     pub evaluations: u64,
     pub constraint_evaluations: u128,
     pub evaluation_limit: bool,
@@ -242,17 +244,19 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         self.score
     }
     /// Evaluate against one unchanged base, retaining the first highest-scoring
-    /// candidate. The saved assignment and sparse cache updates stay inside this
+    /// accepted candidate. The saved assignment and sparse cache updates stay inside this
     /// exclusive director borrow. Installing them does not invoke callbacks again.
     /// Errors/unwinding before installation leave the base and caches unchanged.
     pub(crate) fn select_best(
         &mut self,
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
+        accepts: impl Fn(&Move<V>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
-    ) -> Result<Selection, ScoringError> {
+    ) -> Result<Selection<V>, ScoringError> {
         let mut result = Selection {
+            selected: None,
             evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
@@ -273,11 +277,15 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             {
                 return Err(ScoringError::CorruptedTotal);
             }
+            if !accepts(&movement, candidate.score()) {
+                continue;
+            }
             if best
                 .as_ref()
                 .is_none_or(|saved| candidate.score() > saved.score)
             {
                 best = Some(SelectedCandidate {
+                    movement: movement.clone(),
                     assignment: candidate.assignment().clone(),
                     score: candidate.score(),
                     updates: candidate.updates.clone(),
@@ -293,6 +301,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 self.contributions[i] = contribution;
             }
             self.score = selected.score;
+            result.selected = Some(selected.movement);
         }
         Ok(result)
     }
@@ -410,6 +419,7 @@ mod selection_tests {
                         value: Some(v),
                     }),
                     2,
+                    |_, _| true,
                     |_| false,
                     false,
                 )

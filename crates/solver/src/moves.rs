@@ -32,6 +32,25 @@ pub enum Move<V> {
     Composite(Vec<Self>),
 }
 
+impl<V> Move<V> {
+    /// Sorted unique variable indices written by this move, including no-op
+    /// writes. This is metadata only; applying the move still validates indices.
+    pub fn touched_variables(&self) -> Vec<usize> {
+        let mut pending = vec![self];
+        let mut variables = Vec::new();
+        while let Some(movement) = pending.pop() {
+            match movement {
+                Self::Change { variable, .. } => variables.push(*variable),
+                Self::Swap { left, right } => variables.extend([*left, *right]),
+                Self::Composite(moves) => pending.extend(moves),
+            }
+        }
+        variables.sort_unstable();
+        variables.dedup();
+        variables
+    }
+}
+
 /// A move referenced a variable that is not present in the assignment.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct MoveError {

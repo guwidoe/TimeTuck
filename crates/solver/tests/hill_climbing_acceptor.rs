@@ -16,7 +16,7 @@ fn hill_climbing_enabled() {
         (-900, true),
     ] {
         assert_eq!(
-            acceptor.accepts(last, SimpleScore::new(candidate)),
+            acceptor.accepts(last, SimpleScore::new(candidate), &[]),
             expected
         );
     }
@@ -33,7 +33,7 @@ fn hill_climbing_enabled() {
         (-900, false),
     ] {
         assert_eq!(
-            acceptor.accepts(last, SimpleScore::new(candidate)),
+            acceptor.accepts(last, SimpleScore::new(candidate), &[]),
             expected
         );
     }
