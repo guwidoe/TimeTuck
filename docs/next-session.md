@@ -1,45 +1,69 @@
-# Timetuck implementation session handoff
+# TimeTuck implementation handoff
 
-## User intent
+## Active user goal
 
-Implement Timefold-like constraint optimization from scratch in Rust and validate
-behavior using the open-source Timefold Community test suite. This session only
-created the scaffold. The user will start a separate session here for execution.
+Rewrite Timefold behavior in independent native Rust, using pinned Community tests
+as specifications. Also maintain a visual dashboard of coverage by subsystem and
+performance versus Java. The whole rewrite remains unfinished; do not mark the
+active goal complete after one slice. No zero-mistake guarantee is possible.
 
-## Open the project
+## Current implementation
 
-The repository is `/home/ralph/ralph-repos/timetuck`; its library crate is
-`timetuck` (`crates/solver`). Start the implementation session in that repository.
-The user selected the final project name; no naming decision is pending.
+- Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore with structural
+  values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
+- 57 fully adapted source test methods (47 score + 10 move), recorded in
+  `compat/provenance.json`.
+- Finite domains, initial values, pinning, optional values and reversible
+  change/swap/composite transactions. Read `docs/planning-contract.md`.
+- Iterative exact search with explicit evaluation budgets and truthful
+  exhaustion/optimality reporting. Original `tiny_schedule` example.
+- 21 original regression methods plus one public API documentation test.
+- Public-API Java oracle: 5,409 generated comparisons pass with seed 20261001.
+- 64 original complete-planning cases agree across Java, Rust and independent
+  Python enumeration; movable initial values reset before both solves.
+- Separate score microbenchmarks and two small matched exact-search workloads.
+  The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
+  No heuristic, incremental-scoring or large-instance performance claim.
+- Local visual dashboard: `python3 scripts/dashboard_server.py`, port 8765.
+  Server was restarted after the reporting-code update and may still be running.
+  Reuse it; restart after changing imported fingerprint/reporting Python code.
+- Coverage denominator: 4,855 statically discovered annotated Java methods, not
+  expanded runtime JUnit invocations. 57 passed; 282 JVM integration exclusions.
+  Everything else is pending. `docs/dashboard.md` explains caveats and commands.
+- Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
-## Prepared
+Read `docs/score-contract.md` before changing scores. The Java oracle showed that
+score arithmetic CLEARS structural values, constructors retain positive values,
+and full strings suppress positive structural prefixes. Do not reintroduce older
+initialization-score assumptions. No production implementation has been ported.
 
-- Rust 2024 workspace, one empty library crate, no third-party Rust dependencies.
-- Stable Rust toolchain configuration, formatting/Clippy/test check script and CI.
-- Timefold Community 2.7.0 submodule pinned to commit
-  `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
-- A revision-checked upstream test-source inventory command.
-- Compatibility strategy and attribution rules; empty provenance ledger.
-- No solver implementation, ported tests, Java adapter, or performance claims.
-- Local Git repository only; no remote hosting or package publication configured.
+## Next substantive work
 
-## Suggested first slice
+1. Extend native exact-search/model coverage to more applicable upstream tests.
+   Java trace/descriptor-specific assertions must not be credited by looser tests.
+2. Expand the Java oracle to optional variables and entity-specific ranges using
+   public APIs. Current complete-planning comparisons use homogeneous ranges/pins.
+3. Add incremental scoring validated against full recomputation, then deterministic
+   construction and local search. Adapt upstream behavior cases with explicit seeds,
+   limits and quality thresholds. Exact Java search-trace tests remain pending.
+4. Extend score coverage to Bendable and exact decimal families, inspecting tests
+   and public documentation only and preserving all test provenance.
 
-1. Read `AGENTS.md` and the compatibility/provenance documents.
-2. Run `bash scripts/check.sh` and `python3 scripts/upstream_inventory.py`.
-3. Inspect selected upstream score tests and public score API documentation.
-4. Agree score semantics, including initialization, feasibility, ordering,
-   arithmetic/overflow, parsing, and multi-level scores; avoid premature API breadth.
-5. Record/adapt the chosen cases, preserving notices, then implement the smallest
-   useful score abstraction from scratch and verify those cases.
-6. Build a Java oracle and neutral fixture schema once this contract is concrete.
-7. Grow from scoring to moves/undo, deterministic small problems, then search.
+Run `bash scripts/check.sh` after Rust changes. It records all-target results and
+regenerates coverage if the submodule is present. Java comparisons and benchmarks
+are separate explicit commands; refresh them when measured sources change, then
+regenerate the report using the captured log. Never treat a stale or skipped case
+as passing. `scripts/adapt_score_tests.py` regenerates only the first three test
+families and preserves other provenance entries; its deliberately limited parser
+fails on unfamiliar assertions.
 
-Keep a coverage/status ledger. Passing local tests is not evidence that the full
-Timefold suite passes. The unmodified JUnit suite is not wired to Rust.
+All crates remain unpublished. The user requested occasional commits; checkpoint
+verified milestones with Conventional Commits after inspecting staged changes.
+Never amend or rewrite commits. No remote publication has been requested.
 
-## Available tools at scaffold time
-
-Rust/Cargo 1.92.0, rustfmt, Clippy, Python 3, Git, and OpenJDK 21 were installed.
-The toolchain tracks stable; no minimum supported Rust version has been promised.
-Upstream Java build/test setup and its Maven wrapper have not been validated.
+Latest verification: `scripts/check.sh` passed (78 Rust integration methods,
+one doctest, eight Python regressions). Original planning/search boundary tests
+also passed in release mode. Desktop 1440px and mobile 390px browser QA passed,
+including move filtering and focus preservation on refresh. Current saved Java
+evidence includes 5,409 score cases and 64 complete-planning cases. The benchmark
+ratios are workload-specific and noisy; retain raw sample ranges and scope labels.

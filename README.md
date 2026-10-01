@@ -4,8 +4,12 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scaffold only.** No solver functionality, adapted tests, or compatibility
-claims yet. This project is not affiliated with or endorsed by Timefold.
+**Status: score types, reversible basic moves, and finite exact search implemented.**
+The solver is still under development. Scores and moves cover 57 adapted upstream
+test methods. Three integer score types also pass 5,409 generated Java/Rust
+comparisons. Exact search solves small finite problems with explicit evaluation
+budgets and domain/pinning validation; 64 original complete-planning cases agree
+with Java and independent enumeration. There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
 
@@ -15,8 +19,11 @@ Install Rust via rustup, Git, and Python 3. Run from the repository root:
 bash scripts/check.sh
 ```
 
-This checks formatting, Clippy, compilation, and Rust tests. There are currently
-zero solver tests; a green check only validates the scaffold.
+This checks formatting, Clippy, compilation, and Rust tests. It also records test outcomes and refreshes the local coverage report when the
+reference submodule is initialized. See `docs/score-contract.md` and
+`docs/planning-contract.md` for the verified scope.
+
+Run the small scheduling example with `cargo run --example tiny_schedule`.
 
 ## Upstream test reference
 
@@ -33,11 +40,29 @@ test-source files to `work/upstream-tests.json`. It does not execute tests or
 measure coverage. Upstream JUnit tests cannot directly exercise a Rust library:
 we need adapted behavioral cases and a Java/Rust comparison harness.
 
+## Dashboard and comparisons
+
+```sh
+python3 scripts/differential_scores.py
+python3 scripts/benchmark_scores.py
+python3 scripts/differential_solver.py
+python3 scripts/benchmark_solver.py
+python3 scripts/compat_report.py --test-output work/rust-tests.log
+python3 scripts/dashboard_server.py
+```
+
+Open [the local dashboard](http://localhost:8765). It shows pass counts and
+percentages by subsystem, individual test results, pending/excluded work, and
+separate score-operation and small exact-search benchmarks versus Java. Results reload every 15 seconds.
+The oracle/benchmarks need JDK 21 and Maven Central access; ordinary Rust tests
+need neither. See [dashboard measurement notes](docs/dashboard.md).
+
 ## Layout
 
-- `crates/solver/`: original Rust library; add APIs during implementation.
+- `crates/solver/`: original Rust library, adapted tests and development adapters.
 - `upstream/timefold-solver/`: unmodified, pinned upstream reference.
-- `compat/`: provenance ledger and future fixtures/Java oracle adapter.
+- `compat/`: provenance ledger, exclusions, notices and public-API Java adapters.
+- `dashboard/`: visual coverage and performance report.
 - `docs/compatibility.md`: testing strategy and compatibility boundaries.
 - `docs/legal-and-provenance.md`: naming, licensing, and test attribution.
 - `docs/next-session.md`: starting point for the implementation session.

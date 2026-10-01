@@ -25,16 +25,22 @@ not this Rust implementation. Its cases must be classified and adapted.
 6. Expand to incremental scoring, move application/undo, small planning problems,
    then heuristic solving. Check incremental scores against full recomputation.
 
-The Java adapter, fixture schema, and Rust fixture runner are deliberately left
-for the implementation session so their contract follows the first selected cases.
-No upstream suite execution or compatibility validation has happened yet.
+The first three integer score families have 47 adapted tests; basic change/swap
+moves add ten adapted cases. Original finite-domain and exact-search regression
+tests are kept separate from upstream coverage. See `docs/planning-contract.md`. Separate Java
+and Rust development adapters compare generated operations through a tab-delimited
+line protocol; versioned JSON records the inputs and results. See
+`docs/score-contract.md` for the current contract. The unchanged upstream JUnit
+suite has not been run against Rust, and whole-solver compatibility is not claimed.
 
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,
 source commit/path/test method, local path, license, preserved notice paths, and a
 plain description of changes. Record pending and excluded cases with reasons.
-The initial empty ledger means **zero adapted cases**, not complete coverage.
+Implemented cases live in the provenance ledger. Pending methods and explicit
+exclusions are listed in the generated dashboard report with reasons. Passing
+a selected family never implies that the full upstream suite passes.
 
 The inventory lists all tracked Java files under `src/test/java`; that includes
 fixtures, base classes, and utilities, not only executable tests. Do not use its

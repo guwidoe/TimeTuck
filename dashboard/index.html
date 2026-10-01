@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>TimeTuck — Rewrite progress</title>
+        <meta
+            name="description"
+            content="Measured compatibility and performance of TimeTuck against pinned Timefold Community tests."
+        />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="app.js" defer></script>
+    </head>
+    <body>
+        <header class="masthead">
+            <a class="wordmark" href="#top" aria-label="TimeTuck home"
+                ><svg
+                    aria-hidden="true"
+                    width="27"
+                    height="27"
+                    viewBox="0 0 32 32"
+                >
+                    <path
+                        d="M3 5h26v7H19v15h-7V12H3z"
+                        fill="currentColor"
+                    /></svg
+                >TimeTuck</a
+            >
+            <span class="reference" id="reference"
+                >Rust / Timefold Community</span
+            >
+            <button id="reload" class="quiet-button" type="button">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M20 7v5h-5M20 12a8 8 0 1 0-2 5" /></svg
+                >Reload results
+            </button>
+        </header>
+        <main id="top">
+            <div class="page-heading">
+                <h1>Rewrite progress</h1>
+                <p id="updated" role="status">
+                    Loading the latest verification report…
+                </p>
+            </div>
+            <div id="message" class="message" role="alert" hidden></div>
+            <div id="content" hidden>
+                <section class="overview" aria-labelledby="coverage-heading">
+                    <div class="overview-heading">
+                        <div>
+                            <h2 id="coverage-heading">
+                                Community test coverage
+                            </h2>
+                            <p>
+                                Passing Rust adaptations / discovered upstream
+                                test methods
+                            </p>
+                        </div>
+                        <div class="overall-value">
+                            <strong id="overall-percent">—</strong
+                            ><span id="overall-count">—</span>
+                        </div>
+                    </div>
+                    <div
+                        id="overall-bar"
+                        class="coverage-track"
+                        role="img"
+                    ></div>
+                    <div id="legend" class="legend"></div>
+                    <p class="scope-note">
+                        A method counts as passing only when its adapted Rust
+                        assertions pass. Parameterized and inherited JUnit
+                        invocations are not expanded.
+                        <a href="#methodology">How this is measured</a>
+                    </p>
+                </section>
+                <div class="section-heading">
+                    <h2>Where the rewrite stands</h2>
+                    <span>Choose a subsystem to explore its tests</span>
+                </div>
+                <div class="coverage-layout">
+                    <section
+                        class="family-panel"
+                        aria-label="Coverage by subsystem"
+                    >
+                        <div class="chart-labels">
+                            <span>Subsystem</span><span>Passed / methods</span
+                            ><span>Coverage</span>
+                        </div>
+                        <div id="families"></div>
+                    </section>
+                    <section
+                        id="selected-detail"
+                        class="detail-panel"
+                        aria-labelledby="detail-title"
+                    >
+                        <div class="detail-header">
+                            <h3 id="detail-title">Score types</h3>
+                            <span id="detail-count"></span>
+                        </div>
+                        <div id="detail-map" class="test-map" role="img"></div>
+                        <p class="map-caption">
+                            Each square is one test method. Colors indicate the
+                            latest result.
+                        </p>
+                        <div class="filter-controls">
+                            <label for="test-search"
+                                >Find a test<input
+                                    id="test-search"
+                                    type="search"
+                                    placeholder="Class or method name"
+                                    autocomplete="off" /></label
+                            ><label for="test-status"
+                                >Result<select id="test-status">
+                                    <option value="all">All results</option>
+                                    <option value="passed">Passed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="failed">Failed</option>
+                                    <option value="excluded">Excluded</option>
+                                    <option value="unverified">
+                                        Unverified
+                                    </option>
+                                </select></label
+                            >
+                        </div>
+                        <div id="test-list" class="test-list"></div>
+                        <div class="list-footer">
+                            <span id="list-count" role="status"></span
+                            ><button
+                                id="show-more"
+                                class="quiet-button"
+                                type="button"
+                                hidden
+                            >
+                                Show more
+                            </button>
+                        </div>
+                    </section>
+                </div>
+                <section
+                    class="performance"
+                    aria-labelledby="solver-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="solver-performance-heading">
+                                Exact search vs. the original
+                            </h2>
+                            <p>
+                                Same workload, same inputs, independently
+                                measured runtimes.
+                            </p>
+                        </div>
+                        <span class="tag">Small finite problems</span>
+                    </div>
+                    <div id="solver-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Differences near 1× may be measurement noise.
+                    </p>
+                    <div id="solver-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="solver-benchmark-caption"></p>
+                        <p>
+                            Complete exact search on two small graph-assignment problems,
+                            including solver setup and result validation. This does not
+                            measure heuristic solving, large instances, or memory use.
+                        </p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
+                    aria-labelledby="performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="performance-heading">
+                                Rust vs. the original
+                            </h2>
+                            <p>
+                                Same workload, same inputs, independently
+                                measured runtimes.
+                            </p>
+                        </div>
+                        <span class="tag">Score microbenchmarks</span>
+                    </div>
+                    <div id="benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Differences near 1× may be measurement noise.
+                    </p>
+                    <div id="benchmarks" class="benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="benchmark-caption"></p>
+                        <p>
+                            These score-operation results do not measure search
+                            speed, memory use, or solution quality.
+                        </p>
+                    </div>
+                </section>
+                <section class="evidence" aria-labelledby="evidence-title">
+                    <h2 id="evidence-title">Beyond the adapted tests</h2>
+                    <div id="differential"></div>
+                </section>
+                <details id="methodology" class="methodology">
+                    <summary>Measurement notes & reproducibility</summary>
+                    <div class="methodology-body">
+                        <h3>What the percentage means</h3>
+                        <p id="inventory-note"></p>
+                        <p>
+                            The denominator includes pending and explicitly
+                            excluded methods. Exclusions stay visible so the
+                            scope cannot silently inflate coverage. A passing
+                            adaptation is evidence for that method’s assertions,
+                            not a claim that the original JUnit suite runs
+                            against Rust.
+                        </p>
+                        <h3>Keeping results current</h3>
+                        <p>
+                            The page reloads saved results every 15 seconds; it
+                            does not run tests in your browser. Rust checks
+                            regenerate this report. Changes to measured sources
+                            mark earlier comparisons stale. The timestamp is the
+                            last report generation time.
+                        </p>
+                        <div class="commands">
+                            <code>bash scripts/check.sh</code
+                            ><code>python3 scripts/differential_scores.py</code
+                            ><code>python3 scripts/benchmark_scores.py</code
+                            ><code>python3 scripts/differential_solver.py</code
+                            ><code>python3 scripts/benchmark_solver.py</code
+                            ><code>python3 scripts/compat_report.py</code>
+                        </div>
+                        <h3>Exact-search benchmark conditions</h3>
+                        <p id="solver-benchmark-method"></p>
+                        <pre id="solver-environment"></pre>
+                        <h3>Score benchmark conditions</h3>
+                        <p id="benchmark-method"></p>
+                        <pre id="environment"></pre>
+                        <a
+                            href="data/report.json"
+                            download="timetuck-report.json"
+                            >Download the full JSON report</a
+                        >
+                    </div>
+                </details>
+            </div>
+        </main>
+        <footer>
+            <span>Independent implementation. Measured progress.</span
+            ><a
+                id="upstream-link"
+                href="https://github.com/TimefoldAI/timefold-solver"
+                >Timefold Community reference</a
+            >
+        </footer>
+    </body>
+</html>

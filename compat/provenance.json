@@ -1,4 +1,888 @@
 {
   "schema_version": 1,
-  "cases": []
+  "cases": [
+    {
+      "id": "SimpleScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "SimpleScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/simple_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/hard_soft_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/hard_medium_soft_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Translated all assertions to native Rust score APIs. Java object equality/hash checks use Rust equality and Hash consistency; zero uses ZERO. No JVM API parity claimed."
+    },
+    {
+      "id": "ChangeMoveTest.changeMoveExecutesPermanently",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "changeMoveExecutesPermanently",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "change_move_executes_permanently",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "ChangeMoveTest.changeMoveToNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "changeMoveToNull",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "change_move_to_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "ChangeMoveTest.changeMoveMultipleEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "changeMoveMultipleEntities",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "change_move_multiple_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "ChangeMoveTest.changeMoveExecutesTemporarilyWithUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "changeMoveExecutesTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "change_move_executes_temporarily_with_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "ChangeMoveTest.changeMoveTemporaryMultipleEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "changeMoveTemporaryMultipleEntities",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "change_move_temporary_multiple_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "SwapMoveTest.swapMoveExecutesPermanently",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SwapMoveTest.java",
+      "upstream_test": "swapMoveExecutesPermanently",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "swap_move_executes_permanently",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "SwapMoveTest.sameValueSwapWritesBothVariables",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SwapMoveTest.java",
+      "upstream_test": "sameValueSwapWritesBothVariables",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "same_value_swap_writes_both_variables",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution. Replace Mockito verification of two changeVariable calls with two observable native journal entries; additionally assert both target indices and unchanged values."
+    },
+    {
+      "id": "SwapMoveTest.multipleSwapMoves",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SwapMoveTest.java",
+      "upstream_test": "multipleSwapMoves",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "multiple_swap_moves",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "SwapMoveTest.swapMoveExecutesTemporarilyWithUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SwapMoveTest.java",
+      "upstream_test": "swapMoveExecutesTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "swap_move_executes_temporarily_with_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    },
+    {
+      "id": "SwapMoveTest.multipleSwapMovesTemporary",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SwapMoveTest.java",
+      "upstream_test": "multipleSwapMovesTemporary",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "local_test": "multiple_swap_moves_temporary",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all value-state assertions to native index-based assignments. Stable integer values replace fixture objects; RAII transactions and commit replace MoveTester temporary/permanent execution. Fixture initial states are inlined from TestdataSolution.generateSolution."
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "PlannerAssert.score_assertion_helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertObjectsAreEqual(C...), assertObjectsAreNotEqual(C...), assertCompareToOrder(Comparator<T>, T...)",
+      "local_path": "crates/solver/tests/common/mod.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt shared assertion behavior to native Rust Eq, Hash and Ord; include equality/comparison consistency, both ordering directions and added reflexive checks. Utility only, not a separate executable upstream test method."
+    },
+    {
+      "id": "TestdataSolution.basic_move_initial_states",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize, boolean initialized)",
+      "local_path": "crates/solver/tests/basic_moves.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline initial assignments for the adapted basic move tests: entity i starts with value i modulo the value count. Replace object identities with integer IDs; omit unrelated fixture metadata. Fixture only, not an executable upstream test method."
+    }
+  ]
 }

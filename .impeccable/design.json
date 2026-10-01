@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T21:11:03.773278+00:00",
+  "title": "Design System: TimeTuck",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Deep Slate",
+        "tonalRamp": [
+          "oklch(15% 0.01777 237.88)",
+          "oklch(26.43% 0.01777 237.88)",
+          "oklch(37.86% 0.01777 237.88)",
+          "oklch(49.29% 0.01777 237.88)",
+          "oklch(60.71% 0.01777 237.88)",
+          "oklch(72.14% 0.01777 237.88)",
+          "oklch(83.57% 0.01777 237.88)",
+          "oklch(95% 0.01777 237.88)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Panel Slate",
+        "tonalRamp": [
+          "oklch(15% 0.02267 238.04)",
+          "oklch(26.43% 0.02267 238.04)",
+          "oklch(37.86% 0.02267 238.04)",
+          "oklch(49.29% 0.02267 238.04)",
+          "oklch(60.71% 0.02267 238.04)",
+          "oklch(72.14% 0.02267 238.04)",
+          "oklch(83.57% 0.02267 238.04)",
+          "oklch(95% 0.02267 238.04)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised Slate",
+        "tonalRamp": [
+          "oklch(15% 0.02697 233.60)",
+          "oklch(26.43% 0.02697 233.60)",
+          "oklch(37.86% 0.02697 233.60)",
+          "oklch(49.29% 0.02697 233.60)",
+          "oklch(60.71% 0.02697 233.60)",
+          "oklch(72.14% 0.02697 233.60)",
+          "oklch(83.57% 0.02697 233.60)",
+          "oklch(95% 0.02697 233.60)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Divider Slate",
+        "tonalRamp": [
+          "oklch(15% 0.02767 234.29)",
+          "oklch(26.43% 0.02767 234.29)",
+          "oklch(37.86% 0.02767 234.29)",
+          "oklch(49.29% 0.02767 234.29)",
+          "oklch(60.71% 0.02767 234.29)",
+          "oklch(72.14% 0.02767 234.29)",
+          "oklch(83.57% 0.02767 234.29)",
+          "oklch(95% 0.02767 234.29)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Soft White",
+        "tonalRamp": [
+          "oklch(15% 0.00761 207.14)",
+          "oklch(26.43% 0.00761 207.14)",
+          "oklch(37.86% 0.00761 207.14)",
+          "oklch(49.29% 0.00761 207.14)",
+          "oklch(60.71% 0.00761 207.14)",
+          "oklch(72.14% 0.00761 207.14)",
+          "oklch(83.57% 0.00761 207.14)",
+          "oklch(95% 0.00761 207.14)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Cool Gray",
+        "tonalRamp": [
+          "oklch(15% 0.02096 229.12)",
+          "oklch(26.43% 0.02096 229.12)",
+          "oklch(37.86% 0.02096 229.12)",
+          "oklch(49.29% 0.02096 229.12)",
+          "oklch(60.71% 0.02096 229.12)",
+          "oklch(72.14% 0.02096 229.12)",
+          "oklch(83.57% 0.02096 229.12)",
+          "oklch(95% 0.02096 229.12)"
+        ]
+      },
+      "pass": {
+        "role": "primary",
+        "displayName": "Evidence Mint",
+        "tonalRamp": [
+          "oklch(15% 0.10551 166.05)",
+          "oklch(26.43% 0.10551 166.05)",
+          "oklch(37.86% 0.10551 166.05)",
+          "oklch(49.29% 0.10551 166.05)",
+          "oklch(60.71% 0.10551 166.05)",
+          "oklch(72.14% 0.10551 166.05)",
+          "oklch(83.57% 0.10551 166.05)",
+          "oklch(95% 0.10551 166.05)"
+        ]
+      },
+      "pending": {
+        "role": "neutral",
+        "displayName": "Pending Slate",
+        "tonalRamp": [
+          "oklch(15% 0.03599 235.30)",
+          "oklch(26.43% 0.03599 235.30)",
+          "oklch(37.86% 0.03599 235.30)",
+          "oklch(49.29% 0.03599 235.30)",
+          "oklch(60.71% 0.03599 235.30)",
+          "oklch(72.14% 0.03599 235.30)",
+          "oklch(83.57% 0.03599 235.30)",
+          "oklch(95% 0.03599 235.30)"
+        ]
+      },
+      "fail": {
+        "role": "secondary",
+        "displayName": "Failure Coral",
+        "tonalRamp": [
+          "oklch(15% 0.12162 26.88)",
+          "oklch(26.43% 0.12162 26.88)",
+          "oklch(37.86% 0.12162 26.88)",
+          "oklch(49.29% 0.12162 26.88)",
+          "oklch(60.71% 0.12162 26.88)",
+          "oklch(72.14% 0.12162 26.88)",
+          "oklch(83.57% 0.12162 26.88)",
+          "oklch(95% 0.12162 26.88)"
+        ]
+      },
+      "excluded": {
+        "role": "secondary",
+        "displayName": "Exclusion Mauve",
+        "tonalRamp": [
+          "oklch(15% 0.05204 305.53)",
+          "oklch(26.43% 0.05204 305.53)",
+          "oklch(37.86% 0.05204 305.53)",
+          "oklch(49.29% 0.05204 305.53)",
+          "oklch(60.71% 0.05204 305.53)",
+          "oklch(72.14% 0.05204 305.53)",
+          "oklch(83.57% 0.05204 305.53)",
+          "oklch(95% 0.05204 305.53)"
+        ]
+      },
+      "excluded-text": {
+        "role": "secondary",
+        "displayName": "Readable Exclusion Mauve",
+        "tonalRamp": [
+          "oklch(15% 0.06518 306.57)",
+          "oklch(26.43% 0.06518 306.57)",
+          "oklch(37.86% 0.06518 306.57)",
+          "oklch(49.29% 0.06518 306.57)",
+          "oklch(60.71% 0.06518 306.57)",
+          "oklch(72.14% 0.06518 306.57)",
+          "oklch(83.57% 0.06518 306.57)",
+          "oklch(95% 0.06518 306.57)"
+        ]
+      },
+      "unverified": {
+        "role": "secondary",
+        "displayName": "Unverified Amber",
+        "tonalRamp": [
+          "oklch(15% 0.10906 88.35)",
+          "oklch(26.43% 0.10906 88.35)",
+          "oklch(37.86% 0.10906 88.35)",
+          "oklch(49.29% 0.10906 88.35)",
+          "oklch(60.71% 0.10906 88.35)",
+          "oklch(72.14% 0.10906 88.35)",
+          "oklch(83.57% 0.10906 88.35)",
+          "oklch(95% 0.10906 88.35)"
+        ]
+      },
+      "java": {
+        "role": "secondary",
+        "displayName": "Reference Blue",
+        "tonalRamp": [
+          "oklch(15% 0.05415 252.09)",
+          "oklch(26.43% 0.05415 252.09)",
+          "oklch(37.86% 0.05415 252.09)",
+          "oklch(49.29% 0.05415 252.09)",
+          "oklch(60.71% 0.05415 252.09)",
+          "oklch(72.14% 0.05415 252.09)",
+          "oklch(83.57% 0.05415 252.09)",
+          "oklch(95% 0.05415 252.09)"
+        ]
+      },
+      "warning-bg": {
+        "role": "secondary",
+        "displayName": "Warning Ochre Surface",
+        "tonalRamp": [
+          "oklch(15% 0.02747 82.93)",
+          "oklch(26.43% 0.02747 82.93)",
+          "oklch(37.86% 0.02747 82.93)",
+          "oklch(49.29% 0.02747 82.93)",
+          "oklch(60.71% 0.02747 82.93)",
+          "oklch(72.14% 0.02747 82.93)",
+          "oklch(83.57% 0.02747 82.93)",
+          "oklch(95% 0.02747 82.93)"
+        ]
+      },
+      "warning-text": {
+        "role": "secondary",
+        "displayName": "Warning Ochre Ink",
+        "tonalRamp": [
+          "oklch(15% 0.08217 84.62)",
+          "oklch(26.43% 0.08217 84.62)",
+          "oklch(37.86% 0.08217 84.62)",
+          "oklch(49.29% 0.08217 84.62)",
+          "oklch(60.71% 0.08217 84.62)",
+          "oklch(72.14% 0.08217 84.62)",
+          "oklch(83.57% 0.08217 84.62)",
+          "oklch(95% 0.08217 84.62)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Page heading",
+        "purpose": "Barlow page title; reduced to 29px at the narrow layout."
+      },
+      "identifier": {
+        "displayName": "Method identifier",
+        "purpose": "Readable source identity, wrapping without truncation."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "subsystem-hover",
+        "value": "background 0.15s ease",
+        "purpose": "Subsystem row surface transition."
+      },
+      {
+        "name": "anchor-scroll",
+        "value": "smooth",
+        "purpose": "Page navigation and mobile subsystem detail navigation; auto under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-gutters",
+        "value": "1600px",
+        "query": "(min-width: 1600px)"
+      },
+      {
+        "name": "compact-columns",
+        "value": "1050px",
+        "query": "(max-width: 1050px)"
+      },
+      {
+        "name": "stacked",
+        "value": "760px",
+        "query": "(max-width: 760px)"
+      },
+      {
+        "name": "small-gutters",
+        "value": "420px",
+        "query": "(max-width: 420px)"
+      }
+    ],
+    "focus": {
+      "outline": "2px solid var(--pass)",
+      "outlineOffset": "4px"
+    },
+    "provenance": {
+      "sources": [
+        "dashboard/styles.css",
+        "dashboard/index.html",
+        "dashboard/app.js",
+        "PRODUCT.md"
+      ],
+      "basis": "Extracted from final implementation; descriptive names are documentation decisions, not separately approved brand rules.",
+      "tonalRamps": "Synthesized OKLCH previews at constant hue and chroma; these are display metadata, not additional implemented CSS tokens.",
+      "componentSamples": "Illustrative subsystem values do not assert measured results. No screenshot or live browser review was performed in this documentation pass."
+    }
+  },
+  "components": [
+    {
+      "name": "Quiet button",
+      "kind": "button",
+      "description": "Reload and pagination control with hover, focus, and disabled states.",
+      "html": "<button class=\"ds-quiet\" type=\"button\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"M20 7v5h-5M20 12a8 8 0 1 0-2 5\"/></svg>Reload results</button>",
+      "css": ".ds-quiet{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--text,#e7eeef);border:1px solid var(--line,#33444e);border-radius:7px;min-height:40px;padding:8px 13px;font-size:13px;cursor:pointer}.ds-quiet svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ds-quiet:hover{background:var(--raised,#1d2d36);border-color:var(--muted,#b0c0c8)}.ds-quiet:focus-visible{outline:2px solid var(--pass,#85e3bd);outline-offset:4px;}.ds-quiet:disabled{opacity:.55;cursor:wait}",
+      "refersTo": "button-quiet"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "description": "Visible label and inset search control.",
+      "html": "<label class=\"ds-label\">Find a test<input class=\"ds-field\" type=\"search\" placeholder=\"Class or method name\" autocomplete=\"off\"></label>",
+      "css": ".ds-label{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;display:block;color:var(--muted,#b0c0c8);font-size:12px}.ds-field{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;display:block;box-sizing:border-box;width:100%;margin-top:6px;background:var(--bg,#111a20);border:1px solid var(--line,#33444e);border-radius:6px;color:var(--text,#e7eeef);padding:9px 10px;min-height:40px;font-size:13px;caret-color:var(--pass,#85e3bd)}.ds-field::placeholder{color:var(--muted,#b0c0c8)}.ds-field:focus-visible{outline:2px solid var(--pass,#85e3bd);outline-offset:4px;}",
+      "refersTo": "field"
+    },
+    {
+      "name": "Masthead navigation",
+      "kind": "nav",
+      "description": "Top link with the inline T mark; Barlow is supplied by the host page.",
+      "html": "<nav aria-label=\"Home\"><a class=\"ds-wordmark\" href=\"#top\"><svg aria-hidden=\"true\" width=\"27\" height=\"27\" viewBox=\"0 0 32 32\"><path d=\"M3 5h26v7H19v15h-7V12H3z\" fill=\"currentColor\"/></svg>TimeTuck</a></nav>",
+      "css": ".ds-wordmark{display:inline-flex;align-items:center;gap:10px;color:var(--text,#e7eeef);font-family:Barlow,\"Segoe UI\",sans-serif;font-size:22px;font-weight:600;line-height:1.5;letter-spacing:-.03em;text-decoration:none}.ds-wordmark svg{color:var(--pass,#85e3bd)}.ds-wordmark:hover{color:#c2ffe4}.ds-wordmark:focus-visible{outline:2px solid var(--pass,#85e3bd);outline-offset:4px;}"
+    },
+    {
+      "name": "Scope tag",
+      "kind": "chip",
+      "description": "Informational benchmark scope label; no interactive state.",
+      "html": "<span class=\"ds-tag\">Score microbenchmarks</span>",
+      "css": ".ds-tag{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;display:inline-block;padding:5px 9px;background:var(--raised,#1d2d36);color:var(--muted,#b0c0c8);border-radius:5px;white-space:nowrap;font-size:12px}",
+      "refersTo": "tag"
+    },
+    {
+      "name": "Detail panel",
+      "kind": "card",
+      "description": "Tonal container for the currently selected subsystem.",
+      "html": "<section class=\"ds-panel\"><h3 class=\"ds-panel-title\">Score types</h3><p class=\"ds-panel-copy\">Each square is one test method. Colors indicate the latest result.</p></section>",
+      "css": ".ds-panel{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;background:var(--surface,#17232b);color:var(--text,#e7eeef);padding:22px 23px;border-radius:var(--radius,12px);min-width:0}.ds-panel-title{margin:0;font-family:Barlow,\"Segoe UI\",sans-serif;font-size:17px;font-weight:600;line-height:1.5}.ds-panel-copy{margin:10px 0 0;color:var(--muted,#b0c0c8);font-size:12px;max-width:75ch}",
+      "refersTo": "detail-panel"
+    },
+    {
+      "name": "Selected subsystem",
+      "kind": "custom",
+      "description": "Pressed button and proportionally segmented track; snippet values are illustrative, not report evidence.",
+      "html": "<button class=\"ds-family\" type=\"button\" aria-pressed=\"true\" aria-label=\"Illustrative subsystem: one of four methods passed\"><span class=\"ds-family-name\">Example subsystem</span><span class=\"ds-family-count\">1 / 4</span><span class=\"ds-family-percent\">25.00%</span><span class=\"ds-family-track\"><span class=\"ds-family-pass\"></span></span></button>",
+      "css": ".ds-family{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 106px 74px;gap:9px 12px;text-align:left;padding:13px 16px;background:transparent;color:var(--text,#e7eeef);border:1px solid transparent;border-bottom-color:var(--line,#33444e);border-radius:0;cursor:pointer;transition:background .15s ease}.ds-family:hover{background:var(--surface,#17232b)}.ds-family[aria-pressed=\"true\"]{background:var(--raised,#1d2d36);border-color:#516773;border-radius:7px}.ds-family:focus-visible{outline:2px solid var(--pass,#85e3bd);outline-offset:4px;}.ds-family-name{font-size:14px;font-weight:500}.ds-family-count,.ds-family-percent{font-size:12px;text-align:right;font-variant-numeric:tabular-nums}.ds-family-count{color:var(--muted,#b0c0c8)}.ds-family-percent{color:var(--pass,#85e3bd)}.ds-family-track{display:flex;grid-column:1/-1;height:5px;background:var(--pending,#455c6a);border-radius:2px;overflow:hidden}.ds-family-pass{width:25%;background:var(--pass,#85e3bd)}@media(prefers-reduced-motion:reduce){.ds-family{transition:none}}",
+      "refersTo": "family-selected"
+    },
+    {
+      "name": "Method marks",
+      "kind": "custom",
+      "description": "One square per method, with a full readable list in the live dashboard. Illustrative marks only.",
+      "html": "<div class=\"ds-map\" role=\"img\" aria-label=\"Illustrative method states: passed, failed, pending, excluded, unverified\"><span class=\"ds-cell ds-passed\" title=\"Passed\"></span><span class=\"ds-cell ds-failed\" title=\"Failed\"></span><span class=\"ds-cell ds-pending\" title=\"Pending\"></span><span class=\"ds-cell ds-excluded\" title=\"Excluded\"></span><span class=\"ds-cell ds-unverified\" title=\"Unverified\"></span></div>",
+      "css": ".ds-map{display:grid;grid-template-columns:repeat(auto-fill,minmax(6px,1fr));gap:3px;max-height:180px;overflow:auto;margin-top:21px;padding:1px}.ds-cell{aspect-ratio:1;border-radius:1px;min-width:0;min-height:5px}.ds-passed{background:var(--pass,#85e3bd)}.ds-failed{background:var(--fail,#ff9b90)}.ds-pending{background:var(--pending,#455c6a)}.ds-excluded{background:var(--excluded,#8a7b9c)}.ds-unverified{background:var(--unverified,#e9c875)}"
+    },
+    {
+      "name": "Evidence message",
+      "kind": "custom",
+      "description": "Text warning for missing, stale, or unavailable evidence.",
+      "html": "<div class=\"ds-message\" role=\"status\">No performance comparison recorded yet. Run the matched benchmark to measure both runtimes.</div>",
+      "css": ".ds-message{font-family:\"Segoe UI\",system-ui,sans-serif;line-height:1.5;padding:14px 18px;background:#3a3223;color:#f3d69b;border-radius:7px;font-size:13px;margin-bottom:18px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Laboratory Progress Board",
+    "overview": "TimeTuck presents measured progress through restrained dark surfaces, fine dividers, compact labels, and mint evidence marks. Its character comes from the data's geometry: segmented tracks and individual method squares make both completed and remaining work visible.\n\nThis document records the implemented dashboard, not an independently approved brand identity. The descriptive north star and palette names are documentation choices. The build uses self-hosted Barlow headings, system UI controls, and monospace identifiers; no photographic or generated image composition underlies the interface. Route-specific reading order and measurement caveats live in the dashboard surface brief.",
+    "keyCharacteristics": [
+      "Dark blue-gray surfaces with tonal separation.",
+      "Compact, readable evidence with tabular numbers.",
+      "Mint highlights paired with explicit result labels.",
+      "Fine rectangular marks and gently rounded working panels."
+    ],
+    "rules": [
+      {
+        "name": "The Labeled Evidence Rule",
+        "body": "Color supports explicit state names, counts, and accessible chart descriptions; it never replaces them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Numeric Alignment Rule",
+        "body": "Coverage counts, percentages, measured timings, and ratios use tabular numerals so comparisons remain aligned as reports change.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tonal Depth Rule",
+        "body": "Distinguish working surfaces with fill and border before introducing elevation effects.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** preserve textual names and counts alongside every status color.",
+      "**Do** keep the selected subsystem visually distinct and keyboard reachable.",
+      "**Do** use Barlow for headings, system UI for controls, and monospace for identifiers.",
+      "**Do** preserve focus visibility, readable metadata, and the reduced-motion behavior.",
+      "**Do** keep scope and freshness information beside measured results."
+    ],
+    "donts": [
+      "**Don't** present pending marks as passed or hide excluded methods from the coverage view.",
+      "**Don't** use dark pending or exclusion chart colors as small text; use their readable text treatments.",
+      "**Don't** imply that a microbenchmark ratio measures whole-solver performance.",
+      "**Don't** turn method squares into the sole way to inspect a result."
+    ]
+  }
+}
