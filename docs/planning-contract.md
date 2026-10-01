@@ -75,9 +75,35 @@ Original regressions include four queens, independently enumerated binary
 optimization problems, budget boundaries, nullable domains, pinning, zero/overflow
 spaces, transactional error/panic rollback, and small exhaustive move sequences.
 These original tests are not counted in upstream coverage. Upstream tests requiring
-specific Java exhaustive-search traces remain pending. A public-API Java oracle also checks 64 original finite graph-assignment cases
-against independent Python enumeration. Both adapters normalize movable initial
-values to unassigned, retaining pins. The dashboard has a separate matched
-exact-search benchmark for two small problems. This evidence does not cover
-nullable variables, entity-specific domains, heuristics or large-instance speed.
+specific Java exhaustive-search traces remain pending. A public-API Java oracle checks
+128 original finite graph-assignment cases against independent Python enumeration:
+64 homogeneous required-variable cases and 64 with per-variable ranges, mixed
+required/optional values, empty optional ranges, pinned nulls and signed unassigned
+preferences. Both adapters reset movable initial values before solving and retain
+pins. Each returned assignment is checked for range membership, completeness,
+unchanged pins, independently recomputed score and global optimality. Equal-score
+ties need not return the same assignment.
+
+The extended Java model uses one entity class with two genuine planning fields:
+a required field and an optional field. Only one corresponds to the native
+variable. The inactive required field has a singleton range and fixed value zero;
+the inactive optional field has an empty range and fixed null value. Thus each
+native complete assignment has exactly one corresponding complete Java assignment,
+without adding constraints or changing scores. This accommodates mixed optionality
+within the public exhaustive-phase configuration. It is an oracle representation,
+not an implemented native multi-variable entity feature or a trace-equivalence claim.
+
+Development protocol lines keep the six original tab-separated fields for the
+existing homogeneous adapters. Extended lines append three fields: semicolon-joined
+per-variable ranges (colon-joined values, empty for no non-null choices), optional
+bits, and comma-joined unassigned soft weights. `-` denotes an unassigned value in
+inputs and outputs. Null/null edges do not conflict; each unassigned variable still
+contributes its specified soft weight. Extended input domains and supplied initial values
+are validated before movable values are reset. Cases use small integers without
+score overflow and always have at least one complete assignment. Empty required
+ranges remain covered by native regressions, not these cross-runtime cases.
+
+The dashboard has a separate matched exact-search benchmark for two small
+homogeneous required-variable problems. The extended comparisons do not establish
+performance for optional/range-specific problems, heuristics or large instances.
 See `docs/dashboard.md` for measurement limits.

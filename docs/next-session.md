@@ -23,14 +23,16 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 76 original integration regression methods, one original unit test, and one public API documentation test.
+- 80 original integration regression methods, one original unit test, and one public API documentation test.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
   702 combined score evaluations, 5,700 callbacks, verified `0hard/0soft`.
 - Public-API Java oracle: 5,409 generated comparisons pass with seed 20261001.
-- 64 original complete-planning cases agree across Java, Rust and independent
-  Python enumeration; movable initial values reset before both solves.
+- 128 original complete-planning cases agree across Java, Rust and independent
+  Python enumeration: 64 homogeneous required and 64 per-variable range cases,
+  including mixed optionality, empty optional ranges and pinned nulls. Movable
+  initial values reset before both solves.
 - Separate score microbenchmarks and two small matched exact-search workloads.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
   Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
@@ -54,8 +56,9 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Expand the Java oracle to optional variables and entity-specific ranges using
-   public APIs. Current complete-planning comparisons use homogeneous ranges/pins.
+2. Extend applicable upstream model/move tests and Java evidence to list/shadow
+   variables after implementing native support. Optional basic variables and
+   per-variable ranges now have 64 additional exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
@@ -77,11 +80,11 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (155 Rust integration methods,
-one unit test, one doctest, 12 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
-also passed in release mode; the complete all-target suite passed after the annealing increment. Desktop 1440px and mobile 390px browser QA passed,
+Latest verification: `scripts/check.sh` passed (159 Rust integration methods,
+one unit test, one doctest, 16 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+also passed in release mode; the complete all-target suite passed after the range-oracle increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
-evidence includes 5,409 score cases and 64 complete-planning cases. The benchmark
+evidence includes 5,409 score cases and 128 complete-planning cases. The benchmark
 ratios are workload-specific and noisy; retain raw sample ranges and scope labels.
 
 Late-acceptance scope: history uses completed-step scores; new hard-score bests
@@ -139,3 +142,19 @@ include 32 fixed-seed valley escapes to an independently enumerated optimum,
 integer precision/overflow boundaries, seeded frequency, budgets and fallback.
 See the annealing section of docs/incremental-search-contract.md. Logs:
 work/annealing-check.log, work/annealing-release.log, work/annealing-evidence.log.
+
+
+Extended range oracle: `RangeSolverOracle.java` uses only public annotations/config
+and two planning fields per Java entity, with the inactive field constrained to
+one complete value. This handles mixed required/optional inputs without changing
+scores or widening the native assignment space. The optional field supports empty
+ranges and pinned nulls. See docs/planning-contract.md. Nine-field protocol lines
+extend the legacy six fields with domains/optional bits/unassigned weights; the
+legacy exact and heuristic benchmarks keep their six-field inputs. Python
+`generate()` retains the original 64 cases (also used by heuristic validation);
+`generate_extended()` adds 64, with a separate seed 20261002. Both engines' outputs
+are independently checked for every range, pin, optional flag, score and optimum.
+No new upstream method credit. Four original Rust protocol tests and four Python
+validation tests added. Current logs: work/ranges-check.log,
+work/ranges-release.log and work/ranges-evidence.log. Timing comparisons are
+refreshed for the source revision but still cover the original workloads only.

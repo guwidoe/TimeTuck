@@ -97,11 +97,18 @@ incremental scoring. Ratios may largely reflect framework overhead. They do not
 establish performance for larger problems, local-search heuristics, constraint
 streams or memory use. The displayed ranges include shared-machine and GC noise.
 
-The separate solver differential section compares 64 seeded original cases with
-pins and signed preferences. Both adapters reset movable initial values before
+The separate solver differential section compares 128 original cases: 64
+homogeneous required-variable cases and 64 with per-variable ranges, optional
+values and signed unassigned preferences, including empty optional ranges and
+pinned nulls. The latter include eight explicit boundary cases and 56 seeded
+random cases. Seeds and group outcomes are retained in the report. Both adapters reset movable initial values before
 solving, retaining pins: Timefold's exhaustive phase otherwise preserves assigned
 values and explores a smaller space. Both returned assignments are checked against
-an independent Python Cartesian enumeration. These cases add no upstream coverage.
+an independent Python Cartesian enumeration. The extended Java adapter uses one
+entity class with required and optional fields, giving its inactive field one
+fixed choice; this preserves the native assignment space without extra score
+constraints. These cases add no upstream coverage and are not additional timing
+benchmarks. See `docs/planning-contract.md` for the protocol and mapping.
 
 `scripts/prepare_solver_oracle.py` resolves only the pinned Community dependency
 and its runtime dependencies using Maven 3.9.16 in ignored `work/oracle/solver/`.

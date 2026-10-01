@@ -62,6 +62,7 @@ public final class SolverOracle {
     }
 
     static Problem parse(String[] fields) {
+        if (fields.length != 6) throw new IllegalArgumentException("Expected six legacy fields");
         int count = Integer.parseInt(fields[1]);
         var problem = new Problem();
         problem.values = new ArrayList<>();
@@ -97,6 +98,10 @@ public final class SolverOracle {
         try (var input = new BufferedReader(new InputStreamReader(System.in))) {
             for (String line; (line = input.readLine()) != null;) {
                 String[] fields = line.split("\t", -1);
+                if (fields.length == 9) {
+                    System.out.println(RangeSolverOracle.solve(fields));
+                    continue;
+                }
                 var solved = factory.buildSolver().solve(parse(fields));
                 var recomputed = new Calculator().calculateScore(solved);
                 if (!recomputed.equals(solved.score)) throw new IllegalStateException("Returned score failed recomputation");

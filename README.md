@@ -8,8 +8,9 @@ features, using its open-source tests as a conformance reference.
 The solver is still under development. Scores, moves, acceptance and construction behavior cover 79 adapted upstream
 test methods. Three integer score types also pass 5,409 generated Java/Rust
 comparisons. Exact search solves small finite problems with explicit evaluation
-budgets and domain/pinning validation; 64 original complete-planning cases agree
-with Java and independent enumeration. There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
+budgets and domain/pinning validation; 128 original complete-planning cases agree
+with Java and independent enumeration, including per-variable ranges and optional
+values. There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
 
