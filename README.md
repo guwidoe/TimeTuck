@@ -4,7 +4,7 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list scoring, construction and local search.**
+**Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction and local search.**
 The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 308 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
@@ -12,7 +12,8 @@ budgets and domain/pinning validation; 128 original complete-planning cases agre
 with Java and independent enumeration, including per-variable ranges and optional
 values. Ordered lists support unique ownership, per-entity ranges, prefix/full pins and derived
 owner/index/neighbor views. Mixed models combine both variable kinds with atomic edits
-and exact joint optimization; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
+and exact joint optimization. Mixed scoped constraints cache contributions across
+both components and restore them atomically; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 256 original list-move cases check candidate,
 undo and commit states against Java and an independent reference. An additional
 128 original list-solving cases validate construction/local search and compare

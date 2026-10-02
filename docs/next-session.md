@@ -28,7 +28,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   after 5,040 complete states.
 - 256 original Java/Rust/Python list-move cases (907 operations) check candidates,
   undo, commit and all four built-in shadow relationships; seed 20261003.
-- Scoped incremental basic/list score networks and atomic scored-move transactions.
+- Scoped incremental basic/list/mixed score networks and atomic scored-move transactions.
   List scopes cover entity lists and value identities/shadows, with conservative
   neighbor invalidation and deferred cache updates.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
@@ -36,7 +36,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 249 original integration regression methods, seven original unit tests, and eighteen public API documentation tests.
+- 255 original integration regression methods, seven original unit tests, and nineteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -76,7 +76,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (mixed incremental scoring/search and further constraint operators) and applicable upstream cases.
+0. Expand persistent operators (mixed stream scoring/heuristic search and further constraint operators) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -102,7 +102,7 @@ initialization-score assumptions. No production implementation has been ported.
    enumerated for small cases. Native greedy list construction, lazy neighborhoods
    and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
-   shadows, cascading/declarative listeners and mixed heuristic/incremental solving remain pending. Optional basic variables and per-variable ranges have 64 additional
+   shadows, cascading/declarative listeners and mixed heuristic/stream solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
@@ -820,3 +820,51 @@ Java 0hard/-1062soft); the dashboard retains that quality difference beside timi
 None of these timings measures mixed models. Evidence logs:
 work/mixed-stream-{evidence,performance}.log, mixed-list-refresh.log,
 mixed-core-refresh.log and mixed-heuristic-performance.log.
+
+
+Mixed scoped-scoring increment: MixedConstraintNetwork<B,L,S> registers Basic,
+ListEntity and ListValue scopes with ordered/repeated callback arguments. Value
+indices refer to registry positions. MixedScoreDirector caches named contributions;
+combined moves invalidate the union of basic dependencies, touched lists and values
+in those lists before/after the composite. Neighbor/index changes are covered;
+each affected constraint runs once and constants stay cached. ScoredMixedMove
+commits state and deferred cache updates without callback replay. Errors and
+ordinary unwinding restore both components. Read docs/mixed-planning-contract.md.
+
+Structural state combines missing required basic variables and list values;
+optional unassignment adds no penalty. Ordinary levels retain AdditiveScore
+arithmetic. Invalid scopes/registrations/shapes/models reject before callbacks;
+assert_consistent checks individual contributions, including cancelling errors.
+Only callbacks are incremental: snapshots, validation, missing-value counting and
+dependency discovery still copy/scan model state. Mixed heuristic/stream search,
+Java mixed scoring comparisons and mixed timing measurements remain pending.
+
+Six original regressions cover 1,200 seeded compound moves, including 400 list-only
+rounds that cannot mask value-dependency bugs through basic invalidation. Every
+candidate is compared to a separate direct formula and full calculation; commits
+and rejection also check the base cache. Other cases cover partial required and
+optional states, full/prefix/basic pins, non-dense IDs, repeated scopes, no-op
+writes, unchanged callback reuse, invalid metadata/moves, later callback errors
+and panics, caller unwinding, cancelling corruption and BendableScore wrapping.
+One public API doctest exercises a coupled constraint and commit. No upstream
+method credit is added: coverage remains 308/4,855 overall and 160/1,045 streams.
+
+Full debug/release gates pass: 570 Rust tests (308 adapted + 255 original integration
+and seven unit), nineteen doctests and 48 Python regressions. Logs:
+work/mixed-scoring-{check,release}.log. The suite was recaptured after strengthening
+the seeded rounds to include list moves that leave basic variables untouched.
+
+All nine saved comparison/timing sections are current for this source; live/report/
+source verification fingerprints agree. Existing server on 127.0.0.1:8765 was
+reused. Browser checks at 1280px and 390px show 308/4,855 (6.34%) overall,
+160/1,045 (15.31%) streams, refreshed timings, no stale-result messages, no browser
+errors and no horizontal overflow. Browser session closed; upstream unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 56.525 / 21.243,
+hill96 198.941 / 25.197, tabu32 54.201 / 19.116, tabu96 199.989 / 27.755.
+Scores agree; both 96-variable cases remain infeasible at the 50-step cap. The
+32-customer list construction scores still differ: Rust 0hard/-1080soft, Java
+0hard/-1062soft. No mixed scoring timing or speedup claim follows. Logs:
+work/mixed-scoring-stream-{evidence,performance}.log,
+mixed-scoring-list-refresh.log, mixed-scoring-core-refresh.log and
+mixed-scoring-heuristic-performance.log.

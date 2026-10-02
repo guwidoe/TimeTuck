@@ -138,3 +138,9 @@ pub use list_stream_scoring::{
     ListStreamScoreDirector, ListStreamScoredMove, ListStreamScoringError, ListStreamSources,
     ListValueRow, greedy_list_stream_construction, list_stream_local_search_from,
 };
+
+pub mod mixed_scoring;
+pub use mixed_scoring::{
+    MixedConstraintNetwork, MixedFact, MixedScope, MixedScoreDirector, MixedScoringError,
+    ScoredMixedMove,
+};

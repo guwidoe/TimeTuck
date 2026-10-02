@@ -71,6 +71,54 @@ against a hand-derived lower bound. This is a correctness example, not a benchma
 These original checks earn no upstream method credit. The inspected upstream mixed
 exhaustive tests also assert Java phase types, step bounds or exact phase traces;
 those remain pending. No mixed Java/Rust solver comparison or mixed timing result
-is claimed. Mixed construction/local search, incremental/stream score directors,
+is claimed. Mixed construction/local search and stream score directors,
 custom shadows and Java entity metadata remain pending. Existing Java comparisons
 and timing cards continue to describe their original basic/list/stream workloads.
+
+
+## Incremental mixed contributions
+
+`MixedConstraintNetwork<B,L,S>` declares the basic-variable, list-entity and
+list-value counts. Named callbacks receive only their declared `MixedScope` facts:
+`Basic(i)` provides an optional basic value, `ListEntity(i)` an ordered list, and
+`ListValue(i)` the registry value identity plus its optional owner/index/neighbor
+view. Value indices are registry positions, not value IDs. Mixed and repeated
+scopes preserve callback argument order; empty scopes represent constants.
+Duplicate names, invalid scopes, model shape mismatches and invalid assignments
+are rejected before scoring callbacks. Failed registrations add no dependencies.
+
+Contributions must have structural zero. The network sums ordinary levels using
+`AdditiveScore`, with wrapping arithmetic for built-in integer families. It sets
+the structural component to minus the combined count of missing required basic
+variables and list values. Optional unassignment contributes no incompleteness.
+Counts that cannot fit the structural i64 representation return an explicit error.
+Callbacks must handle partial states; captured facts and identity remain immutable.
+
+`MixedScoreDirector` owns the combined assignment and per-constraint cache, borrowing
+the immutable model/network. A move reevaluates the union of constraints depending
+on touched basic variables, touched entity lists, or values present in those lists
+before or after the composite. This conservatively covers index and neighbor
+changes. Overlapping and repeated dependencies execute once; no-op writes still
+touch dependencies, while an empty composite does not. Constant contributions
+stay cached. Values temporarily inserted and removed within a composite have no
+changed final facts and need no separate invalidation when absent at both ends.
+
+`ScoredMixedMove` exposes candidate assignment, score and callback count. Cache
+updates are deferred until commit; rejecting, errors and ordinary panic unwinding
+restore both components without changing contributions. Commit installs both state
+and cache without replaying callbacks. Existing mixed transaction limitations
+apply. Full `calculate` independently recomputes the score; `assert_consistent`
+checks every contribution as well as the total, detecting cancelling corruption.
+Diagnostic work is separate from move callback counts.
+
+Only callback evaluation is incremental. Model validation, snapshots, structural
+counting and dependency discovery still copy/scan model state; no constant-time
+update or measured performance improvement is claimed. Six original regressions
+include 1,200 seeded combined moves in required/optional models (400 list-only
+rounds), each checked
+against an independent direct formula and full network recomputation. They cover
+non-dense value IDs, pinned variables/lists/prefixes, partial states, repeated
+scopes, unchanged callback reuse, failed registration, invalid models/moves,
+callback errors/panics, caller unwinding, cancelling corruption and BendableScore
+wrapping. A public API doctest exercises coupled scoring and commit. These checks
+add no upstream method credit or Java incremental mixed-scoring comparison.

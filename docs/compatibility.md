@@ -142,8 +142,10 @@ Native mixed basic/list planning now supports atomic component edits and exact
 optimization of one coupled objective over the full product space. Eight original
 regressions and a joint depot/route example provide native evidence only; no new
 upstream method credit, mixed Java solver comparison, or mixed timing claim follows.
-Java phase-trace tests, mixed heuristics and incremental mixed scoring remain
-pending. See `docs/mixed-planning-contract.md`.
+Native scoped incremental mixed scoring additionally passes six original
+regressions, including 1,200 joint edits against an independent direct formula.
+Java phase-trace tests, mixed heuristics and mixed stream scoring remain pending.
+See `docs/mixed-planning-contract.md`.
 
 ## Case records and coverage
 
