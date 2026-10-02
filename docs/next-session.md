@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 148 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction), recorded in
+- 153 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 136 original integration regression methods, two original unit tests, and three public API documentation tests.
+- 148 original integration regression methods, two original unit tests, and four public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -53,7 +53,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 148 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 153 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -63,6 +63,12 @@ and full strings suppress positive structural prefixes. Do not reintroduce older
 initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
+
+0. Extend typed snapshot constraint streams to incremental tuple propagation,
+   retractable grouped state and public-API Java stream comparison. Current joins,
+   filters, existence checks, grouping and scoring rebuild per affected callback;
+   do not credit upstream incremental graph tests for snapshot-only behavior. Read
+   `docs/constraint-stream-contract.md`.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
@@ -96,8 +102,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (284 Rust integration methods,
-two unit tests, three doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (301 Rust integration methods,
+two unit tests, four doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the list-range increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
@@ -287,3 +293,17 @@ registry supplied per entity for legacy inputs. Small evidence expands to 128
 valid/equal-score cases, with 109 optima in each engine. Larger timing workloads
 still use unrestricted ranges. All seven measurements refreshed. Logs:
 work/list-ranges-check.log, work/list-ranges-release.log, work/list-ranges-evidence.log.
+
+
+Constraint-stream foundation milestone: eager typed multiset streams, deterministic
+encounter order, predicate/hash-equality joins, exists/not-exists, position-unique
+pairs, map/flat-map/concat/distinct, groups and integer summaries. IntCollector
+supports duplicate retractions, wrapping i64 sums and count/distinct/min/max.
+Score terminals reject structural contributions before addition. Five upstream
+collector methods preserve all seven state assertions; graph methods remain
+pending. Twelve original regressions cover 4,096 seeded collector edits, 256
+join cases with forced hash collisions, all 81 partial scheduling assignments,
+transaction rollback/commit, exact solving, construction and local improvement.
+No stream-specific Java timing claim yet. Logs: work/stream-check.log,
+work/stream-release.log, work/stream-evidence.log. All seven existing comparison
+sections must be refreshed after measured source changes.

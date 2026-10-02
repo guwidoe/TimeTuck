@@ -55,6 +55,12 @@ line protocol; versioned JSON records the inputs and results. See
 `docs/score-contract.md` for the current contract. The unchanged upstream JUnit
 suite has not been run against Rust, and whole-solver compatibility is not claimed.
 
+Five integer collector methods additionally preserve every count, distinct-count,
+sum, minimum and maximum assertion across duplicate insertions and retractions.
+Original stream regressions verify snapshot joins, groups and solver scoring; they
+do not grant credit for upstream incremental stream-graph methods. See
+`docs/constraint-stream-contract.md` for this distinction.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

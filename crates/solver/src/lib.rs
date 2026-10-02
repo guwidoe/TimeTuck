@@ -76,3 +76,6 @@ pub mod list_construction;
 pub use list_construction::{ListConstructionResult, greedy_list_construction};
 pub mod list_local_search;
 pub use list_local_search::{ListLocalSearchError, ListLocalSearchResult, list_local_search_from};
+
+pub mod stream;
+pub use stream::{ConstraintStream, IntCollector, IntSummary, StreamScoreError};

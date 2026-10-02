@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list search, incremental basic/list scoring, construction and local search.**
-The solver is still under development. Scores, moves, acceptance and construction behavior cover 148 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction and integer collectors cover 153 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
@@ -17,6 +17,10 @@ undo and commit states against Java and an independent reference. An additional
 128 original list-solving cases validate construction/local search and compare
 quality with independently enumerated optima, including entity-specific ranges. Separate full-scoring routing
 benchmarks show Java/Rust timings together with final scores.
+Native snapshot constraint streams now support typed filtering, joins, existence checks,
+grouping and weighted scoring, with retractable integer collectors. Streams are
+rebuilt inside affected score callbacks; tuple-level incremental propagation remains
+pending. See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development

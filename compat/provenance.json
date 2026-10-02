@@ -2220,6 +2220,81 @@
       "upstream_test": "crossingNullSkipsWhenValueOutOfRange",
       "local_test": "swap_crossing_null_skips_when_value_out_of_range",
       "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.count",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "count",
+      "local_path": "crates/solver/tests/stream_collectors.rs",
+      "local_test": "count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.countDistinct",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "countDistinct",
+      "local_path": "crates/solver/tests/stream_collectors.rs",
+      "local_test": "count_distinct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sum",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sum",
+      "local_path": "crates/solver/tests/stream_collectors.rs",
+      "local_test": "sum",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.minComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "minComparable",
+      "local_path": "crates/solver/tests/stream_collectors.rs",
+      "local_test": "min_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.maxComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "maxComparable",
+      "local_path": "crates/solver/tests/stream_collectors.rs",
+      "local_test": "max_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
     }
   ],
   "fixtures": [
