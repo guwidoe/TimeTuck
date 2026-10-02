@@ -102,3 +102,12 @@ assignment CSV and terminal weighting callback count (which may be zero). Both
 use incremental streams within local search. Java reuses its `SolverFactory`;
 Rust constructs graph topology per solve. Per-solve setup, search and result
 validation are timed. See `docs/dashboard.md` for full measurement conditions.
+
+
+`AggregationBoundaryOracle.java` is an original three-state presence probe run by
+`differential_streams.py`: empty input, one assigned zero-weight fact, and removal
+of that last fact. Global count and sum groups each receive a constant penalty,
+so a zero result cannot hide a spurious or missing match. The probe checks ordinary
+scores from Community full updates. Native empty-group behavior is separately
+covered by `collecting_stream_regression`; the report records this boundary check
+separately from the 128 differential cases and grants no upstream-method credit.

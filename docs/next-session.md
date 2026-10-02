@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 195 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 42 stream), recorded in
+- 211 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 58 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 191 original integration regression methods, six original unit tests, and ten public API documentation tests.
+- 198 original integration regression methods, six original unit tests, and eleven public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 195 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 211 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (richer collectors, global empty aggregation) and applicable upstream cases.
+0. Expand persistent operators (list/map/average collectors and list-variable stream binding) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (339 Rust integration methods,
-six unit tests, eight doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (409 Rust integration methods,
+six unit tests, eleven doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,7 +457,7 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 345 Rust tests (339 integration + six unit), eight doctests,
+Current check totals: 415 Rust tests (409 integration + six unit), eleven doctests,
 and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
@@ -499,3 +499,30 @@ unmodified. Logs: work/distinct-check.log, work/distinct-release.log and
 work/distinct-evidence-{a,b}.log. The first batch ended with signal 15 after
 saving its timing artifacts; the uncompleted list oracle ran in the second batch
 and passed. No successful measurements were inferred from an interrupted command.
+
+
+Composable collector increment: ReversibleCollector, CountCollector, SetCollector,
+PairCollector and CollectNode now support keyed/global aggregation through
+StreamGraphBuilder::group_collect_with / collect. Empty global groups emit no row;
+standalone empty finish remains zero/empty. Public Community boundary probing
+corrected the initially assumed empty-row behavior. The reproducible original
+AggregationBoundaryOracle runs three full-update states from differential_streams.
+Sixteen adapted groupBy_0Mapping{1..4}Collector methods across all four arities and
+seven original regressions are added. Custom collectors must have isolated Clone,
+empty Default and immutable finished outputs. See the stream contract.
+
+Collector verification: debug/release all-target checks pass (415 Rust tests),
+with eleven doctests and 39 Python regressions. Coverage is 211/4,855 (4.346%)
+and streams 63/1,045 (6.029%). All nine Java comparison/timing artifacts are
+current. The three-state Community aggregation probe and 128/2,899 stream
+comparisons pass; all 64 stream search cases remain valid with equal scores.
+Current stream timing medians in ms (Rust / Java): hill32 139.279 / 20.251,
+hill96 466.240 / 29.956, tabu32 128.804 / 16.034, tabu96 510.881 / 28.929.
+These timings exercise the specialized join/group workload, not generic collectors.
+
+The old dashboard server was no longer listening. Restarted it as PID 21564,
+exec session 31475. Browser shows 211 passes and all sixteen new global-aggregation
+methods under the passed search filter. Live/report hashes agree; no browser errors
+or horizontal overflow. Logs: work/collecting-check.log, collecting-release.log,
+collecting-{stream,list,score,solver}-evidence.log and corresponding *-performance.log,
+plus collecting-heuristic-performance.log. Upstream remains unmodified.

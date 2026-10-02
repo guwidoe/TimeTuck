@@ -243,7 +243,8 @@ from reported search work. `StreamGraph::assert_consistent` and the director's
 method expose the same check; a diagnostic failure on an active graph transaction
 invalidates that transaction. This verifies scores, not arbitrary payload equality.
 
-List-variable stream sources and richer incremental collectors remain pending.
+List-variable stream sources and additional collectors (lists, maps, averages and
+exact decimals) remain pending.
 Run `cargo run --release --example stream_coloring` for an original
 24-variable construction/search example with independent result verification.
 
@@ -364,3 +365,48 @@ errors/panics, and construction/search minimizing distinct assigned values.
 Nested distinct nodes are checked against independent lowest-ID representatives
 and full graph rebuilds. One API doctest demonstrates duplicate multiplicity and
 retraction. Existing Java timing workloads do not measure this new node.
+
+
+## Composable incremental collectors
+
+`ReversibleCollector<V>` defines captured-value insertion/removal and an immutable
+finished result. `Default` must be empty, `Clone` must isolate subsequent mutation,
+and methods must be deterministic. `finish` must not mutate state. Returning false
+when removing a captured occurrence is an invariant failure. Custom collectors
+must honor these contracts; arbitrary shared mutable interior state cannot be
+rolled back automatically.
+
+`IntCollector` implements the trait with its existing integer summary.
+`CountCollector` counts occurrences; `SetCollector<V>` retains ordered unique keys
+with duplicate multiplicities, returning a persistent `SnapshotMap<V, ()>`.
+Use stable fact IDs for set membership. `PairCollector<A,B>` collects independently
+mapped fields together and can be nested for more fields. Built-in collectors
+share persistent roots; custom collector cloning may cost more.
+
+`CollectNode` captures each input's key and mapped value, retracts the old value
+on replacement, and emits changes for affected groups. It prepares candidate
+state and finished outputs before installation, preserving the previous state
+on ordinary collector/clone/ordering panics. The graph builder's
+`group_collect_with` exposes keyed aggregation; `collect` uses a unit key for a
+global group. Both participate in graph rollback, full rebuild diagnostics and
+basic-variable construction/local search.
+
+Only nonempty groups emit rows. In particular, the global stream starts without
+a row and retracts its row when the last occurrence disappears. A standalone
+collector's empty finish (zero count/sum, empty set, absent extrema) does not imply
+an empty stream emits a match. The eager snapshot `ConstraintStream::collect`
+returns a summary directly and retains its existing empty-summary behavior.
+`AggregationBoundaryOracle.java` verifies empty / one zero-weight fact / removed
+last fact through Community full score updates with constant presence penalties.
+It runs with `scripts/differential_streams.py`; no Java incremental timing or
+additional upstream-method credit is claimed for this probe.
+
+Sixteen adapted `groupBy_0Mapping{1..4}Collector` methods preserve both states of
+all four arities, query multiplicity, count/distinct/min/max/set tuple projections,
+per-match scores, names and totals. Fixture/helper provenance is recorded.
+Seven original regressions cover 5,000 captured-value/key edits (seed 20261022),
+1,000 three-write graph transactions (seed 20261023), nested projections and held
+snapshots, global empty boundaries, custom collector failures, 180 trait-panic
+budgets, terminal errors, construction and search. The existing Java timing
+workloads use the specialized integer group node; they do not benchmark the new
+generic collector node.

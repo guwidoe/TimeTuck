@@ -80,6 +80,10 @@ pub use list_local_search::{ListLocalSearchError, ListLocalSearchResult, list_lo
 pub mod stream;
 pub use stream::{ConstraintStream, IntCollector, IntSummary, StreamScoreError};
 
+mod collecting_stream;
+pub use collecting_stream::{
+    CollectNode, CountCollector, PairCollector, ReversibleCollector, SetCollector,
+};
 mod distinct_stream;
 pub use distinct_stream::DistinctNode;
 mod existence_stream;

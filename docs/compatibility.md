@@ -76,14 +76,21 @@ are recorded separately; they grant no additional upstream method coverage.
 Thirteen additional existence methods preserve initial/update scores and exact
 left matches for indexed and predicate-only matching, self exclusion, assigned
 filtering and existence after grouping. Native transactional existence relations
-replace notification/descriptor plumbing; unsupported-class exceptions and global
-empty aggregation remain pending. See the stream contract and provenance ledger.
+replace notification/descriptor plumbing; unsupported-class exceptions remain
+pending. See the stream contract and provenance ledger.
 
 Twenty mapping/distinct methods additionally preserve all initial/removal scores
 and exact match multiplicities across uni/bi/tri/quad streams. Stable tagged IDs
 and native tuple/set equality replace Java object references. A persistent
 distinct node integrates with typed graphs; representative and panic/rollback
 behavior have separate original regressions. See the stream contract and ledger.
+
+Sixteen global aggregation methods across uni/bi/tri/quad streams additionally
+preserve all initial/removal scores and collector result tuples for one through
+four collectors. Native composed collectors retain count, distinct count, min/max
+and exact entity-ID sets. Empty global groups emit no row, as separately checked
+through the Community public API; this original boundary probe grants no additional
+upstream method credit.
 
 ## Case records and coverage
 

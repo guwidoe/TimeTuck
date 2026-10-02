@@ -30,8 +30,8 @@
 //! ```
 
 use crate::{
-    AdditiveScore, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode, IntSummary,
-    JoinNode, ScoreNode, SnapshotMap, TupleChange,
+    AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode,
+    IntSummary, JoinNode, ReversibleCollector, ScoreNode, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -318,6 +318,44 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
     }
 }
 
+type CollectMapping<'a, T, K, V> = dyn Fn(&T) -> (K, V) + 'a;
+struct Collect<'a, I, T, K, V, C> {
+    node: CollectNode<I, K, V, C>,
+    mapping: Box<CollectMapping<'a, T, K, V>>,
+}
+impl<
+    I: Ord + Clone + 'static,
+    T: 'static,
+    K: Ord + Clone + 'static,
+    V: Clone + 'static,
+    C: ReversibleCollector<V> + 'static,
+    S: AdditiveScore,
+> Node<S> for Collect<'_, I, T, K, V, C>
+where
+    C::Output: 'static,
+{
+    fn clear(&mut self) {
+        self.node.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.node.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.node.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        let mapped = TupleChange {
+            id: change.id.clone(),
+            value: change.value.as_ref().map(|v| (self.mapping)(v)),
+        };
+        Ok(erase(self.node.apply(mapped).into_iter().map(|c| {
+            let key = c.id.clone();
+            c.map(|v| (key, v))
+        })))
+    }
+}
+
 struct Terminal<'a, I, T, S> {
     node: ScoreNode<'a, I, T, S>,
     name: String,
@@ -530,6 +568,48 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         });
         self.connect(input.node, out.node, false);
         Ok(out)
+    }
+    /// Keyed aggregation with a reversible collector. Only nonempty groups emit.
+    pub fn group_collect_with<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        K: Ord + Clone + 'static,
+        V: Clone + 'static,
+        C: ReversibleCollector<V> + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> (K, V) + 'a,
+    ) -> Result<StreamPort<K, (K, C::Output)>, GraphError>
+    where
+        C::Output: 'static,
+    {
+        self.validate(input)?;
+        let out = self.push(Collect {
+            node: CollectNode::<I, K, V, C>::new(),
+            mapping: Box::new(mapping),
+        });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    /// Global aggregation. Empty input emits no row, matching Community groupBy;
+    /// the standalone collector can still produce its empty result with finish().
+    pub fn collect<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        V: Clone + 'static,
+        C: ReversibleCollector<V> + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> V + 'a,
+    ) -> Result<StreamPort<(), C::Output>, GraphError>
+    where
+        C::Output: 'static,
+    {
+        let grouped =
+            self.group_collect_with::<I, T, (), V, C>(input, move |row| ((), mapping(row)))?;
+        self.map(&grouped, |(_, result)| result.clone())
     }
     pub fn score<I: Ord + Clone + 'static, T: Clone + 'static>(
         &mut self,

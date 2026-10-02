@@ -79,12 +79,14 @@ def validate(case, state, values, line, runtime):
 def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
-                    str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java')],check=True)
+                    str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java')],check=True)
     subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
     cp,artifacts=prepare();digest=source_digest();cases=generate();payload='\n'.join(map(encode,cases))+'\n'
+    subprocess.run(['java','-Xms256m','-Xmx256m','-cp',cp,'AggregationBoundaryOracle'],check=True,timeout=60)
     outputs={}
     for runtime,cmd in {'java':['java','-Xms256m','-Xmx256m','-cp',cp,'StreamOracle'],
                         'rust':[str(ROOT/'target/release/examples/stream_oracle')]}.items():
@@ -101,6 +103,8 @@ def main():
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
             'reference':REF,'artifacts':artifacts,'seed':SEED,'total':len(cases),'passed':len(cases),
             'observations':len(observations),'failures':[],'cases':cases,'results':results,'platform':platform.platform(),
+            'aggregation_boundary_checks':{'passed':3,'total':3,
+                'scope':'Separate Community full score updates for empty, one zero-valued fact, and removed-last-fact global count/sum groups. Native boundaries checked by collecting_stream_regression; no additional differential-case or upstream-method credit.'},
             'methodology':'Original required-variable cases, including partial assignments, duplicate/self edges, signed weights, zero/cancelling group sums, pins, committed and trial/undo edits. Constraints: indexed edge/job joins penalize equal endpoint values; nonzero group sums contribute sum*abs(sum) to soft score. Java Community SolutionManager.update rebuilds a score session for each observation; Rust uses persistent incremental transactions. Both ordinary scores checked against independent Python loops. Native exact conflict IDs and group sums also checked. Community update exposes no match-analysis API; no Java match-set, structural-validation or incremental-update timing claim. No additional upstream method coverage.'}
     (ROOT/'work/stream-differential.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'Stream differential: {len(cases)}/{len(cases)} cases; {len(observations)} observations',flush=True)

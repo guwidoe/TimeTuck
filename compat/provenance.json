@@ -2925,6 +2925,246 @@
       "upstream_test": "mapToUniAndDistinctWithoutDuplicates",
       "local_test": "quad_map_to_uni_and_distinct_without_duplicates",
       "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_0Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping1Collector",
+      "local_test": "uni_group_by_0_mapping_1_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_0Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping2Collector",
+      "local_test": "uni_group_by_0_mapping_2_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_0Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping3Collector",
+      "local_test": "uni_group_by_0_mapping_3_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_0Mapping4Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping4Collector",
+      "local_test": "uni_group_by_0_mapping_4_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.groupBy_0Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping1Collector",
+      "local_test": "bi_group_by_0_mapping_1_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.groupBy_0Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping2Collector",
+      "local_test": "bi_group_by_0_mapping_2_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.groupBy_0Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping3Collector",
+      "local_test": "bi_group_by_0_mapping_3_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.groupBy_0Mapping4Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping4Collector",
+      "local_test": "bi_group_by_0_mapping_4_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.groupBy_0Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping1Collector",
+      "local_test": "tri_group_by_0_mapping_1_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.groupBy_0Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping2Collector",
+      "local_test": "tri_group_by_0_mapping_2_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.groupBy_0Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping3Collector",
+      "local_test": "tri_group_by_0_mapping_3_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.groupBy_0Mapping4Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping4Collector",
+      "local_test": "tri_group_by_0_mapping_4_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.groupBy_0Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping1Collector",
+      "local_test": "quad_group_by_0_mapping_1_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.groupBy_0Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping2Collector",
+      "local_test": "quad_group_by_0_mapping_2_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.groupBy_0Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping3Collector",
+      "local_test": "quad_group_by_0_mapping_3_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.groupBy_0Mapping4Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_0Mapping4Collector",
+      "local_test": "quad_group_by_0_mapping_4_collector",
+      "modifications": "Preserve both initial and post-removal states: exact global result tuple, match multiplicity, constraint name, per-match contribution and total. Native indexed joins and stable-ID ordered self-pairs reproduce the specified uni/bi/tri/quad input relations; the quad count-only relation retains all five initial tuples. Stable entity IDs replace Java object identity in distinct counts and sets. A paired integer-summary/set collector supplies the requested count, distinct count, min/max and set projections; unused summary fields grant no additional coverage. Integer and long properties use native i64; counts use usize. Native source transactions replace descriptor notifications. No custom justification or indictment API claim."
     }
   ],
   "fixtures": [
@@ -3226,6 +3466,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo, asSet",
       "modifications": "Check exact sorted match payloads and multiplicities, all -1 contributions, constraint name and total. A native sorted set of group IDs preserves asSet equality; typed terminal handles replace namespace lookup. Fixture only; no executable-method credit or custom justification/indictment claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "TestdataLavishSolution.collecting_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Preserve generated entity/group/value dimensions, modulo references and specified extra entities. Explicit integer/long properties 0,1,2 are retained where observed. Native stable IDs replace object identity; unused fixture fields and unused random properties are omitted. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/collecting_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.collecting_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Native assertions compare exact collector result tuples, all match scores, names and totals. Sorted ID sets preserve entity set equality; typed terminal handles replace namespace lookup. Fixture only; no method credit."
     }
   ]
 }
