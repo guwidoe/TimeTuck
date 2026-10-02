@@ -1949,7 +1949,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListAssignMoveProviderTest.java",
       "upstream_test": "pinnedEntitySkipped",
       "local_test": "assign_pinned_entity_skipped",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListAssignMoveProviderTest.fromSolution",
@@ -1964,7 +1964,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListAssignMoveProviderTest.java",
       "upstream_test": "fromSolution",
       "local_test": "assign_from_solution",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListChangeMoveProviderTest.pinnedEntitySkipped",
@@ -1979,7 +1979,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
       "upstream_test": "pinnedEntitySkipped",
       "local_test": "change_pinned_entity_skipped",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListChangeMoveProviderTest.fromSolution",
@@ -1994,7 +1994,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
       "upstream_test": "fromSolution",
       "local_test": "change_from_solution",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListChangeMoveProviderTest.fromSolutionAllowsUnassigned",
@@ -2009,7 +2009,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
       "upstream_test": "fromSolutionAllowsUnassigned",
       "local_test": "change_from_solution_allows_unassigned",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListChangeMoveProviderTest.crossingNullTrueProducesAssignAndUnassign",
@@ -2024,7 +2024,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
       "upstream_test": "crossingNullTrueProducesAssignAndUnassign",
       "local_test": "change_crossing_null_true_produces_assign_and_unassign",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListChangeMoveProviderTest.crossingNullFalseProducesNeitherAssignNorUnassign",
@@ -2039,7 +2039,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
       "upstream_test": "crossingNullFalseProducesNeitherAssignNorUnassign",
       "local_test": "change_crossing_null_false_produces_neither_assign_nor_unassign",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListSwapMoveProviderTest.pinnedEntitySkipped",
@@ -2054,7 +2054,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
       "upstream_test": "pinnedEntitySkipped",
       "local_test": "swap_pinned_entity_skipped",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListSwapMoveProviderTest.fromSolution",
@@ -2069,7 +2069,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
       "upstream_test": "fromSolution",
       "local_test": "swap_from_solution",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListSwapMoveProviderTest.bothUnassignedProducesNoMoves",
@@ -2084,7 +2084,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
       "upstream_test": "bothUnassignedProducesNoMoves",
       "local_test": "swap_both_unassigned_produces_no_moves",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListUnassignMoveProviderTest.pinnedEntitySkipped",
@@ -2099,7 +2099,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListUnassignMoveProviderTest.java",
       "upstream_test": "pinnedEntitySkipped",
       "local_test": "unassign_pinned_entity_skipped",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListUnassignMoveProviderTest.fromSolution",
@@ -2114,7 +2114,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListUnassignMoveProviderTest.java",
       "upstream_test": "fromSolution",
       "local_test": "unassign_from_solution",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
     },
     {
       "id": "ListUnassignMoveProviderTest.noAssignedValues",
@@ -2129,7 +2129,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListUnassignMoveProviderTest.java",
       "upstream_test": "noAssignedValues",
       "local_test": "unassign_no_assigned_values",
-      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. Constructor, metadata and entity-specific range cases remain pending."
+      "modifications": "Preserve every producesAllOf/producesNoneOf or iterator-emptiness assertion using native lazy list neighborhoods. Replace Java object/descriptors by stable integer values and entity/index positions; single-value unassign uses a half-open span. Native combined Change neighborhood models crossingNull=true; pure relocation models false. Derived shadow views replace explicit shadow enrichment. These cases do not assert Java constructor or metadata parity; entity-specific range methods are recorded separately."
+    },
+    {
+      "id": "ListAssignMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListAssignMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_test": "assign_from_entity",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "ListChangeMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_test": "change_from_entity",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "ListChangeMoveProviderTest.fromEntityAllowsUnassigned",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
+      "upstream_test": "fromEntityAllowsUnassigned",
+      "local_test": "change_from_entity_allows_unassigned",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "ListSwapMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_test": "swap_from_entity",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "ListSwapMoveProviderTest.crossingNullProducesCompositeWhenValueInRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
+      "upstream_test": "crossingNullProducesCompositeWhenValueInRange",
+      "local_test": "swap_crossing_null_produces_composite_when_value_in_range",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
+    },
+    {
+      "id": "ListSwapMoveProviderTest.crossingNullSkipsWhenValueOutOfRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListSwapMoveProviderTest.java",
+      "upstream_test": "crossingNullSkipsWhenValueOutOfRange",
+      "local_test": "swap_crossing_null_skips_when_value_out_of_range",
+      "modifications": "Preserve every positive/negative move membership assertion and entity-specific range fixture. Use native immutable per-entity ranges and stable integer identities, with v1/v2/v3 mapped to 0/1/2. Native list iterators replace Java descriptors/NeighborhoodTester; atomic unassign-plus-assign represents optional replacement. Derived shadow views replace explicit shadow enrichment. No Java constructor or metadata parity claimed."
     }
   ],
   "fixtures": [
@@ -2275,6 +2365,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/unassignedvar/TestdataPinnedAllowsUnassignedValuesListSolution.java",
       "upstream_test": "generateUninitializedSolution(int,int)",
       "modifications": "Inline empty lists or modulo entity distribution, followed by the exact list edits and pin metadata specified by each provider test. Stable integer IDs replace Java fixture objects. Fixture only; no additional executable-method credit."
+    },
+    {
+      "id": "TestdataListEntityProvidingSolution.list_provider_entity_ranges",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "generateSolution(), getValueList()",
+      "modifications": "Inline two initially empty entities with overlapping ranges [v1,v2] and [v1,v3], deduplicate the global registry in first-occurrence order, then apply the provider test edits. Stable integer IDs replace Java fixture objects. Fixture only; no additional executable-method credit."
+    },
+    {
+      "id": "TestdataListEntityProvidingEntity.list_provider_range_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity(String,List), planning-list/range annotations",
+      "modifications": "Represent fixture empty initial lists, entity-provided value ranges, and required/optional list metadata through native ListEntity builders and ListProblem optionality. Ignore Java descriptor/reflection implementation. Fixture only; no additional executable-method credit."
+    },
+    {
+      "id": "TestdataListUnassignedEntityProvidingSolution.list_provider_entity_ranges",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingSolution.java",
+      "upstream_test": "generateSolution(), getValueList()",
+      "modifications": "Inline two initially empty entities with overlapping ranges [v1,v2] and [v1,v3], deduplicate the global registry in first-occurrence order, then apply the provider test edits. Stable integer IDs replace Java fixture objects. Fixture only; no additional executable-method credit."
+    },
+    {
+      "id": "TestdataListUnassignedEntityProvidingEntity.list_provider_range_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_neighborhoods.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataListUnassignedEntityProvidingEntity(String,List), planning-list/range annotations",
+      "modifications": "Represent fixture empty initial lists, entity-provided value ranges, and required/optional list metadata through native ListEntity builders and ListProblem optionality. Ignore Java descriptor/reflection implementation. Fixture only; no additional executable-method credit."
     }
   ]
 }

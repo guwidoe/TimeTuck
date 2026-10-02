@@ -26,10 +26,14 @@ struct Frame {
     applied: Option<ListPosition>,
 }
 
-fn choices<V: Eq + Clone>(problem: &ListProblem<V>, assignment: &ListAssignment<V>) -> Frame {
+fn choices<V: Eq + Clone>(
+    problem: &ListProblem<V>,
+    assignment: &ListAssignment<V>,
+    value: &V,
+) -> Frame {
     let mut choices = Vec::new();
     for (entity, meta) in problem.entities().iter().enumerate() {
-        if !meta.is_pinned() {
+        if !meta.is_pinned() && problem.accepts(entity, value) {
             for index in meta.pinned_prefix()..=assignment.lists[entity].len() {
                 choices.push(Some(ListPosition { entity, index }));
             }
@@ -100,6 +104,9 @@ where
             })
             .collect(),
     );
+    if !problem.can_complete(&working) {
+        return result;
+    }
     let remaining: Vec<_> = problem
         .values()
         .iter()
@@ -114,7 +121,7 @@ where
         }
         return result;
     }
-    let mut stack = vec![choices(problem, &working)];
+    let mut stack = vec![choices(problem, &working, &remaining[0])];
     while !stack.is_empty() {
         let depth = stack.len() - 1;
         let frame = stack.last_mut().expect("nonempty enumeration stack");
@@ -137,7 +144,7 @@ where
             }
             record(&mut result, &working, evaluate(&working));
         } else {
-            stack.push(choices(problem, &working));
+            stack.push(choices(problem, &working, &remaining[depth + 1]));
         }
     }
     result

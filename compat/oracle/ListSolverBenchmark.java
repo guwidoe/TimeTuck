@@ -23,7 +23,8 @@ import ai.timefold.solver.core.config.solver.termination.TerminationConfig;
 
 public final class ListSolverBenchmark {
     @PlanningEntity public static class Vehicle {
-        @PlanningListVariable(valueRangeProviderRefs="values") public List<Stop> stops = new ArrayList<>();
+        @PlanningListVariable(valueRangeProviderRefs="eligible") public List<Stop> stops = new ArrayList<>();
+        @ValueRangeProvider(id="eligible") public List<Stop> eligible = new ArrayList<>();
         @PlanningPin public boolean pinned;
         @PlanningPinToIndex public int prefix;
         public int id, x, y, capacity;
@@ -38,7 +39,7 @@ public final class ListSolverBenchmark {
         public Stop() {}
     }
     @PlanningSolution public static class Problem {
-        @ValueRangeProvider(id="values") @PlanningEntityCollectionProperty public List<Stop> stops;
+        @PlanningEntityCollectionProperty public List<Stop> stops;
         @PlanningEntityCollectionProperty public List<Vehicle> vehicles;
         @PlanningScore public HardSoftScore score;
         public Problem() {}
@@ -62,7 +63,7 @@ public final class ListSolverBenchmark {
         for(int v:p) if(Math.abs((long)v)>1_000_000) throw new IllegalArgumentException("coordinate bound"); return p;
     }
     static Problem parse(String[] f) {
-        if(f.length!=7 || f[0].isEmpty()) throw new IllegalArgumentException("seven fields required");
+        if((f.length!=7 && f.length!=8) || f[0].isEmpty()) throw new IllegalArgumentException("seven or eight fields required");
         var p=new Problem(); p.stops=new ArrayList<>(); p.vehicles=new ArrayList<>();
         if(!f[1].equals("-")) for(var text:f[1].split(",",-1)) {
             var xy=point(text);var v=new Stop();v.id=p.stops.size();v.x=xy[0];v.y=xy[1];p.stops.add(v);
@@ -80,13 +81,28 @@ public final class ListSolverBenchmark {
             if(e.capacity<0 || e.prefix<0 || e.prefix>e.stops.size() || (e.pinned && e.prefix!=0)) throw new IllegalArgumentException("metadata");
             p.vehicles.add(e);
         }
+        String[] ranges=f.length==8?f[7].split(";",-1):null;
+        if(ranges!=null && ranges.length!=p.vehicles.size())throw new IllegalArgumentException("range count");
+        for(int i=0;i<p.vehicles.size();i++) {
+            var e=p.vehicles.get(i);
+            if(ranges==null || ranges[i].equals("*")) e.eligible.addAll(p.stops);
+            else if(!ranges[i].equals("-")) {
+                var distinct=new HashSet<Integer>();
+                for(var text:ranges[i].split(",",-1)) {
+                    int id=Integer.parseInt(text);
+                    if(id<0 || id>=p.stops.size() || !distinct.add(id))throw new IllegalArgumentException("invalid range value");
+                    e.eligible.add(p.stops.get(id));
+                }
+            }
+            if(!e.eligible.containsAll(e.stops))throw new IllegalArgumentException("initial value outside entity range");
+        }
         return p;
     }
     static Problem copy(Problem p) {
         var c=new Problem();c.stops=new ArrayList<>();c.vehicles=new ArrayList<>();
         for(var v:p.stops) {var w=new Stop();w.id=v.id;w.x=v.x;w.y=v.y;c.stops.add(w);}
         for(var e:p.vehicles) {var d=new Vehicle();d.id=e.id;d.x=e.x;d.y=e.y;d.capacity=e.capacity;d.pinned=e.pinned;d.prefix=e.prefix;
-            for(var v:e.stops)d.stops.add(c.stops.get(v.id));c.vehicles.add(d);}
+            for(var v:e.stops)d.stops.add(c.stops.get(v.id));for(var v:e.eligible)d.eligible.add(c.stops.get(v.id));c.vehicles.add(d);}
         return c;
     }
     static void validate(Problem p,Problem original) {
@@ -96,7 +112,7 @@ public final class ListSolverBenchmark {
             var vehicle=p.vehicles.get(e);var before=original.vehicles.get(e);
             if(before.pinned && vehicle.stops.size()!=before.stops.size())throw new IllegalStateException("pin length");
             for(int i=0;i<vehicle.stops.size();i++) {
-                var v=vehicle.stops.get(i);if(v.id<0 || v.id>=p.stops.size() || !seen.add(v.id))throw new IllegalStateException("ownership");
+                var v=vehicle.stops.get(i);if(before.eligible.stream().noneMatch(w->w.id==v.id))throw new IllegalStateException("range violation");if(v.id<0 || v.id>=p.stops.size() || !seen.add(v.id))throw new IllegalStateException("ownership");
                 if((before.pinned || i<before.prefix) && v.id!=before.stops.get(i).id)throw new IllegalStateException("pin");
                 if(v.owner!=vehicle || !Integer.valueOf(i).equals(v.index)
                     || v.previous!=(i==0?null:vehicle.stops.get(i-1)) || v.next!=(i+1==vehicle.stops.size()?null:vehicle.stops.get(i+1)))throw new IllegalStateException("shadow");

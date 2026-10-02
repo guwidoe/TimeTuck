@@ -34,10 +34,12 @@ pub(crate) fn assigns<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         .iter()
         .filter(move |v| a.location(v).is_none())
         .flat_map(move |value| {
-            insertions(p, a, order.clone()).map(move |destination| ListMove::Assign {
-                value: value.clone(),
-                destination,
-            })
+            insertions(p, a, order.clone())
+                .filter(move |position| p.accepts(position.entity, value))
+                .map(move |destination| ListMove::Assign {
+                    value: value.clone(),
+                    destination,
+                })
         })
 }
 pub(crate) fn changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -48,7 +50,10 @@ pub(crate) fn changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     positions(p, a, order.clone()).flat_map(move |source| {
         order
             .clone()
-            .filter(move |&e| !p.entities()[e].is_pinned())
+            .filter(move |&e| {
+                !p.entities()[e].is_pinned()
+                    && p.accepts(e, &a.lists()[source.entity][source.index])
+            })
             .flat_map(move |e| {
                 let end = a.lists()[e].len() - usize::from(e == source.entity);
                 (p.entities()[e].pinned_prefix()..=end).filter_map(move |index| {
@@ -83,14 +88,18 @@ pub(crate) fn swaps<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
     positions(p, a, order.clone()).flat_map(move |left| {
         let assigned = positions(p, a, order.clone())
-            .filter(move |&right| right != left)
+            .filter(move |&right| {
+                right != left
+                    && p.accepts(left.entity, &a.lists()[right.entity][right.index])
+                    && p.accepts(right.entity, &a.lists()[left.entity][left.index])
+            })
             .map(move |right| ListMove::Swap { left, right });
         let unassigned = p
             .allows_unassigned()
             .then(|| p.values().iter())
             .into_iter()
             .flatten()
-            .filter(move |v| a.location(v).is_none())
+            .filter(move |v| a.location(v).is_none() && p.accepts(left.entity, v))
             .map(move |value| {
                 ListMove::Composite(vec![
                     ListMove::Unassign {

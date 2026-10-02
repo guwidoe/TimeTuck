@@ -61,3 +61,25 @@ fn empty_range_preserves_empty_route_and_zero_score() {
         "-"
     );
 }
+
+#[test]
+fn extended_ranges_preserve_default_empty_and_explicit_domains() {
+    let c = Case::parse("range\t1:2,4:6\t0:0,10:10,5:5\t1,1,0\t0;1;-\t000\t0,0,0\t0;*;-").unwrap();
+    assert_eq!(c.problem.entities()[0].value_range(), Some([0].as_slice()));
+    assert_eq!(c.problem.entities()[1].value_range(), None);
+    assert_eq!(c.problem.entities()[2].value_range(), Some([].as_slice()));
+    assert!(
+        c.problem
+            .validate(&ListAssignment::new(vec![vec![1], vec![0], vec![]]))
+            .is_err()
+    );
+}
+#[test]
+fn extended_ranges_reject_duplicate_unknown_missing_and_invalid_initial_domains() {
+    for suffix in ["0,0;1", "0;2", "0", "1;0", "-;1"] {
+        assert!(
+            Case::parse(&format!("{CASE}\t{suffix}")).is_err(),
+            "{suffix}"
+        );
+    }
+}

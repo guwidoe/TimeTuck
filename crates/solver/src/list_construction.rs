@@ -49,7 +49,7 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
         constraint_evaluations: 0,
         termination: ConstructionTermination::EvaluationLimit,
     };
-    if !result.complete && problem.entities().iter().all(|e| e.is_pinned()) {
+    if !problem.can_complete(&initial) {
         result.termination = ConstructionTermination::NoCompleteAssignment;
         return Ok(result);
     }
@@ -70,12 +70,11 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
             }
             let snapshot = director.assignment().clone();
             let previous = director.score();
-            let moves =
-                insertions(problem, &snapshot, 0..problem.entities().len()).map(|destination| {
-                    ListMove::Assign {
-                        value: value.clone(),
-                        destination,
-                    }
+            let moves = insertions(problem, &snapshot, 0..problem.entities().len())
+                .filter(|position| problem.accepts(position.entity, value))
+                .map(|destination| ListMove::Assign {
+                    value: value.clone(),
+                    destination,
                 });
             let selection = director.select_best(
                 moves,

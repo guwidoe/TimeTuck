@@ -162,7 +162,8 @@ additional upstream coverage credit. See `list-planning-contract.md`.
 
 `python3 scripts/benchmark_lists.py` adds required-list construction and hill
 climbing with identical routing inputs, Manhattan round-trip distance and capacity
-penalties. The 64 original small validation cases cover empty ranges, complete or
+penalties. The 128 original small validation cases (64 unrestricted and 64 with
+entity-specific ranges) cover empty ranges, complete or
 partial initial lists, full pins and pinned prefixes. Python independently
 checks every output and enumerates complete owner/permutation assignments to
 record exact optima. Construction retains existing values in their original
@@ -171,7 +172,8 @@ Validity, Java/Rust score agreement and optimum attainment are separate counts.
 These generated cases grant no additional upstream test-method coverage.
 
 Four measured workloads use 16 or 32 customers, four depots, capacity n/4 and
-seed 20261006. Construction evaluates insertions without early picking and runs
+seed 20261006; the additional range cases use seed 20261007. Larger timing
+workloads remain unrestricted. Construction evaluates insertions without early picking and runs
 to completion. Hill climbing starts from complete identical assignments, evaluates
 relocations, picks the best accepted candidate, accepts ties and permits a best
 rejected fallback. Its default limit is 20 completed steps. Engine-specific

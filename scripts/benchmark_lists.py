@@ -18,9 +18,12 @@ SEED = 20261006
 
 def encode(c):
     def points(items): return ','.join(f'{x}:{y}' for x,y in items) or '-'
-    return '\t'.join([c['id'],points(c['points']),points(c['depots']),','.join(map(str,c['capacities'])),
+    fields=[c['id'],points(c['points']),points(c['depots']),','.join(map(str,c['capacities'])),
                       ';'.join(','.join(map(str,r)) or '-' for r in c['initial']),
-                      ''.join('1' if p else '0' for p in c['pins']),','.join(map(str,c['prefixes']))])
+                      ''.join('1' if p else '0' for p in c['pins']),','.join(map(str,c['prefixes']))]
+    if 'ranges' in c:
+        fields.append(';'.join('*' if r is None else ','.join(map(str,r)) or '-' for r in c['ranges']))
+    return '\t'.join(fields)
 
 
 def score(c, lists):
@@ -32,6 +35,11 @@ def score(c, lists):
     return hard,-distance
 
 
+def accepts(c, entity, value):
+    ranges=c.get('ranges')
+    return ranges is None or ranges[entity] is None or value in ranges[entity]
+
+
 def optimum(c):
     """Independent exhaustive owner selection and route permutations, pins retained."""
     frozen = [row[:] if pin else row[:prefix] for row,pin,prefix in zip(c['initial'],c['pins'],c['prefixes'])]
@@ -40,6 +48,7 @@ def optimum(c):
     destinations = [e for e,pin in enumerate(c['pins']) if not pin]
     best = None
     for owners in product(destinations, repeat=len(movable)):
+        if any(not accepts(c,e,v) for v,e in zip(movable,owners)): continue
         groups = [[v for v,owner in zip(movable,owners) if owner==e] for e in range(len(frozen))]
         for ordered in product(*(permutations(g) for g in groups)):
             result=score(c,[prefix+list(tail) for prefix,tail in zip(frozen,ordered)])
@@ -56,6 +65,8 @@ def parse_result(c, line, mode, optimal=None):
     lists=[[] if r=='-' else list(map(int,r.split(','))) for r in fields[4].split(';')]
     if len(lists)!=len(c['depots']): raise ValueError('Entity count mismatch')
     if sorted(v for row in lists for v in row)!=list(range(len(c['points']))): raise ValueError('Missing, duplicate or unknown value')
+    for e,row in enumerate(lists):
+        if any(not accepts(c,e,v) for v in row): raise ValueError('Value outside entity range')
     for before,after,pin,prefix in zip(c['initial'],lists,c['pins'],c['prefixes']):
         if (pin and before!=after) or before[:prefix]!=after[:prefix]: raise ValueError('Pin changed')
         if mode=='construct':
@@ -94,6 +105,24 @@ def generate():
     return cases
 
 
+def generate_extended():
+    """32 inputs per phase with disjoint/overlapping ranges, empty ranges and pins."""
+    rng=random.Random(SEED+1)
+    cases=generate()
+    for mode,items in cases.items():
+        for c in items:
+            c['id']=c['id'].replace('list-', 'list-range-',1)
+            ranges=[set(row) for row in c['initial']]
+            for v in range(len(c['points'])):
+                for e in range(len(ranges)):
+                    if rng.random()<0.35:ranges[e].add(v)
+                if not any(v in row for row in c['initial']):
+                    candidates=[e for e,pin in enumerate(c['pins']) if not pin]
+                    ranges[rng.choice(candidates)].add(v)
+            c['ranges']=[sorted(r) for r in ranges]
+    return cases
+
+
 def workload(n,mode):
     rng=random.Random(SEED+n)
     c={'id':f'{mode}-{n}', 'points':[(rng.randrange(101),rng.randrange(101)) for _ in range(n)],
@@ -124,7 +153,9 @@ def main():
         return [[parse_result(c,line,mode,None if optima is None else optima[c['id']])
                  for line in rows[i*samples:(i+1)*samples]] for i,c in enumerate(cases)]
     checks=[]
-    for mode,cases in generate().items():
+    cases_by_mode=generate()
+    for mode,items in generate_extended().items():cases_by_mode[mode].extend(items)
+    for mode,cases in cases_by_mode.items():
         optima={c['id']:optimum(c) for c in cases}
         runs={runtime:run(runtime,mode,cases,0,1,optima) for runtime in bases}
         for i,c in enumerate(cases):
@@ -150,12 +181,12 @@ def main():
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}',flush=True)
     if digest!=source_digest(): raise RuntimeError('Sources changed during measurement')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,
-            'config':{**vars(args),'seed':SEED,'iterations':1},'workloads':results,
+            'config':{**vars(args),'seed':SEED,'range_seed':SEED+1,'iterations':1},'workloads':results,
             'validation':{'total':len(checks),'passed':len(checks),'equal_scores':sum(c['equal_scores'] for c in checks),
                           'optimal':{r:sum(c[r]['score']==c['optimal_score'] for c in checks) for r in bases},'cases':checks},
             'environment':{'cpu':next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown'),
                            'platform':platform.platform(),'rust':version(['rustc','--version']),'java':version(['java','-version'])},
-            'methodology':'Required ordered lists with Manhattan round-trip distance and per-route capacity penalties. Construction inserts missing values using best insertion with no early pick; engine-specific tie handling is retained. Hill climbing uses complete identical inputs, relocation moves, best accepted/first tie, best-rejected fallback, and the same step cap. Deterministic native original orders may differ (Rust entity/position order; Java configured ORIGINAL); scores, callback work and optima agreement are reported, not identical traces. Full scoring in both engines: Java EasyScoreCalculator, one global Rust constraint. Timed: per-solve setup, solving and assignment/score/shadow validation. Excluded: input parsing, model/network/factory creation, process startup and output encoding. Warmups and alternating runtime order across fresh processes. Every measured output is independently checked for ownership, completeness, pins, score and (hill) non-regression; construction retains existing route values in relative order. Small original cases have independently enumerated optima. Larger workload optima are unknown. Rust list transactions clone state and derive shadows by linear lookup; Java uses managed shadows. No general solver, incremental-scoring, memory, optional-list or mixed-model performance claim.'}
+            'methodology':'Required ordered lists with Manhattan round-trip distance and per-route capacity penalties. Construction inserts missing values using best insertion with no early pick; engine-specific tie handling is retained. Hill climbing uses complete identical inputs, relocation moves, best accepted/first tie, best-rejected fallback, and the same step cap. Deterministic native original orders may differ (Rust entity/position order; Java configured ORIGINAL); scores, callback work and optima agreement are reported, not identical traces. Full scoring in both engines: Java EasyScoreCalculator, one global Rust constraint. Timed: per-solve setup, solving and assignment/score/shadow validation. Excluded: input parsing, model/network/factory creation, process startup and output encoding. Warmups and alternating runtime order across fresh processes. Every measured output is independently checked for ownership, completeness, pins, score and (hill) non-regression; construction retains existing route values in relative order. Small original cases, including per-entity ranges, have independently enumerated optima. Legacy seven-field inputs use the full global registry as every entity range; eight-field inputs add explicit subsets. Larger timing workloads retain unrestricted ranges. Larger workload optima are unknown. Rust list transactions clone state and derive shadows by linear lookup; Java uses managed shadows. No general solver, incremental-scoring, memory, optional-list or mixed-model performance claim.'}
     (ROOT/'work/list-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':main()

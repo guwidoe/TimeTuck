@@ -26,8 +26,8 @@ fn points(text: &str) -> Result<Vec<(i64, i64)>, Box<dyn Error>> {
 impl Case {
     pub fn parse(line: &str) -> Result<Self, Box<dyn Error>> {
         let f: Vec<_> = line.split('\t').collect();
-        if f.len() != 7 || f[0].is_empty() {
-            return Err("expected seven fields".into());
+        if (f.len() != 7 && f.len() != 8) || f[0].is_empty() {
+            return Err("expected seven or eight fields".into());
         }
         let depots = points(f[2])?;
         let points = points(f[1])?;
@@ -64,13 +64,35 @@ impl Case {
         {
             return Err("invalid shape or pins".into());
         }
+        let ranges: Vec<Option<Vec<usize>>> = if f.len() == 8 {
+            f[7].split(';')
+                .map(|s| match s {
+                    "*" => Ok(None),
+                    "-" => Ok(Some(vec![])),
+                    _ => s
+                        .split(',')
+                        .map(str::parse)
+                        .collect::<Result<Vec<_>, _>>()
+                        .map(Some),
+                })
+                .collect::<Result<_, _>>()?
+        } else {
+            vec![None; m]
+        };
+        if ranges.len() != m {
+            return Err("range count mismatch".into());
+        }
         let entities = lists
             .into_iter()
             .enumerate()
             .map(|(e, list)| {
-                ListEntity::new(list)
+                let entity = ListEntity::new(list)
                     .with_pinned(f[5].as_bytes()[e] == b'1')
-                    .with_pinned_prefix(prefixes[e])
+                    .with_pinned_prefix(prefixes[e]);
+                match &ranges[e] {
+                    Some(range) => entity.with_value_range(range.clone()),
+                    None => entity,
+                }
             })
             .collect();
         let problem = ListProblem::new((0..points.len()).collect(), entities)?;

@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 142 fully adapted source test methods (74 score + 10 basic move + 22 list move + 21 provider + 11 acceptor + 4 construction), recorded in
+- 148 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 126 original integration regression methods, two original unit tests, and three public API documentation tests.
+- 136 original integration regression methods, two original unit tests, and three public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -53,7 +53,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 142 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 148 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -66,8 +66,9 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Extend list-solving evidence to optional lists, per-entity ranges and mixed
-   models. Required-list construction/hill-climbing now have 64 Java/Rust checks
+2. Extend list-solving evidence to optional lists and mixed models. Entity-specific
+   ranges now apply across moves, construction, exact and local search. Required-list
+   construction/hill-climbing now have 128 Java/Rust checks
    and four full-scoring routing benchmarks; exact optima are independently
    enumerated for small cases. Native greedy list construction, lazy neighborhoods
    and bounded heuristic search now exist.
@@ -95,10 +96,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (268 Rust integration methods,
-two unit tests, three doctests, 28 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (284 Rust integration methods,
+two unit tests, three doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the list-comparison increment. Desktop 1440px and mobile 390px browser QA passed,
+after the list-range increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
 cases. The benchmark
@@ -268,3 +269,21 @@ or horizontal overflow. Mobile timing labels and headings stack to avoid
 collisions. HTML asset URLs include content-version queries after a cached CSS
 reload was observed. Keep these queries current when editing dashboard assets.
 All seven saved evidence sections were refreshed against the measured sources.
+
+
+Entity-range milestone supersedes earlier pending-range notes: native
+`ListEntity::with_value_range` accepts immutable subsets of the global registry;
+omission means all values, an empty subset accepts none. All list operations,
+neighborhoods and solvers enforce membership. Final composite range validation
+matches pin semantics. Required orphan values or only-pinned destinations return
+no-completion before callbacks; optional orphans can remain unassigned. Read
+docs/list-planning-contract.md. Six provider methods and four fixture records
+added with provenance; upstream coverage is 148/4855. Eight native regressions,
+two protocol regressions and three Python evidence regressions added.
+
+The list-solving adapter now accepts an optional eighth field for entity ranges.
+Java uses public entity-level ValueRangeProvider annotations, with the full global
+registry supplied per entity for legacy inputs. Small evidence expands to 128
+valid/equal-score cases, with 109 optima in each engine. Larger timing workloads
+still use unrestricted ranges. All seven measurements refreshed. Logs:
+work/list-ranges-check.log, work/list-ranges-release.log, work/list-ranges-evidence.log.

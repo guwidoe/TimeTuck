@@ -164,3 +164,69 @@ fn unassign_no_assigned_values() {
     let a = p.initial_assignment();
     assert!(list_unassign_moves(&p, &a).unwrap().next().is_none());
 }
+
+// Entity-provided fixture: e1 accepts v1/v2, e2 accepts v1/v3; v1 is in e2.
+fn ranged_problem(optional: bool) -> ListProblem<i32> {
+    let p = ListProblem::new(
+        vec![0, 1, 2],
+        vec![
+            ListEntity::new(vec![]).with_value_range(vec![0, 1]),
+            ListEntity::new(vec![0]).with_value_range(vec![0, 2]),
+        ],
+    )
+    .unwrap();
+    if optional { p.allowing_unassigned() } else { p }
+}
+#[test]
+fn assign_from_entity() {
+    let p = ranged_problem(true);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_assign_moves(&p, &a).unwrap().collect();
+    for m in [assign(1, 0, 0), assign(2, 1, 0), assign(2, 1, 1)] {
+        assert!(moves.contains(&m));
+    }
+    for m in [assign(1, 1, 0), assign(2, 0, 0)] {
+        assert!(!moves.contains(&m));
+    }
+}
+#[test]
+fn change_from_entity() {
+    let p = ranged_problem(false);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_change_moves(&p, &a).unwrap().collect();
+    assert!(moves.contains(&change(1, 0, 0, 0)));
+    for m in [change(1, 0, 1, 0), change(1, 0, 1, 1)] {
+        assert!(!moves.contains(&m));
+    }
+}
+#[test]
+fn change_from_entity_allows_unassigned() {
+    let p = ranged_problem(true);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_change_moves(&p, &a).unwrap().collect();
+    assert!(moves.contains(&change(1, 0, 0, 0)));
+    for m in [change(1, 0, 1, 0), change(1, 0, 1, 1)] {
+        assert!(!moves.contains(&m));
+    }
+}
+#[test]
+fn swap_from_entity() {
+    let p = ranged_problem(false);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_swap_moves(&p, &a).unwrap().collect();
+    assert!(!moves.contains(&swap(1, 0, 1, 0)));
+}
+#[test]
+fn swap_crossing_null_produces_composite_when_value_in_range() {
+    let p = ranged_problem(true);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_swap_moves(&p, &a).unwrap().collect();
+    assert!(moves.contains(&ListMove::Composite(vec![unassign(1, 0), assign(2, 1, 0)])));
+}
+#[test]
+fn swap_crossing_null_skips_when_value_out_of_range() {
+    let p = ranged_problem(true);
+    let a = p.initial_assignment();
+    let moves: Vec<_> = list_swap_moves(&p, &a).unwrap().collect();
+    assert!(!moves.contains(&ListMove::Composite(vec![unassign(1, 0), assign(1, 1, 0)])));
+}

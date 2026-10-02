@@ -1,7 +1,7 @@
 """Original regression tests for truthful list-solving evidence."""
 from copy import deepcopy
 import unittest
-from benchmark_lists import encode, generate, optimum, parse_result, score
+from benchmark_lists import encode, generate, generate_extended, optimum, parse_result, score
 
 class ListSolverEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -43,5 +43,31 @@ class ListSolverEvidenceTests(unittest.TestCase):
                 self.assertEqual(len(c['initial']),len(c['depots']))
                 self.assertIsNotNone(optimum(c))
                 if mode=='hill':self.assertGreaterEqual(optimum(c),score(c,c['initial']))
+
+
+    def test_range_constraints_affect_optimum_and_reject_illegal_results(self):
+        c=deepcopy(self.case);c['initial']=[[1],[0]];c['ranges']=[[1],[0]]
+        self.assertEqual(optimum(c),(0,-36))
+        with self.assertRaisesRegex(ValueError,'entity range'):parse_result(c,self.good,'hill')
+        c['ranges']=[None,[]];c['initial']=[[],[]]
+        self.assertTrue(encode(c).endswith('\t*;-'))
+        self.assertEqual(optimum(c),(-1,-18))
+        c['ranges']=[[],[]]
+        with self.assertRaisesRegex(ValueError,'No complete'):optimum(c)
+    def test_extended_generation_is_reproducible_and_retains_initial_membership(self):
+        cases=generate_extended();self.assertEqual(cases,generate_extended())
+        self.assertEqual(sum(map(len,cases.values())),64)
+        original_ids={c['id'] for rows in generate().values() for c in rows}
+        for mode,rows in cases.items():
+            for c in rows:
+                self.assertNotIn(c['id'],original_ids)
+                for e,row in enumerate(c['initial']):self.assertTrue(set(row)<=set(c['ranges'][e]))
+                self.assertIsNotNone(optimum(c))
+                if mode=='hill':self.assertGreaterEqual(optimum(c),score(c,c['initial']))
+    def test_construction_range_rejection_is_independent_of_completeness_and_score(self):
+        c=deepcopy(self.case);c['initial']=[[],[]];c['ranges']=[[1],[0]]
+        with self.assertRaisesRegex(ValueError,'entity range'):parse_result(c,self.good,'construct')
+        r=parse_result(c,'case\t10\t0\t-36\t1;0\t3','construct',(0,-36))
+        self.assertEqual(r['lists'],[[1],[0]])
 
 if __name__=='__main__':unittest.main()

@@ -1,7 +1,7 @@
 # Native ordered-list planning
 
-`ListProblem<V>` models a single solution-wide finite value range distributed
-among entity lists. Order is significant. `Eq` defines value identity; use stable
+`ListProblem<V>` models a finite global value registry distributed among entity
+lists, with optional immutable per-entity range restrictions. Order is significant. `Eq` defines value identity; use stable
 IDs. The range has no duplicates, and each assigned value appears exactly once
 across all lists. Values outside the range are rejected. Partial states may leave
 required values unassigned. A complete state assigns all values unless the model
@@ -167,15 +167,17 @@ stable by entity, position and global value-range order. Individual moves may
 produce the same candidate state (for example opposite-direction swaps).
 No full neighborhood is materialized. Thirteen adapted upstream methods preserve
 all positive, negative and emptiness assertions for solution-wide ranges and
-full pins. Per-entity ranges, Java metadata and constructor assertions remain
-pending. Four fixture records separately attribute initial list states.
+full pins. Six further methods cover entity-provided ranges, including allowed
+assignment, shared-value relocation and optional replacements. Java metadata and
+constructor assertions remain pending. Fixture records separately attribute
+initial list states and range metadata.
 
 `greedy_list_construction` retains every initial value and pin, then inserts
 missing required values in range order. It scans legal entity/index positions
 against the same base state and keeps the first highest score. The four shared
 `ConstructionPickEarly` policies compare ordinary score levels, ignoring the
 required-unassigned structural count. Optional missing values stay unassigned.
-A model with missing required values and no mutable lists returns
+A model with a missing required value that no mutable list accepts returns
 `NoCompleteAssignment` without scoring. A zero budget otherwise returns the
 initial state without callbacks. Model/network validation still runs.
 
@@ -226,9 +228,11 @@ described below.
 
 `benchmark_lists.py` uses the original public-API `ListSolverBenchmark.java` and
 native `list_solver_benchmark` adapters for construction and hill climbing.
-The shared seven-field protocol records case ID, customer x:y coordinates, depot
+The legacy seven-field protocol records case ID, customer x:y coordinates, depot
 coordinates, route capacities, initial value-ID lists, full-pin bits and prefix
-lengths. Empty customer ranges or lists use `-`. All values are required.
+lengths. An optional eighth field records each entity range: `*` inherits the
+global registry, `-` is empty, otherwise comma-separated value IDs; entities are
+separated by semicolons. Empty customer ranges or lists use `-`. All values are required.
 Coordinates are bounded to ±1,000,000, at most 1,000 values and 100 nonempty-model
 entity slots; capacities are nonnegative Java-int-sized values. Rust remains
 independent of Java; these bounds belong to the development protocol only.
@@ -239,9 +243,49 @@ order. Local search starts complete, retains at least its initial quality, and
 uses a matched completed-step budget. Rust's evaluation limit is an upper bound
 on all candidate scans, not an earlier cutoff. Java uses only public annotations
 and configuration, with NO_ASSERT and a fixed seed. Full pins, pinned prefixes,
-empty ranges, capacity violations and Manhattan distances are checked by 64
-original generated cases with independent Python enumeration of the global
+empty ranges, capacity violations and Manhattan distances are checked by 128
+original generated cases (64 unrestricted and 64 with per-entity ranges) with independent Python enumeration of the global
 pin-constrained optimum. Equality and optimum attainment are observations, not
 criteria weakened into validity claims. See docs/dashboard.md for measurement
 conditions and scope. Matching Java traces, custom shadows, optional-list solving
 and mixed-model solver comparisons remain pending.
+
+
+## Entity-specific value ranges
+
+`ListEntity::with_value_range` restricts an entity to a duplicate-free subset of
+the global registry. `value_range()` exposes the optional restriction: omitted
+means all registered values; an explicit empty range accepts nothing. Unknown or
+duplicate range values and initial assignments outside an entity range are model
+errors. Range ordering is metadata only; the global registry continues to define
+construction and unassigned-value enumeration order. Values can belong to several
+entity ranges, but assignment ownership remains unique. Values belonging to no
+entity are permitted in partial models and may remain unassigned in optional
+models. These native construction choices do not assert Java metadata parity.
+
+Model validation enforces membership for every assigned value. Transactions
+validate entity ranges on the final composite state, as with pins; a temporary
+range violation restored before the composite ends is allowed. Invalid final
+assign/relocate/swap states roll back atomically before score callbacks. Lazy
+assignment and relocation only choose accepting destinations. Swaps check both
+receiving entities; optional replacement checks the receiving list. Exact search
+filters destinations for each value without changing the enumeration's ordering
+or uniqueness. Prefix/full pin semantics are unchanged.
+
+With unlimited list lengths, each missing required value can be appended
+independently if any unpinned entity accepts it. Construction and exact enumeration
+use this fact to detect impossible completion before callbacks, including at a
+zero evaluation budget. They report `NoCompleteAssignment` and empty `Exhausted`,
+respectively. This checks model completeness, not hard-score feasibility; capacity
+penalties are still ordinary constraints. Optional orphan values generate no
+assign/replacement candidates, but do not prevent a complete solution.
+
+Eight original regressions check metadata, rollback, range/pin interactions,
+non-dense identities and budgets. Exact search is compared to independent
+owner/permutation enumeration for all 64 pairs of three-value/two-entity range
+subsets in both required and optional models. Optional neighborhoods are also
+compared with independently range-filtered unrestricted moves at every valid
+state. Two protocol and three Python evidence regressions verify range-aware
+validation and independent optima. The Java comparison adds 64 original required
+list-solving cases with per-entity ranges, separately from the six adapted
+upstream methods. The measured larger routing workloads remain unrestricted.

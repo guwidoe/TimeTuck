@@ -28,8 +28,8 @@ not this Rust implementation. Its cases must be classified and adapted.
 Twenty-two list-move methods additionally preserve ordered assignment, relocation,
 swap and span-unassignment states and undo. Native derived owner/index/neighbor
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
-Thirteen list-provider methods additionally preserve move membership and
-exclusion assertions. Native greedy list construction and bounded local search
+Nineteen list-provider methods additionally preserve move membership and
+exclusion assertions, including per-entity ranges. Native greedy list construction and bounded local search
 are verified separately with original regressions. Java move metadata, rebase,
 custom listeners, optional-list and mixed-model solver comparisons remain pending.
 Original generated list-move and required-list-solving comparisons are separate

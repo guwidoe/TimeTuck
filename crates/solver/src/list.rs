@@ -11,6 +11,7 @@ pub struct ListEntity<V> {
     initial: Vec<V>,
     pinned_prefix: usize,
     pinned: bool,
+    value_range: Option<Vec<V>>,
 }
 impl<V> ListEntity<V> {
     pub fn new(initial: Vec<V>) -> Self {
@@ -18,6 +19,7 @@ impl<V> ListEntity<V> {
             initial,
             pinned_prefix: 0,
             pinned: false,
+            value_range: None,
         }
     }
     /// Preserve the first `length` values in order; appending remains possible.
@@ -29,6 +31,16 @@ impl<V> ListEntity<V> {
     pub fn with_pinned(mut self, pinned: bool) -> Self {
         self.pinned = pinned;
         self
+    }
+    /// Restrict this list to these values from the model registry. An empty range
+    /// accepts no values; omission accepts every registered value. Range order does
+    /// not change search order. The model constructor validates this metadata.
+    pub fn with_value_range(mut self, values: Vec<V>) -> Self {
+        self.value_range = Some(values);
+        self
+    }
+    pub fn value_range(&self) -> Option<&[V]> {
+        self.value_range.as_deref()
     }
     pub fn initial(&self) -> &[V] {
         &self.initial
@@ -95,6 +107,15 @@ impl<V: Eq> ListAssignment<V> {
 pub enum ListError {
     DuplicateDomainValue,
     DuplicateAssignedValue,
+    DuplicateEntityRangeValue {
+        entity: usize,
+    },
+    EntityRangeValueOutsideDomain {
+        entity: usize,
+    },
+    ValueOutsideEntityRange {
+        entity: usize,
+    },
     ValueOutsideDomain,
     ListCount {
         expected: usize,
@@ -126,7 +147,8 @@ impl fmt::Display for ListError {
 }
 impl Error for ListError {}
 
-/// A single solution-wide value range. Assigned values appear exactly once.
+/// A global value registry, with optional per-entity range restrictions. Assigned
+/// values appear exactly once.
 /// Missing required values are permitted in partial states; completeness is
 /// checked separately. Optionality applies to the entire list variable.
 #[derive(Clone, Debug)]
@@ -143,6 +165,16 @@ impl<V: Eq + Clone> ListProblem<V> {
             }
         }
         for (entity, meta) in entities.iter().enumerate() {
+            if let Some(range) = &meta.value_range {
+                for (i, value) in range.iter().enumerate() {
+                    if !values.contains(value) {
+                        return Err(ListError::EntityRangeValueOutsideDomain { entity });
+                    }
+                    if range[..i].contains(value) {
+                        return Err(ListError::DuplicateEntityRangeValue { entity });
+                    }
+                }
+            }
             if meta.pinned_prefix > meta.initial.len() || (meta.pinned && meta.pinned_prefix != 0) {
                 return Err(ListError::InvalidPin { entity });
             }
@@ -190,6 +222,9 @@ impl<V: Eq + Clone> ListProblem<V> {
                 if !self.values.contains(value) {
                     return Err(ListError::ValueOutsideDomain);
                 }
+                if !self.accepts(entity, value) {
+                    return Err(ListError::ValueOutsideEntityRange { entity });
+                }
                 if seen.contains(&value) {
                     return Err(ListError::DuplicateAssignedValue);
                 }
@@ -198,13 +233,33 @@ impl<V: Eq + Clone> ListProblem<V> {
         }
         Ok(())
     }
+    // Callers already validate entity indices and global value membership.
+    pub(crate) fn accepts(&self, entity: usize, value: &V) -> bool {
+        self.entities[entity]
+            .value_range
+            .as_ref()
+            .is_none_or(|range| range.contains(value))
+    }
+    // Valid partial states have no list-length restrictions. Every missing value
+    // can be appended independently if any unpinned entity accepts it.
+    pub(crate) fn can_complete(&self, assignment: &ListAssignment<V>) -> bool {
+        self.allows_unassigned
+            || self.values.iter().all(|value| {
+                assignment.location(value).is_some()
+                    || self
+                        .entities
+                        .iter()
+                        .enumerate()
+                        .any(|(e, meta)| !meta.pinned && self.accepts(e, value))
+            })
+    }
     pub fn is_complete(&self, assignment: &ListAssignment<V>) -> bool {
         self.validate(assignment).is_ok()
             && (self.allows_unassigned
                 || assignment.lists.iter().map(Vec::len).sum::<usize>() == self.values.len())
     }
     /// Full-state snapshots provide a correctness baseline, not incremental list
-    /// scoring. Composite operations use current indices and validate pins once
+    /// scoring. Composite operations use current indices and validate pins/ranges once
     /// at the final state. Errors and ordinary panic unwinding restore all lists.
     pub fn apply<'a>(
         &self,
