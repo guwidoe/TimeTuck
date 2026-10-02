@@ -6,8 +6,8 @@ IDs. The range has no duplicates, and each assigned value appears exactly once
 across all lists. Values outside the range are rejected. Partial states may leave
 required values unassigned. A complete state assigns all values unless the model
 opts into `allowing_unassigned()`; optionality applies to the whole list variable.
-The basic-variable model remains available separately; mixed basic/list solving
-has not been implemented.
+MixedProblem combines this with basic variables for atomic edits and exact joint
+search; see `mixed-planning-contract.md`.
 
 `ListEntity` supplies initial values and immutable pin metadata. A pinned prefix
 preserves its values and positions but allows appending, even when the prefix
@@ -301,6 +301,6 @@ collectors and weighted terminals can score these rows through list moves,
 construction and local search. The same private list algorithms serve both scoped
 and stream scoring, with saved winners installed without callback replay.
 See docs/constraint-stream-contract.md for propagation, rollback, diagnostics,
-callback accounting and regression scope. Custom shadows and mixed models remain
-pending. Existing list-move comparisons now read the cached native stream shadows;
+callback accounting and regression scope. Custom shadows and mixed stream scoring
+remain pending. Existing list-move comparisons now read the cached native stream shadows;
 list-solving timing workloads continue to use their full-scoring adapters.

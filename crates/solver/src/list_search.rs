@@ -91,6 +91,24 @@ where
         evaluations: 0,
         termination: Termination::Exhausted,
     };
+    let exhausted = visit_list_assignments(problem, |working| {
+        if result.evaluations == max_evaluations {
+            return false;
+        }
+        record(&mut result, working, evaluate(working));
+        true
+    });
+    if !exhausted {
+        result.termination = Termination::EvaluationLimit;
+    }
+    result
+}
+
+// As for basic enumeration, false stops immediately without further callbacks.
+pub(crate) fn visit_list_assignments<V: Eq + Clone>(
+    problem: &ListProblem<V>,
+    mut visit: impl FnMut(&ListAssignment<V>) -> bool,
+) -> bool {
     let mut working = ListAssignment::new(
         problem
             .entities()
@@ -105,7 +123,7 @@ where
             .collect(),
     );
     if !problem.can_complete(&working) {
-        return result;
+        return true;
     }
     let remaining: Vec<_> = problem
         .values()
@@ -114,12 +132,7 @@ where
         .cloned()
         .collect();
     if remaining.is_empty() {
-        if max_evaluations == 0 {
-            result.termination = Termination::EvaluationLimit;
-        } else {
-            record(&mut result, &working, evaluate(&working));
-        }
-        return result;
+        return visit(&working);
     }
     let mut stack = vec![choices(problem, &working, &remaining[0])];
     while !stack.is_empty() {
@@ -138,14 +151,12 @@ where
             frame.applied = Some(position);
         }
         if depth + 1 == remaining.len() {
-            if result.evaluations == max_evaluations {
-                result.termination = Termination::EvaluationLimit;
-                return result;
+            if !visit(&working) {
+                return false;
             }
-            record(&mut result, &working, evaluate(&working));
         } else {
             stack.push(choices(problem, &working, &remaining[depth + 1]));
         }
     }
-    result
+    true
 }

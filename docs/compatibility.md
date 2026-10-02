@@ -138,6 +138,13 @@ with scale-sensitive Eq; numeric_cmp omits that tie-break. No general BigDecimal
 API or arbitrary-precision score-family compatibility is claimed. See the stream
 contract for mixed-scale rebuild limitations.
 
+Native mixed basic/list planning now supports atomic component edits and exact
+optimization of one coupled objective over the full product space. Eight original
+regressions and a joint depot/route example provide native evidence only; no new
+upstream method credit, mixed Java solver comparison, or mixed timing claim follows.
+Java phase-trace tests, mixed heuristics and incremental mixed scoring remain
+pending. See `docs/mixed-planning-contract.md`.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

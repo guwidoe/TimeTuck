@@ -62,6 +62,11 @@ pub use list::{
 pub mod list_search;
 pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};
 
+pub mod mixed;
+pub use mixed::{AppliedMixedMove, MixedAssignment, MixedError, MixedMove, MixedProblem};
+pub mod mixed_search;
+pub use mixed_search::{MixedSearchResult, ScoredMixedAssignment, exhaustive_mixed_search};
+
 pub mod list_scoring;
 pub use list_scoring::{
     ListConstraintNetwork, ListFact, ListScope, ListScoreDirector, ListScoringError, ScoredListMove,

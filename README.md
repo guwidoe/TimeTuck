@@ -4,14 +4,15 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scores, basic/list moves, exact basic/list search, incremental basic/list scoring, construction and local search.**
+**Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list scoring, construction and local search.**
 The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 308 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
 with Java and independent enumeration, including per-variable ranges and optional
 values. Ordered lists support unique ownership, per-entity ranges, prefix/full pins and derived
-owner/index/neighbor views. Scoped list/entity and element contributions support
+owner/index/neighbor views. Mixed models combine both variable kinds with atomic edits
+and exact joint optimization; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 256 original list-move cases check candidate,
 undo and commit states against Java and an independent reference. An additional
 128 original list-solving cases validate construction/local search and compare
@@ -48,6 +49,7 @@ reference submodule is initialized. See `docs/score-contract.md` and
 
 Run the exact scheduling example with `cargo run --example tiny_schedule`, or
 the exact route example with `cargo run --example tiny_routes`, or
+the joint depot/route example with `cargo run --example mixed_routes`, or
 the larger incremental examples with `cargo run --release --example graph_coloring`
 and `cargo run --release --example list_routes`.
 For graph-based scoring in both phases, run `cargo run --release --example stream_coloring`.

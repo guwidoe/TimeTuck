@@ -61,8 +61,34 @@ where
         evaluations: 0,
         termination: Termination::Exhausted,
     };
+    let exhausted = visit_assignments(problem, |working| {
+        if result.evaluations == max_evaluations {
+            return false;
+        }
+        let score = evaluate(working);
+        result.evaluations += 1;
+        if score.structural() >= 0 && result.best.as_ref().is_none_or(|best| score > best.score) {
+            result.best = Some(ScoredAssignment {
+                assignment: working.clone(),
+                score,
+            });
+        }
+        true
+    });
+    if !exhausted {
+        result.termination = Termination::EvaluationLimit;
+    }
+    result
+}
+
+// Return true only when every assignment was visited. Returning false from the
+// visitor stops enumeration immediately, including when nested in mixed search.
+pub(crate) fn visit_assignments<V: Eq + Clone>(
+    problem: &FiniteProblem<V>,
+    mut visit: impl FnMut(&Assignment<V>) -> bool,
+) -> bool {
     if problem.search_space_size() == Some(0) {
-        return result;
+        return true;
     }
     let variables = problem.variables();
     let mut working = problem.initial_assignment();
@@ -76,17 +102,8 @@ where
         working.values[index] = variables[index].domain().first().cloned();
     }
     loop {
-        if result.evaluations == max_evaluations {
-            result.termination = Termination::EvaluationLimit;
-            return result;
-        }
-        let score = evaluate(&working);
-        result.evaluations += 1;
-        if score.structural() >= 0 && result.best.as_ref().is_none_or(|best| score > best.score) {
-            result.best = Some(ScoredAssignment {
-                assignment: working.clone(),
-                score,
-            });
+        if !visit(&working) {
+            return false;
         }
         let mut advanced = false;
         for &index in movable.iter().rev() {
@@ -106,7 +123,7 @@ where
             working.values[index] = variable.domain().first().cloned();
         }
         if !advanced {
-            return result;
+            return true;
         }
     }
 }

@@ -18,6 +18,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   change/swap/composite transactions. Read `docs/planning-contract.md`.
 - Iterative exact search with explicit evaluation budgets and truthful
   exhaustion/optimality reporting. Original `tiny_schedule` example.
+- Mixed basic/list models, atomic combined moves and exact joint search over the full
+  product space. Read `docs/mixed-planning-contract.md`. `mixed_routes` proves
+  `0hard/-4soft` over 96 states. Mixed Java comparisons and heuristics remain pending.
 - Native ordered-list model with unique ownership, optional unassignment, prefix/full
   pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
   unassign/composite transactions, plus iterative bounded exact list enumeration.
@@ -33,7 +36,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 241 original integration regression methods, seven original unit tests, and seventeen public API documentation tests.
+- 249 original integration regression methods, seven original unit tests, and eighteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -73,7 +76,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (mixed basic/list solving and further constraint operators) and applicable upstream cases.
+0. Expand persistent operators (mixed incremental scoring/search and further constraint operators) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -99,7 +102,7 @@ initialization-score assumptions. No production implementation has been ported.
    enumerated for small cases. Native greedy list construction, lazy neighborhoods
    and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
-   shadows, cascading/declarative listeners and mixed basic/list solving remain pending. Optional basic variables and per-variable ranges have 64 additional
+   shadows, cascading/declarative listeners and mixed heuristic/incremental solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
@@ -771,3 +774,49 @@ These workloads do not exercise arbitrary-precision collectors. Logs:
 work/big-number-{check,release,adapted,regression,build}.log,
 big-number-stream-{evidence,performance}.log, big-number-list-refresh.log,
 big-number-core-refresh.log and big-number-heuristic-performance.log.
+
+
+Mixed-model increment: MixedProblem<B,L> composes validated basic/list domains;
+MixedAssignment exposes both read-only. MixedMove contains one (possibly composite)
+move per component. Candidate preparation is isolated; AppliedMixedMove commits or
+rolls back both components. Domain/pin validation occurs at component boundaries;
+list operations retain their per-operation uniqueness/index rules. Snapshotting
+is a baseline, not incremental mixed scoring. Read docs/mixed-planning-contract.md.
+
+exhaustive_mixed_search enumerates the complete product space with one objective
+and one evaluation budget. Private visitors extracted from both existing exact
+engines preserve their original order and budget behavior. Lists vary outside,
+basic assignments inside; ties retain the first candidate. Impossible components
+short-circuit without enumerating the other space. Required/optional domains,
+pins, empty spaces, exact final budget exhaustion and structural score rejection
+retain their component semantics. Mixed heuristics and incremental/stream scoring
+remain pending, as do public-API Java mixed solver comparisons and mixed timings.
+
+Eight original integration regressions independently verify 128 complete product
+spaces through subset/permutation/split enumeration, atomic errors/undo/commit/panic,
+composite pin/range restoration, coupled objectives and all small budget boundaries.
+The original mixed_routes example jointly chooses two depots and ordered routes,
+proving 0hard/-4soft over 96 states with a separate distance lower bound. No copied
+fixtures or adapted methods were added. Inspected upstream mixed exhaustive tests
+also require Java phase/step/trace assertions, so they remain pending. Coverage
+stays 308/4,855 overall and 160/1,045 streams.
+
+Debug/release all-target gates pass with 564 Rust tests (308 adapted + 249 original
+integration + seven unit), eighteen doctests and 48 Python regressions. The release
+mixed_routes example passes. Logs: work/mixed-{check,release,example}.log.
+
+All nine existing Java comparison/timing sections are refreshed and current for
+this source. Live server PID 27800 was reused; live/report/source verification
+fingerprints agree. Browser checks at desktop 1280px and mobile 390px show
+308/4,855 (6.34%) overall and 160/1,045 (15.31%) streams, refreshed timings/quality,
+no stale-result messages, no browser errors and no horizontal overflow. Browser
+session closed; upstream submodule remains unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 51.578 / 13.802,
+hill96 214.335 / 29.353, tabu32 53.294 / 14.096, tabu96 208.172 / 32.162.
+Scores agree; both 96-variable cases remain infeasible at the 50-step cap. Existing
+list construction at 32 customers returns different scores (Rust 0hard/-1080soft,
+Java 0hard/-1062soft); the dashboard retains that quality difference beside timing.
+None of these timings measures mixed models. Evidence logs:
+work/mixed-stream-{evidence,performance}.log, mixed-list-refresh.log,
+mixed-core-refresh.log and mixed-heuristic-performance.log.
