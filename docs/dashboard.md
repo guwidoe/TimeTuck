@@ -157,3 +157,40 @@ separate evidence row and marks it stale when measured sources change.
 It uses one optional list variable; pins and exact list solver results are covered
 by native regressions, not this Java comparison. No list performance claim or
 additional upstream coverage credit. See `list-planning-contract.md`.
+
+## List-solving comparison
+
+`python3 scripts/benchmark_lists.py` adds required-list construction and hill
+climbing with identical routing inputs, Manhattan round-trip distance and capacity
+penalties. The 64 original small validation cases cover empty ranges, complete or
+partial initial lists, full pins and pinned prefixes. Python independently
+checks every output and enumerates complete owner/permutation assignments to
+record exact optima. Construction retains existing values in their original
+routes and relative order; hill climbing must not regress from the initial score.
+Validity, Java/Rust score agreement and optimum attainment are separate counts.
+These generated cases grant no additional upstream test-method coverage.
+
+Four measured workloads use 16 or 32 customers, four depots, capacity n/4 and
+seed 20261006. Construction evaluates insertions without early picking and runs
+to completion. Hill climbing starts from complete identical assignments, evaluates
+relocations, picks the best accepted candidate, accepts ties and permits a best
+rejected fallback. Its default limit is 20 completed steps. Engine-specific
+original move ordering and construction tie handling remain intact; equal scores
+or traces are not assumed. The UI marks differing final quality beside the ratio.
+Larger workload optima are unknown and are explicitly labeled as such.
+
+The default is three fresh processes per runtime, three warmup solves and five
+measured solves per process, with alternating runtime order. Both use full scoring:
+Java `EasyScoreCalculator` and a global Rust list constraint. Per-solve setup,
+search and assignment/score/shadow validation are timed; process startup, input
+parsing, one-time model/network/factory setup and output encoding are excluded.
+Java maintains shadow state; Rust derives shadow views and snapshots lists during
+transactions. Timings therefore include their different mechanisms and are not
+an incremental-scoring comparison. Every sample's score, assignment, callback
+count and elapsed time is saved, together with environment, source digest and
+pinned dependency hashes. Pin/ownership/score validation is independent in Python;
+each adapter also checks its returned owner/index/neighbor views.
+
+This is a required-list, full-scoring comparison on these inputs. It does not
+establish optional-list, mixed-variable, random-search, large-production-instance,
+memory-use or overall Timefold replacement performance.

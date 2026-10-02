@@ -13,7 +13,10 @@ with Java and independent enumeration, including per-variable ranges and optiona
 values. Ordered lists support unique ownership, prefix/full pins and derived
 owner/index/neighbor views. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 256 original list-move cases check candidate,
-undo and commit states against Java and an independent reference.
+undo and commit states against Java and an independent reference. An additional
+64 original list-solving cases validate construction/local search and compare
+quality with independently enumerated optima. Separate full-scoring routing
+benchmarks show Java/Rust timings together with final scores.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
@@ -65,13 +68,14 @@ python3 scripts/differential_solver.py
 python3 scripts/differential_lists.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
+python3 scripts/benchmark_lists.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
 
 Open [the local dashboard](http://localhost:8765). It shows pass counts and
 percentages by subsystem, individual test results, pending/excluded work, and
-separate heuristic, score-operation and small exact-search benchmarks versus Java.
+separate basic/list heuristic, score-operation and small exact-search benchmarks versus Java.
 Heuristic timings include final scores, feasibility and score-calculation counts. Results reload every 15 seconds.
 The oracle/benchmarks need JDK 21 and Maven Central access; ordinary Rust tests
 need neither. See [dashboard measurement notes](docs/dashboard.md).

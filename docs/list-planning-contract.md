@@ -77,8 +77,8 @@ have one empty assignment; required remaining values with no mutable entities
 have no complete assignments. Optional values can all remain unassigned.
 
 Runtime grows factorially. Enumeration stores the candidate and best assignment
-plus insertion choices for each active depth. There is no branch-and-bound or list benchmark yet. Bounded heuristic solving
-is described below.
+plus insertion choices for each active depth. There is no branch-and-bound. Bounded heuristic solving and its Java comparison
+are described below.
 Twelve original regressions check complete assignment sets against independent
 owner-selection and permutation enumeration, optima, budgets, ties, structural
 rejection, pins, derived shadows, move invariants, undo, atomic errors and panic
@@ -219,4 +219,29 @@ on a six-value routing instance. These are native correctness/quality checks,
 not a claim of Java list-solver parity. The `list_routes` example constructs and
 searches 40 customers across four vehicles with explicit budgets, independently
 checks identities, capacity and distance, and enforces a fixed quality threshold.
-It is not a timing benchmark. Matched Java list-solving/timing remains pending.
+It is not a timing benchmark. Separate matched Java list-solving evidence is
+described below.
+
+## Java list-solving evidence
+
+`benchmark_lists.py` uses the original public-API `ListSolverBenchmark.java` and
+native `list_solver_benchmark` adapters for construction and hill climbing.
+The shared seven-field protocol records case ID, customer x:y coordinates, depot
+coordinates, route capacities, initial value-ID lists, full-pin bits and prefix
+lengths. Empty customer ranges or lists use `-`. All values are required.
+Coordinates are bounded to ±1,000,000, at most 1,000 values and 100 nonempty-model
+entity slots; capacities are nonnegative Java-int-sized values. Rust remains
+independent of Java; these bounds belong to the development protocol only.
+
+Both adapters retain initial states. Construction must finish assigning required
+values while retaining preexisting values in their original routes and relative
+order. Local search starts complete, retains at least its initial quality, and
+uses a matched completed-step budget. Rust's evaluation limit is an upper bound
+on all candidate scans, not an earlier cutoff. Java uses only public annotations
+and configuration, with NO_ASSERT and a fixed seed. Full pins, pinned prefixes,
+empty ranges, capacity violations and Manhattan distances are checked by 64
+original generated cases with independent Python enumeration of the global
+pin-constrained optimum. Equality and optimum attainment are observations, not
+criteria weakened into validity claims. See docs/dashboard.md for measurement
+conditions and scope. Matching Java traces, custom shadows, optional-list solving
+and mixed-model solver comparisons remain pending.

@@ -12,8 +12,8 @@
             rel="icon"
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
-        <link rel="stylesheet" href="styles.css" />
-        <script src="app.js" defer></script>
+        <link rel="stylesheet" href="styles.css?v=3f8399582800" />
+        <script src="app.js?v=884b93411e23" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -181,6 +181,45 @@
                 </section>
                 <section
                     class="performance"
+                    aria-labelledby="list-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="list-performance-heading">
+                                List solving vs. the original
+                            </h2>
+                            <p>
+                                Routing construction and local search, with
+                                solution quality beside every timing.
+                            </p>
+                        </div>
+                        <span class="tag">Construction &amp; hill climbing</span>
+                    </div>
+                    <div id="list-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Compare times together with feasibility and score; differences near 1× may be noise.
+                    </p>
+                    <div id="list-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="list-benchmark-caption"></p>
+                        <p>
+                            Both engines recalculate the full score. Move order and tie
+                            handling can differ; compare final quality before time ratios.
+                            Optima are unknown for these larger routing workloads.
+                        </p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
                     aria-labelledby="solver-performance-heading"
                 >
                     <div class="section-heading">
@@ -288,12 +327,16 @@
                             ><code>python3 scripts/differential_solver.py</code
                             ><code>python3 scripts/differential_lists.py</code
                             ><code>python3 scripts/benchmark_solver.py</code
+                            ><code>python3 scripts/benchmark_lists.py</code
                             ><code>python3 scripts/benchmark_heuristics.py</code
                             ><code>python3 scripts/compat_report.py</code>
                         </div>
                         <h3>Heuristic benchmark conditions</h3>
                         <p id="heuristic-benchmark-method"></p>
                         <pre id="heuristic-environment"></pre>
+                        <h3>List-solving benchmark conditions</h3>
+                        <p id="list-benchmark-method"></p>
+                        <pre id="list-environment"></pre>
                         <h3>Exact-search benchmark conditions</h3>
                         <p id="solver-benchmark-method"></p>
                         <pre id="solver-environment"></pre>

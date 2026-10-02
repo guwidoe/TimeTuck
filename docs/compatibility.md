@@ -31,7 +31,10 @@ views and exact list enumeration are described in `docs/list-planning-contract.m
 Thirteen list-provider methods additionally preserve move membership and
 exclusion assertions. Native greedy list construction and bounded local search
 are verified separately with original regressions. Java move metadata, rebase,
-custom listeners and matched list-solver comparisons remain pending. Original generated list-move comparisons are separate from coverage.
+custom listeners, optional-list and mixed-model solver comparisons remain pending.
+Original generated list-move and required-list-solving comparisons are separate
+from coverage; the latter check complete valid solutions, final quality and
+independently enumerated small-case optima.
 
 The first three integer score families have 47 adapted tests; BendableScore adds
 27, using native compile-time dimensions in place of Java score definitions; basic change/swap

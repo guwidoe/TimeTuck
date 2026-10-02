@@ -108,6 +108,7 @@ function render() {
     renderBenchmarks();
     renderBenchmarks("solver");
     renderBenchmarks("heuristic");
+    renderBenchmarks("list");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -213,7 +214,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic";
+    const heuristic = kind === "heuristic" || kind === "list";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -269,7 +270,10 @@ function renderBenchmarks(kind = "score") {
             const scoreText = (runtime) => `${w[runtime].score[0]}hard/${w[runtime].score[1]}soft`;
             const feasible = (runtime) => w[runtime].score[0] >= 0;
             b.append(node("p", "range", `Solution quality · Rust ${scoreText("rust")} · Java ${scoreText("java")}`));
-            b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. Known optimum: 0hard/0soft.`));
+            const optimum = Array.isArray(w.optimal_score)
+                ? `Known optimum: ${w.optimal_score[0]}hard/${w.optimal_score[1]}soft.`
+                : "Optimum unknown for this workload.";
+            b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. ${optimum}`));
             b.append(node("p", "range", `Score calls · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
         }
         box.append(b);
@@ -279,6 +283,9 @@ function renderBenchmarks(kind = "score") {
         : `Medians per ${solver ? "solve" : "iteration"} · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} ${solver ? "solves" : "iterations"}; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Result checksums match.`;
     if (heuristic && !missing) {
         target("benchmark-caption").textContent = `At most ${p.config.steps} completed steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
+    if (kind === "list" && !missing) {
+        target("benchmark-caption").textContent = `Construction completes all insertions; hill climbing uses at most ${p.config.steps} steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
     }
     target("benchmark-method").textContent =
         p.methodology ||
@@ -293,7 +300,7 @@ function renderDifferential() {
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
-        [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list solving and timing are not measured."],
+        [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
         if (d.total == null) {
             box.append(node("p", "note", `${detail} Comparison not recorded yet.`));
@@ -307,12 +314,17 @@ function renderDifferential() {
         if (d.failures?.length)
             box.append(node("p", "note", `${n(d.failures.length)} mismatches are recorded in the downloadable report.`));
     }
-    const h = report.heuristic_performance || {};
-    if (h.validation) {
-        const v = h.validation, p = node("p");
-        p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(" original heuristic cases return valid, non-regressing solutions."));
-        box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
-        if (h.status === "stale" || !fresh) box.append(node("p", "note", "Previous heuristic result: measured sources have changed."));
+    for (const [key, label] of [
+        ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
+        ["list_performance", " original list-solving cases return valid complete solutions; local search retains at least its initial quality."],
+    ]) {
+        const h = report[key] || {};
+        if (h.validation) {
+            const v = h.validation, p = node("p");
+            p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(label));
+            box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
+            if (h.status === "stale" || !fresh) box.append(node("p", "note", "Previous solving result: measured sources have changed."));
+        }
     }
 }
 async function reload() {
@@ -356,6 +368,7 @@ async function reload() {
             renderBenchmarks();
             renderBenchmarks("solver");
             renderBenchmarks("heuristic");
+            renderBenchmarks("list");
             renderDifferential();
         }
         $("updated").textContent =

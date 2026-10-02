@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 122 original integration regression methods, two original unit tests, and three public API documentation tests.
+- 126 original integration regression methods, two original unit tests, and three public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -66,8 +66,11 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Add matched Java list-solver and timing evidence. Native greedy list
-   construction, lazy neighborhoods and bounded heuristic search now exist.
+2. Extend list-solving evidence to optional lists, per-entity ranges and mixed
+   models. Required-list construction/hill-climbing now have 64 Java/Rust checks
+   and four full-scoring routing benchmarks; exact optima are independently
+   enumerated for small cases. Native greedy list construction, lazy neighborhoods
+   and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
    shadows, cascading/declarative listeners and mixed basic/list solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
@@ -92,10 +95,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (264 Rust integration methods,
-two unit tests, three doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (268 Rust integration methods,
+two unit tests, three doctests, 28 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the list-heuristic increment. Desktop 1440px and mobile 390px browser QA passed,
+after the list-comparison increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
 cases. The benchmark
@@ -243,4 +246,25 @@ evaluations/944 callbacks and 3,241 local evaluations/5,764 callbacks. Greedy
 construction already meets the quality threshold, so local search accepts no
 steps. It is not a Java runtime benchmark.
 Logs: work/list-heuristic-check.log, work/list-heuristic-release.log and
-work/list-heuristic-evidence.log. Matched Java list-solving remains next work.
+work/list-heuristic-evidence.log. Required-list Java solving is now compared below.
+
+
+List comparison milestone: `python3 scripts/benchmark_lists.py` verifies 64
+original required-list construction/hill-climbing cases with exact Python optima,
+and measures four 16/32-customer routing workloads with full scoring. Native/Java
+original orders and construction ties may differ; do not force trace equality or
+claim identical larger-instance quality. The dashboard shows a separate list
+section with final scores/callbacks and unknown larger-workload optima. Small
+validation: all 64 valid and equal-score, 51 optimum scores in each runtime. Four
+original Rust protocol regressions and six Python evidence regressions added;
+upstream method coverage remains 142/4855. Logs: work/list-comparison-check.log,
+work/list-comparison-release.log, work/list-comparison-evidence.log. Refresh all
+seven evidence sections after measured-source changes. The server must be
+restarted after reporting-code updates; verify its live freshness digest.
+
+Latest list-comparison dashboard QA: desktop and 390px mobile render all four
+list workload cards, quality differences and unknown optima; no console errors
+or horizontal overflow. Mobile timing labels and headings stack to avoid
+collisions. HTML asset URLs include content-version queries after a cached CSS
+reload was observed. Keep these queries current when editing dashboard assets.
+All seven saved evidence sections were refreshed against the measured sources.
