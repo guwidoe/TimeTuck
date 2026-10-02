@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 215 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 62 stream), recorded in
+- 240 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 30 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 211 original integration regression methods, seven original unit tests, and twelve public API documentation tests.
+- 216 original integration regression methods, seven original unit tests, and thirteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 215 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 240 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (list/map/average collectors and mixed basic/list solving) and applicable upstream cases.
+0. Expand persistent operators (list/average collectors and mixed basic/list solving) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (426 Rust integration methods,
-seven unit tests, twelve doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (456 Rust integration methods,
+seven unit tests, thirteen doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,7 +457,7 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 433 Rust tests (426 integration + seven unit), twelve doctests,
+Current check totals: 463 Rust tests (456 integration + seven unit), thirteen doctests,
 and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
@@ -606,3 +606,36 @@ join-replacement-stream-{evidence,performance}.log, join-replacement-list-refres
 join-replacement-core-refresh.log and join-replacement-heuristic-performance.log.
 The upstream submodule remains unchanged; no new adapted methods or Enterprise
 artifacts were used.
+
+
+Map collector increment: MapCollector<K,V,C> independently accumulates an inner
+collector per ordered key and caches finished outputs in a persistent map. Explicit
+occurrence counts keep zero/empty results present until their last input disappears.
+Clones/finished snapshots share roots; only changed inner collectors are cloned.
+Candidate groups and finished output roots install together after successful work.
+Maps compose with sets, integer summaries, pairs, counts and nested maps. Existing
+generic graph aggregation integrates them with transactional scoring and search.
+Read docs/constraint-stream-contract.md before changing this layer.
+
+Twenty-five upstream methods cover map/sorted-map/merged-sum insertions, duplicates,
+updates and removals across four arities. Five original regressions cover 4,500
+graph edits, nested snapshots, failures/rollback and search quality. New totals:
+240 adapted methods, 216 original integration tests, seven unit tests (463 Rust
+all-target tests), thirteen doctests and 39 Python regressions. Verified upstream
+coverage is 240/4,855 (4.943%) and stream coverage 92/1,045 (8.804%). Existing Java timing workloads
+retain their scope and do not benchmark the new map collector.
+
+Map collector verification completed: debug/release all-target checks pass,
+all nine saved Java comparison/timing sections are current, and the live server's
+verification hash matches source/report. Browser checks show 4.94% overall,
+8.80% streams, all seventeen toMap and eight toSortedMap methods passing under
+search. No browser errors or horizontal overflow. Existing server PID 21564 was
+reused. The pinned upstream submodule remains unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 92.621 / 24.442,
+hill96 279.846 / 54.327, tabu32 69.748 / 27.442, tabu96 341.567 / 40.774.
+Scores agree; both 96-variable cases remain infeasible within the fixed step
+limit. These workloads do not exercise maps, so no map-specific performance
+claim follows. Logs: work/map-collector-{check,release,focused,regression}.log,
+map-collector-stream-{evidence,performance}.log, map-collector-list-refresh.log,
+map-collector-core-refresh.log and map-collector-heuristic-performance.log.

@@ -3225,6 +3225,381 @@
       "upstream_test": "forEachIncludingUnassigned_listVarAllowsUnassignedValues",
       "local_test": "for_each_including_unassigned_list_var_allows_unassigned_values",
       "modifications": "Preserve every initial and incremental ordinary score, constraint name, exact matched value identity, match count and -1 contribution. Native value rows include all registered values; explicit position filtering models forEach assignment exclusion, and no filtering models forEachIncludingUnassigned. Required/optional models preserve the two entity lists and value identities v1/v2. Native list transactions and derived views replace descriptor/listener notifications. Compare graph ordinary score because upstream assertScore uses raw ordinary score; native required-unassignment structure is tested separately. No noInverseVar descriptor, custom shadow/listener, justification or indictment API claim."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSortedMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_sorted_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSortedMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_sorted_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toMapMerged",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toMapMergedUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toMapMergedUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "uni_to_map_merged_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSortedMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_sorted_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSortedMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_sorted_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toMapMerged",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toMapMergedUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toMapMergedUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_map_merged_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toMapDuplicates",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toMapDuplicates",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "bi_to_map_duplicates",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSortedMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_sorted_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSortedMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_sorted_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toMapMerged",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toMapMergedUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toMapMergedUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "tri_to_map_merged_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSortedMap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMap",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_sorted_map",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSortedMapUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_sorted_map_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toMapMerged",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toMapMergedUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toMapMergedUpdate",
+      "local_path": "crates/solver/tests/map_collector_cases.rs",
+      "local_test": "quad_to_map_merged_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
     }
   ],
   "fixtures": [

@@ -482,3 +482,40 @@ undo, retained snapshots and zero/wrapping contributions. They add no upstream
 method credit. The native profiling command in docs/dashboard.md measures node
 work on an isolated instrumented source copy; use uninstrumented benchmarks for
 runtime comparisons.
+
+
+## Maps of collectors
+
+`MapCollector<K,V,C>` is a reversible collector of mapped `(key, value)` pairs.
+Each key owns an independent `C`, so it composes with `SetCollector`, `IntCollector`,
+`CountCollector`, `PairCollector` or another `MapCollector`. `finish()` returns an
+ordered immutable `SnapshotMap<K,C::Output>`. Key identity follows `Ord`; keys and
+stored values must obey the same stable/immutable contracts as other collectors.
+
+A separate occurrence count controls each key's lifetime. Zero sums, cancelling
+values and empty inner results retain a key while occurrences remain; removing
+the last occurrence removes that key. Removal expects a captured mapped value,
+and missing-value detection follows the inner collector (CountCollector only
+knows the number of occurrences). Absent keys return false without mutation.
+The owning CollectNode already captures values and uses them on replacement/undo.
+
+Only the changed key's inner collector is cloned and finished. Persistent group
+and output maps share roots; finishing a map does not refinish its inner results.
+Both roots are installed together after candidate work, preserving the previous
+state on ordinary collector, clone or ordering panics. Custom collectors retain
+the existing isolation/determinism requirements. Nested maps can be used directly
+in global/keyed graph aggregation, transactional scoring, construction and search.
+
+Twenty-five adapted methods from the uni/bi/tri/quad InnerConstraintCollectors
+classes preserve map, sorted-map, merged-sum and update assertions, plus the bi
+map duplicate-value method. Native integer summary sums replace the tested Java
+Integer::sum result; these small-value tests make no Java int-overflow or arbitrary
+merge-function compatibility claim. Global empty-stream semantics remain unchanged.
+
+Five original regressions check 4,500 graph edits against independent per-key
+multiset statistics (seed 20261026), retained nested snapshots, zero-sum keys,
+last-key removal, missing values, wrapping sums, Send/Sync, callback rollback,
+inner collector failures, 300 clone/ordering failure budgets and map-based
+construction/local-search quality against a mathematical bound. These original
+checks add no upstream method credit. Existing Java timing workloads do not
+exercise MapCollector.

@@ -84,6 +84,8 @@ mod collecting_stream;
 pub use collecting_stream::{
     CollectNode, CountCollector, PairCollector, ReversibleCollector, SetCollector,
 };
+mod map_collector;
+pub use map_collector::MapCollector;
 mod distinct_stream;
 pub use distinct_stream::DistinctNode;
 mod existence_stream;

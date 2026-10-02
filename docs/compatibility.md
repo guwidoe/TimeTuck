@@ -100,6 +100,14 @@ Original regressions independently check moves, full-score search equivalence an
 rollback. Existing Java list-move comparisons now observe Rust's cached stream
 views. No list-stream solver timing comparison is claimed.
 
+Twenty-five additional collector methods preserve all map/set, sorted-map,
+merged-sum, duplicate and replacement assertions across four tuple arities.
+Native captured values and stable IDs replace Java retractors and update slots.
+MapCollector composes existing reversible collectors; integer summaries expose
+sum results for the small Integer inputs in these tests. Arbitrary merge-function
+and Java int-overflow behavior are not claimed. Original randomized graph and
+search checks remain separate from upstream credit.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,
