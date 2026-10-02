@@ -29,7 +29,7 @@ automatically routes these changes and rolls back candidate transactions. Compos
 collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
 and immutable result snapshots. Stream
-score directors bind it to basic-variable and ordered-list moves. List streams
+score directors bind it to basic, ordered-list and combined mixed moves. List streams
 expose entity lists and value owner/index/neighbor snapshots. Persistent ordered storage shares
 unchanged tree branches across checkpoints and saved candidates. Stream construction
 and local search share the existing search algorithms, including seeded acceptance
@@ -58,6 +58,8 @@ and `cargo run --release --example list_routes`.
 For graph-based scoring in both phases, run `cargo run --release --example stream_coloring`.
 Run `cargo run --release --example stream_list_routes` for stream-scored ordered-list
 construction and local search.
+Mixed stream construction and local search are also verified by `mixed_routes`,
+using joined depot/route facts and independent final-score checks.
 Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each

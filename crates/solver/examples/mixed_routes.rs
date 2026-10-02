@@ -3,8 +3,9 @@ use timetuck::{
     Assignment, ConstructionConfig, FiniteProblem, HardSoftScore, ListAssignment, ListEntity,
     ListProblem, LocalSearchConfig, MixedAssignment, MixedConstraintNetwork,
     MixedConstructionConfig, MixedConstructionOrder, MixedFact, MixedLocalSearchConfig,
-    MixedProblem, MixedScope, MoveSelection, Variable, exhaustive_mixed_search,
-    greedy_mixed_construction, mixed_local_search_from,
+    MixedProblem, MixedScope, MixedStreamSources, MoveSelection, StreamGraphBuilder, Variable,
+    exhaustive_mixed_search, greedy_mixed_construction, greedy_mixed_stream_construction,
+    mixed_local_search_from, mixed_stream_local_search_from,
 };
 
 fn score(state: &MixedAssignment<i64, usize>) -> HardSoftScore {
@@ -22,6 +23,37 @@ fn score(state: &MixedAssignment<i64, usize>) -> HardSoftScore {
         distance += (previous - depot).abs();
     }
     HardSoftScore::new(-overload, -distance)
+}
+
+fn route_contribution(depot: Option<i64>, route: &[usize]) -> HardSoftScore {
+    let depot = depot.unwrap_or(0);
+    let points = [1_i64, 9, 10];
+    let tour: Vec<_> = std::iter::once(depot)
+        .chain(route.iter().map(|&v| points[v]))
+        .chain(std::iter::once(depot))
+        .collect();
+    let distance: i64 = tour.windows(2).map(|edge| (edge[1] - edge[0]).abs()).sum();
+    HardSoftScore::new(-(route.len().saturating_sub(2) as i64), -distance)
+}
+fn route_graph() -> (
+    timetuck::StreamGraph<'static, HardSoftScore>,
+    MixedStreamSources<i64, usize>,
+) {
+    let mut b = StreamGraphBuilder::new();
+    let sources = MixedStreamSources::new(&mut b);
+    let joined = b
+        .join_equal(
+            sources.basic.port(),
+            sources.lists.entities.port(),
+            |(i, _)| *i,
+            |(i, _)| *i,
+        )
+        .unwrap();
+    b.score("routes", &joined, |((_, depot), (_, route))| {
+        route_contribution(*depot, route)
+    })
+    .unwrap();
+    (b.build(), sources)
 }
 
 fn main() {
@@ -65,14 +97,7 @@ fn main() {
                     else {
                         unreachable!()
                     };
-                    let depot = depot.copied().unwrap_or(0);
-                    let points = [1_i64, 9, 10];
-                    let tour: Vec<_> = std::iter::once(depot)
-                        .chain(route.iter().map(|&v| points[v]))
-                        .chain(std::iter::once(depot))
-                        .collect();
-                    let distance: i64 = tour.windows(2).map(|edge| (edge[1] - edge[0]).abs()).sum();
-                    HardSoftScore::new(-(route.len().saturating_sub(2) as i64), -distance)
+                    route_contribution(depot.copied(), route)
                 },
             )
             .unwrap();
@@ -149,6 +174,53 @@ fn main() {
             solution.score,
             construction.evaluations + improved.evaluations,
             construction.constraint_evaluations + improved.constraint_evaluations,
+        );
+        let (graph, sources) = route_graph();
+        let construction = greedy_mixed_stream_construction(
+            &problem,
+            graph,
+            sources,
+            MixedConstructionConfig {
+                construction: ConstructionConfig {
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                order,
+            },
+        )
+        .unwrap();
+        let constructed = construction
+            .solution()
+            .expect("complete stream construction");
+        assert_eq!(constructed.score, score(&constructed.assignment));
+        let (graph, sources) = route_graph();
+        let improved = mixed_stream_local_search_from(
+            &problem,
+            graph,
+            sources,
+            constructed.assignment,
+            MixedLocalSearchConfig {
+                search: LocalSearchConfig {
+                    max_evaluations: 1000,
+                    max_steps: 20,
+                    selection: MoveSelection::BestAccepted,
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                joint_moves: true,
+            },
+        )
+        .unwrap();
+        let solution = improved.best.unwrap();
+        assert!(problem.is_complete(&solution.assignment));
+        assert_eq!(solution.score, score(&solution.assignment));
+        assert_eq!(solution.score, best.score);
+        println!(
+            "Stream {order:?}: {} constructed, {} improved; {} combined evaluations / {} terminal calls",
+            constructed.score,
+            solution.score,
+            construction.evaluations + improved.evaluations,
+            construction.constraint_evaluations + improved.constraint_evaluations
         );
     }
 }

@@ -248,8 +248,9 @@ from reported search work. `StreamGraph::assert_consistent` and the director's
 method expose the same check; a diagnostic failure on an active graph transaction
 invalidates that transaction. This verifies scores, not arbitrary payload equality.
 
-Mixed basic/list solving and additional collectors (lists, maps, averages and
-exact decimals) remain pending.
+Mixed basic/list binding and search now share the graph transaction machinery;
+see `docs/mixed-planning-contract.md`. Additional collector support is described
+in the sections below.
 Run `cargo run --release --example stream_coloring` for an original
 24-variable construction/search example with independent result verification.
 

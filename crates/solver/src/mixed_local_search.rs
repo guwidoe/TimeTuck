@@ -1,4 +1,5 @@
 //! Bounded local search under one objective over basic variables and ordered lists.
+use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
     Acceptance, AcceptanceError, AdditiveScore, LocalSearchConfig, LocalSearchTermination,
     MixedAssignment, MixedConstraintNetwork, MixedProblem, MixedScoreDirector, MixedScoringError,
@@ -29,6 +30,7 @@ impl<S> Default for MixedLocalSearchConfig<S> {
 #[derive(Debug)]
 pub enum MixedLocalSearchError {
     Scoring(MixedScoringError),
+    StreamScoring(crate::MixedStreamScoringError),
     Acceptance(AcceptanceError),
     IncompleteInitialAssignment,
 }
@@ -36,6 +38,7 @@ impl fmt::Display for MixedLocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Scoring(e) => e.fmt(f),
+            Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("mixed local search requires a complete initial assignment")
@@ -47,6 +50,7 @@ impl Error for MixedLocalSearchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::Scoring(e) => Some(e),
+            Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
             Self::IncompleteInitialAssignment => None,
         }
@@ -55,6 +59,11 @@ impl Error for MixedLocalSearchError {
 impl From<MixedScoringError> for MixedLocalSearchError {
     fn from(e: MixedScoringError) -> Self {
         Self::Scoring(e)
+    }
+}
+impl From<crate::MixedStreamScoringError> for MixedLocalSearchError {
+    fn from(e: crate::MixedStreamScoringError) -> Self {
+        Self::StreamScoring(e)
     }
 }
 impl From<AcceptanceError> for MixedLocalSearchError {
@@ -89,10 +98,30 @@ pub fn mixed_local_search_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    settings.search.acceptance.validate()?;
+    network.validate(problem, &initial)?;
+    search_impl(problem, initial, settings, |initial| {
+        MixedScoreDirector::new(problem, network, initial)
+    })
+}
+pub(crate) fn search_impl<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError>
+where
+    MixedLocalSearchError: From<D::Error>,
+{
     let config = settings.search;
     let joint_moves = settings.joint_moves;
     config.acceptance.validate()?;
-    network.validate(problem, &initial)?;
+    problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
     }
@@ -107,14 +136,14 @@ pub fn mixed_local_search_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut director = MixedScoreDirector::new(problem, network, initial)?;
+    let mut director = make_director(initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
     };
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     result.best = Some(ScoredMixedAssignment {
         assignment: director.assignment().clone(),
         score: director.score(),

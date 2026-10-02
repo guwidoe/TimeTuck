@@ -148,7 +148,10 @@ Mixed local search now has seven original integration regressions and one intern
 rollback regression, with optional joint moves and shared native acceptance policies.
 Mixed greedy construction adds seven original regressions for component ordering,
 shared budgets, preservation of initial values/pins and local-search handoff.
-Java phase-trace tests and mixed stream scoring remain pending.
+Mixed transactional stream binding adds seven original integration regressions and
+one internal rollback test. Shared construction/search engines agree with scoped
+scoring across tested policies and budgets. These native checks grant no upstream
+method credit. Java phase-trace tests and mixed Java solver comparisons remain pending.
 See `docs/mixed-planning-contract.md`.
 
 ## Case records and coverage

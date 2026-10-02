@@ -157,3 +157,10 @@ pub use mixed_construction::{
     MixedConstructionConfig, MixedConstructionOrder, MixedConstructionResult,
     greedy_mixed_construction,
 };
+
+mod mixed_search_scoring;
+pub mod mixed_stream_scoring;
+pub use mixed_stream_scoring::{
+    MixedStreamScoreDirector, MixedStreamScoredMove, MixedStreamScoringError, MixedStreamSources,
+    greedy_mixed_stream_construction, mixed_stream_local_search_from,
+};

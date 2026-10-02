@@ -40,7 +40,7 @@ pub struct ListValueRow<V> {
     pub next: Option<V>,
 }
 impl<V: Eq + Clone> ListValueRow<V> {
-    fn from_assignment(index: usize, value: &V, assignment: &ListAssignment<V>) -> Self {
+    pub(crate) fn from_assignment(index: usize, value: &V, assignment: &ListAssignment<V>) -> Self {
         let element = assignment.element(value);
         Self {
             range_index: index,

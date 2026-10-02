@@ -71,8 +71,7 @@ against a hand-derived lower bound. This is a correctness example, not a benchma
 These original checks earn no upstream method credit. The inspected upstream mixed
 exhaustive tests also assert Java phase types, step bounds or exact phase traces;
 those remain pending. No mixed Java/Rust solver comparison or mixed timing result
-is claimed. Mixed stream score directors,
-custom shadows and Java entity metadata remain pending. Existing Java comparisons
+is claimed. Custom shadows and Java entity metadata remain pending. Existing Java comparisons
 and timing cards continue to describe their original basic/list/stream workloads.
 
 
@@ -171,8 +170,8 @@ reach the known optimum of the small coupled instance. The mixed_routes example
 now also reaches its exact 0hard/-4soft optimum through local search in 127
 evaluations, 234 callbacks and one completed step. These are native correctness
 and quality checks, not Java mixed-search or runtime performance comparisons.
-Mixed stream scoring and Java mixed solver comparisons remain pending; no extra
-upstream test-method credit is claimed.
+Java mixed solver comparisons remain pending; no extra upstream test-method credit
+is claimed.
 
 
 ## Mixed greedy construction
@@ -215,3 +214,57 @@ starts at `0hard/-38soft` and uses 141 combined evaluations / 249 callbacks;
 list-first starts at `0hard/-18soft` and uses 173 / 313. Local search's initial
 rescore is included. These work counts are correctness evidence, not runtime
 benchmarks or Java equivalence claims. No upstream method credit is added.
+
+
+## Transactional mixed streams
+
+`MixedStreamSources<B,L>` groups the basic planning source and the existing
+`ListStreamSources<L>` entity/value sources. `MixedStreamScoreDirector` binds all
+three to one graph and one combined assignment. Basic rows use stable variable
+indices and `(index, Option<B>)` payloads. Lists use owner indices and ordered
+vectors; value rows use registry indices plus identity/owner/index/neighbor views.
+Every row is loaded, including optional/required unassigned values and empty lists.
+Constraints explicitly filter unassignment and join component identities as needed.
+Other graph sources are immutable facts and may be populated before binding.
+All three planning sources must belong to the graph and start empty.
+
+Combined moves validate both final components before any graph callback. They then
+deliver final touched basic rows, touched entity lists and affected value/shadow
+rows in that order, each once. Values in a touched list before or after are
+conservatively refreshed. Intermediate composite assignments are never delivered,
+but joins can observe intermediate source updates. Callbacks must handle those
+states; only the fully drained candidate is final. Structural score is minus the
+combined required missing count, with the existing explicit overflow check.
+
+Dropping, graph/model errors and ordinary unwinding restore both assignments and
+all changed graph roots. Commit replays no callbacks. Saved candidates retain
+persistent graph roots and their assignment; an error after saving an earlier
+winner leaves the base unchanged. Full rebuild diagnostics compare terminal match
+identities/scores and restore the prior graph on failure. Existing graph callback,
+immutable-fact, allocation-abort and destructor limitations apply. Assignment
+snapshots, validation and structural counting still scan/copy model data.
+
+`greedy_mixed_stream_construction` and `mixed_stream_local_search_from` share the
+same internal algorithms as scoped mixed scoring. Orders, policies, optional joint
+moves, budget boundaries, ties and global-best retention therefore follow the
+contracts above. Source ownership/emptiness and model validation precede zero-budget
+returns. Each phase initializes a fresh director. `constraint_evaluations` counts
+terminal weighting calls, including intermediate join updates, and excludes
+preloaded-fact processing and diagnostic rebuilds. It is not a predicate/key count
+and is not directly interchangeable with scoped contribution counts.
+
+Seven original integration regressions include 800 seeded combined moves in
+required and optional models (seed 20261106), independent full-score and source-row
+checks, pins/ranges, preserved snapshots, partial composites and exact match tuples.
+They also check no-op work, zero-budget validation, impossible models, later graph
+errors/panics, caller unwinding and failed rebuild recovery. Construction agrees
+with scoped scoring for both component orders, all four early-pick policies and
+budgets 0 through 7. Local search agrees for all five acceptance policies, both
+selection policies, joint moves on/off and eight budget limits (seed 20261107).
+An internal regression verifies rollback after saving an earlier joint candidate.
+
+The routing example reaches its proven `0hard/-4soft` optimum with both stream
+construction orders: basic-first uses 141 combined evaluations / 353 terminal
+calls; list-first uses 173 / 469. Independent direct scores validate construction
+and final solutions. These are native correctness/work counts, not Java mixed
+comparisons or runtime benchmarks. Upstream coverage is unchanged.

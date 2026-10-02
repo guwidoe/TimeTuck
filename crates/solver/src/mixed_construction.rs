@@ -1,5 +1,6 @@
 //! Greedy construction of partial mixed models using one contribution cache.
 use crate::list_neighborhood::insertions;
+use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
     AdditiveScore, ConstructionConfig, ConstructionTermination, ListMove, MixedAssignment,
     MixedConstraintNetwork, MixedMove, MixedProblem, MixedScoreDirector, MixedScoringError, Move,
@@ -83,9 +84,25 @@ pub fn greedy_mixed_construction<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>
     network: &MixedConstraintNetwork<'_, B, L, S>,
     settings: MixedConstructionConfig,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
-    let config = settings.construction;
     let initial = problem.initial_assignment();
     network.validate(problem, &initial)?;
+    construction_impl(problem, initial, settings, |initial| {
+        MixedScoreDirector::new(problem, network, initial)
+    })
+}
+pub(crate) fn construction_impl<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
+    let config = settings.construction;
+    problem.validate(&initial).map_err(D::Error::from)?;
     let mut result = MixedConstructionResult {
         complete: problem.is_complete(&initial),
         assignment: initial.clone(),
@@ -105,9 +122,9 @@ pub fn greedy_mixed_construction<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut director = MixedScoreDirector::new(problem, network, initial)?;
+    let mut director = make_director(initial)?;
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     if config.assert_scores {
         director.assert_consistent()?;
     }

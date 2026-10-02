@@ -225,7 +225,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         with_structure(score, problem, assignment)
     }
 }
-fn with_structure<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub(crate) fn with_structure<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     score: S,
     problem: &MixedProblem<B, L>,
     assignment: &MixedAssignment<B, L>,
