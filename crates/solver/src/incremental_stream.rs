@@ -174,8 +174,14 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
     ) -> JoinChanges<I, J, T, U> {
         healthy(self.poisoned || other.poisoned);
         let new = change.value.map(|row| (key(&row), row));
+        let same_key = self
+            .rows
+            .get(&change.id)
+            .zip(new.as_ref())
+            .is_some_and(|((old, _), (new, _))| old == new);
         let mut output = Vec::new();
-        if let Some((old_key, _)) = self.rows.get(&change.id)
+        if !same_key
+            && let Some((old_key, _)) = self.rows.get(&change.id)
             && let Some(ids) = other.index.get(old_key)
         {
             for id in ids.keys() {
@@ -197,6 +203,14 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         }
         // All projection calls and output row clones happen before mutation.
         self.poisoned = true;
+        if same_key {
+            // Membership and pair identities are unchanged. Downstream nodes
+            // retract their captured old payload when receiving the replacement.
+            self.rows
+                .insert(change.id, new.expect("same-key replacement"));
+            self.poisoned = false;
+            return output;
+        }
         if let Some((old_key, _)) = self.rows.get(&change.id) {
             let mut ids = self.index.get(old_key).expect("indexed key").clone();
             ids.remove(&change.id);
@@ -220,8 +234,9 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
 
 /// Persistent equality join. Cached keys make retraction independent of callbacks.
 /// Cartesian joins use a constant key. Output identity is `(left_id, right_id)`.
-/// Updates retract all old matches then insert new matches, including surviving
-/// pair identities. Feed both sides for self-joins, in either order, before reading
+/// Same-key updates replace surviving pairs once and retain index membership.
+/// Key changes retract old matches before inserting new matches. Feed both sides
+/// for self-joins, in either order, before reading
 /// the final score. Each side indexes all rows, even currently unmatched ones.
 pub struct JoinNode<'a, I, J, L, R, K> {
     left: JoinSide<I, L, K>,
@@ -434,43 +449,6 @@ pub struct ScoreNode<'a, I, T, S> {
 }
 
 impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
-    pub(crate) fn scores_match(&self, checkpoint: &dyn Any) -> bool
-    where
-        I: 'static,
-        S: 'static,
-    {
-        let (contributions, score) = checkpoint
-            .downcast_ref::<(SnapshotMap<I, S>, S)>()
-            .expect("score checkpoint type");
-        &self.contributions == contributions && self.score == *score
-    }
-
-    pub(crate) fn clear(&mut self) {
-        self.contributions.clear();
-        self.score = S::ZERO;
-        self.poisoned = false;
-    }
-
-    pub(crate) fn checkpoint(&self) -> Box<dyn Any>
-    where
-        I: Clone + 'static,
-        S: 'static,
-    {
-        healthy(self.poisoned);
-        Box::new((self.contributions.clone(), self.score))
-    }
-
-    pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
-    where
-        I: 'static,
-        S: 'static,
-    {
-        (self.contributions, self.score) = *checkpoint
-            .downcast::<(SnapshotMap<I, S>, S)>()
-            .expect("score checkpoint type");
-        self.poisoned = false;
-    }
-
     pub fn new(evaluate: impl Fn(&T) -> S + 'a) -> Self {
         Self {
             contributions: SnapshotMap::new(),
@@ -492,11 +470,6 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
     pub fn contributions(&self) -> impl Iterator<Item = (&I, S)> {
         healthy(self.poisoned);
         self.contributions.iter().map(|(id, &score)| (id, score))
-    }
-
-    pub(crate) fn contribution(&self, id: &I) -> Option<S> {
-        healthy(self.poisoned);
-        self.contributions.get(id).copied()
     }
 
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Result<(), StructuralStreamContribution> {

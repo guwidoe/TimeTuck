@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 207 original integration regression methods, seven original unit tests, and twelve public API documentation tests.
+- 211 original integration regression methods, seven original unit tests, and twelve public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -123,7 +123,7 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (422 Rust integration methods,
+Latest verification: `scripts/check.sh` passed (426 Rust integration methods,
 seven unit tests, twelve doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
@@ -457,7 +457,7 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 429 Rust tests (422 integration + seven unit), twelve doctests,
+Current check totals: 433 Rust tests (426 integration + seven unit), twelve doctests,
 and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
@@ -562,3 +562,47 @@ Existing server PID 21564 was reused. Live/report verification hashes agree;
 browser shows 215/4,855 (4.43%) overall and 67/1,045 (6.41%) streams, with all four
 new listVar methods under the passed filter. No browser errors or horizontal
 overflow. Upstream remains unmodified; no Enterprise source/artifact used.
+
+
+Stream optimization increment: same-key JoinNode updates retain index membership
+and emit one put per surviving pair. Changed keys still retract old pairs before
+inserting new pairs. Graph terminals now store payloads/contributions together in
+one persistent map plus the cached total. Public standalone ScoreNode is unchanged.
+Four original regressions add same-key/changed-key, self-join, downstream group,
+error/panic/undo, snapshot and zero/wrapping-score coverage. Totals: 433 Rust tests
+(215 adapted + 211 original integration + seven unit), twelve doctests, 39 Python.
+Coverage remains 215/4,855; streams remain 67/1,045.
+
+Coarse native profiling is reproducible with scripts/profile_streams.py; it builds
+only an isolated instrumented copy. The 96-variable, 50-step hill workload drops
+from 5,128,231 AVL allocations at a898c2c to 2,103,775, with consistent scores.
+Instrumented time includes counter/timer overhead and is not a benchmark result.
+An uninstrumented before/after study used three fresh processes, two warmups and
+five measured solves, alternating binary order per fork. All samples independently
+rescore and retain identical full assignments. Median ms before / after:
+hill32 154.434 / 71.435; hill96 622.622 / 298.640;
+tabu32 155.230 / 70.118; tabu96 683.095 / 293.319.
+These native workloads show 2.08–2.33x improvement on this shared machine; no general
+solver or Java-relative claim follows. Raw samples, binary hashes, baseline commit
+and source fingerprint are in work/stream-optimization-comparison.json; profile
+output is work/native-stream-profile.json. Build/check/release logs use the
+work/join-replacement- prefix. Neither study grants upstream test credit.
+
+Refreshed Java stream medians in ms (Rust / Java): hill32 79.718 / 31.043,
+hill96 278.786 / 47.126, tabu32 74.576 / 28.358, tabu96 281.708 / 58.530.
+Rust remains slower on these end-to-end incremental workloads despite the native
+improvement. The 32-variable timing cases finish at [0,0]; 96-variable cases finish
+at [-44,-484] in both engines within the fixed 50 steps. All 64 small search
+checks have valid equal scores. Keep quality and setup differences visible.
+
+Verification is complete: debug/release all-target gates pass, and all nine saved
+comparison/timing sections have current source fingerprints. Live server PID
+21564 was reused; its verification fingerprint matches the report and source.
+Browser shows 215/4,855 and all four refreshed stream timing cards with explicit
+quality/callback counts. No browser errors or horizontal overflow. Both native
+stream examples retain their previous scores/evaluation/callback counts.
+Logs: work/join-replacement-{check,release,examples,profile,comparison}.log,
+join-replacement-stream-{evidence,performance}.log, join-replacement-list-refresh.log,
+join-replacement-core-refresh.log and join-replacement-heuristic-performance.log.
+The upstream submodule remains unchanged; no new adapted methods or Enterprise
+artifacts were used.

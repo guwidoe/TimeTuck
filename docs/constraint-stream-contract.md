@@ -73,8 +73,10 @@ Read the pipeline's final result only after all outputs have been delivered.
 - `FilterNode` evaluates only a changed row, remembers rejected rows, and emits
   insert/update/removal transitions. Removal uses the cached decision.
 - `JoinNode` retains both inputs and ordered key indexes, including unmatched
-  facts. A side update visits only its old/new opposite matching buckets, emits
-  old pair removals followed by new pair insertions, and caches the new key.
+  facts. A side update visits only its old/new opposite matching buckets and caches
+  the new key. Same-key replacements keep index membership unchanged and emit one
+  replacement per surviving pair. Key changes emit old pair removals followed by
+  new pair insertions.
   Pair identity is `(left_id, right_id)`. A constant key produces a Cartesian
   join; tuple keys express multiple equalities. Self-joins require delivering
   each source change to both sides; either order is valid. Inspection is ordered
@@ -110,8 +112,9 @@ Read the pipeline's final result only after all outputs have been delivered.
   Current individual contributions remain inspectable.
 
 Used on their own, these operators perform incremental updates without graph
-transactions. A call commits one node's input. A join replacement may emit a removal and insertion of the same
-pair ID; intermediate downstream totals are not final graph results. Explicit
+transactions. A call commits one node's input. Downstream nodes must treat a put
+as replacement of the captured old payload, even without a preceding removal.
+Intermediate downstream totals are not final graph results. Explicit
 connections must preserve emitted order and fan changes out to every consumer.
 
 Callback/key projection and output row cloning occur before mutation in filter
@@ -166,9 +169,11 @@ can inspect results between its writes, commit all writes or undo them together.
 Before the first update to each affected node, the transaction saves that node's
 persistent map roots and scalar state, including indexes, summaries and scores.
 Further updates reuse that checkpoint. Sources, filter inputs, both join indexes
-and their ID buckets, group inputs/collectors, score contributions and match
-records all use shared AVL trees. Integer collector multiplicities use the same
-storage. Cloning a map shares its root without cloning keys, values or rows;
+and their ID buckets, group inputs/collectors and terminal match records all use
+shared AVL trees. Each graph terminal stores its payload and cached contribution
+in one map, plus a scalar total; its checkpoint retains both. Standalone ScoreNode
+continues to store contributions without payloads. Integer collector multiplicities
+use the same storage. Cloning a map shares its root without cloning keys, values or rows;
 updates allocate only search/rebalance paths, sharing unchanged branches.
 
 Dropping restores owned roots and scalar state with no predicate, key, scoring,
@@ -468,3 +473,12 @@ and committed states. It also checks native entity rows and a position score
 inside the Rust adapter. No Java/Rust position-score comparison is claimed.
 The existing required-list-solving benchmarks still use full scoring, and the
 basic-variable stream benchmarks remain basic-variable workloads.
+
+
+Four original replacement regressions check same-key updates on both join sides,
+changed-key removals/insertions, 2,000 self-join updates against nested enumeration
+(seed 20261025), downstream filtering/grouping, scorer errors/panics, transaction
+undo, retained snapshots and zero/wrapping contributions. They add no upstream
+method credit. The native profiling command in docs/dashboard.md measures node
+work on an isolated instrumented source copy; use uninstrumented benchmarks for
+runtime comparisons.

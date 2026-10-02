@@ -31,7 +31,7 @@
 
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode,
-    IntSummary, JoinNode, ReversibleCollector, ScoreNode, SnapshotMap, TupleChange,
+    IntSummary, JoinNode, ReversibleCollector, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -357,7 +357,8 @@ where
 }
 
 struct Terminal<'a, I, T, S> {
-    node: ScoreNode<'a, I, T, S>,
+    evaluate: Box<dyn Fn(&T) -> S + 'a>,
+    total: S,
     name: String,
     matches: SnapshotMap<I, (T, S)>,
 }
@@ -365,17 +366,17 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     for Terminal<'_, I, T, S>
 {
     fn clear(&mut self) {
-        self.node.clear();
+        self.total = S::ZERO;
         self.matches.clear();
     }
     fn evaluates_score(&self, event: &Event) -> bool {
         typed::<I, T>(event).value.is_some()
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
-        let (node, old) = checkpoint
-            .downcast_ref::<(Box<dyn Any>, SnapshotMap<I, (T, S)>)>()
+        let (old, total) = checkpoint
+            .downcast_ref::<(SnapshotMap<I, (T, S)>, S)>()
             .expect("terminal checkpoint type");
-        self.node.scores_match(node.as_ref())
+        self.total == *total
             && self
                 .matches
                 .iter()
@@ -383,37 +384,38 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
                 .eq(old.iter().map(|(id, (_, s))| (id, s)))
     }
     fn checkpoint(&self) -> Box<dyn Any> {
-        Box::new((self.node.checkpoint(), self.matches.clone()))
+        Box::new((self.matches.clone(), self.total))
     }
     fn restore(&mut self, c: Box<dyn Any>) {
-        let (node, matches) = *c
-            .downcast::<(Box<dyn Any>, SnapshotMap<I, (T, S)>)>()
+        let (matches, total) = *c
+            .downcast::<(SnapshotMap<I, (T, S)>, S)>()
             .expect("terminal checkpoint type");
-        self.node.restore(node);
+        self.total = total;
         self.matches = matches;
     }
     fn matches(&self) -> Option<&dyn Any> {
         Some(&self.matches)
     }
     fn score(&self) -> S {
-        self.node.score()
+        self.total
     }
     fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
-        self.node
-            .apply(change.clone())
-            .map_err(|_| GraphError::StructuralContribution(self.name.clone()))?;
+        let contribution = change.value.as_ref().map(|value| (self.evaluate)(value));
+        if contribution.is_some_and(|score| score.structural() != 0) {
+            return Err(GraphError::StructuralContribution(self.name.clone()));
+        }
+        let total = self.total - self.matches.get(&change.id).map_or(S::ZERO, |(_, s)| *s)
+            + contribution.unwrap_or(S::ZERO);
         if let Some(value) = &change.value {
             self.matches.insert(
                 change.id.clone(),
-                (
-                    value.clone(),
-                    self.node.contribution(&change.id).expect("scored match"),
-                ),
+                (value.clone(), contribution.expect("scored match")),
             );
         } else {
             self.matches.remove(&change.id);
         }
+        self.total = total;
         Ok(Vec::new())
     }
 }
@@ -622,8 +624,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         if self.constraints.contains_key(&name) {
             return Err(GraphError::DuplicateConstraint(name));
         }
-        let out = self.push(Terminal {
-            node: ScoreNode::<I, T, S>::new(evaluate),
+        let out = self.push(Terminal::<I, T, S> {
+            evaluate: Box::new(evaluate),
+            total: S::ZERO,
             name: name.clone(),
             matches: SnapshotMap::new(),
         });

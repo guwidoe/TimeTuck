@@ -251,3 +251,19 @@ propagation and undo. Cached entity rows and a native position score are checked
 inside the adapter; this is not a Java/Rust score comparison. The list-solving
 timing cards still measure scoped full-scoring adapters. The new native
 stream_list_routes example is a correctness/quality example, not a timing card.
+
+
+## Native stream hotspot profiling
+
+Run `python3 scripts/profile_streams.py --variables 96 --algorithm hill --steps 50`
+to instrument an isolated copy of the native crate. It saves
+`work/native-stream-profile.json` with the source fingerprint, original workload,
+independently checked result, node-application/checkpoint/capture/undo timings and
+AVL node allocation count. The default is one solve with no warmup. Compilation
+uses a separate target directory, and the temporary source copy is removed.
+
+Instrumentation adds substantial overhead. These numbers locate expensive native
+operations; they are neither Java comparisons nor benchmark timing samples, and
+do not appear as performance results in the dashboard. Source-marker changes
+fail closed so instrumentation must be reviewed when relevant internals change.
+Run this command separately from timed benchmarks. It grants no upstream coverage.
