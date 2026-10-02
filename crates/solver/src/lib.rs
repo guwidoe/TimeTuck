@@ -61,3 +61,8 @@ pub use list::{
 };
 pub mod list_search;
 pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};
+
+pub mod list_scoring;
+pub use list_scoring::{
+    ListConstraintNetwork, ListFact, ListScope, ListScoreDirector, ListScoringError, ScoredListMove,
+};

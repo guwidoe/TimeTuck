@@ -2,7 +2,9 @@
 
 The native implementation now provides a static scoped constraint network,
 transactional score caching, lazy basic-variable neighborhoods, and bounded local
-search. It is not a constraint-stream implementation or complete Timefold solver.
+search. List/entity and element-scoped contribution caching is described in
+`list-planning-contract.md`. List heuristic search remains pending.
+It is not a constraint-stream implementation or complete Timefold solver.
 
 ## Scoped constraints
 

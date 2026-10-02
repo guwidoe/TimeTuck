@@ -48,8 +48,8 @@ are required; interior mutations of shared value objects are outside the contrac
 Process abort, `mem::forget` and panicking destructors can bypass rollback, as with
 ordinary Rust drop guards. Composition application and metadata traversal use an
 explicit stack; dropping deeply nested move enums has ordinary recursive destructor
-behavior. Full-state cloning is a correctness baseline and does not establish
-incremental list scoring performance.
+behavior. Full-state cloning remains the list transaction strategy. Incremental contribution
+scoring is described below; move application itself still clones the lists.
 
 Twenty-two adapted upstream methods preserve all state assertions in five assign,
 six swap, nine change and two span-unassign methods. See `compat/provenance.json`.
@@ -78,11 +78,57 @@ have no complete assignments. Optional values can all remain unassigned.
 
 Runtime grows factorially. Enumeration stores the candidate and best assignment
 plus insertion choices for each active depth. There is no branch-and-bound,
-heuristic list solving, incremental list score network or list benchmark yet.
+heuristic list solving or list benchmark yet.
 Twelve original regressions check complete assignment sets against independent
 owner-selection and permutation enumeration, optima, budgets, ties, structural
 rejection, pins, derived shadows, move invariants, undo, atomic errors and panic
 unwinding. They contribute no upstream coverage credit.
+
+## Incremental list scoring
+
+`ListConstraintNetwork<V, S>` registers named deterministic additive constraints.
+`ListScope::Entity(i)` supplies an ordered entity list; `ListScope::Value(i)` uses
+an index into the model's stable value range and supplies that value's identity
+and optional owner/index/neighbor view. Value indices need not equal value IDs.
+`ListFact` exposes only the requested facts. Mixed and repeated scopes preserve
+callback argument order. Empty scopes are constant constraints. Invalid scopes,
+duplicate names and network/model shape mismatches are errors.
+
+Contributions must have structural zero. The network sums ordinary levels using
+`AdditiveScore`, including modular arithmetic for built-in integer scores, and
+sets structural state to minus the number of missing required values. Optional
+unassigned values have no structural penalty. Full `calculate` validates the
+assignment and evaluates every contribution. Callbacks must handle partial states;
+captured facts and value identity must not change during a session.
+
+`ListScoreDirector` owns an assignment and contribution cache, borrowing the
+immutable model and network. Applying a move reevaluates constraints on touched
+entity lists and on any value present in those lists before or after the final
+composite. This conservative invalidation covers relocated/unassigned values and
+neighbors whose index or adjacency changes, including no-op edits. Each dependent
+constraint is evaluated once even with repeated scopes or composite touches.
+Unrelated contributions and constant constraints stay cached.
+
+`ScoredListMove` exposes candidate assignment, score and constraint-evaluation
+count. Cache updates are deferred. Drop rejects it; commit retains the lists and
+installs saved contributions without callback replay. Model errors, structural
+contribution errors and ordinary callback panics restore the original assignment
+and every cache entry. Existing list transaction drop limitations still apply.
+`assert_consistent` independently recalculates each contribution and the total,
+including detection of cancelling per-constraint corruption.
+
+Dependency discovery still scans value locations; shadow lookups are linear,
+callback argument vectors allocate, and list transactions snapshot the full state.
+Only constraint callbacks are incremental. No constant-time update or runtime
+speedup is claimed. Nine original regressions include 1,200 seeded assign/change/
+swap/span-unassign composites, each checked against an independent direct formula,
+full network calculation and per-constraint cache assertions. They cover commit,
+rejection, required/optional structure, neighbors, repeated/mixed scopes, non-dense
+value IDs, pins, callback errors/panics, cancelling corruption and BendableScore
+wrapping boundaries. A public API doctest exercises a partial-to-complete commit.
+These original checks receive no upstream method credit or Java incremental-score
+compatibility claim. List construction/neighborhood/search integration remains
+pending.
 
 ## Java move evidence
 

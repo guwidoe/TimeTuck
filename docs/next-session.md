@@ -25,13 +25,15 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   after 5,040 complete states.
 - 256 original Java/Rust/Python list-move cases (907 operations) check candidates,
   undo, commit and all four built-in shadow relationships; seed 20261003.
-- Scoped incremental score networks and atomic scored-move transactions.
+- Scoped incremental basic/list score networks and atomic scored-move transactions.
+  List scopes cover entity lists and value identities/shadows, with conservative
+  neighbor invalidation and deferred cache updates.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 99 original integration regression methods, one original unit test, and two public API documentation tests.
+- 108 original integration regression methods, one original unit test, and three public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -64,7 +66,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Extend list support to incremental scoring, greedy construction, neighborhoods
+2. Extend list support to greedy construction, neighborhoods
    and heuristic search; then add matched Java list-solver and timing evidence.
    Native exact list enumeration and four derived shadows now exist; custom
    shadows, cascading/declarative listeners and mixed basic/list solving remain pending. Optional basic variables and per-variable ranges have 64 additional
@@ -90,10 +92,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (228 Rust integration methods,
-one unit test, two doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (237 Rust integration methods,
+one unit test, three doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the ordered-list increment. Desktop 1440px and mobile 390px browser QA passed,
+after the incremental-list-scoring increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
 cases. The benchmark
@@ -206,3 +208,21 @@ measurement, and all earlier benchmarks must be refreshed after Rust/script edit
 No list solver Java compatibility or performance claim; exact list optima have
 independent native reference tests. Current logs: work/list-check.log,
 work/list-release.log and work/list-evidence.log.
+
+
+Incremental-list-scoring milestone: ListConstraintNetwork, ListScope, ListFact,
+ListScoreDirector and ScoredListMove. Entity-list and value/shadow scopes, mixed
+and repeated arguments, immutable shape validation, contribution-only structural
+zero and native missing-required-value structure. Before/after touched-list
+membership identifies dirty element constraints, including neighbors. Full
+list snapshots and linear location lookups remain; only callbacks are incremental.
+Nine original integration tests include 1,200 deterministic composites (seed
+20261004), independent formula and full-cache checks, callback failures/unwinding,
+constant/unrelated callback counts, pins, structure and modular Bendable boundaries.
+One API doctest added. No upstream case credit; 129/4,855 stays unchanged.
+Java evidence and existing benchmarks are refreshed for sources, but do not measure
+list incremental scoring or list search. Next: construction and lazy neighborhoods
+plus bounded list local search with winner installation without callback replay.
+Current logs: work/list-scoring-check.log, work/list-scoring-release.log,
+work/list-scoring-evidence.log. Reuse the live dashboard server unless its imported
+Python reporting code changes.
