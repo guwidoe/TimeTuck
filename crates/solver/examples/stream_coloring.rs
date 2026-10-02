@@ -75,6 +75,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         construction.evaluations + improvement.evaluations,
         construction.constraint_evaluations + improvement.constraint_evaluations
     );
-    println!("Whole-node checkpoints; this example is not a performance comparison.");
+    println!("Persistent snapshots; this example is not a performance comparison.");
     Ok(())
 }

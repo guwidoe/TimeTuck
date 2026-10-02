@@ -135,14 +135,30 @@ lengths that later rejoin. Callbacks may see intermediate tuples during delivery
 only the fully drained result is a completed candidate. A multi-input transaction
 can inspect results between its writes, commit all writes or undo them together.
 
-Before the first update to each affected node, the transaction clones a checkpoint
-of that node's full cached state, including source facts, indexes, summaries,
-contributions and match records. Further updates to that node reuse the checkpoint.
-Dropping the transaction restores checkpoints by moving owned state back, with no
-predicate, key, scoring, cloning or comparison callbacks during restoration.
-Commit keeps current state with no callback replay. Checkpoint counts measure
-visited nodes, not copied rows or callback calls. This implementation has memory
-and copy costs proportional to affected-node state; sparse undo remains pending.
+Before the first update to each affected node, the transaction saves that node's
+persistent map roots and scalar state, including indexes, summaries and scores.
+Further updates reuse that checkpoint. Sources, filter inputs, both join indexes
+and their ID buckets, group inputs/collectors, score contributions and match
+records all use shared AVL trees. Integer collector multiplicities use the same
+storage. Cloning a map shares its root without cloning keys, values or rows;
+updates allocate only search/rebalance paths, sharing unchanged branches.
+
+Dropping restores owned roots and scalar state with no predicate, key, scoring,
+cloning or comparison callbacks. Commit keeps current roots with no callback
+replay. Checkpoint/candidate-state storage scales with affected nodes rather than
+all cached rows. Updating a tree entry takes logarithmic path work; joins still
+emit every affected match, and source changes still clone payloads during tuple
+propagation. Model validation, assignment snapshots and structural counting retain
+their existing costs. No constant-time move or runtime-speedup claim follows.
+
+`source_rows` and `constraint_matches` now return read-only `SnapshotMap` views,
+replacing their former `BTreeMap` return types. They support ascending iteration,
+keys/values, lookup, indexing, length and extrema. Cloning a view creates a stable
+snapshot that can outlive subsequent graph updates without cloning payloads.
+Snapshots keep their referenced branches alive until released. Mutation stays
+private to the solver. Atomic reference counts preserve `Send`/`Sync` when key and
+value types permit them; graph scheduling remains single-threaded. No unsafe code
+or additional dependencies are used.
 
 Any returned error or ordinary caught panic invalidates the transaction. Further
 updates, graph inspection, score reads and commit reject it; dropping restores
@@ -180,12 +196,12 @@ and acceptance configuration still validate. Other preloaded fact sources remain
 fixed. Each phase initializes its own director and counts that initial score once.
 
 Selection scans candidates from one unchanged base. When a better eligible
-candidate appears, it saves the assignment and the current state of affected
-graph nodes before dropping the candidate transaction. Installing the winner
-moves that saved state back without rerunning callbacks. Failures during a later
+candidate appears, it saves the assignment and the current roots/scalars of
+affected graph nodes before dropping the candidate transaction. Installing the
+winner moves that saved state back without rerunning callbacks. Failures during a later
 candidate, acceptance or snapshot leave the base unchanged. Candidate snapshots
-add whole-node cloning costs; sparse undo and more efficient retention remain
-pending. The result's `constraint_evaluations` counts terminal scoring callbacks,
+share unchanged graph storage; assignment cloning remains linear. The result's
+`constraint_evaluations` counts terminal scoring callbacks,
 including intermediate tuples during propagation, not predicate/key callbacks.
 Retractions reuse cached scores. Loading immutable facts before calling a search
 entry point is preprocessing and is excluded from phase counters.
@@ -259,6 +275,15 @@ callback accounting, diagnostics, optional values, heterogeneous domains, pins,
 zero limits, empty/impossible models, preloaded fact scores and validation before
 callbacks are checked. A unit regression verifies that scoring errors, scorer
 panics and acceptor panics after saving a winner preserve the prior state.
+
+Three storage unit tests compare 20,000 sorted/reverse/generated edits with
+`BTreeMap`, checking every AVL ordering, height, balance and size invariant and
+retained snapshots. They bound newly retained path nodes on 8,192-key maps without
+requiring key/value `Clone`, and inject comparison panics at seven search depths.
+Two original integration methods verify identical changed-row payload clone costs
+at 16 and 4,096 source rows, held source/match snapshot isolation, rollback/commit,
+duplicate collector retraction/extrema and preserved thread traits. One API
+doctest demonstrates holding a snapshot across committed graph updates.
 
 The existing Java/Rust comparison and benchmark sections cover earlier score,
 move, exact and heuristic workloads. They do not measure these stream operations.

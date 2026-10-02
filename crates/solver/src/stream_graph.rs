@@ -3,8 +3,8 @@
 //! Topology is fixed when the builder is consumed. A transaction checkpoints each
 //! visited node once, including its cached indexes, then applies incremental tuple
 //! changes. Dropping it restores those checkpoints without replaying callbacks.
-//! Checkpoints currently clone whole affected-node state; they are not sparse undo
-//! journals. Facts and keys must have stable identity/ordering and no interior
+//! Checkpoints share persistent tree roots; updates copy only affected tree paths.
+//! Facts and keys must have stable identity/ordering and no interior
 //! mutation. Ordinary callback unwinding rolls back; abort, forgotten guards and
 //! panicking destructors have the usual Rust transaction limitations.
 //!
@@ -29,7 +29,9 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
-use crate::{AdditiveScore, FilterNode, GroupNode, IntSummary, JoinNode, ScoreNode, TupleChange};
+use crate::{
+    AdditiveScore, FilterNode, GroupNode, IntSummary, JoinNode, ScoreNode, SnapshotMap, TupleChange,
+};
 use std::{
     any::Any,
     collections::{BTreeMap, VecDeque},
@@ -142,7 +144,7 @@ fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I
         .collect()
 }
 
-struct SourceNode<I, T>(BTreeMap<I, T>);
+struct SourceNode<I, T>(SnapshotMap<I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
     fn clear(&mut self) {
         self.0.clear();
@@ -269,7 +271,7 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
 struct Terminal<'a, I, T, S> {
     node: ScoreNode<'a, I, T, S>,
     name: String,
-    matches: BTreeMap<I, (T, S)>,
+    matches: SnapshotMap<I, (T, S)>,
 }
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
     for Terminal<'_, I, T, S>
@@ -283,7 +285,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
         let (node, old) = checkpoint
-            .downcast_ref::<(Box<dyn Any>, BTreeMap<I, (T, S)>)>()
+            .downcast_ref::<(Box<dyn Any>, SnapshotMap<I, (T, S)>)>()
             .expect("terminal checkpoint type");
         self.node.scores_match(node.as_ref())
             && self
@@ -297,7 +299,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn restore(&mut self, c: Box<dyn Any>) {
         let (node, matches) = *c
-            .downcast::<(Box<dyn Any>, BTreeMap<I, (T, S)>)>()
+            .downcast::<(Box<dyn Any>, SnapshotMap<I, (T, S)>)>()
             .expect("terminal checkpoint type");
         self.node.restore(node);
         self.matches = matches;
@@ -379,7 +381,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     }
 
     pub fn source<I: Ord + Clone + 'static, T: Clone + 'static>(&mut self) -> StreamSource<I, T> {
-        StreamSource(self.push(SourceNode::<I, T>(BTreeMap::new())))
+        StreamSource(self.push(SourceNode::<I, T>(SnapshotMap::new())))
     }
     pub fn filter<I: Ord + Clone + 'static, T: Clone + 'static>(
         &mut self,
@@ -453,7 +455,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(Terminal {
             node: ScoreNode::<I, T, S>::new(evaluate),
             name: name.clone(),
-            matches: BTreeMap::new(),
+            matches: SnapshotMap::new(),
         });
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);
@@ -489,7 +491,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     pub fn source_rows<I: Ord + 'static, T: 'static>(
         &self,
         source: &StreamSource<I, T>,
-    ) -> Result<&BTreeMap<I, T>, GraphError> {
+    ) -> Result<&SnapshotMap<I, T>, GraphError> {
         self.validate(source)?;
         Ok(self.nodes[source.0.node]
             .source_rows()
@@ -500,7 +502,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     pub fn constraint_matches<I: Ord + 'static, T: 'static>(
         &self,
         constraint: &StreamConstraint<I, T>,
-    ) -> Result<&BTreeMap<I, (T, S)>, GraphError>
+    ) -> Result<&SnapshotMap<I, (T, S)>, GraphError>
     where
         S: 'static,
     {

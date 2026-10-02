@@ -362,9 +362,11 @@ and its initially empty planning source. A private director interface shares the
 construction and local-search control flow, so acceptance, neighborhood order,
 best retention, fallback and limit precedence stay identical. The stream director
 saves candidate assignment/node state and installs a winner without callback
-replay. Its current saved state clones entire affected nodes, unlike the scoped
-director's sparse contribution cache. No equivalent memory/performance claim is
-made. Both result types count score evaluations; for streams,
+replay. Its saved graph state now shares persistent map roots; updates copy only
+affected tree paths. The scoped director retains its sparse contribution cache.
+Assignment snapshots and model checks retain their existing linear work. Runtime
+performance comparisons of these stream operations remain pending. Both result
+types count score evaluations; for streams,
 `constraint_evaluations` counts terminal scoring invocations, including temporary
 propagation results, and excludes graph preparation and diagnostic rebuilding.
 

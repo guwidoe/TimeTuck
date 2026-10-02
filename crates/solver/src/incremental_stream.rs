@@ -27,8 +27,8 @@
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
 
+use crate::SnapshotMap;
 use std::any::Any;
-use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 
 use crate::{AdditiveScore, IntCollector, IntSummary};
@@ -70,7 +70,7 @@ fn healthy(poisoned: bool) {
 /// Caches the predicate result for each input identity. Retraction never reruns
 /// the predicate, and an update evaluates only the changed row.
 pub struct FilterNode<'a, I, T> {
-    rows: BTreeMap<I, (bool, T)>,
+    rows: SnapshotMap<I, (bool, T)>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
     poisoned: bool,
 }
@@ -96,14 +96,14 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         T: 'static,
     {
         self.rows = *checkpoint
-            .downcast::<BTreeMap<I, (bool, T)>>()
+            .downcast::<SnapshotMap<I, (bool, T)>>()
             .expect("filter checkpoint type");
         self.poisoned = false;
     }
 
     pub fn new(predicate: impl Fn(&T) -> bool + 'a) -> Self {
         Self {
-            rows: BTreeMap::new(),
+            rows: SnapshotMap::new(),
             predicate: Box::new(predicate),
             poisoned: false,
         }
@@ -148,16 +148,16 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
 
 #[derive(Clone)]
 struct JoinSide<I, T, K> {
-    rows: BTreeMap<I, (K, T)>,
-    index: BTreeMap<K, BTreeSet<I>>,
+    rows: SnapshotMap<I, (K, T)>,
+    index: SnapshotMap<K, SnapshotMap<I, ()>>,
     poisoned: bool,
 }
 
 impl<I, T, K> JoinSide<I, T, K> {
     fn new() -> Self {
         Self {
-            rows: BTreeMap::new(),
-            index: BTreeMap::new(),
+            rows: SnapshotMap::new(),
+            index: SnapshotMap::new(),
             poisoned: false,
         }
     }
@@ -178,14 +178,14 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         if let Some((old_key, _)) = self.rows.get(&change.id)
             && let Some(ids) = other.index.get(old_key)
         {
-            for id in ids {
+            for id in ids.keys() {
                 output.push(TupleChange::retract((change.id.clone(), id.clone())));
             }
         }
         if let Some((new_key, row)) = &new
             && let Some(ids) = other.index.get(new_key)
         {
-            for id in ids {
+            for id in ids.keys() {
                 output.push(TupleChange::put(
                     (change.id.clone(), id.clone()),
                     (
@@ -197,18 +197,20 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         }
         // All projection calls and output row clones happen before mutation.
         self.poisoned = true;
-        if let Some((old_key, _)) = self.rows.remove(&change.id) {
-            let ids = self.index.get_mut(&old_key).expect("indexed key");
+        if let Some((old_key, _)) = self.rows.get(&change.id) {
+            let mut ids = self.index.get(old_key).expect("indexed key").clone();
             ids.remove(&change.id);
             if ids.is_empty() {
-                self.index.remove(&old_key);
+                self.index.remove(old_key);
+            } else {
+                self.index.insert(old_key.clone(), ids);
             }
         }
+        self.rows.remove(&change.id);
         if let Some((new_key, row)) = new {
-            self.index
-                .entry(new_key.clone())
-                .or_default()
-                .insert(change.id.clone());
+            let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
+            ids.insert(change.id.clone(), ());
+            self.index.insert(new_key.clone(), ids);
             self.rows.insert(change.id, (new_key, row));
         }
         self.poisoned = false;
@@ -301,7 +303,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
                     .index
                     .get(key)
                     .into_iter()
-                    .flatten()
+                    .flat_map(|ids| ids.keys())
                     .map(move |right_id| {
                         (
                             (left_id, right_id),
@@ -316,8 +318,8 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
 /// Moving an input between keys touches only the old/new groups. An empty group
 /// emits a retraction; a replacement within the same key emits one final summary.
 pub struct GroupNode<I, K> {
-    inputs: BTreeMap<I, (K, i64)>,
-    groups: BTreeMap<K, IntCollector>,
+    inputs: SnapshotMap<I, (K, i64)>,
+    groups: SnapshotMap<K, IntCollector>,
     poisoned: bool,
 }
 
@@ -349,15 +351,15 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         K: 'static,
     {
         (self.inputs, self.groups) = *checkpoint
-            .downcast::<(BTreeMap<I, (K, i64)>, BTreeMap<K, IntCollector>)>()
+            .downcast::<(SnapshotMap<I, (K, i64)>, SnapshotMap<K, IntCollector>)>()
             .expect("group checkpoint type");
         self.poisoned = false;
     }
 
     pub fn new() -> Self {
         Self {
-            inputs: BTreeMap::new(),
-            groups: BTreeMap::new(),
+            inputs: SnapshotMap::new(),
+            groups: SnapshotMap::new(),
             poisoned: false,
         }
     }
@@ -378,15 +380,20 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         let old_key = self.inputs.get(&change.id).map(|(key, _)| key.clone());
         let new_key = change.value.as_ref().map(|(key, _)| key.clone());
         self.poisoned = true;
-        if let Some((key, value)) = self.inputs.remove(&change.id) {
-            let collector = self.groups.get_mut(&key).expect("input group");
-            assert!(collector.remove(value), "input occurrence");
+        if let Some((key, value)) = self.inputs.get(&change.id) {
+            let mut collector = self.groups.get(key).expect("input group").clone();
+            assert!(collector.remove(*value), "input occurrence");
             if collector.summary().count == 0 {
-                self.groups.remove(&key);
+                self.groups.remove(key);
+            } else {
+                self.groups.insert(key.clone(), collector);
             }
         }
+        self.inputs.remove(&change.id);
         if let Some((key, value)) = change.value {
-            self.groups.entry(key.clone()).or_default().insert(value);
+            let mut collector = self.groups.get(&key).cloned().unwrap_or_default();
+            collector.insert(value);
+            self.groups.insert(key.clone(), collector);
             self.inputs.insert(change.id, (key, value));
         }
         let mut output = Vec::new();
@@ -420,7 +427,7 @@ impl std::error::Error for StructuralStreamContribution {}
 /// A terminal with one cached contribution per input identity. Retractions use
 /// the cached score, with no callback replay. Structural contributions are errors.
 pub struct ScoreNode<'a, I, T, S> {
-    contributions: BTreeMap<I, S>,
+    contributions: SnapshotMap<I, S>,
     evaluate: Box<dyn Fn(&T) -> S + 'a>,
     score: S,
     poisoned: bool,
@@ -433,7 +440,7 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
         S: 'static,
     {
         let (contributions, score) = checkpoint
-            .downcast_ref::<(BTreeMap<I, S>, S)>()
+            .downcast_ref::<(SnapshotMap<I, S>, S)>()
             .expect("score checkpoint type");
         &self.contributions == contributions && self.score == *score
     }
@@ -459,14 +466,14 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
         S: 'static,
     {
         (self.contributions, self.score) = *checkpoint
-            .downcast::<(BTreeMap<I, S>, S)>()
+            .downcast::<(SnapshotMap<I, S>, S)>()
             .expect("score checkpoint type");
         self.poisoned = false;
     }
 
     pub fn new(evaluate: impl Fn(&T) -> S + 'a) -> Self {
         Self {
-            contributions: BTreeMap::new(),
+            contributions: SnapshotMap::new(),
             evaluate: Box::new(evaluate),
             score: S::ZERO,
             poisoned: false,

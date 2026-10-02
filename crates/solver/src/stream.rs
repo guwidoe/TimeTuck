@@ -15,7 +15,8 @@
 //! assert_eq!(score, HardSoftScore::new(-2, 0));
 //! ```
 
-use std::collections::{BTreeMap, HashMap, HashSet, btree_map::Entry};
+use crate::SnapshotMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::hash::Hash;
 
@@ -39,7 +40,7 @@ pub struct IntSummary {
 /// Insertion panics before modifying state if the total count would overflow.
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct IntCollector {
-    values: BTreeMap<i64, usize>,
+    values: SnapshotMap<i64, usize>,
     count: usize,
     sum: i64,
 }
@@ -51,20 +52,21 @@ impl IntCollector {
 
     pub fn insert(&mut self, value: i64) {
         let count = self.count.checked_add(1).expect("collector count overflow");
-        *self.values.entry(value).or_default() += 1;
+        self.values
+            .insert(value, self.values.get(&value).copied().unwrap_or(0) + 1);
         self.count = count;
         self.sum = self.sum.wrapping_add(value);
     }
 
     /// Returns false without modifying state if this value is absent.
     pub fn remove(&mut self, value: i64) -> bool {
-        let Entry::Occupied(mut entry) = self.values.entry(value) else {
+        let Some(&count) = self.values.get(&value) else {
             return false;
         };
-        if *entry.get() == 1 {
-            entry.remove();
+        if count == 1 {
+            self.values.remove(&value);
         } else {
-            *entry.get_mut() -= 1;
+            self.values.insert(value, count - 1);
         }
         self.count -= 1;
         self.sum = self.sum.wrapping_sub(value);

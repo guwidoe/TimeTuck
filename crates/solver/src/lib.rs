@@ -98,3 +98,6 @@ pub use stream_scoring::{
 };
 
 mod search_scoring;
+
+pub mod snapshot_map;
+pub use snapshot_map::SnapshotMap;

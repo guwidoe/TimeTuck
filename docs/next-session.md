@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 175 original integration regression methods, three original unit tests, and seven public API documentation tests.
+- 177 original integration regression methods, six original unit tests, and eight public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -64,13 +64,12 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Replace whole-node graph checkpoints and saved-candidate copies with sparse
-   undo suitable for larger searches. Stream construction/local search now share
-   the existing basic-variable algorithms and support every acceptance mode.
-   Add public-API Java stream comparison and matched timing, and expand persistent
-   operators (existence/distinct) and applicable upstream cases. Do not hide mutable
-   nodes inside scoped callbacks: those callbacks cannot undo external state.
-   Read `docs/constraint-stream-contract.md`.
+0. Add public-API Java stream comparisons and matched timing, then expand
+   persistent operators (existence/distinct) and applicable upstream cases.
+   Checkpoints and saved candidates now share persistent AVL map roots, avoiding
+   whole-node row cloning. Stream construction/local search already share existing
+   algorithms. Do not hide mutable nodes inside scoped callbacks: those callbacks
+   cannot undo external state. Read `docs/constraint-stream-contract.md`.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
@@ -104,10 +103,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (337 Rust integration methods,
-three unit tests, seven doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (339 Rust integration methods,
+six unit tests, eight doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the stream-search integration increment. Earlier dashboard layout QA
+after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
 preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
@@ -405,3 +404,35 @@ All seven comparison/timing sections were refreshed for stream-search integratio
 The live dashboard verification digest matches the current source and test log;
 coverage and benchmark sections render without browser errors or horizontal
 overflow. Existing Java benchmark workloads still do not measure stream scoring.
+
+
+Persistent storage milestone: independently implemented SnapshotMap uses immutable
+AVL nodes and shared key/value allocations with atomic reference counts. Internal
+updates copy and rebalance only a search path; cloning a map needs no key/value
+Clone bounds. Source/filter rows, join side/index/buckets, group input/collectors,
+integer multiplicities and terminal contribution/match maps now use this storage.
+Node checkpoint and saved-candidate clones share roots; graph restoration moves
+roots back without user callbacks. Old whole-node cloning descriptions above are
+historical. Assignment copies/model validation/structural scans remain linear, and
+join updates still materialize every affected match. No constant-time move claim.
+
+Public inspection source_rows/constraint_matches now returns &SnapshotMap rather
+than &BTreeMap. It supports ordered iteration, keys/values, lookup/indexing,
+length/empty and first/last entries, and stable inexpensive clones across updates.
+Map writes are crate-private. SnapshotMap and IntCollector preserve Send/Sync for
+appropriate key/value types; graph execution remains single-threaded.
+
+Three storage unit tests verify 20,000 operations vs BTreeMap with balance/height/
+size/order invariants, retained snapshots, non-Clone keys/values, bounded new paths
+on 8,192 keys and comparison-panic atomicity. Two original graph/collector tests
+verify equal changed-row clone counts at 16 and 4,096 source rows, snapshot
+isolation, rollback/commit, multiplicities/extrema and Send/Sync. One API doctest.
+No upstream credit added: 162/4855 (3.337%). Logs: work/persistent-storage-check.log,
+work/persistent-storage-release.log, work/persistent-storage-evidence.log,
+work/persistent-storage-example.log. Existing benchmarks do not measure streams.
+
+Persistent-storage verification passed all 345 Rust tests in debug and release,
+eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft and
+602 evaluations / 3,623 terminal calls. All seven Java comparison/timing sections
+are current; live dashboard/source digests agree and browser checks found no
+errors or horizontal overflow. The existing server was reused.

@@ -22,10 +22,10 @@ grouping and weighted scoring, with retractable integer collectors. Streams are
 rebuilt inside affected score callbacks. Separate persistent operators now propagate
 filter, equality-join, group and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. A stream
-score director binds it to basic-variable moves. Checkpoints currently clone
-affected-node state. Stream construction and local search share the existing
-search algorithms, including seeded acceptance and exact work limits. Sparse undo
-and stream performance comparisons remain pending. See `docs/constraint-stream-contract.md`.
+score director binds it to basic-variable moves. Persistent ordered storage shares
+unchanged tree branches across checkpoints and saved candidates. Stream construction
+and local search share the existing search algorithms, including seeded acceptance
+and exact work limits. Stream performance comparisons remain pending. See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
