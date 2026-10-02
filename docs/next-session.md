@@ -12,19 +12,26 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 107 fully adapted source test methods (74 score + 10 move + 8 provider + 11 acceptor + 4 construction), recorded in
+- 129 fully adapted source test methods (74 score + 10 basic move + 22 list move + 8 provider + 11 acceptor + 4 construction), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
 - Iterative exact search with explicit evaluation budgets and truthful
   exhaustion/optimality reporting. Original `tiny_schedule` example.
+- Native ordered-list model with unique ownership, optional unassignment, prefix/full
+  pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
+  unassign/composite transactions, plus iterative bounded exact list enumeration.
+  Read `docs/list-planning-contract.md`. `tiny_routes` proves `0hard/-12soft`
+  after 5,040 complete states.
+- 256 original Java/Rust/Python list-move cases (907 operations) check candidates,
+  undo, commit and all four built-in shadow relationships; seed 20261003.
 - Scoped incremental score networks and atomic scored-move transactions.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 87 original integration regression methods, one original unit test, and two public API documentation tests.
+- 99 original integration regression methods, one original unit test, and two public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -44,7 +51,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 107 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 129 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -57,9 +64,11 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Extend applicable upstream model/move tests and Java evidence to list/shadow
-   variables after implementing native support. Optional basic variables and
-   per-variable ranges now have 64 additional exact differential cases.
+2. Extend list support to incremental scoring, greedy construction, neighborhoods
+   and heuristic search; then add matched Java list-solver and timing evidence.
+   Native exact list enumeration and four derived shadows now exist; custom
+   shadows, cascading/declarative listeners and mixed basic/list solving remain pending. Optional basic variables and per-variable ranges have 64 additional
+   exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
@@ -81,11 +90,13 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (194 Rust integration methods,
-one unit test, two doctests, 18 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
-also passed in release mode; the complete all-target suite passed after the BendableScore increment. Desktop 1440px and mobile 390px browser QA passed,
+Latest verification: `scripts/check.sh` passed (228 Rust integration methods,
+one unit test, two doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+also passed in release mode; the complete all-target and documentation suites passed
+after the ordered-list increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
-evidence includes 9,959 score cases and 128 complete-planning cases. The benchmark
+evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
+cases. The benchmark
 ratios are workload-specific and noisy; retain raw sample ranges and scope labels.
 
 Late-acceptance scope: history uses completed-step scores; new hard-score bests
@@ -175,3 +186,23 @@ existing fixed-score, exact and hill/tabu workloads; no Bendable performance cla
 Current logs: work/bendable-check.log, work/bendable-release.log,
 work/bendable-evidence.log. Dashboard source freshness and measurement digests
 must be current before committing; all upstream source files remain unmodified.
+
+
+Ordered-list milestone: 22 methods from ListAssignMoveTest (5), ListSwapMoveTest
+(6), ListChangeMoveTest (9 state methods) and SubListUnassignMoveTest (2 state
+methods), with TestdataListSolution fixture attribution. Twelve original Rust
+regressions independently enumerate owner/permutation spaces and check optima,
+budgets, pins, all small valid moves, atomic errors, ordinary and clone panics,
+shadow projection and deep iterative traversal. Four Python guards validate
+reference outputs and cannot accept corrupt undo/shadows. New ListMoveOracle.java
+uses only public metamodel/Moves/MoveTester/shadow APIs. Empty move sequences
+compare shadow enrichment only; Java rejects empty composition and same-index
+relocation. Native no-ops are documented and tested separately.
+
+Run python3 scripts/differential_lists.py to save work/list-differential.json and
+work/oracle/list-cases.json. compat_report includes list_differential and the
+dashboard renders a separate evidence row. Sources must be stable throughout
+measurement, and all earlier benchmarks must be refreshed after Rust/script edits.
+No list solver Java compatibility or performance claim; exact list optima have
+independent native reference tests. Current logs: work/list-check.log,
+work/list-release.log and work/list-evidence.log.

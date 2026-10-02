@@ -1605,6 +1605,336 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all nine history-slot assertions, three completed-step scores, history size, disabled hill climbing and initial best. Native BendableScore<1,2> replaces Java score definitions and fully assigned InnerScore wrappers. Fresh session construction/drop replaces lifecycle callbacks; soft changes update only the current slot, hard improvement resets all slots."
+    },
+    {
+      "id": "ListAssignMoveTest.listAssignMoveExecutesPermanently",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListAssignMoveTest.java",
+      "upstream_test": "listAssignMoveExecutesPermanently",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_assign_move_executes_permanently",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListAssignMoveTest.listAssignMoveMultipleValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListAssignMoveTest.java",
+      "upstream_test": "listAssignMoveMultipleValues",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_assign_move_multiple_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListAssignMoveTest.listAssignMoveToMultipleEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListAssignMoveTest.java",
+      "upstream_test": "listAssignMoveToMultipleEntities",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_assign_move_to_multiple_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListAssignMoveTest.listAssignMoveExecutesTemporarilyWithUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListAssignMoveTest.java",
+      "upstream_test": "listAssignMoveExecutesTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_assign_move_executes_temporarily_with_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListAssignMoveTest.listAssignMoveTemporaryMultipleValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListAssignMoveTest.java",
+      "upstream_test": "listAssignMoveTemporaryMultipleValues",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_assign_move_temporary_multiple_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.listSwapMoveWithinSameEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "listSwapMoveWithinSameEntity",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_swap_move_within_same_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.listSwapMoveBetweenEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "listSwapMoveBetweenEntities",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_swap_move_between_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.listSwapMoveAdjacentPositions",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "listSwapMoveAdjacentPositions",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_swap_move_adjacent_positions",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.multipleListSwapMoves",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "multipleListSwapMoves",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "multiple_list_swap_moves",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.listSwapMoveExecutesTemporarilyWithUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "listSwapMoveExecutesTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_swap_move_executes_temporarily_with_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListSwapMoveTest.listSwapMoveTemporaryBetweenEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListSwapMoveTest.java",
+      "upstream_test": "listSwapMoveTemporaryBetweenEntities",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "list_swap_move_temporary_between_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveFromFirstToLast",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveFromFirstToLast",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_from_first_to_last",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveFromLastToFirst",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveFromLastToFirst",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_from_last_to_first",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveMiddleToFirst",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveMiddleToFirst",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_middle_to_first",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveMiddleToLast",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveMiddleToLast",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_middle_to_last",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveFromFirstEntityToSecondAtBeginning",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveFromFirstEntityToSecondAtBeginning",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_from_first_entity_to_second_at_beginning",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveFromFirstEntityToSecondAtEnd",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveFromFirstEntityToSecondAtEnd",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_from_first_entity_to_second_at_end",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveFromFirstEntityToSecondInMiddle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveFromFirstEntityToSecondInMiddle",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_from_first_entity_to_second_in_middle",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveToEmptyEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveToEmptyEntity",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_to_empty_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "ListChangeMoveTest.moveLastValueLeavingEntityEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "moveLastValueLeavingEntityEmpty",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "move_last_value_leaving_entity_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "SubListUnassignMoveTest.unassignsSpan",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "unassignsSpan",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "unassigns_span",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
+    },
+    {
+      "id": "SubListUnassignMoveTest.executeTemporarilyThenUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "executeTemporarilyThenUndo",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "local_test": "execute_temporarily_then_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, size, element and undo assertion in this method. Stable integer values and entity indices replace Java fixture objects/metamodels; native ListProblem transactions replace permanent/temporary MoveTester execution. Inline test-specified states and modulo-distribution fixture; no Java metadata, listener or rebase parity claim."
     }
   ],
   "fixtures": [
@@ -1685,6 +2015,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Inline each helper feasibility assertion into the adapted BendableScore tests. Helper only; no additional executable-method coverage credit."
+    },
+    {
+      "id": "TestdataListSolution.list_move_initial_states",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateInitializedSolution(int,int), generateUninitializedSolution(int,int), initialize()",
+      "local_path": "crates/solver/tests/list_moves.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Inline empty lists and modulo entity distribution of stable integer values. Java fixture objects/descriptors and shadow update call replaced by native lists with derived shadow views. Fixture only; no additional upstream method coverage credit."
     }
   ]
 }

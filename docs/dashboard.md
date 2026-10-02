@@ -144,3 +144,16 @@ agreement are separate counts. Run `python3 scripts/benchmark_heuristics.py` to
 regenerate the combined quality/timing artifact; optional flags set completed
 steps, warmup solves, samples and process forks. Full conditions and raw data are
 included in the downloadable JSON and the measurement-notes disclosure.
+
+
+## List-move comparison
+
+Run `python3 scripts/differential_lists.py` for 256 original valid cases comparing
+Java public `MoveTester` candidate/undo/commit states to native transactions and
+an independent Python reference. Owner, index and previous/next shadows are
+checked at each observed state. Seed 20261003; source digests, artifact hashes,
+inputs, outputs and failures are retained. The dashboard renders this as a
+separate evidence row and marks it stale when measured sources change.
+It uses one optional list variable; pins and exact list solver results are covered
+by native regressions, not this Java comparison. No list performance claim or
+additional upstream coverage credit. See `list-planning-contract.md`.

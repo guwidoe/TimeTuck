@@ -23,6 +23,11 @@ The following test files adapt the pinned Community tests:
 - `crates/solver/tests/basic_moves.rs` from `ChangeMoveTest.java`, `SwapMoveTest.java`,
   and initial states from the `TestdataSolution.generateSolution` test fixture.
 
+- `crates/solver/tests/list_moves.rs` from `ListAssignMoveTest.java`,
+  `ListSwapMoveTest.java`, nine state methods in `ListChangeMoveTest.java`,
+  two state methods in `SubListUnassignMoveTest.java`, and initial states from
+  the `TestdataListSolution` test fixture.
+
 - `crates/solver/tests/neighborhoods.rs` from `ChangeMoveProviderTest.java` and
   `SwapMoveProviderTest.java`, with initial states from `TestdataSolution`,
   `TestdataPinnedSolution` and `TestdataAllowsUnassignedSolution` test fixtures.
@@ -37,7 +42,7 @@ The following test files adapt the pinned Community tests:
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 107 source methods are recorded individually in `compat/provenance.json`.
+All 129 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.

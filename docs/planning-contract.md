@@ -3,7 +3,8 @@
 The native planning API is an independent implementation. Its first scope is
 finite basic variables. Scoped incremental scoring and bounded local search are
 described in `incremental-search-contract.md`, along with greedy score-aware
-construction. Constraint streams and list/shadow variables remain unimplemented.
+construction. Ordered-list variables, built-in derived shadows and exact list search are described
+in `list-planning-contract.md`. Constraint streams and custom shadows remain pending.
 
 ## Model and moves
 

@@ -25,6 +25,12 @@ not this Rust implementation. Its cases must be classified and adapted.
 6. Expand to incremental scoring, move application/undo, small planning problems,
    then heuristic solving. Check incremental scores against full recomputation.
 
+Twenty-two list-move methods additionally preserve ordered assignment, relocation,
+swap and span-unassignment states and undo. Native derived owner/index/neighbor
+views and exact list enumeration are described in `docs/list-planning-contract.md`.
+Java move metadata, rebase, custom listeners and heuristic list solving remain
+pending. Original generated list-move comparisons are separate from coverage.
+
 The first three integer score families have 47 adapted tests; BendableScore adds
 27, using native compile-time dimensions in place of Java score definitions; basic change/swap
 moves add ten adapted cases; provider behavior and hill-climbing acceptance add

@@ -53,3 +53,11 @@ pub use annealing::SimulatedAnnealing;
 
 pub mod bendable;
 pub use bendable::BendableScore;
+
+pub mod list;
+pub use list::{
+    AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
+    ListProblem,
+};
+pub mod list_search;
+pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};

@@ -4,13 +4,16 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scores, basic moves, exact search, incremental scoring, construction and local search.**
-The solver is still under development. Scores, moves, acceptance and construction behavior cover 107 adapted upstream
+**Status: scores, basic/list moves, exact basic/list search, incremental basic scoring, construction and local search.**
+The solver is still under development. Scores, moves, acceptance and construction behavior cover 129 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
 with Java and independent enumeration, including per-variable ranges and optional
-values. There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
+values. Ordered lists support unique ownership, prefix/full pins and derived
+owner/index/neighbor views. Another 256 original list-move cases check candidate,
+undo and commit states against Java and an independent reference.
+There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
 
@@ -25,6 +28,7 @@ reference submodule is initialized. See `docs/score-contract.md` and
 `docs/planning-contract.md` for the verified scope.
 
 Run the exact scheduling example with `cargo run --example tiny_schedule`, or
+the exact route example with `cargo run --example tiny_routes`, or
 the larger incremental example with `cargo run --release --example graph_coloring`.
 Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
@@ -52,6 +56,7 @@ we need adapted behavioral cases and a Java/Rust comparison harness.
 python3 scripts/differential_scores.py
 python3 scripts/benchmark_scores.py
 python3 scripts/differential_solver.py
+python3 scripts/differential_lists.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log

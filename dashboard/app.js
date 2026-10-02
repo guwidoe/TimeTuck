@@ -293,6 +293,7 @@ function renderDifferential() {
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
+        [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list solving and timing are not measured."],
     ]) {
         if (d.total == null) {
             box.append(node("p", "note", `${detail} Comparison not recorded yet.`));
