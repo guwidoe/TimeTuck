@@ -8,3 +8,6 @@ description = "An independent constraint optimization solver, implemented from s
 
 [lints]
 workspace = true
+
+[dependencies]
+num-bigint = "=0.5.1"

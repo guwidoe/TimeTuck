@@ -657,3 +657,59 @@ DurationCollectorOracle and duration_oracle adapters compare 288 sequences and
 with their update/finish stage. Each sequence stops at its first error. The
 stream comparison saves this evidence separately; it adds no upstream credit or
 duration timing claim. Existing search benchmarks do not exercise durations.
+
+
+## Arbitrary-precision integer and decimal collection
+
+BigIntSumCollector and BigIntAverageCollector accept the re-exported num_bigint
+BigInt. Sum is exact and empty is zero. Average returns Option<Decimal>, rounded
+half-even at scale zero. DecimalSumCollector and DecimalAverageCollector accept
+Decimal, an exact coefficient * 10^(-scale) value with i32 scale. Decimal sums
+start at scale zero; addition and subtraction retain the larger scale. Averages
+round the coefficient at that cached scale, without any floating-point conversion.
+The collector behavior is established through the pinned Community public API.
+The representation follows the public
+[BigDecimal value model](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/BigDecimal.html).
+BigInt storage/arithmetic uses [num-bigint 0.5.1](https://docs.rs/num-bigint/0.5.1/num_bigint/struct.BigInt.html),
+not a Timefold implementation. Cargo.lock records the complete dependency graph.
+
+Decimal::new takes a coefficient and scale; accessors expose both. Equality and
+hashing include scale. Native Ord compares numeric values, then scale, so equality
+and ordering stay consistent: 1.0 and 1.00 are distinct keys. numeric_cmp compares
+value alone. It compares coefficient digits/exponents without padding across an
+extreme scale gap. Display emits a lossless coefficient/exponent representation,
+not Java formatting. There is no general decimal parser or score implementation.
+Add/subtract align scales exactly, and divide_count rounds half-even without
+changing scale (None for divisor zero). Arbitrary precision is resource-limited;
+alignment of distant nonzero scales can require correspondingly large allocations.
+No fixed digit bound is imposed. Comparing extreme scales needs only stored digits.
+
+Collectors retain persistent captured multiplicities. Missing remove/replace is
+false without mutation; replacement inherits isolated removal then insertion.
+Snapshots share map roots, but numeric sum/input clones cost their digit count.
+Decimal captures distinguish numerically equal values at different scales.
+Map/pair composition, generic graph collection, transactions and solver callbacks
+work with these values. Existing score types remain fixed-width integers; callbacks
+may project an exact aggregate to a supported score with explicit range checking.
+This does not implement arbitrary-precision score types.
+
+Decimal precision is historical: adding then removing 0.00 from [7,0] changes the
+average from 4 (scale zero) to 3.50 (scale two). Empty standalone collectors retain
+the cached scale; empty average is None, while sum is scaled zero. Graph groups
+are discarded at their last occurrence and a future group begins from Default.
+Changing input scales can therefore affect the numeric result of future averages.
+For history-independent objectives and full-rebuild diagnostics, normalize all
+inputs to a fixed scale. A dedicated original regression confirms that a mixed-scale
+history produces CorruptedScore on reconstruction and restores the prior cached
+state. No Java graph-lifecycle equivalence is claimed by the standalone probes.
+
+Thirty-two adapted methods preserve every upstream result assertion. Eight original
+regressions exercise 1,001-digit integers, signed ties, missing captures, retained
+snapshots, maps/pairs, panic rollback, numeric order, 5,000 arithmetic/comparison
+pairs (seed 20261104), 2,000 graph changes (seed 20261105), rebuild diagnostics and
+construction/search quality. BigNumberCollectorOracle and big_number_oracle
+compare 304 original sequences / 16,298 observations against Python (seed 20261103).
+Python recomputes exact totals from captures and historical scale rather than
+incrementally updating a cached sum. Outputs include decimal coefficients and
+scales; numeric equality alone cannot hide a representation mismatch. These checks
+add no upstream coverage credit and do not benchmark arbitrary-precision arithmetic.

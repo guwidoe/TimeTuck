@@ -119,7 +119,7 @@ Eight additional average methods preserve empty, insertion, duplicate, replaceme
 and removal results across four tuple arities. Native nullable floating results
 use Option<f64>. Separate original public-API comparisons check exact result bits
 and operation-specific overflow behavior; they grant no extra upstream credit.
-Decimal and arbitrary-precision average families remain pending.
+Decimal score families remain pending.
 
 Sixteen duration sum/average methods preserve all exact nanosecond, empty,
 duplicate, replacement and removal assertions across four tuple arities.
@@ -127,6 +127,16 @@ SignedDuration replaces java.time.Duration; no general date/time or Java object
 identity API parity is claimed. Original public-API checks distinguish update
 overflow from average-finisher overflow, including narrowing the total to i64
 nanoseconds before division. See the stream contract for boundary behavior.
+
+Thirty-two arbitrary-precision sum/average methods preserve all exact integer
+values, decimal coefficients/scales, duplicates, replacements and empty results
+across four arities. Native BigInt and Decimal replace Java numeric objects;
+number storage/arithmetic uses num-bigint. Decimal averages round half-even at
+the historical sum scale. Original comparisons validate large inputs and precision
+history separately. Decimal Ord breaks numeric ties by scale to remain consistent
+with scale-sensitive Eq; numeric_cmp omits that tie-break. No general BigDecimal
+API or arbitrary-precision score-family compatibility is claimed. See the stream
+contract for mixed-scale rebuild limitations.
 
 ## Case records and coverage
 

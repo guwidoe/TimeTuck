@@ -300,12 +300,14 @@ function renderDifferential() {
     box.replaceChildren();
     const averages = report.stream_differential?.average_collector_checks;
     const durations = report.stream_differential?.duration_collector_checks;
+    const bigNumbers = report.stream_differential?.big_number_collector_checks;
+    const bigNumberDetail = bigNumbers ? ` Separate arbitrary-precision checks (seed ${bigNumbers.seed}): ${n(bigNumbers.passed)} / ${n(bigNumbers.total)} cases and ${n(bigNumbers.observations)} observations match exact integer values, decimal coefficients, and scales.` : "";
     const durationDetail = durations ? ` Separate duration checks (seed ${durations.seed}): ${n(durations.passed)} / ${n(durations.total)} cases, ${n(durations.observations)} observations, including ${n(durations.expected_overflow_rejections)} expected update or finish overflows. Signed nanosecond results agree exactly.` : "";
     const averageDetail = averages ? ` Separate average checks (seed ${averages.seed}): ${n(averages.passed)} / ${n(averages.total)} cases, ${n(averages.observations)} observations, including ${n(averages.expected_overflow_rejections)} expected overflow rejections. Floating-point results match bit for bit.` : "";
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
-        [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}`],
+        [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}`],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
         if (d.total == null) {

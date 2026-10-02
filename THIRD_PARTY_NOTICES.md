@@ -94,11 +94,15 @@ The following test files adapt the pinned Community tests:
   and average insertion/update methods in the uni/bi/tri/quad
   `Inner*ConstraintCollectorsTest.java` classes.
 
+- `crates/solver/tests/big_number_collector_cases.rs` from thirty-two arbitrary-precision
+  integer/decimal sum and average methods in the uni/bi/tri/quad
+  `Inner*ConstraintCollectorsTest.java` classes.
+
 `crates/solver/tests/common/mod.rs` additionally adapts the equality, hash and
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 276 source methods are recorded individually in `compat/provenance.json`.
+All 308 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.
@@ -124,3 +128,14 @@ from the Google Fonts `ofl/barlow` directory. Copyright 2017 The Barlow Project
 Authors (https://github.com/jpt/barlow). Licensed under SIL Open Font License 1.1;
 the full notice and license are retained at `dashboard/assets/Barlow-OFL.txt`.
 Font source: https://github.com/google/fonts/tree/main/ofl/barlow.
+
+
+## Rust arithmetic dependencies
+
+`num-bigint` 0.5.1 supplies arbitrary-precision integer storage and arithmetic.
+Its transitive dependencies are `num-integer` 0.1.47, `num-traits` 0.2.19 and
+build-time `autocfg` 1.5.1. All four declare MIT OR Apache-2.0 licensing; exact
+versions and registry checksums are recorded in Cargo.lock. Their sources are
+resolved by Cargo rather than copied into this repository. Native decimal and
+collector logic remains independently implemented; no Timefold production code
+is used. See the dependency packages for their full licenses and copyright notices.

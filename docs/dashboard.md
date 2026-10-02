@@ -286,3 +286,11 @@ distinguished; 7,650 observations include 142 expected errors. The dashboard sho
 these counts and their seed separately from average and stream-score cases.
 No post-error Java state, additional upstream credit, or duration-specific timing
 is claimed. Full inputs and outputs are retained in the downloadable report.
+
+
+big_number_collector_checks adds 304 original arbitrary-precision sum/average
+sequences and 16,298 observations to the stream evidence. Each integer output,
+decimal coefficient, and decimal scale is checked exactly against Java and Python,
+including half-even ties and precision retained after removal. Its seed and counts
+are separate from upstream coverage. Inputs/results are retained in the report;
+no arbitrary-precision timing or general decimal score compatibility is claimed.

@@ -4140,6 +4140,486 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all empty, insertion, duplicate, replacement, repeated replacement and removal duration assertions. Native SignedDuration represents exact signed nanoseconds; nullable averages use Option. Integer tuple sums and first-Duration mappings with unused nullable fields preserve the tested inputs across four arities. Captured values and CollectNode stable IDs replace Java retractors and slots; empty global groups are observed as the standalone empty zero/None result. Java object identity and general java.time API parity are not claimed. Original boundary and public-API differential checks grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sumBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_sum_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sumBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sumBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_sum_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sumBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_sum_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sumBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sumBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_sum_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.averageBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_average_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.averageBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "averageBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_average_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.averageBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_average_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.averageBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "averageBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "uni_average_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sumBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_sum_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sumBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sumBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_sum_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sumBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_sum_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sumBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sumBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_sum_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.averageBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_average_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.averageBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "averageBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_average_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.averageBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_average_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.averageBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "averageBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "bi_average_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sumBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_sum_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sumBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sumBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_sum_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sumBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_sum_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sumBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sumBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_sum_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.averageBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_average_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.averageBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "averageBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_average_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.averageBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_average_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.averageBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "averageBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "tri_average_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sumBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_sum_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sumBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sumBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_sum_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sumBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sumBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_sum_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sumBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sumBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_sum_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.averageBigDecimal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimal",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_average_big_decimal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.averageBigInteger",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "averageBigInteger",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_average_big_integer",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.averageBigDecimalUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "averageBigDecimalUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_average_big_decimal_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.averageBigIntegerUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "averageBigIntegerUpdate",
+      "local_path": "crates/solver/tests/big_number_collector_cases.rs",
+      "local_test": "quad_average_big_integer_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
     }
   ],
   "fixtures": [

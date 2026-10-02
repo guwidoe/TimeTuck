@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 276 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 66 collector + 62 stream), recorded in
+- 308 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 233 original integration regression methods, seven original unit tests, and sixteen public API documentation tests.
+- 241 original integration regression methods, seven original unit tests, and seventeen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 276 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 308 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (decimal/arbitrary-precision collectors and mixed basic/list solving) and applicable upstream cases.
+0. Expand persistent operators (mixed basic/list solving and further constraint operators) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (509 Rust integration methods,
-seven unit tests, sixteen doctests, 45 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (549 Rust integration methods,
+seven unit tests, seventeen doctests, 48 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,8 +457,8 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 516 Rust tests (509 integration + seven unit), sixteen doctests,
-and 45 Python reporting/validator tests. Refresh all nine evidence artifacts after
+Current check totals: 556 Rust tests (549 integration + seven unit), seventeen doctests,
+and 48 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
 
@@ -743,3 +743,31 @@ These timing workloads do not exercise durations. Logs:
 work/duration-{check,release,regression,build}.log,
 duration-stream-{evidence,performance}.log, duration-list-refresh.log,
 duration-core-refresh.log and duration-heuristic-performance.log.
+
+
+Arbitrary-precision increment: new Decimal value and BigInt/Decimal sum/average
+collectors. num-bigint 0.5.1 supplies arithmetic storage; no Timefold production
+code was read or ported. Native collector/decimal logic is independent. Decimal
+Eq includes scale and Ord uses it to break numeric ties; numeric_cmp compares value
+alone. Averages round half-even at the cached sum scale. Decimal scale persists
+after removals, including empty standalone state. Normalize inputs to fixed scale
+for history-independent solver objectives/rebuilds. Read the stream contract.
+Thirty-two adapted methods and eight original regressions added; verified totals:
+556 Rust tests (308 adapted + 241 original integration + seven unit), seventeen
+doctests and 48 Python regressions. Constraint streams: 160/1,045. Original
+public-API adapters agree on 304 cases / 16,298 observations with Python exact
+recomputation (seed 20261103), including 1,001-digit inputs and decimal scale
+history. Full debug/release gates passed; all nine comparison/timing sections are
+current and source/report/live fingerprints match. Browser checks show 308/4,855
+(6.34%) overall, 160/1,045 (15.31%) streams, all thirty-two new methods passing
+under search, and correct supplemental counts/seed. Desktop 1280px and mobile
+390px have no browser errors or horizontal overflow. Server PID 27800 was reused;
+browser sessions are closed. Upstream remains unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 54.245 / 16.493,
+hill96 204.738 / 29.140, tabu32 54.184 / 19.425, tabu96 204.543 / 34.712.
+Scores agree; both 96-variable cases remain infeasible at the fixed step cap.
+These workloads do not exercise arbitrary-precision collectors. Logs:
+work/big-number-{check,release,adapted,regression,build}.log,
+big-number-stream-{evidence,performance}.log, big-number-list-refresh.log,
+big-number-core-refresh.log and big-number-heuristic-performance.log.

@@ -88,6 +88,13 @@ mod map_collector;
 pub use map_collector::MapCollector;
 mod list_collector;
 pub use list_collector::{ListCollector, ListSnapshot};
+pub use num_bigint::BigInt;
+mod decimal;
+pub use decimal::Decimal;
+mod big_number_collector;
+pub use big_number_collector::{
+    BigIntAverageCollector, BigIntSumCollector, DecimalAverageCollector, DecimalSumCollector,
+};
 mod duration_collector;
 pub use duration_collector::{
     DurationAverageCollector, DurationOverflow, DurationSumCollector, SignedDuration,
