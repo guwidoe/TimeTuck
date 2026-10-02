@@ -144,7 +144,9 @@ regressions and a joint depot/route example provide native evidence only; no new
 upstream method credit, mixed Java solver comparison, or mixed timing claim follows.
 Native scoped incremental mixed scoring additionally passes six original
 regressions, including 1,200 joint edits against an independent direct formula.
-Java phase-trace tests, mixed heuristics and mixed stream scoring remain pending.
+Mixed local search now has seven original integration regressions and one internal
+rollback regression, with optional joint moves and shared native acceptance policies.
+Java phase-trace tests, mixed construction and mixed stream scoring remain pending.
 See `docs/mixed-planning-contract.md`.
 
 ## Case records and coverage

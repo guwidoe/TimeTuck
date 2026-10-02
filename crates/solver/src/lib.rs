@@ -144,3 +144,10 @@ pub use mixed_scoring::{
     MixedConstraintNetwork, MixedFact, MixedScope, MixedScoreDirector, MixedScoringError,
     ScoredMixedMove,
 };
+
+pub mod mixed_neighborhood;
+pub use mixed_neighborhood::mixed_moves;
+pub mod mixed_local_search;
+pub use mixed_local_search::{
+    MixedLocalSearchConfig, MixedLocalSearchError, MixedLocalSearchResult, mixed_local_search_from,
+};

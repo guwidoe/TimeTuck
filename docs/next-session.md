@@ -20,7 +20,8 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   exhaustion/optimality reporting. Original `tiny_schedule` example.
 - Mixed basic/list models, atomic combined moves and exact joint search over the full
   product space. Read `docs/mixed-planning-contract.md`. `mixed_routes` proves
-  `0hard/-4soft` over 96 states. Mixed Java comparisons and heuristics remain pending.
+  `0hard/-4soft` over 96 states. Mixed local search now supports joint moves and all native acceptance policies;
+  mixed construction and Java comparisons remain pending.
 - Native ordered-list model with unique ownership, optional unassignment, prefix/full
   pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
   unassign/composite transactions, plus iterative bounded exact list enumeration.
@@ -36,7 +37,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 255 original integration regression methods, seven original unit tests, and nineteen public API documentation tests.
+- 262 original integration regression methods, eight original unit tests, and nineteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -76,7 +77,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (mixed stream scoring/heuristic search and further constraint operators) and applicable upstream cases.
+0. Expand persistent operators (mixed stream scoring/construction and further constraint operators) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -102,7 +103,7 @@ initialization-score assumptions. No production implementation has been ported.
    enumerated for small cases. Native greedy list construction, lazy neighborhoods
    and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
-   shadows, cascading/declarative listeners and mixed heuristic/stream solving remain pending. Optional basic variables and per-variable ranges have 64 additional
+   shadows, cascading/declarative listeners and mixed construction/stream solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
@@ -868,3 +869,53 @@ Scores agree; both 96-variable cases remain infeasible at the 50-step cap. The
 work/mixed-scoring-stream-{evidence,performance}.log,
 mixed-scoring-list-refresh.log, mixed-scoring-core-refresh.log and
 mixed-scoring-heuristic-performance.log.
+
+
+Mixed local-search increment: mixed_moves lazily composes native basic and list
+neighborhoods. It emits basic changes/swaps first, then list moves, then optional
+pairs of one basic and one list move. The product is lazy and preserves complete
+states, pins and ranges. MixedLocalSearchConfig wraps LocalSearchConfig and the
+joint_moves switch (false by default). mixed_local_search_from requires a complete
+initial state; mixed score-aware construction remains pending.
+
+The shared native acceptance policies, budget semantics, selection and fallback
+rules now operate under one mixed objective. Basic/list order shuffles use one
+seeded stream; family/value/index order stays fixed. Tabu keys are basic indices
+and basic_count+list_entity_index, preventing collisions between the components.
+MixedScoreDirector::select_best retains assignments and sparse updates inside an
+exclusive borrow, installing winners without callback replay. Errors/panics after
+an earlier saved candidate leave the base and caches intact. Global best survives
+worsening/fallback steps; no local-search termination proves global optimality.
+Read docs/mixed-planning-contract.md before changing these semantics.
+
+Seven original integration regressions and one internal selection regression are
+added. Checks include independent complete neighbor sets, a joint move escaping
+a coupled local trap, exact-optimum comparison, pins/ranges/lazy cloning, budgeted
+prefix winner reuse, zero-budget validation, separate tabu namespaces, fallback
+accounting and earliest-best retention. Fifteen seeded policy/order combinations
+repeat and reach the small instance's exact optimum. mixed_routes now verifies
+both exact search and local search against a separate direct score and the known
+0hard/-4soft optimum. Local search uses 127 evaluations / 234 callbacks / one step.
+These are native quality checks, not mixed Java performance or trace evidence.
+
+Full debug/release gates pass with 578 Rust tests (308 adapted, 262 original
+integration, eight unit), nineteen doctests and 48 Python regressions. Release
+mixed_routes passes. No upstream cases/fixtures were adapted: coverage remains
+308/4,855 overall and 160/1,045 streams. Java mixed comparisons, mixed construction
+and mixed stream scoring remain pending. Logs: work/mixed-search-{check,release,
+example}.log.
+
+All nine comparison/timing sections are refreshed for the current source. Live,
+report and source fingerprints match. Browser verification at 1280px and 390px
+shows 308/4,855 (6.34%) overall, refreshed timing cards, no stale messages, browser
+errors or horizontal overflow. Existing local server was reused; browser session
+closed. Upstream checkout/pin remain unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 49.435 / 18.009,
+hill96 205.529 / 29.910, tabu32 51.257 / 16.382, tabu96 207.254 / 33.301.
+Scores agree; both 96-variable workloads remain infeasible at the 50-step cap.
+The 32-customer construction score difference remains visible (Rust -1080 soft,
+Java -1062 soft, both hard zero). These workloads do not measure mixed search.
+Logs: work/mixed-search-stream-{evidence,performance}.log,
+mixed-search-list-refresh.log, mixed-search-core-refresh.log and
+mixed-search-heuristic-performance.log.

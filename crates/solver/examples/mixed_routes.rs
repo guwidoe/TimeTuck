@@ -1,7 +1,9 @@
 //! Jointly choose vehicle depots (basic variables) and ordered customer routes.
 use timetuck::{
-    FiniteProblem, HardSoftScore, ListEntity, ListProblem, MixedAssignment, MixedProblem, Variable,
-    exhaustive_mixed_search,
+    Assignment, FiniteProblem, HardSoftScore, ListAssignment, ListEntity, ListProblem,
+    LocalSearchConfig, MixedAssignment, MixedConstraintNetwork, MixedFact, MixedLocalSearchConfig,
+    MixedProblem, MixedScope, MoveSelection, Variable, exhaustive_mixed_search,
+    mixed_local_search_from,
 };
 
 fn score(state: &MixedAssignment<i64, usize>) -> HardSoftScore {
@@ -49,5 +51,57 @@ fn main() {
         "depots: {:?}; routes: {:?}",
         best.assignment.basic().values(),
         best.assignment.lists().lists()
+    );
+    let mut network = MixedConstraintNetwork::<i64, usize, HardSoftScore>::new(2, 2, 3);
+    for vehicle in 0..2 {
+        network
+            .add_constraint(
+                format!("route {vehicle}"),
+                vec![MixedScope::Basic(vehicle), MixedScope::ListEntity(vehicle)],
+                |facts| {
+                    let (MixedFact::Basic(depot), MixedFact::ListEntity(route)) =
+                        (&facts[0], &facts[1])
+                    else {
+                        unreachable!()
+                    };
+                    let depot = depot.copied().unwrap_or(0);
+                    let points = [1_i64, 9, 10];
+                    let tour: Vec<_> = std::iter::once(depot)
+                        .chain(route.iter().map(|&v| points[v]))
+                        .chain(std::iter::once(depot))
+                        .collect();
+                    let distance: i64 = tour.windows(2).map(|edge| (edge[1] - edge[0]).abs()).sum();
+                    HardSoftScore::new(-(route.len().saturating_sub(2) as i64), -distance)
+                },
+            )
+            .unwrap();
+    }
+    let initial = MixedAssignment::new(
+        Assignment::new(vec![Some(0), Some(0)]),
+        ListAssignment::new(vec![vec![0, 1], vec![2]]),
+    );
+    let local = mixed_local_search_from(
+        &problem,
+        &network,
+        initial,
+        MixedLocalSearchConfig {
+            search: LocalSearchConfig {
+                max_evaluations: 1000,
+                max_steps: 20,
+                selection: MoveSelection::BestAccepted,
+                assert_scores: true,
+                ..Default::default()
+            },
+            joint_moves: true,
+        },
+    )
+    .unwrap();
+    let solution = local.best.unwrap();
+    assert!(problem.is_complete(&solution.assignment));
+    assert_eq!(solution.score, score(&solution.assignment));
+    assert_eq!(solution.score, best.score);
+    println!(
+        "Local search: {} after {} evaluations / {} callbacks / {} steps",
+        solution.score, local.evaluations, local.constraint_evaluations, local.completed_steps
     );
 }

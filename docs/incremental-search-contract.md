@@ -4,7 +4,7 @@ The native implementation now provides a static scoped constraint network,
 transactional score caching, lazy basic-variable neighborhoods, and bounded local
 search. List/entity and element-scoped contribution caching is described in
 `list-planning-contract.md`; mixed basic/list scoped contributions are described in
-`mixed-planning-contract.md`. Stream-backed construction and local search use the
+`mixed-planning-contract.md`, including mixed local search and joint neighborhoods. Stream-backed construction and local search use the
 same basic-variable algorithms; see `constraint-stream-contract.md`. Whole-solver
 compatibility remains incomplete.
 

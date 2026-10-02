@@ -23,7 +23,7 @@ indices and ordinary panic unwinding cannot expose a partial combined edit.
 Values must obey ordinary `Clone`/`Eq` semantics; interior mutation of shared
 values is outside the guarantee. Abort, forgotten guards and panicking value
 destructors have the usual Rust drop-guard limitations. Preparation and rollback
-use full snapshots, not incremental mixed scoring.
+use full snapshots. The incremental contribution cache is described below.
 
 ## Exact joint search
 
@@ -71,7 +71,7 @@ against a hand-derived lower bound. This is a correctness example, not a benchma
 These original checks earn no upstream method credit. The inspected upstream mixed
 exhaustive tests also assert Java phase types, step bounds or exact phase traces;
 those remain pending. No mixed Java/Rust solver comparison or mixed timing result
-is claimed. Mixed construction/local search and stream score directors,
+is claimed. Mixed construction and stream score directors,
 custom shadows and Java entity metadata remain pending. Existing Java comparisons
 and timing cards continue to describe their original basic/list/stream workloads.
 
@@ -122,3 +122,54 @@ scopes, unchanged callback reuse, failed registration, invalid models/moves,
 callback errors/panics, caller unwinding, cancelling corruption and BendableScore
 wrapping. A public API doctest exercises coupled scoring and commit. These checks
 add no upstream method credit or Java incremental mixed-scoring comparison.
+
+
+## Mixed neighborhoods and local search
+
+`mixed_moves` lazily emits basic changes (and optional swaps), followed by native
+list relocations/optional assignment/unassignment (and optional swaps/replacements).
+With `joint_moves` enabled, it then emits every pair of one basic and one list
+move from the same starting assignment. Component domains are independent, so
+valid component moves remain valid in combination. Complete states stay complete;
+pins and per-entity ranges are preserved. Ordered component swaps may produce
+duplicate successor states. Product enumeration does not allocate the full
+neighborhood, but evaluating it may be expensive.
+
+`mixed_local_search_from` accepts a complete combined assignment and one scoped
+network. `MixedLocalSearchConfig` contains the existing `LocalSearchConfig` plus
+`joint_moves` (false by default). Simultaneous moves can escape coupled traps where
+either component alone worsens the score. They do not guarantee global optimality.
+
+One evaluation budget counts the initial rescore and each trial. Accepted-move
+and completed-step limits are separate; rejected fallback steps count as completed
+steps. The five native acceptance policies, first/best accepted selection and
+best-rejected fallback retain their existing semantics. The first global best is
+retained even after worsening steps. At step boundaries the accepted-move cap
+precedes the step cap. A budget-truncated scan can install its best evaluated
+candidate before reporting EvaluationLimit. Exhausting the last rejected candidate
+at exactly the budget reports NoAcceptedMove. Zero evaluations calls no scorer,
+but still validates model shape, domains, pins, completeness and acceptance.
+
+Candidates share one unchanged base within a scan. Winners save the combined
+assignment and sparse contribution updates; installation does not replay callbacks.
+Errors and ordinary unwinding after an earlier saved candidate leave the base and
+caches intact. Diagnostics fully recompute without consuming search budgets or
+callback statistics. Existing transaction and deterministic-callback rules apply.
+
+ShuffledVariables shuffles basic-variable order and then list-owner order with one
+explicitly seeded stream. Family order, values and insertion indices remain fixed.
+VariableTabu assigns basic variable i the key i, and list entity j the key
+basic_variable_count+j. Joint moves touch both sets; equal indices in different
+components never collide. Equal seeds do not imply Java trace equivalence.
+
+Seven original integration regressions and one internal regression check independent
+complete neighbor sets, a coupled local trap against exact solving, lazy product
+enumeration, pins/ranges, budget boundaries, cache reuse, zero-budget validation,
+separate tabu identities, fallback/global-best retention and selection failure after
+saving a candidate. Fifteen seeded policy/order combinations repeat exactly and
+reach the known optimum of the small coupled instance. The mixed_routes example
+now also reaches its exact 0hard/-4soft optimum through local search in 127
+evaluations, 234 callbacks and one completed step. These are native correctness
+and quality checks, not Java mixed-search or runtime performance comparisons.
+Mixed score-aware construction, stream scoring, and Java mixed solver comparisons
+remain pending; no extra upstream test-method credit is claimed.

@@ -13,7 +13,8 @@ with Java and independent enumeration, including per-variable ranges and optiona
 values. Ordered lists support unique ownership, per-entity ranges, prefix/full pins and derived
 owner/index/neighbor views. Mixed models combine both variable kinds with atomic edits
 and exact joint optimization. Mixed scoped constraints cache contributions across
-both components and restore them atomically; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
+both components and restore them atomically. Mixed local search supports joint
+moves under shared budgets and seeded acceptance; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 256 original list-move cases check candidate,
 undo and commit states against Java and an independent reference. An additional
 128 original list-solving cases validate construction/local search and compare

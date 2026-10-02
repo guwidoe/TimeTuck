@@ -162,7 +162,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         });
         Ok(index)
     }
-    fn validate(
+    pub(crate) fn validate(
         &self,
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
@@ -263,6 +263,20 @@ pub struct MixedScoreDirector<'p, 'c, B, L, S> {
     contributions: Vec<S>,
     score: S,
 }
+pub(crate) struct MixedSelection<B, L> {
+    pub selected: Option<MixedMove<B, L>>,
+    pub selected_accepted: bool,
+    pub evaluations: u64,
+    pub constraint_evaluations: u128,
+    pub evaluation_limit: bool,
+}
+struct Selected<B, L, S> {
+    movement: MixedMove<B, L>,
+    assignment: MixedAssignment<B, L>,
+    score: S,
+    updates: Vec<(usize, S)>,
+    accepted: bool,
+}
 impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<'p, 'c, B, L, S> {
     pub fn new(
         problem: &'p MixedProblem<B, L>,
@@ -284,6 +298,71 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             contributions,
             score,
         })
+    }
+    // Save assignments/cache updates inside this exclusive borrow. All scans
+    // use one unchanged base; selection failure cannot install an earlier winner.
+    pub(crate) fn select_best(
+        &mut self,
+        moves: impl IntoIterator<Item = MixedMove<B, L>>,
+        max_evaluations: u64,
+        allow_rejected: bool,
+        mut accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
+        quit_early: impl Fn(S) -> bool,
+        assert_scores: bool,
+    ) -> Result<MixedSelection<B, L>, MixedScoringError> {
+        let mut result = MixedSelection {
+            selected: None,
+            selected_accepted: false,
+            evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut best: Option<Selected<B, L, S>> = None;
+        let network = self.network;
+        let problem = self.problem;
+        for movement in moves {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let candidate = self.apply(&movement)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += candidate.constraint_evaluations() as u128;
+            if assert_scores
+                && network.calculate(problem, candidate.assignment())? != candidate.score()
+            {
+                return Err(MixedScoringError::CorruptedTotal);
+            }
+            let accepted = accepts(&movement, candidate.score());
+            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
+                continue;
+            }
+            if best
+                .as_ref()
+                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+            {
+                best = Some(Selected {
+                    movement: movement.clone(),
+                    assignment: candidate.assignment().clone(),
+                    score: candidate.score(),
+                    updates: candidate.updates.clone(),
+                    accepted,
+                });
+            }
+            if accepted && quit_early(candidate.score()) {
+                break;
+            }
+        }
+        if let Some(best) = best {
+            self.assignment = best.assignment;
+            for (i, score) in best.updates {
+                self.contributions[i] = score;
+            }
+            self.score = best.score;
+            result.selected = Some(best.movement);
+            result.selected_accepted = best.accepted;
+        }
+        Ok(result)
     }
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
         &self.assignment
@@ -392,5 +471,81 @@ impl<B, L, S: Copy> ScoredMixedMove<'_, B, L, S> {
         }
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
+    }
+}
+
+#[cfg(test)]
+mod selection_tests {
+    use super::*;
+    use crate::{
+        FiniteProblem, ListEntity, ListMove, ListPosition, ListProblem, Move, SimpleScore, Variable,
+    };
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+    #[test]
+    fn failed_scan_after_saved_joint_candidate_restores_base_and_caches() {
+        let p = MixedProblem::new(
+            FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap(),
+            ListProblem::new(
+                vec![7],
+                vec![ListEntity::new(vec![7]), ListEntity::new(vec![])],
+            )
+            .unwrap(),
+        );
+        for panic in [false, true] {
+            let mut n = MixedConstraintNetwork::new(1, 2, 1);
+            n.add_constraint(
+                "fail later",
+                vec![MixedScope::Basic(0), MixedScope::ListValue(0)],
+                |f| {
+                    let MixedFact::Basic(v) = f[0] else { panic!() };
+                    let v = *v.unwrap();
+                    if v == 2 {
+                        if panic {
+                            panic!("later candidate")
+                        };
+                        return SimpleScore::ZERO.with_structural(-1);
+                    }
+                    SimpleScore::new(v)
+                },
+            )
+            .unwrap();
+            let mut d = MixedScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+            let outcome = catch_unwind(AssertUnwindSafe(|| {
+                d.select_best(
+                    [1, 2].map(|v| MixedMove {
+                        basic: Move::Change {
+                            variable: 0,
+                            value: Some(v),
+                        },
+                        lists: ListMove::Change {
+                            source: ListPosition {
+                                entity: 0,
+                                index: 0,
+                            },
+                            destination: ListPosition {
+                                entity: 1,
+                                index: 0,
+                            },
+                        },
+                    }),
+                    2,
+                    false,
+                    |_, _| true,
+                    |_| false,
+                    false,
+                )
+            }));
+            if panic {
+                assert!(outcome.is_err());
+            } else {
+                assert!(matches!(
+                    outcome.unwrap(),
+                    Err(MixedScoringError::StructuralContribution { constraint: 0 })
+                ));
+            }
+            assert_eq!(d.assignment(), &p.initial_assignment());
+            assert_eq!(d.score(), SimpleScore::ZERO);
+            d.assert_consistent().unwrap();
+        }
     }
 }
