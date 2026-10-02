@@ -88,6 +88,8 @@ mod map_collector;
 pub use map_collector::MapCollector;
 mod list_collector;
 pub use list_collector::{ListCollector, ListSnapshot};
+mod average_collector;
+pub use average_collector::{AverageCollector, AverageOverflow};
 mod distinct_stream;
 pub use distinct_stream::DistinctNode;
 mod existence_stream;

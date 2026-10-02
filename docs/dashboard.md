@@ -267,3 +267,13 @@ operations; they are neither Java comparisons nor benchmark timing samples, and
 do not appear as performance results in the dashboard. Source-marker changes
 fail closed so instrumentation must be reviewed when relevant internals change.
 Run this command separately from timed benchmarks. It grants no upstream coverage.
+
+
+The stream comparison also runs original standalone average-collector checks via
+public Community value handles and native try methods. The dashboard lists these
+137 cases and their observations separately from the 128 stream-score cases. Python
+checks exact double bits plus expected insertion/removal sum overflows and
+replacement-difference overflows, including wrapping replacement totals. Cases
+stop at the first rejection; no Java rollback behavior is inferred. Full inputs
+and outputs are retained under average_collector_checks in stream-differential.json.
+This evidence grants no additional upstream-method credit or average timing claim.

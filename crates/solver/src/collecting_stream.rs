@@ -12,6 +12,18 @@ pub trait ReversibleCollector<V>: Clone + Default {
     type Output: Clone;
     fn insert(&mut self, value: &V);
     fn remove(&mut self, value: &V) -> bool;
+    /// Replace one captured occurrence. The default isolates removal/insertion;
+    /// collectors may override this when replacement has distinct semantics.
+    /// False means the old occurrence was absent, without changing this collector.
+    fn replace(&mut self, old: &V, new: &V) -> bool {
+        let mut next = self.clone();
+        if !next.remove(old) {
+            return false;
+        }
+        next.insert(new);
+        *self = next;
+        true
+    }
     fn finish(&self) -> Self::Output;
 }
 impl ReversibleCollector<i64> for IntCollector {
@@ -123,6 +135,14 @@ impl<U, V, A: ReversibleCollector<U>, B: ReversibleCollector<V>> ReversibleColle
     fn finish(&self) -> Self::Output {
         (self.0.finish(), self.1.finish())
     }
+    fn replace(&mut self, old: &(U, V), new: &(U, V)) -> bool {
+        let mut next = self.clone();
+        if !next.0.replace(&old.0, &new.0) || !next.1.replace(&old.1, &new.1) {
+            return false;
+        }
+        *self = next;
+        true
+    }
 }
 #[derive(Clone)]
 struct State<I, K, V, C> {
@@ -196,6 +216,22 @@ impl<I: Ord + Clone, K: Ord + Clone, V: Clone, C: ReversibleCollector<V>> Collec
     }
     pub fn apply(&mut self, change: TupleChange<I, (K, V)>) -> Vec<TupleChange<K, C::Output>> {
         let old = self.state.inputs.get(&change.id);
+        if let (Some((old_key, old_value)), Some((key, value))) = (old, &change.value)
+            && old_key == key
+        {
+            let mut next = self.state.clone();
+            let (count, mut collector) = next.groups[key].clone();
+            assert!(
+                collector.replace(old_value, value),
+                "captured collector occurrence"
+            );
+            let output = collector.finish();
+            next.groups.insert(key.clone(), (count, collector));
+            next.inputs.insert(change.id, (key.clone(), value.clone()));
+            let output = vec![TupleChange::put(key.clone(), output)];
+            self.state = next;
+            return output;
+        }
         let mut affected = Vec::new();
         if let Some((key, _)) = old {
             affected.push(key.clone());

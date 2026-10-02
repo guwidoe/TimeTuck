@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 252 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 42 collector + 62 stream), recorded in
+- 260 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 50 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 222 original integration regression methods, seven original unit tests, and fourteen public API documentation tests.
+- 227 original integration regression methods, seven original unit tests, and fifteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 252 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 260 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (average collectors and mixed basic/list solving) and applicable upstream cases.
+0. Expand persistent operators (decimal/duration collectors and mixed basic/list solving) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (474 Rust integration methods,
-seven unit tests, fourteen doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (487 Rust integration methods,
+seven unit tests, fifteen doctests, 42 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,8 +457,8 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 481 Rust tests (474 integration + seven unit), fourteen doctests,
-and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
+Current check totals: 494 Rust tests (487 integration + seven unit), fifteen doctests,
+and 42 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
 
@@ -674,3 +674,45 @@ These timings do not measure collected lists. Logs:
 work/list-collector-{check,release,focused,regression}.log,
 list-collector-stream-{evidence,performance}.log, list-collector-list-refresh.log,
 list-collector-core-refresh.log and list-collector-heuristic-performance.log.
+
+
+Integer-average increment: AverageCollector wraps captured integer multiplicities
+and returns Option<f64>. Public Community probing established checked insertion
+and removal sums, checked replacement differences, and wrapping addition of a
+valid replacement difference. Native try methods preserve state on errors;
+trait methods panic and participate in graph rollback. Rebuild diagnostics may
+reject a prefix after a wrapping replacement or a different replay order. Read
+the average arithmetic section of docs/constraint-stream-contract.md.
+
+ReversibleCollector now has a default isolated replace(old,new) method. CollectNode
+uses it for same-key replacements; PairCollector and MapCollector delegate it
+through composition. Key changes retain removal/insertion behavior. This avoids
+incorrectly rejecting replacement when an intermediate removal would overflow.
+Eight adapted methods and five original regressions are added. New totals:
+494 Rust tests (260 adapted + 227 original integration + seven unit), fifteen
+doctests and 42 Python regressions. Overall coverage: 260/4,855; streams: 112/1,045.
+
+AverageCollectorOracle.java and examples/average_oracle.rs are original adapters,
+not copied upstream fixtures. scripts/average_collector_checks.py independently
+validates 137 cases / 3,936 observations, exact double bits and expected overflow
+rejections. differential_streams.py runs them, saves full inputs/outputs under
+average_collector_checks, and the dashboard adds their separate evidence counts.
+No extra upstream credit, Java post-error transactional behavior or timing claim.
+Average verification is complete: debug and release all-target gates pass with
+494 tests; fifteen doctests and 42 Python regressions pass. All nine comparison
+and timing sections are current, with source/report/live verification fingerprints
+matching. Average checks include 68 expected overflow rejections. Browser checks
+show 260/4,855 (5.36%) overall, 112/1,045 (10.72%) streams, all eight adapted
+average methods passing, and the separate 137-case evidence with its own seed.
+Desktop 1280px and mobile 390px show no horizontal overflow or browser errors.
+The script asset version was updated after observing a cached prior copy.
+The prior dashboard process had stopped; current server PID 27800 listens on
+127.0.0.1:8765. Browser verification sessions are closed. Upstream is unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 55.034 / 19.477,
+hill96 214.127 / 29.560, tabu32 51.670 / 12.598, tabu96 203.631 / 25.765.
+Scores agree; both 96-variable cases remain infeasible at the fixed step cap.
+These workloads do not time average collectors; no average performance claim.
+Logs: work/average-{check,release,focused}.log,
+average-stream-{evidence,performance}.log, average-list-refresh.log,
+average-core-refresh.log and average-heuristic-performance.log.

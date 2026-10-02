@@ -86,4 +86,25 @@ impl<K: Ord + Clone, V, C: ReversibleCollector<V>> ReversibleCollector<(K, V)>
     fn finish(&self) -> Self::Output {
         self.results.clone()
     }
+    fn replace(&mut self, old: &(K, V), new: &(K, V)) -> bool {
+        let mut next = self.clone();
+        if old.0 == new.0 {
+            let Some((count, mut collector)) = self.groups.get(&old.0).cloned() else {
+                return false;
+            };
+            if !collector.replace(&old.1, &new.1) {
+                return false;
+            }
+            let output = collector.finish();
+            next.groups.insert(new.0.clone(), (count, collector));
+            next.results.insert(new.0.clone(), output);
+        } else {
+            if !next.remove(old) {
+                return false;
+            }
+            next.insert(new);
+        }
+        *self = next;
+        true
+    }
 }

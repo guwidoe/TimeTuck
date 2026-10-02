@@ -375,7 +375,8 @@ retraction. Existing Java timing workloads do not measure this new node.
 ## Composable incremental collectors
 
 `ReversibleCollector<V>` defines captured-value insertion/removal and an immutable
-finished result. `Default` must be empty, `Clone` must isolate subsequent mutation,
+finished result. `replace(old,new)` updates one captured occurrence; its default
+uses an isolated remove/insert candidate. `Default` must be empty, `Clone` must isolate subsequent mutation,
 and methods must be deterministic. `finish` must not mutate state. Returning false
 when removing a captured occurrence is an invariant failure. Custom collectors
 must honor these contracts; arbitrary shared mutable interior state cannot be
@@ -389,7 +390,8 @@ mapped fields together and can be nested for more fields. Built-in collectors
 share persistent roots; custom collector cloning may cost more.
 
 `CollectNode` captures each input's key and mapped value, retracts the old value
-on replacement, and emits changes for affected groups. It prepares candidate
+on a key change, delegates same-key changes to `replace`, and emits changes for
+affected groups. It prepares candidate
 state and finished outputs before installation, preserving the previous state
 on ordinary collector/clone/ordering panics. The graph builder's
 `group_collect_with` exposes keyed aggregation; `collect` uses a unit key for a
@@ -563,3 +565,48 @@ order-sensitive full rebuilds, rollback, callback/trait panics, nested maps,
 retained snapshots, value equality/order/hash, downstream distinct and bounded
 construction/search quality. The existing Java timing workloads do not exercise
 collected lists.
+
+
+## Integer averages and replacement semantics
+
+`AverageCollector` collects signed i64 values and finishes to `Option<f64>`.
+Empty means None; nonempty means convert the cached sum and count to f64 and
+then divide. Results are binary floating point, not exact decimal/rational or
+duration averages. The native count is usize. Integer input multiplicities allow
+missing-value removal/replacement to return false without changing state.
+
+The pinned Community public API probe establishes different arithmetic rules
+for each operation: insertion checks sum + value, removal checks sum - value,
+and replacement checks new - old before adding that difference to the sum with
+wrapping arithmetic. For example, replacing -1 with 1 in [i64::MAX, -1] produces
+a wrapped sum of i64::MIN. Conversely, replacing i64::MIN with i64::MAX is rejected
+even for a singleton, because the difference overflows. No production code was
+read or translated to establish these boundaries.
+
+Native try_insert / try_remove / try_replace return AverageOverflow and preserve
+state on rejection. The ReversibleCollector methods panic on these overflows;
+graph transactions invalidate and restore checkpoints when dropped. After a
+wrapping replacement, a full rebuild may reject an intermediate insertion sum.
+Even a previously representable total can encounter an overflowing prefix when
+replayed in source-ID order. Keep every required intermediate sum and replacement
+difference representable when relying on full-rebuild diagnostics. These are
+pinned arithmetic boundaries, not an unbounded mathematical-average guarantee.
+
+CollectNode now delegates same-key replacements to the collector and keeps the
+group's occurrence count unchanged. PairCollector delegates both components;
+MapCollector delegates within the same map key and uses captured removal/insertion
+when a key changes. This is necessary to distinguish replacement from removal
+followed by insertion. Candidate collector state and finished outputs still
+install together after successful work. Existing collectors inherit the isolated
+default replacement unless they need a specialized rule.
+
+Eight adapted average methods preserve all initial, duplicate, replacement and
+removal results across four tuple arities. Five original regressions cover numeric
+boundaries, missing values, nested replacement, overflow rollback, 2,000 grouped
+updates (seed 20261030) and construction/local search. The new original standalone
+AverageCollectorOracle and native average_oracle compare 137 sequences with 3,936
+observations against independent Python rules, including exact IEEE-754 result
+bits and expected rejections (seed 20261029). Each case stops at its first overflow;
+Java post-error container state is not reused or claimed to be transactional.
+These checks are separate from upstream credit and from stream lifecycle checks.
+They run with differential_streams.py and appear as supplemental dashboard evidence.

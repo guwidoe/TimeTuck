@@ -115,6 +115,12 @@ of event delivery. No general Java encounter-order or custom collection-factory
 API parity is claimed. Full-rebuild, snapshot and order-sensitive search regressions
 are original checks and grant no further upstream credit.
 
+Eight additional average methods preserve empty, insertion, duplicate, replacement
+and removal results across four tuple arities. Native nullable floating results
+use Option<f64>. Separate original public-API comparisons check exact result bits
+and operation-specific overflow behavior; they grant no extra upstream credit.
+Decimal, arbitrary-precision and duration average families remain pending.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

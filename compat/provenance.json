@@ -3780,6 +3780,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.average",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "average",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "uni_average",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.averageUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "averageUpdate",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "uni_average_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.average",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "average",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "bi_average",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.averageUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "averageUpdate",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "bi_average_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.average",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "average",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "tri_average",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.averageUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "averageUpdate",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "tri_average_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.average",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "average",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "quad_average",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.averageUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "averageUpdate",
+      "local_path": "crates/solver/tests/average_collector_cases.rs",
+      "local_test": "quad_average_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact Double average assertion and tuple mapping across empty state, insertion, duplicates, replacement, repeated replacement and removal. Native signed i64 mapped values replace the tested small Java Integer inputs; Option<f64> replaces nullable Double. Captured values and CollectNode stable IDs replace Java retractors and slots. Standalone empty finish is None; empty global graph groups emit no row. Numeric overflow and bit-exact public-API comparisons are separate original evidence and grant no additional method credit."
     }
   ],
   "fixtures": [
