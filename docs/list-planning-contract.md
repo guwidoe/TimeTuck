@@ -77,8 +77,8 @@ have one empty assignment; required remaining values with no mutable entities
 have no complete assignments. Optional values can all remain unassigned.
 
 Runtime grows factorially. Enumeration stores the candidate and best assignment
-plus insertion choices for each active depth. There is no branch-and-bound,
-heuristic list solving or list benchmark yet.
+plus insertion choices for each active depth. There is no branch-and-bound or list benchmark yet. Bounded heuristic solving
+is described below.
 Twelve original regressions check complete assignment sets against independent
 owner-selection and permutation enumeration, optima, budgets, ties, structural
 rejection, pins, derived shadows, move invariants, undo, atomic errors and panic
@@ -127,8 +127,8 @@ rejection, required/optional structure, neighbors, repeated/mixed scopes, non-de
 value IDs, pins, callback errors/panics, cancelling corruption and BendableScore
 wrapping boundaries. A public API doctest exercises a partial-to-complete commit.
 These original checks receive no upstream method credit or Java incremental-score
-compatibility claim. List construction/neighborhood/search integration remains
-pending.
+compatibility claim. Construction/neighborhood/search integration is described
+below.
 
 ## Java move evidence
 
@@ -148,3 +148,75 @@ nonempty unassignment spans. The 256 cases contain 907 move operations. It does 
 mixed models or exact Java traces. Passing generated checks grants no upstream
 method credit. The dashboard exposes this evidence separately from basic-variable
 solver and performance comparisons, with source freshness checks.
+
+## Construction and bounded local search
+
+`list_assign_moves`, `list_change_moves`, `list_unassign_moves` and
+`list_swap_moves` validate an immutable assignment, then lazily yield moves.
+Relocations use indices after removal and omit same-position no-ops. Swaps emit
+both directions of each distinct assigned-position pair. Optional swaps also
+include atomic replacements by currently unassigned values. Full pins exclude
+both sources and destinations; prefixes exclude their positions but allow
+insertion immediately after the prefix. Required partial assignments can use
+assignment moves during construction. Required unassignment iterators are empty.
+These native choices differ from Java provider constructor restrictions.
+
+`list_moves` combines relocations, optional assignments, optional unassignments,
+then swaps/replacements if `Neighborhood::ChangeAndSwap` is selected. Ordering is
+stable by entity, position and global value-range order. Individual moves may
+produce the same candidate state (for example opposite-direction swaps).
+No full neighborhood is materialized. Thirteen adapted upstream methods preserve
+all positive, negative and emptiness assertions for solution-wide ranges and
+full pins. Per-entity ranges, Java metadata and constructor assertions remain
+pending. Four fixture records separately attribute initial list states.
+
+`greedy_list_construction` retains every initial value and pin, then inserts
+missing required values in range order. It scans legal entity/index positions
+against the same base state and keeps the first highest score. The four shared
+`ConstructionPickEarly` policies compare ordinary score levels, ignoring the
+required-unassigned structural count. Optional missing values stay unassigned.
+A model with missing required values and no mutable lists returns
+`NoCompleteAssignment` without scoring. A zero budget otherwise returns the
+initial state without callbacks. Model/network validation still runs.
+
+The initial score counts once and each trial counts once. A winning candidate
+stores its assignment and sparse contribution updates; installation does not
+replay callbacks. If a candidate remains after the budget is consumed, the best
+scanned candidate is installed and `EvaluationLimit` is reported. This may yield
+a complete assignment even though its insertion scan was truncated. Exhausting
+the final scan exactly at the budget returns `Completed`. Construction neither
+backtracks nor proves hard feasibility or optimality. Partial results expose
+`complete`, optional score and assignment separately; `solution()` requires a
+complete scored assignment.
+
+`list_local_search_from` accepts a complete validated assignment, including a
+construction result, and starts a new scoring/acceptance session. The handoff
+rescore counts once. It supports the same five acceptance policies, first/best
+accepted selection and optional best-rejected fallback as basic local search.
+`MoveOrder::ShuffledVariables` shuffles entity-list order using its explicit seed;
+value-range order and positions remain stable. `Acceptance::VariableTabu` keys
+touched entity-list indices, including both lists for cross-list moves. Annealing
+uses a separate seeded random stream. Equal seeds do not imply equal Java traces.
+
+Each trial counts once; diagnostic full recomputations do not consume budgets or
+reported callback work. Completed steps include rejected fallback steps, while
+accepted moves count only accepted selections. At step boundaries the accepted
+move cap takes precedence over the step cap. Best-accepted selection can install
+the best scanned prefix before returning `EvaluationLimit`. A fully scanned
+neighborhood with no selection returns `NoAcceptedMove`, including exact budget
+exhaustion. The first global best survives worsening accepted/fallback steps.
+None of these termination reasons proves optimality. Callback errors or ordinary
+panics during candidate selection restore the base assignment and all cached
+contributions, even after an earlier candidate was saved.
+
+Fourteen original integration regressions and one unit regression check complete
+small neighborhood state sets, pins, lazy value cloning, budgets, first ties,
+early picks, optional replacement and capacity-constrained swap improvements,
+fallback accounting, entity tabu, validation at zero budget, cache reuse and
+selection failure rollback. Fifteen seeded policy/order combinations reproduce
+identical native results and match the independently scored exhaustive optimum
+on a six-value routing instance. These are native correctness/quality checks,
+not a claim of Java list-solver parity. The `list_routes` example constructs and
+searches 40 customers across four vehicles with explicit budgets, independently
+checks identities, capacity and distance, and enforces a fixed quality threshold.
+It is not a timing benchmark. Matched Java list-solving/timing remains pending.

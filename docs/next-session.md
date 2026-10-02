@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 129 fully adapted source test methods (74 score + 10 basic move + 22 list move + 8 provider + 11 acceptor + 4 construction), recorded in
+- 142 fully adapted source test methods (74 score + 10 basic move + 22 list move + 21 provider + 11 acceptor + 4 construction), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 108 original integration regression methods, one original unit test, and three public API documentation tests.
+- 122 original integration regression methods, two original unit tests, and three public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -53,7 +53,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 129 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 142 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -66,8 +66,8 @@ initialization-score assumptions. No production implementation has been ported.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
-2. Extend list support to greedy construction, neighborhoods
-   and heuristic search; then add matched Java list-solver and timing evidence.
+2. Add matched Java list-solver and timing evidence. Native greedy list
+   construction, lazy neighborhoods and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
    shadows, cascading/declarative listeners and mixed basic/list solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
@@ -92,10 +92,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (237 Rust integration methods,
-one unit test, three doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (264 Rust integration methods,
+two unit tests, three doctests, 22 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the incremental-list-scoring increment. Desktop 1440px and mobile 390px browser QA passed,
+after the list-heuristic increment. Desktop 1440px and mobile 390px browser QA passed,
 including move filtering and focus preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
 cases. The benchmark
@@ -226,3 +226,21 @@ plus bounded list local search with winner installation without callback replay.
 Current logs: work/list-scoring-check.log, work/list-scoring-release.log,
 work/list-scoring-evidence.log. Reuse the live dashboard server unless its imported
 Python reporting code changes.
+
+
+List heuristic milestone: `greedy_list_construction` inserts missing required
+values; `list_local_search_from` improves complete assignments with cached
+contributions and explicit evaluation/step/accepted-move limits. Shared policies
+include all five acceptors, first/best selection and rejected fallback. List tabu
+keys touched entity-list indices; shuffled-variable order means shuffled entities.
+Read docs/list-planning-contract.md for exact semantics. Thirteen provider methods
+are fully adapted; range/constructor/metadata methods remain pending. Fourteen
+original regressions plus one unit regression check neighborhood result sets,
+budgets, pins, optional replacement, swaps, seeds, small exact-optimum quality,
+callback counts and atomic selection failures. `list_routes` independently checks
+a bounded 40-customer/four-vehicle solve: `0hard/-80soft`, 941 construction
+evaluations/944 callbacks and 3,241 local evaluations/5,764 callbacks. Greedy
+construction already meets the quality threshold, so local search accepts no
+steps. It is not a Java runtime benchmark.
+Logs: work/list-heuristic-check.log, work/list-heuristic-release.log and
+work/list-heuristic-evidence.log. Matched Java list-solving remains next work.

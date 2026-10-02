@@ -31,6 +31,10 @@ The following test files adapt the pinned Community tests:
 - `crates/solver/tests/neighborhoods.rs` from `ChangeMoveProviderTest.java` and
   `SwapMoveProviderTest.java`, with initial states from `TestdataSolution`,
   `TestdataPinnedSolution` and `TestdataAllowsUnassignedSolution` test fixtures.
+- `crates/solver/tests/list_neighborhoods.rs` from `ListAssignMoveProviderTest.java`,
+  `ListChangeMoveProviderTest.java`, `ListSwapMoveProviderTest.java` and
+  `ListUnassignMoveProviderTest.java`, with the list, pinned-list, optional-list
+  and pinned-optional-list solution fixtures recorded in the provenance ledger.
 - `crates/solver/tests/hill_climbing_acceptor.rs` from `HillClimbingAcceptorTest.java`.
 - `crates/solver/tests/late_acceptance.rs` from `LateAcceptanceAcceptorTest.java`.
 - `crates/solver/tests/simulated_annealing.rs` from `SimulatedAnnealingAcceptorTest.java`.
@@ -42,7 +46,7 @@ The following test files adapt the pinned Community tests:
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 129 source methods are recorded individually in `compat/provenance.json`.
+All 142 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.

@@ -1,0 +1,170 @@
+//! Bounded local improvement of complete list assignments.
+use crate::{
+    Acceptance, AcceptanceError, AdditiveScore, ListAssignment, ListConstraintNetwork, ListProblem,
+    ListScoreDirector, ListScoringError, LocalSearchConfig, LocalSearchTermination, MoveOrder,
+    MoveSelection, RejectedMovePolicy, ScoredListAssignment,
+};
+use crate::{list_neighborhood::ordered, random::SplitMix64};
+use std::{error::Error, fmt};
+
+#[derive(Debug)]
+pub enum ListLocalSearchError {
+    Scoring(ListScoringError),
+    Acceptance(AcceptanceError),
+    IncompleteInitialAssignment,
+}
+impl fmt::Display for ListLocalSearchError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Scoring(e) => e.fmt(f),
+            Self::Acceptance(e) => e.fmt(f),
+            Self::IncompleteInitialAssignment => {
+                f.write_str("list local search requires a complete initial assignment")
+            }
+        }
+    }
+}
+impl Error for ListLocalSearchError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            Self::Scoring(e) => Some(e),
+            Self::Acceptance(e) => Some(e),
+            Self::IncompleteInitialAssignment => None,
+        }
+    }
+}
+impl From<ListScoringError> for ListLocalSearchError {
+    fn from(e: ListScoringError) -> Self {
+        Self::Scoring(e)
+    }
+}
+impl From<AcceptanceError> for ListLocalSearchError {
+    fn from(e: AcceptanceError) -> Self {
+        Self::Acceptance(e)
+    }
+}
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ListLocalSearchResult<V, S> {
+    pub best: Option<ScoredListAssignment<V, S>>,
+    pub evaluations: u64,
+    pub accepted_moves: u64,
+    pub completed_steps: u64,
+    pub constraint_evaluations: u128,
+    pub termination: LocalSearchTermination,
+}
+/// Improve a complete assignment, for example the output of greedy construction.
+/// Uses the shared search configuration: Change includes relocations plus optional
+/// assign/unassign moves; ChangeAndSwap adds ordered swaps and optional replacements.
+/// ShuffledVariables shuffles entity lists; insertion positions and value order
+/// remain fixed. VariableTabu uses touched entity-list indices as stable keys.
+///
+/// The initial rescore counts once, each trial once; accepted and completed-step
+/// limits are separate. First/best accepted candidates install saved caches without
+/// replay. Optional rejected fallback may worsen the current state, but the first
+/// global best is retained. No termination here proves global optimality.
+/// Invalid shape, pins, completeness and acceptance settings fail even at zero budget.
+pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    config.acceptance.validate()?;
+    network.validate(problem, &initial)?;
+    if !problem.is_complete(&initial) {
+        return Err(ListLocalSearchError::IncompleteInitialAssignment);
+    }
+    let mut result = ListLocalSearchResult {
+        best: None,
+        evaluations: 0,
+        accepted_moves: 0,
+        completed_steps: 0,
+        constraint_evaluations: 0,
+        termination: LocalSearchTermination::EvaluationLimit,
+    };
+    if config.max_evaluations == 0 {
+        return Ok(result);
+    }
+    let mut director = ListScoreDirector::new(problem, network, initial)?;
+    let mut acceptor = config.acceptance.start(director.score())?;
+    let mut random = match config.move_order {
+        MoveOrder::Original => None,
+        MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
+    };
+    result.evaluations = 1;
+    result.constraint_evaluations = network.constraint_count() as u128;
+    result.best = Some(ScoredListAssignment {
+        assignment: director.assignment().clone(),
+        score: director.score(),
+    });
+    if config.assert_scores {
+        director.assert_consistent()?;
+    }
+    loop {
+        if result.accepted_moves == config.max_accepted_moves {
+            result.termination = LocalSearchTermination::AcceptedMoveLimit;
+            return Ok(result);
+        }
+        if result.completed_steps == config.max_steps {
+            result.termination = LocalSearchTermination::StepLimit;
+            return Ok(result);
+        }
+        let snapshot = director.assignment().clone();
+        let mut order: Vec<_> = (0..problem.entities().len()).collect();
+        if let Some(random) = &mut random {
+            random.shuffle(&mut order);
+        }
+        let moves = ordered(
+            problem,
+            &snapshot,
+            config.neighborhood,
+            order.iter().copied(),
+        );
+        let current = director.score();
+        let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
+        let selection = director.select_best(
+            moves,
+            config.max_evaluations - result.evaluations,
+            config.rejected_moves == RejectedMovePolicy::BestScore,
+            |movement, score| {
+                let keys = if tracks_entities {
+                    movement.touched_entities()
+                } else {
+                    vec![]
+                };
+                acceptor.accepts(current, score, &keys)
+            },
+            |_| config.selection == MoveSelection::FirstAccepted,
+            config.assert_scores,
+        )?;
+        result.evaluations += selection.evaluations;
+        result.constraint_evaluations += selection.constraint_evaluations;
+        if let Some(movement) = &selection.selected {
+            if director.score() > result.best.as_ref().expect("initial best").score {
+                result.best = Some(ScoredListAssignment {
+                    assignment: director.assignment().clone(),
+                    score: director.score(),
+                });
+            }
+            let keys = if tracks_entities {
+                movement.touched_entities()
+            } else {
+                vec![]
+            };
+            acceptor.step_ended(director.score(), &keys);
+            result.accepted_moves += u64::from(selection.selected_accepted);
+            result.completed_steps += 1;
+        }
+        if config.assert_scores {
+            director.assert_consistent()?;
+        }
+        if selection.evaluation_limit {
+            result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if selection.selected.is_none() {
+            result.termination = LocalSearchTermination::NoAcceptedMove;
+            return Ok(result);
+        }
+    }
+}

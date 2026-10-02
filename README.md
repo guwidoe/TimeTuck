@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list search, incremental basic/list scoring, construction and local search.**
-The solver is still under development. Scores, moves, acceptance and construction behavior cover 129 adapted upstream
+The solver is still under development. Scores, moves, acceptance and construction behavior cover 142 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
@@ -30,11 +30,16 @@ reference submodule is initialized. See `docs/score-contract.md` and
 
 Run the exact scheduling example with `cargo run --example tiny_schedule`, or
 the exact route example with `cargo run --example tiny_routes`, or
-the larger incremental example with `cargo run --release --example graph_coloring`.
+the larger incremental examples with `cargo run --release --example graph_coloring`
+and `cargo run --release --example list_routes`.
 Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each
 unassigned required variable; `local_search_from` improves the resulting assignment.
+For ordered lists, `greedy_list_construction` inserts missing required values and
+`list_local_search_from` improves a complete assignment with lazy relocation,
+assignment, unassignment, swap and replacement moves. See
+`docs/list-planning-contract.md` for budgets, pinning and evidence.
 
 ## Upstream test reference
 

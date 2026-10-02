@@ -149,7 +149,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         });
         Ok(index)
     }
-    fn validate(
+    pub(crate) fn validate(
         &self,
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
@@ -231,6 +231,20 @@ pub struct ListScoreDirector<'p, 'c, V, S> {
     contributions: Vec<S>,
     score: S,
 }
+pub(crate) struct ListSelection<V> {
+    pub selected: Option<ListMove<V>>,
+    pub selected_accepted: bool,
+    pub evaluations: u64,
+    pub constraint_evaluations: u128,
+    pub evaluation_limit: bool,
+}
+struct Selected<V, S> {
+    movement: ListMove<V>,
+    assignment: ListAssignment<V>,
+    score: S,
+    updates: Vec<(usize, S)>,
+    accepted: bool,
+}
 impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
     pub fn new(
         problem: &'p ListProblem<V>,
@@ -250,6 +264,71 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             contributions,
             score,
         })
+    }
+    /// Keep candidates and sparse updates within this exclusive session borrow.
+    /// Any error or panic before installation leaves the base and cache intact.
+    pub(crate) fn select_best(
+        &mut self,
+        moves: impl IntoIterator<Item = ListMove<V>>,
+        max_evaluations: u64,
+        allow_rejected: bool,
+        mut accepts: impl FnMut(&ListMove<V>, S) -> bool,
+        quit_early: impl Fn(S) -> bool,
+        assert_scores: bool,
+    ) -> Result<ListSelection<V>, ListScoringError> {
+        let mut result = ListSelection {
+            selected: None,
+            selected_accepted: false,
+            evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut best: Option<Selected<V, S>> = None;
+        let network = self.network;
+        let problem = self.problem;
+        for movement in moves {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let candidate = self.apply(&movement)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += candidate.constraint_evaluations() as u128;
+            if assert_scores
+                && network.calculate(problem, candidate.assignment())? != candidate.score()
+            {
+                return Err(ListScoringError::CorruptedTotal);
+            }
+            let accepted = accepts(&movement, candidate.score());
+            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
+                continue;
+            }
+            if best
+                .as_ref()
+                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+            {
+                best = Some(Selected {
+                    movement: movement.clone(),
+                    assignment: candidate.assignment().clone(),
+                    score: candidate.score(),
+                    updates: candidate.updates.clone(),
+                    accepted,
+                });
+            }
+            if accepted && quit_early(candidate.score()) {
+                break;
+            }
+        }
+        if let Some(best) = best {
+            self.assignment = best.assignment;
+            for (index, score) in best.updates {
+                self.contributions[index] = score;
+            }
+            self.score = best.score;
+            result.selected = Some(best.movement);
+            result.selected_accepted = best.accepted;
+        }
+        Ok(result)
     }
     pub fn assignment(&self) -> &ListAssignment<V> {
         &self.assignment
@@ -352,5 +431,68 @@ impl<V, S: Copy> ScoredListMove<'_, V, S> {
         }
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
+    }
+}
+
+#[cfg(test)]
+mod selection_tests {
+    use super::*;
+    use crate::{ListEntity, ListPosition, SimpleScore};
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+
+    #[test]
+    fn selection_failure_after_saved_candidate_restores_assignment_and_cache() {
+        let p = ListProblem::new(vec![0, 1, 2], vec![ListEntity::new(vec![0])])
+            .unwrap()
+            .allowing_unassigned();
+        for panic in [false, true] {
+            let mut network = ListConstraintNetwork::new(1, 3);
+            network
+                .add_constraint(
+                    "fail on second candidate",
+                    vec![ListScope::Entity(0)],
+                    |f| {
+                        let ListFact::Entity(list) = &f[0] else {
+                            unreachable!()
+                        };
+                        if list.contains(&2) {
+                            if panic {
+                                panic!("callback failure");
+                            }
+                            return SimpleScore::ZERO.with_structural(-1);
+                        }
+                        SimpleScore::new(list.len() as i64)
+                    },
+                )
+                .unwrap();
+            let mut d = ListScoreDirector::new(&p, &network, p.initial_assignment()).unwrap();
+            let outcome = catch_unwind(AssertUnwindSafe(|| {
+                d.select_best(
+                    [1, 2].map(|value| ListMove::Assign {
+                        value,
+                        destination: ListPosition {
+                            entity: 0,
+                            index: 0,
+                        },
+                    }),
+                    2,
+                    false,
+                    |_, _| true,
+                    |_| false,
+                    false,
+                )
+            }));
+            if panic {
+                assert!(outcome.is_err());
+            } else {
+                assert!(matches!(
+                    outcome.unwrap(),
+                    Err(ListScoringError::StructuralContribution { constraint: 0 })
+                ));
+            }
+            assert_eq!(d.assignment(), &p.initial_assignment());
+            assert_eq!(d.score(), SimpleScore::new(1));
+            d.assert_consistent().unwrap();
+        }
     }
 }

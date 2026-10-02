@@ -28,8 +28,10 @@ not this Rust implementation. Its cases must be classified and adapted.
 Twenty-two list-move methods additionally preserve ordered assignment, relocation,
 swap and span-unassignment states and undo. Native derived owner/index/neighbor
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
-Java move metadata, rebase, custom listeners and heuristic list solving remain
-pending. Original generated list-move comparisons are separate from coverage.
+Thirteen list-provider methods additionally preserve move membership and
+exclusion assertions. Native greedy list construction and bounded local search
+are verified separately with original regressions. Java move metadata, rebase,
+custom listeners and matched list-solver comparisons remain pending. Original generated list-move comparisons are separate from coverage.
 
 The first three integer score families have 47 adapted tests; BendableScore adds
 27, using native compile-time dimensions in place of Java score definitions; basic change/swap

@@ -66,3 +66,13 @@ pub mod list_scoring;
 pub use list_scoring::{
     ListConstraintNetwork, ListFact, ListScope, ListScoreDirector, ListScoringError, ScoredListMove,
 };
+
+pub mod list_neighborhood;
+pub use list_neighborhood::{
+    list_assign_moves, list_change_moves, list_moves, list_swap_moves, list_unassign_moves,
+};
+
+pub mod list_construction;
+pub use list_construction::{ListConstructionResult, greedy_list_construction};
+pub mod list_local_search;
+pub use list_local_search::{ListLocalSearchError, ListLocalSearchResult, list_local_search_from};
