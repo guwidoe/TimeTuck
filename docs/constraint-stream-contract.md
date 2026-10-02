@@ -610,3 +610,50 @@ bits and expected rejections (seed 20261029). Each case stops at its first overf
 Java post-error container state is not reused or claimed to be transactional.
 These checks are separate from upstream credit and from stream lifecycle checks.
 They run with differential_streams.py and appear as supplemental dashboard evidence.
+
+
+## Signed duration aggregation
+
+SignedDuration is an immutable, ordered i128 nanosecond value restricted to a
+normalized i64 seconds component and 0..999999999 subsecond nanoseconds.
+from_seconds is exact; from_nanos rejects values outside that range. Negative
+values use floor seconds and a nonnegative fractional part (-1ns is -1s plus
+999999999ns). This representation follows the public
+[Java Duration contract](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html).
+No parsing, calendar arithmetic or general java.time API compatibility is claimed.
+
+DurationSumCollector and DurationAverageCollector retain persistent captured
+multiplicities. Clone shares roots; missing removal/replacement returns false.
+Sum finish returns zero for empty state; average finish returns None. Generic
+keyed/global graph collection, map/pair composition, transactions, construction
+and search accept both collectors without new graph node types.
+
+Public Community probes establish that duration replacement subtracts the old
+value before inserting the new value. Arithmetic checks normalized seconds
+intermediates, even when carrying nanoseconds would yield a representable final
+value. For example, adding -1ns to MIN+1ns rejects, while subtracting 1ns from
+MIN+1ns yields MIN. Subtraction of a MIN-seconds value handles its unrepresentable
+negated seconds through two representable additions. These boundaries are
+verified against the pinned public API, without reading production code.
+
+Duration averages first narrow the entire sum to i64 nanoseconds and only then
+divide by count, truncating fractional nanoseconds toward zero. A total of
+9223372036854775808ns therefore rejects at finish even with two inputs whose
+average fits i64. This differs from unbounded mathematical duration averaging.
+try_finish returns the error without mutation. Update try methods preserve state
+on arithmetic rejection, but a successful update may leave an average whose
+finish rejects. Trait finish/update methods panic on errors; graph transactions
+invalidate and restore cached roots/model on drop. No Java post-error rollback
+behavior is inferred. Full-rebuild diagnostics may reject different normalized
+intermediate sums when source-ID replay changes insertion order; use values with
+representable intermediates when requiring reconstruction to succeed.
+
+Sixteen adapted methods preserve all assertions across four tuple arities.
+Six original regressions add 5,000 arithmetic pairs (seed 20261101), 3,000 graph
+updates with independent sum/average checks (seed 20261102), snapshots, failed
+updates/finish, nested composition and construction/search quality. Original
+DurationCollectorOracle and duration_oracle adapters compare 288 sequences and
+7,650 observations against Python (seed 20261031), including 142 expected errors
+with their update/finish stage. Each sequence stops at its first error. The
+stream comparison saves this evidence separately; it adds no upstream credit or
+duration timing claim. Existing search benchmarks do not exercise durations.

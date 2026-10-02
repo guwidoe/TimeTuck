@@ -11,6 +11,7 @@ from differential_scores import ROOT, REF, source_digest
 from differential_solver import generate as basic_cases, encode as encode_basic
 from prepare_solver_oracle import prepare_solver_java
 from average_collector_checks import run_checks as check_averages
+from duration_collector_checks import run_checks as check_durations
 
 SEED = 20261017
 
@@ -81,8 +82,8 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
@@ -90,6 +91,8 @@ def main():
     subprocess.run(['java','-Xms256m','-Xmx256m','-cp',cp,'AggregationBoundaryOracle'],check=True,timeout=60)
     average_checks=check_averages(cp)
     print(f'Average collectors: {average_checks["passed"]}/{average_checks["total"]} cases; {average_checks["observations"]} observations',flush=True)
+    duration_checks=check_durations(cp)
+    print(f'Duration collectors: {duration_checks["passed"]}/{duration_checks["total"]} cases; {duration_checks["observations"]} observations',flush=True)
     outputs={}
     for runtime,cmd in {'java':['java','-Xms256m','-Xmx256m','-cp',cp,'StreamOracle'],
                         'rust':[str(ROOT/'target/release/examples/stream_oracle')]}.items():
@@ -107,6 +110,7 @@ def main():
             'reference':REF,'artifacts':artifacts,'seed':SEED,'total':len(cases),'passed':len(cases),
             'observations':len(observations),'failures':[],'cases':cases,'results':results,'platform':platform.platform(),
             'average_collector_checks':average_checks,
+            'duration_collector_checks':duration_checks,
             'aggregation_boundary_checks':{'passed':3,'total':3,
                 'scope':'Separate Community full score updates for empty, one zero-valued fact, and removed-last-fact global count/sum groups. Native boundaries checked by collecting_stream_regression; no additional differential-case or upstream-method credit.'},
             'methodology':'Original required-variable cases, including partial assignments, duplicate/self edges, signed weights, zero/cancelling group sums, pins, committed and trial/undo edits. Constraints: indexed edge/job joins penalize equal endpoint values; nonzero group sums contribute sum*abs(sum) to soft score. Java Community SolutionManager.update rebuilds a score session for each observation; Rust uses persistent incremental transactions. Both ordinary scores checked against independent Python loops. Native exact conflict IDs and group sums also checked. Community update exposes no match-analysis API; no Java match-set, structural-validation or incremental-update timing claim. No additional upstream method coverage.'}

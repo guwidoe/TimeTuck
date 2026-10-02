@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 260 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 50 collector + 62 stream), recorded in
+- 276 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 66 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 227 original integration regression methods, seven original unit tests, and fifteen public API documentation tests.
+- 233 original integration regression methods, seven original unit tests, and sixteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 260 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 276 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (decimal/duration collectors and mixed basic/list solving) and applicable upstream cases.
+0. Expand persistent operators (decimal/arbitrary-precision collectors and mixed basic/list solving) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (487 Rust integration methods,
-seven unit tests, fifteen doctests, 42 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (509 Rust integration methods,
+seven unit tests, sixteen doctests, 45 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,8 +457,8 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 494 Rust tests (487 integration + seven unit), fifteen doctests,
-and 42 Python reporting/validator tests. Refresh all nine evidence artifacts after
+Current check totals: 516 Rust tests (509 integration + seven unit), sixteen doctests,
+and 45 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
 
@@ -716,3 +716,30 @@ These workloads do not time average collectors; no average performance claim.
 Logs: work/average-{check,release,focused}.log,
 average-stream-{evidence,performance}.log, average-list-refresh.log,
 average-core-refresh.log and average-heuristic-performance.log.
+
+
+Signed-duration increment: SignedDuration, DurationSumCollector and
+DurationAverageCollector implement checked normalized arithmetic, persistent
+multiplicities and composed graph collection. Average finishing narrows the total
+to i64 nanoseconds before division toward zero; it may fail after a successful
+update. Graph transactions restore both update and finish failures. Read the
+signed-duration section of the stream contract for intermediate overflow rules.
+Sixteen fully adapted methods and six original regressions are added. Verified
+new totals: 516 Rust tests (276 adapted + 233 original integration + seven unit),
+sixteen doctests and 45 Python regressions; streams 128/1,045.
+Original duration adapters check 288 cases / 7,650 observations, including 142
+expected update/finish errors. Integrated into differential_streams and dashboard
+as separate evidence with seed 20261031. Full debug/release gates pass and all
+nine comparison/timing sections are current. Source/report/live fingerprints
+agree. Browser checks at desktop 1280px and mobile 390px show 276/4,855 (5.68%)
+overall, 128/1,045 (12.25%) streams, sixteen duration methods passing under search,
+and correct supplemental counts/seed. No browser errors or horizontal overflow.
+Server PID 27800 was reused; browser sessions are closed. Upstream is unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 53.812 / 15.565,
+hill96 208.301 / 30.494, tabu32 54.741 / 14.864, tabu96 199.678 / 28.108.
+Scores agree; both 96-variable cases remain infeasible at the fixed step cap.
+These timing workloads do not exercise durations. Logs:
+work/duration-{check,release,regression,build}.log,
+duration-stream-{evidence,performance}.log, duration-list-refresh.log,
+duration-core-refresh.log and duration-heuristic-performance.log.

@@ -277,3 +277,12 @@ replacement-difference overflows, including wrapping replacement totals. Cases
 stop at the first rejection; no Java rollback behavior is inferred. Full inputs
 and outputs are retained under average_collector_checks in stream-differential.json.
 This evidence grants no additional upstream-method credit or average timing claim.
+
+
+The stream evidence also contains duration_collector_checks: 288 original
+signed-duration sum/average sequences, compared exactly through Community public
+handles and native collectors against Python. Update and finisher overflow are
+distinguished; 7,650 observations include 142 expected errors. The dashboard shows
+these counts and their seed separately from average and stream-score cases.
+No post-error Java state, additional upstream credit, or duration-specific timing
+is claimed. Full inputs and outputs are retained in the downloadable report.

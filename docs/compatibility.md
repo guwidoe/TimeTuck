@@ -119,7 +119,14 @@ Eight additional average methods preserve empty, insertion, duplicate, replaceme
 and removal results across four tuple arities. Native nullable floating results
 use Option<f64>. Separate original public-API comparisons check exact result bits
 and operation-specific overflow behavior; they grant no extra upstream credit.
-Decimal, arbitrary-precision and duration average families remain pending.
+Decimal and arbitrary-precision average families remain pending.
+
+Sixteen duration sum/average methods preserve all exact nanosecond, empty,
+duplicate, replacement and removal assertions across four tuple arities.
+SignedDuration replaces java.time.Duration; no general date/time or Java object
+identity API parity is claimed. Original public-API checks distinguish update
+overflow from average-finisher overflow, including narrowing the total to i64
+nanoseconds before division. See the stream contract for boundary behavior.
 
 ## Case records and coverage
 
