@@ -30,8 +30,8 @@
 //! ```
 
 use crate::{
-    AdditiveScore, ExistenceMode, ExistsNode, FilterNode, GroupNode, IntSummary, JoinNode,
-    ScoreNode, SnapshotMap, TupleChange,
+    AdditiveScore, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode, IntSummary,
+    JoinNode, ScoreNode, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -237,6 +237,24 @@ impl<
         } else {
             self.0.apply_left(typed::<I, L>(event).clone())
         }))
+    }
+}
+
+struct Distinct<I, T>(DistinctNode<I, T>);
+impl<I: Ord + Clone + 'static, T: Ord + Clone + 'static, S: AdditiveScore> Node<S>
+    for Distinct<I, T>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(self.0.apply(typed::<I, T>(event).clone())))
     }
 }
 
@@ -456,6 +474,18 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Emit one representative per value class under `T::cmp`. The lowest input
+    /// ID supplies the payload; a representative change propagates an update.
+    /// Include fact identity in the value when equal attributes must not collapse.
+    pub fn distinct<I: Ord + Clone + 'static, T: Ord + Clone + 'static>(
+        &mut self,
+        input: &StreamPort<I, T>,
+    ) -> Result<StreamPort<T, T>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(Distinct(DistinctNode::<I, T>::new()));
+        self.connect(input.node, out.node, false);
         Ok(out)
     }
     /// An indexed semi/anti join preserving left identities and payloads. Only

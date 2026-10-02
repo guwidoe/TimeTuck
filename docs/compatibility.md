@@ -79,6 +79,12 @@ filtering and existence after grouping. Native transactional existence relations
 replace notification/descriptor plumbing; unsupported-class exceptions and global
 empty aggregation remain pending. See the stream contract and provenance ledger.
 
+Twenty mapping/distinct methods additionally preserve all initial/removal scores
+and exact match multiplicities across uni/bi/tri/quad streams. Stable tagged IDs
+and native tuple/set equality replace Java object references. A persistent
+distinct node integrates with typed graphs; representative and panic/rollback
+behavior have separate original regressions. See the stream contract and ledger.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

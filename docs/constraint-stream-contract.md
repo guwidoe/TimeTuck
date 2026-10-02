@@ -88,6 +88,17 @@ Read the pipeline's final result only after all outputs have been delivered.
   ordinary callback/key/clone panics leave this standalone node unchanged.
   Memory is proportional to facts plus matching pairs; dense relations can require
   quadratic space. Empty right input retains every left row only in NotExists mode.
+- `DistinctNode<I,T>` keeps one output per `T::cmp` equivalence class, identified
+  by that class. Only equality/ordering of that ID is meaningful; current
+  representative data comes from the payload. Equality and ordering must agree.
+  The lowest input ID supplies
+  its payload, so equal values with different non-key data remain well-defined.
+  Replacing or removing that representative updates the surviving class; changing
+  a nonrepresentative duplicate emits nothing. Last removal retracts the class.
+  `occurrences` reports multiplicity. Input values are captured for removal by ID.
+  Persistent candidates and output are prepared before installation; ordinary
+  clone/ordering panics preserve the previous node. Storage is linear in facts
+  and classes, with logarithmic map operations and constant-size checkpoints.
 - `GroupNode` caches each input ID's mapped key and integer. An update retracts
   the captured old value and accumulates the new one in the affected groups only.
   It emits one final summary for a same-key replacement, old then new summaries
@@ -121,7 +132,11 @@ Use snapshot pipelines in those callbacks, or the separate transactional
 ## Typed graph transactions
 
 `StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
-filters, maps, equality/existence joins, integer groups and named score terminals.
+filters, maps, equality/existence joins, distinct, integer groups and named score terminals.
+`distinct(input)` returns `StreamPort<T,T>`: value-class identity and representative
+payload. Include a stable fact ID in the value to distinguish facts with identical
+attributes. Representative priority is native input-ID order, not a claim about
+Java representative choice or snapshot-stream encounter order.
 `existence(left, right, mode, left_key, right_key, predicate)` selects matching or
 unmatched left rows. Constant keys allow predicate-only matching. A stable-ID
 inequality predicate excludes self matches. Both sides of self-relations receive
@@ -228,7 +243,7 @@ from reported search work. `StreamGraph::assert_consistent` and the director's
 method expose the same check; a diagnostic failure on an active graph transaction
 invalidates that transaction. This verifies scores, not arbitrary payload equality.
 
-List-variable stream sources and incremental distinct operators remain pending.
+List-variable stream sources and richer incremental collectors remain pending.
 Run `cargo run --release --example stream_coloring` for an original
 24-variable construction/search example with independent result verification.
 
@@ -331,3 +346,21 @@ Construction and local search both reach a directly verified zero-score assignme
 using existence constraints and full-rebuild diagnostics. One public doctest
 demonstrates NotExists transitions. Existing Java stream timing workloads use
 join/group scoring; they do not benchmark the new existence node.
+
+Twenty adapted uni/bi/tri/quad methods preserve no-op distinct, mapped duplicate
+and nonduplicate streams, and mapped distinct with/without duplicates. Every
+initial and first-entity-removal score and match assertion is retained. Cartesian
+self-joins plus stable-ID ordering reproduce the tested unique pairs; third-fact
+self-exclusion and indexed group joins retain the tri/quad query structures.
+The tri nonduplicate mapping deliberately uses only the first two groups, exactly
+as the source test specifies. Tagged identities and sorted sets preserve tuple
+and group-set equality. Fixture and assertion-helper provenance is recorded.
+
+Seven original regressions additionally cover 6,000 generated updates with equal
+keys/different payloads (seed 20261020), 1,000 three-write graph transactions with
+commit/undo and retained snapshots (seed 20261021), representative replacement,
+nullable tuple values, 180 combined clone/ordering failure budgets, terminal
+errors/panics, and construction/search minimizing distinct assigned values.
+Nested distinct nodes are checked against independent lowest-ID representatives
+and full graph rebuilds. One API doctest demonstrates duplicate multiplicity and
+retraction. Existing Java timing workloads do not measure this new node.

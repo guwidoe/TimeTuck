@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 175 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 22 stream), recorded in
+- 195 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 42 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 184 original integration regression methods, six original unit tests, and nine public API documentation tests.
+- 191 original integration regression methods, six original unit tests, and ten public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 175 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 195 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,10 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (distinct, richer collectors) and applicable upstream cases.
+0. Expand persistent operators (richer collectors, global empty aggregation) and applicable upstream cases.
+   Incremental distinct now retains one lowest-input-ID representative per ordered
+   value class and refreshes changed representative payloads. Twenty mapping/
+   distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
    Indexed existence/anti-existence with pair filters is now implemented; thirteen
    more upstream methods preserve all score/match assertions. Cached match links
    require memory proportional to matching pairs; consider counts-only equality
@@ -481,3 +484,18 @@ is unmodified. Live dashboard/source fingerprints match; the browser shows
 The existing dashboard server (PID 13462) was reused without restart because
 reporting/fingerprint Python code did not change. Logs: work/existence-check.log,
 work/existence-release.log and work/existence-evidence-{a,b}.log.
+
+Distinct milestone: persistent duplicate elimination now integrates with graph
+transactions, construction and local search, with twenty adapted upstream methods
+and seven original regressions. Verified totals: 392 Rust tests, ten doctests,
+39 Python tests; 195/4,855 upstream passes and 47/1,045 stream passes.
+
+Distinct verification: debug/release gates pass. All nine comparison/timing
+artifacts were refreshed; live dashboard/report hashes agree. Browser verification
+shows 47/1,045 stream passes (4.50%) and all twelve newly adapted distinct-named methods passing
+(the other eight adapted methods check mapping multiplicity). No browser errors
+or horizontal overflow. Existing server PID 13462 was reused; upstream stays
+unmodified. Logs: work/distinct-check.log, work/distinct-release.log and
+work/distinct-evidence-{a,b}.log. The first batch ended with signal 15 after
+saving its timing artifacts; the uncompleted list oracle ran in the second batch
+and passed. No successful measurements were inferred from an interrupted command.

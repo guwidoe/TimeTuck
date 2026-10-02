@@ -2625,6 +2625,306 @@
       "upstream_test": "ifExistsAfterGroupBy",
       "local_test": "if_exists_after_group_by",
       "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. A unit-key group and distinct-count projection preserve the singleton count match at all three nonempty states (1, 2, 1); both extra facts remain present. Global empty aggregation semantics are not exercised by this method."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "distinct",
+      "local_test": "uni_distinct",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.mapToUniWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithDuplicates",
+      "local_test": "uni_map_to_uni_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.mapToUniAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithDuplicates",
+      "local_test": "uni_map_to_uni_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.mapToUniWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithoutDuplicates",
+      "local_test": "uni_map_to_uni_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.mapToUniAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithoutDuplicates",
+      "local_test": "uni_map_to_uni_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "distinct",
+      "local_test": "bi_distinct",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.mapToUniWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithDuplicates",
+      "local_test": "bi_map_to_uni_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.mapToUniAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithDuplicates",
+      "local_test": "bi_map_to_uni_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.mapToUniWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithoutDuplicates",
+      "local_test": "bi_map_to_uni_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractBiConstraintStreamTest.mapToUniAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithoutDuplicates",
+      "local_test": "bi_map_to_uni_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "distinct",
+      "local_test": "tri_distinct",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  The third entity join preserves self-exclusion. Duplicate cases project all three groups; nonduplicate cases deliberately project only the first two, exactly as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.mapToUniWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithDuplicates",
+      "local_test": "tri_map_to_uni_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  The third entity join preserves self-exclusion. Duplicate cases project all three groups; nonduplicate cases deliberately project only the first two, exactly as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.mapToUniAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithDuplicates",
+      "local_test": "tri_map_to_uni_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  The third entity join preserves self-exclusion. Duplicate cases project all three groups; nonduplicate cases deliberately project only the first two, exactly as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.mapToUniWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithoutDuplicates",
+      "local_test": "tri_map_to_uni_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  The third entity join preserves self-exclusion. Duplicate cases project all three groups; nonduplicate cases deliberately project only the first two, exactly as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractTriConstraintStreamTest.mapToUniAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithoutDuplicates",
+      "local_test": "tri_map_to_uni_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  The third entity join preserves self-exclusion. Duplicate cases project all three groups; nonduplicate cases deliberately project only the first two, exactly as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "distinct",
+      "local_test": "quad_distinct",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.mapToUniWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithDuplicates",
+      "local_test": "quad_map_to_uni_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.mapToUniAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithDuplicates",
+      "local_test": "quad_map_to_uni_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.mapToUniWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToUniWithoutDuplicates",
+      "local_test": "quad_map_to_uni_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractQuadConstraintStreamTest.mapToUniAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToUniAndDistinctWithoutDuplicates",
+      "local_test": "quad_map_to_uni_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial and incremental score/match assertion, including duplicate match multiplicity, exact projected sets/tuples, per-match -1 contributions, constraint name and total. Native tagged IDs represent Java entity/group identities. The no-op distinct cases retain original entity identities; mapping cases preserve group set equality and first-entity removal. Graph source notifications replace Java descriptor plumbing. No custom justification, planning-ID ordering beyond these generated fixture IDs, or indictment API claim. Native equality self-joins with constant keys and stable-ID ordering reproduce unique pairs.  Two indexed joins to group fact sources preserve both group identities and the specified two/three-entity fixtures."
     }
   ],
   "fixtures": [
@@ -2900,6 +3200,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo",
       "modifications": "Native assert_matches checks exact left IDs/payloads, all -1 contributions, constraint name, match count and total at every source assertion. Typed terminal handles replace namespace lookup. Fixture only; no executable-method credit or custom justification/indictment claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "TestdataLavishSolution.distinct_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Inline the exact entity/group/value counts and modulo group/value assignments used by all twenty cases. Native tagged IDs distinguish entity and group identities; unused codes, random longProperty and unused fact types are omitted. Fixture only; no executable-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/distinct_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.distinct_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Check exact sorted match payloads and multiplicities, all -1 contributions, constraint name and total. A native sorted set of group IDs preserves asSet equality; typed terminal handles replace namespace lookup. Fixture only; no executable-method credit or custom justification/indictment claim."
     }
   ]
 }
