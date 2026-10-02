@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Compare Community full score updates with native transactional stream edits."""
+import itertools
+import json
+import platform
+import random
+import subprocess
+from collections import defaultdict
+from datetime import datetime, timezone
+from differential_scores import ROOT, REF, source_digest
+from differential_solver import generate as basic_cases, encode as encode_basic
+from prepare_solver_oracle import prepare_solver_java
+
+SEED = 20261017
+
+def score(case, values):
+    hard = -sum(values[a] is not None and values[a] == values[b] for a,b in case['edges'])
+    groups = defaultdict(int)
+    for i,v in enumerate(values):
+        if v is not None: groups[v] += case['weights'][i][v]
+    return hard, sum(s*abs(s) for s in groups.values())
+
+def optimum(case):
+    domains = [[v] if pin else range(case['value_count']) for v,pin in zip(case['initial'],case['pins'])]
+    return max(score(case, values) for values in itertools.product(*domains))
+
+def generate():
+    rng = random.Random(SEED)
+    cases = basic_cases()
+    for i in range(64):
+        n,k = rng.randint(1,7),rng.randint(1,4)
+        cases.append({'id':f'stream-{i:02}', 'value_count':k,
+                      'initial':[None if i%4==0 or rng.random()<.3 else rng.randrange(k) for _ in range(n)],
+                      'pins':[False]*n,
+                      'edges':[(rng.randrange(n),rng.randrange(n)) for _ in range(rng.randint(0,2*n))],
+                      'weights':[[0 if i%8==0 else rng.randint(-9,9) for _ in range(k)] for _ in range(n)]})
+    for case in cases:
+        movable=[i for i,pin in enumerate(case['pins']) if not pin]
+        case['operations']=[{'kind':'t' if rng.random()<.4 else 'c','variable':rng.choice(movable),
+                             'value':None if rng.random()<.25 else rng.randrange(case['value_count'])}
+                            for _ in range(16)] if movable else []
+    return cases
+
+def encode(case):
+    return encode_basic(case)+'\t'+';'.join(f'{op["kind"]}:{op["variable"]}:{"-" if op["value"] is None else op["value"]}' for op in case['operations'])
+
+def states(case):
+    values=case['initial'][:]
+    yield values[:]
+    for op in case['operations']:
+        i=op['variable']; old=values[i]; values[i]=op['value']
+        yield values[:]
+        if op['kind']=='t':
+            values[i]=old
+            yield values[:]
+
+def expected_matches(case, values):
+    edges=[i for i,(a,b) in enumerate(case['edges']) if values[a] is not None and values[a]==values[b]]
+    groups=defaultdict(int)
+    for i,v in enumerate(values):
+        if v is not None: groups[v]+=case['weights'][i][v]
+    return edges,sorted((k,v) for k,v in groups.items() if v!=0)
+
+def validate(case, state, values, line, runtime):
+    fields=line.split('\t')
+    if len(fields)!=7 or fields[:2]!=[case['id'],str(state)]: raise ValueError('Stream response identity/field mismatch')
+    if fields[2] not in ['0','1'] or (fields[2]=='1')!=all(v is not None for v in values): raise ValueError('Incorrect completeness')
+    result=tuple(map(int,fields[3:5]))
+    if result!=score(case,values): raise ValueError('Incorrect stream score')
+    if runtime=='rust':
+        edges=[] if not fields[5] else list(map(int,fields[5].split(',')))
+        groups=[] if not fields[6] else [tuple(map(int,p.split(':'))) for p in fields[6].split(',')]
+        if (edges,groups)!=expected_matches(case,values): raise ValueError('Incorrect native stream matches')
+    elif runtime=='java':
+        if fields[5:]!=['-','-']: raise ValueError('Unexpected Community match-analysis fields')
+    else: raise ValueError('Unknown runtime')
+    return {'score':list(result), 'complete':fields[2]=='1', 'line':line}
+
+def prepare():
+    cp,artifacts=prepare_solver_java()
+    subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
+                    str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--locked'],cwd=ROOT,check=True)
+    return cp,artifacts
+
+def main():
+    cp,artifacts=prepare();digest=source_digest();cases=generate();payload='\n'.join(map(encode,cases))+'\n'
+    outputs={}
+    for runtime,cmd in {'java':['java','-Xms256m','-Xmx256m','-cp',cp,'StreamOracle'],
+                        'rust':[str(ROOT/'target/release/examples/stream_oracle')]}.items():
+        run=subprocess.run(cmd,input=payload,text=True,capture_output=True,timeout=180)
+        if run.returncode: raise RuntimeError(f'{runtime}: {run.stderr}')
+        outputs[runtime]=run.stdout.splitlines()
+    observations=[(case,i,values) for case in cases for i,values in enumerate(states(case))]
+    if any(len(lines)!=len(observations) for lines in outputs.values()): raise ValueError('Stream response count mismatch')
+    results=[]
+    for index,(case,state,values) in enumerate(observations):
+        results.append({'id':case['id'],'state':state,'values':values,
+                        **{runtime:validate(case,state,values,lines[index],runtime) for runtime,lines in outputs.items()}})
+    if digest!=source_digest(): raise RuntimeError('Sources changed during stream comparisons')
+    report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
+            'reference':REF,'artifacts':artifacts,'seed':SEED,'total':len(cases),'passed':len(cases),
+            'observations':len(observations),'failures':[],'cases':cases,'results':results,'platform':platform.platform(),
+            'methodology':'Original required-variable cases, including partial assignments, duplicate/self edges, signed weights, zero/cancelling group sums, pins, committed and trial/undo edits. Constraints: indexed edge/job joins penalize equal endpoint values; nonzero group sums contribute sum*abs(sum) to soft score. Java Community SolutionManager.update rebuilds a score session for each observation; Rust uses persistent incremental transactions. Both ordinary scores checked against independent Python loops. Native exact conflict IDs and group sums also checked. Community update exposes no match-analysis API; no Java match-set, structural-validation or incremental-update timing claim. No additional upstream method coverage.'}
+    (ROOT/'work/stream-differential.json').write_text(json.dumps(report,indent=2)+'\n')
+    print(f'Stream differential: {len(cases)}/{len(cases)} cases; {len(observations)} observations',flush=True)
+
+if __name__=='__main__':main()

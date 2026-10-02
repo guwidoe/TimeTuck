@@ -285,6 +285,17 @@ at 16 and 4,096 source rows, held source/match snapshot isolation, rollback/comm
 duplicate collector retraction/extrema and preserved thread traits. One API
 doctest demonstrates holding a snapshot across committed graph updates.
 
-The existing Java/Rust comparison and benchmark sections cover earlier score,
-move, exact and heuristic workloads. They do not measure these stream operations.
-Public-API Java stream comparisons and matched stream timing are future work.
+Original public-API Java stream comparisons now cover 128 cases and 2,899 scoring
+states, including partial assignments, duplicate/self edges, signed group sums,
+commits and rollback. Community `SolutionManager.update()` scores each state;
+native persistent transactions update the same join/group constraints. Python
+independently checks both ordinary scores and native exact conflict/group matches.
+Java match analysis is Enterprise-only in this release and is not used.
+
+Separate matched local-search timing uses incremental streams in both engines,
+with four hill/tabu workloads and 64 small correctness cases with independently
+enumerated optima. Rust graph construction and Java per-solve setup are timed;
+Java's reusable factory is prepared before timing. Each sample records final
+quality and terminal weighting callbacks alongside elapsed time. Original
+comparisons grant no additional upstream method credit. See `docs/dashboard.md`
+for the measurement conditions and limits.

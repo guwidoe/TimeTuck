@@ -5,8 +5,8 @@ use timetuck::{Assignment, FiniteProblem, HardSoftScore, Variable};
 pub struct Case {
     pub id: String,
     pub problem: FiniteProblem<usize>,
-    edges: Vec<(usize, usize)>,
-    weights: Vec<Vec<i64>>,
+    pub edges: Vec<(usize, usize)>,
+    pub weights: Vec<Vec<i64>>,
     unassigned_weights: Vec<i64>,
 }
 impl Case {

@@ -67,6 +67,11 @@ stream binding remain pending. Native stream construction/local search reuse the
 existing algorithms and have separate full-scoring cross-checks; these original
 regressions grant no additional upstream method coverage. See
 `docs/constraint-stream-contract.md` for this distinction.
+Original public-API Community stream comparisons additionally check 128 cases
+and 2,899 score observations, with independent Python validation of native match
+identities and group sums. Java score updates expose no Community match-analysis
+API. Four matched incremental-stream search benchmarks and 64 small quality cases
+are recorded separately; they grant no additional upstream method coverage.
 
 ## Case records and coverage
 

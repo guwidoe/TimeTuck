@@ -109,6 +109,7 @@ function render() {
     renderBenchmarks("solver");
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
+    renderBenchmarks("stream");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -214,7 +215,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -274,7 +275,7 @@ function renderBenchmarks(kind = "score") {
                 ? `Known optimum: ${w.optimal_score[0]}hard/${w.optimal_score[1]}soft.`
                 : "Optimum unknown for this workload.";
             b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. ${optimum}`));
-            b.append(node("p", "range", `Score calls · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
+            b.append(node("p", "range", `${kind === "stream" ? "Terminal weighting calls" : "Score calls"} · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
         }
         box.append(b);
     });
@@ -300,6 +301,7 @@ function renderDifferential() {
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
+        [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.`],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
         if (d.total == null) {
@@ -316,6 +318,7 @@ function renderDifferential() {
     }
     for (const [key, label] of [
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
+        ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
         ["list_performance", " original list-solving cases return valid complete solutions; local search retains at least its initial quality."],
     ]) {
         const h = report[key] || {};
@@ -369,6 +372,7 @@ async function reload() {
             renderBenchmarks("solver");
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
+            renderBenchmarks("stream");
             renderDifferential();
         }
         $("updated").textContent =

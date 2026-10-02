@@ -25,7 +25,9 @@ automatically routes these changes and rolls back candidate transactions. A stre
 score director binds it to basic-variable moves. Persistent ordered storage shares
 unchanged tree branches across checkpoints and saved candidates. Stream construction
 and local search share the existing search algorithms, including seeded acceptance
-and exact work limits. Stream performance comparisons remain pending. See `docs/constraint-stream-contract.md`.
+and exact work limits. Stream comparisons check 128 original cases across 2,899
+states; separate incremental-search benchmarks report Java/Rust quality and timing.
+See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
@@ -79,14 +81,16 @@ python3 scripts/differential_lists.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
 python3 scripts/benchmark_lists.py
+python3 scripts/differential_streams.py
+python3 scripts/benchmark_streams.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
 
 Open [the local dashboard](http://localhost:8765). It shows pass counts and
 percentages by subsystem, individual test results, pending/excluded work, and
-separate basic/list heuristic, score-operation and small exact-search benchmarks versus Java.
-Heuristic timings include final scores, feasibility and score-calculation counts. Results reload every 15 seconds.
+separate basic/list heuristic, incremental-stream, score-operation and small exact-search benchmarks versus Java.
+Heuristic timings include final scores, feasibility and callback counts. Results reload every 15 seconds.
 The oracle/benchmarks need JDK 21 and Maven Central access; ordinary Rust tests
 need neither. See [dashboard measurement notes](docs/dashboard.md).
 

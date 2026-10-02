@@ -73,3 +73,32 @@ returned assignments and recomputed scores inside the measured work. The Python
 driver also checks sample checksums and last assignments against the independently
 computed optimum, converts to milliseconds per solve, and preserves every sample.
 See `docs/dashboard.md` for the explicit algorithm/workload limits.
+
+## Stream comparison protocol, version 1
+
+`StreamOracle.java` and `examples/stream_oracle.rs` extend the six-field planning
+protocol with a seventh field containing semicolon-separated operations:
+`c:variable:value` commits, and `t:variable:value` tries then undoes; `-` is null.
+They retain all initial values. Duplicate/self edges remain distinct facts.
+Hard score is minus the number of equal assigned edge endpoints. Soft score
+groups selected job weights by assigned value and sums `sum * abs(sum)`.
+Adapters bound variables to 10,000, values to 128 and weights to [-1,000, 1,000],
+keeping all intermediate and final scores within signed 64-bit bounds.
+
+Each response has seven tab-separated fields: ID, zero-based state index,
+completeness bit, hard score, soft score, conflict IDs and group sums. The initial
+state and every candidate produce an output; trial rollback produces another.
+Java's last two fields are `-` because Community score updates expose no match
+analysis. Native conflict IDs are sorted comma-separated edge indices, and groups
+are sorted comma-separated `value:sum` pairs, omitting zero sums. Empty native
+match fields are empty strings. Python checks both ordinary scores, then checks
+native match fields independently. Completeness is derived from null presence,
+not Java structural scoring. No Enterprise dependency or production source is used.
+
+`StreamBenchmark.java` and `examples/stream_benchmark.rs` consume the original
+six fields with complete initial assignments and take `hill|tabu steps warmup
+samples`. Output fields are ID, elapsed nanoseconds, hard score, soft score,
+assignment CSV and terminal weighting callback count (which may be zero). Both
+use incremental streams within local search. Java reuses its `SolverFactory`;
+Rust constructs graph topology per solve. Per-solve setup, search and result
+validation are timed. See `docs/dashboard.md` for full measurement conditions.

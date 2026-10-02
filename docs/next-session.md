@@ -47,8 +47,17 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
   Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
   32/96 variables, 50-step budgets, scores and callback counts. 64 original small
-  heuristic cases are independently checked. No incremental-scoring or
-  large-instance performance claim.
+  heuristic cases are independently checked. These older sections do not measure
+  incremental scoring or establish large-instance performance.
+- Stream scoring has 128 original Java/Rust cases (2,899 states), checking
+  partial assignments, signed/cancelling groups, duplicate/self edges, commits
+  and undo. Python checks both ordinary scores and native exact match IDs/sums.
+  Community `SolutionManager.update()` is used; `analyze()` requires Enterprise
+  in this release and must not be used. No Java match-analysis claim.
+- Matched incremental-stream hill/tabu benchmarks use 32/96 variables and
+  50-step budgets, with 64 small independently checked search cases. Scores,
+  validity and terminal weighting calls accompany times. Rust graph construction
+  is timed; Java reuses its factory outside timing. See `docs/dashboard.md`.
 - Local visual dashboard: `python3 scripts/dashboard_server.py`, port 8765.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
@@ -64,8 +73,10 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Add public-API Java stream comparisons and matched timing, then expand
-   persistent operators (existence/distinct) and applicable upstream cases.
+0. Expand persistent operators (existence/distinct) and applicable upstream cases.
+   Public-API Community stream comparisons and matched timing now exist.
+   Final warmed stream samples show Rust taking 4.17–10.94 times Java time, with
+   equal final scores. Profile these workloads before choosing optimizations.
    Checkpoints and saved candidates now share persistent AVL map roots, avoiding
    whole-node row cloning. Stream construction/local search already share existing
    algorithms. Do not hide mutable nodes inside scoped callbacks: those callbacks
@@ -85,9 +96,10 @@ initialization-score assumptions. No production implementation has been ported.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
-4. Extend matched Java heuristic evidence to incremental scoring, more workloads
-   and randomized search. Current heuristic runs are deterministic and fully
-   recompute scores. Scoped graph-example callbacks are not runtime benchmarks.
+4. Extend matched Java heuristic evidence to more workloads and randomized
+   search. Separate stream benchmarks now use incremental scoring; older basic/list
+   sections retain full scoring. Current measured searches are deterministic.
+   Scoped graph-example callbacks are not runtime benchmarks.
 5. Extend score coverage to exact decimal families, inspecting tests
    and public documentation only and preserving all test provenance.
 
@@ -436,3 +448,18 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 602 evaluations / 3,623 terminal calls. All seven Java comparison/timing sections
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
+
+Current check totals: 345 Rust tests (339 integration + six unit), eight doctests,
+and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
+measured source changes, including `differential_streams.py` and
+`benchmark_streams.py`, then regenerate the report with the captured test log.
+
+Stream evidence milestone: all nine saved comparison/timing sections are current.
+128 stream cases / 2,899 states pass; all 64 stream search cases have equal scores,
+and both engines reach 52 independently proven optima. Final timing medians in ms
+(Rust / Java): hill32 180.560 / 31.951; hill96 595.365 / 85.196;
+tabu32 191.274 / 45.901; tabu96 633.120 / 57.869. These are workload-specific,
+shared-machine end-to-end results including documented setup differences.
+Debug/release all-target checks pass. Dashboard server restarted as PID 13462;
+live/report fingerprints agree. Desktop and 390px browser checks show the four
+new cards, current evidence, correct callback labels and no errors or overflow.

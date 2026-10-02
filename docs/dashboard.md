@@ -9,6 +9,10 @@ python3 scripts/benchmark_scores.py
 python3 scripts/differential_solver.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
+python3 scripts/differential_lists.py
+python3 scripts/benchmark_lists.py
+python3 scripts/differential_streams.py
+python3 scripts/benchmark_streams.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
@@ -23,8 +27,8 @@ The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
 ## Reading the numbers
 
 The percentage is **passing adapted upstream methods / statically discovered
-annotated Java test methods**. The current implemented slice has 160 / 4,855
-(3.296%). This includes 282 explicit JVM integration exclusions in the denominator;
+annotated Java test methods**. The current implemented slice has 162 / 4,855
+(3.337%). This includes 282 explicit JVM integration exclusions in the denominator;
 removing work from scope cannot increase the displayed percentage.
 
 The scanner recognizes `@Test`, `@ParameterizedTest`, `@RepeatedTest`, `@TestFactory`,
@@ -196,3 +200,46 @@ each adapter also checks its returned owner/index/neighbor views.
 This is a required-list, full-scoring comparison on these inputs. It does not
 establish optional-list, mixed-variable, random-search, large-production-instance,
 memory-use or overall Timefold replacement performance.
+
+## Incremental-stream comparison
+
+`python3 scripts/differential_streams.py` checks 128 original cases, comprising
+2,899 scoring states with required variables, partial assignments, pins, duplicate
+and self edges, signed weights, cancellation, committed edits and trial/undo edits.
+The seed is 20261017. Indexed edge/job joins penalize equal endpoint values;
+jobs grouped by assigned value contribute `sum * abs(sum)` to the soft score.
+The nonlinear contribution makes grouping observable in the final score.
+Every ordinary hard/soft score is independently computed in Python. Native exact
+conflict IDs and nonzero group sums are also checked, including after rollback.
+
+The Java adapter uses Community `SolutionManager.update()` on each state, while
+Rust uses persistent graph transactions. `SolutionManager.analyze()` is
+Enterprise-only in the pinned release and is not used. Java outputs therefore
+contain scores only; there is no Java match-set or structural-score comparison.
+These are correctness observations, not Java incremental-edit timings.
+
+`python3 scripts/benchmark_streams.py` separately measures incremental scoring
+inside both engines' local search. It uses the same join/group constraints above,
+32/96-variable inputs, hill climbing and tabu tenure two, original-order change
+moves, best accepted selection, first ties, best rejected fallback and at most
+50 completed steps. Defaults: three fresh processes, five warmup solves and seven
+measured solves per process, with alternating runtime order. Both engines receive
+the same complete initial assignment. Per-solve setup, search and independent
+result validation are timed. Rust builds graph topology and loads fixed edges
+each solve; Java reuses a prebuilt `SolverFactory` and builds a solver each solve.
+Process startup, parsing, factory creation and output are excluded. This measures
+these end-to-end entry points, not an isolated tuple-update rate.
+
+The report retains every assignment, timing, final score and terminal weighting
+callback count. Callback counts can differ because the engines propagate and
+coalesce updates differently; they are not counts of candidate moves. Python
+checks domain/pin validity, recomputes scores and rejects regression from the
+initial score. All four timing workloads have a planted `0hard/0soft` optimum;
+budget exhaustion can still leave infeasible results. Timings and quality appear
+together. The workload differs from the earlier full-scoring heuristic section,
+so comparing their times does not isolate the benefit of incremental scoring.
+
+An additional 64 small search checks record independent exact optima, validity and
+Java/Rust score agreement separately. Neither these checks nor the stream edit
+cases add upstream method coverage. Both saved artifacts use the same freshness,
+environment and pinned-dependency reporting as the earlier comparisons.

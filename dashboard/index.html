@@ -13,7 +13,7 @@
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
         <link rel="stylesheet" href="styles.css?v=3f8399582800" />
-        <script src="app.js?v=884b93411e23" defer></script>
+        <script src="app.js?v=20261017-streams" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -140,6 +140,46 @@
                         </div>
                     </section>
                 </div>
+                <section
+                    class="performance"
+                    aria-labelledby="stream-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="stream-performance-heading">
+                                Incremental streams vs. the original
+                            </h2>
+                            <p>
+                                Indexed joins and grouped scores, with solution quality
+                                beside every timing.
+                            </p>
+                        </div>
+                        <span class="tag">Hill climbing &amp; tabu</span>
+                    </div>
+                    <div id="stream-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Compare times together with feasibility and score; differences near 1× may be noise.
+                    </p>
+                    <div id="stream-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="stream-benchmark-caption"></p>
+                        <p>
+                            Both engines update scores incrementally. Timing includes per-solve setup,
+                            search and result checks; Rust builds its graph each solve, while Java
+                            reuses its factory. These runs can finish infeasible. Different
+                            workloads from the full-scoring section below; compare quality with time.
+                        </p>
+                    </div>
+                </section>
                 <section
                     class="performance"
                     aria-labelledby="heuristic-performance-heading"
@@ -328,9 +368,14 @@
                             ><code>python3 scripts/differential_lists.py</code
                             ><code>python3 scripts/benchmark_solver.py</code
                             ><code>python3 scripts/benchmark_lists.py</code
+                            ><code>python3 scripts/differential_streams.py</code
+                            ><code>python3 scripts/benchmark_streams.py</code
                             ><code>python3 scripts/benchmark_heuristics.py</code
                             ><code>python3 scripts/compat_report.py</code>
                         </div>
+                        <h3>Incremental-stream benchmark conditions</h3>
+                        <p id="stream-benchmark-method"></p>
+                        <pre id="stream-environment"></pre>
                         <h3>Heuristic benchmark conditions</h3>
                         <p id="heuristic-benchmark-method"></p>
                         <pre id="heuristic-environment"></pre>
