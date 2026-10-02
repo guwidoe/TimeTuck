@@ -151,3 +151,9 @@ pub mod mixed_local_search;
 pub use mixed_local_search::{
     MixedLocalSearchConfig, MixedLocalSearchError, MixedLocalSearchResult, mixed_local_search_from,
 };
+
+pub mod mixed_construction;
+pub use mixed_construction::{
+    MixedConstructionConfig, MixedConstructionOrder, MixedConstructionResult,
+    greedy_mixed_construction,
+};

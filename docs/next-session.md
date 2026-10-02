@@ -21,7 +21,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Mixed basic/list models, atomic combined moves and exact joint search over the full
   product space. Read `docs/mixed-planning-contract.md`. `mixed_routes` proves
   `0hard/-4soft` over 96 states. Mixed local search now supports joint moves and all native acceptance policies;
-  mixed construction and Java comparisons remain pending.
+  mixed greedy construction supports explicit component ordering. Java mixed comparisons remain pending.
 - Native ordered-list model with unique ownership, optional unassignment, prefix/full
   pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
   unassign/composite transactions, plus iterative bounded exact list enumeration.
@@ -37,7 +37,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 262 original integration regression methods, eight original unit tests, and nineteen public API documentation tests.
+- 269 original integration regression methods, eight original unit tests, and twenty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -77,7 +77,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (mixed stream scoring/construction and further constraint operators) and applicable upstream cases.
+0. Expand persistent operators (mixed stream scoring and further constraint operators) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -103,7 +103,7 @@ initialization-score assumptions. No production implementation has been ported.
    enumerated for small cases. Native greedy list construction, lazy neighborhoods
    and bounded heuristic search now exist.
    Native exact list enumeration and four derived shadows now exist; custom
-   shadows, cascading/declarative listeners and mixed construction/stream solving remain pending. Optional basic variables and per-variable ranges have 64 additional
+   shadows, cascading/declarative listeners and mixed stream solving remain pending. Optional basic variables and per-variable ranges have 64 additional
    exact differential cases.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
@@ -127,7 +127,7 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (549 Rust integration methods,
+Earlier verification: `scripts/check.sh` passed (549 Rust integration methods,
 seven unit tests, seventeen doctests, 48 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
@@ -919,3 +919,45 @@ Java -1062 soft, both hard zero). These workloads do not measure mixed search.
 Logs: work/mixed-search-stream-{evidence,performance}.log,
 mixed-search-list-refresh.log, mixed-search-core-refresh.log and
 mixed-search-heuristic-performance.log.
+
+
+Mixed construction increment: greedy_mixed_construction fills missing required
+basic/list values through one scoped contribution director. Configuration wraps
+ConstructionConfig plus BasicThenLists (default) or ListsThenBasic. All initial
+basic values and list relative order survive; optional unassignment is retained.
+One budget counts the initial score and every candidate across both phases;
+prefix winners reuse saved contributions without callback replay. Full diagnostics
+are outside reported work. Empty required domains/unreachable required list values
+short-circuit before callbacks, including at zero budget. solution() requires both
+completeness and a calculated score. See docs/mixed-planning-contract.md.
+
+Seven original integration methods check both orders, shared budgets and ties,
+early-pick semantics, pins/ranges/initial values, optionality, shape/impossibility,
+empty/complete models, failures after partial progress and a coupled quality trap.
+The mixed_routes example now starts empty with both orders and improves each to
+the independently proven 0hard/-4soft optimum. Basic-first construction starts at
+0hard/-38soft, using 141 combined evaluations / 249 callbacks; list-first starts
+at 0hard/-18soft, using 173 / 313. These counts include the local-phase initial
+rescore and do not measure runtime or Java mixed equivalence.
+
+Full debug/release all-target checks pass with 585 Rust tests (308 adapted,
+269 original integration, eight unit), twenty doctests and 48 Python regressions.
+Release mixed_routes passes. No upstream tests/fixtures were adapted; coverage
+remains 308/4,855 overall and 160/1,045 streams. Mixed stream scoring and Java mixed
+comparisons/timings remain pending. Logs: work/mixed-construction-{check,release,
+example}.log. The overall solver rewrite remains unfinished.
+
+All nine comparison/timing sections are refreshed for this source. Source/report/
+live fingerprints agree. Browser checks at 1280px and 390px confirm 6.34% overall,
+current timing cards, no stale messages, application errors or horizontal overflow.
+The existing server was reused; the verification browser was closed. Upstream
+checkout and pin remain unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 55.929 / 17.037,
+hill96 208.148 / 29.890, tabu32 51.625 / 13.896, tabu96 204.558 / 31.872.
+Final scores agree; both 96-variable workloads remain infeasible at the 50-step cap.
+The 32-customer construction score difference remains (Rust -1080 soft, Java
+-1062 soft, both hard zero). None of these timings measures mixed models. Logs:
+work/mixed-construction-stream-{evidence,performance}.log,
+mixed-construction-list-refresh.log, mixed-construction-core-refresh.log and
+mixed-construction-heuristic-performance.log.

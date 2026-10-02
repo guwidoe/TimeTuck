@@ -1,0 +1,200 @@
+//! Greedy construction of partial mixed models using one contribution cache.
+use crate::list_neighborhood::insertions;
+use crate::{
+    AdditiveScore, ConstructionConfig, ConstructionTermination, ListMove, MixedAssignment,
+    MixedConstraintNetwork, MixedMove, MixedProblem, MixedScoreDirector, MixedScoringError, Move,
+    ScoredMixedAssignment,
+};
+
+/// Construction order can affect quality when constraints span both components.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum MixedConstructionOrder {
+    #[default]
+    BasicThenLists,
+    ListsThenBasic,
+}
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub struct MixedConstructionConfig {
+    pub construction: ConstructionConfig,
+    pub order: MixedConstructionOrder,
+}
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct MixedConstructionResult<B, L, S> {
+    /// Includes partial progress when the shared evaluation budget runs out.
+    pub assignment: MixedAssignment<B, L>,
+    pub score: Option<S>,
+    pub complete: bool,
+    pub evaluations: u64,
+    pub assigned_basic_variables: usize,
+    pub assigned_list_values: usize,
+    pub constraint_evaluations: u128,
+    pub termination: ConstructionTermination,
+}
+impl<B: Clone, L: Clone, S: Copy> MixedConstructionResult<B, L, S> {
+    /// Completeness and a calculated score are required; hard feasibility is not.
+    pub fn solution(&self) -> Option<ScoredMixedAssignment<B, L, S>> {
+        if !self.complete {
+            return None;
+        }
+        self.score.map(|score| ScoredMixedAssignment {
+            assignment: self.assignment.clone(),
+            score,
+        })
+    }
+}
+#[derive(Clone, Copy)]
+enum Phase {
+    Basic,
+    Lists,
+}
+
+/// Preserve every supplied value, pin and initial list order. Fill missing required
+/// basics in model/domain order and required list values in registry/entity/index
+/// order, following the explicit component order. Optional unassignment remains
+/// untouched for local search. Constraints must handle partial combined states.
+///
+/// One budget includes the initial score and every candidate in both phases.
+/// Winners reuse saved caches without callback replay. A truncated scan retains
+/// its best evaluated candidate and reports EvaluationLimit, even if now complete.
+/// Exactly exhausting the final scan reports Completed. Empty required domains or
+/// unreachable required list values report NoCompleteAssignment before callbacks,
+/// including at zero budget. Validating model/network shape also precedes scoring.
+/// This greedy initializer neither backtracks nor proves feasibility or optimality.
+///
+/// ```
+/// use timetuck::{FiniteProblem, ListEntity, ListProblem, MixedConstraintNetwork,
+///     MixedConstructionConfig, MixedProblem, SimpleScore, Variable,
+///     greedy_mixed_construction};
+/// let problem = MixedProblem::new(
+///     FiniteProblem::new(vec![Variable::new(vec![1,2])])?,
+///     ListProblem::new(vec![7], vec![ListEntity::new(vec![])])?,
+/// );
+/// let network = MixedConstraintNetwork::<_,_,SimpleScore>::new(1,1,1);
+/// let result = greedy_mixed_construction(&problem, &network, MixedConstructionConfig::default())?;
+/// assert!(result.complete);
+/// assert_eq!(result.evaluations, 4);
+/// assert_eq!(result.assigned_basic_variables, 1);
+/// assert_eq!(result.assigned_list_values, 1);
+/// assert_eq!(result.solution().unwrap().score, SimpleScore::ZERO);
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub fn greedy_mixed_construction<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    settings: MixedConstructionConfig,
+) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
+    let config = settings.construction;
+    let initial = problem.initial_assignment();
+    network.validate(problem, &initial)?;
+    let mut result = MixedConstructionResult {
+        complete: problem.is_complete(&initial),
+        assignment: initial.clone(),
+        score: None,
+        evaluations: 0,
+        assigned_basic_variables: 0,
+        assigned_list_values: 0,
+        constraint_evaluations: 0,
+        termination: ConstructionTermination::EvaluationLimit,
+    };
+    if problem.basic().search_space_size() == Some(0)
+        || !problem.lists().can_complete(initial.lists())
+    {
+        result.termination = ConstructionTermination::NoCompleteAssignment;
+        return Ok(result);
+    }
+    if config.max_evaluations == 0 {
+        return Ok(result);
+    }
+    let mut director = MixedScoreDirector::new(problem, network, initial)?;
+    result.evaluations = 1;
+    result.constraint_evaluations = network.constraint_count() as u128;
+    if config.assert_scores {
+        director.assert_consistent()?;
+    }
+    result.termination = ConstructionTermination::Completed;
+    let phases = match settings.order {
+        MixedConstructionOrder::BasicThenLists => [Phase::Basic, Phase::Lists],
+        MixedConstructionOrder::ListsThenBasic => [Phase::Lists, Phase::Basic],
+    };
+    'phases: for phase in phases {
+        let count = match phase {
+            Phase::Basic => problem.basic().variables().len(),
+            Phase::Lists => problem.lists().values().len(),
+        };
+        for index in 0..count {
+            let previous = director.score();
+            let budget = config.max_evaluations - result.evaluations;
+            let selection = match phase {
+                Phase::Basic => {
+                    let variable = &problem.basic().variables()[index];
+                    if variable.allows_unassigned()
+                        || director.assignment().basic().values()[index].is_some()
+                    {
+                        continue;
+                    }
+                    let moves = variable.domain().iter().map(|value| MixedMove {
+                        basic: Move::Change {
+                            variable: index,
+                            value: Some(value.clone()),
+                        },
+                        lists: ListMove::Composite(vec![]),
+                    });
+                    director.select_best(
+                        moves,
+                        budget,
+                        false,
+                        |_, _| true,
+                        |score| config.pick_early.should_pick(previous, score),
+                        config.assert_scores,
+                    )?
+                }
+                Phase::Lists => {
+                    let lists = problem.lists();
+                    let value = &lists.values()[index];
+                    if lists.allows_unassigned()
+                        || director.assignment().lists().location(value).is_some()
+                    {
+                        continue;
+                    }
+                    let snapshot = director.assignment().clone();
+                    let moves = insertions(lists, snapshot.lists(), 0..lists.entities().len())
+                        .filter(|position| lists.accepts(position.entity, value))
+                        .map(|destination| MixedMove {
+                            basic: Move::Composite(vec![]),
+                            lists: ListMove::Assign {
+                                value: value.clone(),
+                                destination,
+                            },
+                        });
+                    director.select_best(
+                        moves,
+                        budget,
+                        false,
+                        |_, _| true,
+                        |score| config.pick_early.should_pick(previous, score),
+                        config.assert_scores,
+                    )?
+                }
+            };
+            result.evaluations += selection.evaluations;
+            result.constraint_evaluations += selection.constraint_evaluations;
+            if selection.selected.is_some() {
+                match phase {
+                    Phase::Basic => result.assigned_basic_variables += 1,
+                    Phase::Lists => result.assigned_list_values += 1,
+                }
+            }
+            if config.assert_scores {
+                director.assert_consistent()?;
+            }
+            if selection.evaluation_limit {
+                result.termination = ConstructionTermination::EvaluationLimit;
+                break 'phases;
+            }
+        }
+    }
+    result.complete = problem.is_complete(director.assignment());
+    result.assignment = director.assignment().clone();
+    result.score = Some(director.score());
+    Ok(result)
+}

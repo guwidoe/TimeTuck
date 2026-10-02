@@ -1,9 +1,10 @@
 //! Jointly choose vehicle depots (basic variables) and ordered customer routes.
 use timetuck::{
-    Assignment, FiniteProblem, HardSoftScore, ListAssignment, ListEntity, ListProblem,
-    LocalSearchConfig, MixedAssignment, MixedConstraintNetwork, MixedFact, MixedLocalSearchConfig,
+    Assignment, ConstructionConfig, FiniteProblem, HardSoftScore, ListAssignment, ListEntity,
+    ListProblem, LocalSearchConfig, MixedAssignment, MixedConstraintNetwork,
+    MixedConstructionConfig, MixedConstructionOrder, MixedFact, MixedLocalSearchConfig,
     MixedProblem, MixedScope, MoveSelection, Variable, exhaustive_mixed_search,
-    mixed_local_search_from,
+    greedy_mixed_construction, mixed_local_search_from,
 };
 
 fn score(state: &MixedAssignment<i64, usize>) -> HardSoftScore {
@@ -104,4 +105,50 @@ fn main() {
         "Local search: {} after {} evaluations / {} callbacks / {} steps",
         solution.score, local.evaluations, local.constraint_evaluations, local.completed_steps
     );
+    for order in [
+        MixedConstructionOrder::BasicThenLists,
+        MixedConstructionOrder::ListsThenBasic,
+    ] {
+        let construction = greedy_mixed_construction(
+            &problem,
+            &network,
+            MixedConstructionConfig {
+                construction: ConstructionConfig {
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                order,
+            },
+        )
+        .unwrap();
+        let constructed = construction.solution().expect("complete construction");
+        assert_eq!(constructed.score, score(&constructed.assignment));
+        let improved = mixed_local_search_from(
+            &problem,
+            &network,
+            constructed.assignment,
+            MixedLocalSearchConfig {
+                search: LocalSearchConfig {
+                    max_evaluations: 1000,
+                    max_steps: 20,
+                    selection: MoveSelection::BestAccepted,
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                joint_moves: true,
+            },
+        )
+        .unwrap();
+        let solution = improved.best.unwrap();
+        assert!(problem.is_complete(&solution.assignment));
+        assert_eq!(solution.score, score(&solution.assignment));
+        assert_eq!(solution.score, best.score);
+        println!(
+            "{order:?}: {} constructed, {} improved; {} combined evaluations / {} callbacks",
+            constructed.score,
+            solution.score,
+            construction.evaluations + improved.evaluations,
+            construction.constraint_evaluations + improved.constraint_evaluations,
+        );
+    }
 }

@@ -71,7 +71,7 @@ against a hand-derived lower bound. This is a correctness example, not a benchma
 These original checks earn no upstream method credit. The inspected upstream mixed
 exhaustive tests also assert Java phase types, step bounds or exact phase traces;
 those remain pending. No mixed Java/Rust solver comparison or mixed timing result
-is claimed. Mixed construction and stream score directors,
+is claimed. Mixed stream score directors,
 custom shadows and Java entity metadata remain pending. Existing Java comparisons
 and timing cards continue to describe their original basic/list/stream workloads.
 
@@ -171,5 +171,47 @@ reach the known optimum of the small coupled instance. The mixed_routes example
 now also reaches its exact 0hard/-4soft optimum through local search in 127
 evaluations, 234 callbacks and one completed step. These are native correctness
 and quality checks, not Java mixed-search or runtime performance comparisons.
-Mixed score-aware construction, stream scoring, and Java mixed solver comparisons
-remain pending; no extra upstream test-method credit is claimed.
+Mixed stream scoring and Java mixed solver comparisons remain pending; no extra
+upstream test-method credit is claimed.
+
+
+## Mixed greedy construction
+
+`greedy_mixed_construction` fills missing required values using one combined
+contribution cache. `MixedConstructionConfig` wraps the existing construction
+configuration and an explicit `MixedConstructionOrder`: `BasicThenLists` (default)
+or `ListsThenBasic`. Basics follow model/domain order; lists follow value registry,
+owner and insertion-index order. First equal scores win. Coupled callbacks must
+handle partial states in either phase; construction order can affect final quality.
+
+All supplied basic values and initial list relative order survive construction,
+including unpinned values. Pins and owner-specific ranges remain enforced. Optional
+basic `None` and optional missing list values remain unchanged for local search.
+There is no backtracking or guarantee of hard feasibility or optimality.
+
+One evaluation budget includes the initial score and every trial in both phases.
+Selection saves the winning assignment and sparse cache updates without rescoring.
+A truncated scan commits its best evaluated prefix candidate and reports
+`EvaluationLimit`, even if the combined state is now complete. Finishing exactly
+at the budget reports `Completed` when no further candidate remains. All four
+native early-pick policies use ordinary score levels, ignoring structural missing
+counts. Diagnostic full recomputation is outside budgets and callback statistics.
+
+`MixedConstructionResult` exposes the partial assignment, optional score,
+completeness, separate counts of newly assigned basics/list values, and work counts.
+`solution()` requires completeness and a calculated score, but not hard feasibility.
+Even an already complete model has no scored solution at zero budget. Shape/domain
+validation precedes callbacks; empty required basic domains or unreachable required
+list values return `NoCompleteAssignment` before scoring, including at zero budget.
+Errors and ordinary unwinding expose no mutable model state.
+
+Seven original regressions cover both orders, every small budget boundary, ties,
+cache reuse, early selection, impossible/empty/complete models, shape errors,
+initial values, optional values, pins/ranges, callback errors/panics after progress,
+and a coupled objective checked against exact search. The routing example now
+constructs from an empty model with both orders, checks independent complete scores,
+and improves both to the proven `0hard/-4soft` optimum. Basic-first construction
+starts at `0hard/-38soft` and uses 141 combined evaluations / 249 callbacks;
+list-first starts at `0hard/-18soft` and uses 173 / 313. Local search's initial
+rescore is included. These work counts are correctness evidence, not runtime
+benchmarks or Java equivalence claims. No upstream method credit is added.

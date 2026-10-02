@@ -146,7 +146,9 @@ Native scoped incremental mixed scoring additionally passes six original
 regressions, including 1,200 joint edits against an independent direct formula.
 Mixed local search now has seven original integration regressions and one internal
 rollback regression, with optional joint moves and shared native acceptance policies.
-Java phase-trace tests, mixed construction and mixed stream scoring remain pending.
+Mixed greedy construction adds seven original regressions for component ordering,
+shared budgets, preservation of initial values/pins and local-search handoff.
+Java phase-trace tests and mixed stream scoring remain pending.
 See `docs/mixed-planning-contract.md`.
 
 ## Case records and coverage
