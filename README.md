@@ -34,7 +34,9 @@ expose entity lists and value owner/index/neighbor snapshots. Persistent ordered
 unchanged tree branches across checkpoints and saved candidates. Stream construction
 and local search share the existing search algorithms, including seeded acceptance
 and exact work limits. Stream comparisons check 128 original cases across 2,899
-states; separate incremental-search benchmarks report Java/Rust quality and timing.
+states; a separate 128-case mixed-model comparison checks 2,378 states and 3,611
+primitive basic/list operations against Java public moves and score updates.
+Separate incremental-search benchmarks report Java/Rust quality and timing.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 

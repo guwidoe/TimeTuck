@@ -294,3 +294,17 @@ decimal coefficient, and decimal scale is checked exactly against Java and Pytho
 including half-even ties and precision retained after removal. Its seed and counts
 are separate from upstream coverage. Inputs/results are retained in the report;
 no arbitrary-precision timing or general decimal score compatibility is claimed.
+
+
+Mixed score/move evidence is a separate `mixed_stream_checks` supplement under
+stream-differential.json. It contains 128 original cases, 2,378 states and 3,611
+primitive basic/list operations (seed 20261108). Java uses public composed moves
+and full score updates; Rust uses mixed transactional streams. Independent Python
+checks ordinary scores, completeness, ordered assignments and owner/index/previous/
+next views through candidate, undo and commit states. Basic variables are required;
+list values may remain unassigned. Basic pins, partial basics, non-dense identities,
+empty registries and repeated joint writes are included. Source freshness follows
+the parent stream report. The existing comparison section displays this supplement
+without adding to upstream coverage or mixing it into benchmark counts. Full case
+inputs, both runtime outputs and Python-derived assignments remain downloadable.
+No mixed solver-search, Java match-analysis or mixed timing claim follows.

@@ -22,7 +22,8 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   product space. Read `docs/mixed-planning-contract.md`. `mixed_routes` proves
   `0hard/-4soft` over 96 states. Mixed local search now supports joint moves and all native acceptance policies;
   mixed greedy construction supports explicit component ordering. Scoped and transactional
-  stream scoring share construction/local-search algorithms. Java mixed comparisons remain pending.
+  stream scoring share construction/local-search algorithms. Original Java mixed move/score
+  comparisons now cover 128 cases / 2,378 states; mixed solver-search comparisons remain pending.
 - Native ordered-list model with unique ownership, optional unassignment, prefix/full
   pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
   unassign/composite transactions, plus iterative bounded exact list enumeration.
@@ -79,7 +80,8 @@ initialization-score assumptions. No production implementation has been ported.
 ## Next substantive work
 
 0. Expand persistent operators and applicable upstream cases; mixed stream scoring,
-   construction and local search now exist. Add original Java mixed solver comparisons.
+   construction and local search now exist. Extend original Java mixed move/score
+   comparisons to mixed solver search and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -1015,3 +1017,51 @@ soft, both hard zero). These existing workloads do not benchmark mixed models.
 Logs: work/mixed-stream-stream-{evidence,performance}.log,
 mixed-stream-list-refresh.log, mixed-stream-core-refresh.log and
 mixed-stream-heuristic-performance.log. Upstream checkout/pin remain unmodified.
+
+Mixed Java move/score increment: MixedStreamOracle.java uses pinned public
+MoveTester/Moves.compose for basic change and list assign/change/swap/span-unassign.
+Initial built-in shadows are enriched once, and subsequent observations use the
+moves' owner/index/previous/next updates. SolutionManager.UPDATE_SCORE_ONLY freshly
+calculates each score. Native mixed_stream_oracle uses mixed graph transactions,
+checks cached basic/entity rows and structural missing-basic counts, and emits
+cached value views. Committed observations are read after commit.
+
+scripts/mixed_stream_checks.py generates 128 original required-basic/optional-list
+cases (seed 20261108), with 2,378 observed states and 3,611 primitive operations.
+Independent Python derives ordinary scores, completeness, ordered assignments and
+all four shadow views. Cases cover non-dense identities, empty registries/lists,
+partial basics, pinned basics, signed coefficients, repeated writes and joint
+composites. Four new Python regressions check a hand-calculated lifecycle,
+corruption of every output field, reproducible generation/pins and invalid bounds/
+domains/ownership. This is not mixed solver-search, Java match-analysis, custom
+shadow, list pin/range, structural-score equivalence or mixed timing evidence.
+
+The stream differential command now runs these checks and saves mixed_stream_checks
+inside its report, with full cases, observed states and both runtime outputs.
+Parent metadata records source digest, reference/artifact hashes and environment.
+The existing dashboard comparison section shows the mixed supplement separately;
+its counts do not change upstream-method coverage or existing timing workloads.
+No upstream production implementation or tests/fixtures were copied in this slice.
+
+Full debug/release all-target checks pass: 593 Rust tests (308 adapted + 276
+original integration + nine unit), 21 doctests and 52 Python regressions. Coverage
+remains 308/4,855 overall and 160/1,045 streams. Logs: work/mixed-java-{check,
+release}.log. Public mixed solver-search comparisons and more upstream adaptations
+are still needed; the full goal remains active.
+
+Final mixed comparison verification also rejects stale index/previous/next shadows
+on unassigned values in both runtime adapters. All 128 cases still pass. All nine
+comparison/timing sections were refreshed after the final source edit; report,
+source and live fingerprints match. The existing dashboard server was reused.
+Browser checks pass at 1280px and 390px with no console errors, stale messages or
+horizontal overflow. Mixed counts (128 cases, 2,378 states, 3,611 operations),
+6.34% upstream coverage and the existing list32 quality difference are visible.
+The verification browser was closed.
+
+Current basic-stream medians in ms (Rust / Java): hill32 59.183 / 18.643,
+hill96 264.987 / 34.088, tabu32 67.056 / 26.512, tabu96 249.434 / 37.706.
+Scores agree; both 96-variable workloads remain infeasible at the 50-step cap.
+List32 construction remains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+These timings do not benchmark mixed models. Logs: work/mixed-java-stream-evidence.log,
+mixed-java-stream-performance.log, mixed-java-list-refresh.log,
+mixed-java-core-refresh.log and mixed-java-heuristic-performance.log.

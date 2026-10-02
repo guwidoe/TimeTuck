@@ -151,7 +151,10 @@ shared budgets, preservation of initial values/pins and local-search handoff.
 Mixed transactional stream binding adds seven original integration regressions and
 one internal rollback test. Shared construction/search engines agree with scoped
 scoring across tested policies and budgets. These native checks grant no upstream
-method credit. Java phase-trace tests and mixed Java solver comparisons remain pending.
+method credit. Separate original public-API comparisons now check 128 mixed cases,
+2,378 states and 3,611 basic/list operations against Java and independent Python
+scores/assignments/shadows. Java phase-trace tests and mixed Java solver-search
+comparisons remain pending.
 See `docs/mixed-planning-contract.md`.
 
 ## Case records and coverage

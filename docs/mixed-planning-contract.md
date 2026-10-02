@@ -268,3 +268,40 @@ construction orders: basic-first uses 141 combined evaluations / 353 terminal
 calls; list-first uses 173 / 469. Independent direct scores validate construction
 and final solutions. These are native correctness/work counts, not Java mixed
 comparisons or runtime benchmarks. Upstream coverage is unchanged.
+
+
+## Public Community mixed scoring/move evidence
+
+`MixedStreamOracle` uses only the pinned Community public APIs, including preview
+`MoveTester`/`Moves.compose`, basic change, list assign/change/swap/span-unassign,
+and `SolutionManager.update(..., UPDATE_SCORE_ONLY)`. It initializes the four
+built-in list shadows once, then observes the public moves' shadow updates.
+Every observed ordinary score is freshly recalculated. Native `mixed_stream_oracle`
+uses persistent mixed graph transactions and verifies cached basic/entity rows;
+reported value views come from cached graph rows. Committed observations are read
+after commit, and temporary observations include the state after undo.
+
+The generator in `scripts/mixed_stream_checks.py` has 128 original cases,
+2,378 observed states and 3,611 primitive operations (seed 20261108). Required
+basic variables use the ordered range [-2,0,3]; lists allow unassignment. Cases
+include non-dense list identities, empty value registries/lists, partial basics,
+pinned basic values, both signs of coefficients, repeated writes and combined
+moves. Capacity uses the hard score; soft constraints couple each owner's basic
+coefficient with list length and value identity/index/previous/next views.
+
+Python independently derives full scores and every observed assignment and shadow
+view from ordered lists. Java and Rust must exactly match all eight protocol
+fields: case/state identity, completeness, hard/soft score, basic values, lists,
+and four shadow relationships. Adapters also reject uncleared index/neighbor
+fields on unassigned values before emitting their absent-view marker.
+Four Python regressions cover a hand-calculated
+joint trial/undo/commit sequence, corruption of every output field, reproducible
+generation/pin preservation and rejection of invalid reference operations.
+
+Results are saved as `mixed_stream_checks` inside the existing stream differential
+report, including inputs, both runtime outputs, state assignments and seed. The
+parent report records source fingerprint, Community artifact hashes, revision and
+environment. The dashboard labels this separately; it adds no upstream-method
+credit and is excluded from all timing cards. Java match analysis, structural-score
+equivalence, mixed solver search/termination, custom shadows, list pins/ranges and
+Java incremental-update timing remain outside these checks.

@@ -111,3 +111,14 @@ so a zero result cannot hide a spurious or missing match. The probe checks ordin
 scores from Community full updates. Native empty-group behavior is separately
 covered by `collecting_stream_regression`; the report records this boundary check
 separately from the 128 differential cases and grants no upstream-method credit.
+
+
+`MixedStreamOracle.java` is an original Community public-API adapter for required
+basic variables and optional ordered lists. Public preview MoveTester executes
+composed basic/list moves; SolutionManager UPDATE_SCORE_ONLY calculates ordinary
+scores at each initial, trial, undone and committed state. The native
+mixed_stream_oracle uses persistent mixed stream scoring. Run the comparisons via
+`python3 scripts/differential_streams.py`; mixed_stream_checks.py generates and
+independently validates 128 cases / 2,378 states / 3,611 primitive operations.
+No upstream tests or production sources were copied for this adapter. No mixed
+solver-search, custom-shadow or runtime-performance compatibility is claimed.
