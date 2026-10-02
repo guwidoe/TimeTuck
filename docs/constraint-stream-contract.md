@@ -519,3 +519,47 @@ inner collector failures, 300 clone/ordering failure budgets and map-based
 construction/local-search quality against a mathematical bound. These original
 checks add no upstream method credit. Existing Java timing workloads do not
 exercise MapCollector.
+
+
+## Collected lists
+
+`ListCollector<I,V>` collects unique stable occurrence IDs and mapped values.
+Its immutable `ListSnapshot<I,V>` orders occurrences by ascending ID, retaining
+equal values at different IDs. Duplicate IDs are rejected before mutation;
+removal uses the captured ID (without comparing V) and returns false if absent.
+The owning CollectNode handles replacement as old captured removal followed by
+new insertion. This preserves relative order for an unchanged ID within a group.
+
+`StreamGraphBuilder::collect_list` and `group_list` supply input tuple IDs
+automatically, including composite IDs from joins. Group changes move an
+occurrence between lists. Empty groups retract, and an empty global input emits
+no row. Standalone empty list finish remains an empty snapshot. These operators
+use the existing transactional aggregation machinery and integrate with basic/list
+scoring and search; generic collectors otherwise retain their existing mappings.
+
+The ordering is a native contract, independent of event delivery order. It also
+makes order-sensitive score callbacks consistent with full source rebuilds.
+Timefold's public collection API does not guarantee general list iteration order
+([collection documentation](https://docs.timefold.ai/timefold-solver/latest/constraints-and-score/score-calculation)).
+No Java encounter-order parity is claimed. The adapted tests assign IDs in their
+original insertion order and preserve every exact list assertion, including
+replacement position and duplicate removal.
+
+Snapshots share persistent roots. Updates copy logarithmic tree paths; numeric
+get/index uses cached subtree sizes in logarithmic time. Iteration is linear in
+list length. len/is_empty, iteration, optional get and indexing are read-only;
+indexing panics out of bounds. Equality, comparison, hashing and debug output
+use the ordered values, ignoring occurrence IDs. Lists can therefore be used as
+value keys in downstream distinct/grouping. Materializing a Vec or computing a
+score over the entire list remains linear; these APIs imply no solver speedup.
+Snapshots and collectors preserve Send/Sync when their stored types do.
+
+Twelve adapted collector methods cover list insertion/removal and list/ArrayList
+replacement across all four tuple arities. Native snapshots replace Java mutable
+containers; custom Java collection factories are not an API compatibility target.
+Six original regressions check 8,000 occurrence edits and all numeric ranks
+(seed 20261027), 3,000 grouped/global graph writes (20261028), nonmonotonic IDs,
+order-sensitive full rebuilds, rollback, callback/trait panics, nested maps,
+retained snapshots, value equality/order/hash, downstream distinct and bounded
+construction/search quality. The existing Java timing workloads do not exercise
+collected lists.

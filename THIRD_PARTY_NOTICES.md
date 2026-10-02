@@ -82,11 +82,15 @@ The following test files adapt the pinned Community tests:
   duplicate and update methods in the uni/bi/tri/quad
   `Inner*ConstraintCollectorsTest.java` classes.
 
+- `crates/solver/tests/list_collector_cases.rs` from twelve list insertion and
+  list/ArrayList update methods in the uni/bi/tri/quad
+  `Inner*ConstraintCollectorsTest.java` classes.
+
 `crates/solver/tests/common/mod.rs` additionally adapts the equality, hash and
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 240 source methods are recorded individually in `compat/provenance.json`.
+All 252 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.

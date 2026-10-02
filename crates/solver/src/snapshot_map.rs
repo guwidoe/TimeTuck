@@ -203,6 +203,21 @@ impl<K, V> SnapshotMap<K, V> {
     pub fn len(&self) -> usize {
         size(&self.root)
     }
+    pub(crate) fn entry_at(&self, mut index: usize) -> Option<(&K, &V)> {
+        let mut current = self.root.as_ref();
+        while let Some(node) = current {
+            let left_size = size(&node.left);
+            match index.cmp(&left_size) {
+                Ordering::Less => current = node.left.as_ref(),
+                Ordering::Equal => return Some((&node.key, &node.value)),
+                Ordering::Greater => {
+                    index -= left_size + 1;
+                    current = node.right.as_ref();
+                }
+            }
+        }
+        None
+    }
     pub fn is_empty(&self) -> bool {
         self.root.is_none()
     }

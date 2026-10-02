@@ -3600,6 +3600,186 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every map result assertion and mapped tuple input across insertion, duplicate retention, replacement and removal. Native ordered MapCollector with SetCollector or IntCollector replaces Java maps and merging-by-sum; integer-summary sums project to the expected map values. Native i64 covers the original small Integer inputs; no Java int overflow or arbitrary merge-function compatibility is claimed. Captured mapped values and CollectNode stable IDs replace Runnable retractors and mutable slots. Empty collector containers project to empty maps without claiming an empty stream row. The uni merged case preserves its counter-dependent mapping and captured removal values."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toList",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "uni_to_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toListUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toListUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "uni_to_list_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toCollectionUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toCollectionUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "uni_to_collection_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toList",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "bi_to_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toListUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toListUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "bi_to_list_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toCollectionUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toCollectionUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "bi_to_collection_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toList",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "tri_to_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toListUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toListUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "tri_to_list_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toCollectionUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toCollectionUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "tri_to_collection_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toList",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "quad_to_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toListUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toListUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "quad_to_list_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toCollectionUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toCollectionUpdate",
+      "local_path": "crates/solver/tests/list_collector_cases.rs",
+      "local_test": "quad_to_collection_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every exact ordered-list result, mapped tuple input, duplicate occurrence, replacement and removal assertion. Stable occurrence IDs assigned in original insertion order replace Java slots and retractors; ListCollector/ListSnapshot and collect_list replace Java List/ArrayList containers. Rust lists order by stable ID, which preserves all orders asserted in these methods but does not claim general Java encounter-order parity. Empty Java containers are observed as empty lists even though an empty native global stream emits no row. No custom Java collection-factory or JVM API parity is claimed."
     }
   ],
   "fixtures": [

@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 240 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 30 collector + 62 stream), recorded in
+- 252 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 42 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 216 original integration regression methods, seven original unit tests, and thirteen public API documentation tests.
+- 222 original integration regression methods, seven original unit tests, and fourteen public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 240 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 252 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (list/average collectors and mixed basic/list solving) and applicable upstream cases.
+0. Expand persistent operators (average collectors and mixed basic/list solving) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (456 Rust integration methods,
-seven unit tests, thirteen doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (474 Rust integration methods,
+seven unit tests, fourteen doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,7 +457,7 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 463 Rust tests (456 integration + seven unit), thirteen doctests,
+Current check totals: 481 Rust tests (474 integration + seven unit), fourteen doctests,
 and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
@@ -639,3 +639,38 @@ limit. These workloads do not exercise maps, so no map-specific performance
 claim follows. Logs: work/map-collector-{check,release,focused,regression}.log,
 map-collector-stream-{evidence,performance}.log, map-collector-list-refresh.log,
 map-collector-core-refresh.log and map-collector-heuristic-performance.log.
+
+
+Collected-list increment: ListCollector<I,V> and immutable ListSnapshot<I,V>
+retain distinct occurrences in ascending stable-ID order. Graph collect_list /
+group_list supply tuple IDs automatically and reuse generic transactional
+aggregation. Private collector mapping now receives the ID as well as the payload;
+existing public generic mappings retain their prior signatures. GroupedListStreamPort
+names the keyed-list output type. Native order is independent of delivery history,
+so full rebuilds reproduce even order-sensitive scores. It does not claim general
+Java iteration order, which the public collection API leaves unspecified.
+
+Snapshot len/index/get/iteration are read-only; rank lookup uses the persistent
+AVL subtree sizes. Clone/finish share roots. Equality, order and hash compare
+ordered values, ignoring IDs. Duplicate IDs reject before mutation; removal uses
+ID alone. Twelve adapted list/ArrayList methods preserve all ordered assertions.
+Six original regressions cover 8,000 occurrence edits, 3,000 graph writes,
+rollback/failures, composition, distinct keys and construction/search quality.
+Verified totals: 481 Rust tests (252 adapted + 222 original integration + seven unit),
+fourteen doctests and 39 Python regressions. Coverage: 252/4,855 overall and
+104/1,045 streams. Existing timing workloads do not exercise this new feature.
+
+Collected-list verification is complete: debug/release gates pass, all nine saved
+Java comparison/timing sections are current, and live/report/source fingerprints
+agree. Browser shows 252/4,855 (5.19%) overall, 104/1,045 (9.95%) streams, eight
+toList and four toCollectionUpdate methods passing under search. No browser errors
+or horizontal overflow. Existing server PID 21564 was reused. The upstream pin
+and checkout remain unmodified.
+
+Current basic-stream medians in ms (Rust / Java): hill32 57.930 / 18.796,
+hill96 294.888 / 34.742, tabu32 68.278 / 22.478, tabu96 285.035 / 37.897.
+Scores agree; both 96-variable cases remain infeasible at the fixed step cap.
+These timings do not measure collected lists. Logs:
+work/list-collector-{check,release,focused,regression}.log,
+list-collector-stream-{evidence,performance}.log, list-collector-list-refresh.log,
+list-collector-core-refresh.log and list-collector-heuristic-performance.log.

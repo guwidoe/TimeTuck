@@ -108,6 +108,13 @@ sum results for the small Integer inputs in these tests. Arbitrary merge-functio
 and Java int-overflow behavior are not claimed. Original randomized graph and
 search checks remain separate from upstream credit.
 
+Twelve additional methods preserve exact list insertion, duplicate removal and
+list/ArrayList replacement results across four arities. Native stable occurrence
+IDs reproduce the tested order; the general Rust order is ascending ID, independent
+of event delivery. No general Java encounter-order or custom collection-factory
+API parity is claimed. Full-rebuild, snapshot and order-sensitive search regressions
+are original checks and grant no further upstream credit.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

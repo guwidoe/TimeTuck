@@ -86,6 +86,8 @@ pub use collecting_stream::{
 };
 mod map_collector;
 pub use map_collector::MapCollector;
+mod list_collector;
+pub use list_collector::{ListCollector, ListSnapshot};
 mod distinct_stream;
 pub use distinct_stream::DistinctNode;
 mod existence_stream;
@@ -97,8 +99,8 @@ pub use incremental_stream::{
 
 pub mod stream_graph;
 pub use stream_graph::{
-    GraphError, GraphTransaction, JoinedStreamPort, StreamConstraint, StreamGraph,
-    StreamGraphBuilder, StreamPort, StreamSource,
+    GraphError, GraphTransaction, GroupedListStreamPort, JoinedStreamPort, StreamConstraint,
+    StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
 };
 
 pub mod stream_scoring;

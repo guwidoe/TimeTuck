@@ -31,7 +31,8 @@
 
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode,
-    IntSummary, JoinNode, ReversibleCollector, SnapshotMap, TupleChange,
+    IntSummary, JoinNode, ListCollector, ListSnapshot, ReversibleCollector, SnapshotMap,
+    TupleChange,
 };
 use std::{
     any::Any,
@@ -45,6 +46,8 @@ type Event = Rc<dyn Any>;
 type Outputs = Vec<Event>;
 type GroupMapping<'a, T, K> = dyn Fn(&T) -> (K, i64) + 'a;
 pub type JoinedStreamPort<I, J, L, R> = StreamPort<(I, J), (L, R)>;
+/// A keyed list result, with its group key in both identity and payload.
+pub type GroupedListStreamPort<K, I, V> = StreamPort<K, (K, ListSnapshot<I, V>)>;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GraphError {
@@ -318,10 +321,10 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
     }
 }
 
-type CollectMapping<'a, T, K, V> = dyn Fn(&T) -> (K, V) + 'a;
+type CollectMapping<'a, I, T, K, V> = dyn Fn(&I, &T) -> (K, V) + 'a;
 struct Collect<'a, I, T, K, V, C> {
     node: CollectNode<I, K, V, C>,
-    mapping: Box<CollectMapping<'a, T, K, V>>,
+    mapping: Box<CollectMapping<'a, I, T, K, V>>,
 }
 impl<
     I: Ord + Clone + 'static,
@@ -347,7 +350,7 @@ where
         let change = typed::<I, T>(event);
         let mapped = TupleChange {
             id: change.id.clone(),
-            value: change.value.as_ref().map(|v| (self.mapping)(v)),
+            value: change.value.as_ref().map(|v| (self.mapping)(&change.id, v)),
         };
         Ok(erase(self.node.apply(mapped).into_iter().map(|c| {
             let key = c.id.clone();
@@ -589,7 +592,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(input)?;
         let out = self.push(Collect {
             node: CollectNode::<I, K, V, C>::new(),
-            mapping: Box::new(mapping),
+            mapping: Box::new(move |_, row| mapping(row)),
         });
         self.connect(input.node, out.node, false);
         Ok(out)
@@ -611,6 +614,40 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     {
         let grouped =
             self.group_collect_with::<I, T, (), V, C>(input, move |row| ((), mapping(row)))?;
+        self.map(&grouped, |(_, result)| result.clone())
+    }
+    /// Collect mapped values per key in ascending input tuple-ID order. Duplicate
+    /// values remain separate occurrences; replacements retain their ID position.
+    /// Empty groups retract. The native order is independent of delivery order.
+    pub fn group_list<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        K: Ord + Clone + 'static,
+        V: Clone + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> (K, V) + 'a,
+    ) -> Result<GroupedListStreamPort<K, I, V>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(Collect {
+            node: CollectNode::<I, K, (I, V), ListCollector<I, V>>::new(),
+            mapping: Box::new(move |id: &I, row| {
+                let (key, value) = mapping(row);
+                (key, (id.clone(), value))
+            }),
+        });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    /// Global list aggregation in ascending input tuple-ID order. Empty input
+    /// emits no row. Equal values at different IDs retain their multiplicity.
+    pub fn collect_list<I: Ord + Clone + 'static, T: Clone + 'static, V: Clone + 'static>(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> V + 'a,
+    ) -> Result<StreamPort<(), ListSnapshot<I, V>>, GraphError> {
+        let grouped = self.group_list(input, move |row| ((), mapping(row)))?;
         self.map(&grouped, |(_, result)| result.clone())
     }
     pub fn score<I: Ord + Clone + 'static, T: Clone + 'static>(
