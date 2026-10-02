@@ -208,7 +208,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         Ok(with_structure(score, problem, assignment))
     }
 }
-fn with_structure<V: Eq + Clone, S: AdditiveScore>(
+pub(crate) fn with_structure<V: Eq + Clone, S: AdditiveScore>(
     score: S,
     problem: &ListProblem<V>,
     assignment: &ListAssignment<V>,

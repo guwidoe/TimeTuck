@@ -139,7 +139,7 @@ def main():
     report = {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
               'revision':REF['commit'],'seed':SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
               'moves':sum(len(c['moves']) for c in cases),'artifacts':artifacts,'environment':platform.platform(),
-              'scope':'Original valid assign/change/swap/span-unassign composites. Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
+              'scope':'Original valid assign/change/swap/span-unassign composites. Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
     (ROOT/'work/list-differential.json').write_text(json.dumps(report,indent=2)+'\n')
     (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
     print(f'Differential list cases: {report["passed"]}/{report["total"]} passed ({report["moves"]} moves)')

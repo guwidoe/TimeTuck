@@ -27,8 +27,8 @@ The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
 ## Reading the numbers
 
 The percentage is **passing adapted upstream methods / statically discovered
-annotated Java test methods**. The current implemented slice has 211 / 4,855
-(4.346%). This includes 282 explicit JVM integration exclusions in the denominator;
+annotated Java test methods**. The current implemented slice has 215 / 4,855
+(4.428%). This includes 282 explicit JVM integration exclusions in the denominator;
 removing work from scope cannot increase the displayed percentage.
 
 The scanner recognizes `@Test`, `@ParameterizedTest`, `@RepeatedTest`, `@TestFactory`,
@@ -243,3 +243,11 @@ An additional 64 small search checks record independent exact optima, validity a
 Java/Rust score agreement separately. Neither these checks nor the stream edit
 cases add upstream method coverage. Both saved artifacts use the same freshness,
 environment and pinned-dependency reporting as the earlier comparisons.
+
+
+The list-move oracle now reads Rust's cached stream value views, so its existing
+256 comparisons also validate ListStreamScoreDirector owner/index/neighbor
+propagation and undo. Cached entity rows and a native position score are checked
+inside the adapter; this is not a Java/Rust score comparison. The list-solving
+timing cards still measure scoped full-scoring adapters. The new native
+stream_list_routes example is a correctness/quality example, not a timing card.

@@ -289,3 +289,18 @@ state. Two protocol and three Python evidence regressions verify range-aware
 validation and independent optima. The Java comparison adds 64 original required
 list-solving cases with per-entity ranges, separately from the six adapted
 upstream methods. The measured larger routing workloads remain unrestricted.
+
+
+## Incremental stream scoring
+
+ListStreamScoreDirector now binds entity lists and all registered value views to
+a transactional stream graph. ListStreamSources uses stable entity/range indices;
+ListValueRow contains value identity and owned owner/index/previous/next views.
+Explicit assignment filtering controls stream membership. Generic stream joins,
+collectors and weighted terminals can score these rows through list moves,
+construction and local search. The same private list algorithms serve both scoped
+and stream scoring, with saved winners installed without callback replay.
+See docs/constraint-stream-contract.md for propagation, rollback, diagnostics,
+callback accounting and regression scope. Custom shadows and mixed models remain
+pending. Existing list-move comparisons now read the cached native stream shadows;
+list-solving timing workloads continue to use their full-scoring adapters.

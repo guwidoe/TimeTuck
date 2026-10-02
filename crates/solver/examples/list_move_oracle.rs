@@ -1,13 +1,40 @@
 //! Original development adapter for the generated list-move protocol.
 use std::io::{self, BufRead};
-use timetuck::{ListAssignment, ListEntity, ListMove, ListPosition, ListProblem};
+use timetuck::*;
 fn position(entity: i32, index: i32) -> ListPosition {
     ListPosition {
         entity: usize::try_from(entity).expect("nonnegative entity"),
         index: usize::try_from(index).expect("nonnegative index"),
     }
 }
-fn state(a: &ListAssignment<i32>, count: i32) -> String {
+fn state(
+    a: &ListAssignment<i32>,
+    graph: &StreamGraph<'_, SimpleScore>,
+    sources: &ListStreamSources<i32>,
+    count: i32,
+) -> String {
+    assert_eq!(
+        graph
+            .source_rows(&sources.entities)
+            .unwrap()
+            .values()
+            .map(|(_, v)| v.clone())
+            .collect::<Vec<_>>(),
+        a.lists()
+    );
+    let views = graph.source_rows(&sources.values).unwrap();
+    assert_eq!(views.len(), count as usize);
+    let expected_score = a
+        .lists()
+        .iter()
+        .enumerate()
+        .flat_map(|(e, list)| {
+            list.iter()
+                .enumerate()
+                .map(move |(i, v)| (*v as i64 + 1) * (e as i64 + 1) + i as i64)
+        })
+        .sum::<i64>();
+    assert_eq!(graph.score(), SimpleScore::new(expected_score));
     let lists = a
         .lists()
         .iter()
@@ -25,16 +52,19 @@ fn state(a: &ListAssignment<i32>, count: i32) -> String {
         .join(";");
     let shadows = (0..count)
         .map(|v| {
-            a.element(&v).map_or_else(
+            let row = &views[&(v as usize)];
+            assert_eq!(row.value, v);
+            assert_eq!(row.range_index, v as usize);
+            row.position.map_or_else(
                 || "-".to_owned(),
-                |s| {
+                |p| {
                     format!(
                         "{}:{}:{}:{}",
-                        s.position.entity,
-                        s.position.index,
-                        s.previous
-                            .map_or_else(|| "-".to_owned(), ToString::to_string),
-                        s.next.map_or_else(|| "-".to_owned(), ToString::to_string)
+                        p.entity,
+                        p.index,
+                        row.previous
+                            .map_or_else(|| "-".to_owned(), |v| v.to_string()),
+                        row.next.map_or_else(|| "-".to_owned(), |v| v.to_string())
                     )
                 },
             )
@@ -60,7 +90,7 @@ fn main() {
                 }
             })
             .collect();
-        let mut a = ListAssignment::new(lists);
+        let a = ListAssignment::new(lists);
         let p = ListProblem::new(
             (0..count).collect(),
             a.lists().iter().cloned().map(ListEntity::new).collect(),
@@ -97,21 +127,34 @@ fn main() {
                 });
             }
         }
+        let mut builder = StreamGraphBuilder::<SimpleScore>::new();
+        let sources = ListStreamSources::new(&mut builder);
+        let inspect = sources.clone();
+        builder
+            .score("positions", sources.values.port(), |r| {
+                SimpleScore::new(r.position.map_or(0, |p| {
+                    (r.value as i64 + 1) * (p.entity as i64 + 1) + p.index as i64
+                }))
+            })
+            .unwrap();
+        let mut director = ListStreamScoreDirector::new(&p, builder.build(), sources, a).unwrap();
         let movement = ListMove::Composite(moves);
         let temporary = {
-            let candidate = p.apply(&mut a, &movement).expect("valid temporary move");
-            state(&candidate, count)
+            let candidate = director.apply(&movement).expect("valid temporary move");
+            state(candidate.assignment(), candidate.graph(), &inspect, count)
         };
-        let restored = state(&a, count);
-        p.apply(&mut a, &movement)
+        let restored = state(director.assignment(), director.graph(), &inspect, count);
+        director
+            .apply(&movement)
             .expect("valid permanent move")
             .commit();
+        director.assert_consistent().unwrap();
         println!(
             "{}\t{}\t{}\t{}",
             f[0],
             temporary,
             restored,
-            state(&a, count)
+            state(director.assignment(), director.graph(), &inspect, count)
         );
     }
 }

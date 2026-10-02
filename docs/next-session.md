@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 211 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 58 stream), recorded in
+- 215 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 62 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 198 original integration regression methods, six original unit tests, and eleven public API documentation tests.
+- 207 original integration regression methods, seven original unit tests, and twelve public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 211 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 215 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,7 +73,7 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (list/map/average collectors and list-variable stream binding) and applicable upstream cases.
+0. Expand persistent operators (list/map/average collectors and mixed basic/list solving) and applicable upstream cases.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -123,8 +123,8 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (409 Rust integration methods,
-six unit tests, eleven doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (422 Rust integration methods,
+seven unit tests, twelve doctests, 39 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
 after the persistent-storage increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
@@ -457,7 +457,7 @@ eight doctests and 31 Python regressions. stream_coloring retains 0hard/0soft an
 are current; live dashboard/source digests agree and browser checks found no
 errors or horizontal overflow. The existing server was reused.
 
-Current check totals: 415 Rust tests (409 integration + six unit), eleven doctests,
+Current check totals: 429 Rust tests (422 integration + seven unit), twelve doctests,
 and 39 Python reporting/validator tests. Refresh all nine evidence artifacts after
 measured source changes, including `differential_streams.py` and
 `benchmark_streams.py`, then regenerate the report with the captured test log.
@@ -526,3 +526,39 @@ methods under the passed search filter. Live/report hashes agree; no browser err
 or horizontal overflow. Logs: work/collecting-check.log, collecting-release.log,
 collecting-{stream,list,score,solver}-evidence.log and corresponding *-performance.log,
 plus collecting-heuristic-performance.log. Upstream remains unmodified.
+
+
+List-stream increment: ListStreamSources binds entity lists and all value identities
+with owned position/neighbor snapshots. ListStreamScoreDirector validates before
+callbacks, conservatively updates touched-list membership and rolls back graph
+and model together. Required structure follows the native list model. New public
+greedy_list_stream_construction and list_stream_local_search_from share the old
+list algorithms through private ListSearchDirector. Saved winners install roots
+without callback replay. Read the stream/list contracts before modifying this.
+
+Four adapted assigned/including-unassigned list stream methods, nine original
+integration regressions, one unit regression and one doctest are added. Native
+list_move_oracle now emits cached stream shadows to the existing 256-case Java/
+Python comparison and checks entity rows plus its native position score.
+No Java/Rust list-stream score or solver timing claim; existing timings retain
+their workloads. stream_list_routes is an independently verified native example.
+
+List-stream verification: debug/release all-target gates pass (429 Rust tests:
+215 adapted + 207 original integration + seven unit), twelve doctests and 39 Python
+regressions. stream_list_routes independently verifies 0hard/-80soft for 40 values:
+941 construction evaluations / 7,824 terminal calls, then 3,241 local evaluations /
+63,404 calls and zero improving steps. This is a native quality check, not timing.
+
+All nine saved Java comparison/timing artifacts are current for this source.
+The updated list oracle passes 256 cases / 907 operations with cached stream
+views; other correctness counts remain unchanged. Logs: work/list-stream-check.log,
+list-stream-release.log, list-stream-example.log, list-stream-{list,stream,score,
+solver}-evidence.log and corresponding *-performance.log, plus
+list-stream-heuristic-performance.log. Current basic-stream medians in ms
+(Rust / Java): hill32 117.144 / 18.974, hill96 499.187 / 32.700,
+tabu32 124.010 / 15.436, tabu96 448.805 / 41.126. Keep these workload-specific.
+
+Existing server PID 21564 was reused. Live/report verification hashes agree;
+browser shows 215/4,855 (4.43%) overall and 67/1,045 (6.41%) streams, with all four
+new listVar methods under the passed filter. No browser errors or horizontal
+overflow. Upstream remains unmodified; no Enterprise source/artifact used.

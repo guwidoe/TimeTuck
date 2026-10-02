@@ -1,4 +1,5 @@
 //! Bounded local improvement of complete list assignments.
+use crate::list_search_scoring::ListSearchDirector;
 use crate::{
     Acceptance, AcceptanceError, AdditiveScore, ListAssignment, ListConstraintNetwork, ListProblem,
     ListScoreDirector, ListScoringError, LocalSearchConfig, LocalSearchTermination, MoveOrder,
@@ -10,6 +11,7 @@ use std::{error::Error, fmt};
 #[derive(Debug)]
 pub enum ListLocalSearchError {
     Scoring(ListScoringError),
+    StreamScoring(crate::ListStreamScoringError),
     Acceptance(AcceptanceError),
     IncompleteInitialAssignment,
 }
@@ -17,6 +19,7 @@ impl fmt::Display for ListLocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Scoring(e) => e.fmt(f),
+            Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("list local search requires a complete initial assignment")
@@ -28,6 +31,7 @@ impl Error for ListLocalSearchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::Scoring(e) => Some(e),
+            Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
             Self::IncompleteInitialAssignment => None,
         }
@@ -36,6 +40,11 @@ impl Error for ListLocalSearchError {
 impl From<ListScoringError> for ListLocalSearchError {
     fn from(e: ListScoringError) -> Self {
         Self::Scoring(e)
+    }
+}
+impl From<crate::ListStreamScoringError> for ListLocalSearchError {
+    fn from(e: crate::ListStreamScoringError) -> Self {
+        Self::StreamScoring(e)
     }
 }
 impl From<AcceptanceError> for ListLocalSearchError {
@@ -71,6 +80,21 @@ pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.acceptance.validate()?;
     network.validate(problem, &initial)?;
+    search_impl(problem, initial, config, |initial| {
+        ListScoreDirector::new(problem, network, initial)
+    })
+}
+pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
+where
+    ListLocalSearchError: From<D::Error>,
+{
+    config.acceptance.validate()?;
+    problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(ListLocalSearchError::IncompleteInitialAssignment);
     }
@@ -85,14 +109,14 @@ pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut director = ListScoreDirector::new(problem, network, initial)?;
+    let mut director = make_director(initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
     };
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     result.best = Some(ScoredListAssignment {
         assignment: director.assignment().clone(),
         score: director.score(),

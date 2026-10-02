@@ -1,5 +1,6 @@
 //! Bounded greedy insertion of required unassigned list values.
 use crate::list_neighborhood::insertions;
+use crate::list_search_scoring::ListSearchDirector;
 use crate::{
     AdditiveScore, ConstructionConfig, ConstructionTermination, ListAssignment,
     ListConstraintNetwork, ListMove, ListProblem, ListScoreDirector, ListScoringError,
@@ -40,6 +41,17 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     let initial = problem.initial_assignment();
     network.validate(problem, &initial)?;
+    construction_impl(problem, initial, config, |initial| {
+        ListScoreDirector::new(problem, network, initial)
+    })
+}
+pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+) -> Result<ListConstructionResult<V, S>, D::Error> {
+    problem.validate(&initial).map_err(D::Error::from)?;
     let mut result = ListConstructionResult {
         complete: problem.is_complete(&initial),
         assignment: initial.clone(),
@@ -56,9 +68,9 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut director = ListScoreDirector::new(problem, network, initial)?;
+    let mut director = make_director(initial)?;
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     if config.assert_scores {
         director.assert_consistent()?;
     }

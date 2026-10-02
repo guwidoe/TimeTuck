@@ -243,7 +243,7 @@ from reported search work. `StreamGraph::assert_consistent` and the director's
 method expose the same check; a diagnostic failure on an active graph transaction
 invalidates that transaction. This verifies scores, not arbitrary payload equality.
 
-List-variable stream sources and additional collectors (lists, maps, averages and
+Mixed basic/list solving and additional collectors (lists, maps, averages and
 exact decimals) remain pending.
 Run `cargo run --release --example stream_coloring` for an original
 24-variable construction/search example with independent result verification.
@@ -410,3 +410,61 @@ snapshots, global empty boundaries, custom collector failures, 180 trait-panic
 budgets, terminal errors, construction and search. The existing Java timing
 workloads use the specialized integer group node; they do not benchmark the new
 generic collector node.
+
+
+## Ordered-list move binding and search
+
+`ListStreamSources<V>` registers two initially empty sources. `entities` maps each
+entity index to `(index, Vec<V>)`, including empty lists. `values` maps each stable
+global range index to `ListValueRow`: range index, value identity, optional
+`ListPosition` (owner/index), previous value and next value. Range indices need not
+equal value IDs. Every registered value remains present even when unassigned;
+constraints explicitly filter `position.is_some()` to select assigned values.
+Other graph sources can be preloaded with immutable facts.
+
+`ListStreamScoreDirector` owns the assignment and graph. Initialization validates
+the model, ownership and emptiness of both sources before callbacks. Applying a
+move first validates the final composite through the native list transaction.
+It delivers each touched entity list once, then each value belonging to those
+lists before or after the move once. This conservative invalidation covers moved,
+unassigned and neighboring values, including no-op list edits. Intermediate
+entity/value joins may occur during delivery; the fully drained candidate exposes
+consistent final rows. Source projection, callbacks and model errors or ordinary
+panics roll back both graph and assignment. Commit performs no replay. Other
+sources cannot be changed through the bound director.
+
+The score includes minus the number of missing required values as structural
+state; optional unassignment contributes no structural penalty. Read-only graph
+inspection exposes ordinary named totals and typed matches. Full graph rebuild
+diagnostics verify cached terminal identities/contributions and restore the
+current graph after checking. The model and source projections are covered
+separately by independent regression/reference comparisons.
+
+`greedy_list_stream_construction` and `list_stream_local_search_from` share the
+existing list algorithms through a private scoring interface. Early picks, lazy
+neighborhoods, all five acceptance policies, entity ordering/tabu, fallback,
+budgets and best-solution retention keep their scoped behavior. Each phase loads
+its own sources and counts the initial scoring once. Terminal weighting calls are
+counted separately; diagnostics and preloading immutable facts are excluded.
+Selected candidates save assignment and affected graph roots and install without
+replaying callbacks. Failures after saving an earlier candidate leave the base
+unchanged. Full model snapshots and linear shadow lookups remain; no constant-time
+move, thread safety or new Java performance claim follows.
+
+Four adapted upstream methods check assigned/included-unassigned matching in both
+required and optional models. Nine original integration tests cover 1,200 seeded
+composites (20261024), span unassignment, cached joins/groups, unrelated callback
+counts, immutable facts, validation at zero budget, ranges/pins, empty/impossible
+models, 160 clone-failure budgets, source/assignment rollback and diagnostic work
+accounting. Twenty-four construction configurations and 100 search configurations
+agree with separate full-scoring list networks, including scores, assignments,
+termination and candidate/step counts. One unit regression checks scorer errors,
+scorer panics and acceptor panics after an earlier winner was saved. One doctest
+and stream_list_routes demonstrate public API use.
+
+The existing original Java list-move comparison now emits native cached stream
+shadow rows, independently compared with Python and Java across candidate, undo
+and committed states. It also checks native entity rows and a position score
+inside the Rust adapter. No Java/Rust position-score comparison is claimed.
+The existing required-list-solving benchmarks still use full scoring, and the
+basic-variable stream benchmarks remain basic-variable workloads.
