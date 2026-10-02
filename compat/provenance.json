@@ -2295,6 +2295,111 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all seven result assertions and the exact insertion/retraction sequence using native IntCollector. Immutable captured i64 values and remove(value) replace Java collector containers and Runnable retractors; each removal consumes one occurrence. Native usize replaces Java long counts, and Option replaces null extrema. No Java notification, descriptor or incremental stream-graph behavior is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.filter_problemFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "filter_problemFact",
+      "local_test": "filter_problem_fact",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.filter_entity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "filter_entity",
+      "local_test": "filter_entity",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.filter_consecutive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "filter_consecutive",
+      "local_test": "filter_consecutive",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.join_0",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "join_0",
+      "local_test": "join_0",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.join_1Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "join_1Equal",
+      "local_test": "join_1_equal",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "group_by_1_mapping_0_collector",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "group_by_1_mapping_1_collector",
+      "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
     }
   ],
   "fixtures": [
@@ -2492,6 +2597,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
       "upstream_test": "TestdataListUnassignedEntityProvidingEntity(String,List), planning-list/range annotations",
       "modifications": "Represent fixture empty initial lists, entity-provided value ranges, and required/optional list metadata through native ListEntity builders and ListProblem optionality. Ignore Java descriptor/reflection implementation. Fixture only; no additional executable-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "TestdataLavishSolution.incremental_stream_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Inline generated group codes, entity/group/value identities and modulo group distribution for each adapted case. Preserve all entities/facts used by the selected stream and the specified additional entities. Omit unrelated fixture fields and random longProperty, which these constraints never access. Default dimensions remain 2 value groups, 5 values, 3 entity groups and 7 entities. Fixture only; no executable method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/incremental_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.incremental_stream_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatch, assertMatchWithScore, AssertableMatch.isEqualTo",
+      "modifications": "Native assert_terminal checks exact sorted IDs, each -1 contribution and total score; join/filter/group inspections check matching facts and collector outputs. One isolated terminal represents TEST_CONSTRAINT_ID, eliminating namespace lookup. Native exact tuples are stronger than unordered Java justification membership for these cases. No custom justification/indictment API claimed. Fixture only; no executable method credit."
     }
   ]
 }

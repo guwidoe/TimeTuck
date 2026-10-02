@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 153 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector), recorded in
+- 160 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 7 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 148 original integration regression methods, two original unit tests, and four public API documentation tests.
+- 157 original integration regression methods, two original unit tests, and five public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -53,7 +53,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 153 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 160 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -64,11 +64,12 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Extend typed snapshot constraint streams to incremental tuple propagation,
-   retractable grouped state and public-API Java stream comparison. Current joins,
-   filters, existence checks, grouping and scoring rebuild per affected callback;
-   do not credit upstream incremental graph tests for snapshot-only behavior. Read
-   `docs/constraint-stream-contract.md`.
+0. Bind persistent stream operators to transactional solver moves and introduce
+   automatic graph scheduling/sharing. Explicit filter/join/group/score delta
+   propagation now exists, but a whole graph/batch is not atomic. Do not hide
+   mutable nodes inside existing ConstraintNetwork callbacks; their rollback
+   cannot undo external node state. Add public-API Java stream comparison and
+   matched timing. Read `docs/constraint-stream-contract.md`.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
@@ -102,11 +103,12 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (301 Rust integration methods,
-two unit tests, four doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (317 Rust integration methods,
+two unit tests, five doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the list-range increment. Desktop 1440px and mobile 390px browser QA passed,
-including move filtering and focus preservation on refresh. Current saved Java
+after the incremental stream-operator increment. Earlier dashboard layout QA
+at desktop 1440px and mobile 390px passed, including move filtering and focus
+preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
 cases. The benchmark
 ratios are workload-specific and noisy; retain raw sample ranges and scope labels.
@@ -307,3 +309,26 @@ transaction rollback/commit, exact solving, construction and local improvement.
 No stream-specific Java timing claim yet. Logs: work/stream-check.log,
 work/stream-release.log, work/stream-evidence.log. All seven existing comparison
 sections must be refreshed after measured source changes.
+
+
+Incremental stream-operator milestone: TupleChange with stable generic IDs;
+FilterNode caches predicate decisions; JoinNode caches both sides and ordered key
+indexes; GroupNode retracts captured integers and removes empty groups; ScoreNode
+caches individual ordinary contributions and totals. Connect typed output events
+explicitly and drain in order. Self-joins accept either side order. Automatic DAG
+scheduling, graph-wide rollback, exists/distinct propagation and solver move
+binding remain pending. Standalone callback failures before mutation are atomic;
+trait panics during mutation poison the node, so access fails closed. Rebuild a
+pipeline after any partially delivered failure.
+
+Seven upstream methods preserve all initial/incremental score and match states,
+with two fixture/helper provenance records. Nine original regressions include
+1,500 alternating-order self-join edits, 2,000 composed pipeline edits checked
+against independent recomputation, affected-key callback counts, boundaries and
+poison handling. One new API doctest. Logs: work/incremental-stream-check.log,
+work/incremental-stream-release.log, work/incremental-stream-evidence.log.
+
+All seven existing Java comparison/benchmark sections were refreshed. Live
+dashboard verification matched the source fingerprint and displayed all seven
+new methods under the passed filter, with no browser errors or horizontal
+overflow. The existing dashboard server was reused.

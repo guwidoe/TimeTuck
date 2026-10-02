@@ -6,12 +6,13 @@ Use explicit IDs to distinguish objects with otherwise equal attributes.
 The library receives exactly the supplied rows. Callers explicitly filter
 unassigned planning variables; there is no implicit Java-style fact discovery.
 
-The current implementation operates on snapshots. Put a stream pipeline in a
+`ConstraintStream` operates on snapshots. Put a snapshot stream pipeline in a
 `ConstraintNetwork` or `ListConstraintNetwork` callback with the complete variable
 scope on which it depends. Affected callbacks rebuild their stream; unrelated
 callbacks retain their cached contributions. This is scoped incremental scoring,
-not an incremental tuple graph. Row insertion/update/retraction propagation,
-shared graph nodes and cached join/group indexes are still pending.
+not an incremental tuple graph. Separate persistent operators now support explicit
+delta propagation, as described below; automatic graph scheduling and solver
+move binding remain pending.
 
 ## Relations and scoring
 
@@ -59,14 +60,68 @@ its new value. The caller tracks that old value; collector tokens and mutable
 object listeners are not provided. Independent equal occurrences are
 indistinguishable, and each removal consumes only one of them.
 
+## Persistent incremental operators
+
+`TupleChange<I,T>` addresses an occurrence by stable identity. `Some(value)`
+inserts or replaces it; `None` removes it, with an absent removal a no-op. IDs
+distinguish equal-valued rows. `map` transforms a present payload and preserves
+its identity; it does not invoke the mapping on a retraction. Persist the nodes
+and explicitly deliver every output change to downstream nodes in emitted order.
+Read the pipeline's final result only after all outputs have been delivered.
+
+- `FilterNode` evaluates only a changed row, remembers rejected rows, and emits
+  insert/update/removal transitions. Removal uses the cached decision.
+- `JoinNode` retains both inputs and ordered key indexes, including unmatched
+  facts. A side update visits only its old/new opposite matching buckets, emits
+  old pair removals followed by new pair insertions, and caches the new key.
+  Pair identity is `(left_id, right_id)`. A constant key produces a Cartesian
+  join; tuple keys express multiple equalities. Self-joins require delivering
+  each source change to both sides; either order is valid. Inspection is ordered
+  by left ID then right ID, independently of insertion order.
+- `GroupNode` caches each input ID's mapped key and integer. An update retracts
+  the captured old value and accumulates the new one in the affected groups only.
+  It emits one final summary for a same-key replacement, old then new summaries
+  for a key change, and a retraction when the last group member disappears.
+  Equal values at different IDs retain separate multiplicities.
+- `ScoreNode` caches one contribution per ID and updates its total by subtracting
+  the old score and adding the new score. Retraction does not replay the callback.
+  Invalid structural contributions return an error before changing that node.
+  Current individual contributions remain inspectable.
+
+These operators perform actual incremental updates, but do not yet provide an
+automatic heterogeneous DAG, shared-node scheduling, graph-wide transactions,
+incremental existence/distinct nodes or solver-move binding. A call commits one
+node's input. A join replacement may emit a removal and insertion of the same
+pair ID; intermediate downstream totals are not final graph results. Explicit
+connections must preserve emitted order and fan changes out to every consumer.
+
+Callback/key projection and output row cloning occur before mutation in filter
+and join nodes. Scoring callbacks and structural checks also precede mutation.
+Failure there leaves that node unchanged, but previously updated nodes are not
+rolled back. During mutation, a panic in user-defined key/identity operations
+poisons the node; subsequent reads/updates panic instead of exposing possibly
+inconsistent caches. `is_poisoned()` remains available. Keys/facts must have stable
+ordering and immutable contents, and callbacks must be deterministic. Rebuild
+the affected pipeline after a partially delivered failure. Allocation aborts are
+not recoverable. There is no graph-wide panic or error atomicity claim.
+
+Do not hide persistent nodes inside existing `ConstraintNetwork` callbacks via
+interior mutability: current solver move undo cannot restore that external state.
+Use the snapshot pipeline there until a transactional graph binding exists.
+
 ## Evidence and limitations
 
 Five adapted methods from pinned `InnerUniConstraintCollectorsTest` preserve all
 seven assertions each, including duplicate insertion/retraction and empty
 results. Exact provenance and native representation changes are recorded in
 `compat/provenance.json`. This grants five upstream collector-method passes.
-It grants no passes for upstream stream graph, descriptor, notification or
-constraint-match explanation tests.
+Seven further methods from `AbstractUniConstraintStreamTest` preserve every
+initial and incremental score/match assertion for three filters, two joins and
+two grouping cases. Stable native identities and explicit event delivery replace
+Java object identity and notification plumbing. Per-match scores, exact match
+sets and applicable collector counts are checked. Fixture/helper adaptations are
+recorded separately. Descriptor, automatic graph, custom justification and
+indictment APIs remain pending.
 
 Twelve original regression methods additionally check:
 
@@ -81,6 +136,13 @@ Twelve original regression methods additionally check:
 - Exact enumeration of all 16 complete assignments, greedy construction and
   local improvement from an overloaded assignment to independently checked
   `0hard/0soft`. All constraints are nonpositive, so zero is also an upper bound.
+
+Nine original incremental regressions additionally check 1,500 self-join updates
+with alternating side order and 2,000 composed filter/join/group/score updates
+against independent full recomputation (seeds 20261010 and 20261011). They check
+captured-value retractions, empty group removal, wrapping totals, contribution
+errors, callback counts restricted to changed rows, pre-mutation callback panics,
+and poisoned-node rejection after panicking user key operations.
 
 The existing Java/Rust comparison and benchmark sections cover earlier score,
 move, exact and heuristic workloads. They do not measure these stream operations.

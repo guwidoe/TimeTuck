@@ -57,8 +57,10 @@ suite has not been run against Rust, and whole-solver compatibility is not claim
 
 Five integer collector methods additionally preserve every count, distinct-count,
 sum, minimum and maximum assertion across duplicate insertions and retractions.
-Original stream regressions verify snapshot joins, groups and solver scoring; they
-do not grant credit for upstream incremental stream-graph methods. See
+Seven additional stream methods preserve all initial/update/removal/reinsertion
+scores and match sets through native persistent operators. They cover filtering,
+Cartesian/equality joins and grouping; automatic graph scheduling, descriptors,
+custom justifications and solver move integration remain pending. See
 `docs/constraint-stream-contract.md` for this distinction.
 
 ## Case records and coverage

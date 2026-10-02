@@ -1,0 +1,391 @@
+//! Persistent, explicitly connected stream operators.
+//!
+//! Feed every output change into the next node before reading the pipeline's
+//! score. Each call commits one input change; an entire graph/batch is not a
+//! transaction. Stable IDs distinguish equal-valued occurrences. No-op removals
+//! are allowed, and an insertion at an existing ID replaces that occurrence.
+//!
+//! Callback failures before mutation leave that node unchanged. If a user key's
+//! ordering/cloning panics during mutation, the node becomes poisoned and refuses
+//! further reads/updates; rebuild the pipeline. Changes already delivered to other
+//! nodes are not rolled back. Immutable facts and deterministic callbacks remain
+//! required. Automatic graph scheduling and solver move transactions are pending.
+//!
+//! ```
+//! use timetuck::{GroupNode, IntSummary, ScoreNode, SimpleScore, TupleChange};
+//! let mut loads = GroupNode::<u64, &str>::new();
+//! let mut score = ScoreNode::new(|s: &IntSummary| SimpleScore::new(-(s.sum - 10).max(0)));
+//! for change in loads.apply(TupleChange::put(1, ("machine", 12))) {
+//!     score.apply(change).unwrap();
+//! }
+//! assert_eq!(score.score(), SimpleScore::new(-2));
+//! for change in loads.apply(TupleChange::retract(1)) {
+//!     score.apply(change).unwrap();
+//! }
+//! assert_eq!(score.score(), SimpleScore::ZERO);
+//! ```
+
+use std::collections::{BTreeMap, BTreeSet};
+use std::fmt;
+
+use crate::{AdditiveScore, IntCollector, IntSummary};
+
+/// Insert/replace (`Some`) or retract (`None`) one stable tuple identity.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct TupleChange<I, T> {
+    pub id: I,
+    pub value: Option<T>,
+}
+
+impl<I, T> TupleChange<I, T> {
+    pub fn put(id: I, value: T) -> Self {
+        Self {
+            id,
+            value: Some(value),
+        }
+    }
+
+    pub fn retract(id: I) -> Self {
+        Self { id, value: None }
+    }
+
+    pub fn map<U>(self, mapping: impl FnOnce(T) -> U) -> TupleChange<I, U> {
+        TupleChange {
+            id: self.id,
+            value: self.value.map(mapping),
+        }
+    }
+}
+
+fn healthy(poisoned: bool) {
+    assert!(
+        !poisoned,
+        "incremental stream node is poisoned; rebuild the pipeline"
+    );
+}
+
+/// Caches the predicate result for each input identity. Retraction never reruns
+/// the predicate, and an update evaluates only the changed row.
+pub struct FilterNode<'a, I, T> {
+    rows: BTreeMap<I, (bool, T)>,
+    predicate: Box<dyn Fn(&T) -> bool + 'a>,
+    poisoned: bool,
+}
+
+impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
+    pub fn new(predicate: impl Fn(&T) -> bool + 'a) -> Self {
+        Self {
+            rows: BTreeMap::new(),
+            predicate: Box::new(predicate),
+            poisoned: false,
+        }
+    }
+
+    pub fn is_poisoned(&self) -> bool {
+        self.poisoned
+    }
+
+    pub fn rows(&self) -> impl Iterator<Item = (&I, &T)> {
+        healthy(self.poisoned);
+        self.rows
+            .iter()
+            .filter_map(|(id, (accepted, row))| accepted.then_some((id, row)))
+    }
+
+    pub fn apply(&mut self, change: TupleChange<I, T>) -> Option<TupleChange<I, T>> {
+        healthy(self.poisoned);
+        let new = change.value.map(|row| ((self.predicate)(&row), row));
+        let was_accepted = self
+            .rows
+            .get(&change.id)
+            .is_some_and(|(accepted, _)| *accepted);
+        let output = match &new {
+            Some((true, row)) => Some(TupleChange::put(change.id.clone(), row.clone())),
+            _ if was_accepted => Some(TupleChange::retract(change.id.clone())),
+            _ => None,
+        };
+        self.poisoned = true;
+        match new {
+            Some(row) => {
+                self.rows.insert(change.id, row);
+            }
+            None => {
+                self.rows.remove(&change.id);
+            }
+        }
+        self.poisoned = false;
+        output
+    }
+}
+
+struct JoinSide<I, T, K> {
+    rows: BTreeMap<I, (K, T)>,
+    index: BTreeMap<K, BTreeSet<I>>,
+    poisoned: bool,
+}
+
+impl<I, T, K> JoinSide<I, T, K> {
+    fn new() -> Self {
+        Self {
+            rows: BTreeMap::new(),
+            index: BTreeMap::new(),
+            poisoned: false,
+        }
+    }
+}
+
+type JoinChanges<I, J, T, U> = Vec<TupleChange<(I, J), (T, U)>>;
+
+impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
+    fn apply<J: Ord + Clone, U: Clone>(
+        &mut self,
+        other: &JoinSide<J, U, K>,
+        change: TupleChange<I, T>,
+        key: &dyn Fn(&T) -> K,
+    ) -> JoinChanges<I, J, T, U> {
+        healthy(self.poisoned || other.poisoned);
+        let new = change.value.map(|row| (key(&row), row));
+        let mut output = Vec::new();
+        if let Some((old_key, _)) = self.rows.get(&change.id)
+            && let Some(ids) = other.index.get(old_key)
+        {
+            for id in ids {
+                output.push(TupleChange::retract((change.id.clone(), id.clone())));
+            }
+        }
+        if let Some((new_key, row)) = &new
+            && let Some(ids) = other.index.get(new_key)
+        {
+            for id in ids {
+                output.push(TupleChange::put(
+                    (change.id.clone(), id.clone()),
+                    (
+                        row.clone(),
+                        other.rows.get(id).expect("indexed row").1.clone(),
+                    ),
+                ));
+            }
+        }
+        // All projection calls and output row clones happen before mutation.
+        self.poisoned = true;
+        if let Some((old_key, _)) = self.rows.remove(&change.id) {
+            let ids = self.index.get_mut(&old_key).expect("indexed key");
+            ids.remove(&change.id);
+            if ids.is_empty() {
+                self.index.remove(&old_key);
+            }
+        }
+        if let Some((new_key, row)) = new {
+            self.index
+                .entry(new_key.clone())
+                .or_default()
+                .insert(change.id.clone());
+            self.rows.insert(change.id, (new_key, row));
+        }
+        self.poisoned = false;
+        output
+    }
+}
+
+/// Persistent equality join. Cached keys make retraction independent of callbacks.
+/// Cartesian joins use a constant key. Output identity is `(left_id, right_id)`.
+/// Updates retract all old matches then insert new matches, including surviving
+/// pair identities. Feed both sides for self-joins, in either order, before reading
+/// the final score. Each side indexes all rows, even currently unmatched ones.
+pub struct JoinNode<'a, I, J, L, R, K> {
+    left: JoinSide<I, L, K>,
+    right: JoinSide<J, R, K>,
+    left_key: Box<dyn Fn(&L) -> K + 'a>,
+    right_key: Box<dyn Fn(&R) -> K + 'a>,
+}
+
+impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
+    JoinNode<'a, I, J, L, R, K>
+{
+    pub fn new(left_key: impl Fn(&L) -> K + 'a, right_key: impl Fn(&R) -> K + 'a) -> Self {
+        Self {
+            left: JoinSide::new(),
+            right: JoinSide::new(),
+            left_key: Box::new(left_key),
+            right_key: Box::new(right_key),
+        }
+    }
+
+    pub fn is_poisoned(&self) -> bool {
+        self.left.poisoned || self.right.poisoned
+    }
+
+    pub fn apply_left(&mut self, change: TupleChange<I, L>) -> JoinChanges<I, J, L, R> {
+        self.left.apply(&self.right, change, &self.left_key)
+    }
+
+    pub fn apply_right(&mut self, change: TupleChange<J, R>) -> JoinChanges<I, J, L, R> {
+        self.right
+            .apply(&self.left, change, &self.right_key)
+            .into_iter()
+            .map(|change| TupleChange {
+                id: (change.id.1, change.id.0),
+                value: change.value.map(|(right, left)| (left, right)),
+            })
+            .collect()
+    }
+
+    /// Inspection walks the current join, ordered by left ID then right ID.
+    /// Updates themselves visit only old/new matching key buckets.
+    pub fn matches(&self) -> impl Iterator<Item = ((&I, &J), (&L, &R))> {
+        healthy(self.is_poisoned());
+        self.left
+            .rows
+            .iter()
+            .flat_map(move |(left_id, (key, left))| {
+                self.right
+                    .index
+                    .get(key)
+                    .into_iter()
+                    .flatten()
+                    .map(move |right_id| {
+                        (
+                            (left_id, right_id),
+                            (left, &self.right.rows.get(right_id).expect("indexed row").1),
+                        )
+                    })
+            })
+    }
+}
+
+/// Incrementally aggregates mapped integer occurrences, keyed by stable input ID.
+/// Moving an input between keys touches only the old/new groups. An empty group
+/// emits a retraction; a replacement within the same key emits one final summary.
+pub struct GroupNode<I, K> {
+    inputs: BTreeMap<I, (K, i64)>,
+    groups: BTreeMap<K, IntCollector>,
+    poisoned: bool,
+}
+
+impl<I: Ord, K: Ord + Clone> Default for GroupNode<I, K> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
+    pub fn new() -> Self {
+        Self {
+            inputs: BTreeMap::new(),
+            groups: BTreeMap::new(),
+            poisoned: false,
+        }
+    }
+
+    pub fn is_poisoned(&self) -> bool {
+        self.poisoned
+    }
+
+    pub fn groups(&self) -> impl Iterator<Item = (&K, IntSummary)> {
+        healthy(self.poisoned);
+        self.groups
+            .iter()
+            .map(|(key, collector)| (key, collector.summary()))
+    }
+
+    pub fn apply(&mut self, change: TupleChange<I, (K, i64)>) -> Vec<TupleChange<K, IntSummary>> {
+        healthy(self.poisoned);
+        let old_key = self.inputs.get(&change.id).map(|(key, _)| key.clone());
+        let new_key = change.value.as_ref().map(|(key, _)| key.clone());
+        self.poisoned = true;
+        if let Some((key, value)) = self.inputs.remove(&change.id) {
+            let collector = self.groups.get_mut(&key).expect("input group");
+            assert!(collector.remove(value), "input occurrence");
+            if collector.summary().count == 0 {
+                self.groups.remove(&key);
+            }
+        }
+        if let Some((key, value)) = change.value {
+            self.groups.entry(key.clone()).or_default().insert(value);
+            self.inputs.insert(change.id, (key, value));
+        }
+        let mut output = Vec::new();
+        if let Some(key) = old_key.as_ref() {
+            output.push(TupleChange {
+                id: key.clone(),
+                value: self.groups.get(key).map(IntCollector::summary),
+            });
+        }
+        if let Some(key) = new_key
+            && old_key.as_ref() != Some(&key)
+        {
+            let value = Some(self.groups.get(&key).expect("new group").summary());
+            output.push(TupleChange { id: key, value });
+        }
+        self.poisoned = false;
+        output
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct StructuralStreamContribution;
+
+impl fmt::Display for StructuralStreamContribution {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("incremental stream contribution has nonzero structural state")
+    }
+}
+impl std::error::Error for StructuralStreamContribution {}
+
+/// A terminal with one cached contribution per input identity. Retractions use
+/// the cached score, with no callback replay. Structural contributions are errors.
+pub struct ScoreNode<'a, I, T, S> {
+    contributions: BTreeMap<I, S>,
+    evaluate: Box<dyn Fn(&T) -> S + 'a>,
+    score: S,
+    poisoned: bool,
+}
+
+impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
+    pub fn new(evaluate: impl Fn(&T) -> S + 'a) -> Self {
+        Self {
+            contributions: BTreeMap::new(),
+            evaluate: Box::new(evaluate),
+            score: S::ZERO,
+            poisoned: false,
+        }
+    }
+
+    pub fn is_poisoned(&self) -> bool {
+        self.poisoned
+    }
+
+    pub fn score(&self) -> S {
+        healthy(self.poisoned);
+        self.score
+    }
+
+    pub fn contributions(&self) -> impl Iterator<Item = (&I, S)> {
+        healthy(self.poisoned);
+        self.contributions.iter().map(|(id, &score)| (id, score))
+    }
+
+    pub fn apply(&mut self, change: TupleChange<I, T>) -> Result<(), StructuralStreamContribution> {
+        healthy(self.poisoned);
+        let new = change.value.as_ref().map(|row| (self.evaluate)(row));
+        if new.is_some_and(|score| score.structural() != 0) {
+            return Err(StructuralStreamContribution);
+        }
+        let score = self.score
+            - self
+                .contributions
+                .get(&change.id)
+                .copied()
+                .unwrap_or(S::ZERO)
+            + new.unwrap_or(S::ZERO);
+        self.poisoned = true;
+        if let Some(new) = new {
+            self.contributions.insert(change.id, new);
+        } else {
+            self.contributions.remove(&change.id);
+        }
+        self.score = score;
+        self.poisoned = false;
+        Ok(())
+    }
+}

@@ -47,11 +47,16 @@ The following test files adapt the pinned Community tests:
 - `crates/solver/tests/stream_collectors.rs` from five count/sum/extrema methods
   in `InnerUniConstraintCollectorsTest.java`.
 
+- `crates/solver/tests/incremental_stream_cases.rs` from seven methods in
+  `AbstractUniConstraintStreamTest.java`, with initial states from
+  `TestdataLavishSolution.java` and score/match assertions from
+  `AbstractConstraintStreamTest.java`.
+
 `crates/solver/tests/common/mod.rs` additionally adapts the equality, hash and
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 153 source methods are recorded individually in `compat/provenance.json`.
+All 160 source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.
