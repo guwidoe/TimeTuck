@@ -94,4 +94,7 @@ pub use stream_graph::{
 pub mod stream_scoring;
 pub use stream_scoring::{
     PlanningStreamSource, StreamScoreDirector, StreamScoredMove, StreamScoringError,
+    greedy_stream_construction, stream_local_search, stream_local_search_from,
 };
+
+mod search_scoring;

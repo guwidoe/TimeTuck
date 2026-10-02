@@ -49,6 +49,7 @@ pub enum GraphError {
     DuplicateConstraint(String),
     StructuralContribution(String),
     FailedTransaction,
+    CorruptedScore,
 }
 impl fmt::Display for GraphError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -57,6 +58,9 @@ impl fmt::Display for GraphError {
             Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
             Self::StructuralContribution(name) => {
                 write!(f, "stream constraint {name} has a structural contribution")
+            }
+            Self::CorruptedScore => {
+                f.write_str("cached stream matches or total differ from a fresh rebuild")
             }
             Self::FailedTransaction => {
                 f.write_str("stream transaction failed; drop it to roll back")
@@ -106,6 +110,16 @@ impl<I, T> Clone for StreamConstraint<I, T> {
 
 trait Node<S: AdditiveScore> {
     fn checkpoint(&self) -> Box<dyn Any>;
+    fn clear(&mut self);
+    fn source_events(&self) -> Vec<Event> {
+        Vec::new()
+    }
+    fn evaluates_score(&self, _: &Event) -> bool {
+        false
+    }
+    fn scores_match(&self, _: &dyn Any) -> bool {
+        true
+    }
     fn restore(&mut self, checkpoint: Box<dyn Any>);
     fn apply(&mut self, side: bool, event: &Event) -> Result<Outputs, GraphError>;
     fn score(&self) -> S {
@@ -130,6 +144,16 @@ fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I
 
 struct SourceNode<I, T>(BTreeMap<I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn source_events(&self) -> Vec<Event> {
+        erase(
+            self.0
+                .iter()
+                .map(|(id, value)| TupleChange::put(id.clone(), value.clone())),
+        )
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(self.0.clone())
     }
@@ -152,6 +176,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
 struct Filter<'a, I, T>(FilterNode<'a, I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn clear(&mut self) {
+        self.0.clear();
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
         self.0.checkpoint()
     }
@@ -168,6 +195,7 @@ struct Map<'a, I, T, U> {
     marker: PhantomData<fn() -> I>,
 }
 impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for Map<'_, I, T, U> {
+    fn clear(&mut self) {}
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(())
     }
@@ -191,6 +219,9 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn clear(&mut self) {
+        self.0.clear();
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
         self.0.checkpoint()
     }
@@ -213,6 +244,9 @@ struct Group<'a, I, T, K> {
 impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: AdditiveScore> Node<S>
     for Group<'_, I, T, K>
 {
+    fn clear(&mut self) {
+        self.node.clear();
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
         self.node.checkpoint()
     }
@@ -240,6 +274,24 @@ struct Terminal<'a, I, T, S> {
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
     for Terminal<'_, I, T, S>
 {
+    fn clear(&mut self) {
+        self.node.clear();
+        self.matches.clear();
+    }
+    fn evaluates_score(&self, event: &Event) -> bool {
+        typed::<I, T>(event).value.is_some()
+    }
+    fn scores_match(&self, checkpoint: &dyn Any) -> bool {
+        let (node, old) = checkpoint
+            .downcast_ref::<(Box<dyn Any>, BTreeMap<I, (T, S)>)>()
+            .expect("terminal checkpoint type");
+        self.node.scores_match(node.as_ref())
+            && self
+                .matches
+                .iter()
+                .map(|(id, (_, s))| (id, s))
+                .eq(old.iter().map(|(id, (_, s))| (id, s)))
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new((self.node.checkpoint(), self.matches.clone()))
     }
@@ -468,6 +520,44 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             Err(GraphError::ForeignPort)
         }
     }
+    /// Rebuild from source rows with empty operator caches and compare every
+    /// terminal match ID/score and the total. Original state is restored even on
+    /// failure/unwind. Diagnostic callback work is excluded from search counters.
+    pub fn assert_consistent(&mut self) -> Result<(), GraphError> {
+        let events: Vec<_> = self
+            .nodes
+            .iter()
+            .enumerate()
+            .flat_map(|(id, n)| n.source_events().into_iter().map(move |e| (id, e)))
+            .collect();
+        let mut trial = self.transaction();
+        trial.failed = true;
+        for id in 0..trial.graph.nodes.len() {
+            trial.checkpoint(id);
+        }
+        for node in &mut trial.graph.nodes {
+            node.clear();
+        }
+        trial.graph.score = S::ZERO;
+        for (id, event) in events {
+            trial.propagate(id, event)?;
+        }
+        if trial.graph.score != trial.original_score
+            || trial
+                .journal
+                .iter()
+                .any(|(id, old)| !trial.graph.nodes[*id].scores_match(old.as_ref()))
+        {
+            return Err(GraphError::CorruptedScore);
+        }
+        Ok(())
+    }
+    pub(crate) fn install(&mut self, state: GraphState<S>) {
+        for (id, checkpoint) in state.nodes {
+            self.nodes[id].restore(checkpoint);
+        }
+        self.score = state.score;
+    }
     pub fn transaction(&mut self) -> GraphTransaction<'_, 'a, S> {
         let original_score = self.score;
         let visited = vec![false; self.nodes.len()];
@@ -478,6 +568,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             journal: Vec::new(),
             failed: false,
             committed: false,
+            score_evaluations: 0,
         }
     }
 }
@@ -493,8 +584,41 @@ pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
     journal: Vec<(usize, Box<dyn Any>)>,
     failed: bool,
     committed: bool,
+    score_evaluations: u128,
+}
+pub(crate) struct GraphState<S> {
+    nodes: Vec<(usize, Box<dyn Any>)>,
+    score: S,
 }
 impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
+    pub fn score_evaluations(&self) -> u128 {
+        self.score_evaluations
+    }
+    pub(crate) fn capture(&self) -> Result<GraphState<S>, GraphError> {
+        self.valid()?;
+        Ok(GraphState {
+            score: self.graph.score,
+            nodes: self
+                .journal
+                .iter()
+                .map(|(id, _)| (*id, self.graph.nodes[*id].checkpoint()))
+                .collect(),
+        })
+    }
+    pub fn assert_consistent(&mut self) -> Result<(), GraphError> {
+        self.valid()?;
+        self.failed = true;
+        self.graph.assert_consistent()?;
+        self.failed = false;
+        Ok(())
+    }
+    fn checkpoint(&mut self, id: usize) {
+        if !self.visited[id] {
+            let checkpoint = self.graph.nodes[id].checkpoint();
+            self.journal.push((id, checkpoint));
+            self.visited[id] = true;
+        }
+    }
     fn valid(&self) -> Result<(), GraphError> {
         if self.failed {
             Err(GraphError::FailedTransaction)
@@ -522,20 +646,22 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         self.valid()?;
         self.failed = true;
         self.graph.validate(source)?;
+        self.propagate(source.0.node, Rc::new(change) as Event)?;
+        self.failed = false;
+        Ok(())
+    }
+    fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
         let mut pending = VecDeque::from([(
             Edge {
-                node: source.0.node,
+                node: source,
                 right: false,
             },
-            Rc::new(change) as Event,
+            event,
         )]);
         while let Some((edge, event)) = pending.pop_front() {
             let id = edge.node;
-            if !self.visited[id] {
-                let checkpoint = self.graph.nodes[id].checkpoint();
-                self.journal.push((id, checkpoint));
-                self.visited[id] = true;
-            }
+            self.checkpoint(id);
+            self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
             let outputs = self.graph.nodes[id].apply(edge.right, &event)?;
             self.graph.score = self.graph.score - old + self.graph.nodes[id].score();
@@ -545,7 +671,6 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 }
             }
         }
-        self.failed = false;
         Ok(())
     }
     pub fn commit(mut self) -> Result<(), GraphError> {

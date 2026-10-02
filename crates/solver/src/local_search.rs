@@ -1,4 +1,5 @@
 //! Bounded deterministic local search using incremental scores.
+use crate::search_scoring::SearchDirector;
 use crate::{
     AdditiveScore, ConstraintNetwork, FiniteProblem, ScoreDirector, ScoredAssignment, ScoringError,
 };
@@ -18,6 +19,7 @@ pub enum MoveOrder {
 #[derive(Debug)]
 pub enum LocalSearchError {
     Scoring(ScoringError),
+    StreamScoring(crate::StreamScoringError),
     Acceptance(AcceptanceError),
     IncompleteInitialAssignment,
 }
@@ -25,6 +27,7 @@ impl fmt::Display for LocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Scoring(e) => e.fmt(f),
+            Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("local search requires a complete initial assignment")
@@ -36,9 +39,15 @@ impl Error for LocalSearchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(match self {
             Self::Scoring(e) => e,
+            Self::StreamScoring(e) => e,
             Self::Acceptance(e) => e,
             Self::IncompleteInitialAssignment => return None,
         })
+    }
+}
+impl From<crate::StreamScoringError> for LocalSearchError {
+    fn from(e: crate::StreamScoringError) -> Self {
+        Self::StreamScoring(e)
     }
 }
 impl From<ScoringError> for LocalSearchError {
@@ -178,6 +187,21 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
         }
         .into());
     }
+    search_impl(problem, initial, config, |initial| {
+        ScoreDirector::new(problem, network, initial)
+    })
+}
+
+pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+    problem: &FiniteProblem<V>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig<S>,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError>
+where
+    LocalSearchError: From<D::Error>,
+{
+    config.acceptance.validate()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
         if !problem.is_complete(initial) {
@@ -208,14 +232,14 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
         }
         assignment
     });
-    let mut director = ScoreDirector::new(problem, network, initial)?;
+    let mut director = create(initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
     };
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     result.best = Some(ScoredAssignment {
         assignment: director.assignment().clone(),
         score: director.score(),

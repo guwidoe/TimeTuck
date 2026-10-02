@@ -76,6 +76,11 @@ pub struct FilterNode<'a, I, T> {
 }
 
 impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
+    pub(crate) fn clear(&mut self) {
+        self.rows.clear();
+        self.poisoned = false;
+    }
+
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
     where
         I: 'static,
@@ -226,6 +231,11 @@ pub struct JoinNode<'a, I, J, L, R, K> {
 impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     JoinNode<'a, I, J, L, R, K>
 {
+    pub(crate) fn clear(&mut self) {
+        self.left = JoinSide::new();
+        self.right = JoinSide::new();
+    }
+
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
     where
         I: 'static,
@@ -318,6 +328,12 @@ impl<I: Ord, K: Ord + Clone> Default for GroupNode<I, K> {
 }
 
 impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
+    pub(crate) fn clear(&mut self) {
+        self.inputs.clear();
+        self.groups.clear();
+        self.poisoned = false;
+    }
+
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
     where
         I: Clone + 'static,
@@ -411,6 +427,23 @@ pub struct ScoreNode<'a, I, T, S> {
 }
 
 impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
+    pub(crate) fn scores_match(&self, checkpoint: &dyn Any) -> bool
+    where
+        I: 'static,
+        S: 'static,
+    {
+        let (contributions, score) = checkpoint
+            .downcast_ref::<(BTreeMap<I, S>, S)>()
+            .expect("score checkpoint type");
+        &self.contributions == contributions && self.score == *score
+    }
+
+    pub(crate) fn clear(&mut self) {
+        self.contributions.clear();
+        self.score = S::ZERO;
+        self.poisoned = false;
+    }
+
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
     where
         I: Clone + 'static,

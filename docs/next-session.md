@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 169 original integration regression methods, two original unit tests, and seven public API documentation tests.
+- 175 original integration regression methods, three original unit tests, and seven public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -64,11 +64,11 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Integrate `StreamScoreDirector` into existing construction/local-search entry
-   points, which still accept scoped networks. Typed graph routing, shared ports,
-   graph-wide rollback and basic-variable move binding now exist. Checkpoints
-   clone full affected-node state; add sparse undo before performance claims.
-   Add public-API Java stream comparison and matched timing. Do not hide mutable
+0. Replace whole-node graph checkpoints and saved-candidate copies with sparse
+   undo suitable for larger searches. Stream construction/local search now share
+   the existing basic-variable algorithms and support every acceptance mode.
+   Add public-API Java stream comparison and matched timing, and expand persistent
+   operators (existence/distinct) and applicable upstream cases. Do not hide mutable
    nodes inside scoped callbacks: those callbacks cannot undo external state.
    Read `docs/constraint-stream-contract.md`.
 
@@ -104,10 +104,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (331 Rust integration methods,
-two unit tests, seven doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (337 Rust integration methods,
+three unit tests, seven doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the transactional stream-graph increment. Earlier dashboard layout QA
+after the stream-search integration increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
 preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
@@ -369,3 +369,39 @@ All seven saved Java comparison/timing sections are current for this source
 fingerprint. Live dashboard/API verification matched the verification digest,
 showed both new graph methods under the passed filter and reported no browser
 errors. The existing dashboard server was reused.
+
+
+Stream search integration milestone: a private SearchDirector interface shares
+construction/local-search algorithms across scoped and stream backends. New public
+entry points consume a graph and empty planning source: greedy_stream_construction,
+stream_local_search and stream_local_search_from. Validation and all existing
+termination/acceptance/ordering behavior are preserved. Saved candidates contain
+assignment plus full affected-node state; installation uses owned state and never
+replays callbacks. Sparse undo remains pending. Terminal scoring invocations are
+counted separately from score evaluations; graph preparation, predicates/key
+callbacks and diagnostic work are not included in the terminal count.
+
+StreamGraph/StreamScoreDirector assert_consistent resets all caches, rebuilds from
+source facts and compares terminal match IDs/scores, individual cached contributions,
+constraint totals and overall score, then restores the original state even on
+failure. Graph transactions fail closed after a diagnostic error/panic. Diagnostic
+rebuild work does not affect search metrics. List stream binding remains pending.
+
+Six original integration regressions cover 24 construction and 200 local-search
+configurations against separate full scoring, phase handoff, accounting without
+replay, diagnostics, validation and zero limits, immutable preloaded scores and
+empty/impossible models. One unit regression covers scorer errors/panics and
+acceptor panics after saving an earlier winner. No new adapted-method credit;
+coverage remains 162/4855. The original stream_coloring example verifies both
+phases on 24 variables/4 colors against independent loops and the zero upper bound.
+Logs: work/stream-search-check.log, work/stream-search-release.log,
+work/stream-search-evidence.log, work/stream-coloring.log.
+
+The stream_coloring example reaches verified 0hard/0soft in 602 combined score
+evaluations and 3,623 terminal callbacks, including both phase initializations.
+These callback counts are not a runtime comparison with Java.
+
+All seven comparison/timing sections were refreshed for stream-search integration.
+The live dashboard verification digest matches the current source and test log;
+coverage and benchmark sections render without browser errors or horizontal
+overflow. Existing Java benchmark workloads still do not measure stream scoring.

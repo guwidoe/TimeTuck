@@ -23,8 +23,9 @@ rebuilt inside affected score callbacks. Separate persistent operators now propa
 filter, equality-join, group and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. A stream
 score director binds it to basic-variable moves. Checkpoints currently clone
-affected-node state; integration with existing heuristic entry points and stream
-performance comparisons remain pending. See `docs/constraint-stream-contract.md`.
+affected-node state. Stream construction and local search share the existing
+search algorithms, including seeded acceptance and exact work limits. Sparse undo
+and stream performance comparisons remain pending. See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 ## Development
@@ -43,6 +44,7 @@ Run the exact scheduling example with `cargo run --example tiny_schedule`, or
 the exact route example with `cargo run --example tiny_routes`, or
 the larger incremental examples with `cargo run --release --example graph_coloring`
 and `cargo run --release --example list_routes`.
+For graph-based scoring in both phases, run `cargo run --release --example stream_coloring`.
 Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each

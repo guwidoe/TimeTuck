@@ -3,8 +3,9 @@
 The native implementation now provides a static scoped constraint network,
 transactional score caching, lazy basic-variable neighborhoods, and bounded local
 search. List/entity and element-scoped contribution caching is described in
-`list-planning-contract.md`. List heuristic search remains pending.
-It is not a constraint-stream implementation or complete Timefold solver.
+`list-planning-contract.md`. Stream-backed construction and local search use the
+same basic-variable algorithms; see `constraint-stream-contract.md`. Whole-solver
+compatibility remains incomplete.
 
 ## Scoped constraints
 
@@ -351,3 +352,25 @@ let config: LocalSearchConfig<HardSoftScore> = LocalSearchConfig {
     ..LocalSearchConfig::default()
 };
 ```
+
+
+## Stream scoring backend
+
+The scoped entry points retain their signatures. `greedy_stream_construction`,
+`stream_local_search` and `stream_local_search_from` accept a typed stream graph
+and its initially empty planning source. A private director interface shares the
+construction and local-search control flow, so acceptance, neighborhood order,
+best retention, fallback and limit precedence stay identical. The stream director
+saves candidate assignment/node state and installs a winner without callback
+replay. Its current saved state clones entire affected nodes, unlike the scoped
+director's sparse contribution cache. No equivalent memory/performance claim is
+made. Both result types count score evaluations; for streams,
+`constraint_evaluations` counts terminal scoring invocations, including temporary
+propagation results, and excludes graph preparation and diagnostic rebuilding.
+
+Stream diagnostics reset operator caches, replay owned source rows and compare
+terminal match IDs, contributions and totals before restoring the original graph.
+They detect opposing errors that leave the total unchanged. They do not establish
+independent semantic correctness of a constraint callback; original cross-checks
+also compare whole searches with separately written full-scoring loops. See
+`constraint-stream-contract.md` for the current validation scope and limitations.

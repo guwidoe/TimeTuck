@@ -169,9 +169,39 @@ before graph callbacks. The returned score adds the model's negative count of
 unassigned required variables; optional nulls add no structural penalty.
 
 This director supports custom search loops and exact enumeration adapters.
-Existing `greedy_construction` and `local_search_from` still accept scoped
-`ConstraintNetwork` instances. Generic search binding, list-variable stream
-sources, incremental existence/distinct operators and sparse undo remain pending.
+`greedy_stream_construction`, `stream_local_search` and `stream_local_search_from`
+consume a graph with an empty planning source. They use the same internal search
+algorithms as the scoped-network entry points: construction early-pick policies,
+first/best accepted selection, strict/hill/late/tabu/annealing acceptance, optional
+rejected fallback, seeded variable order, budgets and best-solution retention.
+Explicit initial assignments are validated even at zero budget. A zero evaluation
+budget or impossible model performs no new scoring; source ownership/emptiness
+and acceptance configuration still validate. Other preloaded fact sources remain
+fixed. Each phase initializes its own director and counts that initial score once.
+
+Selection scans candidates from one unchanged base. When a better eligible
+candidate appears, it saves the assignment and the current state of affected
+graph nodes before dropping the candidate transaction. Installing the winner
+moves that saved state back without rerunning callbacks. Failures during a later
+candidate, acceptance or snapshot leave the base unchanged. Candidate snapshots
+add whole-node cloning costs; sparse undo and more efficient retention remain
+pending. The result's `constraint_evaluations` counts terminal scoring callbacks,
+including intermediate tuples during propagation, not predicate/key callbacks.
+Retractions reuse cached scores. Loading immutable facts before calling a search
+entry point is preprocessing and is excluded from phase counters.
+
+`assert_scores` runs a full graph rebuild from copied source rows with empty
+operator caches. It checks individual terminal match IDs/scores, cached
+contributions, constraint totals and the graph total, so opposing errors cannot
+hide behind a correct sum. It restores the current graph after the diagnostic,
+including on errors or ordinary callback panic. Diagnostic callbacks are excluded
+from reported search work. `StreamGraph::assert_consistent` and the director's
+method expose the same check; a diagnostic failure on an active graph transaction
+invalidates that transaction. This verifies scores, not arbitrary payload equality.
+
+List-variable stream sources and incremental existence/distinct operators remain
+pending. Run `cargo run --release --example stream_coloring` for an original
+24-variable construction/search example with independent result verification.
 
 ## Evidence and limitations
 
@@ -220,6 +250,15 @@ pins, optional nulls, complete rollback after later-variable failures and all 16
 complete assignments. Bounded first-improvement search with changes and swaps
 reaches the independently enumerated zero-score optimum; changes alone have a
 local optimum on this case. Two API doctests demonstrate graph and move undo.
+
+Six original search-integration methods additionally compare 24 construction
+policy/budget configurations and 200 local-search configurations with independent
+full scoring. The latter exercise all five acceptance policies, both selection
+modes, fallback, seeded/original order and five evaluation budgets. Phase handoff,
+callback accounting, diagnostics, optional values, heterogeneous domains, pins,
+zero limits, empty/impossible models, preloaded fact scores and validation before
+callbacks are checked. A unit regression verifies that scoring errors, scorer
+panics and acceptor panics after saving a winner preserve the prior state.
 
 The existing Java/Rust comparison and benchmark sections cover earlier score,
 move, exact and heuristic workloads. They do not measure these stream operations.

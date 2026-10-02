@@ -1,4 +1,5 @@
 //! Deterministic greedy construction for unassigned required basic variables.
+use crate::search_scoring::SearchDirector;
 use crate::{
     AdditiveScore, Assignment, ConstraintNetwork, FiniteProblem, Move, ScoreDirector,
     ScoredAssignment, ScoringError,
@@ -103,6 +104,16 @@ pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
             actual: problem.variables().len(),
         });
     }
+    construction_impl(problem, config, |initial| {
+        ScoreDirector::new(problem, network, initial)
+    })
+}
+
+pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+    problem: &FiniteProblem<V>,
+    config: ConstructionConfig,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+) -> Result<ConstructionResult<V, S>, D::Error> {
     let initial = problem.initial_assignment();
     let mut result = ConstructionResult {
         complete: problem.is_complete(&initial),
@@ -120,9 +131,9 @@ pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    let mut director = ScoreDirector::new(problem, network, initial)?;
+    let mut director = create(initial)?;
     result.evaluations = 1;
-    result.constraint_evaluations = network.constraint_count() as u128;
+    result.constraint_evaluations = director.initial_constraint_evaluations();
     if config.assert_scores {
         director.assert_consistent()?;
     }

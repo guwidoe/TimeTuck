@@ -63,7 +63,9 @@ Cartesian/equality joins and grouping. Two further methods preserve named
 mirrored joins and two-key equality self-joins through automatic graph routing.
 Native graph transactions and basic-variable move binding are verified by
 separate original regressions. Descriptors, custom justifications, list-variable
-stream binding and stream integration with heuristic entry points remain pending. See
+stream binding remain pending. Native stream construction/local search reuse the
+existing algorithms and have separate full-scoring cross-checks; these original
+regressions grant no additional upstream method coverage. See
 `docs/constraint-stream-contract.md` for this distinction.
 
 ## Case records and coverage

@@ -3,8 +3,8 @@
 //! Planning rows have stable variable-index IDs and `(index, Option<value>)`
 //! payloads. All variables, including unassigned ones, are present. Constraints
 //! explicitly filter unassigned rows. Other graph sources are immutable during
-//! the scoring session. Existing construction/local-search entry points still
-//! accept scoped networks; their generic stream binding remains future work.
+//! the scoring session. Stream construction/local-search entry points share the
+//! scoped solver algorithms, acceptance policies, budgets and termination rules.
 //!
 //! ```
 //! use timetuck::{FiniteProblem, Variable, SimpleScore, StreamGraphBuilder,
@@ -77,6 +77,7 @@ pub struct StreamScoreDirector<'p, 'a, V, S: AdditiveScore> {
     assignment: Assignment<V>,
     graph: StreamGraph<'a, S>,
     source: PlanningStreamSource<V>,
+    initial_constraint_evaluations: u128,
 }
 impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     StreamScoreDirector<'p, 'a, V, S>
@@ -95,13 +96,19 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         for (index, value) in assignment.values().iter().enumerate() {
             transaction.apply(&source, TupleChange::put(index, (index, value.clone())))?;
         }
+        let initial_constraint_evaluations = transaction.score_evaluations();
         transaction.commit()?;
         Ok(Self {
             problem,
             assignment,
             graph,
             source,
+            initial_constraint_evaluations,
         })
+    }
+    pub fn assert_consistent(&mut self) -> Result<(), StreamScoringError> {
+        self.graph.assert_consistent()?;
+        Ok(())
     }
     pub fn assignment(&self) -> &Assignment<V> {
         &self.assignment
@@ -156,6 +163,10 @@ impl<V, S: AdditiveScore> StreamScoredMove<'_, '_, V, S> {
     pub fn graph(&self) -> &StreamGraph<'_, S> {
         self.graph.graph().expect("successfully scored transaction")
     }
+    /// Number of terminal scoring callbacks invoked for this candidate.
+    pub fn constraint_evaluations(&self) -> u128 {
+        self.graph.score_evaluations()
+    }
     pub fn checkpoint_count(&self) -> usize {
         self.graph.checkpoint_count()
     }
@@ -164,5 +175,225 @@ impl<V, S: AdditiveScore> StreamScoredMove<'_, '_, V, S> {
             .commit()
             .expect("successfully scored transaction");
         self.assignment.commit();
+    }
+}
+
+use crate::scoring::Selection;
+use crate::search_scoring::SearchDirector;
+use crate::{
+    ConstructionConfig, ConstructionResult, LocalSearchConfig, LocalSearchError, LocalSearchResult,
+};
+
+impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
+    for StreamScoreDirector<'_, '_, V, S>
+{
+    type Error = StreamScoringError;
+    fn assignment(&self) -> &Assignment<V> {
+        self.assignment()
+    }
+    fn score(&self) -> S {
+        self.score()
+    }
+    fn initial_constraint_evaluations(&self) -> u128 {
+        self.initial_constraint_evaluations
+    }
+    fn assert_consistent(&mut self) -> Result<(), Self::Error> {
+        self.assert_consistent()
+    }
+    fn select_best(
+        &mut self,
+        moves: impl IntoIterator<Item = Move<V>>,
+        max_evaluations: u64,
+        allow_rejected: bool,
+        mut accepts: impl FnMut(&Move<V>, S) -> bool,
+        quit_early: impl Fn(S) -> bool,
+        assert_scores: bool,
+    ) -> Result<Selection<V>, Self::Error> {
+        let mut result = Selection {
+            selected_accepted: false,
+            selected: None,
+            evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut best: Option<SavedStreamCandidate<V, S>> = None;
+        for movement in moves {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let mut candidate = self.apply(&movement)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += candidate.constraint_evaluations();
+            if assert_scores {
+                candidate.graph.assert_consistent()?;
+            }
+            let accepted = accepts(&movement, candidate.score());
+            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
+                continue;
+            }
+            if best
+                .as_ref()
+                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+            {
+                best = Some(SavedStreamCandidate {
+                    accepted,
+                    movement: movement.clone(),
+                    score: candidate.score(),
+                    assignment: candidate.assignment().clone(),
+                    graph: candidate.graph.capture()?,
+                });
+            }
+            if accepted && quit_early(candidate.score()) {
+                break;
+            }
+        }
+        if let Some(saved) = best {
+            self.graph.install(saved.graph);
+            self.assignment = saved.assignment;
+            result.selected = Some(saved.movement);
+            result.selected_accepted = saved.accepted;
+        }
+        Ok(result)
+    }
+}
+struct SavedStreamCandidate<V, S> {
+    accepted: bool,
+    movement: Move<V>,
+    score: S,
+    assignment: Assignment<V>,
+    graph: crate::stream_graph::GraphState<S>,
+}
+fn validate_source<V: 'static, S: AdditiveScore>(
+    graph: &StreamGraph<'_, S>,
+    source: &PlanningStreamSource<V>,
+) -> Result<(), StreamScoringError> {
+    if !graph.source_rows(source)?.is_empty() {
+        return Err(StreamScoringError::PlanningSourceNotEmpty);
+    }
+    Ok(())
+}
+/// Greedy construction using a persistent stream graph. The planning source must
+/// be empty. Shares the scoped solver's selection, budget and termination rules.
+/// Counts terminal score callbacks, excluding graph preparation and diagnostic
+/// rebuilds. Candidate snapshots install without callback replay.
+pub fn greedy_stream_construction<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    config: ConstructionConfig,
+) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+    validate_source(&graph, &source)?;
+    crate::construction::construction_impl(problem, config, |initial| {
+        StreamScoreDirector::new(problem, graph, source, initial)
+    })
+}
+/// First-fit initialization followed by bounded local search with stream scoring.
+/// The same acceptance policies and move ordering as `local_search` apply.
+pub fn stream_local_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    stream_search(problem, graph, source, None, config)
+}
+/// Improve an explicit complete assignment using a fresh stream scoring session.
+/// Initialization counts once; graph preparation before this call is excluded.
+pub fn stream_local_search_from<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    stream_search(problem, graph, source, Some(initial), config)
+}
+fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    config.acceptance.validate()?;
+    validate_source(&graph, &source)?;
+    crate::local_search::search_impl(problem, initial, config, |initial| {
+        StreamScoreDirector::new(problem, graph, source, initial)
+    })
+}
+
+#[cfg(test)]
+mod selection_tests {
+    use super::*;
+    use crate::{SimpleScore, Variable};
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+
+    #[test]
+    fn failed_scan_keeps_base_after_saving_an_earlier_winner() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0_i64, 1, 2]).with_initial(0)]).unwrap();
+        for failure in 0..3 {
+            let mut b = crate::StreamGraphBuilder::new();
+            let s = b.source::<usize, (usize, Option<i64>)>();
+            let inspect = s.clone();
+            b.score("value", s.port(), move |(_, v)| {
+                if *v == Some(2) {
+                    if failure == 0 {
+                        return SimpleScore::ZERO.with_structural(1);
+                    }
+                    if failure == 1 {
+                        panic!("scoring failure");
+                    }
+                }
+                SimpleScore::new(v.unwrap_or(0))
+            })
+            .unwrap();
+            let mut d = StreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
+            let outcome = catch_unwind(AssertUnwindSafe(|| {
+                d.select_best(
+                    [1, 2].map(|v| Move::Change {
+                        variable: 0,
+                        value: Some(v),
+                    }),
+                    2,
+                    false,
+                    |_, score| {
+                        assert!(
+                            !(failure == 2 && score == SimpleScore::new(2)),
+                            "acceptor failure"
+                        );
+                        true
+                    },
+                    |_| false,
+                    true,
+                )
+            }));
+            if failure == 0 {
+                assert!(outcome.unwrap().is_err());
+            } else {
+                assert!(outcome.is_err());
+            }
+            assert_eq!(d.assignment().values(), &[Some(0)]);
+            assert_eq!(d.score(), SimpleScore::ZERO);
+            assert_eq!(d.graph().source_rows(&inspect).unwrap()[&0], (0, Some(0)));
+            d.assert_consistent().unwrap();
+            let selected = d
+                .select_best(
+                    [Move::Change {
+                        variable: 0,
+                        value: Some(1),
+                    }],
+                    1,
+                    false,
+                    |_, _| true,
+                    |_| false,
+                    true,
+                )
+                .unwrap();
+            assert!(selected.selected_accepted);
+            assert_eq!(selected.evaluations, 1);
+            assert_eq!(d.score(), SimpleScore::new(1));
+            d.assert_consistent().unwrap();
+        }
     }
 }
