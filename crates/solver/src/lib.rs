@@ -80,6 +80,8 @@ pub use list_local_search::{ListLocalSearchError, ListLocalSearchResult, list_lo
 pub mod stream;
 pub use stream::{ConstraintStream, IntCollector, IntSummary, StreamScoreError};
 
+mod existence_stream;
+pub use existence_stream::{ExistenceMode, ExistsNode};
 pub mod incremental_stream;
 pub use incremental_stream::{
     FilterNode, GroupNode, JoinNode, ScoreNode, StructuralStreamContribution, TupleChange,

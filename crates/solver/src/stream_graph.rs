@@ -30,7 +30,8 @@
 //! ```
 
 use crate::{
-    AdditiveScore, FilterNode, GroupNode, IntSummary, JoinNode, ScoreNode, SnapshotMap, TupleChange,
+    AdditiveScore, ExistenceMode, ExistsNode, FilterNode, GroupNode, IntSummary, JoinNode,
+    ScoreNode, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -239,6 +240,37 @@ impl<
     }
 }
 
+struct Exists<'a, I, J, L, R, K>(ExistsNode<'a, I, J, L, R, K>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for Exists<'_, I, J, L, R, K>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0
+                .apply_left(typed::<I, L>(event).clone())
+                .into_iter()
+                .collect()
+        }))
+    }
+}
+
 struct Group<'a, I, T, K> {
     node: GroupNode<I, K>,
     mapping: Box<GroupMapping<'a, T, K>>,
@@ -422,6 +454,34 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// An indexed semi/anti join preserving left identities and payloads. Only
+    /// equal-key pairs reach the predicate. Pass `|_, _| true` for pure equality,
+    /// constant key functions for a predicate-only relation, or a stable-ID
+    /// inequality predicate to exclude an entity from matching itself.
+    pub fn existence<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        mode: ExistenceMode,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+        predicate: impl Fn(&L, &R) -> bool + 'a,
+    ) -> Result<StreamPort<I, L>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(Exists(ExistsNode::<I, J, L, R, K>::new(
+            mode, left_key, right_key, predicate,
+        )));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)

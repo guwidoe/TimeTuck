@@ -73,6 +73,12 @@ identities and group sums. Java score updates expose no Community match-analysis
 API. Four matched incremental-stream search benchmarks and 64 small quality cases
 are recorded separately; they grant no additional upstream method coverage.
 
+Thirteen additional existence methods preserve initial/update scores and exact
+left matches for indexed and predicate-only matching, self exclusion, assigned
+filtering and existence after grouping. Native transactional existence relations
+replace notification/descriptor plumbing; unsupported-class exceptions and global
+empty aggregation remain pending. See the stream contract and provenance ledger.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

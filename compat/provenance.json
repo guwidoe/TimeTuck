@@ -2430,6 +2430,201 @@
       "upstream_test": "join_2Equal",
       "local_test": "join_2_equal",
       "modifications": "Preserve every initial and updated six-pair match set, per-match -1 contributions and total score after changing entity1 integerProperty from 7 to 8. Native stable IDs and (group, integerProperty) tuple keys replace Java object equality and descriptors. The generated entity remains in a separate group; unrelated fixture properties are omitted. Automatic self-join routing sends each source update to both inputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Joiner0Filter",
+      "local_test": "if_exists_0_joiner_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Joiner0Filter",
+      "local_test": "if_not_exists_0_joiner_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Join1Filter",
+      "local_test": "if_exists_0_join_1_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join0Filter",
+      "local_test": "if_exists_1_join_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join1Filter",
+      "local_test": "if_exists_1_join_1_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Join1Filter",
+      "local_test": "if_not_exists_0_join_1_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join0Filter",
+      "local_test": "if_not_exists_1_join_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join1Filter",
+      "local_test": "if_not_exists_1_join_1_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExistsOther_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExistsOther_1Join0Filter",
+      "local_test": "if_exists_other_1_join_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. Stable entity-ID inequality preserves self-exclusion and the specified entity-group update."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExistsOther_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExistsOther_1Join0Filter",
+      "local_test": "if_not_exists_other_1_join_0_filter",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. Stable entity-ID inequality preserves self-exclusion and the specified entity-group update."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExistsDoesNotIncludeUnassigned",
+      "local_test": "if_exists_does_not_include_unassigned",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. Explicit assigned filtering feeds both self-join sides and retains all null-variable exclusions. Stable entity-ID inequality preserves self-exclusion and the specified entity-group update."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifNotExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExistsDoesNotIncludeUnassigned",
+      "local_test": "if_not_exists_does_not_include_unassigned",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. Explicit assigned filtering feeds both self-join sides and retains all null-variable exclusions. Stable entity-ID inequality preserves self-exclusion and the specified entity-group update."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.ifExistsAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExistsAfterGroupBy",
+      "local_test": "if_exists_after_group_by",
+      "modifications": "Preserve every initial and incremental score assertion, exact left match identity/payload, per-match -1 contribution, constraint name and total. Native typed existence nodes retain the original distinction between constant-key predicate joins, indexed equality joins and additional filters. Stable IDs replace Java object identity; graph source changes replace notification plumbing. Unused fixture properties/types are omitted. No custom justification, descriptor or indictment API claim. A unit-key group and distinct-count projection preserve the singleton count match at all three nonempty states (1, 2, 1); both extra facts remain present. Global empty aggregation semantics are not exercised by this method."
     }
   ],
   "fixtures": [
@@ -2679,6 +2874,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo",
       "modifications": "Check exact match tuples, each contribution, constraint names, per-constraint totals and aggregate score. Native terminal handles replace namespace lookup. Ordered tuple identity checks preserve the helper match assertions without implementing custom justifications or indictments. Fixture only; no additional method coverage."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "TestdataLavishSolution.existence_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Inline generated entity/group/value codes and IDs for the selected cases, then add exactly the specified facts. Group/value references and null variable state are retained; unrelated fixture properties and random longProperty are omitted. Fixture only, no executable-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/existence_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.existence_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo",
+      "modifications": "Native assert_matches checks exact left IDs/payloads, all -1 contributions, constraint name, match count and total at every source assertion. Typed terminal handles replace namespace lookup. Fixture only; no executable-method credit or custom justification/indictment claim."
     }
   ]
 }

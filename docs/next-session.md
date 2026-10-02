@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 162 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 9 stream), recorded in
+- 175 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 22 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 177 original integration regression methods, six original unit tests, and eight public API documentation tests.
+- 184 original integration regression methods, six original unit tests, and nine public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -62,7 +62,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 162 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 175 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -73,10 +73,15 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Expand persistent operators (existence/distinct) and applicable upstream cases.
+0. Expand persistent operators (distinct, richer collectors) and applicable upstream cases.
+   Indexed existence/anti-existence with pair filters is now implemented; thirteen
+   more upstream methods preserve all score/match assertions. Cached match links
+   require memory proportional to matching pairs; consider counts-only equality
+   specialization when profiling warrants it. Read the stream contract first.
    Public-API Community stream comparisons and matched timing now exist.
-   Final warmed stream samples show Rust taking 4.17–10.94 times Java time, with
-   equal final scores. Profile these workloads before choosing optimizations.
+   Warmed stream samples show Rust slower than Java, with equal final scores.
+   Use the latest work/stream-performance.json and profile these workloads before
+   choosing optimizations; ratios vary on the shared machine.
    Checkpoints and saved candidates now share persistent AVL map roots, avoiding
    whole-node row cloning. Stream construction/local search already share existing
    algorithms. Do not hide mutable nodes inside scoped callbacks: those callbacks
@@ -463,3 +468,16 @@ shared-machine end-to-end results including documented setup differences.
 Debug/release all-target checks pass. Dashboard server restarted as PID 13462;
 live/report fingerprints agree. Desktop and 390px browser checks show the four
 new cards, current evidence, correct callback labels and no errors or overflow.
+
+Existence milestone: indexed Exists/NotExists nodes now integrate with graph
+transactions, construction and local search. Thirteen adapted cases plus seven
+original regressions are added. Verified totals: 365 Rust tests, nine doctests,
+39 Python tests, and 175/4,855 upstream passes. No Java existence timing claim.
+
+Existence verification is complete: debug/release gates pass and all nine saved
+Java comparison/timing artifacts were refreshed for the new sources. Upstream
+is unmodified. Live dashboard/source fingerprints match; the browser shows
+27/1,045 stream passes (2.58%) and the passed existence methods in search.
+The existing dashboard server (PID 13462) was reused without restart because
+reporting/fingerprint Python code did not change. Logs: work/existence-check.log,
+work/existence-release.log and work/existence-evidence-{a,b}.log.

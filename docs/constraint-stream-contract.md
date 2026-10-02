@@ -79,6 +79,15 @@ Read the pipeline's final result only after all outputs have been delivered.
   join; tuple keys express multiple equalities. Self-joins require delivering
   each source change to both sides; either order is valid. Inspection is ordered
   by left ID then right ID, independently of insertion order.
+- `ExistsNode` supports indexed equality plus a pair predicate, in Exists or
+  NotExists mode. It preserves left IDs/payloads and never multiplies them by
+  right-match count. Bidirectional cached match IDs make retractions callback-free;
+  right updates emit only membership transitions, and accepted left updates emit
+  the current payload. Key buckets restrict pair predicates to relevant facts.
+  Persistent candidate roots and output are prepared before installation, so
+  ordinary callback/key/clone panics leave this standalone node unchanged.
+  Memory is proportional to facts plus matching pairs; dense relations can require
+  quadratic space. Empty right input retains every left row only in NotExists mode.
 - `GroupNode` caches each input ID's mapped key and integer. An update retracts
   the captured old value and accumulates the new one in the affected groups only.
   It emits one final summary for a same-key replacement, old then new summaries
@@ -97,9 +106,9 @@ connections must preserve emitted order and fan changes out to every consumer.
 Callback/key projection and output row cloning occur before mutation in filter
 and join nodes. Scoring callbacks and structural checks also precede mutation.
 Failure there leaves that node unchanged, but previously updated nodes are not
-rolled back. During mutation, a panic in user-defined key/identity operations
-poisons the node; subsequent reads/updates panic instead of exposing possibly
-inconsistent caches. `is_poisoned()` remains available. Keys/facts must have stable
+rolled back. In filter/join/group/score nodes, a panic during mutation in user-defined
+key/identity operations poisons the node; subsequent reads/updates panic instead
+of exposing possibly inconsistent caches. `is_poisoned()` remains available. Keys/facts must have stable
 ordering and immutable contents, and callbacks must be deterministic. Rebuild
 the affected pipeline after a partially delivered failure. Allocation aborts are
 not recoverable. These standalone operators make no graph-wide atomicity claim.
@@ -112,8 +121,12 @@ Use snapshot pipelines in those callbacks, or the separate transactional
 ## Typed graph transactions
 
 `StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
-filters, maps, equality joins, integer groups and named score terminals. Each
-connection points from an existing node to a new one, so cycles cannot be built.
+filters, maps, equality/existence joins, integer groups and named score terminals.
+`existence(left, right, mode, left_key, right_key, predicate)` selects matching or
+unmatched left rows. Constant keys allow predicate-only matching. A stable-ID
+inequality predicate excludes self matches. Both sides of self-relations receive
+source updates automatically. Explicit assigned filtering remains the caller's
+responsibility on both input ports. Each connection points from an existing node to a new one, so cycles cannot be built.
 Reusing a port shares that node and fans its outputs out to every consumer.
 Equivalent closures are not automatically deduplicated. Handles from another
 builder/graph and duplicate constraint names return errors before registration.
@@ -215,8 +228,8 @@ from reported search work. `StreamGraph::assert_consistent` and the director's
 method expose the same check; a diagnostic failure on an active graph transaction
 invalidates that transaction. This verifies scores, not arbitrary payload equality.
 
-List-variable stream sources and incremental existence/distinct operators remain
-pending. Run `cargo run --release --example stream_coloring` for an original
+List-variable stream sources and incremental distinct operators remain pending.
+Run `cargo run --release --example stream_coloring` for an original
 24-variable construction/search example with independent result verification.
 
 ## Evidence and limitations
@@ -299,3 +312,22 @@ Java's reusable factory is prepared before timing. Each sample records final
 quality and terminal weighting callbacks alongside elapsed time. Original
 comparisons grant no additional upstream method credit. See `docs/dashboard.md`
 for the measurement conditions and limits.
+
+Thirteen adapted existence methods preserve initial and incremental scores,
+exact left match identities/payloads, per-match contributions and constraint names.
+They cover no joiners, filtering-only, equality plus optional filters, self
+exclusion, explicit assigned filtering on both sides, and existence after a
+distinct-count group. The latter preserves all three tested nonempty states; it
+does not establish global empty-aggregation semantics. Unsupported-class
+descriptor exceptions remain pending. Provenance includes the test fixtures and
+assertion helper, with no additional fixture method credit.
+
+Seven original existence regressions cover 6,000 indexed edits against nested
+enumeration (seed 20261018), 2,000 self-relation graph transactions with commit/undo
+(seed 20261019), duplicate match suppression, changed-bucket predicate counts,
+callback-free removal, payload updates, whole-graph rollback after predicate panic
+and invalid score, output clone panic, and 160 ordering-panic injection budgets.
+Construction and local search both reach a directly verified zero-score assignment
+using existence constraints and full-rebuild diagnostics. One public doctest
+demonstrates NotExists transitions. Existing Java stream timing workloads use
+join/group scoring; they do not benchmark the new existence node.
