@@ -59,8 +59,11 @@ Five integer collector methods additionally preserve every count, distinct-count
 sum, minimum and maximum assertion across duplicate insertions and retractions.
 Seven additional stream methods preserve all initial/update/removal/reinsertion
 scores and match sets through native persistent operators. They cover filtering,
-Cartesian/equality joins and grouping; automatic graph scheduling, descriptors,
-custom justifications and solver move integration remain pending. See
+Cartesian/equality joins and grouping. Two further methods preserve named
+mirrored joins and two-key equality self-joins through automatic graph routing.
+Native graph transactions and basic-variable move binding are verified by
+separate original regressions. Descriptors, custom justifications, list-variable
+stream binding and stream integration with heuristic entry points remain pending. See
 `docs/constraint-stream-contract.md` for this distinction.
 
 ## Case records and coverage

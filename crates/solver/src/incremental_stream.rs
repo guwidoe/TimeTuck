@@ -9,7 +9,9 @@
 //! ordering/cloning panics during mutation, the node becomes poisoned and refuses
 //! further reads/updates; rebuild the pipeline. Changes already delivered to other
 //! nodes are not rolled back. Immutable facts and deterministic callbacks remain
-//! required. Automatic graph scheduling and solver move transactions are pending.
+//! required. [`crate::StreamGraphBuilder`] wraps these operators with automatic
+//! routing and graph transactions; [`crate::StreamScoreDirector`] binds such a
+//! graph to finite basic-variable moves.
 //!
 //! ```
 //! use timetuck::{GroupNode, IntSummary, ScoreNode, SimpleScore, TupleChange};
@@ -25,6 +27,7 @@
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
 
+use std::any::Any;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 
@@ -73,6 +76,26 @@ pub struct FilterNode<'a, I, T> {
 }
 
 impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
+    pub(crate) fn checkpoint(&self) -> Box<dyn Any>
+    where
+        I: 'static,
+        T: 'static,
+    {
+        healthy(self.poisoned);
+        Box::new(self.rows.clone())
+    }
+
+    pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
+    where
+        I: 'static,
+        T: 'static,
+    {
+        self.rows = *checkpoint
+            .downcast::<BTreeMap<I, (bool, T)>>()
+            .expect("filter checkpoint type");
+        self.poisoned = false;
+    }
+
     pub fn new(predicate: impl Fn(&T) -> bool + 'a) -> Self {
         Self {
             rows: BTreeMap::new(),
@@ -118,6 +141,7 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
     }
 }
 
+#[derive(Clone)]
 struct JoinSide<I, T, K> {
     rows: BTreeMap<I, (K, T)>,
     index: BTreeMap<K, BTreeSet<I>>,
@@ -202,6 +226,31 @@ pub struct JoinNode<'a, I, J, L, R, K> {
 impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     JoinNode<'a, I, J, L, R, K>
 {
+    pub(crate) fn checkpoint(&self) -> Box<dyn Any>
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        healthy(self.is_poisoned());
+        Box::new((self.left.clone(), self.right.clone()))
+    }
+
+    pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        (self.left, self.right) = *checkpoint
+            .downcast::<(JoinSide<I, L, K>, JoinSide<J, R, K>)>()
+            .expect("join checkpoint type");
+    }
+
     pub fn new(left_key: impl Fn(&L) -> K + 'a, right_key: impl Fn(&R) -> K + 'a) -> Self {
         Self {
             left: JoinSide::new(),
@@ -269,6 +318,26 @@ impl<I: Ord, K: Ord + Clone> Default for GroupNode<I, K> {
 }
 
 impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
+    pub(crate) fn checkpoint(&self) -> Box<dyn Any>
+    where
+        I: Clone + 'static,
+        K: 'static,
+    {
+        healthy(self.poisoned);
+        Box::new((self.inputs.clone(), self.groups.clone()))
+    }
+
+    pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
+    where
+        I: 'static,
+        K: 'static,
+    {
+        (self.inputs, self.groups) = *checkpoint
+            .downcast::<(BTreeMap<I, (K, i64)>, BTreeMap<K, IntCollector>)>()
+            .expect("group checkpoint type");
+        self.poisoned = false;
+    }
+
     pub fn new() -> Self {
         Self {
             inputs: BTreeMap::new(),
@@ -342,6 +411,26 @@ pub struct ScoreNode<'a, I, T, S> {
 }
 
 impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
+    pub(crate) fn checkpoint(&self) -> Box<dyn Any>
+    where
+        I: Clone + 'static,
+        S: 'static,
+    {
+        healthy(self.poisoned);
+        Box::new((self.contributions.clone(), self.score))
+    }
+
+    pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
+    where
+        I: 'static,
+        S: 'static,
+    {
+        (self.contributions, self.score) = *checkpoint
+            .downcast::<(BTreeMap<I, S>, S)>()
+            .expect("score checkpoint type");
+        self.poisoned = false;
+    }
+
     pub fn new(evaluate: impl Fn(&T) -> S + 'a) -> Self {
         Self {
             contributions: BTreeMap::new(),
@@ -363,6 +452,11 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
     pub fn contributions(&self) -> impl Iterator<Item = (&I, S)> {
         healthy(self.poisoned);
         self.contributions.iter().map(|(id, &score)| (id, score))
+    }
+
+    pub(crate) fn contribution(&self, id: &I) -> Option<S> {
+        healthy(self.poisoned);
+        self.contributions.get(id).copied()
     }
 
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Result<(), StructuralStreamContribution> {

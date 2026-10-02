@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 160 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 7 stream), recorded in
+- 162 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 5 collector + 9 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -33,7 +33,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 157 original integration regression methods, two original unit tests, and five public API documentation tests.
+- 169 original integration regression methods, two original unit tests, and seven public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -53,7 +53,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 160 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 162 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -64,12 +64,13 @@ initialization-score assumptions. No production implementation has been ported.
 
 ## Next substantive work
 
-0. Bind persistent stream operators to transactional solver moves and introduce
-   automatic graph scheduling/sharing. Explicit filter/join/group/score delta
-   propagation now exists, but a whole graph/batch is not atomic. Do not hide
-   mutable nodes inside existing ConstraintNetwork callbacks; their rollback
-   cannot undo external node state. Add public-API Java stream comparison and
-   matched timing. Read `docs/constraint-stream-contract.md`.
+0. Integrate `StreamScoreDirector` into existing construction/local-search entry
+   points, which still accept scoped networks. Typed graph routing, shared ports,
+   graph-wide rollback and basic-variable move binding now exist. Checkpoints
+   clone full affected-node state; add sparse undo before performance claims.
+   Add public-API Java stream comparison and matched timing. Do not hide mutable
+   nodes inside scoped callbacks: those callbacks cannot undo external state.
+   Read `docs/constraint-stream-contract.md`.
 
 1. Extend native exact-search/model coverage to more applicable upstream tests.
    Java trace/descriptor-specific assertions must not be credited by looser tests.
@@ -103,10 +104,10 @@ All crates remain unpublished. The user requested occasional commits; checkpoint
 verified milestones with Conventional Commits after inspecting staged changes.
 Never amend or rewrite commits. No remote publication has been requested.
 
-Latest verification: `scripts/check.sh` passed (317 Rust integration methods,
-two unit tests, five doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
+Latest verification: `scripts/check.sh` passed (331 Rust integration methods,
+two unit tests, seven doctests, 31 Python regressions). Incremental-scoring, neighborhood, acceptance and local-search regressions
 also passed in release mode; the complete all-target and documentation suites passed
-after the incremental stream-operator increment. Earlier dashboard layout QA
+after the transactional stream-graph increment. Earlier dashboard layout QA
 at desktop 1440px and mobile 390px passed, including move filtering and focus
 preservation on refresh. Current saved Java
 evidence includes 9,959 score cases, 128 complete-planning cases and 256 list-move
@@ -332,3 +333,39 @@ All seven existing Java comparison/benchmark sections were refreshed. Live
 dashboard verification matched the source fingerprint and displayed all seven
 new methods under the passed filter, with no browser errors or horizontal
 overflow. The existing dashboard server was reused.
+
+
+Transactional stream graph milestone: StreamGraphBuilder creates a typed fixed
+DAG of sources/filter/map/join/group/score nodes. Reused ports share nodes, FIFO
+propagation drains before each apply returns, and typed constraint handles expose
+individual match tuples/scores. Handles carry graph ownership; foreign handles
+and duplicate names reject before registration. GraphTransaction checkpoints each
+visited node once and restores source facts, indexes, summaries, contributions
+and matches on drop/error/ordinary panic. Reads/updates/commit after a failed
+transaction reject. Undo/commit do not replay callbacks. Checkpoints clone full
+node state (not sparse undo); graph and callbacks are single-threaded, owned rows
+are 'static and callbacks may borrow immutable data.
+
+StreamScoreDirector binds one empty `(index, Option<V>)` source to FiniteProblem,
+loads all variables and applies final composite values once per touched index.
+Model validation happens before graph callbacks. Scored guard undo/commit covers
+both model and graph, including failures after earlier variable updates. Other
+sources are immutable during the session. Required nulls contribute structural
+penalties; optional nulls do not. Existing construction and local_search_from
+remain scoped-network APIs; generic stream integration is the next step.
+
+Two adapted upstream join methods preserve full tuples, per-match scores and
+named constraint totals before/after edits, with fixture/helper provenance. Twelve
+original regressions include 1,000 multi-source transactions, 600 reconverging-path
+updates, clone-failure injection, 2,000-node routing, all 81 partial assignments,
+and exact/first-improvement solving. Changes-only search encounters a genuine
+local optimum; adding swaps reaches the independently verified zero-score optimum.
+Two API doctests added. Coverage is 162/4855 (3.337%), with 14/1045 constraint-stream
+methods; no additional upstream credit for original regressions.
+Logs: work/stream-graph-check.log, work/stream-graph-release.log,
+work/stream-graph-evidence.log. Existing benchmark workloads do not measure streams.
+
+All seven saved Java comparison/timing sections are current for this source
+fingerprint. Live dashboard/API verification matched the verification digest,
+showed both new graph methods under the passed filter and reported no browser
+errors. The existing dashboard server was reused.

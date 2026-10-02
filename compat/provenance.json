@@ -2400,6 +2400,36 @@
       "upstream_test": "groupBy_1Mapping1Collector",
       "local_test": "group_by_1_mapping_1_collector",
       "modifications": "Preserve every initial and incremental score, match identity/count and applicable grouped-count assertion. Stable integer tuple/entity/group IDs replace Java identity; explicit native delta delivery replaces before/after notifications. Separate persistent filter/join/group/score nodes represent the one named constraint. Each terminal contribution and the exact match set are checked; group collector values are checked separately. Java reflection, descriptor and automatic graph orchestration are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stream_graph_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.join_1_mirrored",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "join_1_mirrored",
+      "local_test": "join_1_mirrored",
+      "modifications": "Preserve both named mirrored constraints, all four per-match scores and entity/value tuples before and after the second entity changes value, and aggregate scores. Native stable entity/value IDs and two shared source ports replace Java fixture identities; automatic graph routing replaces descriptor notification calls. Constraint name and ordered tuple checks retain the assertScore helper behavior; no custom justification API claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stream_graph_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.join_2Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "join_2Equal",
+      "local_test": "join_2_equal",
+      "modifications": "Preserve every initial and updated six-pair match set, per-match -1 contributions and total score after changing entity1 integerProperty from 7 to 8. Native stable IDs and (group, integerProperty) tuple keys replace Java object equality and descriptors. The generated entity remains in a separate group; unrelated fixture properties are omitted. Automatic self-join routing sends each source update to both inputs."
     }
   ],
   "fixtures": [
@@ -2623,6 +2653,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatch, assertMatchWithScore, AssertableMatch.isEqualTo",
       "modifications": "Native assert_terminal checks exact sorted IDs, each -1 contribution and total score; join/filter/group inspections check matching facts and collector outputs. One isolated terminal represents TEST_CONSTRAINT_ID, eliminating namespace lookup. Native exact tuples are stronger than unordered Java justification membership for these cases. No custom justification/indictment API claimed. Fixture only; no executable method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stream_graph_cases.rs",
+      "id": "TestdataLavishSolution.stream_graph_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Inline the generated entity/value identities and group distribution used by join_1_mirrored and join_2Equal, followed by each case's explicitly added facts. Stable IDs stand for object identity; properties unused by either constraint and unused fact types are omitted. The generated entity in join_2Equal is in a separate group; its integerProperty is represented as zero. Fixture only; no additional method coverage."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stream_graph_cases.rs",
+      "id": "AbstractConstraintStreamTest.stream_graph_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo",
+      "modifications": "Check exact match tuples, each contribution, constraint names, per-constraint totals and aggregate score. Native terminal handles replace namespace lookup. Ordered tuple identity checks preserve the helper match assertions without implementing custom justifications or indictments. Fixture only; no additional method coverage."
     }
   ]
 }

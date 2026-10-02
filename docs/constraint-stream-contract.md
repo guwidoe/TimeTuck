@@ -10,9 +10,10 @@ unassigned planning variables; there is no implicit Java-style fact discovery.
 `ConstraintNetwork` or `ListConstraintNetwork` callback with the complete variable
 scope on which it depends. Affected callbacks rebuild their stream; unrelated
 callbacks retain their cached contributions. This is scoped incremental scoring,
-not an incremental tuple graph. Separate persistent operators now support explicit
-delta propagation, as described below; automatic graph scheduling and solver
-move binding remain pending.
+not an incremental tuple graph. Separate persistent operators support explicit
+delta propagation. `StreamGraphBuilder` connects these operators with automatic
+routing, shared ports and graph transactions; `StreamScoreDirector` binds the
+graph to finite basic-variable moves, as described below.
 
 ## Relations and scoring
 
@@ -88,10 +89,8 @@ Read the pipeline's final result only after all outputs have been delivered.
   Invalid structural contributions return an error before changing that node.
   Current individual contributions remain inspectable.
 
-These operators perform actual incremental updates, but do not yet provide an
-automatic heterogeneous DAG, shared-node scheduling, graph-wide transactions,
-incremental existence/distinct nodes or solver-move binding. A call commits one
-node's input. A join replacement may emit a removal and insertion of the same
+Used on their own, these operators perform incremental updates without graph
+transactions. A call commits one node's input. A join replacement may emit a removal and insertion of the same
 pair ID; intermediate downstream totals are not final graph results. Explicit
 connections must preserve emitted order and fan changes out to every consumer.
 
@@ -103,11 +102,76 @@ poisons the node; subsequent reads/updates panic instead of exposing possibly
 inconsistent caches. `is_poisoned()` remains available. Keys/facts must have stable
 ordering and immutable contents, and callbacks must be deterministic. Rebuild
 the affected pipeline after a partially delivered failure. Allocation aborts are
-not recoverable. There is no graph-wide panic or error atomicity claim.
+not recoverable. These standalone operators make no graph-wide atomicity claim.
 
 Do not hide persistent nodes inside existing `ConstraintNetwork` callbacks via
 interior mutability: current solver move undo cannot restore that external state.
-Use the snapshot pipeline there until a transactional graph binding exists.
+Use snapshot pipelines in those callbacks, or the separate transactional
+`StreamScoreDirector` for persistent graph state.
+
+## Typed graph transactions
+
+`StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
+filters, maps, equality joins, integer groups and named score terminals. Each
+connection points from an existing node to a new one, so cycles cannot be built.
+Reusing a port shares that node and fans its outputs out to every consumer.
+Equivalent closures are not automatically deduplicated. Handles from another
+builder/graph and duplicate constraint names return errors before registration.
+Owned IDs and payloads must be `Clone + 'static`; callbacks can borrow immutable
+problem data for the graph lifetime. The graph is single-threaded.
+
+Source changes use stable tuple IDs. A source put replaces its prior value; a
+retraction removes it. Maps retain identity, join IDs are ordered ID pairs, and
+group IDs are keys. Group payloads contain both key and `IntSummary`. Empty keyed
+groups disappear. Sources start empty; no input facts are discovered implicitly.
+`constraint_matches` exposes each terminal's exact typed tuples and ordinary
+scores. Constraint totals are named and sorted; the graph total excludes planning
+structure. Nonzero structural contributions are rejected.
+
+A transaction owns an exclusive graph borrow and drains each input change through
+an iterative FIFO queue before returning. Node output order is preserved through
+fan-out, including both inputs of a shared self-join and paths of different
+lengths that later rejoin. Callbacks may see intermediate tuples during delivery;
+only the fully drained result is a completed candidate. A multi-input transaction
+can inspect results between its writes, commit all writes or undo them together.
+
+Before the first update to each affected node, the transaction clones a checkpoint
+of that node's full cached state, including source facts, indexes, summaries,
+contributions and match records. Further updates to that node reuse the checkpoint.
+Dropping the transaction restores checkpoints by moving owned state back, with no
+predicate, key, scoring, cloning or comparison callbacks during restoration.
+Commit keeps current state with no callback replay. Checkpoint counts measure
+visited nodes, not copied rows or callback calls. This implementation has memory
+and copy costs proportional to affected-node state; sparse undo remains pending.
+
+Any returned error or ordinary caught panic invalidates the transaction. Further
+updates, graph inspection, score reads and commit reject it; dropping restores
+the pre-transaction graph, including operators poisoned during mutation. Callbacks
+must be deterministic; their external side effects cannot be rolled back. Facts
+and key comparison identity must be immutable. Allocation aborts, forgotten guards
+and panicking destructors are outside ordinary unwind guarantees.
+
+## Basic-variable move binding
+
+`StreamScoreDirector` binds one initially empty source of `(variable_index,
+Option<V>)` payloads, identified by the same variable index, to a `FiniteProblem`.
+It loads every variable, including unassigned ones; constraints explicitly filter
+unassigned rows as needed. Other sources may already hold immutable problem facts.
+The director exposes read-only graph/assignment inspection so callers cannot
+update graph facts independently of the planning assignment.
+
+Applying a change, swap or composite first uses the existing model transaction
+and validates the final assignment's domains and pins. It then sends each touched
+variable's final value once to a graph transaction. Intermediate composite writes
+are not delivered. Dropping or ordinary unwinding restores both assignment and
+graph. Commit retains both without callback replay. Model validation errors occur
+before graph callbacks. The returned score adds the model's negative count of
+unassigned required variables; optional nulls add no structural penalty.
+
+This director supports custom search loops and exact enumeration adapters.
+Existing `greedy_construction` and `local_search_from` still accept scoped
+`ConstraintNetwork` instances. Generic search binding, list-variable stream
+sources, incremental existence/distinct operators and sparse undo remain pending.
 
 ## Evidence and limitations
 
@@ -120,8 +184,10 @@ initial and incremental score/match assertion for three filters, two joins and
 two grouping cases. Stable native identities and explicit event delivery replace
 Java object identity and notification plumbing. Per-match scores, exact match
 sets and applicable collector counts are checked. Fixture/helper adaptations are
-recorded separately. Descriptor, automatic graph, custom justification and
-indictment APIs remain pending.
+recorded separately. Two more adapted methods preserve named mirrored joins and
+two-key equality self-joins with automatic routing, checking every tuple, score
+and constraint name before and after updates. Descriptor, custom justification
+and indictment APIs remain pending.
 
 Twelve original regression methods additionally check:
 
@@ -143,6 +209,17 @@ against independent full recomputation (seeds 20261010 and 20261011). They check
 captured-value retractions, empty group removal, wrapping totals, contribution
 errors, callback counts restricted to changed rows, pre-mutation callback panics,
 and poisoned-node rejection after panicking user key operations.
+
+Twelve original graph/move regressions additionally check shared-node callbacks,
+unrelated branches, multi-source rollback after errors and panics, 44 clone-failure
+injection positions, foreign handles, duplicate names, a 2,000-node deep graph,
+wrapping arithmetic, 1,000 three-write transactions against independent grouped
+recomputation and 600 updates through reconverging paths. Basic-variable binding
+checks all 81 partial scheduling assignments, final composite validation, domains,
+pins, optional nulls, complete rollback after later-variable failures and all 16
+complete assignments. Bounded first-improvement search with changes and swaps
+reaches the independently enumerated zero-score optimum; changes alone have a
+local optimum on this case. Two API doctests demonstrate graph and move undo.
 
 The existing Java/Rust comparison and benchmark sections cover earlier score,
 move, exact and heuristic workloads. They do not measure these stream operations.

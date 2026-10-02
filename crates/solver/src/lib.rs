@@ -84,3 +84,14 @@ pub mod incremental_stream;
 pub use incremental_stream::{
     FilterNode, GroupNode, JoinNode, ScoreNode, StructuralStreamContribution, TupleChange,
 };
+
+pub mod stream_graph;
+pub use stream_graph::{
+    GraphError, GraphTransaction, JoinedStreamPort, StreamConstraint, StreamGraph,
+    StreamGraphBuilder, StreamPort, StreamSource,
+};
+
+pub mod stream_scoring;
+pub use stream_scoring::{
+    PlanningStreamSource, StreamScoreDirector, StreamScoredMove, StreamScoringError,
+};

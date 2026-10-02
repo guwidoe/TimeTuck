@@ -1,0 +1,566 @@
+//! Typed acyclic stream graphs with automatic event routing and transactional state.
+//!
+//! Topology is fixed when the builder is consumed. A transaction checkpoints each
+//! visited node once, including its cached indexes, then applies incremental tuple
+//! changes. Dropping it restores those checkpoints without replaying callbacks.
+//! Checkpoints currently clone whole affected-node state; they are not sparse undo
+//! journals. Facts and keys must have stable identity/ordering and no interior
+//! mutation. Ordinary callback unwinding rolls back; abort, forgotten guards and
+//! panicking destructors have the usual Rust transaction limitations.
+//!
+//! ```
+//! use timetuck::{SimpleScore, StreamGraphBuilder, TupleChange};
+//! let mut builder = StreamGraphBuilder::<SimpleScore>::new();
+//! let jobs = builder.source::<usize, (u32, i64)>();
+//! let loads = builder.group_collect(jobs.port(), |&(machine, weight)| (machine, weight))?;
+//! let capacity = builder.score("capacity", &loads,
+//!     |(_, summary)| SimpleScore::new(-(summary.sum - 10).max(0)))?;
+//! let mut graph = builder.build();
+//! {
+//!     let mut trial = graph.transaction();
+//!     trial.apply(&jobs, TupleChange::put(0, (1, 12)))?;
+//!     assert_eq!(trial.score()?, SimpleScore::new(-2));
+//! } // Roll back without evaluating any callbacks again.
+//! assert_eq!(graph.score(), SimpleScore::ZERO);
+//! let mut accepted = graph.transaction();
+//! accepted.apply(&jobs, TupleChange::put(0, (1, 12)))?;
+//! accepted.commit()?;
+//! assert_eq!(graph.constraint_matches(&capacity)?[&1].1, SimpleScore::new(-2));
+//! # Ok::<(), timetuck::GraphError>(())
+//! ```
+
+use crate::{AdditiveScore, FilterNode, GroupNode, IntSummary, JoinNode, ScoreNode, TupleChange};
+use std::{
+    any::Any,
+    collections::{BTreeMap, VecDeque},
+    fmt,
+    marker::PhantomData,
+    rc::Rc,
+};
+
+type Event = Rc<dyn Any>;
+type Outputs = Vec<Event>;
+type GroupMapping<'a, T, K> = dyn Fn(&T) -> (K, i64) + 'a;
+pub type JoinedStreamPort<I, J, L, R> = StreamPort<(I, J), (L, R)>;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum GraphError {
+    ForeignPort,
+    DuplicateConstraint(String),
+    StructuralContribution(String),
+    FailedTransaction,
+}
+impl fmt::Display for GraphError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::ForeignPort => f.write_str("stream port belongs to another graph"),
+            Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
+            Self::StructuralContribution(name) => {
+                write!(f, "stream constraint {name} has a structural contribution")
+            }
+            Self::FailedTransaction => {
+                f.write_str("stream transaction failed; drop it to roll back")
+            }
+        }
+    }
+}
+impl std::error::Error for GraphError {}
+
+/// A typed output port, tied to one builder/graph. Reusing it explicitly shares
+/// its node; closure equivalence is not used to discover implicit sharing.
+pub struct StreamPort<I, T> {
+    owner: Rc<()>,
+    node: usize,
+    marker: PhantomData<fn() -> (I, T)>,
+}
+impl<I, T> Clone for StreamPort<I, T> {
+    fn clone(&self) -> Self {
+        Self {
+            owner: self.owner.clone(),
+            node: self.node,
+            marker: PhantomData,
+        }
+    }
+}
+
+/// Only source handles permit external tuple updates.
+pub struct StreamSource<I, T>(StreamPort<I, T>);
+impl<I, T> Clone for StreamSource<I, T> {
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+impl<I, T> StreamSource<I, T> {
+    pub fn port(&self) -> &StreamPort<I, T> {
+        &self.0
+    }
+}
+
+/// A typed handle for inspecting one constraint's current match tuples/scores.
+pub struct StreamConstraint<I, T>(StreamPort<I, T>);
+impl<I, T> Clone for StreamConstraint<I, T> {
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+
+trait Node<S: AdditiveScore> {
+    fn checkpoint(&self) -> Box<dyn Any>;
+    fn restore(&mut self, checkpoint: Box<dyn Any>);
+    fn apply(&mut self, side: bool, event: &Event) -> Result<Outputs, GraphError>;
+    fn score(&self) -> S {
+        S::ZERO
+    }
+    fn source_rows(&self) -> Option<&dyn Any> {
+        None
+    }
+    fn matches(&self) -> Option<&dyn Any> {
+        None
+    }
+}
+fn typed<I: 'static, T: 'static>(event: &Event) -> &TupleChange<I, T> {
+    event.downcast_ref().expect("builder enforces event types")
+}
+fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I, T>>) -> Outputs {
+    changes
+        .into_iter()
+        .map(|change| Rc::new(change) as Event)
+        .collect()
+}
+
+struct SourceNode<I, T>(BTreeMap<I, T>);
+impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
+    fn checkpoint(&self) -> Box<dyn Any> {
+        Box::new(self.0.clone())
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0 = *c.downcast().expect("source checkpoint type");
+    }
+    fn source_rows(&self) -> Option<&dyn Any> {
+        Some(&self.0)
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        if let Some(value) = &change.value {
+            self.0.insert(change.id.clone(), value.clone());
+        } else {
+            self.0.remove(&change.id);
+        }
+        Ok(vec![event.clone()])
+    }
+}
+
+struct Filter<'a, I, T>(FilterNode<'a, I, T>);
+impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(self.0.apply(typed::<I, T>(event).clone())))
+    }
+}
+
+struct Map<'a, I, T, U> {
+    mapping: Box<dyn Fn(&T) -> U + 'a>,
+    marker: PhantomData<fn() -> I>,
+}
+impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for Map<'_, I, T, U> {
+    fn checkpoint(&self) -> Box<dyn Any> {
+        Box::new(())
+    }
+    fn restore(&mut self, _: Box<dyn Any>) {}
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        Ok(erase([TupleChange {
+            id: change.id.clone(),
+            value: change.value.as_ref().map(|v| (self.mapping)(v)),
+        }]))
+    }
+}
+
+struct Join<'a, I, J, L, R, K>(JoinNode<'a, I, J, L, R, K>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for Join<'_, I, J, L, R, K>
+{
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0.apply_left(typed::<I, L>(event).clone())
+        }))
+    }
+}
+
+struct Group<'a, I, T, K> {
+    node: GroupNode<I, K>,
+    mapping: Box<GroupMapping<'a, T, K>>,
+}
+impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: AdditiveScore> Node<S>
+    for Group<'_, I, T, K>
+{
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.node.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.node.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        let mapped = TupleChange {
+            id: change.id.clone(),
+            value: change.value.as_ref().map(|v| (self.mapping)(v)),
+        };
+        Ok(erase(self.node.apply(mapped).into_iter().map(|change| {
+            let key = change.id.clone();
+            change.map(|summary| (key, summary))
+        })))
+    }
+}
+
+struct Terminal<'a, I, T, S> {
+    node: ScoreNode<'a, I, T, S>,
+    name: String,
+    matches: BTreeMap<I, (T, S)>,
+}
+impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
+    for Terminal<'_, I, T, S>
+{
+    fn checkpoint(&self) -> Box<dyn Any> {
+        Box::new((self.node.checkpoint(), self.matches.clone()))
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        let (node, matches) = *c
+            .downcast::<(Box<dyn Any>, BTreeMap<I, (T, S)>)>()
+            .expect("terminal checkpoint type");
+        self.node.restore(node);
+        self.matches = matches;
+    }
+    fn matches(&self) -> Option<&dyn Any> {
+        Some(&self.matches)
+    }
+    fn score(&self) -> S {
+        self.node.score()
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        self.node
+            .apply(change.clone())
+            .map_err(|_| GraphError::StructuralContribution(self.name.clone()))?;
+        if let Some(value) = &change.value {
+            self.matches.insert(
+                change.id.clone(),
+                (
+                    value.clone(),
+                    self.node.contribution(&change.id).expect("scored match"),
+                ),
+            );
+        } else {
+            self.matches.remove(&change.id);
+        }
+        Ok(Vec::new())
+    }
+}
+
+#[derive(Clone, Copy)]
+struct Edge {
+    node: usize,
+    right: bool,
+}
+
+/// Build a typed DAG. Nodes only connect to previously created ports, preventing
+/// cycles. Payloads/IDs are owned `'static` types; callbacks may borrow immutable
+/// problem data for `'a`. All ordinary scores use the same score type `S`.
+pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
+    owner: Rc<()>,
+    nodes: Vec<Box<dyn Node<S> + 'a>>,
+    edges: Vec<Vec<Edge>>,
+    constraints: BTreeMap<String, usize>,
+}
+impl<S: AdditiveScore + 'static> Default for StreamGraphBuilder<'_, S> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
+    pub fn new() -> Self {
+        Self {
+            owner: Rc::new(()),
+            nodes: Vec::new(),
+            edges: Vec::new(),
+            constraints: BTreeMap::new(),
+        }
+    }
+    fn validate<I, T>(&self, port: &StreamPort<I, T>) -> Result<(), GraphError> {
+        if Rc::ptr_eq(&self.owner, &port.owner) {
+            Ok(())
+        } else {
+            Err(GraphError::ForeignPort)
+        }
+    }
+    fn push<I, T>(&mut self, node: impl Node<S> + 'a) -> StreamPort<I, T> {
+        let id = self.nodes.len();
+        self.nodes.push(Box::new(node));
+        self.edges.push(Vec::new());
+        StreamPort {
+            owner: self.owner.clone(),
+            node: id,
+            marker: PhantomData,
+        }
+    }
+    fn connect(&mut self, parent: usize, child: usize, right: bool) {
+        self.edges[parent].push(Edge { node: child, right });
+    }
+
+    pub fn source<I: Ord + Clone + 'static, T: Clone + 'static>(&mut self) -> StreamSource<I, T> {
+        StreamSource(self.push(SourceNode::<I, T>(BTreeMap::new())))
+    }
+    pub fn filter<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        input: &StreamPort<I, T>,
+        predicate: impl Fn(&T) -> bool + 'a,
+    ) -> Result<StreamPort<I, T>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(Filter(FilterNode::<I, T>::new(predicate)));
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    pub fn map<I: Ord + Clone + 'static, T: Clone + 'static, U: Clone + 'static>(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> U + 'a,
+    ) -> Result<StreamPort<I, U>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(Map::<I, T, U> {
+            mapping: Box::new(mapping),
+            marker: PhantomData,
+        });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    pub fn join_equal<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Map each input to a group key and integer value. The output carries its key
+    /// in both identity and payload so scoring can depend on key properties.
+    pub fn group_collect<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static>(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> (K, i64) + 'a,
+    ) -> Result<StreamPort<K, (K, IntSummary)>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(Group {
+            node: GroupNode::<I, K>::new(),
+            mapping: Box::new(mapping),
+        });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    pub fn score<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        name: impl Into<String>,
+        input: &StreamPort<I, T>,
+        evaluate: impl Fn(&T) -> S + 'a,
+    ) -> Result<StreamConstraint<I, T>, GraphError> {
+        self.validate(input)?;
+        let name = name.into();
+        if self.constraints.contains_key(&name) {
+            return Err(GraphError::DuplicateConstraint(name));
+        }
+        let out = self.push(Terminal {
+            node: ScoreNode::<I, T, S>::new(evaluate),
+            name: name.clone(),
+            matches: BTreeMap::new(),
+        });
+        self.constraints.insert(name, out.node);
+        self.connect(input.node, out.node, false);
+        Ok(StreamConstraint(out))
+    }
+    pub fn build(self) -> StreamGraph<'a, S> {
+        StreamGraph {
+            owner: self.owner,
+            nodes: self.nodes,
+            edges: self.edges,
+            constraints: self.constraints,
+            score: S::ZERO,
+        }
+    }
+}
+
+pub struct StreamGraph<'a, S: AdditiveScore> {
+    owner: Rc<()>,
+    nodes: Vec<Box<dyn Node<S> + 'a>>,
+    edges: Vec<Vec<Edge>>,
+    constraints: BTreeMap<String, usize>,
+    score: S,
+}
+impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
+    pub fn score(&self) -> S {
+        self.score
+    }
+    pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
+        self.constraints
+            .iter()
+            .map(|(name, &id)| (name.as_str(), self.nodes[id].score()))
+    }
+    pub fn source_rows<I: Ord + 'static, T: 'static>(
+        &self,
+        source: &StreamSource<I, T>,
+    ) -> Result<&BTreeMap<I, T>, GraphError> {
+        self.validate(source)?;
+        Ok(self.nodes[source.0.node]
+            .source_rows()
+            .expect("source handle")
+            .downcast_ref()
+            .expect("source row type"))
+    }
+    pub fn constraint_matches<I: Ord + 'static, T: 'static>(
+        &self,
+        constraint: &StreamConstraint<I, T>,
+    ) -> Result<&BTreeMap<I, (T, S)>, GraphError>
+    where
+        S: 'static,
+    {
+        if !Rc::ptr_eq(&self.owner, &constraint.0.owner) {
+            return Err(GraphError::ForeignPort);
+        }
+        Ok(self.nodes[constraint.0.node]
+            .matches()
+            .expect("constraint handle")
+            .downcast_ref()
+            .expect("constraint match type"))
+    }
+    fn validate<I, T>(&self, source: &StreamSource<I, T>) -> Result<(), GraphError> {
+        if Rc::ptr_eq(&self.owner, &source.0.owner) {
+            Ok(())
+        } else {
+            Err(GraphError::ForeignPort)
+        }
+    }
+    pub fn transaction(&mut self) -> GraphTransaction<'_, 'a, S> {
+        let original_score = self.score;
+        let visited = vec![false; self.nodes.len()];
+        GraphTransaction {
+            graph: self,
+            original_score,
+            visited,
+            journal: Vec::new(),
+            failed: false,
+            committed: false,
+        }
+    }
+}
+
+/// An exclusive candidate view. All changes are drained automatically. Drop rolls
+/// back, commit keeps the state. After any error or caught callback panic, reads,
+/// further updates and commit fail; dropping still restores the original graph.
+#[must_use = "dropping a graph transaction rolls it back"]
+pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
+    graph: &'g mut StreamGraph<'a, S>,
+    original_score: S,
+    visited: Vec<bool>,
+    journal: Vec<(usize, Box<dyn Any>)>,
+    failed: bool,
+    committed: bool,
+}
+impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
+    fn valid(&self) -> Result<(), GraphError> {
+        if self.failed {
+            Err(GraphError::FailedTransaction)
+        } else {
+            Ok(())
+        }
+    }
+    pub fn score(&self) -> Result<S, GraphError> {
+        self.valid()?;
+        Ok(self.graph.score)
+    }
+    pub fn graph(&self) -> Result<&StreamGraph<'_, S>, GraphError> {
+        self.valid()?;
+        Ok(self.graph)
+    }
+    /// Number of nodes checkpointed, not the number of copied rows or callbacks.
+    pub fn checkpoint_count(&self) -> usize {
+        self.journal.len()
+    }
+    pub fn apply<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        source: &StreamSource<I, T>,
+        change: TupleChange<I, T>,
+    ) -> Result<(), GraphError> {
+        self.valid()?;
+        self.failed = true;
+        self.graph.validate(source)?;
+        let mut pending = VecDeque::from([(
+            Edge {
+                node: source.0.node,
+                right: false,
+            },
+            Rc::new(change) as Event,
+        )]);
+        while let Some((edge, event)) = pending.pop_front() {
+            let id = edge.node;
+            if !self.visited[id] {
+                let checkpoint = self.graph.nodes[id].checkpoint();
+                self.journal.push((id, checkpoint));
+                self.visited[id] = true;
+            }
+            let old = self.graph.nodes[id].score();
+            let outputs = self.graph.nodes[id].apply(edge.right, &event)?;
+            self.graph.score = self.graph.score - old + self.graph.nodes[id].score();
+            for output in outputs {
+                for &next in &self.graph.edges[id] {
+                    pending.push_back((next, output.clone()));
+                }
+            }
+        }
+        self.failed = false;
+        Ok(())
+    }
+    pub fn commit(mut self) -> Result<(), GraphError> {
+        self.valid()?;
+        self.committed = true;
+        Ok(())
+    }
+}
+impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
+    fn drop(&mut self) {
+        if !self.committed {
+            for (id, checkpoint) in self.journal.drain(..).rev() {
+                self.graph.nodes[id].restore(checkpoint);
+            }
+            self.graph.score = self.original_score;
+        }
+    }
+}

@@ -177,7 +177,7 @@ impl<V: Eq, S: AdditiveScore> ConstraintNetwork<'_, V, S> {
         Ok(with_structure(total, problem, assignment))
     }
 }
-fn with_structure<V: Eq, S: AdditiveScore>(
+pub(crate) fn with_structure<V: Eq, S: AdditiveScore>(
     total: S,
     problem: &FiniteProblem<V>,
     assignment: &Assignment<V>,
