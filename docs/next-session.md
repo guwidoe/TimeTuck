@@ -47,7 +47,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits and optional stagnation, score-target and feasibility stops;
   first/best accepted candidate selection and original or
-  seeded shuffled-variable ordering.
+  seeded shuffled-variable or bounded candidate-window ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
 - Optional max_time bounds each local-search phase with a monotonic clock,
   checking between candidates and retaining the best evaluated prefix. It is
@@ -61,7 +61,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 356 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
+- 359 original integration regression methods, thirty original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -82,9 +82,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   claimed. Run differential_solver.py; see the incremental-search contract.
 - Required-list comparisons cover 192 original cases: 64 construction, 64
   relocation hill climbing and 64 two-opt. The latter use first-accepted search,
-  20 steps and a 10,000 score-evaluation budget; Java sampling differs from native
-  enumeration. All 64 are valid, 55 have equal scores, and optima counts are
-  Rust 44 / Java 46. Six timing workloads show quality beside each time ratio.
+  20 steps and a 10,000 score-evaluation budget; Java sampling differs from native seeded candidate-window
+  ordering (seed 20261006, window 1024). All 64 are valid, 61 have equal scores,
+  and optima counts are Rust 49 / Java 46. Six timing workloads show quality beside each time ratio.
 - Separate score microbenchmarks and two small matched exact-search workloads.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
   Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
@@ -2040,3 +2040,60 @@ correct budget caption and 9.47% coverage, with no overflow, stale alerts or pag
 errors. Browser closed; upstream unchanged. Next work should investigate the
 native deterministic first-accepted route-search quality gap, along with remaining
 solver behavior and stream performance. The overall rewrite goal remains active.
+
+## Bounded seeded move ordering — latest verified increment
+
+The original first-accepted two-opt 16-customer workload entered a two-state
+neutral reversal cycle after five steps (independently replayed with Python).
+MoveOrder::ShuffledMoves { seed, window: NonZeroUsize } now optionally shuffles
+candidate order for all three model types and both scoring backends. A rolling
+buffer fills from the lazy source, selects a random buffered move with SplitMix64,
+and replenishes on the next request. Whole-neighborhood windows give uniform
+permutations; smaller windows give local shuffling, not globally uniform sampling.
+No Java PRNG/trace claim and no general quality guarantee.
+
+Window size is capped per scan by remaining evaluation budget, minimum one to
+preserve exhausted-budget detection. No eager pulls or requested-size reservation;
+first output pulls at most the effective window, later outputs at most one more
+candidate. Original and ShuffledVariables behavior/random sequences remain intact;
+a one-slot window preserves original order without random draws. Generation is
+unscored, and bounded prefetch may overshoot cooperative time limits. Acceptance
+randomness stays independent. Early selection discards unused lookahead.
+
+Three original unit tests cover conservation/repeatability across 64 seeds and
+window sizes, bounded lazy pulls on infinite sources with huge requested windows
+and tiny budgets, and empty/singleton/non-fused sources. Three original integration
+methods check neutral-cycle escape across basic/list/joint-mixed models with both
+backends, backend score/counter/termination agreement, repeatability, one-slot
+identity and evaluation limits. This adds no upstream coverage credit.
+
+The native two-opt benchmark explicitly opts into seed 20261006/window 1024;
+library defaults remain Original and other benchmark configurations are unchanged.
+All 192 routing cases remain valid. Two-opt equality rises from 55 to 61 of 64;
+native optima rise from 44 to 49 while Java stays at 46. Total equal-score cases
+are 189/192. This comparison changes native ordering configuration; Java uses its
+unchanged public seeded provider. The same numeric seed does not match its PRNG.
+
+Warmed two-opt medians ms Rust/Java: 16 customers 0.262/9.241, scores
+[0,-1250]/[0,-1254], calls 132/155; 32 customers 0.868/13.152, scores
+[0,-1964]/[0,-2070], calls 207/153. Native prior deterministic scores were
+[0,-1484] and [0,-2472]. Different final quality remains labeled beside ratios;
+these are selected bounded workloads, not general solver speed comparisons.
+
+Development/release gates pass: 849 Rust tests (460 adapted, 359 original
+integration, 30 unit), 30 doctests and 76 Python checks. Clippy caught split generic
+bound declarations during development; corrected before the final full gate.
+Coverage remains 460/4855 = 9.47%, moves 83/874 = 9.50%; pending 4113, excluded 282,
+failed/unverified zero. All nine reports were refreshed sequentially from final
+sources, and live freshness matches. Logs:
+work/move-shuffle-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log. Stream median ms Rust/Java:
+hill32 47.657/17.186, hill96 173.467/28.744, tabu32 48.448/20.014,
+tabu96 175.321/25.785. Stream96 remains [-44,-484] at 50 steps; list32 construction
+and mixed-solver quality differences remain as previously documented.
+
+Browser checks at 1280x900 / 390x844 verified six list cards, both updated two-opt
+scores/times, 61/64 equality, 49/46 optima and the documented 1,024 window, with no
+horizontal overflow, stale alerts or page errors. Browser closed; upstream
+unmodified. Remaining work includes broader move/search infrastructure, additional
+source semantics, and stream performance. The overarching goal remains active.

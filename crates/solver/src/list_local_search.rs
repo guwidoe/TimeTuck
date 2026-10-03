@@ -66,6 +66,7 @@ pub struct ListLocalSearchResult<V, S> {
 /// Improve a complete assignment, for example the output of greedy construction.
 /// Uses the shared search configuration: Change includes relocations plus optional
 /// assign/unassign moves; ChangeAndSwap adds ordered swaps and optional replacements.
+/// ShuffledMoves reorders generated candidates within a bounded rolling window.
 /// ShuffledVariables shuffles entity lists; insertion positions and value order
 /// remain fixed. VariableTabu uses touched entity-list indices as stable keys.
 ///
@@ -134,7 +135,9 @@ where
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
-        MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
+        MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
+            Some(SplitMix64::new(seed))
+        }
     };
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -162,7 +165,9 @@ where
         }
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = (0..problem.entities().len()).collect();
-        if let Some(random) = &mut random {
+        if matches!(config.move_order, MoveOrder::ShuffledVariables { .. })
+            && let Some(random) = &mut random
+        {
             random.shuffle(&mut order);
         }
         let moves = ordered(
@@ -174,7 +179,13 @@ where
         let current = director.score();
         let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            moves.take_while(|_| !time_budget.expired()),
+            crate::random::order_moves(
+                moves,
+                config.move_order,
+                random.as_mut(),
+                config.max_evaluations - result.evaluations,
+            )
+            .take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {

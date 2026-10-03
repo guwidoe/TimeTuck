@@ -247,7 +247,8 @@ order. Local search starts complete, retains at least its initial quality, and
 uses a matched completed-step budget. For relocation hill climbing, Rust's
 evaluation limit bounds all candidate scans without an earlier cutoff. Two-opt
 uses first-accepted hill climbing and a separate 10,000 score-evaluation budget;
-Java uses its seeded public preview provider while Rust enumerates deterministically. Java uses only public annotations
+Java uses its seeded public preview provider while Rust applies a seeded bounded
+shuffle to finite candidates. Java uses only public annotations
 and configuration, with NO_ASSERT and a fixed seed. Full pins, pinned prefixes,
 empty ranges, capacity violations and Manhattan distances are checked by 192
 original generated cases (96 unrestricted and 96 with per-entity ranges; 64 per phase) with independent Python enumeration of the global
@@ -426,3 +427,12 @@ whole-search trace equivalence. The original timing workloads retain their prior
 two-opt workloads use the same 16/32-customer inputs with first-accepted search;
 the dashboard reports differing final quality and candidate-work counts. These
 measurements do not establish equal traces or equal work.
+
+
+The two-opt benchmark now explicitly selects ShuffledMoves with seed 20261006 and
+a 1,024-candidate window in Rust. The library default remains Original. An independent
+replay of the original 16-customer first-accepted run observed a two-state neutral
+cycle after five steps; seeded ordering is an opt-in way to explore other moves.
+The benchmark retains identical starts, limits and scoring but this changes its
+native ordering configuration. Java uses the same numeric seed with different
+PRNG/sampling behavior. Quality and callback counts remain explicit per workload.

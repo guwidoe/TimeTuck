@@ -203,7 +203,9 @@ or traces are not assumed. The UI marks differing final quality beside the ratio
 Two-opt instead uses first-accepted hill climbing with cross-owner tail swaps
 and within-route reversals, the same 20-step limit, and a 10,000 score-evaluation
 budget. Java uses the public preview TwoOptListMoveProvider with NEIGHBORHOODS;
-Rust uses deterministic finite enumeration. Sampling order and score accounting
+Rust uses seeded SplitMix64 candidate-window ordering (seed 20261006, window
+1,024, capped by remaining evaluations). Its finite candidate generator is
+unchanged; neither PRNG nor sampling matches Java. Sampling order and score accounting
 differ; these are bounded quality/time comparisons, not equal-work measurements.
 The small two-opt corpus reuses the 64 complete hill-climbing inputs, including
 pins/ranges, without changing either earlier phase corpus. Per-phase equality and

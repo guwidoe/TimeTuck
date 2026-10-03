@@ -90,7 +90,8 @@ pub struct MixedLocalSearchResult<B, L, S> {
 /// worsening steps. No termination proves global optimality or hard feasibility.
 ///
 /// Basic changes/swaps precede list moves; optional joint moves follow both.
-/// ShuffledVariables independently shuffles basic variables and list owners using
+/// ShuffledMoves reorders the combined basic/list/joint candidate stream within a
+/// bounded rolling window. ShuffledVariables independently shuffles basic variables and list owners using
 /// one seeded stream, preserving family/value/index order. VariableTabu gives basic
 /// variables and list owners disjoint keys; joint moves touch both sets.
 /// Invalid model shape, pins, completeness or acceptance reject even at zero budget.
@@ -166,7 +167,9 @@ where
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
-        MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
+        MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
+            Some(SplitMix64::new(seed))
+        }
     };
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -195,7 +198,9 @@ where
         let snapshot = director.assignment().clone();
         let mut basic_order: Vec<_> = (0..problem.basic().variables().len()).collect();
         let mut list_order: Vec<_> = (0..problem.lists().entities().len()).collect();
-        if let Some(random) = &mut random {
+        if matches!(config.move_order, MoveOrder::ShuffledVariables { .. })
+            && let Some(random) = &mut random
+        {
             random.shuffle(&mut basic_order);
             random.shuffle(&mut list_order);
         }
@@ -210,7 +215,13 @@ where
         let current = director.score();
         let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            moves.take_while(|_| !time_budget.expired()),
+            crate::random::order_moves(
+                moves,
+                config.move_order,
+                random.as_mut(),
+                config.max_evaluations - result.evaluations,
+            )
+            .take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {

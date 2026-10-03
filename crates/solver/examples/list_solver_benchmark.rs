@@ -78,6 +78,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                         } else {
                             Neighborhood::Change
                         },
+                        move_order: if args[1] == "two-opt" {
+                            MoveOrder::ShuffledMoves {
+                                seed: 20261006,
+                                window: std::num::NonZeroUsize::new(1024).unwrap(),
+                            }
+                        } else {
+                            MoveOrder::Original
+                        },
                         selection: if args[1] == "two-opt" {
                             MoveSelection::FirstAccepted
                         } else {

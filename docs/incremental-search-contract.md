@@ -535,3 +535,37 @@ remain bounded in stack size without materializing moves. All six search paths
 retain their existing acceptance and termination mechanisms. Source-adapted
 provider checks and original end-to-end search checks are documented in the list
 contract; the default benchmark workloads do not select two-opt.
+
+
+## Seeded candidate-window ordering
+
+`MoveOrder::ShuffledMoves { seed, window: NonZeroUsize }` reorders the emitted
+candidate stream for basic, list and mixed search in both scoring backends. Mixed
+ordering covers the combined basic/list/joint stream. It leaves the underlying
+variable order unchanged and uses a separate SplitMix64 state from the acceptor.
+The state continues across steps. Original and ShuffledVariables retain their
+previous ordering and random sequences; one-slot candidate windows preserve
+Original behavior without consuming random draws.
+
+A scan starts with an empty buffer. Each request fills up to the effective window
+from the lazy source, then removes a uniformly selected buffered move. Subsequent
+requests replenish the free slot. Fully consuming a scan preserves every emitted
+candidate exactly once, including existing duplicate successor representations.
+If the window covers the entire finite neighborhood, this is a uniform permutation.
+A smaller window shuffles locally and is not uniform across the whole neighborhood.
+
+The effective window is min(requested window, remaining evaluation budget), with a
+minimum of one to preserve existing exhausted-budget detection. Buffer allocation
+is incremental and never pre-reserves the requested size. Construction does not
+pull candidates. The first output needs at most window source moves, later outputs
+at most one new move each. Generation is unscored; early acceptance discards unused
+lookahead. Time limits are checked around emitted candidates, so bounded prefetch
+can overshoot cooperative timing just as generation/scoring callbacks can.
+Reproducibility requires identical input, configuration/budgets and implementation.
+
+Three original unit tests check candidate conservation and repeatability across
+64 seeds/window sizes, bounded lazy pulls even with usize::MAX and tiny budgets,
+and empty/singleton/non-fused inputs. Three original integration methods cover
+neutral-cycle escape through all six model/backend paths, identical backend
+scores/counters/termination, repeatability, one-slot identity and budget limits.
+They establish specific cases, not a general quality or Java PRNG equivalence.

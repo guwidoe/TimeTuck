@@ -299,3 +299,10 @@ step limits and full-scoring objectives are checked; Java's seeded preview
 provider and native finite enumeration have different candidate sampling. Final
 scores, optima and timings are reported separately, including disagreements.
 This adds no adapted-method coverage and no equal-trace/equal-work claim.
+
+
+Seeded bounded candidate-window ordering is a native opt-in search feature, with
+original conservation/laziness and all-backend search regressions. It changes no
+adapted-method count and makes no Java PRNG/trace claim. The two-opt comparison
+now explicitly uses it with seed 20261006/window1024; Java keeps its seeded public
+provider. Numeric equality of seeds does not imply matching random sequences.

@@ -13,7 +13,18 @@ use std::{error::Error, fmt};
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum MoveOrder {
     Original,
-    ShuffledVariables { seed: u64 },
+    ShuffledVariables {
+        seed: u64,
+    },
+    /// Shuffle candidates within a rolling window, using a reproducible seed.
+    /// Each step caps lookahead by remaining evaluations (minimum one). A window
+    /// covering the whole neighborhood gives a uniform permutation; smaller
+    /// windows are locally shuffled, not globally uniform. One preserves order.
+    /// Generation/prefetch is unscored and cooperative with phase time limits.
+    ShuffledMoves {
+        seed: u64,
+        window: std::num::NonZeroUsize,
+    },
 }
 
 #[derive(Debug)]
@@ -233,7 +244,9 @@ pub struct LocalSearchResult<V, S> {
 ///
 /// This initial construction is first-fit, not a score-aware construction
 /// heuristic. Original order is deterministic; shuffled-variable order uses an
-/// explicit reproducible seed and preserves value order within each variable. Returned best solutions are complete, but
+/// explicit reproducible seed and preserves value order within each variable.
+/// ShuffledMoves instead reorders candidates within a bounded rolling window.
+/// Returned best solutions are complete, but
 /// may be hard-infeasible. No termination here proves global optimality.
 pub fn local_search<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
@@ -339,7 +352,9 @@ where
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
-        MoveOrder::ShuffledVariables { seed } => Some(SplitMix64::new(seed)),
+        MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
+            Some(SplitMix64::new(seed))
+        }
     };
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -366,10 +381,12 @@ where
             return Ok(result);
         }
         // Snapshot decouples lazy enumeration from the director's transaction.
-        // No neighborhood-sized list of cloned moves is allocated.
+        // Original order stays lazy; optional candidate shuffling has bounded lookahead.
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = (0..problem.variables().len()).collect();
-        if let Some(random) = &mut random {
+        if matches!(config.move_order, MoveOrder::ShuffledVariables { .. })
+            && let Some(random) = &mut random
+        {
             random.shuffle(&mut order);
         }
         let changes = change_moves_ordered(problem, &snapshot, order.iter().copied());
@@ -382,7 +399,13 @@ where
         let current = director.score();
         let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            changes.chain(swaps).take_while(|_| !time_budget.expired()),
+            crate::random::order_moves(
+                changes.chain(swaps),
+                config.move_order,
+                random.as_mut(),
+                config.max_evaluations - result.evaluations,
+            )
+            .take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
