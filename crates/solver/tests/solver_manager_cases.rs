@@ -626,3 +626,107 @@ fn first_initialized_solution_consumer_with_two_custom() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn first_initialized_solution_consumer_early_terminated_ch() {
+    use std::error::Error;
+    use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+    let called = Arc::new(AtomicBool::new(false));
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let finals = Arc::new(AtomicUsize::new(0));
+    let (entered_tx, entered_rx) = mpsc::sync_channel(1);
+    let (release_tx, release_rx) = mpsc::sync_channel(1);
+    let mut manager = SolverManager::<
+        (Vec<Option<i64>>, Option<SimpleScore>),
+        SolverError<LocalSearchError>,
+    >::new(1)
+    .unwrap();
+    let seen = event.clone();
+    let was_called = called.clone();
+    let final_count = finals.clone();
+    let job = manager
+        .submit_with_progress(
+            1,
+            move |_, progress| {
+                // Source generates two initialized required entities, then clears both.
+                let problem = FiniteProblem::new(vec![Variable::new(vec![1i64, 2]); 2]).unwrap();
+                let mut network = ConstraintNetwork::new(2);
+                for i in 0..2 {
+                    network
+                        .add_constraint(format!("Always penalize {i}"), vec![i], |v| {
+                            SimpleScore::new(-i64::from(v[0].is_some()))
+                        })
+                        .unwrap();
+                }
+                let c = SolverConfig {
+                    limits: SolverLimits {
+                        incomplete_handoff: IncompleteHandoffPolicy::Error,
+                        ..Default::default()
+                    },
+                    construction: ConstructionConfig {
+                        max_steps: Some(1),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                };
+                let r = solve_with_events(&problem, &network, c, |e| {
+                    if let SolverEvent::FirstInitialized {
+                        initialization,
+                        assignment,
+                        score,
+                        ..
+                    } = e
+                    {
+                        assert!(progress.publish_first_initialized(
+                            (assignment.values().to_vec(), score),
+                            initialization
+                        ));
+                    }
+                })?;
+                Ok((r.assignment.values().to_vec(), r.score))
+            },
+            SolverJobCallbacks::default()
+                .on_first_initialized(
+                    move |_, snapshot: &(Vec<Option<i64>>, Option<SimpleScore>), info| {
+                        was_called.store(true, Ordering::SeqCst);
+                        seen.lock().unwrap().read(info);
+                        assert_eq!(snapshot.0.iter().filter(|v| v.is_some()).count(), 1);
+                        assert_eq!(snapshot.1, Some(SimpleScore::new(-1).with_structural(-1)));
+                        entered_tx.send(()).unwrap();
+                        release_rx.recv_timeout(LIMIT).unwrap();
+                    },
+                )
+                .on_final(move |_, _| {
+                    final_count.fetch_add(1, Ordering::SeqCst);
+                }),
+        )
+        .unwrap();
+    entered_rx.recv_timeout(LIMIT).unwrap();
+    assert!(
+        job.wait_timeout(Duration::ZERO).is_none(),
+        "error result waits for initialization delivery"
+    );
+    release_tx.send(()).unwrap();
+    let result = job.wait_timeout(LIMIT).unwrap();
+    let error = result.as_ref().as_ref().unwrap_err();
+    assert!(matches!(
+        error,
+        SolverJobError::Solve(SolverError::IncompleteLocalSearch { phase: 1 })
+    ));
+    let root = error.source().expect("typed solve error");
+    assert!(root.is::<SolverError<LocalSearchError>>());
+    assert!(root.source().is_none());
+    assert!(
+        root.to_string()
+            .contains("needs to start from an initialized solution")
+    );
+    assert!(called.load(Ordering::SeqCst));
+    assert!(!event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Construction, 0))
+    );
+    assert_eq!(finals.load(Ordering::SeqCst), 0);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

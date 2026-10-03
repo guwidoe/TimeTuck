@@ -822,4 +822,43 @@ are fully adapted: custom/CH/LS, CH/custom/LS, and two custom phases without LS.
 They preserve each command's pre-initialization assertion, final wait and producer
 assertions. A deterministic one-step stagnation limit replaces the source's 1 ms
 limit; no time/trace parity is claimed. Notices/provenance record that substitution.
-The early-required-CH initialization source method remains pending.
+The required-variable early-CH case uses the strict handoff policy below.
+
+## Incomplete local-search handoffs
+
+SolverLimits::incomplete_handoff selects IncompleteHandoffPolicy::ReturnPartial
+(default) or Error. ReturnPartial retains the existing IncompleteConstruction result.
+Error rejects a partial retained assignment when the next requested phase is local
+search, returning SolverError::IncompleteLocalSearch with that destination's index.
+The error is a typed invalid-state condition; its message says local search needs
+to start from an initialized solution. This policy applies at a phase boundary;
+standalone or first-phase local search keeps its existing input validation errors.
+
+The preceding phase's best updates and initialization event are delivered before
+this check. The invalid local phase does not build a graph or calculate a score,
+even if its own work limits are zero. Solve-wide cancellation, time/stagnation and
+reported budget stops take precedence. Under Error, a coincident exhausted shared
+score/candidate budget also stops normally because the local phase cannot start;
+this includes construction step limits that win their phase-local precedence check.
+ReturnPartial keeps its existing boundary-reason precedence. Callbacks can cancel
+or consume the remaining shared time before an error would otherwise be raised.
+
+Error does not reject a final partial solution with no following local search,
+or a partial handoff to construction, custom commands or exact search. Those phases
+can continue initialization, and any later invalid local handoff uses its real index.
+Complete assignments behave as before. Progress already published is not retracted
+on failure. Managed waits include queued initialization delivery; a failed solve
+has no successful final callback, and SolverJobError::Solve preserves the typed
+SolverError as its source.
+
+The remaining SolverManagerTest.firstInitializedSolutionConsumerEarlyTerminatedCH
+method is now adapted in full, including its conditional exception assertions through
+the native typed error path. It uses two required entities/two values, an assigned-
+entity penalty, CH step limit one, and a following local search. Explicit Error
+selects native rejection behavior; it is not a Java default-policy or exception-ABI
+claim. The source called/early/producer assertions are preserved. Extra synchronization
+proves a blocked initialization callback delays the failed result; the snapshot
+contains exactly one assigned value and structural -1/ordinary -1. Four original
+cross-backend methods cover both policies, partial/resumed/custom/exact handoffs,
+zero work, shared stops and event prefixes. A controlled-clock unit check covers
+initialization callback time, and a public doctest demonstrates the policy.

@@ -14,6 +14,7 @@ struct Outcome {
 #[derive(Debug, PartialEq)]
 enum Failure {
     Empty,
+    Incomplete(usize),
     Acceptance(usize),
     Token(usize),
     Phase(usize),
@@ -165,6 +166,9 @@ fn run_scored_events<'a>(
                     })
                 }
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
+                Err(SolverError::IncompleteLocalSearch { phase }) => {
+                    Err(Failure::Incomplete(phase))
+                }
                 Err(SolverError::InvalidAcceptance { phase, .. }) => {
                     Err(Failure::Acceptance(phase))
                 }
@@ -1428,3 +1432,6 @@ mod initialization_cases;
 
 #[path = "support/solver_sequence_cases.rs"]
 mod sequence_cases;
+
+#[path = "support/solver_incomplete_handoff_cases.rs"]
+mod incomplete_handoff_cases;

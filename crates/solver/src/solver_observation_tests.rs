@@ -211,3 +211,57 @@ fn initialization_callback_time_stops_the_solve_before_local_search() {
     assert_eq!(r.phases.len(), 1);
     assert_eq!(r.work.evaluations, 2);
 }
+
+#[test]
+fn initialization_callback_elapsed_time_precedes_strict_partial_handoff_rejection() {
+    let elapsed = Cell::new(0);
+    let events = Cell::new(0);
+    let p = FiniteProblem::new(vec![Variable::new(vec![0usize, 1])]).unwrap();
+    let n = ConstraintNetwork::<_, SimpleScore>::new(1);
+    let mut callback = |e: SolverEvent<'_, Assignment<usize>, SimpleScore>| {
+        if let SolverEvent::FirstInitialized { complete, .. } = e {
+            assert!(!complete);
+            events.set(events.get() + 1);
+            elapsed.set(10);
+        }
+    };
+    let mut observation = PlanObservation::new(Some(PlanCallback::Events(&mut callback)));
+    let r = run_with_clock_observed(
+        SolverLimits {
+            max_time: Some(ms(5)),
+            incomplete_handoff: IncompleteHandoffPolicy::Error,
+            ..Default::default()
+        },
+        &[
+            SolverPhase::Construction(ConstructionConfig {
+                max_steps: Some(0),
+                ..Default::default()
+            }),
+            SolverPhase::LocalSearch(LocalSearchConfig::default()),
+        ],
+        || InitialState {
+            assignment: p.initial_assignment(),
+            complete: false,
+        },
+        &mut observation,
+        |index, _, request, time, _| -> Result<_, SolverError<ScoringError>> {
+            assert_eq!(index, 0, "local phase must not start");
+            let PhaseRequest::Construction(c) = request.with_time(time) else {
+                panic!("construction only");
+            };
+            Ok(constructed!(greedy_construction(&p, &n, c).map_err(
+                |error| SolverError::Phase {
+                    phase: index,
+                    error
+                }
+            )?))
+        },
+        &mut || ms(elapsed.get()),
+    )
+    .unwrap();
+    assert_eq!(events.get(), 1);
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    assert_eq!(r.work.evaluations, 1);
+    assert_eq!(r.phases.len(), 1);
+    assert!(!r.complete);
+}

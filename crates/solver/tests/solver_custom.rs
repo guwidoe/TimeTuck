@@ -22,6 +22,7 @@ enum Failure {
     Unbound(usize),
     Token(usize),
     Other,
+    Incomplete(usize),
 }
 fn failure<E>(e: SolverError<E>) -> Failure {
     match e {
@@ -32,6 +33,7 @@ fn failure<E>(e: SolverError<E>) -> Failure {
         SolverError::Custom { phase, .. } => Failure::Custom(phase),
         SolverError::UnboundCustomPhase { phase } => Failure::Unbound(phase),
         SolverError::ConflictingCancellation { phase } => Failure::Token(phase),
+        SolverError::IncompleteLocalSearch { phase } => Failure::Incomplete(phase),
         _ => Failure::Other,
     }
 }
@@ -730,4 +732,79 @@ fn unbound_custom_phases_are_rejected_before_scoring_even_when_unreachable() {
             error: CustomPhaseError::Scoring(_)
         })
     ));
+}
+
+#[test]
+fn strict_handoff_policy_applies_to_custom_and_unscored_exact_producers() {
+    for mode in 0..6 {
+        for repeat in [1, 2] {
+            let mut phases = vec![custom(); repeat];
+            phases.push(local());
+            let c = SolverSequence {
+                phases,
+                limits: SolverLimits {
+                    incomplete_handoff: IncompleteHandoffPolicy::Error,
+                    ..Default::default()
+                },
+            };
+            let mut events = vec![];
+            let mut entered = vec![];
+            assert_eq!(
+                run(
+                    mode,
+                    false,
+                    c,
+                    &[vec![], vec![], vec![]],
+                    &mut entered,
+                    &mut events,
+                    true,
+                    || {}
+                ),
+                Err(Failure::Incomplete(repeat))
+            );
+            assert_eq!(entered.len(), repeat);
+            assert!(
+                matches!(events.last(), Some(Event::Initialized(SolverInitialization { phase,kind:SolverPhaseKind::Custom,terminated_early:false },Some(_),false)) if *phase==repeat-1)
+            );
+        }
+        let c = SolverSequence {
+            phases: vec![
+                SolverPhase::Exact(ExactPhaseConfig {
+                    max_evaluations: 0,
+                    ..Default::default()
+                }),
+                local(),
+            ],
+            limits: SolverLimits {
+                incomplete_handoff: IncompleteHandoffPolicy::Error,
+                ..Default::default()
+            },
+        };
+        let mut events = vec![];
+        assert_eq!(
+            run(
+                mode,
+                false,
+                c,
+                &[vec![], vec![]],
+                &mut vec![],
+                &mut events,
+                true,
+                || panic!("zero exact scored")
+            ),
+            Err(Failure::Incomplete(1))
+        );
+        assert_eq!(
+            events,
+            vec![Event::Initialized(
+                SolverInitialization {
+                    phase: 0,
+                    kind: SolverPhaseKind::Exact,
+                    terminated_early: true
+                },
+                None,
+                false
+            )]
+        );
+    }
 }

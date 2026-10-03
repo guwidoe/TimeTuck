@@ -564,3 +564,12 @@ CH1; CH/custom/LS to Custom1; two custom phases emit none. The adapted tests rep
 a 1 ms timeout with one deterministic shared unimproved local-search step, explicitly
 recorded in provenance; timing/trace parity is not claimed. Early-required-CH remains
 pending because native incomplete handoff and Java exception contracts differ.
+
+The required-variable early-construction initialization method is now fully adapted,
+including the error branch. Explicit IncompleteHandoffPolicy::Error rejects the next
+local phase after publishing the real early initialization event. A managed typed
+error chain preserves the source invalid-start category and initialized-solution
+message; Rust enums replace Java exception classes. The fixture penalizes assigned
+entities only. All nine pinned firstInitializedSolutionConsumer methods now have
+full adaptations. Broader lifecycle behavior, live changes and deferred-score
+custom commands remain pending; this does not establish full manager compatibility.

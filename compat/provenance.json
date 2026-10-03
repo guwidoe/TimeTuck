@@ -8895,6 +8895,21 @@
       "id": "SolverManagerTest.firstInitializedSolutionConsumerWith2Custom",
       "status": "implemented",
       "modifications": "Preserve source phase order, problem ID 1, generated two-entity/two-value problem, constant-zero scoring, registered first-initialized consumer, successful final wait and the false initialization assertion inside every real custom command. Two custom phases both execute and emit no initialization event; initialized stays false and producer stays absent. Replace the source 1 ms stagnation timeout with one shared unimproved local-search step to make event-order assertions deterministic; no timing/trace parity claim. Native typed commands and managed owned snapshots reuse the already-attributed generator, scorer and InitialSolutionEvent fixtures. Extra assertions require actual command calls and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerEarlyTerminatedCH",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "firstInitializedSolutionConsumerEarlyTerminatedCH",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "local_test": "first_initialized_solution_consumer_early_terminated_ch",
+      "modifications": "Preserve two required entities/two values reset to unassigned, penalty of one per assigned entity, CH step limit one followed by LS, registered initialization consumer, final wait, called=true, non-early=false and construction producer zero. Explicit native IncompleteHandoffPolicy::Error exercises the source conditional failure branch rather than omitting it: SolverJobError::Solve wraps typed SolverError::IncompleteLocalSearch at local phase 1, with the source initialized-solution message and a verified root Error chain. Native invalid-start enum replaces Java IllegalStateException; no Java exception-class ABI claim. Existing attributed event helper is reused. Extra channel synchronization proves wait includes initialization delivery even when solve fails; snapshot has one assignment and structural -1/ordinary -1, no final callback and no callback failures."
     }
   ],
   "fixtures": [
@@ -9768,6 +9783,45 @@
       "upstream_test": "optional list fixture",
       "local_path": "crates/solver/tests/solver_manager_cases.rs",
       "modifications": "Integer identities and native derived owner/index/neighbor relationships replace test objects and mutable shadow fields; no descriptor API port. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "id": "TestdataSolution.early_required_ch_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int,int), generateSolution(int,int,boolean)",
+      "modifications": "Adapt the two-value/two-entity generated shape, then clear all values as the source test does. Native stable integer values and required finite variables replace Java object identities and reflection. No descriptor implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "id": "TestdataEntity.early_required_ch_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "value field, getValue, setValue, PlanningVariable metadata",
+      "modifications": "Adapt a required basic variable from the solution value range and its cleared initial value. Native model validation replaces metadata; no entity descriptor implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "id": "TestdataConstraintProvider.early_required_ch_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints, alwaysPenalizingConstraint",
+      "modifications": "Preserve forEach(TestdataEntity) omitting unassigned entities and penalizing each included entity by one. Two scoped native unary constraints count assigned values; no score trace/match identity claim."
     }
   ]
 }

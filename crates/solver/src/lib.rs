@@ -285,3 +285,5 @@ pub use solver::{
     solve_mixed_with_commands, solve_mixed_with_commands_and_events, solve_stream_with_commands,
     solve_stream_with_commands_and_events, solve_with_commands, solve_with_commands_and_events,
 };
+
+pub use solver::IncompleteHandoffPolicy;

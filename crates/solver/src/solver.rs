@@ -4,6 +4,39 @@ mod exact;
 use crate::*;
 use std::{error::Error, fmt, time::Duration};
 
+/// Behavior when a phase leaves an incomplete assignment for local search.
+/// Earlier solve-wide stopping reasons take precedence over this policy.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 2])?;
+/// let n = ConstraintNetwork::<_, SimpleScore>::new(2);
+/// let c = SolverConfig {
+///     construction: ConstructionConfig { max_steps: Some(1), ..Default::default() },
+///     limits: SolverLimits { incomplete_handoff: IncompleteHandoffPolicy::Error, ..Default::default() },
+///     ..Default::default()
+/// };
+/// let mut initialized = false;
+/// let r = solve_with_events(&p, &n, c, |event| {
+///     if let SolverEvent::FirstInitialized { initialization, complete, .. } = event {
+///         assert!(initialization.terminated_early);
+///         assert!(!complete);
+///         initialized = true;
+///     }
+/// });
+/// assert!(initialized);
+/// assert!(matches!(r, Err(SolverError::IncompleteLocalSearch { phase: 1 })));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum IncompleteHandoffPolicy {
+    /// Return the retained partial solution with IncompleteConstruction.
+    #[default]
+    ReturnPartial,
+    /// Report an invalid local-search start after publishing initialization.
+    Error,
+}
+
 /// Shared limits for one solve. Phase-local controls can stop a phase earlier.
 /// Diagnostic callbacks are excluded from both evaluation counters.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -23,6 +56,9 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     pub cancellation: Option<&'a CancellationToken>,
     pub best_score_limit: Option<S>,
     pub stop_when_feasible: bool,
+    /// Applies only to an incomplete handoff into a following local-search phase.
+    /// Final partial results and handoffs into construction/custom/exact remain allowed.
+    pub incomplete_handoff: IncompleteHandoffPolicy,
 }
 impl<S> Default for SolverLimits<'_, S> {
     fn default() -> Self {
@@ -35,6 +71,7 @@ impl<S> Default for SolverLimits<'_, S> {
             cancellation: None,
             best_score_limit: None,
             stop_when_feasible: false,
+            incomplete_handoff: IncompleteHandoffPolicy::ReturnPartial,
         }
     }
 }
@@ -154,6 +191,11 @@ impl<A, S: Clone> SolverResult<A, S> {
 pub enum SolverError<E> {
     /// Explicit sequences must contain at least one phase.
     EmptyPlan,
+    /// The preceding phase completed with a partial retained assignment and no
+    /// earlier shared stopping reason. No local-search scoring/factory ran.
+    IncompleteLocalSearch {
+        phase: usize,
+    },
     /// A custom phase requires a typed command callback.
     UnboundCustomPhase {
         phase: usize,
@@ -178,6 +220,10 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::IncompleteLocalSearch { phase } => write!(
+                f,
+                "local search phase {phase} needs to start from an initialized solution"
+            ),
             Self::UnboundCustomPhase { phase } => {
                 write!(f, "custom phase {phase} has no command callback")
             }
@@ -201,6 +247,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::EmptyPlan
+            | Self::IncompleteLocalSearch { .. }
             | Self::ConflictingCancellation { .. }
             | Self::UnboundCustomPhase { .. } => None,
         }
@@ -795,7 +842,24 @@ where
                     )
                 ) =>
             {
-                Some(SolverTermination::IncompleteConstruction)
+                if limits.incomplete_handoff == IncompleteHandoffPolicy::Error
+                    && matches!(local.get(index + 1), Some(SolverPhase::LocalSearch(_)))
+                {
+                    // A phase-local step/other stop can coincide with exhausting
+                    // the shared budget. No following local phase would start.
+                    if r.work.evaluations >= limits.max_evaluations {
+                        Some(SolverTermination::EvaluationLimit)
+                    } else if limits
+                        .max_move_evaluations
+                        .is_some_and(|n| r.work.move_evaluations >= n)
+                    {
+                        Some(SolverTermination::MoveEvaluationLimit)
+                    } else {
+                        return Err(SolverError::IncompleteLocalSearch { phase: index + 1 });
+                    }
+                } else {
+                    Some(SolverTermination::IncompleteConstruction)
+                }
             }
             _ if r.complete
                 && r.score.as_ref().is_some_and(|score| {

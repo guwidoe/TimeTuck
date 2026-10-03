@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 593 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 15 manager), recorded in
+- 594 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 16 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 573 original integration regression methods, 74 original unit tests, and 56 public API documentation tests.
+- 577 original integration regression methods, 75 original unit tests, and 57 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -153,7 +153,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 593 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 594 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -4160,3 +4160,92 @@ retain known score differences. Validation remains 128 heuristic/64 stream equal
 scores, list 192 valid/189 equal; Great Deluge remains 275/276 Java agreement with
 its explicit ratio boundary gap. These workloads do not benchmark custom-command
 throughput. No broad speedup/regression claim from shared-machine samples.
+
+
+## Strict incomplete handoffs — latest increment
+
+Added IncompleteHandoffPolicy::{ReturnPartial(default),Error} to SolverLimits through
+incomplete_handoff. Error rejects an incomplete retained state when the next phase
+is LocalSearch, after preceding best/init notifications and before any local factory
+or scoring. SolverError::IncompleteLocalSearch { phase } identifies the destination
+and supplies the initialized-solution message. Its Error source is None, making it
+the root beneath SolverJobError::Solve. It is an explicit native policy, not a Java
+default or exception-class ABI claim. First/standalone local input validation remains
+unchanged. No last-phase error and no error for custom/construction/exact handoffs.
+
+Existing reported global stops, callback cancellation and elapsed time precede
+strict errors. An additional strict-path budget gate catches coincident global
+score/move exhaustion hidden by construction's earlier phase-local step check;
+such a local phase cannot run, so return EvaluationLimit/MoveEvaluationLimit. Default
+ReturnPartial preserves its previous boundary-reason precedence. Shared budget checks
+use post-phase work. The policy remains Copy/Eq with the existing generic limits.
+Legacy owned-score/solver test fixtures handle the new enum variant explicitly.
+
+Four original integration methods: three support/solver_incomplete_handoff_cases.rs
+methods included by solver.rs cover all six paths, score/step/move-zero producer
+limits, zero local budgets, event-before-error, absent local factory/callback work,
+plain/event parity, default partials, shared budgets/time/callback cancellation,
+repeated construction and exact resumption/indices. One solver_custom.rs method
+covers repeated partial custom producers and zero-work exact producers across all
+six paths. A solver_observation_tests.rs controlled-clock method proves that init
+callback elapsed time wins over strict rejection. A public policy doctest was added.
+Focused tests, including the existing optional-list source case, pass.
+
+The full remaining source initialization method is adapted in solver_manager_cases.rs.
+Two required entities/two values start cleared, with the TestdataConstraintProvider
+penalty of one per assigned entity. CH step one leaves one assigned value, followed
+by local search under Error. Actual managed initialization publishes first; a blocked
+consumer proves failed-job wait waits for delivery. The typed root error is checked
+as IncompleteLocalSearch(phase1), with the source initialized-solution text and no
+further source. Source called=true, isInitialized=false and CH0 assertions are all
+preserved; extras check one assignment, structural -1/ordinary -1, no final callback
+and no callback failures. Provenance adds one method and three test-fixture records
+(TestdataSolution generator, TestdataEntity metadata, TestdataConstraintProvider);
+notices now count sixteen manager methods. Existing attributed event helper reused.
+No production implementation was inspected. All nine source initialization-event
+methods now have adaptations; broad manager/live-change behavior remains incomplete.
+
+Work logs use work/incomplete-handoff-*. Full gate/release, comparison freshness and
+browser verification still need final recording before commit. Full goal stays active.
+
+Next substantive work evidence (tests/public documentation only): pending
+SolverManagerTest.addProblemChange, addProblemChangeToNonExistingProblem_failsFast
+and addProblemChangeToWaitingSolver require a real change queue, including queued
+jobs. The daemon test adds a fifth value to an initial four and waits on the change
+receipt before reading the consumer's updated solution; the waiting-job test queues
+the same change while another job blocks its only worker, then awaits a final
+consumer containing the added fact. Unknown ID 999 fails fast and identifies it.
+Public responding-to-change/real-time-planning.adoc says the future completes when
+a user consumer accepts a best solution containing the change, not merely when the
+change is applied. The solver stops, applies changes to adjusted retained best,
+re-runs phases and resets normal termination, while explicit terminateEarly stays
+latched. Daemon mode waits without consuming CPU after normal termination and wakes
+for changes; explicit cancellation exits. Mutable fact updates require isolated
+owned data rather than mutation through existing scorer captures. Current opaque
+FnOnce managed jobs and immutable model/scoring sessions do not supply this yet.
+Do not award change-method credit for just a queue or manually published fabricated
+snapshot. Native revisions/receipt delivery, warm restart and cancellation need
+independent deterministic evidence before adapting these methods.
+
+Final verification: bash scripts/check.sh passes 1,246 Rust tests (594 adapted,
+577 original integration, 75 unit), 57 doctests and 95 Python tests. Release
+all-target tests pass the same 1,246 cases; live_initialization delivers all four
+events and proves all four optima. All nine differential/performance datasets were
+refreshed successfully and are current. Report verification succeeds, and the live
+freshness endpoint matches its digest. Coverage is 594/4,855 (12.23%), 3,979 pending,
+282 excluded, no failed/unverified; lifecycle is 36/379 (9.50%). Upstream unchanged.
+
+The existing dashboard server remained live and was reused. Browser checks at
+1280x900 and 390x844 show correct counts, 23 benchmark cards, no horizontal overflow,
+stale/error messages or browser errors. Lifecycle filtering now shows all nine
+firstInitializedSolutionConsumer methods Passed. Browser session closed; server
+retained. No frontend design changes were made.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.009/3.753, exact 8
+0.136/6.027; Great Deluge 32 2.408/7.348, 96 13.768/14.757; stream tabu 96
+171.616/26.204 (equal [-44,-484]). List two-opt 16 0.302/8.531, 32 0.843/10.807
+retain known quality differences. All 128 heuristic and 64 stream validation cases
+still have equal scores; list validation remains 192 valid/189 equal. Great Deluge
+retains 275/276 Java agreement and the explicit ratio-boundary difference. These
+workloads use default ReturnPartial and do not benchmark strict-error delivery;
+shared-machine samples establish no broad performance improvement/regression.
