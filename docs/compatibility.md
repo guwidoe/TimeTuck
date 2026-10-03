@@ -141,7 +141,7 @@ Eight additional average methods preserve empty, insertion, duplicate, replaceme
 and removal results across four tuple arities. Native nullable floating results
 use Option<f64>. Separate original public-API comparisons check exact result bits
 and operation-specific overflow behavior; they grant no extra upstream credit.
-Decimal score families remain pending.
+Decimal score families are described in the subsequent increments below.
 
 Sixteen duration sum/average methods preserve all exact nanosecond, empty,
 duplicate, replacement and removal assertions across four tuple arities.
@@ -394,8 +394,18 @@ Sixty decimal score methods now have complete native adaptations across Simple,
 HardSoft and HardMediumSoft. Literal multiply/divide factors map to exact Decimal
 inputs, tested integral powers to u32, and raw constructors to from_parts. All
 assertions are retained, with numeric Rust equality/hash checks and native ZERO.
-Bendable decimal scores remain pending; both decimal gradient methods now have
+Both decimal gradient methods now have
 complete adaptations preserving the original zero tolerances and split weights.
 Original generated comparisons separately check coefficients/scales, text, ordering,
 feasibility and arithmetic against Community public APIs and independent Python
 Fraction calculations. See score-contract.md for input-scope and rounding limits.
+
+
+All 26 BendableBigDecimalScoreTest methods now have complete native adaptations.
+Const-generic hard/soft dimensions replace Java score definitions and parsing checks
+those dimensions. The independent generator adds 4,780 cases across five shapes
+(seed 20261214), including no hard levels, no soft levels and a completely empty
+shape. Combined with the unchanged fixed-family corpus: 8,170 comparisons and
+225 expected errors. Source-method credit remains separate from these original
+checks. Native factors/powers retain the fixed-family input limits; no decimal
+performance or general Java floating-input parity claim. See score-contract.md.

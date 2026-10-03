@@ -28,6 +28,13 @@ public class DecimalScoreOracle {
  }
  @SuppressWarnings("rawtypes")
  static Score parse(String type,String text) {
+  if(type.startsWith("bendable_")) {
+   String[] dimensions=type.split("_");
+   var score=BendableBigDecimalScore.parseScore(text);
+   if(score.hardLevelsSize()!=Integer.parseInt(dimensions[1]) || score.softLevelsSize()!=Integer.parseInt(dimensions[2]))
+    throw new IllegalArgumentException("dimensions");
+   return score;
+  }
   return switch(type) {case "simple" -> SimpleBigDecimalScore.parseScore(text);
    case "hard_soft" -> HardSoftBigDecimalScore.parseScore(text);
    case "hard_medium_soft" -> HardMediumSoftBigDecimalScore.parseScore(text);

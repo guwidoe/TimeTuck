@@ -16,7 +16,7 @@ class DecimalReferenceTests(unittest.TestCase):
     def test_generator_is_deterministic_and_errors_are_explicit(self):
         cases=generate()
         self.assertEqual(cases,generate())
-        self.assertEqual(len(cases),3390)
+        self.assertEqual(len(cases),8170)
         for c in cases:
             self.assertEqual(expected(c)=='ERROR',c.get('expect_error',False),c)
 
@@ -25,3 +25,12 @@ class DecimalReferenceTests(unittest.TestCase):
         self.assertTrue(result_matches({'expect_error':True},['ERROR']*3))
         self.assertFalse(result_matches({'expect_error':True},['ok']*3))
         self.assertFalse(result_matches({},['one','one','two']))
+
+    def test_bendable_preserves_scales_and_empty_shapes(self):
+        cases = [('bendable_1_2','neg','[1E+2]hard/[0.00/-1.20]soft','', '0|[-1E+2]hard/[0.00/1.20]soft|[-1E+2]hard/[0.00/1.20]soft|false|-1@-2,0@2,120@2'),
+                 ('bendable_0_0','div','-2structural/[]hard/[]soft','0','0|[]hard/[]soft|0|true|'),
+                 ('bendable_2_0','parse','[1/-0.01]hard/[]soft','','0|[1/-0.01]hard/[]soft|[1/-0.01]hard|false|1@0,-1@2'),
+                 ('bendable_1_2','parse','[0.00]hard/[0.0/0E+2]soft','','0|[0.00]hard/[0.0/0E+2]soft|0|true|0@2,0@1,0@-2'),
+                 ('bendable_0_0','parse','[0]hard/[]soft','','ERROR')]
+        for kind,op,a,b,result in cases:
+            self.assertEqual(expected(dict(type=kind,operation=op,a=a,b=b)),result)

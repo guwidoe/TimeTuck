@@ -11,11 +11,12 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 
 - Score levels support i64 and Decimal through ScoreLevel, including decimal
   progress and annealing estimates. SimpleDecimalScore, HardSoftDecimalScore and
-  HardMediumSoftDecimalScore now implement fixed decimal families; Bendable remains pending.
+  HardMediumSoftDecimalScore implement fixed decimal families; BendableDecimalScore<H,S>
+  adds multiple hard/soft levels and empty groups.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 543 fully adapted source test methods (134 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
+- 569 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -75,7 +76,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 426 original integration regression methods, forty-nine original unit tests, and forty public API documentation tests.
+- 432 original integration regression methods, forty-nine original unit tests, and forty-two public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -196,8 +197,9 @@ initialization-score assumptions. No production implementation has been ported.
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
    Scoped graph-example callbacks are not runtime benchmarks.
-5. Extend score coverage to exact decimal families, inspecting tests
-   and public documentation only and preserving all test provenance.
+5. Extend remaining score/API and lifecycle coverage from tests and public
+   documentation only; fixed and Bendable decimal families now have adaptations.
+   Keep generated arithmetic cases separate from upstream method coverage.
 
 Run `bash scripts/check.sh` after Rust changes. It records all-target results and
 regenerates coverage if the submodule is present. Java comparisons and benchmarks
@@ -2834,3 +2836,64 @@ stream results remain infeasible [-44,-484] after 50 steps. List two-opt 16-cust
 Rust [0,-1250]/Java [0,-1254] and Rust [0,-1964]/Java [0,-2070]. List construction
 32-customer scores remain Rust [0,-1080]/Java [0,-1062]. Timings still use integer
 scores and do not establish decimal performance or statistically significant change.
+
+
+## Bendable decimal score families — latest increment
+
+Added BendableDecimalScore<H,S> with owned Decimal arrays, numeric Eq/Ord/Hash,
+Score/AdditiveScore, const dimensions, all-hard-level feasibility, checked indexes,
+full/short formatting and exact arithmetic. Unlike fixed decimal families, zero
+scales survive construction and arithmetic; negation preserves negative scales.
+All arithmetic clears structural state. Empty dimensions are supported, including
+successful zero division for (0,0), which performs no level operations. Read
+score-contract.md for scale, factor, structural and resource-limit details.
+
+Only pinned Community tests and public API signatures/execution were used. Original
+ignored work/BendableDecimalProbe.java and work/bendable-decimal-probes.txt retain
+observations. No production implementation source was read or ported.
+
+scripts/adapt_bendable_decimal_tests.py adapts all 26 BendableBigDecimalScoreTest
+methods with provenance/notices. Native dimensions replace definitions; exact
+Decimal factors and u32 powers preserve tested literals. Source helpers for
+feasibility/equality/hash/order remain represented in native assertions.
+Five original bendable_decimal_regression methods cover scale/empty/error/hash
+boundaries, multi-hard-level feasibility/history/annealing and exact fractional
+ordering. One additional owned_scores test compares 2,160 configurations with
+integer Bendable scores across all six solver backends, five acceptance policies,
+budgets, initialization states, mixed orders and scales -1000,3,1000.
+
+Extended the existing Java/Rust/Python decimal comparison (nested in differential,
+not a tenth report section). The fixed-family corpus remains 3,390 cases at seed
+20261212; 4,780 new cases at seed 20261214 cover shapes (1,2),(2,3),(0,0),(0,2),(2,0).
+The total is 8,170 cases with 225 explicit expected errors. Java checks dimensions
+through public accessors; Python independently uses Fraction arithmetic and
+scale-aware formatting. The dashboard evidence row now includes Bendable scope.
+No decimal timing/general-f64-input claim; generated cases do not add method credit.
+
+Next work: remaining solver orchestration/lifecycle (shared stagnation and exact
+phases, live problem changes/manager semantics), remaining stream operators and
+upstream behavioral adaptations. Do not mistake complete decimal score test
+classes for complete score subsystem or whole-solver parity. Native API/ABI and
+floating factor differences remain documented.
+
+Verification for this increment: bash scripts/check.sh passes 1,050 Rust tests
+(569 adapted, 432 original integration, 49 unit), 42 doctests and 87 Python tests.
+All 1,050 release tests pass. Coverage is 569/4,855 (11.72%), pending 4,004,
+excluded 282, failed/unverified zero. Score APIs: 160/230 (69.57%). All nine
+correctness/performance sections were regenerated and are current; the live
+/api/freshness verification_digest matches the report. Logs use
+work/bendable-decimal-*.log. The rewrite remains active and incomplete.
+
+Browser verification at 1280x900 and 390x844 confirms overall coverage, all 19
+benchmark cards, the 8,170-case decimal evidence and Bendable scope. Selecting
+score APIs and filtering BendableBigDecimalScoreTest shows exactly 26 passed
+methods. No page errors, visible alerts or horizontal overflow; browser closed.
+
+Latest warmed Rust/Java median ms: exact6 0.013/5.049, exact8 0.161/6.271;
+stream hill32 59.143/18.126, hill96 232.292/37.930, tabu32 67.845/14.233,
+tabu96 192.042/45.318. Both 96-variable stream scores remain [-44,-484],
+infeasible under the 50-step cap. List two-opt16 0.402/11.358, two-opt32
+1.138/14.382, with Rust/Java scores [0,-1250]/[0,-1254] and
+[0,-1964]/[0,-2070]. Construction32 retains [0,-1080]/[0,-1062]. Quality gaps
+and observed timing ranges remain explicit; these workloads use integer scores
+and do not establish decimal performance or statistically significant change.

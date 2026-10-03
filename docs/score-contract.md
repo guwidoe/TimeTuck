@@ -58,7 +58,7 @@ This is selected behavioral compatibility, not all possible input compatibility.
 Unicode numeric parsing is not promised. General fractional powers may differ
 across Rust's and the JVM's math libraries at rounding boundaries; the differential
 random matrix limits powers to integer exponents (the adapted square-root cases
-also pass). Exact decimal scores remain pending. Initialization/domain assignment
+also pass). Decimal score contracts appear below. Initialization/domain assignment
 is separate from structural score; see `planning-contract.md`.
 
 
@@ -187,8 +187,8 @@ compares 2,160 decimal solver configurations with scaled integer equivalents acr
 all six model/backend entry points, five acceptance policies, budgets, construction
 orders and starts. It uses scales -1000, 3 and 1000 and independently rescales
 returned levels with BigInt arithmetic. A doctest demonstrates tiny-scale progress.
-These original numeric-level checks add no upstream method credit. The fixed
-decimal families below now have their own adaptations; Bendable remains pending.
+These original numeric-level checks add no upstream method credit. The decimal
+families below now have their own adaptations, including Bendable.
 
 
 ## Fixed decimal score families
@@ -252,8 +252,8 @@ structural state, feasibility, ordering and equality. Selected finite Java facto
 Thirty malformed decimal cases and zero-divisor cases must fail explicitly;
 unexpected matching errors cannot pass. Results appear separately in the dashboard
 under score comparisons and add no source-method credit. Timings remain integer
-workloads. Bendable decimal scores, general f64 input behavior and decimal-specific
-performance comparisons are not established by this increment.
+workloads. General f64 input behavior and decimal-specific performance comparisons
+are not established by this increment. Bendable coverage is described below.
 
 
 Both decimal gradient methods in BestScoreTerminationTest now preserve all six
@@ -263,3 +263,48 @@ score definitions and termination construction. The numeric estimate folds a
 negative decimal exponent into a finite denominator to avoid the extra rounding
 of (6/1)*0.1 versus 6/10; exponent-separated fallback still handles extreme values.
 This is two additional upstream method adaptations, not whole lifecycle parity.
+
+
+## Bendable decimal score families
+
+BendableDecimalScore<H,S> is an owned, const-generic score with H hard and S soft
+Decimal levels. Dimensions are part of the type; either or both groups may be
+empty. Equality/order/hash use exact numeric values across scales and structural
+state first. Feasibility requires nonnegative structural state and every hard
+level; a positive earlier hard level cannot compensate for a negative later one.
+Score/AdditiveScore expose cloned ordinary levels and hard-only comparison.
+Borrowed hard_levels/soft_levels/levels/level and of_hard/of_soft provide native
+access; invalid indexes return None. No mutable-array or JVM ABI parity is claimed.
+
+Unlike the fixed decimal families, constructors and arithmetic do not normalize
+all-zero scores to ZERO. Addition/subtraction align each pair to its larger scale. Negation and abs
+preserve all scales, including negative scales. Multiply/divide/power floor each
+level at max(input scale,0), using the same exact Decimal factors/u32 powers and
+resource limits as the fixed families. All arithmetic clears structural state.
+The completely empty shape performs no division, so dividing it by zero succeeds;
+any nonempty shape reports DivisionByZero. These distinctions were checked through
+the pinned Community public APIs without reading production implementations.
+
+Full text uses [hard/levels]hard/[soft/levels]soft with [] for empty groups. Parsing
+checks both dimensions. Short text omits wholly zero groups and retains all slots
+and scales inside other groups. Structural prefix behavior matches the fixed
+families, including positive structural state not round-tripping through full text.
+
+scripts/adapt_bendable_decimal_tests.py adapts all 26 pinned source methods and
+records each in provenance. Six additional original integration methods check
+scale-sensitive representations, numeric hash boundaries, empty shapes, arithmetic,
+index/shape errors, multiple-hard-level feasibility/history/annealing and exact
+fractional ordering. One of these runs 2,160 configurations against integer
+Bendable scores across all six solver backends, two initialization states, two
+mixed construction orders, six budgets, five acceptance policies and three scales
+(-1000,3,1000), comparing retained solutions, counters and phase/termination reports.
+
+The independent Java/Rust/Python comparison adds 4,780 cases at seed 20261214 for
+shapes (1,2), (2,3), (0,0), (0,2), (2,0), preserving the 3,390 fixed-family cases.
+All 8,170 compare exact coefficients/scales, formatting, numeric ordering/equality,
+feasibility, structural state and arithmetic; 225 expected errors must be errors
+in all three implementations. Java parsing explicitly checks dimensions through
+public accessors. Independent Python Fraction arithmetic distinguishes fixed and
+Bendable scale rules. Factors remain the seven selected finite literals and powers
+0..4. Generated cases add no upstream test-method credit; benchmarks still use
+integer scores and do not measure decimal performance.

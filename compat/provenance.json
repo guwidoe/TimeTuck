@@ -8145,6 +8145,396 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all six decimal start/target/current observations, literal scales, split weights, exact zero offsets and the original 0.00001 tolerance. Native ScoreTargetProgress replaces mocked score definition/termination construction; no Java lifecycle parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.getHardOrSoftScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "getHardOrSoftScore",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "get_hard_or_soft_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.feasibleHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "feasibleHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "feasible_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.addHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "addHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "add_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.subtractHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "subtractHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "subtract_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.divideHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "divideHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "divide_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.negateHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "negateHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "negate_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.absHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "absHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "abs_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.equalsAndHashCodeHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "equalsAndHashCodeHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "equals_and_hash_code_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.compareToHSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "compareToHSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "compare_to_h_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.feasibleHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "feasibleHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "feasible_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.addHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "addHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "add_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.subtractHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "subtractHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "subtract_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.divideHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "divideHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "divide_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.multiplyClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "multiplyClampsNegativeScale",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "multiply_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.divideClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "divideClampsNegativeScale",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "divide_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.powerClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "powerClampsNegativeScale",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "power_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.negateHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "negateHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "negate_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.absHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "absHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "abs_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.equalsAndHashCodeHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "equalsAndHashCodeHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "equals_and_hash_code_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "BendableBigDecimalScoreTest.compareToHHSSS",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/BendableBigDecimalScoreTest.java",
+      "upstream_test": "compareToHHSSS",
+      "local_path": "crates/solver/tests/bendable_decimal_score.rs",
+      "local_test": "compare_to_h_h_s_s_s",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
     }
   ],
   "fixtures": [

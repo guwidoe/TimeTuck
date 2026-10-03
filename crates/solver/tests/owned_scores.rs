@@ -567,3 +567,103 @@ fn every_solver_backend_accepts_fractional_and_extreme_magnitude_score_levels() 
         }
     }
 }
+
+#[test]
+fn every_solver_backend_accepts_bendable_decimal_levels() {
+    type DecimalScore = BendableDecimalScore<2, 2>;
+    type IntegerScore = BendableScore<2, 2>;
+    let make_integer = |h, s| IntegerScore::new([h, h], [s, s]);
+    for scale in [-1000, 3, 1000] {
+        let make = |h: i64, s: i64| {
+            DecimalScore::new(
+                std::array::from_fn(|_| Decimal::new(h.into(), scale)),
+                std::array::from_fn(|_| Decimal::new(s.into(), scale)),
+            )
+        };
+        let normalize = |s: &DecimalScore| {
+            (
+                s.structural(),
+                s.ordinary_levels()
+                    .map(|v| {
+                        let difference = v.scale() - scale;
+                        let ten = BigInt::from(10).pow(difference.unsigned_abs());
+                        let value = if difference >= 0 {
+                            v.coefficient() / ten
+                        } else {
+                            v.coefficient() * ten
+                        };
+                        value.to_string().parse::<i64>().unwrap()
+                    })
+                    .collect(),
+            )
+        };
+        for mode in 0..6 {
+            for initialized in [false, true] {
+                for budget in [0, 1, 2, 5, 12, 40] {
+                    for order in [
+                        MixedConstructionOrder::BasicThenLists,
+                        MixedConstructionOrder::ListsThenBasic,
+                    ] {
+                        for (decimal, integer) in
+                            policies(make).into_iter().zip(policies(make_integer))
+                        {
+                            let plan = |acceptance, goal| SolverConfig {
+                                limits: SolverLimits {
+                                    max_evaluations: budget,
+                                    best_score_limit: Some(goal),
+                                    ..Default::default()
+                                },
+                                local_search: vec![
+                                    LocalSearchConfig {
+                                        acceptance,
+                                        max_steps: 4,
+                                        assert_scores: true,
+                                        ..Default::default()
+                                    };
+                                    2
+                                ],
+                                ..Default::default()
+                            };
+                            let decimal_plan = SolverConfig {
+                                limits: SolverLimits {
+                                    max_evaluations: budget,
+                                    best_score_limit: Some(make(0, 5)),
+                                    ..Default::default()
+                                },
+                                local_search: vec![
+                                    LocalSearchConfig {
+                                        acceptance: decimal,
+                                        max_steps: 4,
+                                        assert_scores: true,
+                                        ..Default::default()
+                                    };
+                                    2
+                                ],
+                                ..Default::default()
+                            };
+                            assert_eq!(
+                                run(
+                                    mode,
+                                    initialized,
+                                    decimal_plan,
+                                    |n| make(0, n),
+                                    order,
+                                    normalize
+                                ),
+                                run(
+                                    mode,
+                                    initialized,
+                                    plan(integer, make_integer(0, 5)),
+                                    |n| make_integer(0, n),
+                                    order,
+                                    raw
+                                ),
+                                "mode {mode}, initialized {initialized}, budget {budget}, scale {scale}"
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

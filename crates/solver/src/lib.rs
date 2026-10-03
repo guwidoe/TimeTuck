@@ -55,6 +55,8 @@ pub use annealing::SimulatedAnnealing;
 
 pub mod bendable;
 pub use bendable::BendableScore;
+mod bendable_decimal;
+pub use bendable_decimal::BendableDecimalScore;
 
 pub mod list;
 pub use list::{

@@ -83,9 +83,9 @@ assignment, unassignment, swap and replacement moves. See
 
 The common score interface accepts owned `Clone` values as well as the built-in
 `Copy` integer scores. Numeric levels support `i64` and exact `Decimal` values for
-custom scores. `SimpleDecimalScore`, `HardSoftDecimalScore` and
-`HardMediumSoftDecimalScore` provide numeric equality/hash, scale-preserving text
-and exact decimal arithmetic. Bendable decimal scores remain pending. See
+custom scores. `SimpleDecimalScore`, `HardSoftDecimalScore`,
+`HardMediumSoftDecimalScore` and `BendableDecimalScore<H,S>` provide numeric
+equality/hash, scale-preserving text and exact decimal arithmetic. See
 `docs/score-contract.md`.
 
 ## Upstream test reference

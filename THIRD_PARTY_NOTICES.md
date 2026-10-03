@@ -52,6 +52,11 @@ The following test files adapt the pinned Community tests:
   `HardMediumSoftBigDecimalScoreTest.java` classes. All assertions use native
   Decimal literals/factors, integer powers, constructors, operators and Rust
   equality/hash checks; full method mappings are in `compat/provenance.json`.
+- `crates/solver/tests/bendable_decimal_score.rs` from
+  `BendableBigDecimalScoreTest.java`. All 26 methods retain their assertions;
+  const-generic native dimensions replace score definitions, exact Decimal
+  factors and u32 powers replace tested double literals, and Rust Eq/Ord/Hash
+  helpers replace Java assertion plumbing. See `compat/provenance.json`.
 - `crates/solver/tests/hard_soft_score.rs` from `HardSoftScoreTest.java`.
 - `crates/solver/tests/hard_medium_soft_score.rs` from `HardMediumSoftScoreTest.java`.
 - `crates/solver/tests/bendable_score.rs` from `BendableScoreTest.java`, including

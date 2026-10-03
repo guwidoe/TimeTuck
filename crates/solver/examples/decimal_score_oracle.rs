@@ -30,8 +30,7 @@ fn run(line: &str) -> Option<String> {
                 _ => return None,
             };
             let levels = r
-                .levels()
-                .iter()
+                .ordinary_levels()
                 .map(|d| format!("{}@{}", d.coefficient(), d.scale()))
                 .collect::<Vec<_>>()
                 .join(",");
@@ -49,6 +48,11 @@ fn run(line: &str) -> Option<String> {
         "simple" => score!(SimpleDecimalScore),
         "hard_soft" => score!(HardSoftDecimalScore),
         "hard_medium_soft" => score!(HardMediumSoftDecimalScore),
+        "bendable_1_2" => score!(BendableDecimalScore<1, 2>),
+        "bendable_2_3" => score!(BendableDecimalScore<2, 3>),
+        "bendable_0_0" => score!(BendableDecimalScore<0, 0>),
+        "bendable_0_2" => score!(BendableDecimalScore<0, 2>),
+        "bendable_2_0" => score!(BendableDecimalScore<2, 0>),
         _ => None,
     }
 }
