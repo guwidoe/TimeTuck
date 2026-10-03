@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 465 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 18 termination), recorded in
+- 473 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 177 stream + 18 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -72,7 +72,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 392 original integration regression methods, forty-two original unit tests, and thirty-three public API documentation tests.
+- 398 original integration regression methods, forty-two original unit tests, and thirty-five public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -139,7 +139,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 465 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 473 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -2433,3 +2433,63 @@ and 390x844 verified 9.58% overall coverage, all 18 passed lifecycle methods
 (including the two elapsed-time source methods), six list/four stream cards,
 refreshed timing text, no visible stale/error messages, no page errors and no
 horizontal overflow. Browser session closed; upstream pin and submodule unchanged.
+
+
+## Conditional aggregation — latest increment
+
+ConditionalCollector<C> captures selected Some values and rejected None inputs.
+The owning CollectNode retains every input in group membership; rejected-only
+groups emit C's empty result. Graph helpers group_collect_conditionally and
+collect_conditionally evaluate the key/predicate once per put and map values only
+when selected. Removals use captured values without callbacks. Selected nullable
+payloads are represented by Some(None), distinct from rejection. Active-to-active
+replacement delegates C::replace; other transitions insert/remove. Delegate state
+is isolated before installing changes, including panic/error paths. This uses the
+existing persistent collector/transaction engine, not a new rollback mechanism.
+
+Eight conditionally/conditionallyUpdate methods across uni/bi/tri/quad upstream
+collector tests now have complete adaptations. The native tests preserve all
+empty, insertion, duplicate, retraction and replacement assertions, source-specific
+min/max choices and zero-valued tuple suffixes. They use captured Options and stable
+IDs instead of Java retractors/slots. Provenance and notices are recorded; no
+Timefold production implementation was inspected or copied.
+
+Six original integration methods additionally check optional payloads, missing
+occurrences, delegated average replacement/overflow behavior, callback laziness,
+group presence, foreign ports, failed transactions, composition, 6,000 seeded graph
+edits (20261203) against independent multisets, and basic construction/local search
+with diagnostic rebuilds and saved candidates. Two public API doctests show the
+new collector and global graph helper.
+
+ConditionalCollectorOracle.java and examples/conditional_oracle.rs compare
+34 original cases / 2,139 states with independent Python scores (seed 20261204).
+They cover global selected counts, keyed sums, rejected-only group/global presence,
+replacements, key transfers, deletion and trial undo. Java uses Community
+SolutionManager.update for each observation; Rust updates persistent graph state.
+This establishes scores, not Java match IDs, notification traces or performance.
+The new checks run inside differential_streams.py, are saved under
+conditional_collector_checks, and appear separately in the dashboard's comparison
+details. Two Python regressions validate reference boundary scores and rejection of
+missing/extra/corrupt output. Original cases earn no upstream method credit.
+
+Development checks pass 913 Rust methods (473 adapted,398 original integration,
+42 unit), 35 doctests and 78 Python tests. Coverage is 473/4,855 (9.74%), with
+4,100 pending, 282 excluded, no failed or unverified methods. Constraint streams
+are 283/1,301 (21.75%). Logs use work/conditional-*.log. The full solver rewrite
+remains active and incomplete; see the earlier remaining-work list.
+
+Release also passes all 913 Rust tests. All nine evidence sections are current;
+the existing successful stream differential was retained after verifying its exact
+source digest, while the other comparisons/benchmarks were refreshed. Latest warmed
+stream Rust/Java medians in ms: Hill climbing · 32 variables: 43.780/12.525; Hill climbing · 96 variables: 163.241/24.892; Tabu · 32 variables: 43.692/16.804; Tabu · 96 variables: 162.558/29.080.
+Scores remain equal; 96-variable stream runs are still infeasible [-44,-484] at
+50 steps. List comparisons retain 192 valid / 189 equal scores. Two-opt Rust/Java
+medians in ms: Two-opt · 16 customers: 0.308/9.569; Two-opt · 32 customers: 0.900/11.348. Existing list construction/two-opt quality
+gaps remain visible; these workloads do not measure the new conditional collector.
+
+The existing server on port 8765 was reused. Browser QA at 1280x900 and 390x844
+confirmed overall 9.74%, streams 21.75%, all eight passed conditional methods in the
+search/filter view, the distinct 34-case/2,139-state comparison detail, six list and
+four stream timing cards, no visible stale/error message, no page errors and no
+horizontal overflow. The live report verification digest matches, the browser is
+closed, and the upstream checkout remains unchanged at the pinned commit.

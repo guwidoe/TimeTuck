@@ -348,3 +348,12 @@ The shared timer includes graph preparation and spans construction and improveme
 phases; it does not establish Java timer/lifecycle equivalence or hard preemption.
 All fourteen new regressions are original and add no upstream method coverage.
 See `solver-contract.md` and `incremental-search-contract.md` for scope and precedence.
+
+
+Eight conditional-collector methods now preserve all empty, insertion, duplicate,
+retraction and replacement assertions across uni/bi/tri/quad inputs. Native captured
+Option values and stable IDs replace Java predicate/retractor/update plumbing,
+using the original min/max projections and zero-valued tuple suffixes. Six original
+regressions and 34 original Community/Rust/Python stream comparisons separately
+check group retention, changes, failures, rollback and solver integration; they add
+no method credit. See `constraint-stream-contract.md` for scope and limitations.

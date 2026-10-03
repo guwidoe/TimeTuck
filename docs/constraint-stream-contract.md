@@ -983,3 +983,49 @@ benchmarks. Neither comparison establishes a general solver speedup or parity.
 Raw samples, frozen inputs, before binaries, profile outputs and the local runner
 remain in work/profiling/. The profiler was extracted there without changing
 system packages. No original Timefold implementation was inspected or translated.
+
+
+## Conditional collection
+
+`ConditionalCollector<C>` delegates selected `Some(value)` occurrences to any
+ReversibleCollector and captures rejected inputs as None. Rejected inputs remain
+members of their CollectNode group. A nonempty group whose inputs all fail the
+predicate therefore emits the delegate's empty result; only removing the last
+input retracts the group. `Some(None)` can represent a selected nullable payload
+when C accepts Option values, separately from a rejected outer None.
+
+`group_collect_conditionally(input, key, predicate, mapping)` evaluates the key and
+predicate on each put, invoking the value mapping only when selected. The global
+`collect_conditionally` counterpart uses a unit group key. Decisions and mapped
+values are captured by input ID, so retraction and rollback do not reevaluate
+callbacks. Replacements can cross selection or group boundaries. Active-to-active
+same-key replacement delegates C::replace, retaining specialized arithmetic
+semantics such as AverageCollector's checked replacement difference. Other
+transitions insert/remove one captured value. The wrapper counts rejected
+occurrences to reject missing None removals, and isolates delegate mutations before
+installation. It inherits C's requirements for independent clones and immutable
+outputs; it cannot undo arbitrary shared interior state in custom collectors.
+
+This uses the existing aggregation/transaction engine. Group counts include all
+inputs, while the delegate counts only selected ones. Conditional collectors can
+be nested in PairCollector or wrap a pair; filtering a stream before grouping
+has different group-presence semantics. No conditional benchmark is claimed.
+
+Eight adapted conditionally/conditionallyUpdate methods across all four arities
+preserve every empty, duplicate, insertion, retraction and replacement assertion.
+Native captured Options and stable IDs replace predicates/retractors/update slots;
+zero-valued trailing tuple fields and the source-specific min/max choice are
+preserved. Six original integration methods cover nullable selected values,
+missing occurrences, arithmetic failure and replacement delegation, callback
+laziness, captured removals, foreign ports, failed transactions, nested collectors,
+construction and bounded local search, plus 6,000 seeded graph edits with independent
+multiset summaries and commit/undo. Two public API doctests demonstrate the API.
+
+A separate original Community public-API comparison checks 34 cases / 2,139 states
+(seed 20261204) for selected global counts, keyed sums and global/group presence.
+Java SolutionManager.update recalculates each state; Rust updates incremental
+transactions; Python independently reconstructs scores from all source rows.
+Rejected-only groups, duplicate values, replacements, key transfers, removals and
+trial undo agree. No Java match-ID, incremental-notification or timing claim follows,
+and these original cases add no upstream method credit. The evidence is included
+in stream-differential.json and the dashboard's comparison details.

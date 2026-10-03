@@ -1014,6 +1014,67 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(input.node, out.node, false);
         Ok(out)
     }
+    /// Aggregate selected values while preserving groups containing rejected rows.
+    /// The key and predicate run once per put; value mapping runs only when true.
+    /// Removal uses captured decisions/values without invoking these callbacks.
+    /// A nonempty group with no selected values emits C's empty result.
+    pub fn group_collect_conditionally<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        K: Ord + Clone + 'static,
+        V: Clone + 'static,
+        C: ReversibleCollector<V> + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        key: impl Fn(&T) -> K + 'a,
+        predicate: impl Fn(&T) -> bool + 'a,
+        mapping: impl Fn(&T) -> V + 'a,
+    ) -> Result<StreamPort<K, (K, C::Output)>, GraphError>
+    where
+        C::Output: 'static,
+    {
+        self.group_collect_with::<I, T, K, Option<V>, crate::ConditionalCollector<C>>(
+            input,
+            move |row| (key(row), predicate(row).then(|| mapping(row))),
+        )
+    }
+    /// Global conditional aggregation: rejected inputs retain the global group.
+    /// Only removing every input retracts that group. Selected values alone feed C.
+    ///
+    /// ```
+    /// use timetuck::{CountCollector, SimpleScore, StreamGraphBuilder, TupleChange};
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let s = b.source::<usize, i64>();
+    /// let p = b.collect_conditionally::<_, _, _, CountCollector>(
+    ///     s.port(), |v| *v > 0, |_| ())?;
+    /// let c = b.score("selected", &p, |count| SimpleScore::new(*count as i64))?;
+    /// let mut g = b.build();
+    /// let mut tx = g.transaction();
+    /// tx.apply(&s, TupleChange::put(0, -1))?;
+    /// tx.commit()?;
+    /// assert_eq!(g.constraint_matches(&c)?.len(), 1); // Retained with count zero.
+    /// assert_eq!(g.score(), SimpleScore::ZERO);
+    /// # Ok::<(), timetuck::GraphError>(())
+    /// ```
+    pub fn collect_conditionally<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        V: Clone + 'static,
+        C: ReversibleCollector<V> + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        predicate: impl Fn(&T) -> bool + 'a,
+        mapping: impl Fn(&T) -> V + 'a,
+    ) -> Result<StreamPort<(), C::Output>, GraphError>
+    where
+        C::Output: 'static,
+    {
+        let grouped =
+            self.group_collect_conditionally::<I, T, (), V, C>(input, |_| (), predicate, mapping)?;
+        self.map(&grouped, |(_, result)| result.clone())
+    }
     /// Global aggregation. Empty input emits no row, matching Community groupBy;
     /// the standalone collector can still produce its empty result with finish().
     pub fn collect<
