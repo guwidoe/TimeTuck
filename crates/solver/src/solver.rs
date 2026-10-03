@@ -437,6 +437,7 @@ where
     // Validate the entire plan before scoring, including phases that might never run.
     for (index, token) in std::iter::once(construction.cancellation)
         .chain(local.iter().map(|c| match c {
+            SolverPhase::Construction(c) => c.cancellation,
             SolverPhase::LocalSearch(c) => c.cancellation,
             SolverPhase::Exact(c) => c.cancellation,
         }))
@@ -486,8 +487,14 @@ where
                 break;
             }
         }
-        let (request, global_scores, global_moves) = if index == 0 {
-            let mut c = construction;
+        let construction_request = if index == 0 {
+            Some(construction)
+        } else if let SolverPhase::Construction(c) = &local[index - 1] {
+            Some(*c)
+        } else {
+            None
+        };
+        let (request, global_scores, global_moves) = if let Some(mut c) = construction_request {
             let owned = (
                 remaining_scores <= c.max_evaluations,
                 remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
@@ -606,7 +613,12 @@ where
             _ if time.expired() => Some(SolverTermination::TimeLimit),
             _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
             _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
-            _ if !r.complete && !matches!(local.get(index), Some(SolverPhase::Exact(_))) => {
+            _ if !r.complete
+                && !matches!(
+                    local.get(index),
+                    Some(SolverPhase::Exact(_) | SolverPhase::Construction(_))
+                ) =>
+            {
                 Some(SolverTermination::IncompleteConstruction)
             }
             _ if r.complete
@@ -747,9 +759,15 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
                     observed.then_some(&mut notify),
                 )?,
                 PhaseRequest::Construction(c) => constructed!(if observed {
-                    greedy_construction_with_observer(p, n, c, &mut notify)
+                    greedy_construction_from_with_observer(
+                        p,
+                        n,
+                        a.unwrap_or_else(|| p.initial_assignment()),
+                        c,
+                        &mut notify,
+                    )
                 } else {
-                    greedy_construction(p, n, c)
+                    greedy_construction_from(p, n, a.unwrap_or_else(|| p.initial_assignment()), c)
                 }?),
                 PhaseRequest::LocalSearch(c) => {
                     improved!(if observed {
@@ -828,9 +846,20 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
                     observed.then_some(&mut notify),
                 )?,
                 PhaseRequest::Construction(c) => constructed!(if observed {
-                    greedy_list_construction_with_observer(p, n, c, &mut notify)
+                    greedy_list_construction_from_with_observer(
+                        p,
+                        n,
+                        a.unwrap_or_else(|| p.initial_assignment()),
+                        c,
+                        &mut notify,
+                    )
                 } else {
-                    greedy_list_construction(p, n, c)
+                    greedy_list_construction_from(
+                        p,
+                        n,
+                        a.unwrap_or_else(|| p.initial_assignment()),
+                        c,
+                    )
                 }?),
                 PhaseRequest::LocalSearch(c) => {
                     improved!(if observed {
@@ -911,22 +940,32 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     observed.then_some(&mut notify),
                 )?,
                 PhaseRequest::Construction(config) => constructed!(if observed {
-                    greedy_mixed_construction_with_observer(
+                    greedy_mixed_construction_from_with_observer(
                         p,
                         n,
+                        a.unwrap_or_else(|| p.initial_assignment()),
                         MixedConstructionConfig {
                             construction: config,
-                            ..c.construction
+                            ..if index == 0 {
+                                c.construction
+                            } else {
+                                c.phases[index - 1].construction()
+                            }
                         },
                         &mut notify,
                     )
                 } else {
-                    greedy_mixed_construction(
+                    greedy_mixed_construction_from(
                         p,
                         n,
+                        a.unwrap_or_else(|| p.initial_assignment()),
                         MixedConstructionConfig {
                             construction: config,
-                            ..c.construction
+                            ..if index == 0 {
+                                c.construction
+                            } else {
+                                c.phases[index - 1].construction()
+                            }
                         },
                     )
                 }?),
@@ -1018,9 +1057,22 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 }
                 PhaseRequest::Construction(c) => {
                     constructed!(if observed {
-                        greedy_stream_construction_with_observer(p, g, s, c, &mut notify)
+                        greedy_stream_construction_from_with_observer(
+                            p,
+                            g,
+                            s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
+                            c,
+                            &mut notify,
+                        )
                     } else {
-                        greedy_stream_construction(p, g, s, c)
+                        greedy_stream_construction_from(
+                            p,
+                            g,
+                            s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
+                            c,
+                        )
                     }?)
                 }
                 PhaseRequest::LocalSearch(c) => {
@@ -1109,9 +1161,22 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                 }
                 PhaseRequest::Construction(c) => {
                     constructed!(if observed {
-                        greedy_list_stream_construction_with_observer(p, g, s, c, &mut notify)
+                        greedy_list_stream_construction_from_with_observer(
+                            p,
+                            g,
+                            s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
+                            c,
+                            &mut notify,
+                        )
                     } else {
-                        greedy_list_stream_construction(p, g, s, c)
+                        greedy_list_stream_construction_from(
+                            p,
+                            g,
+                            s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
+                            c,
+                        )
                     }?)
                 }
                 PhaseRequest::LocalSearch(c) => improved!(if observed {
@@ -1212,24 +1277,34 @@ fn solve_mixed_stream_impl<
                 }
                 PhaseRequest::Construction(config) => {
                     constructed!(if observed {
-                        greedy_mixed_stream_construction_with_observer(
+                        greedy_mixed_stream_construction_from_with_observer(
                             p,
                             g,
                             s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
-                                ..c.construction
+                                ..if index == 0 {
+                                    c.construction
+                                } else {
+                                    c.phases[index - 1].construction()
+                                }
                             },
                             &mut notify,
                         )
                     } else {
-                        greedy_mixed_stream_construction(
+                        greedy_mixed_stream_construction_from(
                             p,
                             g,
                             s,
+                            a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
-                                ..c.construction
+                                ..if index == 0 {
+                                    c.construction
+                                } else {
+                                    c.phases[index - 1].construction()
+                                }
                             },
                         )
                     }?)

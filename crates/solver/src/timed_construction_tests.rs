@@ -65,6 +65,7 @@ fn run(
             return outcome!(
                 construction::construction_impl_with_clock(
                     &p,
+                    p.initial_assignment(),
                     config,
                     |a| ScoreDirector::new(&p, &n, a),
                     clock
@@ -84,6 +85,7 @@ fn run(
         return outcome!(
             construction::construction_impl_with_clock(
                 &p,
+                p.initial_assignment(),
                 config,
                 |a| StreamScoreDirector::new(&p, b.build(), s, a),
                 clock

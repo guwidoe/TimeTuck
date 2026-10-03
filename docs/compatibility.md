@@ -503,3 +503,12 @@ scores suppressed across phase boundaries. Original tests establish work/result
 parity, shared limits, cancellation, failure prefixes and managed delivery. This
 adds no source-method credit; Java producer IDs, first-initialized semantics and
 custom/repeated construction phase behavior remain unverified.
+
+
+Resumable construction APIs and repeated construction phases now work across all
+six native model/backend paths, preserving prior assignments and shared controls.
+Nine original integration regressions, one controlled-clock unit regression and
+a public doctest establish this native contract; they add no source-method credit.
+The pinned manager first-initialized tests remain pending: their helper records
+non-early-termination, and event boundaries/producer identity still need an explicit
+implementation. Custom phases and construction-free plans are not yet supported.

@@ -87,13 +87,34 @@ pub fn greedy_construction_with_observer<V: Eq + Clone, S: AdditiveScore>(
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<ConstructionResult<V, S>, ScoringError> {
+    greedy_construction_from_with_observer(
+        problem,
+        network,
+        problem.initial_assignment(),
+        config,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<ConstructionResult<V, S>, ScoringError> {
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
             actual: problem.variables().len(),
         });
     }
-    crate::construction::construction_impl(problem, config, |initial| {
+    problem.validate(&initial)?;
+    crate::construction::construction_impl(problem, initial, config, |initial| {
         ScoreDirector::new(problem, network, initial)
             .map(|director| Observed { director, observer })
     })
@@ -149,8 +170,34 @@ pub fn greedy_stream_construction_with_observer<
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+    greedy_stream_construction_from_with_observer(
+        problem,
+        graph,
+        source,
+        problem.initial_assignment(),
+        config,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_stream_construction_from_with_observer<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<ConstructionResult<V, S>, StreamScoringError> {
     crate::stream_scoring::validate_source(&graph, &source)?;
-    crate::construction::construction_impl(problem, config, |initial| {
+    problem.validate(&initial)?;
+    crate::construction::construction_impl(problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
             .map(|director| Observed { director, observer })
     })
@@ -249,7 +296,26 @@ pub fn greedy_list_construction_with_observer<V: Eq + Clone, S: AdditiveScore>(
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_list_construction_from_with_observer(
+        problem,
+        network,
+        problem.initial_assignment(),
+        config,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_list_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     network.validate(problem, &initial)?;
     crate::list_construction::construction_impl(problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
@@ -301,7 +367,31 @@ pub fn greedy_list_stream_construction_with_observer<
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_list_stream_construction_from_with_observer(
+        problem,
+        graph,
+        sources,
+        problem.initial_assignment(),
+        config,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_list_stream_construction_from_with_observer<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
     sources.validate(&graph)?;
     crate::list_construction::construction_impl(problem, initial, config, |initial| {
         ListStreamScoreDirector::new(problem, graph, sources, initial)
@@ -407,7 +497,30 @@ pub fn greedy_mixed_construction_with_observer<B: Eq + Clone, L: Eq + Clone, S: 
     settings: MixedConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_mixed_construction_from_with_observer(
+        problem,
+        network,
+        problem.initial_assignment(),
+        settings,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_mixed_construction_from_with_observer<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
     network.validate(problem, &initial)?;
     crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
         MixedScoreDirector::new(problem, network, initial)
@@ -466,7 +579,32 @@ pub fn greedy_mixed_stream_construction_with_observer<
     settings: MixedConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_mixed_stream_construction_from_with_observer(
+        problem,
+        graph,
+        sources,
+        problem.initial_assignment(),
+        settings,
+        observer,
+    )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+/// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
+pub fn greedy_mixed_stream_construction_from_with_observer<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
     sources.validate(&graph)?;
     crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
         MixedStreamScoreDirector::new(problem, graph, sources, initial)
@@ -534,6 +672,7 @@ mod tests {
         let count = Cell::new(0);
         let r = crate::construction::construction_impl_with_clock(
             &p,
+            p.initial_assignment(),
             ConstructionConfig {
                 max_time: Some(Duration::from_millis(5)),
                 ..Default::default()

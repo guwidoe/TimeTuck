@@ -52,6 +52,7 @@ fn exercise_scored<'a>(
                 PhaseRequest::Construction(c) => {
                     constructed!(crate::construction::construction_impl_with_clock(
                         &p,
+                        a.unwrap_or_else(|| p.initial_assignment()),
                         c,
                         |a| StreamScoreDirector::new(&p, b.build(), s, a),
                         clock
@@ -618,4 +619,49 @@ fn exact_improvements_reset_shared_step_stagnation_without_adding_steps() {
         control.stop(),
         Some(LocalSearchTermination::UnimprovedStepLimit)
     );
+}
+
+#[test]
+fn repeated_construction_shares_deadline_and_does_not_restart_stagnation() {
+    let construction = SolverPhase::Construction(ConstructionConfig::default());
+    let local = SolverPhase::LocalSearch(LocalSearchConfig {
+        max_steps: 0,
+        ..Default::default()
+    });
+    let mut c = SolverPlan {
+        phases: vec![construction.clone(), construction.clone(), local.clone()],
+        ..Default::default()
+    };
+    c.limits.max_unimproved_time = Some(ms(0));
+    let r = exercise_scored(c.clone(), 2, |v| v as i64);
+    assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+    assert_eq!(r.phases.len(), 4); // All three construction phases precede stagnation.
+    assert_eq!(r.work.evaluations, 4);
+    c.limits.max_unimproved_time = None;
+    c.limits.max_time = Some(ms(7));
+    let r = exercise_scored(c, 2, |v| v as i64);
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    assert_eq!(r.phases.len(), 3); // Third factory exceeds the shared deadline.
+    assert_eq!(r.work.evaluations, 3); // Zero remaining phase time permits initialization.
+    let r = exercise_scored(
+        SolverPlan {
+            limits: SolverLimits {
+                max_unimproved_time: Some(ms(2)),
+                ..Default::default()
+            },
+            phases: vec![
+                construction.clone(),
+                local,
+                construction.clone(),
+                construction,
+            ],
+            ..Default::default()
+        },
+        2,
+        |v| v as i64,
+    );
+    assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+    assert_eq!(r.phases.len(), 4); // Post-search construction counts toward stagnation.
+    assert_eq!(r.work.evaluations, 4);
+    assert_eq!(r.score, Some(SimpleScore::ZERO));
 }

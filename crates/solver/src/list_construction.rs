@@ -45,7 +45,18 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
     network: &ListConstraintNetwork<'_, V, S>,
     config: ConstructionConfig,
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_list_construction_from(problem, network, problem.initial_assignment(), config)
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+pub fn greedy_list_construction_from<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     network.validate(problem, &initial)?;
     construction_impl(problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)

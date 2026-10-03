@@ -20,7 +20,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
-- Ordered SolverPlan/MixedSolverPlan mix exact/local phases in all six solver entry points,
+- Ordered SolverPlan/MixedSolverPlan mix repeated construction, exact and local phases in all six solver entry points,
   sharing budgets, cancellation, time/stagnation and goals. Exact phases can finish
   partial construction; Optimal requires full enumeration and a complete scored result.
   See docs/solver-contract.md and the latest increment below.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 520 original integration regression methods, 66 original unit tests, and 50 public API documentation tests.
+- 529 original integration regression methods, 67 original unit tests, and 51 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3590,3 +3590,67 @@ Great Deluge remains 275/276 Java agreements with its recorded ratio discrepancy
 These benchmarks use ordinary solve paths and do not measure observer/consumer
 throughput. Timing changes between shared-machine runs are not established
 regressions or improvements.
+
+
+## Resumable/repeated construction — latest increment
+
+Added `greedy_*construction_from` and `greedy_*construction_from_with_observer`
+for all six model/backend paths. Original constructors now delegate to these with
+the model initial assignment. Basic construction internals now accept an explicit
+initial state, matching existing list/mixed internals. Public validation precedes
+zero work/cancellation without scoring. The original controlled-clock callers now
+pass explicit initial state; solver_time_tests uses the phase handoff assignment.
+
+`SolverPhase` and `MixedSolverPhase` gain Construction variants. The shared runner
+clips each later construction's controls, validates all tokens before work, allows
+partial-state handoff into another construction phase, and otherwise preserves
+existing retention/termination. All six solver implementations pass prior state to
+the resumed entrypoints. Mixed plans pick component order from the current phase,
+not the original construction config. Local search still cannot accept partial
+state, and exhausted exact search still stops with its existing proof semantics.
+Phase indices and observed duplicate suppression use the existing plan mechanism.
+
+Four original integration methods in tests/construction_resume.rs check supplied
+values, full/prefix pins, optional unassigned state, explicit malformed input,
+zero budget/cancellation, every small evaluation prefix, both mixed orders and
+observed/unobserved equality. Five methods in support/solver_construction_cases.rs
+check repeated-phase continuation without reconstruction, every shared score/move
+budget prefix, exact continuation, retained local-search state, shared stagnation
+steps, token/factory failures, cancellation and each mixed phase's own ordering.
+One controlled-clock method checks initial construction exclusion from stagnation,
+shared deadline including graph factory cost, and later construction not resetting
+an already started stagnation timer. A SolverPlan doctest shows partial completion.
+No tests/fixtures were copied or adapted for this increment, so provenance stays
+unchanged. Work logs use work/repeated-construction-*.
+
+First-initialized event investigation: pinned SolverManagerTest.java lines
+282–560 and helper lines1317–1336 were inspected (tests only). Important: its
+InitialSolutionEvent.isInitialized() returns !event.isTerminatedEarly(), NOT a
+solution-completeness predicate. Default CH/LS emits with CH0 producer; single CH
+and single LS omit events; CH/CH/LS emits with CH1; custom/CH/LS emits CH1;
+CH/custom/LS emits custom1; two custom phases omit events. Early CH termination
+emits with terminatedEarly true. Native optional list construction skips assignment,
+so the early-list fixture still has a separate behavior gap. Repeated construction
+is now supported; first-initialized callbacks, custom phases, construction-free
+plans and live problem changes still need work. Keep the overall goal active.
+
+Development gate passes 1,179 Rust tests: 583 adapted, 529 original integration and
+67 unit. All 51 doctests and 95 Python tests pass. Release verification passes the
+same 1,179 Rust tests, and release live_plan confirms all four managed jobs reach
+proven optimum 8 with final phase metadata and monotonic consumer assertions.
+Coverage remains 583/4,855 (12.01%), pending 3,990, excluded 282, failed/unverified
+zero; solver lifecycle stays 27/379 (7.12%). All nine evidence groups are current,
+verification is successful and the live-server fingerprint matches. Browser checks
+at 1280x900 and 390x844 show 23 benchmark cards, no stale messages, no horizontal
+overflow and no browser errors. Filtering lifecycle by firstInitializedSolutionConsumer
+shows all nine source methods still Pending. Browser session closed.
+
+Fresh illustrative Rust/Java median milliseconds: exact six-variable 0.013/4.033,
+eight-variable 0.150/6.147; Great Deluge 32 2.498/9.619 and 96 14.449/16.724;
+stream tabu 96 remains slower at 176.577/25.070 with equal [-44,-484] scores.
+List two-opt 16 0.336/10.506 and 32 0.947/10.513 retain score differences. List
+validation remains 192 valid/189 equal; heuristic 128 valid/128 equal; stream 64
+valid/64 equal. Great Deluge remains 275/276 Java agreements, with its recorded
+ratio boundary discrepancy. These ordinary workloads do not measure repeated-
+construction or event/manager throughput. Shared-machine timing variation alone
+does not establish regressions/improvements. Upstream submodule remains unchanged.

@@ -221,6 +221,12 @@ fn run_scored_observed<'a>(
             .phases
             .into_iter()
             .map(|phase| match phase {
+                SolverPhase::Construction(construction) => {
+                    MixedSolverPhase::Construction(MixedConstructionConfig {
+                        construction,
+                        order,
+                    })
+                }
                 SolverPhase::LocalSearch(search) => {
                     MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
                         search,
@@ -1372,3 +1378,6 @@ mod manager_integration;
 
 #[path = "support/solver_observer_cases.rs"]
 mod observer_cases;
+
+#[path = "support/solver_construction_cases.rs"]
+mod construction_cases;

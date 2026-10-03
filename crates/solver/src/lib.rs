@@ -44,7 +44,7 @@ mod random;
 pub mod construction;
 pub use construction::{
     ConstructionConfig, ConstructionPickEarly, ConstructionResult, ConstructionTermination,
-    greedy_construction,
+    greedy_construction, greedy_construction_from,
 };
 
 pub mod tabu;
@@ -84,7 +84,9 @@ pub use list_neighborhood::{
 };
 
 pub mod list_construction;
-pub use list_construction::{ListConstructionResult, greedy_list_construction};
+pub use list_construction::{
+    ListConstructionResult, greedy_list_construction, greedy_list_construction_from,
+};
 pub mod list_local_search;
 pub use list_local_search::{ListLocalSearchError, ListLocalSearchResult, list_local_search_from};
 
@@ -140,7 +142,8 @@ pub use stream_graph::{
 pub mod stream_scoring;
 pub use stream_scoring::{
     PlanningStreamSource, StreamScoreDirector, StreamScoredMove, StreamScoringError,
-    greedy_stream_construction, stream_local_search, stream_local_search_from,
+    greedy_stream_construction, greedy_stream_construction_from, stream_local_search,
+    stream_local_search_from,
 };
 
 mod search_scoring;
@@ -152,7 +155,8 @@ mod list_search_scoring;
 pub mod list_stream_scoring;
 pub use list_stream_scoring::{
     ListStreamScoreDirector, ListStreamScoredMove, ListStreamScoringError, ListStreamSources,
-    ListValueRow, greedy_list_stream_construction, list_stream_local_search_from,
+    ListValueRow, greedy_list_stream_construction, greedy_list_stream_construction_from,
+    list_stream_local_search_from,
 };
 
 pub mod mixed_scoring;
@@ -171,14 +175,15 @@ pub use mixed_local_search::{
 pub mod mixed_construction;
 pub use mixed_construction::{
     MixedConstructionConfig, MixedConstructionOrder, MixedConstructionResult,
-    greedy_mixed_construction,
+    greedy_mixed_construction, greedy_mixed_construction_from,
 };
 
 mod mixed_search_scoring;
 pub mod mixed_stream_scoring;
 pub use mixed_stream_scoring::{
     MixedStreamScoreDirector, MixedStreamScoredMove, MixedStreamScoringError, MixedStreamSources,
-    greedy_mixed_stream_construction, mixed_stream_local_search_from,
+    greedy_mixed_stream_construction, greedy_mixed_stream_construction_from,
+    mixed_stream_local_search_from,
 };
 
 mod flat_map_stream;

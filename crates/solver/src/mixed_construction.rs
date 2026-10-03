@@ -90,7 +90,18 @@ pub fn greedy_mixed_construction<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>
     network: &MixedConstraintNetwork<'_, B, L, S>,
     settings: MixedConstructionConfig,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
-    let initial = problem.initial_assignment();
+    greedy_mixed_construction_from(problem, network, problem.initial_assignment(), settings)
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+pub fn greedy_mixed_construction_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
     network.validate(problem, &initial)?;
     construction_impl(problem, initial, settings, |initial| {
         MixedScoreDirector::new(problem, network, initial)

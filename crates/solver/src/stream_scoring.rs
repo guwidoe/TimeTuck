@@ -283,8 +283,22 @@ pub fn greedy_stream_construction<V: Eq + Clone + 'static, S: AdditiveScore + 's
     source: PlanningStreamSource<V>,
     config: ConstructionConfig,
 ) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+    greedy_stream_construction_from(problem, graph, source, problem.initial_assignment(), config)
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+pub fn greedy_stream_construction_from<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+) -> Result<ConstructionResult<V, S>, StreamScoringError> {
     validate_source(&graph, &source)?;
-    crate::construction::construction_impl(problem, config, |initial| {
+    problem.validate(&initial)?;
+    crate::construction::construction_impl(problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
     })
 }

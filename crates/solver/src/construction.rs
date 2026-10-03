@@ -135,24 +135,38 @@ pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
     network: &ConstraintNetwork<'_, V, S>,
     config: ConstructionConfig,
 ) -> Result<ConstructionResult<V, S>, ScoringError> {
+    greedy_construction_from(problem, network, problem.initial_assignment(), config)
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+pub fn greedy_construction_from<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+) -> Result<ConstructionResult<V, S>, ScoringError> {
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
             actual: problem.variables().len(),
         });
     }
-    construction_impl(problem, config, |initial| {
+    problem.validate(&initial)?;
+    construction_impl(problem, initial, config, |initial| {
         ScoreDirector::new(problem, network, initial)
     })
 }
 
 pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
     problem: &FiniteProblem<V>,
+    initial: Assignment<V>,
     config: ConstructionConfig,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
     let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
-    construction_impl_with_clock(problem, config, create, clock)
+    construction_impl_with_clock(problem, initial, config, create, clock)
 }
 pub(crate) fn construction_impl_with_clock<
     V: Eq + Clone,
@@ -160,12 +174,12 @@ pub(crate) fn construction_impl_with_clock<
     D: SearchDirector<V, S>,
 >(
     problem: &FiniteProblem<V>,
+    initial: Assignment<V>,
     config: ConstructionConfig,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
     let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
-    let initial = problem.initial_assignment();
     let mut result = ConstructionResult {
         complete: problem.is_complete(&initial),
         assignment: initial.clone(),

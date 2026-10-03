@@ -519,3 +519,49 @@ checking monotonic delivery, final phase metadata and independently bounded scor
 with exact exhaustion. No additional upstream method coverage is claimed.
 First-initialized callback semantics, custom/repeated construction phases and
 live problem changes remain pending; the rewrite remains incomplete.
+
+
+## Resumable and repeated construction
+
+All six construction paths expose `greedy_*construction_from` and observed
+`greedy_*construction_from_with_observer` variants accepting an owned assignment.
+The original APIs delegate with the model's initial assignment. Explicit input
+is validated before zero-budget, cancellation and impossibility returns; scoped
+network dimensions and stream-source ownership/emptiness are also checked.
+Existing values, full/prefix pins and optional unassigned values are preserved.
+Missing required values alone are considered. List insertions can shift unpinned
+indices while preserving prior values' ownership and relative order. Each call
+creates a new scoring cache, counts initial scoring once and reports only the
+placements made during that call. Zero scoring budget returns the supplied state
+without a score or observer notification.
+
+`SolverPhase::Construction` and `MixedSolverPhase::Construction` permit subsequent
+construction phases. A partial phase can continue into construction or exact
+search; local search still requires a complete assignment. Each construction
+phase receives the retained prior assignment, its own controls and, for mixed
+models, its own component order. A complete assignment is only rescored, without
+replacing choices. Shared count/time/cancellation/goal limits retain precedence;
+phase-local exhaustion may allow continuation. All future token conflicts and
+acceptance errors are validated before any scoring or graph factory work.
+
+Native observer metadata identifies each construction phase by its actual index.
+Equal initial rescoring is suppressed by the plan observer. Construction does not
+add local-search steps or reset shared stagnation. Stagnation remains inactive
+before the first improvement phase; once started, time spent in later construction
+and its graph factory belongs to that existing timer. A global expired deadline
+stops the plan, including when later phases could finish initialization.
+
+Nine original integration regressions cover all six model/backend paths, resume
+from every small budget prefix, pins, optional values, explicit-input rejection,
+observed/unobserved work parity, per-phase mixed ordering, handoffs from search,
+cancellation, future token validation and graph-factory failure prefixes. One
+controlled-clock regression checks deadline and stagnation behavior, and a public
+plan doctest demonstrates partial construction followed by completion.
+
+This establishes native repeated construction, without adding upstream method
+credit. Custom phases, plans without an initial construction phase and Java
+first-initialized callback semantics remain pending. In the pinned manager tests,
+the helper `InitialSolutionEvent.isInitialized()` actually records
+`!event.isTerminatedEarly()`; it must not be interpreted as an independent check
+of solution completeness. The CH/CH/LS callback identifies the second construction
+phase; single-CH and single-LS plans omit that callback entirely.

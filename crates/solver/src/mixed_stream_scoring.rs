@@ -329,13 +329,33 @@ pub fn greedy_mixed_stream_construction<
     sources: MixedStreamSources<B, L>,
     settings: MixedConstructionConfig,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
-    sources.validate(&graph)?;
-    crate::mixed_construction::construction_impl(
+    greedy_mixed_stream_construction_from(
         problem,
+        graph,
+        sources,
         problem.initial_assignment(),
         settings,
-        |initial| MixedStreamScoreDirector::new(problem, graph, sources, initial),
     )
+}
+
+/// Resume construction from a validated assignment, preserving supplied values and pins.
+/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Validation runs even with zero budget or a cancelled token.
+pub fn greedy_mixed_stream_construction_from<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
+    sources.validate(&graph)?;
+    crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
+        MixedStreamScoreDirector::new(problem, graph, sources, initial)
+    })
 }
 /// Improve a complete mixed model using the shared neighborhoods, policies and
 /// budgets. Each phase initializes its own director; saved winners install without

@@ -51,32 +51,47 @@ pub enum ExactPhaseTermination {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolverPhase<'a, S = SimpleScore> {
+    /// Fill remaining required values, preserving the preceding phase's assignment.
+    Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum MixedSolverPhase<'a, S = SimpleScore> {
+    /// Resume construction in the configured component order.
+    Construction(MixedConstructionConfig<'a>),
     LocalSearch(MixedLocalSearchConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
 }
 impl<'a, S: Clone> MixedSolverPhase<'a, S> {
     pub(crate) fn common(&self) -> SolverPhase<'a, S> {
         match self {
+            Self::Construction(c) => SolverPhase::Construction(c.construction),
             Self::LocalSearch(c) => SolverPhase::LocalSearch(c.search.clone()),
             Self::Exact(c) => SolverPhase::Exact(c.clone()),
+        }
+    }
+    pub(crate) fn construction(&self) -> MixedConstructionConfig<'a> {
+        match self {
+            Self::Construction(c) => *c,
+            _ => unreachable!("construction request uses a construction phase"),
         }
     }
     pub(crate) fn local(&self) -> &MixedLocalSearchConfig<'a, S> {
         match self {
             Self::LocalSearch(c) => c,
-            Self::Exact(_) => unreachable!("local-search request uses a local-search phase"),
+            Self::Construction(_) | Self::Exact(_) => {
+                unreachable!("local-search request uses a local-search phase")
+            }
         }
     }
 }
-/// Construct first, then execute improvement phases in order. Old SolverConfig
+/// Construct first, then execute subsequent phases in order. Old SolverConfig
 /// values convert into this plan without changing their behavior. All phases must
 /// use the same deterministic objective. Exact search may complete a partial
-/// construction; local search requires a complete starting assignment.
+/// construction, as may another construction phase; local search requires a
+/// complete starting assignment. Each construction phase preserves values already
+/// supplied and has its own budget and scoring initialization.
 ///
 /// ```
 /// use timetuck::*;
@@ -89,6 +104,23 @@ impl<'a, S: Clone> MixedSolverPhase<'a, S> {
 /// })?;
 /// assert!(result.is_optimal());
 /// assert_eq!(result.score, Some(SimpleScore::new(1)));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+///
+/// A later construction phase can finish a locally limited first phase:
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 3])?;
+/// let n = ConstraintNetwork::<_, SimpleScore>::new(3);
+/// let result = solve(&p, &n, SolverPlan {
+///     construction: ConstructionConfig { max_evaluations: 2, ..Default::default() },
+///     phases: vec![SolverPhase::Construction(ConstructionConfig::default())],
+///     ..Default::default()
+/// })?;
+/// assert!(result.complete);
+/// assert_eq!(result.assignment.values(), &[Some(1), Some(1), Some(1)]);
+/// assert_eq!(result.phases.len(), 2);
+/// assert_eq!(result.phases[1].work.move_evaluations, 4);
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
 #[derive(Clone, Debug, Eq, PartialEq)]
