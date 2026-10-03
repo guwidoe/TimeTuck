@@ -103,6 +103,12 @@ pub use list_collector::{ListCollector, ListSnapshot};
 pub use num_bigint::BigInt;
 mod decimal;
 pub use decimal::Decimal;
+mod decimal_math;
+pub use decimal_math::{DecimalArithmeticError, ParseDecimalError};
+mod decimal_score;
+pub use decimal_score::{
+    HardMediumSoftDecimalScore, HardSoftDecimalScore, ParseDecimalScoreError, SimpleDecimalScore,
+};
 mod big_number_collector;
 pub use big_number_collector::{
     BigIntAverageCollector, BigIntSumCollector, DecimalAverageCollector, DecimalSumCollector,

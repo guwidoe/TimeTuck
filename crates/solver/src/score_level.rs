@@ -106,6 +106,14 @@ impl Magnitude {
     fn ratio(&self, denominator: &Self, cooling: f64) -> f64 {
         let ratio = self.significand / (denominator.significand * cooling);
         let exponent = self.exponent - denominator.exponent;
+        // Fold a negative decimal exponent into the denominator when finite.
+        // This avoids the extra rounding in (6 / 1) * 0.1 versus 6 / 10.
+        if (-308..0).contains(&exponent) {
+            let scaled = denominator.significand * cooling * 10f64.powi(-exponent as i32);
+            if scaled.is_finite() {
+                return self.significand / scaled;
+            }
+        }
         // Split the power near floating-point extremes to avoid prematurely
         // rounding a subnormal ratio to zero or an otherwise finite one to inf.
         if exponent > 400 {

@@ -46,6 +46,12 @@ The following test files adapt the pinned Community tests:
   `StepCountTerminationTest.java` and `UnimprovedStepCountTerminationTest.java`.
 
 - `crates/solver/tests/simple_score.rs` from `SimpleScoreTest.java`.
+- `crates/solver/tests/simple_decimal_score.rs`, `hard_soft_decimal_score.rs`, and
+  `hard_medium_soft_decimal_score.rs` from their corresponding
+  `SimpleBigDecimalScoreTest.java`, `HardSoftBigDecimalScoreTest.java`, and
+  `HardMediumSoftBigDecimalScoreTest.java` classes. All assertions use native
+  Decimal literals/factors, integer powers, constructors, operators and Rust
+  equality/hash checks; full method mappings are in `compat/provenance.json`.
 - `crates/solver/tests/hard_soft_score.rs` from `HardSoftScoreTest.java`.
 - `crates/solver/tests/hard_medium_soft_score.rs` from `HardMediumSoftScoreTest.java`.
 - `crates/solver/tests/bendable_score.rs` from `BendableScoreTest.java`, including

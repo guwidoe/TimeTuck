@@ -116,3 +116,30 @@ fn calculate_feasibility_time_gradient_bendable_score_hhsss() {
         0.6
     );
 }
+
+// These six decimal observations occur in both upstream BigDecimal methods.
+// Literal scales, weights and zero/tolerant offsets are preserved.
+fn decimal_target_cases<S: Score>(make: impl Fn(&str) -> S, splits: Vec<f64>) {
+    for (start, target, current, expected, tolerance) in [
+        ("0.00", "10.00", "0.00", 0.0, 0.0),
+        ("0.00", "10.00", "6.00", 0.6, 0.0),
+        ("0.00", "10.00", "10.00", 1.0, 0.0),
+        ("0.00", "10.00", "11.00", 1.0, 0.0),
+        ("-10.00", "30.00", "0.00", 0.25, 0.0),
+        ("10.00", "40.00", "20.00", 0.33333, 0.00001),
+    ] {
+        let p = ScoreTargetProgress::new(make(start), make(target), splits.clone()).unwrap();
+        assert!((p.progress(make(current)) - expected).abs() <= tolerance);
+    }
+}
+#[test]
+fn calculate_time_gradient_simple_big_decimal_score() {
+    decimal_target_cases(|s| SimpleDecimalScore::new(s.parse().unwrap()), vec![]);
+}
+#[test]
+fn calculate_time_gradient_hard_soft_big_decimal_score() {
+    decimal_target_cases(
+        |s| HardSoftDecimalScore::new(s.parse().unwrap(), s.parse().unwrap()),
+        vec![0.75],
+    );
+}

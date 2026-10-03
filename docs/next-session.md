@@ -10,11 +10,12 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 ## Current implementation
 
 - Score levels support i64 and Decimal through ScoreLevel, including decimal
-  progress and annealing estimates. Public BigDecimal score families remain pending.
+  progress and annealing estimates. SimpleDecimalScore, HardSoftDecimalScore and
+  HardMediumSoftDecimalScore now implement fixed decimal families; Bendable remains pending.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 481 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 18 termination), recorded in
+- 543 fully adapted source test methods (134 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -74,7 +75,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 420 original integration regression methods, forty-nine original unit tests, and thirty-nine public API documentation tests.
+- 426 original integration regression methods, forty-nine original unit tests, and forty public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -2742,3 +2743,94 @@ stream scores remain infeasible [-44,-484] after 50 steps. List two-opt 16-custo
 and Rust [0,-1964]/Java [0,-2070]. List construction at 32 customers still differs:
 Rust [0,-1080], Java [0,-1062]. These timings use integer score workloads and do not
 measure decimal performance or establish a significant regression/improvement.
+
+
+## Fixed decimal score families — latest increment
+
+Added SimpleDecimalScore, HardSoftDecimalScore and HardMediumSoftDecimalScore with
+arbitrary-precision Decimal levels, Score/AdditiveScore, numeric equality/order/hash,
+factory helpers, raw from_parts, structural state, ZERO/default, parsing and full/
+short formatting. Decimal gains FromStr and to_standard_string while its existing
+coefficient-e Display and representation-sensitive equality/hash remain unchanged.
+Native multiply/divide take exact &Decimal factors and power takes u32; these are
+explicit native APIs, not Java double-input parity. They floor at each original
+scale clamped to zero and return Result. Ordinary arithmetic clears structural
+state; all-zero factory/arithmetic output normalizes to ZERO. Raw construction or
+an explicit structural parse prefix preserves every scale. Negation keeps a sound
+numeric zero's representation, otherwise subtracts from ZERO (negative scales rise
+to zero); abs retains scales before zero normalization. Scale shifts beyond u32
+report ScaleOverflow; arbitrary coefficient/padding growth otherwise has no fixed
+memory/time bound. See docs/score-contract.md.
+
+Public API probes inspected only javap -public signatures and invoked the pinned
+Community artifact. Ignored work/DecimalScoreProbe.java, DecimalPartsProbe.java and
+work/decimal-score-probes.txt retain original observations; no implementation source
+was inspected. Important behavior includes explicit 0structural/0.00 preserving
+scale, factory 0.00 becoming 0, numeric equality/hash across scale, negative-scale
+negation expanding to scale zero and structurally sound raw zero negation retaining
+its representation. Generated comparisons caught and corrected the negation rule;
+Python's signed decimal zero needed normalization to match both native/Java values.
+
+scripts/adapt_decimal_score_tests.py reads only the three fixed pinned test classes
+and regenerates 19+20+21 methods, retaining all assertions and provenance/notices.
+Exact native Decimal literals replace tested Java double factors, tested integral
+double powers become u32, and from_parts preserves raw constructor arguments.
+Two further BestScoreTerminationTest decimal gradient methods preserve all six
+start/target/current observations per method, original split weights and offsets.
+The initial original numeric estimate failed the source's exact 0.6 assertion;
+folding a negative exponent into a finite denominator removes the avoidable extra
+rounding, with the previous exponent-separated fallback at extremes. Their tests
+first failed (work/decimal-gradient-before.log), then passed unchanged. No Java
+lifecycle or universal correctly-rounded gradient claim.
+
+Six original decimal_score_regression methods cover parsing/formatting at full i32
+scale bounds, factory/raw zeros, numeric hash normalization beyond i32, exact huge
+coefficients, floors/errors, negation scales and fractional exact-search ordering.
+The 2,160-configuration solver matrix in owned_scores.rs now uses the actual public
+HardSoftDecimalScore. The custom DecimalScore fixture remains in numeric level
+regressions. One new API doctest demonstrates floor rounding and numeric equality.
+
+Original three-way comparisons (seed 20261212) cover 3,390 decimal cases, including
+86 expected errors, and compare exact coefficients/scales, structural/full/short
+text, feasibility, equality, ordering and arithmetic. Java uses public score APIs;
+Python independently uses Fraction arithmetic and tuple-based decimal formatting.
+Finite factors are -2,0,0.5,1.2,2,5,1.25; powers 0..4. DecimalScoreOracle.java and the
+native decimal_score_oracle example implement the protocol. The new script's
+result_matches rejects unexpected all-ERROR agreement; three Python unit methods
+check the independent reference/error validation. differential_scores.py includes
+its record as decimal_checks in the existing score comparison section; dashboard
+adds a separate decimal evidence row and states factor/power/timing limitations.
+No decimal benchmark claim or additional method credit from generated cases.
+
+Final development check passes 1,018 Rust tests (543 adapted, 426 original integration,
+49 unit), 40 doctests and 86 Python tests. Coverage is 543/4,855 (11.18%), with 4,030
+pending, 282 excluded and no failed/unverified methods; score family coverage is
+134/230, solver lifecycle 20/379, streams remain 291/1,301. Logs use
+work/decimal-score-*.log and work/decimal-gradient-*.log. Overall rewrite remains active.
+
+Next: implement BendableDecimalScore with native const dimensions and adapt all 26
+BendableBigDecimalScoreTest methods (complete test file was read in the previous
+increment), then extend the original three-way decimal comparison matrix across
+HSS/HHSSS and empty shapes. Preserve public dimensional errors and per-level floor/
+formatting/hash behavior. Remaining broader work still includes shared stagnation,
+exact orchestration phases, live problem changes/manager/daemon, remaining streams
+and source method adaptations. Do not mistake fixed-score completion for the whole goal.
+
+Final release verification also passes all 1,018 Rust tests. All nine report
+sections were regenerated from the final sources; all are current and the live
+/api/freshness digest matches. The decimal detail is 3,390/3,390 with 86 expected
+rejections. Desktop 1280x900 and mobile 390x844 show 11.18% overall, score APIs
+58.26% (134/230), lifecycle 5.28% (20/379), all 19 timing cards and the separate
+decimal evidence/scope text. Selecting score APIs and filtering
+SimpleBigDecimalScoreTest shows exactly its 19 passed methods. No visible alerts,
+page errors or horizontal overflow. Browser closed; existing server at
+127.0.0.1:8765 reused. Upstream pin and checkout remain unchanged.
+
+Latest warmed Rust/Java median ms: exact 6-variable 0.012/3.588, 8-variable
+0.158/4.846; stream hill 32-variable 45.011/12.897, 96-variable 169.380/25.985;
+stream tabu 32-variable 47.311/15.292, 96-variable 161.899/27.509. Both 96-variable
+stream results remain infeasible [-44,-484] after 50 steps. List two-opt 16-customer
+0.271/8.130, 32-customer 0.900/11.132, with unchanged differing scores
+Rust [0,-1250]/Java [0,-1254] and Rust [0,-1964]/Java [0,-2070]. List construction
+32-customer scores remain Rust [0,-1080]/Java [0,-1062]. Timings still use integer
+scores and do not establish decimal performance or statistically significant change.

@@ -98,10 +98,13 @@ def main():
     if any(len(out) != len(cases) for out in outputs.values()):
         raise RuntimeError('Oracle response count mismatch')
     failures = [{'case': case, 'java': j, 'rust': r} for case, j, r in zip(cases, outputs['java'], outputs['rust']) if not result_matches(case,j,r)]
+    from differential_decimal_scores import run_checks
+    decimal_checks = run_checks(JAR)
     if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
               'revision': REF['commit'], 'source_digest': digest, 'seed': 20261001,
               'total': len(cases), 'passed': len(cases)-len(failures), 'failures': failures,
+              'decimal_checks': decimal_checks,
               'expected_errors':sum(c.get('expect_error',False) for c in cases),
               'artifact': artifact, 'environment': platform.platform(),
               'scope': 'Original generated integer score cases: three fixed families and five Bendable shapes, including empty hard/soft groups. Public Java shape validation matches native compile-time dimensions. Unexpected ERROR results cannot pass. No additional upstream method credit; integer-exponent powers only.'}

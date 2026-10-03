@@ -473,13 +473,13 @@ fn owned_score_director_clones_fail_before_installing_caches_or_moves() {
     d.assert_consistent().unwrap();
 }
 
-#[path = "support/decimal_score.rs"]
-mod decimal_support;
 #[test]
 fn every_solver_backend_accepts_fractional_and_extreme_magnitude_score_levels() {
-    use decimal_support::DecimalScore;
+    use timetuck::HardSoftDecimalScore as DecimalScore;
     for scale in [-1000, 3, 1000] {
-        let make = |h, s| DecimalScore::scaled(h, s, scale);
+        let make = |h: i64, s: i64| {
+            DecimalScore::new(Decimal::new(h.into(), scale), Decimal::new(s.into(), scale))
+        };
         let normalize = |s: &DecimalScore| {
             (
                 s.structural(),

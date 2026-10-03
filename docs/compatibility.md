@@ -16,7 +16,7 @@ scores with Community and independent Python search. Both native scoring backend
 also match Python step/acceptance/stagnation counts and termination reasons; Java
 internal counters and traces are not compared. These cases earn no method credit;
 nine integer score-target/feasibility methods now have complete adaptations.
-The two decimal gradient methods remain pending. Native progress objects replace
+The two decimal gradient methods now also have complete adaptations. Native progress objects replace
 mock initialized phase/solver scopes and preserve every score, weight, repeated
 observation and floating comparison; no Java lifecycle equivalence is claimed.
 
@@ -378,12 +378,24 @@ Native score storage now supports Clone-only owned values throughout scoring,
 construction, local/exact search and orchestration. Six original integration
 regressions compare a heap-owned integer score with the established integer family,
 including clone-failure rollback, and one doctest demonstrates the contract. This
-is groundwork for arbitrary-precision scores; ordinary levels remain i64 and no
-BigDecimal score-method credit is claimed. See `score-contract.md`.
+ownership groundwork initially retained i64 ordinary levels and added no decimal
+method credit. The subsequent numeric-level and fixed-family changes are below.
+See `score-contract.md`.
 
 
 Native score levels now support i64 and Decimal through ScoreLevel. Original
 rational arithmetic checks and 2,160 decimal solver configurations exercise this
 numeric contract, including estimates at extreme scales. Exact score predicates
-remain separate. Public BigDecimal score families and the two pending decimal
-upstream gradient methods are not adapted by this change; coverage is unchanged.
+remain separate. That numeric-level groundwork added no BigDecimal family or decimal-gradient
+method credit; the subsequent adaptations are described below.
+
+
+Sixty decimal score methods now have complete native adaptations across Simple,
+HardSoft and HardMediumSoft. Literal multiply/divide factors map to exact Decimal
+inputs, tested integral powers to u32, and raw constructors to from_parts. All
+assertions are retained, with numeric Rust equality/hash checks and native ZERO.
+Bendable decimal scores remain pending; both decimal gradient methods now have
+complete adaptations preserving the original zero tolerances and split weights.
+Original generated comparisons separately check coefficients/scales, text, ordering,
+feasibility and arithmetic against Community public APIs and independent Python
+Fraction calculations. See score-contract.md for input-scope and rounding limits.

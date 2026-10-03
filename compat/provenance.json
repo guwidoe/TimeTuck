@@ -7215,6 +7215,936 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.ofKeepsScaleOfNonZeroLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "ofKeepsScaleOfNonZeroLevel",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "of_keeps_scale_of_non_zero_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.multiplyClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "multiplyClampsNegativeScale",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "multiply_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.divideClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "divideClampsNegativeScale",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "divide_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.powerClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "powerClampsNegativeScale",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "power_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "SimpleBigDecimalScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/simple_decimal_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.ofKeepsScaleOfNonZeroLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "ofKeepsScaleOfNonZeroLevel",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "of_keeps_scale_of_non_zero_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.multiplyClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "multiplyClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "multiply_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.divideClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "divideClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "divide_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.powerClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "powerClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "power_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardSoftBigDecimalScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardSoftBigDecimalScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/hard_soft_decimal_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.of",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "of",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "of",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.ofKeepsScaleOfNonZeroLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "ofKeepsScaleOfNonZeroLevel",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "of_keeps_scale_of_non_zero_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.ofKeepsScaleOfNegativeLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "ofKeepsScaleOfNegativeLevel",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "of_keeps_scale_of_negative_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.parseScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "parseScore",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "parse_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.toShortString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "toShortString",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "to_short_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.parseScoreIllegalArgument",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "parseScoreIllegalArgument",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "parse_score_illegal_argument",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.feasible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "feasible",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "feasible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "add",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "subtract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "multiply",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "divide",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.power",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "power",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "power",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.multiplyClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "multiplyClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "multiply_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.divideClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "divideClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "divide_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.powerClampsNegativeScale",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "powerClampsNegativeScale",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "power_clamps_negative_scale",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.negate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "negate",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "negate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.abs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "abs",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "abs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.zero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "zero",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "equals_and_hash_code",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "HardMediumSoftBigDecimalScoreTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/score/HardMediumSoftBigDecimalScoreTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/hard_medium_soft_decimal_score.rs",
+      "local_test": "compare_to",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all assertions using native Decimal literals and exact Decimal multiply/divide factors; tested integral double powers become u32. Raw constructors use from_parts; factories normalize all-zero scores. Native operators, Result unwrap, ZERO, equality/hash consistency replace Java plumbing. No f64 input or JVM API parity claimed."
+    },
+    {
+      "id": "BestScoreTerminationTest.calculateTimeGradientSimpleBigDecimalScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/BestScoreTerminationTest.java",
+      "upstream_test": "calculateTimeGradientSimpleBigDecimalScore",
+      "local_path": "crates/solver/tests/score_progress_cases.rs",
+      "local_test": "calculate_time_gradient_simple_big_decimal_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six decimal start/target/current observations, literal scales, split weights, exact zero offsets and the original 0.00001 tolerance. Native ScoreTargetProgress replaces mocked score definition/termination construction; no Java lifecycle parity claimed."
+    },
+    {
+      "id": "BestScoreTerminationTest.calculateTimeGradientHardSoftBigDecimalScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/BestScoreTerminationTest.java",
+      "upstream_test": "calculateTimeGradientHardSoftBigDecimalScore",
+      "local_path": "crates/solver/tests/score_progress_cases.rs",
+      "local_test": "calculate_time_gradient_hard_soft_big_decimal_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six decimal start/target/current observations, literal scales, split weights, exact zero offsets and the original 0.00001 tolerance. Native ScoreTargetProgress replaces mocked score definition/termination construction; no Java lifecycle parity claimed."
     }
   ],
   "fixtures": [

@@ -128,7 +128,7 @@ The common `Score` bound is now `Clone + Ord + Debug`; it no longer requires Cop
 also borrows its other score. Custom implementations must update those signatures.
 The four existing integer families remain Copy and retain their arithmetic and
 ordering contracts. Custom scores now declare an associated Level implementing
-ScoreLevel; the built-in BigDecimal score families remain pending.
+ScoreLevel; the three fixed decimal families are described below.
 
 Caches, saved candidates, result accessors, acceptor history and phase plans clone
 scores where an independent retained value is needed. Read-only comparisons borrow
@@ -187,6 +187,79 @@ compares 2,160 decimal solver configurations with scaled integer equivalents acr
 all six model/backend entry points, five acceptance policies, budgets, construction
 orders and starts. It uses scales -1000, 3 and 1000 and independently rescales
 returned levels with BigInt arithmetic. A doctest demonstrates tiny-scale progress.
-These checks add no upstream method credit. Public Simple/HardSoft/HardMediumSoft/
-Bendable decimal score constructors, parsing, formatting and arithmetic remain
-pending and must be specified from pinned tests/public APIs before implementation.
+These original numeric-level checks add no upstream method credit. The fixed
+decimal families below now have their own adaptations; Bendable remains pending.
+
+
+## Fixed decimal score families
+
+SimpleDecimalScore, HardSoftDecimalScore and HardMediumSoftDecimalScore are owned,
+arbitrary-precision native scores. They use Decimal levels and lexicographic
+structural/ordinary ordering, with numeric equality and hashing across scale.
+The latter does not change Decimal's representation-sensitive equality/hash.
+HardSoft/HardMediumSoft feasibility uses structural and hard levels only; medium
+and soft values do not affect feasibility. Each family implements Score and
+AdditiveScore, with ZERO, new, from_parts, with_structural, level accessors,
+ordinary_levels, is_zero, abs, addition/subtraction/negation, parsing/full/short text
+and scale-directed multiply/divide/power. Hard/medium/soft factory helpers supply
+zero for other levels.
+
+new and parse without a structural prefix normalize an all-zero score to ZERO;
+otherwise all scales are preserved. from_parts and parse with an explicit prefix
+preserve the supplied scales, even for structural zero. Structural '*' means
+I64_MIN. Full text prefixes negative structural state, while short text includes
+any nonzero structural value; this follows the existing integer score contract.
+Consequently positive structural values do not round-trip through full text.
+Short form omits numeric zero levels and is generally not parseable.
+
+Decimal now parses ASCII decimal/scientific notation with an optional sign and
+an i32 resulting scale; invalid/nonfinite input is rejected. Its existing Display
+(coefficient followed by e and exponent) remains unchanged for collectors.
+to_standard_string, used by score Display, preserves scale and uses plain notation
+when scale is nonnegative and adjusted exponent >= -6, scientific notation
+otherwise. Parsing and formatting extreme scales need no scale-gap padding.
+
+multiply/divide take an exact &Decimal factor; power takes u32. They return Result,
+floor each level at max(original scale, 0), clear structural state and normalize
+all-zero outputs. They do not convert through f64 or implement Java's floating
+input conversion/fractional exponent truncation. Division by zero is an error.
+Scale adjustments beyond u32 power-of-ten support report ScaleOverflow. Coefficients
+and ordinary arithmetic may otherwise grow without a fixed memory/time bound;
+callers must bound problem inputs. Negative sub-quantum results floor to -1 unit;
+positive ones floor to zero. abs retains input scales before all-zero normalization.
+Negation of a numerically zero, structurally sound score returns its representation;
+other negations subtract from ZERO, raising negative scales to zero.
+
+All 19 SimpleBigDecimalScoreTest, 20 HardSoftBigDecimalScoreTest and 21
+HardMediumSoftBigDecimalScoreTest methods retain their assertions. Their double
+factor literals map to exact native decimal factors and their integral double
+powers to u32. scripts/adapt_decimal_score_tests.py reads only those pinned test
+files and records every generated method in the provenance ledger. Shared Rust
+helpers preserve pairwise equality/hash/order and feasibility assertions.
+
+Six original regressions additionally check parsing/formatting bounds, raw/factory
+zero representations, numeric hashing beyond i32 normalization scale, exact large
+arithmetic, floor/zero-divisor behavior, observed negation scale rules and fractional
+ordering in exact search. The 2,160-case six-backend decimal solver matrix now uses
+the public HardSoftDecimalScore instead of its custom fixture. The independent
+numeric-level tests retain their separate custom score fixture.
+
+Original generated comparisons (seed 20261212) exercise 3,390 cases, including
+86 expected errors, through public Community and Rust adapters plus independent
+Python Fraction arithmetic. They compare coefficient/scale, full/short text,
+structural state, feasibility, ordering and equality. Selected finite Java factors
+(-2, 0, 0.5, 1.2, 2, 5, 1.25) correspond to native exact decimals; powers are 0..4.
+Thirty malformed decimal cases and zero-divisor cases must fail explicitly;
+unexpected matching errors cannot pass. Results appear separately in the dashboard
+under score comparisons and add no source-method credit. Timings remain integer
+workloads. Bendable decimal scores, general f64 input behavior and decimal-specific
+performance comparisons are not established by this increment.
+
+
+Both decimal gradient methods in BestScoreTerminationTest now preserve all six
+observations each, including exact 0.6 assertions, original 0.00001 tolerance for
+one-third and the HardSoft 0.75 split weight. ScoreTargetProgress replaces mocked
+score definitions and termination construction. The numeric estimate folds a
+negative decimal exponent into a finite denominator to avoid the extra rounding
+of (6/1)*0.1 versus 6/10; exponent-separated fallback still handles extreme values.
+This is two additional upstream method adaptations, not whole lifecycle parity.
