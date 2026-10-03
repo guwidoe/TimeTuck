@@ -32,17 +32,26 @@ impl ConstructionPickEarly {
     }
 }
 
+/// Shared controls for basic, list and mixed construction in both scoring
+/// backends. A cancellation request retains the best evaluated candidate of the
+/// current scan, including incomplete progress. Initialization and diagnostics
+/// are not interrupted. Validation, impossibility and zero-budget checks precede
+/// cancellation; already-observed evaluation exhaustion also takes precedence.
+/// The default token is None. Configurations borrow tokens and remain Copy.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct ConstructionConfig {
+pub struct ConstructionConfig<'a> {
+    /// Cooperative cancellation shared with other phases; validation runs first.
+    pub cancellation: Option<&'a crate::CancellationToken>,
     /// Includes the initial score and each candidate; zero invokes no callbacks.
     pub max_evaluations: u64,
     pub pick_early: ConstructionPickEarly,
     /// Extra diagnostic full recomputations are excluded from reported work.
     pub assert_scores: bool,
 }
-impl Default for ConstructionConfig {
+impl Default for ConstructionConfig<'_> {
     fn default() -> Self {
         Self {
+            cancellation: None,
             max_evaluations: 10_000,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
@@ -50,8 +59,18 @@ impl Default for ConstructionConfig {
     }
 }
 
+impl ConstructionConfig<'_> {
+    pub(crate) fn cancelled(&self) -> bool {
+        self.cancellation
+            .is_some_and(crate::CancellationToken::is_cancelled)
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
+    /// Cancellation observed; the best evaluated prefix of the current scan is
+    /// installed. The returned assignment may be partial or complete.
+    Cancelled,
     /// Every required variable is assigned and its scan finished or picked early.
     /// This does not imply hard feasibility or optimality.
     Completed,
@@ -131,6 +150,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
+        return Ok(result);
+    }
     let mut director = create(initial)?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -139,6 +162,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
     }
     result.termination = ConstructionTermination::Completed;
     for (index, variable) in problem.variables().iter().enumerate() {
+        if config.cancelled() {
+            result.termination = ConstructionTermination::Cancelled;
+            break;
+        }
         if director.assignment().values()[index].is_some() || variable.allows_unassigned() {
             continue;
         }
@@ -148,7 +175,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             value: Some(value.clone()),
         });
         let selection = director.select_best(
-            moves,
+            moves.take_while(|_| !config.cancelled()),
             config.max_evaluations - result.evaluations,
             false,
             |_, _| true,
@@ -165,6 +192,9 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             result.termination = ConstructionTermination::EvaluationLimit;
             break;
         }
+    }
+    if result.termination == ConstructionTermination::Completed && config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

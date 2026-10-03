@@ -14,9 +14,10 @@ fn problem() -> MixedProblem<i32, i32> {
         .unwrap(),
     )
 }
-fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConfig {
+fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConfig<'static> {
     MixedConstructionConfig {
         construction: ConstructionConfig {
+            cancellation: None,
             max_evaluations: budget,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,

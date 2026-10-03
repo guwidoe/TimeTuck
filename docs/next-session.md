@@ -60,12 +60,15 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Optional borrowed CancellationToken supports cooperative cross-thread cancellation
   in all six local-search paths, retaining the best scored prefix. Tokens are
   one-way and clone-shared; initialization, callbacks and diagnostics are not
-  preempted. Config types now carry a token lifetime. No lifecycle method credit.
+  preempted. All six construction paths and three configurable exact-search entry
+  points also accept the token, retaining partial progress and distinguishing
+  cancellation from full exhaustion. Config types carry a token lifetime; existing
+  exact budget-only APIs retain their signatures. No lifecycle method credit.
 - ScoreTargetProgress and FeasibilityProgress offer validated weighted estimates
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 365 original integration regression methods, thirty original unit tests, and thirty-one public API documentation tests.
+- 373 original integration regression methods, thirty original unit tests, and thirty-two public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -2155,3 +2158,68 @@ six list timing cards with refreshed figures and explicit quality differences,
 no horizontal overflow, no stale alerts and no page errors. Browser closed;
 upstream unmodified. Remaining work includes broader solver lifecycle semantics,
 additional source-test adaptations and stream performance. The goal stays active.
+
+## Construction and exact-search cancellation — latest verified increment
+
+The shared CancellationToken now controls all six construction paths and all three
+exact-search models. ConstructionConfig<'a> borrows an optional token and remains
+Copy; MixedConstructionConfig carries the lifetime. Full struct literals now need
+cancellation: None or a default update, and named token-free helper return types
+may use 'static. Defaults remain unchanged apart from the disabled option.
+
+Construction validates first, retains impossibility/zero-budget precedence, then
+checks the token before initialization, before each required item, between emitted
+candidates and at completion. Interrupted scans install the first best evaluated
+candidate using its cached score and retain partial or complete assignments and
+counters. Callbacks and diagnostics finish; diagnostics are excluded from counters.
+An observed evaluation cap wins, otherwise the final cancellation poll wins even
+if the last candidate completed the model. A complete assignment and a score are
+still both required for solution(). Neither completion nor cancellation proves
+hard feasibility or optimality.
+
+ExactSearchConfig<'a> defaults to max_evaluations 10,000 and no token. The new
+exhaustive_search_with_config, exhaustive_list_search_with_config and
+exhaustive_mixed_search_with_config entry points accept it. Existing budget-only
+signatures delegate with no token. Budget exhaustion is checked before cancellation
+at each complete candidate. Active callbacks finish and eligible best scores are
+retained. Enumeration is not preempted. The final candidate can request cancellation
+and still prove exhaustion; empty spaces are also exhausted, without an optimal
+solution. Zero-variable models have one empty assignment that still needs scoring.
+There is no bounded cancellation latency. Whole-solve orchestration, daemon
+operation, problem changes and construction elapsed-time limits remain pending.
+
+Five construction regressions cover all six paths, both mixed orders, early-pick
+and full-scan policies, every small budget/request prefix, independent assignment
+and score validation, controller-thread requests, diagnostic cancellation, token
+reuse, impossible models, invalid shape/source and already-complete initialization.
+Three exact-search regressions cover all basic/list/mixed request/budget prefixes,
+pins and optionality, eligible-best retention, empty versus singleton-empty spaces,
+final-callback exhaustion and controller-thread requests. One public API doctest
+shows the new exact entry point. These are original tests, not adapted Java
+lifecycle methods; no provenance or adapted-method count changes.
+
+Development gate passes: 863 Rust tests (460 adapted, 373 original integration,
+30 unit), 32 doctests and 76 Python checks. Test development caught missing explicit
+None fields in older struct literals, incorrect helper API names and score-type
+inference in panic-only callbacks; corrected before the full gate. Coverage stays
+460/4855 = 9.47%, pending 4113, excluded 282, failed/unverified zero.
+
+Release also passes all 863 Rust tests. All nine evidence/performance sections
+were refreshed sequentially from final measured sources and report current;
+verification succeeds and the live freshness digest matches. Logs:
+work/all-search-cancellation-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log.
+
+Stream median ms Rust/Java: hill32 44.456/14.573, hill96 171.946/23.270,
+tabu32 48.006/16.069, tabu96 168.323/23.237. The existing stream gap and
+96-variable infeasible scores [-44,-484] remain visible. List cases remain
+192 valid / 189 equal scores; two-opt remains 61/64 equality and Rust49/Java46
+optima. Two-opt medians: 16 customers 0.239/9.138 ms, 32 customers 0.980/13.316 ms.
+Scores, call counts and mixed-quality counts are unchanged. All these benchmarks
+use disabled cancellation; no cross-runtime cancellation latency is claimed.
+
+Desktop 1280x900 and mobile 390x844 browser checks confirm 9.47% coverage,
+passed-method filtering, six list and four stream timing cards, refreshed timing
+figures, no overflow, no stale alerts and no page errors. Browser closed; upstream
+unmodified. The full rewrite goal remains active, with solver orchestration,
+additional upstream semantics and stream performance still unfinished.

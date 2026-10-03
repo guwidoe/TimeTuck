@@ -110,3 +110,34 @@ The dashboard has a separate matched exact-search benchmark for two small
 homogeneous required-variable problems. The extended comparisons do not establish
 performance for optional/range-specific problems, heuristics or large instances.
 See `docs/dashboard.md` for measurement limits.
+
+
+## Exact-search cancellation
+
+`exhaustive_search_with_config`, `exhaustive_list_search_with_config` and
+`exhaustive_mixed_search_with_config` accept `ExactSearchConfig<'a>` with a shared
+optional borrowed CancellationToken and a max_evaluations budget (default 10,000).
+The existing budget-only functions delegate with cancellation disabled; their
+signatures and enumeration behavior are unchanged.
+
+Before scoring each complete assignment, exact search checks the evaluation cap,
+then cancellation. A request observed there returns Termination::Cancelled,
+retaining the first highest-scoring eligible assignment already evaluated. The
+active callback can finish; negative structural scores remain ineligible. Pins,
+ranges, optional values, ordering and joint product enumeration remain intact.
+There is no hard latency bound: model setup, enumeration, user value operations
+and the scoring callback are not preempted.
+
+Reaching the end of the actual space reports Exhausted, even if cancellation was
+requested by the final callback or the final score exactly spent the budget. That
+is the only reason which can prove optimality, and a best solution must also exist.
+An impossible model has an empty space and is exhausted without callbacks even if
+pre-cancelled; it has no optimal solution. A zero-variable model instead contains
+one empty assignment, which must be evaluated before exhaustion is established.
+If both the budget and request prevent the next assignment, EvaluationLimit wins.
+
+Three original regression methods cover every budget/request prefix of basic,
+pinned-prefix optional-list and mixed product spaces, retained eligible scores,
+empty versus singleton-empty spaces, exact-final-callback exhaustion and real
+controller-thread cancellation. A public API doctest demonstrates the new entry
+point. These tests add no upstream adapted-method credit.

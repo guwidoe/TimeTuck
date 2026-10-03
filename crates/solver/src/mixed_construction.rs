@@ -15,8 +15,8 @@ pub enum MixedConstructionOrder {
     ListsThenBasic,
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
-pub struct MixedConstructionConfig {
-    pub construction: ConstructionConfig,
+pub struct MixedConstructionConfig<'a> {
+    pub construction: ConstructionConfig<'a>,
     pub order: MixedConstructionOrder,
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -122,6 +122,10 @@ pub(crate) fn construction_impl<
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
+        return Ok(result);
+    }
     let mut director = make_director(initial)?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -139,6 +143,10 @@ pub(crate) fn construction_impl<
             Phase::Lists => problem.lists().values().len(),
         };
         for index in 0..count {
+            if config.cancelled() {
+                result.termination = ConstructionTermination::Cancelled;
+                break 'phases;
+            }
             let previous = director.score();
             let budget = config.max_evaluations - result.evaluations;
             let selection = match phase {
@@ -157,7 +165,7 @@ pub(crate) fn construction_impl<
                         lists: ListMove::Composite(vec![]),
                     });
                     director.select_best(
-                        moves,
+                        moves.take_while(|_| !config.cancelled()),
                         budget,
                         false,
                         |_, _| true,
@@ -184,7 +192,7 @@ pub(crate) fn construction_impl<
                             },
                         });
                     director.select_best(
-                        moves,
+                        moves.take_while(|_| !config.cancelled()),
                         budget,
                         false,
                         |_, _| true,
@@ -209,6 +217,9 @@ pub(crate) fn construction_impl<
                 break 'phases;
             }
         }
+    }
+    if result.termination == ConstructionTermination::Completed && config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

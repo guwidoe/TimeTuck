@@ -78,8 +78,30 @@ fn record<V: Clone, S: Score>(
 /// does not provide heuristic or incremental list scoring performance.
 pub fn exhaustive_list_search<V, S, F>(
     problem: &ListProblem<V>,
-    mut evaluate: F,
+    evaluate: F,
     max_evaluations: u64,
+) -> ListSearchResult<V, S>
+where
+    V: Eq + Clone,
+    S: Score,
+    F: FnMut(&ListAssignment<V>) -> S,
+{
+    exhaustive_list_search_with_config(
+        problem,
+        evaluate,
+        crate::ExactSearchConfig {
+            max_evaluations,
+            ..Default::default()
+        },
+    )
+}
+
+/// Exact enumeration with optional cooperative cancellation. See
+/// [`crate::ExactSearchConfig`] for polling and termination precedence.
+pub fn exhaustive_list_search_with_config<V, S, F>(
+    problem: &ListProblem<V>,
+    mut evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
 ) -> ListSearchResult<V, S>
 where
     V: Eq + Clone,
@@ -91,16 +113,14 @@ where
         evaluations: 0,
         termination: Termination::Exhausted,
     };
-    let exhausted = visit_list_assignments(problem, |working| {
-        if result.evaluations == max_evaluations {
+    visit_list_assignments(problem, |working| {
+        if let Some(reason) = config.stop_before_next(result.evaluations) {
+            result.termination = reason;
             return false;
         }
         record(&mut result, working, evaluate(working));
         true
     });
-    if !exhausted {
-        result.termination = Termination::EvaluationLimit;
-    }
     result
 }
 

@@ -5,7 +5,7 @@ use timetuck::{
     ConstructionTermination as Stop, FiniteProblem, HardSoftScore, ScoringError, SimpleScore,
     Variable, greedy_construction,
 };
-fn config(budget: u64) -> ConstructionConfig {
+fn config(budget: u64) -> ConstructionConfig<'static> {
     ConstructionConfig {
         max_evaluations: budget,
         assert_scores: true,

@@ -191,3 +191,7 @@ mod timed_search_tests;
 
 pub mod cancellation;
 pub use cancellation::CancellationToken;
+
+pub use list_search::exhaustive_list_search_with_config;
+pub use mixed_search::exhaustive_mixed_search_with_config;
+pub use search::{ExactSearchConfig, exhaustive_search_with_config};

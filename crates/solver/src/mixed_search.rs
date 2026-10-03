@@ -55,8 +55,31 @@ impl<B, L, S> MixedSearchResult<B, L, S> {
 /// ```
 pub fn exhaustive_mixed_search<B, L, S, F>(
     problem: &MixedProblem<B, L>,
-    mut evaluate: F,
+    evaluate: F,
     max_evaluations: u64,
+) -> MixedSearchResult<B, L, S>
+where
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: Score,
+    F: FnMut(&MixedAssignment<B, L>) -> S,
+{
+    exhaustive_mixed_search_with_config(
+        problem,
+        evaluate,
+        crate::ExactSearchConfig {
+            max_evaluations,
+            ..Default::default()
+        },
+    )
+}
+
+/// Exact enumeration with optional cooperative cancellation. See
+/// [`crate::ExactSearchConfig`] for polling and termination precedence.
+pub fn exhaustive_mixed_search_with_config<B, L, S, F>(
+    problem: &MixedProblem<B, L>,
+    mut evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
 ) -> MixedSearchResult<B, L, S>
 where
     B: Eq + Clone,
@@ -72,9 +95,10 @@ where
     if problem.basic().search_space_size() == Some(0) {
         return result;
     }
-    let exhausted = visit_list_assignments(problem.lists(), |lists| {
+    visit_list_assignments(problem.lists(), |lists| {
         visit_assignments(problem.basic(), |basic| {
-            if result.evaluations == max_evaluations {
+            if let Some(reason) = config.stop_before_next(result.evaluations) {
+                result.termination = reason;
                 return false;
             }
             let assignment = MixedAssignment::new(basic.clone(), lists.clone());
@@ -87,8 +111,5 @@ where
             true
         })
     });
-    if !exhausted {
-        result.termination = Termination::EvaluationLimit;
-    }
     result
 }

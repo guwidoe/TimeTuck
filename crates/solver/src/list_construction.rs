@@ -68,6 +68,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
+        return Ok(result);
+    }
     let mut director = make_director(initial)?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
@@ -77,6 +81,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
     result.termination = ConstructionTermination::Completed;
     if !problem.allows_unassigned() {
         for value in problem.values() {
+            if config.cancelled() {
+                result.termination = ConstructionTermination::Cancelled;
+                break;
+            }
             if director.assignment().location(value).is_some() {
                 continue;
             }
@@ -89,7 +97,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                     destination,
                 });
             let selection = director.select_best(
-                moves,
+                moves.take_while(|_| !config.cancelled()),
                 config.max_evaluations - result.evaluations,
                 false,
                 |_, _| true,
@@ -107,6 +115,9 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                 break;
             }
         }
+    }
+    if result.termination == ConstructionTermination::Completed && config.cancelled() {
+        result.termination = ConstructionTermination::Cancelled;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

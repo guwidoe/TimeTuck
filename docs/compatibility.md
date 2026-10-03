@@ -314,3 +314,11 @@ requests, scored-prefix retention, validation and fallback. This does not adapt
 the complete Java plumbing/lifecycle tests, which also involve daemon execution,
 problem-change queues and listeners. Those source methods remain pending and the
 adapted-method count is unchanged.
+
+
+The shared native cancellation token now also controls all six construction paths
+and all three exact-search model types. Construction retains partial scored
+progress; exact search distinguishes an interrupted prefix from fully exhausted
+enumeration. Eight original regression methods and one API doctest establish
+these native contracts. The complete upstream Java solver lifecycle cases remain
+pending; cancellation support alone does not satisfy their other assertions.

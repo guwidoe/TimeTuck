@@ -604,11 +604,46 @@ exhaustion from being observed, even when the last evaluation spent the budget.
 This is cooperative phase cancellation. Active callbacks, validation, optional
 score diagnostics and bounded candidate prefetch are not interrupted; diagnostics
 may execute after a request. There is no bounded cancellation latency or optimality
-claim. Construction, exact search, whole-solve orchestration, daemon operation and
-queued problem changes do not gain cancellation support from this API.
+claim. Construction and exact search also accept this shared token as described
+below. Whole-solve orchestration, daemon operation and queued problem changes
+remain pending.
 
 Six original integration methods exercise all six paths, repeated requests and
 shared identity, a real thread cancelling a blocked score callback, initial and
 candidate prefix retention, both selection policies, validation and rejected-move
 fallback. These checks earn no upstream method credit; the complete Java solver
 lifecycle methods remain pending.
+
+
+### Construction cancellation
+
+`ConstructionConfig<'a>` now optionally borrows the same token through
+`cancellation`; `MixedConstructionConfig<'a>` carries that lifetime too. Existing
+full struct literals must supply `cancellation: None` or use the default update
+syntax. Helpers returning token-free configurations can name a `'static` lifetime.
+All six basic/list/mixed and scoped/stream construction paths share these controls.
+
+Model/network and stream-source validation run first. Impossibility returns
+NoCompleteAssignment before cancellation and before zero-budget handling. A zero
+budget returns EvaluationLimit; otherwise a request observed before initialization
+returns the initial assignment, no score and zero work. Completeness describes the
+assignment independently of its score or termination reason.
+
+Requests during scoring let that calculation finish. Before each required item and
+between emitted candidates the constructor polls the token. It installs the first
+highest-scoring candidate from the evaluated prefix using its saved cache, then
+returns that partial or complete assignment with its calculated score and normal
+work counters. Initial and post-scan diagnostics are not preempted and remain
+excluded from the work budget. An already-observed evaluation limit takes
+precedence, including when diagnostics request cancellation afterward. Otherwise a
+final poll reports Cancelled even when the last candidate completed construction,
+or when there were no missing required values. This differs from exact-search
+exhaustion, which proves the complete assignment space was visited.
+
+Five original methods verify cancelled prefixes against the corresponding bounded
+construction results for both early-pick modes, both mixed construction orders,
+all six backends and every budget/cancellation boundary of the small models.
+Returned assignments and scores are independently checked, with explicit partial
+progress and cross-thread cancellation checks. Additional cases cover diagnostic
+requests, reused tokens, validation, impossible models and already-complete inputs.
+These are native lifecycle contracts; no extra upstream method credit is claimed.
