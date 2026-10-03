@@ -85,7 +85,7 @@ pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
@@ -99,7 +99,7 @@ pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -133,7 +133,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -258,6 +258,7 @@ where
             acceptor.step_ended(director.score(), &keys);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
+            time_budget.complete_step(improved);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }

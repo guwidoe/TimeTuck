@@ -359,7 +359,7 @@ pub(crate) fn mixed_stream_local_search_from_monitored<
     L: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &MixedProblem<B, L>,
     graph: StreamGraph<'_, S>,
     sources: MixedStreamSources<B, L>,

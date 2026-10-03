@@ -76,14 +76,14 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 435 original integration regression methods, fifty-five original unit tests, and forty-two public API documentation tests.
+- 441 original integration regression methods, fifty-seven original unit tests, and forty-two public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
   and per-phase work. Shared elapsed time now spans construction, improvement and
   stream graph preparation. Construction also has a phase-local max_time control.
-  Read `docs/solver-contract.md`; optional shared unimproved time now spans local
-  search phases, while stream graphs are rebuilt per phase.
+  Read `docs/solver-contract.md`; optional shared unimproved time and step limits
+  span local-search phases, while stream graphs are rebuilt per phase.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -2953,3 +2953,55 @@ quality differences remain Rust/Java [0,-1250]/[0,-1254] and
 [0,-1964]/[0,-2070]. Construction32 remains [0,-1080]/[0,-1062]. These warmed
 workloads retain fixed step/evaluation limits and do not benchmark the new timed
 termination or establish statistically significant performance changes.
+
+
+## Solve-wide unimproved steps — latest increment
+
+Added SolverLimits::max_unimproved_steps and SolverTermination::UnimprovedStepLimit.
+Private SearchStagnation becomes SearchControl and SolveTime becomes SolveControl,
+with a shared StepProgress, started flag and latched step expiry. All three search
+engines report complete_step(improved) at the same point as their existing local
+StepProgress updates. Shared control spans all six solve entry points; public
+standalone-search signatures remain unchanged. Step-only controls never read clocks.
+
+Construction and initialization do not count. Every selected move counts, including
+rejected fallback. Strict retained-best improvement resets; ties/worsening/recovery
+and later phases do not. No-selected-move phases consume no steps. Per-phase step
+limits remain independent. A zero shared cap allows construction and first search
+initialization. Existing reported score/candidate/cancel precedence is followed by
+shared elapsed time, shared unimproved time, shared unimproved steps, then goals.
+Phase reports preserve their own reason; phase-local timers precede shared observer
+reasons during search. See solver-contract.md for exact scope.
+
+Six new original integration methods in tests/solver.rs use a generalized score
+fixture to test plateaus, fallback/recovery, no-move phases, local/global caps,
+construction/early goals and precedence across all six backends. The plateau matrix
+covers caps 0..5 and phase sizes 1,2,5 and independently checks completed/accepted
+steps, scores, completeness and aggregate phase accounting. Two new internal tests
+cover no-clock operation, cross-phase reset/latching and time/step reason scope.
+Existing tests remain intact through the fixture's original identity-score wrapper.
+
+Read pinned UnimprovedStepCountTerminationTest.java; its existing adaptation remains
+unchanged. No new copied/adapted tests, fixtures or provenance entries. Native
+regressions add no source-method credit or Java whole-solve trace equivalence.
+Next: orchestrated exact phases and remaining problem-change/lifecycle support.
+
+Development gate and release tests pass 1,067 Rust tests: 569 adapted, 441 original
+integration and 57 unit. All 42 doctests and 87 Python tests pass. Coverage remains
+569/4,855 (11.72%), pending 4,004, excluded 282, failed/unverified zero. Logs for
+this increment use work/shared-steps-*.log. The full solver rewrite remains active.
+
+All nine correctness/performance sections were refreshed and are current. The live
+/api/freshness verification_digest matches the generated report. Browser check
+confirms 11.72%, 569/4,855, all 19 benchmark cards, decimal 8,170/8,170, and no
+stale-state warnings, visible alerts, page errors or horizontal overflow. Browser
+closed; the existing dashboard server remains running.
+
+Latest warmed Rust/Java median ms: exact6 0.010/3.910, exact8 0.157/5.048;
+stream hill32 49.125/17.423, hill96 177.256/30.316, tabu32 47.049/16.319,
+tabu96 171.354/25.181. Both 96-variable stream results remain [-44,-484],
+infeasible under the fixed cap. List two-opt16 0.258/8.921, two-opt32 0.964/11.380;
+Rust/Java quality differences remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070].
+Construction32 remains [0,-1080]/[0,-1062]. These fixed-workload timings are not
+benchmarks of shared stagnation termination or evidence of statistically significant
+speed changes. The full rewrite remains unfinished; keep the goal active.

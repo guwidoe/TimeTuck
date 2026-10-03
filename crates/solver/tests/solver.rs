@@ -38,9 +38,27 @@ fn run(
     fail_factory: Option<usize>,
     hook: impl Fn(),
 ) -> Result<Outcome, Failure> {
+    run_scored(
+        (mode, initialized, order),
+        c,
+        factories,
+        fail_factory,
+        hook,
+        SimpleScore::new,
+    )
+}
+fn run_scored(
+    scenario: (usize, bool, MixedConstructionOrder),
+    c: SolverConfig<'_>,
+    factories: &Cell<usize>,
+    fail_factory: Option<usize>,
+    hook: impl Fn(),
+    make: impl Fn(i64) -> SimpleScore,
+) -> Result<Outcome, Failure> {
+    let (mode, initialized, order) = scenario;
     let score = |v: &[Option<usize>]| {
         hook();
-        SimpleScore::new(v.iter().flatten().map(|&v| v as i64).sum())
+        make(v.iter().flatten().map(|&v| v as i64).sum())
     };
     let factory = || {
         factories.set(factories.get() + 1);
@@ -61,10 +79,9 @@ fn run(
                     if let Some(s) = r.score {
                         assert_eq!(
                             s,
-                            SimpleScore::new(values.iter().flatten().map(|&v| v as i64).sum())
-                                .with_structural(
-                                    -(values.iter().filter(|v| v.is_none()).count() as i64)
-                                )
+                            make(values.iter().flatten().map(|&v| v as i64).sum()).with_structural(
+                                -(values.iter().filter(|v| v.is_none()).count() as i64)
+                            )
                         );
                     }
                     Ok(Outcome {
@@ -1049,5 +1066,249 @@ fn shared_stagnation_preserves_validation_and_zero_budget_precedence() {
         .unwrap();
         assert_eq!(r.reason, SolverTermination::EvaluationLimit);
         assert_eq!(r.work.evaluations, 0);
+    }
+}
+
+#[test]
+fn shared_unimproved_steps_count_plateaus_across_all_six_backends() {
+    for mode in 0..6 {
+        for cap in 0..=5 {
+            for phase_steps in [1, 2, 5] {
+                let mut c = plan();
+                c.limits.max_unimproved_steps = Some(cap);
+                c.local_search = vec![
+                    LocalSearchConfig {
+                        max_steps: phase_steps,
+                        acceptance: Acceptance::HillClimbing,
+                        ..Default::default()
+                    };
+                    8
+                ];
+                let r = run_scored(
+                    (mode, true, MixedConstructionOrder::BasicThenLists),
+                    c,
+                    &Cell::new(0),
+                    None,
+                    || {},
+                    |n| SimpleScore::new(n.min(1)),
+                )
+                .unwrap();
+                assert_eq!(
+                    r.reason,
+                    SolverTermination::UnimprovedStepLimit,
+                    "mode {mode}, cap {cap}, phase steps {phase_steps}"
+                );
+                assert_eq!(r.work.completed_steps, if cap == 0 { 0 } else { cap + 1 });
+                assert_eq!(r.work.accepted_moves, r.work.completed_steps);
+                assert_eq!(r.score, Some(SimpleScore::new(i64::from(cap > 0))));
+                assert_eq!(
+                    r.phases.iter().map(|p| p.work.completed_steps).sum::<u64>(),
+                    r.work.completed_steps
+                );
+                assert!(r.complete);
+            }
+        }
+    }
+}
+
+#[test]
+fn shared_steps_count_rejected_fallback_and_recovery_without_reset() {
+    for mode in 0..6 {
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(2);
+        c.local_search = vec![
+            LocalSearchConfig {
+                max_steps: 20,
+                rejected_moves: RejectedMovePolicy::BestScore,
+                ..Default::default()
+            };
+            3
+        ];
+        let r = run_scored(
+            (mode, true, MixedConstructionOrder::BasicThenLists),
+            c,
+            &Cell::new(0),
+            None,
+            || {},
+            |n| SimpleScore::new(-n),
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::UnimprovedStepLimit);
+        assert_eq!(r.work.completed_steps, 2);
+        assert_eq!(r.work.accepted_moves, 1);
+        assert_eq!(r.score, Some(SimpleScore::ZERO));
+        assert!(r.values.iter().all(|v| *v == Some(0)));
+        assert_eq!(r.phases.len(), 2);
+    }
+}
+
+#[test]
+fn phases_without_selected_moves_do_not_consume_shared_steps() {
+    for mode in 0..6 {
+        for limit in [1, u64::MAX] {
+            let mut c = plan();
+            c.limits.max_unimproved_steps = Some(limit);
+            c.local_search = vec![LocalSearchConfig::default(); 6];
+            c.local_search[0].max_steps = 0;
+            let r = run_scored(
+                (mode, true, MixedConstructionOrder::BasicThenLists),
+                c,
+                &Cell::new(0),
+                None,
+                || {},
+                |_| SimpleScore::ZERO,
+            )
+            .unwrap();
+            assert_eq!(r.reason, SolverTermination::PlanCompleted);
+            assert_eq!(r.work.completed_steps, 0);
+            assert_eq!(r.phases.len(), 7);
+            assert_eq!(
+                r.phases[1].termination,
+                PhaseTermination::LocalSearch(LocalSearchTermination::StepLimit)
+            );
+            assert!(r.phases[2..].iter().all(|p| p.termination
+                == PhaseTermination::LocalSearch(LocalSearchTermination::NoAcceptedMove)));
+        }
+    }
+}
+
+#[test]
+fn local_unimproved_step_caps_leave_shared_progress_for_later_phases() {
+    for mode in 0..6 {
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(3);
+        c.local_search = vec![
+            LocalSearchConfig {
+                max_steps: 100,
+                max_unimproved_steps: Some(1),
+                acceptance: Acceptance::HillClimbing,
+                ..Default::default()
+            };
+            5
+        ];
+        let r = run_scored(
+            (mode, true, MixedConstructionOrder::BasicThenLists),
+            c,
+            &Cell::new(0),
+            None,
+            || {},
+            |_| SimpleScore::ZERO,
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::UnimprovedStepLimit);
+        assert_eq!(r.work.completed_steps, 3);
+        assert_eq!(r.phases.len(), 4);
+        assert!(r.phases[1..].iter().all(|p| p.work.completed_steps == 1));
+    }
+}
+
+#[test]
+fn zero_shared_step_limit_ignores_construction_and_pre_search_goals() {
+    for mode in 0..6 {
+        for initialized in [false, true] {
+            for construction_only in [false, true] {
+                let mut c = plan();
+                c.limits.max_unimproved_steps = Some(0);
+                if construction_only {
+                    c.local_search.clear();
+                }
+                let r = run(
+                    mode,
+                    initialized,
+                    c,
+                    MixedConstructionOrder::BasicThenLists,
+                    &Cell::new(0),
+                    None,
+                    || {},
+                )
+                .unwrap();
+                assert!(r.complete);
+                assert_eq!(r.work.completed_steps, 0);
+                assert_eq!(r.phases.len(), if construction_only { 1 } else { 2 });
+                assert_eq!(
+                    r.reason,
+                    if construction_only {
+                        SolverTermination::PlanCompleted
+                    } else {
+                        SolverTermination::UnimprovedStepLimit
+                    }
+                );
+            }
+        }
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(0);
+        c.limits.best_score_limit = Some(SimpleScore::ZERO);
+        let r = run(
+            mode,
+            true,
+            c,
+            MixedConstructionOrder::ListsThenBasic,
+            &Cell::new(0),
+            None,
+            || {},
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::BestScoreLimit);
+        assert_eq!(r.phases.len(), 1);
+    }
+}
+
+#[test]
+fn shared_steps_keep_cancellation_validation_and_time_precedence() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        let token = CancellationToken::new();
+        let calls = Cell::new(0);
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(0);
+        c.limits.cancellation = Some(&token);
+        let r = run(
+            mode,
+            true,
+            c,
+            MixedConstructionOrder::BasicThenLists,
+            &Cell::new(0),
+            None,
+            || {
+                calls.set(calls.get() + 1);
+                if calls.get() == 2 {
+                    token.cancel();
+                }
+            },
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::Cancelled);
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(0);
+        c.limits.max_unimproved_time = Some(Duration::ZERO);
+        let r = run(
+            mode,
+            true,
+            c,
+            MixedConstructionOrder::BasicThenLists,
+            &Cell::new(0),
+            None,
+            || {},
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::UnimprovedTimeLimit);
+        let mut c = plan();
+        c.limits.max_unimproved_steps = Some(0);
+        c.local_search[1].acceptance = Acceptance::LateAcceptance {
+            history_size: 0,
+            hill_climbing: false,
+        };
+        assert_eq!(
+            run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || panic!("invalid plan")
+            ),
+            Err(Failure::Acceptance(2))
+        );
     }
 }

@@ -90,8 +90,8 @@ score/candidate caps and cancellation precede time; time precedes incomplete-sta
 and shared-goal checks. Later improvement phases do not start once expiry is observed.
 
 Local-search stagnation timing remains available per phase. SolverLimits also
-supports shared max_unimproved_time, described below. Shared unimproved-step limits,
-live problem changes, daemon operation, solver-manager services, concurrent phases
+supports shared max_unimproved_time and max_unimproved_steps, described below.
+Live problem changes, daemon operation, solver-manager services, concurrent phases
 and cross-phase cache reuse remain unfinished. Standalone
 exact search has its own cooperative elapsed limit (see planning-contract.md); exact
 search is not yet an orchestrated phase.
@@ -190,3 +190,44 @@ competing local/global/time/goal limits, phase-return expiry and backwards/latch
 timestamps. Tests use no sleeps. The pinned UnimprovedTimeMillisSpentTerminationTest
 was inspected as behavioral context but has not been adapted; all six of its methods
 remain pending and these native regressions earn no upstream method credit.
+
+
+## Solve-wide unimproved steps
+
+SolverLimits::max_unimproved_steps is an optional u64 limit, disabled by default.
+The shared counter starts when the first local search is initialized and persists
+across subsequent phases. Each selected move completes one step, including a
+rejected fallback. Only a strict retained-best improvement resets its unimproved
+count to zero. Accepted ties, worsening moves and recovery to a previous best
+consume steps without resetting it. Construction, initialization, rejected
+candidates without a selected move, and phases ending with NoAcceptedMove add no
+steps. Later phases start from the retained best without resetting shared progress.
+
+At the limit, the solve returns SolverTermination::UnimprovedStepLimit. Zero allows
+construction and first search initialization, then no candidate work. Construction-only
+plans and shared goals reached before local search leave this control inactive.
+Per-phase max_steps and max_unimproved_steps remain independent; a shorter phase
+limit may permit another phase while the shared counter retains its progress.
+SolverWork.completed_steps remains the sum of completed local steps; it is not the
+shared unimproved count. Individual PhaseReports keep their original stop reason.
+
+The observer carries both step and time events. With only a step limit enabled,
+neither the solve nor phase timer reads a clock. Phase elapsed/unimproved time is
+checked before the observer's stop reason. After phase return, previously reported
+shared score/candidate limits and cancellation precede shared elapsed time, then
+shared unimproved time, then shared unimproved steps, then goals. This can preserve
+a phase-local time/step reason while the shared step cap ends the whole solve.
+Counters use the existing checked StepProgress arithmetic; the shared score budget
+bounds the number of completed steps, and u64::MAX is a valid configured limit.
+
+Six original integration methods exercise all six model/backend paths with multiple
+phase sizes, caps 0..5, plateau improvements, rejected fallback/recovery, no-selected-move
+phases, independent local caps, construction-only/early-goal paths, cancellation,
+validation and simultaneous time limits. The plateau matrix independently checks
+that exactly cap+1 completed steps occur (one improving step and cap unimproved
+steps), except zero, which stops before the first candidate. Two unit methods check
+clock-free step-only operation, reset/latching across fresh phase budgets and
+simultaneous time/step limits with retained phase reasons. These are native
+orchestration regressions. The existing adapted UnimprovedStepCountTerminationTest
+method still covers its original phase threshold/progress assertions; this new
+solve-wide feature adds no upstream method credit or Java whole-solve trace claim.

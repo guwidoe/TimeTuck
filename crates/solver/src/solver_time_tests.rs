@@ -208,7 +208,7 @@ fn elapsed_time_precedes_shared_goals_but_preserves_phase_reports() {
 #[test]
 fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time() {
     let mut disabled = || panic!("disabled global clock");
-    let mut time = SolveTime {
+    let mut time = SolveControl {
         limit: None,
         clock: &mut disabled,
         last: Duration::ZERO,
@@ -216,6 +216,10 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         unimproved_limit: None,
         last_improvement: None,
         unimproved_expired: false,
+        unimproved_steps_limit: None,
+        steps: StepProgress::default(),
+        started: false,
+        steps_expired: false,
     };
     let mut own = Some(ms(5));
     time.bound(&mut own);
@@ -224,7 +228,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     assert!(!time.shared_bound);
     let mut samples = [ms(3), ms(1), ms(8), ms(2), ms(10), ms(0)].into_iter();
     let mut clock = || samples.next().unwrap();
-    let mut time = SolveTime {
+    let mut time = SolveControl {
         limit: Some(ms(10)),
         clock: &mut clock,
         last: Duration::ZERO,
@@ -232,6 +236,10 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         unimproved_limit: None,
         last_improvement: None,
         unimproved_expired: false,
+        unimproved_steps_limit: None,
+        steps: StepProgress::default(),
+        started: false,
+        steps_expired: false,
     };
     assert_eq!(time.remaining(), Some(ms(7)));
     assert_eq!(time.remaining(), Some(ms(7)));
@@ -328,10 +336,10 @@ fn shared_stagnation_precedes_goals_and_observes_expiry_on_phase_return() {
 
 #[test]
 fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
-    use crate::time_limit::SearchStagnation;
+    use crate::time_limit::SearchControl;
     let elapsed = Cell::new(ms(10_000));
     let mut clock = || elapsed.get();
-    let mut time = SolveTime {
+    let mut time = SolveControl {
         limit: None,
         clock: &mut clock,
         last: Duration::ZERO,
@@ -339,6 +347,10 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
         unimproved_limit: Some(ms(10)),
         last_improvement: None,
         unimproved_expired: false,
+        unimproved_steps_limit: None,
+        steps: StepProgress::default(),
+        started: false,
+        steps_expired: false,
     };
     assert!(!time.stagnated()); // Preparation is unbounded by stagnation.
     time.start_search();
@@ -372,4 +384,83 @@ fn equal_score_moves_and_new_phase_initialization_do_not_reset_shared_stagnation
     assert_eq!(r.work.accepted_moves, 2);
     assert_eq!(r.phases.len(), 3);
     assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+}
+
+fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> SolveControl<'a> {
+    SolveControl {
+        limit: None,
+        clock,
+        last: Duration::ZERO,
+        shared_bound: false,
+        unimproved_limit: None,
+        last_improvement: None,
+        unimproved_expired: false,
+        unimproved_steps_limit: Some(limit),
+        steps: StepProgress::default(),
+        started: false,
+        steps_expired: false,
+    }
+}
+
+#[test]
+fn step_only_control_uses_no_clocks_and_preserves_progress_between_phase_budgets() {
+    let mut clock = || panic!("step-only solve must not read a clock");
+    let mut control = step_control(2, &mut clock);
+    assert!(!control.step_stagnated());
+    {
+        let mut phase = crate::time_limit::TimeBudget::new(None, None, || panic!("no phase timer"))
+            .with_shared(control.monitor());
+        phase.start_search();
+        phase.record_improvement();
+        phase.complete_step(true);
+        phase.complete_step(false);
+        assert_eq!(phase.stop(), None);
+    }
+    assert_eq!(control.steps.completed_steps(), 2);
+    assert_eq!(control.steps.unimproved_steps(), 1);
+    {
+        let mut phase = crate::time_limit::TimeBudget::new(None, None, || panic!("no phase timer"))
+            .with_shared(control.monitor());
+        phase.start_search();
+        phase.complete_step(false);
+        assert_eq!(
+            phase.stop(),
+            Some(LocalSearchTermination::UnimprovedStepLimit)
+        );
+        phase.record_improvement();
+        phase.complete_step(true); // Even an invalid late notification cannot revive it.
+        assert_eq!(
+            phase.stop(),
+            Some(LocalSearchTermination::UnimprovedStepLimit)
+        );
+    }
+    assert_eq!(control.steps.completed_steps(), 3);
+    assert_eq!(control.steps.unimproved_steps(), 2);
+}
+
+#[test]
+fn shared_steps_preserve_time_priority_and_phase_return_reasons() {
+    let mut c = plan();
+    c.limits.max_unimproved_steps = Some(0);
+    c.local_search[0].max_unimproved_time = Some(Duration::ZERO);
+    let r = exercise(c, 0);
+    assert_eq!(r.termination, SolverTermination::UnimprovedStepLimit);
+    assert_eq!(
+        r.phases[1].termination,
+        PhaseTermination::LocalSearch(LocalSearchTermination::UnimprovedTimeLimit)
+    );
+    let mut c = plan();
+    c.limits.max_unimproved_steps = Some(0);
+    c.limits.max_time = Some(ms(2));
+    let r = exercise(c, 0);
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    let mut c = plan();
+    c.limits.max_unimproved_steps = Some(0);
+    c.local_search[0].max_steps = 0;
+    let r = exercise(c, 0);
+    assert_eq!(r.termination, SolverTermination::UnimprovedStepLimit);
+    assert_eq!(
+        r.phases[1].termination,
+        PhaseTermination::LocalSearch(LocalSearchTermination::StepLimit)
+    );
 }

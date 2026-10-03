@@ -418,3 +418,10 @@ strict retained-best improvement before expiry. Original deterministic clock and
 public-entry-point regressions establish this native contract. No source-method
 credit or Java timed lifecycle/trace parity is added; the six upstream
 UnimprovedTimeMillisSpentTerminationTest methods remain pending. See solver-contract.md.
+
+
+Native shared unimproved-step limits now carry completed-step progress across local
+search phases in all six solver entry points. Original plateau, fallback/recovery,
+phase-boundary and precedence regressions verify this behavior. No new source
+methods were adapted: the existing UnimprovedStepCountTerminationTest adaptation
+still covers only its recorded phase assertions. See solver-contract.md.

@@ -105,7 +105,7 @@ pub fn mixed_local_search_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn mixed_local_search_from_monitored<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
     initial: MixedAssignment<B, L>,
@@ -124,7 +124,7 @@ pub(crate) fn search_impl_monitored<
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -164,7 +164,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -295,6 +295,7 @@ where
             acceptor.step_ended(director.score(), &keys);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
+            time_budget.complete_step(improved);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }

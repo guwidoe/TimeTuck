@@ -346,7 +346,7 @@ pub(crate) fn list_stream_local_search_from_monitored<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &ListProblem<V>,
     graph: StreamGraph<'_, S>,
     sources: ListStreamSources<V>,

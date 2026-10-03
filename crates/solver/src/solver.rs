@@ -15,6 +15,9 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Construction is excluded. Later phases/handoffs do not reset the timer.
     /// Only strict retained-best improvement resets it, before expiry.
     pub max_unimproved_time: Option<Duration>,
+    /// Completed local-search steps since the last strict retained-best improvement.
+    /// Counts across phases; construction and initialization do not count.
+    pub max_unimproved_steps: Option<u64>,
     pub cancellation: Option<&'a CancellationToken>,
     pub best_score_limit: Option<S>,
     pub stop_when_feasible: bool,
@@ -26,6 +29,7 @@ impl<S> Default for SolverLimits<'_, S> {
             max_move_evaluations: None,
             max_time: None,
             max_unimproved_time: None,
+            max_unimproved_steps: None,
             cancellation: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -109,6 +113,7 @@ pub enum SolverTermination {
     MoveEvaluationLimit,
     TimeLimit,
     UnimprovedTimeLimit,
+    UnimprovedStepLimit,
     Cancelled,
     BestScoreLimit,
     FeasibleScore,
@@ -182,7 +187,7 @@ enum PhaseRequest<'a, S> {
 }
 // Clock readings are elapsed from entry to run(), including plan validation.
 // Clip immediately before phase entry, after any graph factory preparation.
-struct SolveTime<'c> {
+struct SolveControl<'c> {
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
     last: Duration,
@@ -190,8 +195,12 @@ struct SolveTime<'c> {
     unimproved_limit: Option<Duration>,
     last_improvement: Option<Duration>,
     unimproved_expired: bool,
+    unimproved_steps_limit: Option<u64>,
+    steps: StepProgress,
+    started: bool,
+    steps_expired: bool,
 }
-impl SolveTime<'_> {
+impl SolveControl<'_> {
     fn sample(&mut self) {
         self.last = self.last.max((self.clock)());
     }
@@ -204,8 +213,15 @@ impl SolveTime<'_> {
         }
         self.unimproved_expired
     }
-    fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchStagnation> {
-        if self.unimproved_limit.is_some() {
+    fn step_stagnated(&mut self) -> bool {
+        self.steps_expired |= self.started
+            && self
+                .unimproved_steps_limit
+                .is_some_and(|limit| self.steps.unimproved_steps() >= limit);
+        self.steps_expired
+    }
+    fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
+        if self.unimproved_limit.is_some() || self.unimproved_steps_limit.is_some() {
             Some(self)
         } else {
             None
@@ -228,9 +244,10 @@ impl SolveTime<'_> {
         }
     }
 }
-impl crate::time_limit::SearchStagnation for SolveTime<'_> {
+impl crate::time_limit::SearchControl for SolveControl<'_> {
     fn start_search(&mut self) {
-        if self.last_improvement.is_none() {
+        self.started = true;
+        if self.unimproved_limit.is_some() && self.last_improvement.is_none() {
             self.sample();
             self.last_improvement = Some(self.last);
         }
@@ -241,12 +258,24 @@ impl crate::time_limit::SearchStagnation for SolveTime<'_> {
             self.last_improvement = Some(self.last);
         }
     }
-    fn expired(&mut self) -> bool {
-        self.stagnated()
+    fn complete_step(&mut self, improved: bool) {
+        if self.unimproved_steps_limit.is_some() && !self.step_stagnated() {
+            self.steps.complete_step(improved);
+            self.step_stagnated();
+        }
+    }
+    fn stop(&mut self) -> Option<LocalSearchTermination> {
+        if self.stagnated() {
+            Some(LocalSearchTermination::UnimprovedTimeLimit)
+        } else if self.step_stagnated() {
+            Some(LocalSearchTermination::UnimprovedStepLimit)
+        } else {
+            None
+        }
     }
 }
 impl<S> PhaseRequest<'_, S> {
-    fn with_time(mut self, time: &mut SolveTime<'_>) -> Self {
+    fn with_time(mut self, time: &mut SolveControl<'_>) -> Self {
         match &mut self {
             Self::Construction(c) => time.bound(&mut c.max_time),
             Self::LocalSearch(c) => time.bound(&mut c.max_time),
@@ -275,7 +304,7 @@ fn run<A, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveTime<'_>,
+        &mut SolveControl<'_>,
     ) -> Result<PhaseOutput<A, S>, E>,
 ) -> Result<SolverResult<A, S>, SolverError<E>>
 where
@@ -294,14 +323,14 @@ fn run_with_clock<A, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveTime<'_>,
+        &mut SolveControl<'_>,
     ) -> Result<PhaseOutput<A, S>, E>,
     clock: &mut dyn FnMut() -> Duration,
 ) -> Result<SolverResult<A, S>, SolverError<E>>
 where
     A: Clone,
 {
-    let mut time = SolveTime {
+    let mut time = SolveControl {
         limit: limits.max_time,
         clock,
         last: Duration::ZERO,
@@ -309,6 +338,10 @@ where
         unimproved_limit: limits.max_unimproved_time,
         last_improvement: None,
         unimproved_expired: false,
+        unimproved_steps_limit: limits.max_unimproved_steps,
+        steps: StepProgress::default(),
+        started: false,
+        steps_expired: false,
     };
     // Validate the entire plan before scoring, including phases that might never run.
     for (index, token) in std::iter::once(construction.cancellation)
@@ -345,6 +378,8 @@ where
                 Some(SolverTermination::TimeLimit)
             } else if time.stagnated() {
                 Some(SolverTermination::UnimprovedTimeLimit)
+            } else if time.step_stagnated() {
+                Some(SolverTermination::UnimprovedStepLimit)
             } else {
                 None
             };
@@ -444,6 +479,7 @@ where
             }
             _ if time.expired() => Some(SolverTermination::TimeLimit),
             _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
+            _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
             _ if !r.complete => Some(SolverTermination::IncompleteConstruction),
             _ if r.score.as_ref().is_some_and(|score| {
                 limits

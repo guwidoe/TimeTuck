@@ -293,7 +293,7 @@ pub fn local_search_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
@@ -312,7 +312,7 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
 }
 
 fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Option<Assignment<V>>,
@@ -332,7 +332,7 @@ fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -366,7 +366,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: SearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -515,6 +515,7 @@ where
             acceptor.step_ended(director.score(), &variables);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
+            time_budget.complete_step(improved);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
