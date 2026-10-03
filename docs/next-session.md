@@ -23,7 +23,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   `0hard/-4soft` over 96 states. Mixed local search now supports joint moves and all native acceptance policies;
   mixed greedy construction supports explicit component ordering. Scoped and transactional
   stream scoring share construction/local-search algorithms. Original Java mixed move/score
-  comparisons now cover 128 cases / 2,378 states; mixed solver-search comparisons remain pending.
+  comparisons now cover 128 cases / 2,378 states; original mixed solver-quality comparisons now exist as described below.
 - Native ordered-list model with unique ownership, optional unassignment, prefix/full
   pins and derived owner/index/previous/next views. Atomic assign/change/swap/span
   unassign/composite transactions, plus iterative bounded exact list enumeration.
@@ -62,6 +62,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Python enumeration: 64 homogeneous required and 64 per-variable range cases,
   including mixed optionality, empty optional ranges and pinned nulls. Movable
   initial values reset before both solves.
+- 64 original mixed depot/route solver-quality cases validate all solutions against
+  independent Python optima (32,116 joint assignments). Optima: Rust exact 64,
+  Community BRUTE_FORCE 39, native scoped/stream local 63 each. Different
+  strategies/starts; quality gaps are explicit, with no timing/trace/coverage claim.
 - 219 original deterministic basic-search termination cases agree with Community
   and independent Python search; native scoped/stream counters and reasons also
   match 398 reference steps. Includes delayed improvements after fallback and
@@ -115,8 +119,9 @@ initialization-score assumptions. No production implementation has been ported.
 ## Next substantive work
 
 0. Expand persistent operators and applicable upstream cases; mixed stream scoring,
-   construction and local search now exist. Extend original Java mixed move/score
-   comparisons to mixed solver search and applicable upstream cases.
+   construction and local search now exist. Mixed solver-quality evidence now
+   compares Java BRUTE_FORCE and native exact/local results; matched Java mixed
+   local-search configurations and applicable upstream cases remain pending.
    Incremental distinct now retains one lowest-input-ID representative per ordered
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
@@ -1774,3 +1779,53 @@ Live server fingerprint matches the report. Browser checks at 1280px and 390px
 show 8.98% coverage, all 13 passed lifecycle cases, no stale alerts, page errors
 or horizontal overflow. Existing server reused, browser closed. Upstream remains
 unmodified; the full goal remains active and unfinished.
+
+
+## Mixed solver-quality evidence increment
+
+MixedSolverOracle.java uses pinned Community public BRUTE_FORCE configuration
+with unsorted entities/values for coupled depot/ordered-route problems. The new
+native mixed_solver_oracle runs joint exhaustive search plus scoped/stream local
+search. mixed_solver_checks.py generates 64 original cases (seed 20261123), validates
+all returned assignments/scores and enumerates 32,116 joint reference assignments.
+The report is nested in solver_differential.mixed_solver_checks and shown separately
+on the dashboard, with no upstream method credit or mixed timing claim.
+
+Observed optima: Rust exact 64/64, Community BRUTE_FORCE 39/64, native scoped and
+stream local 63/64 each. Different starts/strategies are explicit. Community starts
+unassigned; native local starts at the first depot with all customers on owner
+zero, using strict improvement, best accepted, joint moves and 20 steps. Native
+backends also agree on exact assignments/counters/reasons. Exact native work must
+match the complete independent product count. This is quality evidence, not a
+claim of equivalent algorithms or Java phase/counter traces.
+
+The literal coupled-depots case returns Java 0hard/-22soft versus the independently
+proven and native exact 0hard/-4soft. Keep this discrepancy visible. The native
+local trap is mixed-search-18: depots [-4,-7,9], customer points [5,-8,8,-4],
+capacities [1,3]. Both native local backends return depots [9,-7], routes [[2],
+[0,3,1]], 0hard/-28soft after 751 evaluations/3 steps (NoAcceptedMove). Exact joint
+optimum is 0hard/-26soft over 1,080 assignments; Java returns 0hard/-32soft. The
+raw case corpus is work/oracle/mixed-solver-cases.json. Future improvements can
+use this case without pretending every local optimum is globally optimal.
+
+Five original Python regression methods guard the validator and quality accounting.
+No upstream fixture or production implementation was copied. Inspected upstream
+mixed exhaustive test assertions are phase/trace-specific and remain pending.
+
+Verification: bash scripts/check.sh passes (805 Rust tests, 30 doctests, 72 Python
+regressions), as does the release all-target suite. All nine measurement/comparison
+sections are regenerated and current; live server fingerprint matches. Overall
+coverage stays 436/4,855 = 8.98%, pending 4,137, excluded 282, failed/unverified zero.
+No extra upstream method credit is claimed for these original comparisons.
+Logs use work/mixed-solver-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log. Stream medians ms Rust/Java:
+hill32 48.376/14.499, hill96 178.025/27.516, tabu32 48.157/13.076,
+tabu96 180.425/27.466; scores still agree. These are existing stream workloads,
+not mixed-search timings or a performance-improvement claim.
+
+Dashboard checks at 1280px and 390px confirm the new 64 valid cases and distinct
+64/39/63 optimum counts, no stale alert, no page errors or horizontal overflow;
+manual reload works. Existing server reused; browser session closed. Upstream
+unchanged and full goal remains active. Next useful work includes matched mixed
+Java local-search evidence, broader neighborhoods/acceptance for the retained
+local trap, and remaining upstream cases without relaxing their assertions.

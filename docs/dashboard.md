@@ -348,3 +348,13 @@ retained counts, signed/zero-weight scores and exact native left IDs/payloads.
 Community recalculates scores through public APIs; no Java match-analysis or
 incremental-notification claim. Existing timing workloads do not measure this
 specialization or complement. Generated cases earn no upstream method credit.
+
+
+Mixed-search quality evidence is nested under solver_differential.mixed_solver_checks
+and refreshed by differential_solver.py. The dashboard shows valid case counts
+separately from per-engine optimum counts: current 64 valid cases, 64 Rust joint
+exact optima, 39 Community BRUTE_FORCE optima and 63 optima for each native local
+backend. Python independently enumerates 32,116 assignments. This is a quality
+comparison of different starts/strategies, without mixed timing or Java trace
+claims. It earns no upstream method credit. Raw evidence is saved in
+work/oracle/mixed-solver-cases.json.

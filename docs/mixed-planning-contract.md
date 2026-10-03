@@ -70,9 +70,9 @@ against a hand-derived lower bound. This is a correctness example, not a benchma
 
 These original checks earn no upstream method credit. The inspected upstream mixed
 exhaustive tests also assert Java phase types, step bounds or exact phase traces;
-those remain pending. No mixed Java/Rust solver comparison or mixed timing result
-is claimed. Custom shadows and Java entity metadata remain pending. Existing Java comparisons
-and timing cards continue to describe their original basic/list/stream workloads.
+those remain pending. Original mixed-search quality comparisons are described below;
+no mixed timing result is claimed. Custom shadows and Java entity metadata remain
+pending. Existing timing cards retain their basic/list/stream workloads.
 
 
 ## Incremental mixed contributions
@@ -170,8 +170,8 @@ reach the known optimum of the small coupled instance. The mixed_routes example
 now also reaches its exact 0hard/-4soft optimum through local search in 127
 evaluations, 234 callbacks and one completed step. These are native correctness
 and quality checks, not Java mixed-search or runtime performance comparisons.
-Java mixed solver comparisons remain pending; no extra upstream test-method credit
-is claimed.
+Separate original mixed-search quality comparisons are described below; Java
+local-search trace equivalence remains pending. No upstream method credit is added.
 
 
 ## Mixed greedy construction
@@ -305,3 +305,45 @@ environment. The dashboard labels this separately; it adds no upstream-method
 credit and is excluded from all timing cards. Java match analysis, structural-score
 equivalence, mixed solver search/termination, custom shadows, list pins/ranges and
 Java incremental-update timing remain outside these checks.
+
+
+## Mixed solver quality comparisons
+
+`python3 scripts/differential_solver.py` additionally runs 64 original coupled
+route cases (seed 20261123): 1–3 vehicles, 1–4 required customers and 1–3 available
+depots. Each vehicle chooses a basic depot and an ordered customer list. The hard
+score penalizes capacity excess; the soft score minimizes closed-route distance
+on a line. Cases include repeated customer coordinates, zero capacities, infeasible
+optima and tied solutions. Pins, restricted ranges and optional values are outside
+this comparison.
+
+An independent Python reference enumerates customer permutations, weak route
+splits and depot products: 32,116 joint assignments across the corpus. Every
+returned assignment is checked for domain membership, complete unique ownership,
+score correctness and its relation to the independent optimum. Rust exact search
+must additionally exhaust precisely the independently counted product and return
+an optimal score. Java validates its returned owner/index shadows separately.
+
+The Community adapter uses public BRUTE_FORCE configuration with no entity/value
+sorting, starting with unassigned basics and empty lists. Rust exact search visits
+the full joint product. These configurations produce different quality on coupled
+objectives: Java reaches 39/64 independent joint optima; Rust exact reaches 64/64.
+The literal two-depot fixture has depots [0,10], customers [1,9,10] and capacities
+[2,2]. Java returns depots [0,0] with score 0hard/-22soft; the independent joint
+optimum and Rust exact score are 0hard/-4soft. This is evidence about the tested
+configuration, not a claim about all Community search strategies.
+
+Native scoped and stream local search are also run from a complete assignment:
+first depot on every vehicle, all customers on vehicle zero. They use strict
+improvement, best accepted selection, joint moves and a 20-step cap; both reach
+63/64 optima and agree on assignments, scores, counts and termination reasons.
+Every result must preserve at least initial quality. Java local search is not
+part of this comparison. The different starts/strategies preclude a matched
+performance claim, and no timing is collected.
+
+The dashboard distinguishes valid cases from optimum counts and score agreement.
+The raw cases/results are in work/oracle/mixed-solver-cases.json; the nested
+mixed_solver_checks evidence uses the parent solver report's source fingerprint.
+Five original validator regressions guard against false scores, invalid ownership,
+false exhaustion, incomplete enumeration and incorrect quality accounting. These
+checks grant no adapted upstream method credit or trace/counter parity claim.

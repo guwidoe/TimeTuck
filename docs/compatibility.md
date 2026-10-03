@@ -51,7 +51,8 @@ views and exact list enumeration are described in `docs/list-planning-contract.m
 Nineteen list-provider methods additionally preserve move membership and
 exclusion assertions, including per-entity ranges. Native greedy list construction and bounded local search
 are verified separately with original regressions. Java move metadata, rebase,
-custom listeners, optional-list and mixed-model solver comparisons remain pending.
+custom listeners, optional-list solving and matched mixed Java local-search
+comparisons remain pending.
 Original generated list-move and required-list-solving comparisons are separate
 from coverage; the latter check complete valid solutions, final quality and
 independently enumerated small-case optima.
@@ -173,8 +174,8 @@ one internal rollback test. Shared construction/search engines agree with scoped
 scoring across tested policies and budgets. These native checks grant no upstream
 method credit. Separate original public-API comparisons now check 128 mixed cases,
 2,378 states and 3,611 basic/list operations against Java and independent Python
-scores/assignments/shadows. Java phase-trace tests and mixed Java solver-search
-comparisons remain pending.
+scores/assignments/shadows. Java phase-trace and mixed Java local-search comparisons remain pending. Separate
+original mixed BRUTE_FORCE quality comparisons are described below.
 See `docs/mixed-planning-contract.md`.
 
 Fifteen additional flatten/flattenLast methods preserve every initial/removal score
@@ -250,3 +251,14 @@ For heuristic search, compare feasibility, independently recomputed scores, and
 agreed quality thresholds. Equal random seeds across JVM and Rust do not guarantee
 identical PRNG streams or search traces. Record the seed, algorithm/configuration,
 termination limits, reference revision, and environment with every result.
+
+
+## Original mixed-search quality evidence
+
+64 coupled depot/route cases additionally compare Community BRUTE_FORCE results,
+native joint exact search and native scoped/stream local search against independent
+Python optima over 32,116 assignments. All returned solutions and scores are valid;
+optimality counts differ: Java 39/64, native exact 64/64, both native local backends
+63/64. The dashboard reports this quality gap explicitly; 64 valid cases do not
+mean 64 equal-score results. These original cases add no upstream coverage. See
+`docs/mixed-planning-contract.md` for configurations, starts and limitations.

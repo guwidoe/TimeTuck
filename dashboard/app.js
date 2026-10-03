@@ -301,6 +301,7 @@ function renderDifferential() {
     const box = $("differential");
     box.replaceChildren();
     const termination = report.solver_differential?.termination_checks;
+    const mixedSearch = report.solver_differential?.mixed_solver_checks;
     const averages = report.stream_differential?.average_collector_checks;
     const durations = report.stream_differential?.duration_collector_checks;
     const bigNumbers = report.stream_differential?.big_number_collector_checks;
@@ -317,6 +318,7 @@ function renderDifferential() {
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
         ...(termination ? [[{...termination, status: report.solver_differential.status}, "termination cases agree with Community and independent search", "Step, stagnation, score-target and feasibility limits, including delayed improvements after rejected fallback and recovery. Java/Rust final solutions and scores agree; Python separately checks Rust scoped and stream counters and termination reasons. Java internal counters, traces, list/mixed search and timing are not compared."]] : []),
+        ...(mixedSearch ? [[{...mixedSearch, status: report.solver_differential.status}, "mixed planning cases checked for valid solutions and scores", `Independent enumeration checks ${n(mixedSearch.reference_assignments)} joint depot/route assignments. Optima reached: Rust exact ${n(mixedSearch.optimal.exact)}/${n(mixedSearch.total)}, Community BRUTE_FORCE ${n(mixedSearch.optimal.java)}/${n(mixedSearch.total)}, Rust scoped and stream local search ${n(mixedSearch.optimal.scoped)}/${n(mixedSearch.total)} each. The coupled cases expose quality differences; these are not equal-score passes. Native local search uses joint moves and a 20-step cap. Different search strategies and starting states; no timing or Java trace comparison.`]] : []),
         [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}${mixedDetail}${orderedDetail}${existenceDetail}`],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
