@@ -28,6 +28,7 @@ fn run(
     macro_rules! outcome {
         ($r:expr, $p:expr, $values:expr, $assigned:expr) => {{
             let r = $r.unwrap();
+            assert_eq!(r.move_evaluations(), r.evaluations.saturating_sub(1));
             $p.validate(&r.assignment).unwrap();
             let values: Vec<Option<usize>> = $values(&r.assignment);
             assert_eq!(r.complete, values.iter().all(Option::is_some));
@@ -422,6 +423,7 @@ fn initial_callback_cancellation_is_observed_even_without_construction_work() {
         macro_rules! check {
             ($r:expr) => {{
                 let r = $r.unwrap();
+                assert_eq!(r.move_evaluations(), r.evaluations.saturating_sub(1));
                 assert_eq!(r.termination, ConstructionTermination::Cancelled);
                 assert_eq!(r.evaluations, 1);
                 assert_eq!(r.constraint_evaluations, 1);
@@ -503,6 +505,101 @@ fn initial_callback_cancellation_is_observed_even_without_construction_work() {
                         ..Default::default()
                     }
                 ));
+            }
+        }
+    }
+}
+
+#[test]
+fn construction_candidate_budgets_exclude_initialization_and_diagnostics() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            for pick_early in [
+                ConstructionPickEarly::Never,
+                ConstructionPickEarly::FirstFeasibleScore,
+            ] {
+                for max_evaluations in 0..=8 {
+                    for max_moves in 0..=7 {
+                        let c = ConstructionConfig {
+                            max_evaluations,
+                            pick_early,
+                            assert_scores: true,
+                            ..Default::default()
+                        };
+                        let mut expected = run(
+                            mode,
+                            order,
+                            ConstructionConfig {
+                                max_evaluations: max_evaluations.min(max_moves + 1),
+                                ..c
+                            },
+                            || {},
+                        );
+                        let actual = run(
+                            mode,
+                            order,
+                            ConstructionConfig {
+                                max_move_evaluations: Some(max_moves),
+                                ..c
+                            },
+                            || {},
+                        );
+                        if max_moves + 1 < max_evaluations
+                            && expected.reason == ConstructionTermination::EvaluationLimit
+                        {
+                            expected.reason = ConstructionTermination::MoveEvaluationLimit;
+                        }
+                        assert_eq!(
+                            actual, expected,
+                            "mode {mode}, order {order:?}, score budget {max_evaluations}, move budget {max_moves}"
+                        );
+                        assert!(actual.evaluations.saturating_sub(1) <= max_moves);
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observation() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            // Initial score + diagnostic; first candidate + diagnostic; installed
+            // prefix diagnostic. Request four closes enumeration before the cap
+            // is observed. Request five arrives after the cap was observed.
+            for at in [4, 5] {
+                let token = CancellationToken::new();
+                let calls = Cell::new(0);
+                let r = run(
+                    mode,
+                    order,
+                    ConstructionConfig {
+                        cancellation: Some(&token),
+                        max_move_evaluations: Some(1),
+                        assert_scores: true,
+                        ..Default::default()
+                    },
+                    || {
+                        calls.set(calls.get() + 1);
+                        if calls.get() == at {
+                            token.cancel();
+                        }
+                    },
+                );
+                assert_eq!(
+                    r.reason,
+                    if at == 4 {
+                        ConstructionTermination::Cancelled
+                    } else {
+                        ConstructionTermination::MoveEvaluationLimit
+                    }
+                );
+                assert_eq!(r.evaluations, 2);
+                assert_eq!(r.callbacks, 2);
+                assert_eq!(r.assigned, 1);
+                assert!(!r.complete);
+                assert_eq!(calls.get(), 5);
             }
         }
     }

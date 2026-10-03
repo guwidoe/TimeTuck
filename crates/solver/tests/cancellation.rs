@@ -324,3 +324,48 @@ fn rejected_candidate_cancellation_keeps_global_best_with_or_without_fallback() 
         }
     }
 }
+
+#[test]
+fn cancellation_and_initial_step_limits_precede_unobserved_candidate_budgets() {
+    for mode in 0..6 {
+        for at in [0, 1] {
+            let token = CancellationToken::new();
+            let r = run(
+                mode,
+                LocalSearchConfig {
+                    max_move_evaluations: Some(at as u64),
+                    ..config(&token)
+                },
+                |v| {
+                    if v == at {
+                        token.cancel();
+                    }
+                    SimpleScore::new(v as i64)
+                },
+            );
+            assert_eq!(r.reason, LocalSearchTermination::Cancelled);
+            assert_eq!(r.evaluations, at as u64 + 1);
+            assert_eq!(r.score, Some(SimpleScore::new(at as i64)));
+        }
+        let token = CancellationToken::new();
+        for (steps, time, expected) in [
+            (0, None, LocalSearchTermination::StepLimit),
+            (10, Some(Duration::ZERO), LocalSearchTermination::TimeLimit),
+            (10, None, LocalSearchTermination::MoveEvaluationLimit),
+        ] {
+            let r = run(
+                mode,
+                LocalSearchConfig {
+                    max_move_evaluations: Some(0),
+                    max_steps: steps,
+                    max_time: time,
+                    ..config(&token)
+                },
+                |v| SimpleScore::new(v as i64),
+            );
+            assert_eq!(r.reason, expected);
+            assert_eq!(r.evaluations, 1);
+            assert_eq!(r.steps, 0);
+        }
+    }
+}

@@ -127,6 +127,8 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     /// Model/configuration validation precedes cancellation checks.
     pub cancellation: Option<&'a crate::CancellationToken>,
     pub max_evaluations: u64,
+    /// Candidate evaluations only, regardless of acceptance; initialization excluded.
+    pub max_move_evaluations: Option<u64>,
     pub max_accepted_moves: u64,
     pub max_steps: u64,
     /// Cooperative phase time limit, including initial scoring. Checked between
@@ -153,6 +155,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
         Self {
             cancellation: None,
             max_evaluations: 10_000,
+            max_move_evaluations: None,
             max_accepted_moves: 1_000,
             max_steps: 1_000,
             max_time: None,
@@ -205,8 +208,11 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 ///
 /// At step boundaries, limits are checked in this order: accepted moves, completed
 /// steps, best score, feasibility, unimproved steps. Zero evaluation budget ends
-/// before initial scoring. If candidate selection exhausts its budget, it installs
-/// any selected move and reports `EvaluationLimit` before checking a new boundary.
+/// before initial scoring. If candidate selection exhausts an evaluation budget,
+/// it installs any selected move and reports `EvaluationLimit` or
+/// `MoveEvaluationLimit` before checking a new boundary. Score evaluations include
+/// initialization; move evaluations do not. Equal remaining budgets prefer
+/// `EvaluationLimit`.
 /// Exhaustion is detected when attempting another candidate: consuming the last
 /// evaluation on the final candidate alone does not mark that selection exhausted.
 /// An enabled time limit is polled after boundary criteria, before each emitted
@@ -218,6 +224,8 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 /// best improvement resets it. Expiry latches; total time wins simultaneous expiry.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
+    /// An unevaluated candidate remains after the candidate-only budget is spent.
+    MoveEvaluationLimit,
     /// The external cancellation token was observed. Does not prove optimality.
     Cancelled,
     EvaluationLimit,
@@ -416,15 +424,20 @@ where
             .flatten();
         let current = director.score();
         let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
+        let budget = crate::count_limit::CandidateBudget::new(
+            config.max_evaluations,
+            config.max_move_evaluations,
+            result.evaluations,
+        );
         let selection = director.select_best(
             crate::random::order_moves(
                 changes.chain(swaps),
                 config.move_order,
                 random.as_mut(),
-                config.max_evaluations - result.evaluations,
+                budget.remaining,
             )
             .take_while(|_| !config.cancelled() && !time_budget.expired()),
-            config.max_evaluations - result.evaluations,
+            budget.remaining,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
                 let variables = if tracks_variables {
@@ -464,7 +477,7 @@ where
             director.assert_consistent()?;
         }
         if selection.evaluation_limit {
-            result.termination = LocalSearchTermination::EvaluationLimit;
+            result.termination = budget.local_reason();
             return Ok(result);
         }
         if config.cancelled() {
@@ -479,5 +492,12 @@ where
             result.termination = LocalSearchTermination::NoAcceptedMove;
             return Ok(result);
         }
+    }
+}
+
+impl<V, S> LocalSearchResult<V, S> {
+    /// Candidate evaluations, including rejected trials; initialization excluded.
+    pub fn move_evaluations(&self) -> u64 {
+        self.evaluations.saturating_sub(1)
     }
 }

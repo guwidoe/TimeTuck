@@ -222,15 +222,15 @@ where
         );
         let current = director.score();
         let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
+        let budget = crate::count_limit::CandidateBudget::new(
+            config.max_evaluations,
+            config.max_move_evaluations,
+            result.evaluations,
+        );
         let selection = director.select_best(
-            crate::random::order_moves(
-                moves,
-                config.move_order,
-                random.as_mut(),
-                config.max_evaluations - result.evaluations,
-            )
-            .take_while(|_| !config.cancelled() && !time_budget.expired()),
-            config.max_evaluations - result.evaluations,
+            crate::random::order_moves(moves, config.move_order, random.as_mut(), budget.remaining)
+                .take_while(|_| !config.cancelled() && !time_budget.expired()),
+            budget.remaining,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
                 let keys = if tracks_entities {
@@ -269,7 +269,7 @@ where
             director.assert_consistent()?;
         }
         if selection.evaluation_limit {
-            result.termination = LocalSearchTermination::EvaluationLimit;
+            result.termination = budget.local_reason();
             return Ok(result);
         }
         if config.cancelled() {
@@ -284,5 +284,12 @@ where
             result.termination = LocalSearchTermination::NoAcceptedMove;
             return Ok(result);
         }
+    }
+}
+
+impl<B, L, S> MixedLocalSearchResult<B, L, S> {
+    /// Candidate evaluations, including rejected trials; initialization excluded.
+    pub fn move_evaluations(&self) -> u64 {
+        self.evaluations.saturating_sub(1)
     }
 }

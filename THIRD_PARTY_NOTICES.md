@@ -15,6 +15,9 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/count_limit_cases.rs` from all five methods in
+  `MoveCountTerminationTest.java` and `ScoreCalculationCountTerminationTest.java`.
+
 - `crates/solver/tests/two_opt_provider_cases.rs` from twelve complete methods in
   `ListTailSwapMoveProviderTest.java` and `TwoOptListMoveProviderTest.java`, with
   their inline/two-entity fixtures and `TestdataListEntityProvidingSolution` ranges.

@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 460 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
+- 465 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 18 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -47,7 +47,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits and optional stagnation, score-target and feasibility stops;
   first/best accepted candidate selection and original or
-  seeded shuffled-variable or bounded candidate-window ordering.
+  seeded shuffled-variable or bounded candidate-window ordering. Optional
+  max_move_evaluations independently caps candidates in both construction and
+  local search, excluding initialization and diagnostics. CountLimit also exposes
+  exact thresholds, remaining counts and capped progress; five upstream count-limit
+  methods have full adaptations. See the latest increment below.
   Read `docs/incremental-search-contract.md` before modifying this layer.
 - Optional max_time bounds each local-search phase with a monotonic clock,
   checking between candidates and retaining the best evaluated prefix. It is
@@ -68,7 +72,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 373 original integration regression methods, thirty original unit tests, and thirty-two public API documentation tests.
+- 378 original integration regression methods, thirty-one original unit tests, and thirty-two public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -2223,3 +2227,64 @@ passed-method filtering, six list and four stream timing cards, refreshed timing
 figures, no overflow, no stale alerts and no page errors. Browser closed; upstream
 unmodified. The full rewrite goal remains active, with solver orchestration,
 additional upstream semantics and stream performance still unfinished.
+
+## Independent candidate budgets — latest verified increment
+
+ConstructionConfig and LocalSearchConfig now have max_move_evaluations: Option<u64>,
+disabled by default. It caps every evaluated candidate, including rejected trials,
+while excluding initialization and diagnostic recomputations. The six result types
+expose move_evaluations() alongside total score evaluations, accepted moves/steps
+and constraint-callback counts. Mixed configurations inherit the control. Existing
+full construction config literals were updated with explicit None fields.
+
+A shared internal CandidateBudget determines the tighter remaining score/move cap
+before selection, and retains which reason applies afterward. Strictly tighter
+candidate caps report MoveEvaluationLimit; score caps and ties report the existing
+EvaluationLimit. Both construction and local search install the best evaluated
+prefix before reporting an observed limit. Local shuffled lookahead also uses the
+tighter budget. A zero candidate cap permits initial scoring, whereas a zero score
+cap does not. Caps are detected by a further candidate attempt, so already-complete
+construction/empty neighborhoods retain completion/no-move reasons. Step/score
+boundary criteria, cancellation and time can stop before a cap is observed;
+already-observed caps retain precedence over later polls or diagnostic requests.
+These are phase limits; global multi-phase accounting remains unfinished.
+
+CountLimit provides exact u64 threshold checks, saturating remaining work, capped
+f64 progress, and checked signed input through TryFrom<i64>. Near u64::MAX the
+fraction may round to 1 before the limit is reached; stopping uses exact integers.
+All five methods in MoveCountTerminationTest and ScoreCalculationCountTerminationTest
+are fully adapted (48 threshold/gradient assertions plus negative-limit rejection).
+Provenance and notices record native explicit counters replacing Java mocked
+scopes/directors; no Java lifecycle or counter-accounting equivalence is claimed.
+
+Five original integration methods test small score/move budget pairings across all
+six local-search and six construction paths, strict/hill acceptance, first/best
+selection, fallback, bounded shuffling, mixed construction order, early picking,
+diagnostic exclusion and cancellation precedence. One original controlled-clock
+unit method distinguishes time-first, move-first and tied score/move caps across
+all local-search paths. Existing timed and cancellation regressions still pass.
+
+Development gate passes: 874 Rust tests (465 adapted, 378 original integration,
+31 unit), 32 doctests and 76 Python checks. Coverage is 465/4855 = 9.58%, pending
+4108, excluded 282, failed/unverified zero. Solver lifecycle rises to 18/379;
+other family adapted counts are unchanged. Final measured sources include the
+clarified precedence documentation and all tests; upstream remains unmodified.
+
+Release also passes 874 Rust tests. All nine evidence and performance reports were
+refreshed sequentially from final sources; verification and live freshness match.
+Logs: work/move-budget-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log. Stream medians ms Rust/Java: hill32
+45.184/13.161, hill96 166.899/25.542, tabu32 44.990/14.455, tabu96 176.120/25.963.
+Existing stream96 infeasible scores remain [-44,-484]. List validation remains
+192 valid/189 equal scores, two-opt61/64 equality and Rust49/Java46 optima. Two-opt
+medians16 0.307/9.182 ms,32 0.849/10.949 ms. Mixed quality and other solution scores
+are unchanged. Timed workloads leave the new move cap disabled; these timings
+refresh the baseline and do not claim a new Java move-limit comparison.
+
+Browser checks at 1280x900 and 390x844 verified 9.58% coverage, lifecycle18/379,
+the new source methods and passed-only lifecycle filtering, refreshed benchmark
+figures, six list cards, no horizontal overflow, no stale alerts and no page errors.
+Selecting a family resets filters as before; reapply Passed after selecting it.
+Browser closed; upstream unmodified. Overall rewrite remains active. Whole-solve
+orchestration/accounting, broader source semantics and stream performance remain
+substantive unfinished work.

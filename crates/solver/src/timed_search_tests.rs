@@ -454,3 +454,36 @@ fn stagnation_budget_clamps_backwards_samples_and_handles_max_duration() {
     b.record_improvement();
     assert_eq!(b.stop(), Some(Stop::UnimprovedTimeLimit));
 }
+
+#[test]
+fn first_observed_candidate_limit_distinguishes_time_move_and_score_caps() {
+    for (millis, expected) in [(3, Stop::TimeLimit), (4, Stop::MoveEvaluationLimit)] {
+        for r in run_all(
+            LocalSearchConfig {
+                max_move_evaluations: Some(1),
+                max_time: Some(Duration::from_millis(millis)),
+                ..config()
+            },
+            score,
+            ticking,
+        ) {
+            assert_eq!(r.evaluations, 2);
+            assert_eq!(r.steps, 1);
+            assert_eq!(r.best, Some(score(1)));
+            assert_eq!(r.reason, expected);
+        }
+    }
+    // Equal remaining caps retain the pre-existing score-evaluation reason.
+    for r in run_all(
+        LocalSearchConfig {
+            max_evaluations: 2,
+            max_move_evaluations: Some(1),
+            max_time: Some(Duration::from_millis(4)),
+            ..config()
+        },
+        score,
+        ticking,
+    ) {
+        assert_eq!(r.reason, Stop::EvaluationLimit);
+    }
+}

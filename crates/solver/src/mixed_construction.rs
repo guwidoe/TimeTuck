@@ -31,6 +31,12 @@ pub struct MixedConstructionResult<B, L, S> {
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
 }
+impl<B, L, S> MixedConstructionResult<B, L, S> {
+    /// Candidate evaluations, excluding the initial score and diagnostics.
+    pub fn move_evaluations(&self) -> u64 {
+        self.evaluations.saturating_sub(1)
+    }
+}
 impl<B: Clone, L: Clone, S: Copy> MixedConstructionResult<B, L, S> {
     /// Completeness and a calculated score are required; hard feasibility is not.
     pub fn solution(&self) -> Option<ScoredMixedAssignment<B, L, S>> {
@@ -148,7 +154,11 @@ pub(crate) fn construction_impl<
                 break 'phases;
             }
             let previous = director.score();
-            let budget = config.max_evaluations - result.evaluations;
+            let budget = crate::count_limit::CandidateBudget::new(
+                config.max_evaluations,
+                config.max_move_evaluations,
+                result.evaluations,
+            );
             let selection = match phase {
                 Phase::Basic => {
                     let variable = &problem.basic().variables()[index];
@@ -166,7 +176,7 @@ pub(crate) fn construction_impl<
                     });
                     director.select_best(
                         moves.take_while(|_| !config.cancelled()),
-                        budget,
+                        budget.remaining,
                         false,
                         |_, _| true,
                         |score| config.pick_early.should_pick(previous, score),
@@ -193,7 +203,7 @@ pub(crate) fn construction_impl<
                         });
                     director.select_best(
                         moves.take_while(|_| !config.cancelled()),
-                        budget,
+                        budget.remaining,
                         false,
                         |_, _| true,
                         |score| config.pick_early.should_pick(previous, score),
@@ -213,7 +223,7 @@ pub(crate) fn construction_impl<
                 director.assert_consistent()?;
             }
             if selection.evaluation_limit {
-                result.termination = ConstructionTermination::EvaluationLimit;
+                result.termination = budget.construction_reason();
                 break 'phases;
             }
         }

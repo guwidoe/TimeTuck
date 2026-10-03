@@ -18,6 +18,7 @@ fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConf
     MixedConstructionConfig {
         construction: ConstructionConfig {
             cancellation: None,
+            max_move_evaluations: None,
             max_evaluations: budget,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,

@@ -14,9 +14,17 @@ struct Outcome {
 // Equivalent one-variable landscapes in all three model types and both backends.
 // The mixed fixture also has score-neutral list moves.
 fn run_all(c: LocalSearchConfig<HardSoftScore>, score: fn(usize) -> HardSoftScore) -> Vec<Outcome> {
+    run_all_with_counts(c, score).0
+}
+fn run_all_with_counts(
+    c: LocalSearchConfig<HardSoftScore>,
+    score: fn(usize) -> HardSoftScore,
+) -> (Vec<Outcome>, Vec<(u64, u64)>) {
+    let mut counts = Vec::new();
     macro_rules! out {
         ($r:expr) => {{
             let r = $r.unwrap();
+            counts.push((r.evaluations, r.move_evaluations()));
             Outcome {
                 steps: r.completed_steps,
                 unimproved: r.unimproved_steps,
@@ -113,7 +121,7 @@ fn run_all(c: LocalSearchConfig<HardSoftScore>, score: fn(usize) -> HardSoftScor
         p.initial_assignment(),
         c
     )));
-    results
+    (results, counts)
 }
 fn config() -> LocalSearchConfig<'static, HardSoftScore> {
     LocalSearchConfig {
@@ -379,4 +387,91 @@ fn feasibility_uses_every_hard_level_and_ignores_negative_soft_scores() {
     .unwrap();
     assert_eq!(r.completed_steps, 1);
     assert_eq!(r.termination, Stop::BestScoreLimit);
+}
+
+#[test]
+fn candidate_budgets_match_scoring_prefixes_and_distinguish_limit_reasons() {
+    for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
+        for acceptance in [Acceptance::StrictImprovement, Acceptance::HillClimbing] {
+            for rejected_moves in [RejectedMovePolicy::Stop, RejectedMovePolicy::BestScore] {
+                for max_evaluations in 0..=12 {
+                    for max_moves in 0..=6 {
+                        let c = LocalSearchConfig {
+                            max_evaluations,
+                            selection,
+                            acceptance,
+                            rejected_moves,
+                            move_order: MoveOrder::ShuffledMoves {
+                                seed: 73,
+                                window: std::num::NonZeroUsize::new(4).unwrap(),
+                            },
+                            ..config()
+                        };
+                        let (mut expected, expected_counts) = run_all_with_counts(
+                            LocalSearchConfig {
+                                max_evaluations: max_evaluations.min(max_moves + 1),
+                                ..c
+                            },
+                            improved,
+                        );
+                        let (actual, counts) = run_all_with_counts(
+                            LocalSearchConfig {
+                                max_move_evaluations: Some(max_moves),
+                                ..c
+                            },
+                            improved,
+                        );
+                        if max_moves + 1 < max_evaluations {
+                            for r in &mut expected {
+                                if r.reason == Stop::EvaluationLimit {
+                                    r.reason = Stop::MoveEvaluationLimit;
+                                }
+                            }
+                        }
+                        assert_eq!(actual, expected);
+                        assert_eq!(counts, expected_counts);
+                        for (evaluations, moves) in counts {
+                            assert_eq!(moves, evaluations.saturating_sub(1));
+                            assert!(moves <= max_moves);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn count_limits_keep_full_width_decisions_separate_from_rounded_progress() {
+    let zero = CountLimit::new(0);
+    assert!(zero.is_reached(0));
+    assert_eq!(zero.progress(0), 1.0);
+    assert_eq!(zero.remaining(0), 0);
+    for limit in [1, 4, 1 << 53, u64::MAX] {
+        let l = CountLimit::new(limit);
+        assert!(!l.is_reached(limit - 1));
+        assert_eq!(l.remaining(limit - 1), 1);
+        assert!(l.is_reached(limit));
+        assert_eq!(l.remaining(limit), 0);
+        assert!(l.is_reached(u64::MAX));
+        assert_eq!(l.remaining(u64::MAX), 0);
+        assert_eq!(l.progress(limit), 1.0);
+    }
+    assert_eq!(CountLimit::new(u64::MAX).progress(u64::MAX - 1), 1.0);
+    assert!(CountLimit::try_from(i64::MIN).is_err());
+    assert_eq!(
+        CountLimit::try_from(i64::MAX).unwrap(),
+        CountLimit::new(i64::MAX as u64)
+    );
+    for r in run_all(
+        LocalSearchConfig {
+            max_move_evaluations: Some(u64::MAX),
+            max_evaluations: u64::MAX,
+            max_steps: 1,
+            ..config()
+        },
+        plateau,
+    ) {
+        assert_eq!(r.reason, Stop::StepLimit);
+    }
 }

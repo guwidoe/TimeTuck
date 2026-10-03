@@ -256,6 +256,7 @@ fn construction_matches_scoped_selection_for_both_orders_policies_and_budget_pre
                     order,
                     construction: ConstructionConfig {
                         cancellation: None,
+                        max_move_evaluations: None,
                         max_evaluations,
                         pick_early,
                         assert_scores: false,

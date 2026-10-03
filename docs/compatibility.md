@@ -322,3 +322,12 @@ progress; exact search distinguishes an interrupted prefix from fully exhausted
 enumeration. Eight original regression methods and one API doctest establish
 these native contracts. The complete upstream Java solver lifecycle cases remain
 pending; cancellation support alone does not satisfy their other assertions.
+
+
+Five additional source methods fully adapt MoveCountTerminationTest and
+ScoreCalculationCountTerminationTest: four preserve all 48 threshold/progress
+assertions and one preserves negative-count rejection. Native CountLimit replaces
+mocked Java scope/director counters. Construction and local search now separately
+limit candidate evaluations, excluding initial scoring; accepted moves and callback
+counts remain separate. Original integration/clock tests verify all native paths,
+without claiming Java move traces, identical counters or whole-solver lifecycle.

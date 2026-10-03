@@ -35,8 +35,9 @@ impl ConstructionPickEarly {
 /// Shared controls for basic, list and mixed construction in both scoring
 /// backends. A cancellation request retains the best evaluated candidate of the
 /// current scan, including incomplete progress. Initialization and diagnostics
-/// are not interrupted. Validation, impossibility and zero-budget checks precede
-/// cancellation; already-observed evaluation exhaustion also takes precedence.
+/// are not interrupted. Validation, impossibility and zero score-budget checks
+/// precede cancellation; already-observed evaluation exhaustion also takes
+/// precedence. A zero move budget permits initialization, then no candidates.
 /// The default token is None. Configurations borrow tokens and remain Copy.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConstructionConfig<'a> {
@@ -44,6 +45,8 @@ pub struct ConstructionConfig<'a> {
     pub cancellation: Option<&'a crate::CancellationToken>,
     /// Includes the initial score and each candidate; zero invokes no callbacks.
     pub max_evaluations: u64,
+    /// Candidate evaluations only; initialization is excluded. None disables it.
+    pub max_move_evaluations: Option<u64>,
     pub pick_early: ConstructionPickEarly,
     /// Extra diagnostic full recomputations are excluded from reported work.
     pub assert_scores: bool,
@@ -53,6 +56,7 @@ impl Default for ConstructionConfig<'_> {
         Self {
             cancellation: None,
             max_evaluations: 10_000,
+            max_move_evaluations: None,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
         }
@@ -68,6 +72,8 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
+    /// An unevaluated candidate remains after the candidate-only budget is spent.
+    MoveEvaluationLimit,
     /// Cancellation observed; the best evaluated prefix of the current scan is
     /// installed. The returned assignment may be partial or complete.
     Cancelled,
@@ -91,6 +97,12 @@ pub struct ConstructionResult<V, S> {
     pub assigned_variables: usize,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
+}
+impl<V, S> ConstructionResult<V, S> {
+    /// Candidate evaluations, excluding the initial score and diagnostics.
+    pub fn move_evaluations(&self) -> u64 {
+        self.evaluations.saturating_sub(1)
+    }
 }
 impl<V: Clone, S: Copy> ConstructionResult<V, S> {
     /// Return a scored solution only if all required variables are assigned.
@@ -174,9 +186,14 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             variable: index,
             value: Some(value.clone()),
         });
+        let budget = crate::count_limit::CandidateBudget::new(
+            config.max_evaluations,
+            config.max_move_evaluations,
+            result.evaluations,
+        );
         let selection = director.select_best(
             moves.take_while(|_| !config.cancelled()),
-            config.max_evaluations - result.evaluations,
+            budget.remaining,
             false,
             |_, _| true,
             |score| config.pick_early.should_pick(previous, score),
@@ -189,7 +206,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             director.assert_consistent()?;
         }
         if selection.evaluation_limit {
-            result.termination = ConstructionTermination::EvaluationLimit;
+            result.termination = budget.construction_reason();
             break;
         }
     }

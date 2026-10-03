@@ -55,7 +55,7 @@ impl Default for ExactSearchConfig<'_> {
 }
 impl ExactSearchConfig<'_> {
     pub(crate) fn stop_before_next(self, evaluations: u64) -> Option<Termination> {
-        if evaluations == self.max_evaluations {
+        if crate::CountLimit::new(self.max_evaluations).is_reached(evaluations) {
             Some(Termination::EvaluationLimit)
         } else if self
             .cancellation

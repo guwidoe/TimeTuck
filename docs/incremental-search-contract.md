@@ -647,3 +647,51 @@ Returned assignments and scores are independently checked, with explicit partial
 progress and cross-thread cancellation checks. Additional cases cover diagnostic
 requests, reused tokens, validation, impossible models and already-complete inputs.
 These are native lifecycle contracts; no extra upstream method credit is claimed.
+
+
+## Separate candidate-evaluation budgets
+
+ConstructionConfig and LocalSearchConfig now accept optional
+`max_move_evaluations`; mixed configurations inherit it. It is disabled by default.
+It counts evaluated candidates, including rejected trials, independent of accepted
+moves and completed steps. Initial scoring and diagnostic recomputations do not
+consume this budget. The existing `max_evaluations` still includes initial scoring.
+All six result types expose `move_evaluations()` separately from total evaluations
+and terminal/scoped constraint callback counts. One candidate may invoke multiple
+callbacks or none, so those counters are not interchangeable.
+
+The six construction and six local-search paths bound each selection by the tighter
+remaining score or move budget. Optional candidate shuffling uses that same bound
+for its lookahead window. When a further candidate reveals exhaustion, selection
+installs its cached best evaluated prefix and reports MoveEvaluationLimit for a
+strictly tighter move cap, or EvaluationLimit for a score cap or equal caps. The
+reason is captured before selection so post-selection counters cannot erase which
+budget constrained it. Arithmetic stays within u64 without adding one to a maximum
+move limit.
+
+A zero move budget permits the initial score, then no candidate scoring. A zero
+score budget still skips initialization. No candidate means no budget-exhaustion
+observation: already-complete construction can report Completed, and an empty local
+neighborhood can report NoAcceptedMove. Consuming the last permitted evaluation
+alone does not report exhaustion until a further candidate is attempted. Existing
+step/score/feasibility boundary rules can stop first. Cancellation and elapsed-time
+polls may close enumeration before the cap is observed; an already-observed cap
+wins over later cancellation or time polls, including requests during diagnostics.
+The configured budgets apply to each phase independently, not to an orchestrated
+multi-phase solve.
+
+CountLimit exposes exact threshold decisions, saturating remaining counts and
+capped floating progress. It supports the entire u64 range; TryFrom<i64> rejects
+negative configuration input. Progress may round to 1 near large limits, so it
+must not replace the exact stopping predicate. All five MoveCountTerminationTest
+and ScoreCalculationCountTerminationTest methods have complete adaptations of their
+count, gradient and negative-input assertions. Explicit native counts replace the
+mocked Java scopes/directors. These tests do not establish Java counter-accounting
+or whole-solver lifecycle equivalence.
+
+Five original integration methods and one controlled-clock unit method additionally
+cover every small score/move budget pairing across all backends, first/best selection,
+strict/hill acceptance, rejected fallback, shuffled lookahead, both mixed construction
+orders, early picking, diagnostics, cancellation, time precedence and u64 boundaries.
+Returned construction assignments and scores are independently checked; bounded
+runs retain the same evaluated prefixes as the corresponding score-only caps.

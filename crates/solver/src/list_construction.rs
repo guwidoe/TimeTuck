@@ -17,6 +17,12 @@ pub struct ListConstructionResult<V, S> {
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
 }
+impl<V, S> ListConstructionResult<V, S> {
+    /// Candidate evaluations, excluding the initial score and diagnostics.
+    pub fn move_evaluations(&self) -> u64 {
+        self.evaluations.saturating_sub(1)
+    }
+}
 impl<V: Clone, S: Copy> ListConstructionResult<V, S> {
     pub fn solution(&self) -> Option<ScoredListAssignment<V, S>> {
         if !self.complete {
@@ -96,9 +102,14 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                     value: value.clone(),
                     destination,
                 });
+            let budget = crate::count_limit::CandidateBudget::new(
+                config.max_evaluations,
+                config.max_move_evaluations,
+                result.evaluations,
+            );
             let selection = director.select_best(
                 moves.take_while(|_| !config.cancelled()),
-                config.max_evaluations - result.evaluations,
+                budget.remaining,
                 false,
                 |_, _| true,
                 |score| config.pick_early.should_pick(previous, score),
@@ -111,7 +122,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                 director.assert_consistent()?;
             }
             if selection.evaluation_limit {
-                result.termination = ConstructionTermination::EvaluationLimit;
+                result.termination = budget.construction_reason();
                 break;
             }
         }
