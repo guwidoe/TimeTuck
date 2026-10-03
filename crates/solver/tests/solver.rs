@@ -73,7 +73,37 @@ fn run_scored_observed<'a>(
     fail_factory: Option<usize>,
     hook: impl Fn(),
     make: impl Fn(i64) -> SimpleScore,
+    observer: Option<&mut dyn FnMut(Update)>,
+) -> Result<Outcome, Failure> {
+    run_scored_events(
+        scenario,
+        c,
+        factories,
+        fail_factory,
+        hook,
+        make,
+        observer,
+        None,
+    )
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Initialized {
+    values: Vec<Option<usize>>,
+    score: Option<SimpleScore>,
+    complete: bool,
+    initialization: SolverInitialization,
+}
+#[allow(clippy::too_many_arguments)] // Shared six-model event fixture.
+fn run_scored_events<'a>(
+    scenario: (usize, bool, MixedConstructionOrder),
+    c: impl Into<SolverPlan<'a>>,
+    factories: &Cell<usize>,
+    fail_factory: Option<usize>,
+    hook: impl Fn(),
+    make: impl Fn(i64) -> SimpleScore,
     mut observer: Option<&mut dyn FnMut(Update)>,
+    mut initialization: Option<&mut dyn FnMut(Initialized)>,
 ) -> Result<Outcome, Failure> {
     let c = c.into();
     let (mode, initialized, order) = scenario;
@@ -90,8 +120,17 @@ fn run_scored_observed<'a>(
         }
     };
     macro_rules! observing {
-        ($plain:path, $observed:path, $values:expr; $($args:expr),*) => {{
-            if let Some(observer) = observer.as_deref_mut() {
+        ($plain:path, $observed:path, $events:path, $values:expr; $($args:expr),*) => {{
+            if let Some(initialization) = initialization.as_deref_mut() {
+                $events($($args,)* |event| match event {
+                    SolverEvent::Best(u) => { if let Some(observer) = observer.as_deref_mut() {
+                        observer(Update { values: $values(u.assignment), score: u.score, complete: u.complete, phase: u.phase, kind: u.kind });
+                    } },
+                    SolverEvent::FirstInitialized { initialization: info, assignment, score, complete } => {
+                        initialization(Initialized { values: $values(assignment), score, complete, initialization: info });
+                    }
+                })
+            } else if let Some(observer) = observer.as_deref_mut() {
                 $observed($($args,)* |u| observer(Update {
                     values: $values(u.assignment), score: u.score, complete: u.complete,
                     phase: u.phase, kind: u.kind,
@@ -141,13 +180,13 @@ fn run_scored_observed<'a>(
             n.add_constraint("score", vec![0], |v| score(&[v[0].copied()]))
                 .unwrap();
             return outcome!(
-                observing!(solve, solve_with_observer, values; &basic, &n, c),
+                observing!(solve, solve_with_observer, solve_with_events, values; &basic, &n, c),
                 basic,
                 values
             );
         }
         return outcome!(
-            observing!(solve_stream, solve_stream_with_observer, values;
+            observing!(solve_stream, solve_stream_with_observer, solve_stream_with_events, values;
                 &basic,
                 || {
                     factory()?;
@@ -182,13 +221,13 @@ fn run_scored_observed<'a>(
             })
             .unwrap();
             return outcome!(
-                observing!(solve_list, solve_list_with_observer, values; &lists, &n, c),
+                observing!(solve_list, solve_list_with_observer, solve_list_with_events, values; &lists, &n, c),
                 lists,
                 values
             );
         }
         return outcome!(
-            observing!(solve_list_stream, solve_list_stream_with_observer, values;
+            observing!(solve_list_stream, solve_list_stream_with_observer, solve_list_stream_with_events, values;
                 &lists,
                 || {
                     factory()?;
@@ -252,13 +291,13 @@ fn run_scored_observed<'a>(
         )
         .unwrap();
         return outcome!(
-            observing!(solve_mixed, solve_mixed_with_observer, values; &p, &n, c),
+            observing!(solve_mixed, solve_mixed_with_observer, solve_mixed_with_events, values; &p, &n, c),
             p,
             values
         );
     }
     outcome!(
-        observing!(solve_mixed_stream, solve_mixed_stream_with_observer, values;
+        observing!(solve_mixed_stream, solve_mixed_stream_with_observer, solve_mixed_stream_with_events, values;
             &p,
             || {
                 factory()?;
@@ -1381,3 +1420,6 @@ mod observer_cases;
 
 #[path = "support/solver_construction_cases.rs"]
 mod construction_cases;
+
+#[path = "support/solver_initialization_cases.rs"]
+mod initialization_cases;

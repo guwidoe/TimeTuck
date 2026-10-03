@@ -8745,6 +8745,51 @@
       "upstream_test": "skipAhead",
       "local_test": "skip_ahead",
       "modifications": "Preserve four ordered entity assignments, a slow best consumer that skips obsolete intermediate states, fewer than four best callbacks, exactly one final callback, initialized final solution and absence of callback errors. Native owned snapshots and model-validated Change transactions replace Java custom phase commands/event wrappers; indices and values 1..4 replace entity/value codes. Extra channels force first consumption before updates two/three and release it after the third publication, removing scheduling dependence while retaining the source assertions. No score assertion exists in this source method; Java score-director/custom-phase plumbing is omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWithDefaultPhases",
+      "status": "implemented",
+      "upstream_test": "firstInitializedSolutionConsumerWithDefaultPhases",
+      "local_test": "first_initialized_solution_consumer_with_default_phases",
+      "modifications": "Preserve default construction then local-search sequence, the fixture ten-step local cap, one-millisecond shared stagnation bound, and assertions for a non-early-terminated initialization event with construction producer index zero after final wait. Native solve events, owned snapshots, consumer-thread delivery and Mutex state replace Java event wrappers/MutableBoolean/MutableReference. Use the attributed two-entity/two-value finder and constant-zero scoring fixture; no Java trace or scheduling parity claim. Extra checks verify initialized final assignments and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWithSingleCHPhase",
+      "status": "implemented",
+      "upstream_test": "firstInitializedSolutionConsumerWithSingleCHPhase",
+      "local_test": "first_initialized_solution_consumer_with_single_ch_phase",
+      "modifications": "Preserve construction-only plan, final wait, false initialization marker (including its explicit reset) and absent producer identity. Native solve events, owned snapshots, consumer-thread delivery and Mutex state replace Java event wrappers/MutableBoolean/MutableReference. Use the attributed two-entity/two-value finder and constant-zero scoring fixture; no Java trace or scheduling parity claim. Extra checks verify initialized final assignments and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWith2CHAndLS",
+      "status": "implemented",
+      "upstream_test": "firstInitializedSolutionConsumerWith2CHAndLS",
+      "local_test": "first_initialized_solution_consumer_with_two_ch_and_ls",
+      "modifications": "Preserve construction/construction/local-search plan, one-millisecond shared stagnation bound, pre-run false marker, final wait and non-early-terminated initialization event identifying construction index one. Native solve events, owned snapshots, consumer-thread delivery and Mutex state replace Java event wrappers/MutableBoolean/MutableReference. Use the attributed two-entity/two-value finder and constant-zero scoring fixture; no Java trace or scheduling parity claim. Extra checks verify initialized final assignments and no callback failures."
     }
   ],
   "fixtures": [
@@ -9436,6 +9481,45 @@
       "id": "SolverManagerTest.manager_callback_problem_finder",
       "upstream_test": "DEFAULT_PROBLEM_FINDER",
       "modifications": "The default finder delegates to the already-attributed PlannerTestUtils two-entity/two-value generator; native initialized() builds that fixture inside the job. Generated solution display code is omitted. Immediate solver-error case omits unused fixture allocation. Helper only, no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.initial_solution_event_fixture",
+      "upstream_test": "InitialSolutionEvent",
+      "modifications": "Preserve false/absent initial state and read !isTerminatedEarly plus producer identity. Native bool and Option<(SolverPhaseKind,usize)> under Mutex replace Java wrappers; assignment completeness is not substituted for the early-termination flag. Fixture only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.initialized_event_config",
+      "upstream_test": "buildSolverConfig",
+      "modifications": "Preserve construction then local search, constant-zero easy score and ten-step local cap for the default-phases adaptation. Native explicit model and scoped objective replace reflection metadata; custom source phase lists override the default as in Java. Fixture only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.initialized_event_fixture",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve constant ordinary SimpleScore zero. Native scoped scoring additionally tracks required-unassigned structural count separately; no source-method credit for the fixture."
     }
   ]
 }

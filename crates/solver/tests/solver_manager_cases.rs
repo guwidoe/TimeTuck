@@ -247,3 +247,108 @@ fn skip_ahead() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+#[derive(Default)]
+struct InitialSolutionEvent {
+    is_initialized: bool,
+    producer_id: Option<(SolverPhaseKind, usize)>,
+}
+impl InitialSolutionEvent {
+    fn read(&mut self, info: SolverInitialization) {
+        self.is_initialized = !info.terminated_early;
+        self.producer_id = Some((info.kind, info.phase));
+    }
+}
+fn initialized_event_job(
+    manager: &SolverManager<Vec<Option<i64>>, String>,
+    plan: SolverPlan<'static>,
+    event: Arc<std::sync::Mutex<InitialSolutionEvent>>,
+) -> SolverJob<Vec<Option<i64>>, String> {
+    manager
+        .submit_with_progress(
+            1,
+            move |_, progress| {
+                let problem = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 2]).unwrap();
+                let mut network = ConstraintNetwork::new(2);
+                network
+                    .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                    .unwrap();
+                let result = solve_with_events(&problem, &network, plan, |event| {
+                    if let SolverEvent::FirstInitialized {
+                        initialization,
+                        assignment,
+                        ..
+                    } = event
+                    {
+                        assert!(progress.publish_first_initialized(
+                            assignment.values().to_vec(),
+                            initialization
+                        ));
+                    }
+                })
+                .map_err(|e| e.to_string())?;
+                Ok(result.assignment.values().to_vec())
+            },
+            SolverJobCallbacks::default()
+                .on_first_initialized(move |_, _, info| event.lock().unwrap().read(info)),
+        )
+        .unwrap()
+}
+#[test]
+fn first_initialized_solution_consumer_with_default_phases() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let mut manager = SolverManager::new(1).unwrap();
+    let mut plan = SolverPlan::default();
+    plan.limits.max_unimproved_time = Some(Duration::from_millis(1));
+    plan.phases = vec![SolverPhase::LocalSearch(LocalSearchConfig {
+        max_steps: 10,
+        ..Default::default()
+    })];
+    let job = initialized_event_job(&manager, plan, event.clone());
+    check_initialized(&job);
+    assert!(event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Construction, 0))
+    );
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+#[test]
+fn first_initialized_solution_consumer_with_single_ch_phase() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = initialized_event_job(
+        &manager,
+        SolverPlan {
+            phases: vec![],
+            ..Default::default()
+        },
+        event.clone(),
+    );
+    check_initialized(&job);
+    assert!(!event.lock().unwrap().is_initialized);
+    event.lock().unwrap().is_initialized = false;
+    assert_eq!(event.lock().unwrap().producer_id, None);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+#[test]
+fn first_initialized_solution_consumer_with_two_ch_and_ls() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let mut manager = SolverManager::new(1).unwrap();
+    let mut plan = SolverPlan::default();
+    plan.limits.max_unimproved_time = Some(Duration::from_millis(1));
+    plan.phases
+        .insert(0, SolverPhase::Construction(ConstructionConfig::default()));
+    event.lock().unwrap().is_initialized = false;
+    let job = initialized_event_job(&manager, plan, event.clone());
+    check_initialized(&job);
+    assert!(event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Construction, 1))
+    );
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

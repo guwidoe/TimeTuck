@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 583 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 7 manager), recorded in
+- 586 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 10 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 529 original integration regression methods, 67 original unit tests, and 51 public API documentation tests.
+- 539 original integration regression methods, 68 original unit tests, and 52 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3654,3 +3654,93 @@ valid/64 equal. Great Deluge remains 275/276 Java agreements, with its recorded
 ratio boundary discrepancy. These ordinary workloads do not measure repeated-
 construction or event/manager throughput. Shared-machine timing variation alone
 does not establish regressions/improvements. Upstream submodule remains unchanged.
+
+
+## Initialization events and managed delivery — latest increment
+
+Added six `solve*_with_events` functions and SolverEvent::{Best,FirstInitialized}.
+New SolverInitialization metadata is Copy with native phase/kind/terminated_early;
+FirstInitialized also borrows retained assignment, optional score and completeness.
+These flags are independent. PlanCallback internally selects Best or Events while
+ordinary solving retains None. `run` explicitly passes mutable PlanObservation to
+each executing closure; the shared runner emits initialization after recording the
+producer's PhaseReport, before shared stop handling. No RefCell or duplicate score
+computation. The existing controlled-clock test adapter wraps run_with_clock_observed
+with None and its old four-argument phase closure; a new unit test uses the observed
+runner to show initialization callback elapsed time stops before local search.
+
+The producer is the phase immediately before the first requested local-search
+phase. No local search means no event. Earlier stops/errors omit it; successful
+producer returns emit even if partial, zero work, globally limited, or an exhausted
+native exact phase stops the solve at that boundary. Complete assignment does not
+imply terminated_early=false. Construction Completed / Exact Exhausted mean false;
+other producing-phase reasons mean true. The exact behavior is native, not Java
+parity. Callback panic propagates; elapsed time and cancellation count toward solve
+controls. Best-only observers remain unchanged.
+
+Manager progress internally sends ProgressMessage::{Best,Initialized}. Delivery
+has a separate initialized Option<(R,SolverInitialization)> and one-shot available
+latch, set false atomically on the first accepted initialization. A boolean preserves
+publication order relative to the retained best: best replacement moves that best
+after the initialization; initialization arriving after a pending best stays after
+it. The consumer takes a batch and invokes callbacks in that order without locks,
+then completes or requeues. Initialization cannot be coalesced away. Existing serial
+per-job delivery, weak publisher identity, shutdown and lock/destructor rules remain.
+The public APIs are on_first_initialized and publish_first_initialized. A panic
+records FirstInitialized stage and reports once without disabling best/final; a
+later solve error still drains accepted initialization. Waits and ID reuse include
+delivery. No Clone requirement on R. Manager does not infer events from final return.
+
+Five original integration methods in support/solver_initialization_cases.rs use
+the extended common fixture to check six-backend boundaries, repeated construction,
+shared prefixes, completeness/early flags, exact prior retention, cancellation,
+validation and graph-factory failure. Five in solver_initialization_delivery.rs
+check slow-consumer coalescing/order with three consumer threads, reliable one-shot
+initialization, shutdown drain, final wait/ID reuse, callback/error-handler panics,
+solve error/panic and eight concurrent publishers with exactly one accepted event.
+One controlled-clock unit test and one public doctest are added.
+
+Three complete adaptations in solver_manager_cases.rs cover
+firstInitializedSolutionConsumerWithDefaultPhases,
+firstInitializedSolutionConsumerWithSingleCHPhase, and
+firstInitializedSolutionConsumerWith2CHAndLS. Assertions preserve the helper's
+non-early-termination flag and producer index, including absence for single CH.
+The default fixture retains two required variables/two values, constant-zero
+ordinary scoring, a ten-step local cap and source 1ms shared stagnation where
+configured. Java wrappers become owned native snapshots and mutex-protected state.
+Provenance adds the three methods plus helper/config/scorer fixture records; notices
+now identify ten manager methods. Only tests and the public docs description in
+library-integration.adoc lines182–183 were used; no production implementation read.
+
+Original live_initialization example connects plan events directly to manager
+publishers for four jobs. The first CH is limited to one candidate; CH1 fills the
+remaining three variables. Consumers assert origin CH1, non-early termination,
+complete [0,2,2,2] with score6, monotonic bests, final all2/score8 and exact proof.
+Both final and initialization counters must be four after shutdown.
+
+Next gaps: six remaining first-initialized source methods, custom phases,
+construction-free plans and live problem changes. Early-CH source exception/step
+limit and optional-list construction remain separate gaps. Overall goal stays
+active; this increment does not establish all lifecycle or Java scheduling parity.
+Work logs use work/initialization-*.
+
+Development and release verification pass 1,193 Rust tests: 586 adapted, 539
+original integration and 68 unit. All 52 doctests and 95 Python tests pass. Both
+debug/release live_initialization runs deliver all four initialization snapshots
+before completion and verify the expected phase, values, score and proven optimum.
+Source coverage is now 586/4,855 (12.07%), pending 3,987, excluded 282 and
+failed/unverified zero. Lifecycle is 30/379 (7.92%). All nine comparison/performance
+groups were refreshed and are current, with successful verification and a matching
+live-server fingerprint. Browser checks at 1280x900 and 390x844 show 23 benchmark
+cards, no stale warning, no overflow and no browser errors. The lifecycle search
+for firstInitializedSolutionConsumer lists three Passed and six Pending methods.
+Browser session closed; upstream submodule unchanged.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.011/3.966, exact 8
+0.153/5.895; Great Deluge 32 2.254/9.524, 96 14.423/16.454; stream tabu 96 remains
+slower at 187.903/28.787 with equal [-44,-484] scores. List two-opt 16 0.253/8.745
+and 32 0.941/12.099 retain the known score differences. List validation remains
+192 valid/189 equal-score, heuristic 128 valid/128 equal, stream 64 valid/64 equal.
+Great Deluge retains 275/276 Java agreements and its recorded ratio boundary gap.
+These ordinary workloads do not measure initialization-event/manager throughput;
+shared-machine timing differences alone do not establish improvements/regressions.

@@ -15,7 +15,7 @@ fn observer_time_preserves_shared_stagnation_in_local_and_exact_phases() {
                 elapsed.set(10);
             }
         };
-        let mut observation = PlanObservation::new(Some(&mut callback));
+        let mut observation = PlanObservation::new(Some(PlanCallback::Best(&mut callback)));
         let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
         let mut n = ConstraintNetwork::new(1);
         n.add_constraint("value", vec![0], |v| {
@@ -107,7 +107,7 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
             elapsed.set(10);
         }
     };
-    let mut observation = PlanObservation::new(Some(&mut callback));
+    let mut observation = PlanObservation::new(Some(PlanCallback::Best(&mut callback)));
     let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
     let mut n = ConstraintNetwork::<usize, SimpleScore>::new(1);
     n.add_constraint("value", vec![0], |v| {
@@ -154,4 +154,39 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
     assert_eq!(r.work.evaluations, 3);
     assert_eq!(r.work.move_evaluations, 2);
     assert_eq!(events, vec![SimpleScore::ZERO, SimpleScore::new(1)]);
+}
+
+#[test]
+fn initialization_callback_time_stops_the_solve_before_local_search() {
+    let elapsed = Cell::new(0);
+    let p = FiniteProblem::new(vec![Variable::new(vec![1])]).unwrap();
+    let n = ConstraintNetwork::<_, SimpleScore>::new(1);
+    let mut callback = |event: SolverEvent<'_, Assignment<i32>, SimpleScore>| {
+        if let SolverEvent::FirstInitialized { .. } = event {
+            elapsed.set(10);
+        }
+    };
+    let mut observation = PlanObservation::new(Some(PlanCallback::Events(&mut callback)));
+    let r = run_with_clock_observed(
+        SolverLimits {
+            max_time: Some(ms(5)),
+            ..Default::default()
+        },
+        ConstructionConfig::default(),
+        &[SolverPhase::LocalSearch(LocalSearchConfig::default())],
+        &mut observation,
+        |index, _, request, time, _| -> Result<_, ScoringError> {
+            assert_eq!(index, 0);
+            let PhaseRequest::Construction(c) = request.with_time(time) else {
+                panic!("only construction can run");
+            };
+            Ok(constructed!(greedy_construction(&p, &n, c)?))
+        },
+        &mut || ms(elapsed.get()),
+    )
+    .unwrap();
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    assert!(r.complete);
+    assert_eq!(r.phases.len(), 1);
+    assert_eq!(r.work.evaluations, 2);
 }

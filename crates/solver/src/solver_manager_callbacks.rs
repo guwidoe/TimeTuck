@@ -1,10 +1,11 @@
 //! Owned job callbacks and contained callback failures.
-use crate::SolverJobError;
+use crate::{SolverInitialization, SolverJobError};
 use std::panic::{AssertUnwindSafe, catch_unwind};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolverCallbackStage {
     Started,
+    FirstInitialized,
     Best,
     Final,
     ErrorHandler,
@@ -20,12 +21,13 @@ pub enum SolverJobFailure<'a, E> {
     Callback(&'a SolverCallbackFailure),
 }
 type Started = Box<dyn FnOnce(u64) + Send>;
+type Initialized<R> = Box<dyn FnOnce(u64, &R, SolverInitialization) + Send>;
 type Best<R> = Box<dyn FnMut(u64, &R) + Send>;
 type Final<R> = Box<dyn FnOnce(u64, &R) + Send>;
 type Handler<E> = Box<dyn for<'a> FnMut(u64, SolverJobFailure<'a, E>) + Send>;
 
 /// Per-job callbacks. Started runs once on the solver thread before the solve
-/// function; a panic is recorded and solving continues. Best, final (success only)
+/// function; a panic is recorded and solving continues. Initialization, best, final (success only)
 /// and error delivery run on the manager's consumer pool, serially per job. Errors are
 /// delivered once per cause; a panicking error handler is recorded and disabled.
 /// Callback failures never replace the solve result. Queued cancellation invokes
@@ -51,6 +53,7 @@ pub struct SolverJobCallbacks<R, E> {
     started: Option<Started>,
     started_reported: bool,
     best: Option<Best<R>>,
+    initialized: Option<Initialized<R>>,
     final_result: Option<Final<R>>,
     error: Option<Handler<E>>,
 }
@@ -60,6 +63,7 @@ impl<R, E> Default for SolverJobCallbacks<R, E> {
             started: None,
             started_reported: false,
             best: None,
+            initialized: None,
             final_result: None,
             error: None,
         }
@@ -76,6 +80,39 @@ impl<R, E> SolverJobCallbacks<R, E> {
     pub fn on_best(mut self, callback: impl FnMut(u64, &R) + Send + 'static) -> Self {
         self.best = Some(Box::new(callback));
         self
+    }
+    /// Consume the first explicitly published initialization snapshot once. It is
+    /// retained separately from coalesced best updates and delivered before final
+    /// completion, including if solving later fails. Panic is recorded/reported
+    /// without disabling best or final delivery. See [`SolverProgress::publish_first_initialized`].
+    pub fn on_first_initialized(
+        mut self,
+        callback: impl FnOnce(u64, &R, SolverInitialization) + Send + 'static,
+    ) -> Self {
+        self.initialized = Some(Box::new(callback));
+        self
+    }
+    pub(crate) fn has_initialized(&self) -> bool {
+        self.initialized.is_some()
+    }
+    pub(crate) fn initialized(
+        &mut self,
+        id: u64,
+        snapshot: &R,
+        initialization: SolverInitialization,
+        failures: &mut Vec<SolverCallbackFailure>,
+    ) {
+        self.report_started(id, failures);
+        if let Some(callback) = self.initialized.take()
+            && let Err(message) = capture(|| callback(id, snapshot, initialization))
+        {
+            let failure = SolverCallbackFailure {
+                stage: SolverCallbackStage::FirstInitialized,
+                message,
+            };
+            failures.push(failure.clone());
+            self.notify(id, SolverJobFailure::Callback(&failure), failures);
+        }
     }
     pub(crate) fn has_best(&self) -> bool {
         self.best.is_some()
@@ -94,6 +131,7 @@ impl<R, E> SolverJobCallbacks<R, E> {
     pub(crate) fn is_empty(&self) -> bool {
         self.started.is_none()
             && self.best.is_none()
+            && self.initialized.is_none()
             && self.final_result.is_none()
             && self.error.is_none()
     }
@@ -196,10 +234,16 @@ pub(crate) fn dispose<T>(value: T) {
     let _ = capture(|| drop(value));
 }
 
+pub(crate) enum ProgressMessage<R> {
+    Best(R),
+    Initialized(R, SolverInitialization),
+}
+
 /// A cloneable publisher tied to one job execution. Pass owned snapshots when the
 /// solve finds a new best solution; the caller is responsible for selecting bests
 /// and taking independent snapshots of mutable working state. At most one waiting
-/// snapshot is retained, in addition to one currently being consumed. Publishing
+/// best snapshot is retained, plus one separately retained initialization snapshot,
+/// in addition to a batch currently being consumed. Publishing
 /// returns false without a listener, after it is disabled, or after the solve returns.
 /// A true return means accepted, not necessarily consumed: newer snapshots can
 /// replace this one. Cancellation alone does not close an active publisher.
@@ -225,16 +269,29 @@ pub(crate) fn dispose<T>(value: T) {
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
 pub struct SolverProgress<R> {
-    send: std::sync::Arc<dyn Fn(R) -> bool + Send + Sync>,
+    send: std::sync::Arc<dyn Fn(ProgressMessage<R>) -> bool + Send + Sync>,
 }
 impl<R> SolverProgress<R> {
-    pub(crate) fn new(send: impl Fn(R) -> bool + Send + Sync + 'static) -> Self {
+    pub(crate) fn new(send: impl Fn(ProgressMessage<R>) -> bool + Send + Sync + 'static) -> Self {
         Self {
             send: std::sync::Arc::new(send),
         }
     }
     pub fn publish(&self, snapshot: R) -> bool {
-        (self.send)(snapshot)
+        (self.send)(ProgressMessage::Best(snapshot))
+    }
+    /// Publish one initialization snapshot for this job. Returns false without
+    /// a listener, after a previous accepted initialization, or after the solve
+    /// returns. Accepted initialization is never coalesced away. Delivery follows
+    /// publication order relative to retained best snapshots and precedes final
+    /// completion. Clones share the one-publication latch. A callback may fail;
+    /// acceptance does not promise successful callback execution.
+    pub fn publish_first_initialized(
+        &self,
+        snapshot: R,
+        initialization: SolverInitialization,
+    ) -> bool {
+        (self.send)(ProgressMessage::Initialized(snapshot, initialization))
     }
 }
 impl<R> Clone for SolverProgress<R> {

@@ -268,3 +268,9 @@ pub use solver::{
     solve_mixed_stream_with_observer, solve_mixed_with_observer, solve_stream_with_observer,
     solve_with_observer,
 };
+
+pub use solver::{
+    SolverEvent, SolverInitialization, solve_list_stream_with_events, solve_list_with_events,
+    solve_mixed_stream_with_events, solve_mixed_with_events, solve_stream_with_events,
+    solve_with_events,
+};

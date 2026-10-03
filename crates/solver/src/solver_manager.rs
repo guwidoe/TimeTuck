@@ -1,5 +1,5 @@
 //! Asynchronous, independent solves on a fixed-size native worker pool.
-use crate::solver_manager_callbacks::{capture, dispose};
+use crate::solver_manager_callbacks::{ProgressMessage, capture, dispose};
 use crate::{CancellationToken, SolverCallbackFailure, SolverJobCallbacks, SolverProgress};
 use std::{
     collections::{BTreeMap, VecDeque},
@@ -83,6 +83,9 @@ struct DeliveryState<R, E> {
     closed: bool,
     listening: bool,
     latest: Option<R>,
+    initialized: Option<(R, crate::SolverInitialization)>,
+    initialized_available: bool,
+    initialized_before_latest: bool,
     result: Option<Result<R, SolverJobError<E>>>,
     callbacks: Option<SolverJobCallbacks<R, E>>,
     failures: Vec<SolverCallbackFailure>,
@@ -466,6 +469,9 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
                 closed: false,
                 listening: callbacks.has_best(),
                 latest: None,
+                initialized: None,
+                initialized_available: callbacks.has_initialized(),
+                initialized_before_latest: true,
                 result: None,
                 callbacks: Some(callbacks),
                 failures,
@@ -473,20 +479,35 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
         });
         let manager = Arc::downgrade(&shared);
         let target = Arc::downgrade(&delivery);
-        let progress = SolverProgress::new(move |snapshot| {
+        let progress = SolverProgress::new(move |message| {
             let (Some(shared), Some(delivery)) = (manager.upgrade(), target.upgrade()) else {
-                dispose(snapshot);
+                dispose(message);
                 return false;
             };
             let mut queue = shared.queue.lock().unwrap();
             let mut state = delivery.state.lock().unwrap();
-            if state.closed || !state.listening {
+            let listening = match &message {
+                ProgressMessage::Best(_) => state.listening,
+                ProgressMessage::Initialized(..) => state.initialized_available,
+            };
+            if state.closed || !listening {
                 drop(state);
                 drop(queue);
-                dispose(snapshot);
+                dispose(message);
                 return false;
             }
-            let old = state.latest.replace(snapshot);
+            let old = match message {
+                ProgressMessage::Best(snapshot) => {
+                    state.initialized_before_latest = true;
+                    state.latest.replace(snapshot)
+                }
+                ProgressMessage::Initialized(snapshot, initialization) => {
+                    state.initialized_available = false;
+                    state.initialized_before_latest = state.latest.is_none();
+                    state.initialized = Some((snapshot, initialization));
+                    None
+                }
+            };
             if !state.scheduled {
                 state.scheduled = true;
                 queue.completions.push_back(delivery.clone());
@@ -536,17 +557,27 @@ fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shar
             };
             delivery
         };
-        let (mut callbacks, mut failures, latest, result) = {
+        let (mut callbacks, mut failures, latest, mut initialized, initialized_first, result) = {
             let mut state = delivery.state.lock().unwrap();
             (
                 state.callbacks.take().unwrap(),
                 std::mem::take(&mut state.failures),
                 state.latest.take(),
+                state.initialized.take(),
+                state.initialized_before_latest,
                 state.result.take(),
             )
         };
+        if initialized_first && let Some((snapshot, initialization)) = initialized.take() {
+            callbacks.initialized(delivery.id, &snapshot, initialization, &mut failures);
+            dispose(snapshot);
+        }
         if let Some(snapshot) = latest {
             callbacks.best(delivery.id, &snapshot, &mut failures);
+            dispose(snapshot);
+        }
+        if let Some((snapshot, initialization)) = initialized {
+            callbacks.initialized(delivery.id, &snapshot, initialization, &mut failures);
             dispose(snapshot);
         }
         if let Some(result) = result {
@@ -567,7 +598,7 @@ fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shar
             state.failures = failures;
             // A producer may have published or finished while the callback ran.
             // Requeue at the back for fairness, without concurrent job callbacks.
-            if state.latest.is_some() || state.result.is_some() {
+            if state.latest.is_some() || state.initialized.is_some() || state.result.is_some() {
                 queue.completions.push_back(delivery.clone());
                 shared.completed.notify_all();
             } else {

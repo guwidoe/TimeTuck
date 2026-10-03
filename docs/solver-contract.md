@@ -565,3 +565,59 @@ the helper `InitialSolutionEvent.isInitialized()` actually records
 `!event.isTerminatedEarly()`; it must not be interpreted as an independent check
 of solution completeness. The CH/CH/LS callback identifies the second construction
 phase; single-CH and single-LS plans omit that callback entirely.
+
+
+## Initialization boundary events and managed delivery
+
+Six `solve*_with_events` APIs emit `SolverEvent::Best` and
+`SolverEvent::FirstInitialized` through the same runner as ordinary and observed
+solves. Best updates keep their existing duplicate suppression. Initialization
+fires once when the phase immediately preceding the first requested local-search
+phase returns normally. It carries the retained assignment, optional cached score,
+completeness and `SolverInitialization { phase, kind, terminated_early }`. A partial
+or zero-work result can therefore emit with early termination and no score;
+completeness is not inferred from the termination flag. No extra scoring occurs.
+
+The boundary follows the planned first local-search phase, including if shared
+limits stop the solve at that boundary, incomplete construction prevents search,
+or a native exact phase exhausts its space there. A producing phase error or a
+stop in an earlier phase emits no initialization event. Plans without local search
+emit none. Repeated construction identifies the last preceding construction phase,
+even when it only rescores a complete assignment and produces no new best. Later
+local/construction phases do not generate another initialization event. Existing
+best-only observers do not receive initialization notifications. The synchronous
+callback runs after the phase report is recorded; its time belongs to solve limits,
+and cancellation or panic has the existing solve/manager behavior.
+
+`SolverJobCallbacks::on_first_initialized` consumes an explicitly published owned
+snapshot with its metadata. `SolverProgress::publish_first_initialized` accepts
+at most one per job execution, shared across publisher clones. It returns false
+without that listener, for subsequent initialization snapshots, or once the solve
+function has returned. The manager retains this snapshot separately from the one
+waiting best snapshot. Consumer batches preserve publication order between the
+initialization and the retained (possibly coalesced) best snapshot. All callbacks
+remain serial per job, and final/error completion waits for initialized delivery.
+No initialization is synthesized from the final return value.
+
+Initialization callback panic records `SolverCallbackStage::FirstInitialized`,
+reports it once and leaves best/final delivery available. Solving failures also
+preserve an already-published initialization event. Error-handler panic retains
+its existing nonrecursive disable behavior. Publication and captured snapshot
+destruction do not execute user code under manager locks. Shutdown drains accepted
+initialization, and an old publisher cannot affect a later job using the same ID.
+
+Three complete pinned SolverManagerTest adaptations now cover default CH/LS,
+single CH (no event) and CH/CH/LS. Their helper preserves the source's
+`!isTerminatedEarly()` meaning and producer identity assertions; native ownership
+and consumer delivery replace Java event objects. Original regressions cover all
+six native solver paths, budget prefixes, partial/complete early termination,
+exact-phase boundaries, cancellation, factory/validation failures, deadline time,
+slow consumers, reliable/coalesced ordering, concurrent publications, ID reuse,
+callback failures and solving failures. The original `live_initialization` example
+runs four managed construction/construction/local/exact jobs and checks event
+origin, initialization snapshot, monotonically improving bests and proven optimum.
+
+Six source initialization-event tests remain pending. Construction-free plans,
+custom phases, the source early-CH exception contract and optional-list construction
+behavior are not established by these adaptations. Native exact boundary behavior
+and consumer scheduling are original contracts, not Java trace parity.

@@ -512,3 +512,14 @@ a public doctest establish this native contract; they add no source-method credi
 The pinned manager first-initialized tests remain pending: their helper records
 non-early-termination, and event boundaries/producer identity still need an explicit
 implementation. Custom phases and construction-free plans are not yet supported.
+
+
+Initialization boundary events and reliable managed initialization delivery now
+add three complete SolverManagerTest adaptations: default phases, a single
+construction phase with no event, and two construction phases followed by local
+search identifying the second construction phase. Provenance and notices include
+the event helper, default phase configuration and constant-score test fixture.
+The six other initialization-event methods remain pending; native regression
+coverage does not replace their custom-phase, construction-free or early-termination
+source assertions. Native exact boundaries and consumer scheduling add no Java
+trace claims. See solver-contract.md for the event and delivery contract.
