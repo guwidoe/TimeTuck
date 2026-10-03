@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 651 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 657 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -55,7 +55,8 @@ Another 128 generated follower cases compare 2,373 states and 3,714 operations,
 including dynamic references and fixed shared suppliers, against Java public moves
 and independent Python values/scores. Another 128 collection-follower cases
 compare 2,368 states and 3,724 operations, preserving UTF-16 code order and
-first-reference ties. Separate incremental-search benchmarks
+first-reference ties. Another 128 list-element cases compare 2,365 states and
+3,675 operations for ordered time chains and nullable owner aggregates. Separate incremental-search benchmarks
 report Java/Rust quality and timing.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.

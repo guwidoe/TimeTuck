@@ -875,3 +875,32 @@ missing and reordered observations. The dashboard reports this evidence separate
 from adapted method coverage and performance. No supplier-call counts, mutable
 code/dependency lists, empty/null dependency collections, Java PlanningId behavior,
 structural-score fields, search quality or timing comparison is claimed.
+
+## List-element derived values and owner aggregates
+
+All six ListElementShadowVariableTest methods preserve their source assertions:
+ordered element end times and owner last-end values, empty-list fallback and
+unassigned nulls, a composite relocation/swap, a basic-only duration change, and
+two 1,000-move full-assert solves with the original generated fixtures. Optional
+list values remain optional in the ordered fixture. Native stream projections
+replace annotations; changed owners rescan their ordered chains, while membership
+joins and nullable grouped sums update mixed aggregates from basic changes.
+Three original Rust regressions cover null versus empty aggregates, removal,
+transfer, undo and bounded search agreement with independent full scoring.
+
+A separate 128-case Java/Rust/Python comparison (64 ordered, 64 mixed) checks
+2,365 states across 3,675 operations. Independent Python validates every ordered
+owner, previous element, start/end time and last-end aggregate, as well as mixed
+padded durations and nullable totals. Cases include zero values, empty owners,
+initial unassigned values, assign/relocate/swap, ordered unassignment, basic-only
+changes, sequential composites and undo. Generated inputs earn no method credit.
+
+Java uses public MoveTester with explicit entity metadata, which also handles
+zero-value fixtures where automatic entity discovery failed. The ordered score
+is computed by a full UPDATE_ALL on a separate solution rebuilt from genuine and
+fixed inputs; the original move-driven shadows are observed unchanged. In this
+fixture UPDATE_SCORE_ONLY returned zero even with correct visible shadows, so it
+is not used as a scoring oracle. Mixed fixtures have no score provider; their
+zero protocol field is not scoring evidence. Seven Python tests cover independent
+boundaries and reject corrupt/missing/reordered observations. Supplier counts,
+reflection, fixed-property mutation, search quality and timing are not compared.

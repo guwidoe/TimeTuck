@@ -5224,3 +5224,107 @@ Browser checked at 1280x900 and 390x844: 13.41%, 651/4,855, domain 12/455, both
 collection follower methods Passed, 29 benchmark cards, separate 128/128 evidence
 with 2,368 states/3,724 operations. No overflow, stale messages or browser errors.
 Existing server retained; verification browser closed. No design skill/delegation.
+
+## List-element derived values and aggregate conformance increment
+
+Adapt all six ListElementShadowVariableTest methods, preserving every source
+assertion. Reusable attributed support in examples/list_element_support combines
+existing stream operators; no production implementation changed. Ordered owner
+maps rescan touched lists from fixed start times, cache element start/end pairs
+and last ends, and reference projections retain every assigned/unassigned value.
+Empty owners retain their fixed start; optional list semantics are preserved.
+Mixed graphs map optional genuine durations to padded values and use membership
+joins plus nullable grouped sums; null members produce None, empty owners Some(0).
+Basic-only changes update aggregates without list events. Both source solves use
+original starts/durations/initial lists, a shared 1,000-move cap and full checks.
+All seven upstream fixtures were read and appropriate local adaptations attributed.
+
+Three original Rust regressions check complete derived snapshots and scores after
+remove-all/transfer/undo, null versus empty aggregates and mixed composite undo,
+and bounded optional-list search against an independent full-scoring network.
+Seven Python tests check explicit boundaries, sequential composites, snapshot
+isolation, invalid operations, deterministic generation and corruption in every
+output field, as well as missing/reordered output. No extra method credit.
+
+Public Java/Rust/Python comparisons pass 128/128 cases (64 ordered, 64 mixed),
+2,365 states and 3,675 operations. Compare ordered owner/previous/start/end and
+last-end aggregates, mixed padded durations and nullable totals, lists/durations,
+and ordered ordinary scores. Generated cases include zero values, empty owners,
+initial unassigned values, assign/relocate/swap, ordered unassign, basic-only
+changes, sequential composites, commits and trial/undo. Java rejects same-position
+relocation, so generated relocations/swaps use distinct positions. Same-position
+native no-ops are not a Java compatibility claim.
+
+Java adapter lessons: automatic SolutionManager.updateShadowVariables discovery
+failed for zero-value fixtures (collection source references no variables); public
+MoveTester with explicit entity metadata handles these fixtures. UPDATE_SCORE_ONLY
+returned zero ordinary score for this declarative list fixture even when visible
+shadows were correct. A full UPDATE_ALL gives the expected score. To avoid hiding
+stale MoveTester shadows, ordered scores now use a separately rebuilt solution
+from genuine/fixed inputs, with no object/list aliases to the observed solution.
+Original MoveTester-derived values are observed untouched. Mixed source fixtures
+have no scoring provider; their zero protocol field is a placeholder, not scoring
+evidence. No Java supplier-count, structural-score, reflection, search-quality or
+timing parity claimed. Negative/overflow timing inputs are outside generated
+comparisons, though native fixture addition uses explicit Java-style i32 wrapping.
+Public score-analysis docs identify that API as Enterprise; it was not invoked.
+No upstream production implementation was inspected or copied.
+
+Debug gate and release all-target tests pass 1,397 Rust tests (657 adapted, 665
+original integration, 75 unit), 69 doctests and 123 Python tests. Coverage is
+657/4,855 (13.53%), 3,916 pending, 282 excluded, zero failed/unverified; domain
+model is 18/455 (3.96%). Sources/provenance frozen before final verification.
+Logs and focused evidence use work/list-element-*. Dashboard adds one separate
+list-element entry; all 29 benchmark cards remain. No design skill/delegation.
+
+Next: concurrent group-derived scheduling is a useful extension. The file list
+under declarative was inspected, and ConcurrentValuesShadowVariableTest was
+partially read (output truncated; read it fully before adapting). It covers list
+neighbor/index/cascading-time updates, group-aligned start/finish values, supplier
+call counts, cycle propagation/recovery and two bounded full-assert solves. Read
+all concurrent fixtures, especially the assertion score calculator. Existing
+DependencyGraph cycle evaluation and shared-reference grouping may supply reusable
+pieces, but no equivalence should be assumed. The full rewrite stays unfinished.
+
+Final review corrected Java Owner.lastSupplier to box its empty fallback, avoiding
+conditional-expression unboxing of a nullable last end. Direct public supplier
+probe in work/oracle/solver/ListElementNullableProbe.java passes both the empty
+fallback and a nonempty list whose last end is null. Source-digest enforcement
+correctly rejected the in-flight solver comparison after this source edit; the
+full final gate/release/comparison sequence was restarted against frozen sources.
+
+Follow-up reading during verification filled the previously truncated concurrent
+method section and read all five concurrent fixtures. Seven source methods exist:
+simpleChain, solutionSimpleChain, groupChain, groupChainValidToInvalid,
+groupChainInvalidToValid, solveNoConcurrentValues, solveWithConcurrentValues.
+Base instant is 2025-01-01 09:00; ready is previous finish +30 minutes or base for
+an assigned first element; finish is shared start +30 minutes. Shared start takes
+the group's maximum non-null ready value. Cascading time is base + index days.
+Tests require A1/B1 to be the only initial group supplier callers and require
+cycle/downstream invalidation plus recovery, while an independent C placed before
+a cycle stays valid. Invalid-to-valid also checks an unassigned B3 still sharing
+its group's start/finish. Do not infer this from an unassigned representative's
+early-returning supplier; direct public-runtime checks should resolve alignment.
+
+The independent fixture expectation flags a group inconsistent when two assigned
+members share an owner or dependencies cycle, and propagates that to downstream
+values. The provider uses forEachUnfiltered for inconsistent hard penalties and
+forEach for assigned, consistent finish-minute soft penalties; easy score checks
+these independently. Both solve tests require feasibility with a 1,000-move limit.
+Existing DependencyGraph recomputes an immutable plan each evaluation; group start
+nodes could share one evaluation, with entity-level inconsistency projected across
+related fields, but this design remains unimplemented and unverified.
+
+Final corrected-source verification succeeds: full gate, release tests and live
+initialization (all four events before completion, all four optima). All ten
+comparison/performance datasets are current, report verification successful, and
+the live freshness digest matches. Generated list-element results remain 128/128,
+2,365 states/3,675 operations. Existing list quality remains 192 valid/189
+equal-score cases; stream and heuristic validation remain 64/64 and 128/128.
+Exact8 Rust/Java was 0.190/5.439 ms; stream tabu96 was 182.499/29.347 ms.
+These are scoped benchmark results, not whole-solver speed claims.
+
+Browser verified at 1280x900 and 390x844: 13.53%, 657/4,855 methods, domain 18/455,
+all six list-element methods Passed, separate 128/128 list-element evidence and
+29 benchmark cards. No overflow, stale messages or browser errors. Existing
+server retained, verification browser closed. Upstream submodule stays unmodified.

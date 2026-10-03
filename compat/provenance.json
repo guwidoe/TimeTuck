@@ -9765,6 +9765,96 @@
       "local_path": "crates/solver/tests/follower_set_cases.rs",
       "local_test": "test_solve",
       "modifications": "Preserve generateSolution(3 leaders, 8 followers, 2 values), exact seed-0 distinct leader pairs verified with JDK 21, 1000-move cap, full score assertions and every derived value versus direct supplier equality. Native snapshots replace mutable shadow fields. Direct scan preserves the source supplier for fixture ASCII codes; generic helper uses UTF-16 keys. No Java search trace or optimum claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.updateShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "updateShadowVariables",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "update_shadow_variables",
+      "modifications": "Preserve four end-time and two last-end assertions. Explicit list-source initialization and per-owner ordered scans replace Java annotated supplier fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.updateShadowVariablesEmptyList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "updateShadowVariablesEmptyList",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "update_shadow_variables_empty_list",
+      "modifications": "Preserve empty-owner aggregate fallback and null owner/end of an unassigned value."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.listMovesUpdateAggregates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "listMovesUpdateAggregates",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "list_moves_update_aggregates",
+      "modifications": "Preserve both initial and final owner aggregate assertions after the same composite relocation then same-list swap. Native transactions replace public Java moves."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.basicVariableChangeRetriggersAggregateWithoutListChange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "basicVariableChangeRetriggersAggregateWithoutListChange",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "basic_variable_change_retriggers_aggregate_without_list_change",
+      "modifications": "Preserve initial total 7, changed padded duration 6 and updated total 10 after a basic-only change from 2 to 5. Native mixed stream membership and grouped nullable sums replace annotated fan-in edges."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.solveWithFullAssertFromInitializedSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "solveWithFullAssertFromInitializedSolution",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "solve_with_full_assert_from_initialized_solution",
+      "modifications": "Preserve generated 2-owner/4-value fixture, starts by owner index, durations 1+(index%3), initial lists [0,1,2]/[3], 1000-move cap, full-score checks, non-null solve result and every owner aggregate against its last element or empty fallback. Native deterministic solver replaces Java search; no search-trace/quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListElementShadowVariableTest.solveWithFullAssert",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ListElementShadowVariableTest.java",
+      "upstream_test": "solveWithFullAssert",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "local_test": "solve_with_full_assert",
+      "modifications": "Preserve generated 3-owner/6-value fixture with empty initial lists, starts by owner index, durations 1+(index%3), 1000-move cap, full-score checks, non-null solve result and every owner aggregate against its last element or empty fallback. Optional list semantics retained; no search-trace/quality parity claim."
     }
   ],
   "fixtures": [
@@ -11548,6 +11638,188 @@
       "upstream_test": "solution fields and value range",
       "local_path": "compat/oracle/CollectionFollowerOracle.java",
       "modifications": "Public Java annotations, MoveTester and SolutionManager adapter for generated inputs. Replace value wrappers with stable Integer identities plus immutable code strings; keep strict minimum code comparison and first-reference ties. Reuse the attributed FollowerOracle leader/interface/provider. Nonempty dependency lists are validated; empty-list and PlanningId behavior are outside comparison scope. Generated code sets, duplicate references, composite moves and Unicode/tie boundaries are original extensions; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementEntity.list_element_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementEntity.java",
+      "upstream_test": "planning list, fixed start and last-element end supplier",
+      "local_path": "crates/solver/examples/list_element_support/mod.rs",
+      "modifications": "Native explicit stream projections replace annotated fields; changed-owner ordered scans compute element times and last-end values, membership joins and nullable grouped sums update mixed aggregates. Numeric IDs replace object references. Java int wrapping is explicit. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementEntity.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementEntity.java",
+      "upstream_test": "planning list, fixed start and last-element end supplier",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementValue.list_element_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementValue.java",
+      "upstream_test": "owner/previous shadow fields and start/end suppliers",
+      "local_path": "crates/solver/examples/list_element_support/mod.rs",
+      "modifications": "Native explicit stream projections replace annotated fields; changed-owner ordered scans compute element times and last-end values, membership joins and nullable grouped sums update mixed aggregates. Numeric IDs replace object references. Java int wrapping is explicit. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementValue.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementValue.java",
+      "upstream_test": "owner/previous shadow fields and start/end suppliers",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementConstraintProvider.list_element_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementConstraintProvider.java",
+      "upstream_test": "unassigned-value and last-end penalties",
+      "local_path": "crates/solver/examples/list_element_support/mod.rs",
+      "modifications": "Native explicit stream projections replace annotated fields; changed-owner ordered scans compute element times and last-end values, membership joins and nullable grouped sums update mixed aggregates. Numeric IDs replace object references. Java int wrapping is explicit. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementConstraintProvider.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementConstraintProvider.java",
+      "upstream_test": "unassigned-value and last-end penalties",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementEntity.list_element_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementEntity.java",
+      "upstream_test": "planning list and nullable padded-duration aggregate",
+      "local_path": "crates/solver/examples/list_element_support/mod.rs",
+      "modifications": "Native explicit stream projections replace annotated fields; changed-owner ordered scans compute element times and last-end values, membership joins and nullable grouped sums update mixed aggregates. Numeric IDs replace object references. Java int wrapping is explicit. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementEntity.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementEntity.java",
+      "upstream_test": "planning list and nullable padded-duration aggregate",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementValue.list_element_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementValue.java",
+      "upstream_test": "optional duration domain and padded-duration supplier",
+      "local_path": "crates/solver/examples/list_element_support/mod.rs",
+      "modifications": "Native explicit stream projections replace annotated fields; changed-owner ordered scans compute element times and last-end values, membership joins and nullable grouped sums update mixed aggregates. Numeric IDs replace object references. Java int wrapping is explicit. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementValue.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementValue.java",
+      "upstream_test": "optional duration domain and padded-duration supplier",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementSolution.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementSolution.java",
+      "upstream_test": "solution fields and generator",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementSolution.list_element_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementSolution.java",
+      "upstream_test": "solution fields and duration range",
+      "local_path": "compat/oracle/ListElementOracle.java",
+      "modifications": "Public MoveTester with explicit entity metadata initializes/updates annotated shadows; ordered scores recomputed with SolutionManager.UPDATE_ALL on a detached genuine/fixed-input reconstruction, preserving original MoveTester observations. Rename fields/classes, use numeric IDs, no TestdataObject inheritance or PlanningId. Mixed fixture retains no score provider; output score zero is only a protocol placeholder. Original generated inputs extend to zero values and composite undo; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListElementSolution.list_element_case_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementSolution.java",
+      "upstream_test": "generated values/starts and duration range",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "modifications": "Preserve owner-index starts, cyclic durations 1+(index%3), source list assignments and optional basic duration range 1..9 in native planning models. Test-only fixture, no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedListElementSolution.list_element_case_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataMixedListElementSolution.java",
+      "upstream_test": "generated values/starts and duration range",
+      "local_path": "crates/solver/tests/list_element_cases.rs",
+      "modifications": "Preserve owner-index starts, cyclic durations 1+(index%3), source list assignments and optional basic duration range 1..9 in native planning models. Test-only fixture, no extra method credit."
     }
   ]
 }

@@ -1215,3 +1215,23 @@ codes, all-null states and composite temporary moves. Java updates annotated
 shadows using public moves and recomputes each observed ordinary score. No direct
 Java timing, supplier-count, PlanningId, code/dependency mutation or empty/null
 collection compatibility follows from these comparisons.
+
+## Ordered list-element projections
+
+An attributed test/example fixture uses per-owner maps to scan list elements in
+order from a fixed start time, retaining each element's start/end and the owner's
+last end. Empty owners retain their fixed start. Reference projections connect
+all value rows, including unassigned rows, to their owner's cached chain. Only
+changed owners rescan; updates do not use a prefix-difference optimization.
+Java integer addition is modeled with wrapping i32 arithmetic. Compared generated
+inputs use nonnegative starts and positive small durations, without overflow.
+
+A second fixture maps optional genuine durations to padded durations, joins list
+membership, and groups nullable sums. A null member yields None; an empty owner
+yields Some(0). Basic changes therefore update owner aggregates without a list
+change. Both projections participate in ordinary graph transactions, undo and
+saved search candidates; no new production operator was required. Six upstream
+methods, three original Rust regressions and 128 separate public Java/Rust/Python
+cases establish the scoped behavior. Mixed comparisons observe values only;
+ordered Java scores use a detached full-update solution to leave move-driven
+shadow observations untouched. No incremental Java scoring/timing claim follows.

@@ -15,6 +15,13 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/list_element_cases.rs` adapts all six methods in
+  `ListElementShadowVariableTest`. Its reusable
+  `crates/solver/examples/list_element_support/mod.rs` fixture and
+  `compat/oracle/ListElementOracle.java` adapt the seven `list_element` domain,
+  supplier, scoring and solution fixtures as recorded in provenance. Generated
+  inputs in `scripts/list_element_checks.py` are original.
+
 - `crates/solver/tests/follower_set_cases.rs` adapts both methods in
   `FollowerSetValuesShadowVariableTest`. Its reusable
   `examples/collection_follower_support/mod.rs` fixture and
