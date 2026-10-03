@@ -6510,6 +6510,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every source termination/gradient assertion, literal score, split weight, repeated observation and exact or tolerance comparison. Native fixed starting scores and score-level metadata replace Mockito scopes, score definitions and fully-assigned wrappers; the unused mock random source is not adapted. Solver/phase cases each execute the full shared assertion sequence. Helper gradient arguments become native constructor start/target values; Bendable dimensions are compile-time constants. Decimal methods remain pending; no Java lifecycle or automatic cooling integration claim."
+    },
+    {
+      "id": "TimeMillisSpentTerminationTest.solveTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TimeMillisSpentTerminationTest.java",
+      "upstream_test": "solveTermination",
+      "local_path": "crates/solver/tests/elapsed_time_cases.rs",
+      "local_test": "solve_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six threshold and six exact gradient assertions using native Duration values. Each solver/phase adaptation executes the full source sequence. Mock elapsed-time scopes and unused mock random source are replaced by explicit durations; ElapsedTimeLimit is used by actual local-search clocks. No JVM lifecycle, whole-solve time scope or unimproved-time compatibility claim."
+    },
+    {
+      "id": "TimeMillisSpentTerminationTest.phaseTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TimeMillisSpentTerminationTest.java",
+      "upstream_test": "phaseTermination",
+      "local_path": "crates/solver/tests/elapsed_time_cases.rs",
+      "local_test": "phase_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six threshold and six exact gradient assertions using native Duration values. Each solver/phase adaptation executes the full source sequence. Mock elapsed-time scopes and unused mock random source are replaced by explicit durations; ElapsedTimeLimit is used by actual local-search clocks. No JVM lifecycle, whole-solve time scope or unimproved-time compatibility claim."
     }
   ],
   "fixtures": [

@@ -121,7 +121,7 @@ methods preserve all twelve threshold and twelve gradient assertions for step an
 unimproved-step limits. Eleven original integration regressions cover native
 boundaries, resets, fallback steps and both backends across all model types.
 Nine additional integer score-target/feasibility methods now have complete
-adaptations; the two decimal score-target gradient methods and time-based
+adaptations; the two decimal score-target gradient methods and unimproved-time
 termination remain pending.
 
 `ScoreTargetProgress` fixes a starting score, target score and N-1 split weights
@@ -164,6 +164,45 @@ regressions check literal milestones and reject incorrect solutions and metadata
 Run `python3 scripts/differential_solver.py` to refresh this evidence with the
 exact-search checks; raw cases, Python traces and both runtime outputs are saved
 in `work/oracle/termination-cases.json`.
+
+## Cooperative elapsed-time limits
+
+`LocalSearchConfig::max_time` optionally bounds the duration of each local-search
+phase across basic, list and mixed models with either scoring backend. Normal
+runs use `Instant`; disabled timing does not start or poll a clock. The limit
+includes initial scoring, first-fit initialization, phase validation, candidate
+selection and enabled diagnostic recomputations. Model/network/graph preparation
+before the search call is outside this phase. Construction and whole-solve time
+budgets are not implemented by this option.
+
+The clock is checked after existing step-boundary criteria, before scoring each
+emitted candidate, and after selection and diagnostics. Expiry stops the lazy
+candidate iterator, installs any selected winner from the evaluated prefix, and
+returns the retained global best with `TimeLimit`. A prefix with no selected move
+also reports `TimeLimit`, not neighborhood exhaustion. A currently running
+callback, validation, move enumeration or diagnostic operation cannot be interrupted;
+this is a cooperative limit and can overshoot. Zero time still permits initial
+scoring and returns that initial solution unless an earlier criterion applies.
+Invalid input, empty complete space and zero evaluation budget retain their earlier
+handling.
+
+An evaluation limit already observed during selection takes precedence over the
+post-selection time poll. If the time poll prevents a next candidate from being
+emitted, selection never observes that candidate's evaluation cap and time wins.
+Post-selection expiry precedes a new step-boundary count/score criterion. Tests
+cover both orders so timing is not mistakenly reported as local optimality.
+
+`ElapsedTimeLimit` exposes exact Duration threshold decisions and capped floating
+progress; zero is reached with fraction 1. Negative durations are unrepresentable.
+The two adapted TimeMillisSpentTerminationTest methods preserve all twelve
+threshold and twelve gradient assertions. Eight original unit regressions inject
+controlled clocks into the actual shared search algorithms, covering all six
+model/backend combinations, winner installation, rejected prefixes, initial
+scoring, disabled-clock behavior, zero limits, overlapping criteria, monotonic
+clamping and irreversible expiry. A public real-clock zero-limit call is checked
+without sleeps. Direct Java timed-search comparisons and unimproved-time,
+construction/whole-solve budgets, external cancellation and hard preemption remain
+pending. Existing deterministic benchmarks leave max_time disabled.
 
 ## Evidence and limits
 

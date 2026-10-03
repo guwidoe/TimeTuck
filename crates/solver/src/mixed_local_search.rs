@@ -120,8 +120,28 @@ pub(crate) fn search_impl<
 where
     MixedLocalSearchError: From<D::Error>,
 {
+    let clock = crate::time_limit::monotonic_clock(settings.search.max_time.is_some());
+    search_impl_with_clock(problem, initial, settings, make_director, clock)
+}
+
+pub(crate) fn search_impl_with_clock<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError>
+where
+    MixedLocalSearchError: From<D::Error>,
+{
     let config = settings.search;
     let joint_moves = settings.joint_moves;
+    let mut time_budget = crate::time_limit::TimeBudget::new(config.max_time, clock);
     config.acceptance.validate()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
@@ -164,6 +184,10 @@ where
             result.termination = reason;
             return Ok(result);
         }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
+            return Ok(result);
+        }
         let snapshot = director.assignment().clone();
         let mut basic_order: Vec<_> = (0..problem.basic().variables().len()).collect();
         let mut list_order: Vec<_> = (0..problem.lists().entities().len()).collect();
@@ -182,7 +206,7 @@ where
         let current = director.score();
         let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            moves,
+            moves.take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -222,6 +246,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
             return Ok(result);
         }
         if selection.selected.is_none() {

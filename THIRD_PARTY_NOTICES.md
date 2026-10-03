@@ -15,6 +15,9 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/elapsed_time_cases.rs` from
+  `TimeMillisSpentTerminationTest.java`.
+
 - `crates/solver/tests/score_progress_cases.rs` from
   `BestScoreTerminationTest.java` and `BestScoreFeasibleTerminationTest.java`.
 

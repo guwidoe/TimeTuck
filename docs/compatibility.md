@@ -20,6 +20,11 @@ The two decimal gradient methods remain pending. Native progress objects replace
 mock initialized phase/solver scopes and preserve every score, weight, repeated
 observation and floating comparison; no Java lifecycle equivalence is claimed.
 
+Two elapsed-time methods additionally preserve every millisecond threshold and
+progress assertion. Cooperative native phase timing is exercised with controlled
+clocks across all models/backends. This does not establish wall-clock trace parity,
+whole-solve time scope, preemption or unimproved-time compatibility.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

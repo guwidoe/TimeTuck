@@ -98,6 +98,9 @@ pub struct LocalSearchConfig<S = crate::SimpleScore> {
     pub max_evaluations: u64,
     pub max_accepted_moves: u64,
     pub max_steps: u64,
+    /// Cooperative phase time limit, including initial scoring. Checked between
+    /// candidates; an active scoring callback cannot be interrupted. None disables.
+    pub max_time: Option<std::time::Duration>,
     /// Completed steps since the last strict global-best improvement. None disables.
     pub max_unimproved_steps: Option<u64>,
     /// Stop at a step boundary when the retained best score is at least this value.
@@ -117,6 +120,7 @@ impl<S> Default for LocalSearchConfig<S> {
             max_evaluations: 10_000,
             max_accepted_moves: 1_000,
             max_steps: 1_000,
+            max_time: None,
             max_unimproved_steps: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -165,9 +169,15 @@ impl<S: crate::Score> LocalSearchConfig<S> {
 /// any selected move and reports `EvaluationLimit` before checking a new boundary.
 /// Exhaustion is detected when attempting another candidate: consuming the last
 /// evaluation on the final candidate alone does not mark that selection exhausted.
+/// An enabled time limit is polled after boundary criteria, before each emitted
+/// candidate, and after selection/diagnostics. A timed-out iterator preserves the
+/// evaluated prefix and returns `TimeLimit` before another boundary or no-move
+/// decision. An evaluation limit already observed by selection takes precedence;
+/// a time check withholding the next candidate can prevent that observation.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
     EvaluationLimit,
+    TimeLimit,
     AcceptedMoveLimit,
     StepLimit,
     UnimprovedStepLimit,
@@ -251,6 +261,21 @@ pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, 
 where
     LocalSearchError: From<D::Error>,
 {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    search_impl_with_clock(problem, initial, config, create, clock)
+}
+
+pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+    problem: &FiniteProblem<V>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig<S>,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError>
+where
+    LocalSearchError: From<D::Error>,
+{
+    let mut time_budget = crate::time_limit::TimeBudget::new(config.max_time, clock);
     config.acceptance.validate()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
@@ -308,6 +333,10 @@ where
             result.termination = reason;
             return Ok(result);
         }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
+            return Ok(result);
+        }
         // Snapshot decouples lazy enumeration from the director's transaction.
         // No neighborhood-sized list of cloned moves is allocated.
         let snapshot = director.assignment().clone();
@@ -323,7 +352,7 @@ where
         let current = director.score();
         let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            changes.chain(swaps),
+            changes.chain(swaps).take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -364,6 +393,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
             return Ok(result);
         }
         if selection.selected.is_none() {

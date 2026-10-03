@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 434 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 11 termination), recorded in
+- 436 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -40,11 +40,15 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
+- Optional max_time bounds each local-search phase with a monotonic clock,
+  checking between candidates and retaining the best evaluated prefix. It is
+  cooperative, includes initial scoring and can overshoot in active callbacks.
+  Eight original controlled-clock regressions cover all six model/backend paths.
 - ScoreTargetProgress and FeasibilityProgress offer validated weighted estimates
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 342 original integration regression methods, thirteen original unit tests, and thirty public API documentation tests.
+- 342 original integration regression methods, twenty-one original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -95,7 +99,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 434 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 436 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -143,7 +147,7 @@ initialization-score assumptions. No production implementation has been ported.
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
    Extend deterministic termination evidence beyond the 219 basic-search cases
-   to list/mixed models, decimal gradients and time-based termination.
+   to list/mixed models, decimal gradients and unimproved-time termination.
 4. Extend matched Java heuristic evidence to more workloads and randomized
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
@@ -1677,3 +1681,53 @@ The live server fingerprint matches the final report. Desktop 1280px and mobile
 390px browser checks show 8.94% overall, Solver lifecycle 2.90%, all eleven passed
 lifecycle cases, no stale alert, page errors or horizontal overflow. Existing
 server reused; browser session closed; upstream remains clean.
+
+## Cooperative elapsed-time local-search increment
+
+LocalSearchConfig adds optional max_time: Duration, disabled by default, and
+LocalSearchTermination adds TimeLimit. Basic, list and mixed local search share
+the same integration for scoped and stream scoring. An Instant clock starts at
+phase entry; first-fit initialization, initial scoring, validation inside the
+phase and diagnostic recomputation count. Preparation before the search is not
+covered. Clock reads are skipped when disabled. This is cooperative: an active
+callback, validation, move enumeration or diagnostic cannot be interrupted.
+
+Timing is polled after existing boundary criteria, before each emitted candidate,
+and after selection/diagnostics. Expiry truncates lazy iteration and preserves
+any selected winner from the evaluated prefix, then returns the retained global
+best. A timed-out rejected prefix never reports neighborhood exhaustion. A detected
+evaluation cap takes precedence over the final time poll; a time poll withholding
+a candidate can prevent selection from observing that cap. Post-selection expiry
+precedes newly reached boundary criteria. Zero time still scores and retains the
+initial solution unless an earlier limit applies. Existing validation/zero-evaluation
+and empty-space behavior remains in place.
+
+ElapsedTimeLimit exposes exact Duration threshold and capped progress calculations.
+Two fully adapted TimeMillisSpentTerminationTest methods preserve all twelve
+threshold and twelve gradient assertions, recorded with notices/provenance.
+Eight original unit regressions inject controlled clocks into the actual algorithms
+across all six model/backend paths, check saved-prefix selection, rejected prefixes,
+initial scoring, no clock use when disabled, zero time, overlapping limits,
+regressing injected timestamps and latched expiry. A public Instant-backed zero
+limit is verified without sleeps. No direct Java timed-search, whole-solve,
+construction, unimproved-time, cancellation or preemption claim.
+
+Development/release all-target suites pass: 799 Rust tests (436 adapted, 342
+original integration, 21 original unit), 30 doctests and 67 Python checks.
+Coverage 436 / 4,855 = 8.98%; Solver lifecycle 13 / 379 = 3.43%; streams remain
+275 / 1,301 = 21.14%. Pending 4,137, excluded 282, failed/unverified zero. Full goal
+unfinished. Logs use work/timed-search-{check,release,stream-evidence,
+stream-performance,list-refresh,core-refresh,heuristic-performance}.log.
+
+All nine comparison/performance report sections are refreshed and current,
+including 219 termination and 128 exact-search cases. Stream medians ms Rust/Java:
+hill32 46.686/16.833, hill96 183.258/27.170, tabu32 46.238/17.122,
+tabu96 175.950/22.806. Both 96-variable scores remain [-44,-484], infeasible at
+50 steps. List32 construction remains Rust [0,-1080] versus Java [0,-1062].
+Benchmarks leave timing disabled and retain their existing deterministic budgets;
+no elapsed-limit runtime comparison or performance improvement is claimed.
+
+The live server fingerprint matches. Browser checks at 1280px and 390px verify
+8.98% overall, Solver lifecycle 3.43%, all thirteen passed lifecycle cases including
+the two elapsed-time methods, no stale alert, no page errors and no horizontal
+overflow. Existing server reused; browser session closed; upstream clean.

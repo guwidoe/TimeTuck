@@ -95,6 +95,21 @@ pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector
 where
     ListLocalSearchError: From<D::Error>,
 {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    search_impl_with_clock(problem, initial, config, make_director, clock)
+}
+
+pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
+where
+    ListLocalSearchError: From<D::Error>,
+{
+    let mut time_budget = crate::time_limit::TimeBudget::new(config.max_time, clock);
     config.acceptance.validate()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
@@ -137,6 +152,10 @@ where
             result.termination = reason;
             return Ok(result);
         }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
+            return Ok(result);
+        }
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = (0..problem.entities().len()).collect();
         if let Some(random) = &mut random {
@@ -151,7 +170,7 @@ where
         let current = director.score();
         let tracks_entities = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let selection = director.select_best(
-            moves,
+            moves.take_while(|_| !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -191,6 +210,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if time_budget.expired() {
+            result.termination = LocalSearchTermination::TimeLimit;
             return Ok(result);
         }
         if selection.selected.is_none() {

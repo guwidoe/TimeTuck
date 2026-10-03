@@ -180,3 +180,9 @@ pub use step_progress::{StepCountLimit, StepProgress};
 
 mod score_progress;
 pub use score_progress::{FeasibilityProgress, ScoreProgressError, ScoreTargetProgress};
+
+mod time_limit;
+pub use time_limit::ElapsedTimeLimit;
+
+#[cfg(test)]
+mod timed_search_tests;
