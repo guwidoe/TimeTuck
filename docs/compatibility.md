@@ -712,4 +712,26 @@ Finite enumeration supplies the observed behavior without random-stream equivale
 Java single-variable/list constructor overload assertions, empty-list constructor
 message assertions and shared stateful sampler identity/reset remain pending. Native
 schema validation alone grants no credit for them. Six original tests grant no extra
-upstream credit. Current default benchmarks do not isolate schema/pillar performance.
+upstream credit. Existing search benchmarks do not isolate schema-provider overhead.
+
+## Explicit-group pillar transaction comparison
+
+`scripts/benchmark_pillars.py` checks 128 original seeded cases against independent
+Python simultaneous writes and the pinned Community public `Moves`/`MoveTester`
+APIs. Inputs select members and one to three columns explicitly, including optional
+values, no-ops, unequal groups and subgroups. Every response must match the trial,
+restored and committed states and repeated-state checksum. These original cases
+add no adapted upstream method credit.
+
+Six workloads measure single-column change, single-column swap and three-column
+swap at 16 and 64 entities. Timing includes group/move construction, temporary
+application, full state copies/checks, undo and checksum consumption. Native
+structural/domain validation and Java test-framework costs differ. Parsing,
+model/context setup, a separate commit check and output encoding are excluded.
+The defaults use 1,000 transactions per batch, five warmup batches, seven measured
+batches and three fresh processes per runtime, alternating runtime order. Reported
+ranges and medians are batch averages per transaction, not latency percentiles.
+Raw observations, inputs, checksums, artifact hashes and environments are retained
+in the downloadable report. The dashboard labels these transaction measurements
+separately: they do not measure automatic grouping/schema providers, random
+sampling, scoring, solver search, memory or overall solver performance.

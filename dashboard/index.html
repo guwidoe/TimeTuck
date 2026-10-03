@@ -12,8 +12,8 @@
             rel="icon"
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
-        <link rel="stylesheet" href="styles.css?v=3f8399582800" />
-        <script src="app.js?v=big-number-collectors-1" defer></script>
+        <link rel="stylesheet" href="styles.css?v=17ec84240fbe" />
+        <script src="app.js?v=93cc68bc134d" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -140,6 +140,29 @@
                         </div>
                     </section>
                 </div>
+                <section class="performance" aria-labelledby="pillar-performance-heading">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="pillar-performance-heading">Pillar transactions vs. the original</h2>
+                            <p>Supplied groups: move construction, application, state checks and undo.</p>
+                        </div>
+                        <span class="tag">Change &amp; swap</span>
+                    </div>
+                    <div id="pillar-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span><i class="dot rust"></i>TimeTuck · Rust release</span>
+                        <span><i class="dot java"></i>Timefold · warmed JVM</span>
+                        <span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">Ratios compare observed median times (Java ÷ Rust).
+                        Both runtimes include validation, with different framework costs. Differences near 1× may be noise.</p>
+                    <div id="pillar-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="pillar-benchmark-caption"></p>
+                        <p>No automatic grouping, move sampling, scoring or search is timed.
+                            These measurements do not establish overall solver speed.</p>
+                    </div>
+                </section>
                 <section
                     class="performance"
                     aria-labelledby="stream-performance-heading"
@@ -372,8 +395,12 @@
                             ><code>python3 scripts/differential_streams.py</code
                             ><code>python3 scripts/benchmark_streams.py</code
                             ><code>python3 scripts/benchmark_heuristics.py</code
+                            ><code>python3 scripts/benchmark_pillars.py</code
                             ><code>python3 scripts/compat_report.py</code>
                         </div>
+                        <h3>Pillar transaction benchmark conditions</h3>
+                        <p id="pillar-benchmark-method"></p>
+                        <pre id="pillar-environment"></pre>
                         <h3>Incremental-stream benchmark conditions</h3>
                         <p id="stream-benchmark-method"></p>
                         <pre id="stream-environment"></pre>

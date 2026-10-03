@@ -218,7 +218,8 @@ def build_report(execute=True, test_output=None):
             'heuristic_performance': load_measurement('heuristic-performance', digest),
             'list_performance': load_measurement('list-performance', digest),
             'stream_differential': load_measurement('stream-differential', digest),
-            'stream_performance': load_measurement('stream-performance', digest)}
+            'stream_performance': load_measurement('stream-performance', digest),
+            'pillar_performance': load_measurement('pillar-performance', digest)}
 
 
 def main():

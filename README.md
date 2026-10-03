@@ -130,6 +130,7 @@ python3 scripts/benchmark_heuristics.py
 python3 scripts/benchmark_lists.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
+python3 scripts/benchmark_pillars.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```

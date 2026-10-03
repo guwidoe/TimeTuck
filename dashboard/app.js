@@ -112,6 +112,7 @@ function render() {
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
     renderBenchmarks("stream");
+    renderBenchmarks("pillar");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -221,6 +222,7 @@ function renderBenchmarks(kind = "score") {
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
+    const precision = kind === "pillar" ? 5 : solver ? 3 : 2;
     const p = (solver ? report[`${kind}_performance`] : report.performance) || {},
         box = target("benchmarks");
     box.replaceChildren();
@@ -258,7 +260,7 @@ function renderBenchmarks(kind = "score") {
                     runtime === "rust" ? "Rust" : "Java",
                 ),
                 track,
-                node("b", "", `${w[runtime].median.toFixed(solver ? 3 : 2)} ${unit}`),
+                node("b", "", `${w[runtime].median.toFixed(precision)} ${unit}`),
             );
             b.append(row);
         });
@@ -266,7 +268,7 @@ function renderBenchmarks(kind = "score") {
             node(
                 "p",
                 "range",
-                `Observed ranges · Rust ${w.rust.min.toFixed(solver ? 3 : 2)}–${w.rust.max.toFixed(solver ? 3 : 2)} ${unit} · Java ${w.java.min.toFixed(solver ? 3 : 2)}–${w.java.max.toFixed(solver ? 3 : 2)} ${unit}`,
+                `Observed ranges · Rust ${w.rust.min.toFixed(precision)}–${w.rust.max.toFixed(precision)} ${unit} · Java ${w.java.min.toFixed(precision)}–${w.java.max.toFixed(precision)} ${unit}`,
             ),
         );
         if (heuristic) {
@@ -289,6 +291,9 @@ function renderBenchmarks(kind = "score") {
     }
     if (kind === "list" && !missing) {
         target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
+    if (kind === "pillar" && !missing) {
+        target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
     }
     target("benchmark-method").textContent =
         p.methodology ||
@@ -330,6 +335,7 @@ function renderDifferential() {
         ...(stepCounting ? [[{...stepCounting, status: report.solver_differential.status}, "step-counting search cases agree with Community and independent search", "Five counting modes, three threshold periods, first/best accepted selection and rejected fallback. Java/Rust final assignments and scores agree; Python separately verifies Rust scoped/stream counters and termination reasons. Java internal counters and traces are not compared."]] : []),
         ...(mixedSearch ? [[{...mixedSearch, status: report.solver_differential.status}, "mixed planning cases checked for valid solutions and scores", `Independent enumeration checks ${n(mixedSearch.reference_assignments)} joint depot/route assignments. Optima reached: Rust exact ${n(mixedSearch.optimal.exact)}/${n(mixedSearch.total)}, Community BRUTE_FORCE ${n(mixedSearch.optimal.java)}/${n(mixedSearch.total)}, Rust scoped and stream local search ${n(mixedSearch.optimal.scoped)}/${n(mixedSearch.total)} each. The coupled cases expose quality differences; these are not equal-score passes. Native local search uses joint moves and a 20-step cap. Different search strategies and starting states; no timing or Java trace comparison.`]] : []),
         [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}${mixedDetail}${orderedDetail}${existenceDetail}${conditionalDetail}${membershipDetail}`],
+        [{...report.pillar_performance?.validation, seed: report.pillar_performance?.config?.seed, status: report.pillar_performance?.status}, "pillar transaction cases agree with Java and an independent reference", "Supplied groups and selected columns: change, swap, optional values and subgroups. Trial, undo and committed states match. No automatic grouping or solver search comparison."],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
         if (d.total == null) {
@@ -407,6 +413,7 @@ async function reload() {
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
             renderBenchmarks("stream");
+            renderBenchmarks("pillar");
             renderDifferential();
         }
         $("updated").textContent =

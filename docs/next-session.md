@@ -4877,3 +4877,50 @@ equal [-44,-484]. Two-opt 16 0.336/9.587 and 32 0.904/12.433 retain known score
 differences. These default-workload timings do not isolate pillar schema overhead
 or establish a general speedup/regression. This increment is verified; the whole
 rewrite remains unfinished and the goal stays active.
+
+## Explicit-group pillar measurements (2026-10-03)
+
+Added original Java public Moves/MoveTester and native Pillar/FiniteProblem
+transaction adapters plus `scripts/benchmark_pillars.py`. All 128 seeded cases
+match independent Python trial, restored and committed matrices and batch
+checksums. Cases include optional values, no-ops, noncontiguous/unequal supplied
+groups, subgroups and one to three selected columns. Seven Python regressions
+check simultaneous writes, untouched cells, invalid groups, response completeness,
+state/checksum integrity and deterministic generation. No upstream method credit.
+
+Six timing workloads cover single-column change/swap and three-column swap, at
+16/64 entities. Every iteration constructs groups/moves, applies temporarily,
+copies/checks trial and restored states and consumes checksums. Public Java
+MoveTester infrastructure and native structural/domain validation costs differ.
+Automatic grouping/schema-provider enumeration, sampling, scoring and search are
+outside scope. Setup and separate committed-state checks are outside the timer.
+Defaults: 1,000 transactions per batch, 5 warmup batches, 7 samples, 3 fresh
+processes per runtime, alternating runtime order. All raw observations retained.
+
+Debug gate: 1,353 Rust tests, 66 doctests and 102 Python tests pass. Release all-
+target run passes the same 1,353 tests; live_initialization example succeeds.
+Source digest frozen before full checks and all ten dataset refreshes. Adapted
+coverage stays 639/4,855 (13.16%), 3,934 pending, 282 excluded, zero failed or
+unverified. Upstream unchanged. Logs use work/pillar-performance-*.
+
+All ten datasets current; report verification successful and live freshness digest
+matches. Median Rust/Java ms per transaction: change16 0.000853/0.003522,
+change64 0.003638/0.009293, swap16 0.001476/0.004526, swap64 0.005852/0.021092,
+tuple16 0.002506/0.011565, tuple64 0.008867/0.045663. These are batch averages with
+framework/validation differences, not general solver speedups. Existing evidence
+retains 512/512 list moves, 192 valid/189 equal-score list solves, 64 valid/equal-
+score stream solves, 128 valid/equal-score heuristic solves and the known 275/276
+Great Deluge agreement. Stream tabu96 remains slower: Rust 173.489 vs Java 24.085
+ms, equal [-44,-484]. Exact8 0.177/5.768 ms. Quality differences remain visible.
+
+Dashboard reuses existing patterns, adds six pillar cards (29 total), independent
+case counts and scope/method/environment details. Browser at 1280x900 and 390x844
+confirms current data, correct per-transaction caption, no overflow/errors/stale
+messages. Visual inspection caught wrapping timing units; widened only pillar
+numeric columns, refreshed CSS/JS asset version hashes, and confirmed 90px nowrap
+columns and no clipping on both viewports. Existing server retained; verification
+browser closed. No Impeccable or design delegation.
+
+Next: broader domain/shadow-variable support or remaining pillar provider behavior
+with full test assertions, without treating these explicit-group transaction
+measurements as automatic schema-provider evidence. Full rewrite goal active.
