@@ -95,7 +95,9 @@ pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector
 where
     ListLocalSearchError: From<D::Error>,
 {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    let clock = crate::time_limit::monotonic_clock(
+        config.max_time.is_some() || config.max_unimproved_time.is_some(),
+    );
     search_impl_with_clock(problem, initial, config, make_director, clock)
 }
 
@@ -109,7 +111,8 @@ pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: ListSea
 where
     ListLocalSearchError: From<D::Error>,
 {
-    let mut time_budget = crate::time_limit::TimeBudget::new(config.max_time, clock);
+    let mut time_budget =
+        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock);
     config.acceptance.validate()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
@@ -142,6 +145,7 @@ where
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    time_budget.start_search();
     let mut progress = crate::StepProgress::default();
     loop {
         if let Some(reason) = config.step_termination(
@@ -152,8 +156,8 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        if time_budget.expired() {
-            result.termination = LocalSearchTermination::TimeLimit;
+        if let Some(reason) = time_budget.stop() {
+            result.termination = reason;
             return Ok(result);
         }
         let snapshot = director.assignment().clone();
@@ -189,6 +193,7 @@ where
         if let Some(movement) = &selection.selected {
             let improved = director.score() > result.best.as_ref().expect("initial best").score;
             if improved {
+                time_budget.record_improvement();
                 result.best = Some(ScoredListAssignment {
                     assignment: director.assignment().clone(),
                     score: director.score(),
@@ -212,8 +217,8 @@ where
             result.termination = LocalSearchTermination::EvaluationLimit;
             return Ok(result);
         }
-        if time_budget.expired() {
-            result.termination = LocalSearchTermination::TimeLimit;
+        if let Some(reason) = time_budget.stop() {
+            result.termination = reason;
             return Ok(result);
         }
         if selection.selected.is_none() {

@@ -23,7 +23,9 @@ observation and floating comparison; no Java lifecycle equivalence is claimed.
 Two elapsed-time methods additionally preserve every millisecond threshold and
 progress assertion. Cooperative native phase timing is exercised with controlled
 clocks across all models/backends. This does not establish wall-clock trace parity,
-whole-solve time scope, preemption or unimproved-time compatibility.
+whole-solve time scope, preemption or unimproved-time compatibility. Native
+unimproved-time stopping additionally has six original controlled-clock regressions
+covering all model/backend paths; upstream lifecycle methods remain pending.
 
 ## Why the existing suite needs an adapter
 

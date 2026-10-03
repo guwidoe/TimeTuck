@@ -269,7 +269,7 @@ fn time_budget_clamps_regression_and_latches_expiry() {
         Duration::from_millis(10),
     ]
     .into_iter();
-    let mut budget = time_limit::TimeBudget::new(Some(Duration::from_millis(10)), || {
+    let mut budget = time_limit::TimeBudget::new(Some(Duration::from_millis(10)), None, || {
         times.next().expect("expiry must latch")
     });
     assert!(!budget.expired());
@@ -308,4 +308,149 @@ fn first_observed_candidate_limit_determines_time_vs_evaluation_reason() {
             assert_eq!(r.reason, expected);
         }
     }
+}
+
+fn stagnation_config() -> LocalSearchConfig<HardSoftScore> {
+    LocalSearchConfig {
+        max_time: None,
+        max_unimproved_time: Some(Duration::from_millis(3)),
+        ..config()
+    }
+}
+
+#[test]
+fn unimproved_expiry_retains_improving_prefix_without_reviving_timer() {
+    // Start at tick 1, boundary 2, candidate 3, next candidate 4 expires.
+    for r in run_all(stagnation_config(), score, ticking) {
+        assert_eq!(r.reason, Stop::UnimprovedTimeLimit);
+        assert_eq!(r.best, Some(score(1)));
+        assert_eq!(r.evaluations, 2);
+        assert_eq!(r.steps, 1);
+    }
+}
+
+#[test]
+fn unimproved_clock_excludes_long_initialization_and_zero_stops_before_moves() {
+    for limit in [Duration::ZERO, Duration::from_millis(3)] {
+        for r in run_all(
+            LocalSearchConfig {
+                max_unimproved_time: Some(limit),
+                max_steps: 1,
+                ..stagnation_config()
+            },
+            score,
+            || || Duration::from_secs(100),
+        ) {
+            if limit.is_zero() {
+                assert_eq!(r.reason, Stop::UnimprovedTimeLimit);
+                assert_eq!(r.steps, 0);
+                assert_eq!(r.best, Some(score(0)));
+            } else {
+                assert_eq!(r.reason, Stop::StepLimit);
+                assert_eq!(r.steps, 1);
+                assert_eq!(r.best, Some(score(2)));
+            }
+        }
+    }
+}
+
+#[test]
+fn strict_best_improvement_resets_stagnation_but_equal_steps_do_not() {
+    // FirstAccepted gives the same clock schedule across all model types.
+    // Start 1, boundary 2, candidate 3, improvement 4, post-step 5;
+    // next boundary 6 would expire without the improvement reset.
+    for r in run_all(
+        LocalSearchConfig {
+            max_unimproved_time: Some(Duration::from_millis(5)),
+            selection: MoveSelection::FirstAccepted,
+            acceptance: Acceptance::HillClimbing,
+            max_steps: 20,
+            ..stagnation_config()
+        },
+        |v| score(usize::from(v > 0)),
+        ticking,
+    ) {
+        assert_eq!(r.reason, Stop::UnimprovedTimeLimit);
+        assert_eq!(r.best, Some(score(1)));
+        assert_eq!(r.steps, 2);
+        assert_eq!(r.unimproved, 1);
+    }
+}
+
+#[test]
+fn fallback_ties_and_recovery_to_retained_best_do_not_reset_stagnation() {
+    // A best-rejected fallback worsens the score, then strict acceptance recovers
+    // to the old global best. Neither step earns a fresh stagnation interval.
+    for (backend, r) in run_all(
+        LocalSearchConfig {
+            max_unimproved_time: Some(Duration::from_millis(8)),
+            selection: MoveSelection::FirstAccepted,
+            rejected_moves: RejectedMovePolicy::BestScore,
+            max_steps: 20,
+            ..stagnation_config()
+        },
+        |v| score(usize::from(v == 0)),
+        ticking,
+    )
+    .into_iter()
+    .enumerate()
+    {
+        assert_eq!(r.reason, Stop::UnimprovedTimeLimit);
+        assert_eq!(r.best, Some(score(1)));
+        assert!(r.steps >= 1);
+        if backend < 2 {
+            // Basic backends take the worsening fallback and then recover. Mixed
+            // backends can instead select score-neutral list moves.
+            assert_eq!(r.steps, 2);
+            assert_eq!(r.accepted, 1);
+        }
+        assert_eq!(r.unimproved, r.steps);
+    }
+}
+
+#[test]
+fn improvement_callback_overrun_and_simultaneous_expiry_preserve_reason() {
+    for total in [None, Some(Duration::from_millis(10))] {
+        for r in run_all(
+            LocalSearchConfig {
+                max_time: total,
+                selection: MoveSelection::FirstAccepted,
+                ..stagnation_config()
+            },
+            score,
+            || {
+                let mut times = [0, 1, 2, 10].into_iter();
+                move || Duration::from_millis(times.next().expect("expiry must latch"))
+            },
+        ) {
+            assert_eq!(
+                r.reason,
+                if total.is_some() {
+                    Stop::TimeLimit
+                } else {
+                    Stop::UnimprovedTimeLimit
+                }
+            );
+            assert_eq!(r.best, Some(score(1)));
+            assert_eq!(r.steps, 1);
+        }
+    }
+}
+
+#[test]
+fn stagnation_budget_clamps_backwards_samples_and_handles_max_duration() {
+    let mut times = [
+        Duration::MAX - Duration::from_nanos(2),
+        Duration::ZERO,
+        Duration::MAX,
+    ]
+    .into_iter();
+    let mut b = time_limit::TimeBudget::new(None, Some(Duration::from_nanos(2)), || {
+        times.next().unwrap()
+    });
+    b.start_search();
+    assert_eq!(b.stop(), None);
+    assert_eq!(b.stop(), Some(Stop::UnimprovedTimeLimit));
+    b.record_improvement();
+    assert_eq!(b.stop(), Some(Stop::UnimprovedTimeLimit));
 }

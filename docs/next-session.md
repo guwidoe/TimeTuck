@@ -44,11 +44,15 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   checking between candidates and retaining the best evaluated prefix. It is
   cooperative, includes initial scoring and can overshoot in active callbacks.
   Eight original controlled-clock regressions cover all six model/backend paths.
+- Optional max_unimproved_time excludes initialization and resets only on strict
+  retained-best improvements. Expiry latches before resets; all six search paths
+  share this behavior, checked by six additional controlled-clock regressions.
+  This adds no upstream method credit or Java timed-trace claim.
 - ScoreTargetProgress and FeasibilityProgress offer validated weighted estimates
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 342 original integration regression methods, twenty-one original unit tests, and thirty public API documentation tests.
+- 342 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -147,7 +151,7 @@ initialization-score assumptions. No production implementation has been ported.
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
    Extend deterministic termination evidence beyond the 219 basic-search cases
-   to list/mixed models, decimal gradients and unimproved-time termination.
+   to list/mixed models, decimal gradients and upstream unimproved-time lifecycle adaptations.
 4. Extend matched Java heuristic evidence to more workloads and randomized
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
@@ -1731,3 +1735,42 @@ The live server fingerprint matches. Browser checks at 1280px and 390px verify
 8.98% overall, Solver lifecycle 3.43%, all thirteen passed lifecycle cases including
 the two elapsed-time methods, no stale alert, no page errors and no horizontal
 overflow. Existing server reused; browser session closed; upstream clean.
+
+## Cooperative unimproved-time increment
+
+LocalSearchConfig now includes max_unimproved_time, disabled by default, and
+LocalSearchTermination distinguishes UnimprovedTimeLimit. All six local-search
+model/backend paths share the monotonic clock and behavior. Initialization and
+initial diagnostics are excluded from stagnation timing. Only an installed strict
+retained-global-best improvement resets it; ties, worsening fallback and recovery
+to an old best do not. Polling before reset preserves expiry even when scoring
+overshoots the deadline. An improving selected prefix remains in the result.
+Total time wins simultaneously observed time expiry; already-observed evaluation
+exhaustion retains its precedence. See the incremental-search contract.
+
+Six additional original controlled-clock regressions exercise these semantics,
+including long initialization, zero limits, backwards clock samples and maximum
+Duration boundaries. No new upstream method credit: the six upstream
+UnimprovedTimeMillisSpentTerminationTest methods remain pending, including their
+mocked solver/phase lifecycle and construction suppression assertions. Source test
+was inspected as specification only; no source production implementation read.
+No direct Java timed-search or wall-clock trace parity claim.
+
+Development and release checks pass: 805 Rust tests (436 adapted, 342 original
+integration, 27 original unit), 30 doctests and 67 Python regressions. Coverage is
+unchanged at 436 / 4,855 = 8.98%; lifecycle 13 / 379 = 3.43%. All nine evidence
+sections are refreshed and current. Original deterministic termination comparisons
+remain 219 / 219 with 398 independently checked native steps. Logs use
+work/unimproved-time-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log.
+
+Stream medians ms Rust/Java: hill32 46.216/17.817, hill96 176.526/35.654,
+tabu32 46.135/18.030, tabu96 170.932/31.718. Scores still agree, including
+infeasible [-44,-484] at 96 variables after 50 steps. List32 construction remains
+Rust [0,-1080] versus Java [0,-1062]. Both timers are disabled in deterministic
+benchmarks; this increment makes no performance-improvement claim.
+
+Live server fingerprint matches the report. Browser checks at 1280px and 390px
+show 8.98% coverage, all 13 passed lifecycle cases, no stale alerts, page errors
+or horizontal overflow. Existing server reused, browser closed. Upstream remains
+unmodified; the full goal remains active and unfinished.

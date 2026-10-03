@@ -28,29 +28,58 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 pub(crate) struct TimeBudget<C> {
     limit: Option<ElapsedTimeLimit>,
+    unimproved_limit: Option<ElapsedTimeLimit>,
     clock: C,
     last: Duration,
-    expired: bool,
+    last_improvement: Duration,
+    reason: Option<crate::LocalSearchTermination>,
 }
 impl<C: FnMut() -> Duration> TimeBudget<C> {
-    pub(crate) fn new(limit: Option<Duration>, clock: C) -> Self {
+    pub(crate) fn new(limit: Option<Duration>, unimproved: Option<Duration>, clock: C) -> Self {
         Self {
             limit: limit.map(ElapsedTimeLimit::new),
+            unimproved_limit: unimproved.map(ElapsedTimeLimit::new),
             clock,
             last: Duration::ZERO,
-            expired: false,
+            last_improvement: Duration::ZERO,
+            reason: None,
         }
     }
+    fn sample(&mut self) {
+        // Also protect tests with injected clocks against backwards samples.
+        self.last = self.last.max((self.clock)());
+    }
+    pub(crate) fn start_search(&mut self) {
+        if self.unimproved_limit.is_some() {
+            self.sample();
+            self.last_improvement = self.last;
+        }
+    }
+    pub(crate) fn record_improvement(&mut self) {
+        // Poll before resetting: a late improvement must not revive an expired
+        // search. Preserve that improvement in the result regardless of expiry.
+        if self.unimproved_limit.is_some() && self.stop().is_none() {
+            self.last_improvement = self.last;
+        }
+    }
+    pub(crate) fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
+        use crate::LocalSearchTermination::{TimeLimit, UnimprovedTimeLimit};
+        if self.reason.is_none() && (self.limit.is_some() || self.unimproved_limit.is_some()) {
+            self.sample();
+            self.reason = if self.limit.is_some_and(|limit| limit.is_reached(self.last)) {
+                Some(TimeLimit)
+            } else if self
+                .unimproved_limit
+                .is_some_and(|limit| limit.is_reached(self.last - self.last_improvement))
+            {
+                Some(UnimprovedTimeLimit)
+            } else {
+                None
+            };
+        }
+        self.reason
+    }
     pub(crate) fn expired(&mut self) -> bool {
-        if self.expired {
-            return true;
-        }
-        if let Some(limit) = self.limit {
-            // Defensive clamp for an injected clock that moves backwards. Normal
-            // solves use Instant; elapsed expiry is irreversible within a phase.
-            self.last = self.last.max((self.clock)());
-            self.expired = limit.is_reached(self.last);
-        }
-        self.expired
+        self.stop().is_some()
     }
 }

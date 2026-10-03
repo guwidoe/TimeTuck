@@ -121,7 +121,7 @@ methods preserve all twelve threshold and twelve gradient assertions for step an
 unimproved-step limits. Eleven original integration regressions cover native
 boundaries, resets, fallback steps and both backends across all model types.
 Nine additional integer score-target/feasibility methods now have complete
-adaptations; the two decimal score-target gradient methods and unimproved-time
+adaptations; the two decimal score-target gradient methods and upstream unimproved-time
 termination remain pending.
 
 `ScoreTargetProgress` fixes a starting score, target score and N-1 split weights
@@ -200,9 +200,29 @@ controlled clocks into the actual shared search algorithms, covering all six
 model/backend combinations, winner installation, rejected prefixes, initial
 scoring, disabled-clock behavior, zero limits, overlapping criteria, monotonic
 clamping and irreversible expiry. A public real-clock zero-limit call is checked
-without sleeps. Direct Java timed-search comparisons and unimproved-time,
-construction/whole-solve budgets, external cancellation and hard preemption remain
-pending. Existing deterministic benchmarks leave max_time disabled.
+without sleeps.
+
+`max_unimproved_time` optionally stops the same six search paths after a duration
+without a strict retained-global-best improvement. Its clock starts after initial
+scoring and initial diagnostics. Only an installed step with a new strict best
+resets it; ties, worsening fallback, recovery to an old best and unselected trials
+do not. Initialization is excluded even if it takes longer than the configured
+interval. Zero stops before the first move while preserving the initial solution.
+
+Both time limits use one monotonic clock. Before resetting stagnation, the search
+polls it; an improvement installed at or after the deadline is retained but cannot
+revive an expired budget. Expiration latched during candidate enumeration similarly
+survives installation of its best prefix. `UnimprovedTimeLimit` distinguishes this
+stop from total `TimeLimit`; total time wins if both are first observed expired in
+the same poll. Observed evaluation exhaustion retains its existing precedence.
+Extra improvement/start samples occur only when stagnation timing is enabled.
+Six additional original controlled-clock tests cover initialization, strict/tied
+improvements, fallback/recovery, prefix retention, callback overrun, simultaneous
+expiry and backwards/maximum-duration samples. They earn no upstream method credit.
+
+Direct Java timed-search comparisons, complete upstream unimproved-time lifecycle
+adaptations, construction/whole-solve budgets, external cancellation and hard
+preemption remain pending. Deterministic benchmarks disable both time limits.
 
 ## Evidence and limits
 

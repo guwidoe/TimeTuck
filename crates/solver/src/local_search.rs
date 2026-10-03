@@ -101,6 +101,9 @@ pub struct LocalSearchConfig<S = crate::SimpleScore> {
     /// Cooperative phase time limit, including initial scoring. Checked between
     /// candidates; an active scoring callback cannot be interrupted. None disables.
     pub max_time: Option<std::time::Duration>,
+    /// Cooperative time since initialization or the last strict best improvement.
+    /// Initial scoring is excluded. None disables; zero stops before any move.
+    pub max_unimproved_time: Option<std::time::Duration>,
     /// Completed steps since the last strict global-best improvement. None disables.
     pub max_unimproved_steps: Option<u64>,
     /// Stop at a step boundary when the retained best score is at least this value.
@@ -121,6 +124,7 @@ impl<S> Default for LocalSearchConfig<S> {
             max_accepted_moves: 1_000,
             max_steps: 1_000,
             max_time: None,
+            max_unimproved_time: None,
             max_unimproved_steps: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -171,13 +175,16 @@ impl<S: crate::Score> LocalSearchConfig<S> {
 /// evaluation on the final candidate alone does not mark that selection exhausted.
 /// An enabled time limit is polled after boundary criteria, before each emitted
 /// candidate, and after selection/diagnostics. A timed-out iterator preserves the
-/// evaluated prefix and returns `TimeLimit` before another boundary or no-move
+/// evaluated prefix and returns `TimeLimit` or `UnimprovedTimeLimit` before another boundary or no-move
 /// decision. An evaluation limit already observed by selection takes precedence;
 /// a time check withholding the next candidate can prevent that observation.
+/// Unimproved timing starts after initialization and is also polled before a strict
+/// best improvement resets it. Expiry latches; total time wins simultaneous expiry.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
     EvaluationLimit,
     TimeLimit,
+    UnimprovedTimeLimit,
     AcceptedMoveLimit,
     StepLimit,
     UnimprovedStepLimit,
@@ -261,7 +268,9 @@ pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, 
 where
     LocalSearchError: From<D::Error>,
 {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    let clock = crate::time_limit::monotonic_clock(
+        config.max_time.is_some() || config.max_unimproved_time.is_some(),
+    );
     search_impl_with_clock(problem, initial, config, create, clock)
 }
 
@@ -275,7 +284,8 @@ pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: SearchD
 where
     LocalSearchError: From<D::Error>,
 {
-    let mut time_budget = crate::time_limit::TimeBudget::new(config.max_time, clock);
+    let mut time_budget =
+        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock);
     config.acceptance.validate()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
@@ -323,6 +333,7 @@ where
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    time_budget.start_search();
     let mut progress = crate::StepProgress::default();
     loop {
         if let Some(reason) = config.step_termination(
@@ -333,8 +344,8 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        if time_budget.expired() {
-            result.termination = LocalSearchTermination::TimeLimit;
+        if let Some(reason) = time_budget.stop() {
+            result.termination = reason;
             return Ok(result);
         }
         // Snapshot decouples lazy enumeration from the director's transaction.
@@ -372,6 +383,7 @@ where
             let improved =
                 director.score() > result.best.as_ref().expect("initial best exists").score;
             if improved {
+                time_budget.record_improvement();
                 result.best = Some(ScoredAssignment {
                     assignment: director.assignment().clone(),
                     score: director.score(),
@@ -395,8 +407,8 @@ where
             result.termination = LocalSearchTermination::EvaluationLimit;
             return Ok(result);
         }
-        if time_budget.expired() {
-            result.termination = LocalSearchTermination::TimeLimit;
+        if let Some(reason) = time_budget.stop() {
+            result.termination = reason;
             return Ok(result);
         }
         if selection.selected.is_none() {
