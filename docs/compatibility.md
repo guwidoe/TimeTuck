@@ -10,8 +10,12 @@ framework integration, and all Enterprise functionality are outside the initial 
 Two adapted termination methods additionally preserve all step-count and
 unimproved-step-count threshold/progress assertions. Native search uses these
 counters across basic, list and mixed models with both scoring backends. Optional
-score-target and feasibility stops have original integration checks; their upstream
-gradient methods and direct Java search comparisons remain pending.
+score-target and feasibility stops have original integration checks. An additional
+219 original deterministic basic-search cases now compare final solutions and
+scores with Community and independent Python search. Both native scoring backends
+also match Python step/acceptance/stagnation counts and termination reasons; Java
+internal counters and traces are not compared. These cases earn no method credit;
+upstream score-target and feasibility gradient methods remain pending.
 
 ## Why the existing suite needs an adapter
 

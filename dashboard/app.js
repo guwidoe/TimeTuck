@@ -300,6 +300,7 @@ function renderBenchmarks(kind = "score") {
 function renderDifferential() {
     const box = $("differential");
     box.replaceChildren();
+    const termination = report.solver_differential?.termination_checks;
     const averages = report.stream_differential?.average_collector_checks;
     const durations = report.stream_differential?.duration_collector_checks;
     const bigNumbers = report.stream_differential?.big_number_collector_checks;
@@ -315,6 +316,7 @@ function renderDifferential() {
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
+        ...(termination ? [[{...termination, status: report.solver_differential.status}, "termination cases agree with Community and independent search", "Step, stagnation, score-target and feasibility limits, including delayed improvements after rejected fallback and recovery. Java/Rust final solutions and scores agree; Python separately checks Rust scoped and stream counters and termination reasons. Java internal counters, traces, list/mixed search and timing are not compared."]] : []),
         [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}${mixedDetail}${orderedDetail}${existenceDetail}`],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {

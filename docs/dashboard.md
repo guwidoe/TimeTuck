@@ -114,6 +114,23 @@ fixed choice; this preserves the native assignment space without extra score
 constraints. These cases add no upstream coverage and are not additional timing
 benchmarks. See `docs/planning-contract.md` for the protocol and mapping.
 
+The same solver comparison command additionally records `termination_checks`:
+219 original deterministic complete required-variable graph cases, seed 20261119.
+Java public configuration composes step, unimproved-step, score-target and
+feasibility phase limits with OR. Both runtimes use original-order best-accepted
+hill climbing, first ties and best-rejected fallback. Independent Python neighbor
+enumeration checks final scores and exact assignments, and separately checks both
+Rust backends' completed-step, stagnation and acceptance counts and stop reasons
+(398 reference steps across the cases). Java internal counters, traces and stop
+reasons are not inferred. Fifteen variations of a delayed-improvement fixture
+(found using seed 20261120) distinguish limits by returned quality after worsening
+and recovery. These cases preserve initial assignments, unlike the exact-search
+cases above. Raw inputs, reference traces and outputs are saved separately in
+`work/oracle/termination-cases.json`. The dashboard shows the count separately,
+with inherited measurement freshness and explicit mismatches; it adds no upstream
+coverage or timing claim. List/mixed search and randomized acceptance are outside
+this comparison.
+
 `scripts/prepare_solver_oracle.py` resolves only the pinned Community dependency
 and its runtime dependencies using Maven 3.9.16 in ignored `work/oracle/solver/`.
 It verifies the downloaded Maven distribution checksum and records all resolved

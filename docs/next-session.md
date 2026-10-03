@@ -50,6 +50,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Python enumeration: 64 homogeneous required and 64 per-variable range cases,
   including mixed optionality, empty optional ranges and pinned nulls. Movable
   initial values reset before both solves.
+- 219 original deterministic basic-search termination cases agree with Community
+  and independent Python search; native scoped/stream counters and reasons also
+  match 398 reference steps. Includes delayed improvements after fallback and
+  recovery. Java internal counters/traces, list/mixed search, and timing are not
+  claimed. Run differential_solver.py; see the incremental-search contract.
 - Separate score microbenchmarks and two small matched exact-search workloads.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
   Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
@@ -133,8 +138,8 @@ initialization-score assumptions. No production implementation has been ported.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
-   Extend the new deterministic termination criteria with direct Community search
-   comparisons and complete applicable score-target/feasibility gradient methods.
+   Extend deterministic termination evidence beyond the 219 basic-search cases
+   to list/mixed models and complete score-target/feasibility gradient methods.
 4. Extend matched Java heuristic evidence to more workloads and randomized
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
@@ -1577,3 +1582,47 @@ verification fingerprint matches. Desktop 1280px and mobile 390px browser checks
 show 8.75% overall, Solver lifecycle 0.53%, both adapted termination methods under
 the Passed filter, no stale alert, page errors or horizontal overflow. Existing
 server reused; browser session closed. Upstream remains unmodified.
+
+## Direct Community termination comparison increment
+
+New original TerminationOracle.java configures only public Community APIs. The
+native termination_oracle example runs both scoped and persistent stream scoring;
+Python independently enumerates each complete change neighborhood. The regular
+scripts/differential_solver.py command now additionally records termination_checks:
+219 / 219 cases pass, seed 20261119, 398 reference completed steps. Java and Rust
+return the same exact final scores and assignments; native counters and stop
+reasons also match Python. Java internal counters, reasons and traces are neither
+exposed nor inferred. No adapted test methods or library behavior were added.
+
+Cases include zero limits, initial targets, signed soft preferences, hard conflicts,
+duplicate/self edges, pins, no moves, unreachable criteria and OR composition.
+An original four-variable fixture discovered with seed 20261120 improves twice,
+selects a rejected worse fallback, recovers, then discovers another global best. Fifteen
+limit variations give different returned scores for short and long budgets,
+providing observable evidence of when Java stops. Five Python regressions check
+literal milestones and ensure validators reject wrong final solutions, counters,
+backend identities and reasons. Raw inputs, Python traces and both runtime outputs
+are saved in work/oracle/termination-cases.json.
+
+The dashboard displays this comparison as a separate original-case count in
+Beyond the adapted tests, inheriting source freshness and showing mismatches.
+Coverage remains 425 / 4,855 = 8.75%; pending 4,148, excluded 282, failed/unverified
+zero. Development/release all-target suites pass 773 Rust tests, with 29 doctests
+and 67 Python regressions passing the development gate. Java adapters remain
+outside the Rust library dependency graph; no upstream files changed. List/mixed
+termination comparisons, stochastic acceptance, time-based limits and source
+score-target/feasibility gradient methods remain pending. Full goal unfinished.
+
+All nine comparison/performance sections were refreshed and are current. Latest
+stream medians ms Rust/Java: hill32 66.993/24.970, hill96 253.206/39.663,
+tabu32 57.274/19.654, tabu96 238.183/40.099. Both 96-variable scores remain
+[-44,-484], infeasible at 50 steps. List32 construction still returns Rust
+[0,-1080] versus Java [0,-1062]. No performance-change claim: library code and
+benchmark configurations were unchanged in this comparison increment.
+Logs: work/termination-comparison-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log.
+
+The existing server's live fingerprint matches the final report. Browser checks
+at 1280px and 390px verify 219 / 219 termination cases, the explicit limitations,
+unchanged 8.75% upstream coverage, no stale alert, no page errors and no horizontal
+overflow. No server restart was needed; browser session closed. Upstream clean.

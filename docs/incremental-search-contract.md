@@ -120,8 +120,25 @@ while threshold decisions remain exact integer comparisons. Two adapted upstream
 methods preserve all twelve threshold and twelve gradient assertions for step and
 unimproved-step limits. Eleven original integration regressions cover native
 boundaries, resets, fallback steps and both backends across all model types.
-Score-target and feasibility gradient methods remain pending, as do time-based
-termination and direct Java search comparisons using these optional criteria.
+Score-target and feasibility gradient methods remain pending, as does time-based
+termination.
+
+Original direct Community comparisons now cover 219 deterministic required-basic
+cases (seed 20261119). They use public OR-composed phase limits and original-order
+best-accepted hill climbing, first ties and best-rejected fallback. Cases include
+zero limits, initial targets, pins, no moves, signed preferences, unreachable
+criteria and a delayed improvement after worsening and recovery. That last fixture
+(found with seed 20261120) returns different scores under different stagnation,
+step, score-target and feasibility limits. All final scores and assignments agree
+with independent Python neighbor enumeration. Rust scoped and stream backends also
+match 398 reference completed steps in aggregate, per-case stagnation/acceptance
+counts and native reasons. Java internal counts, reasons and traces are not
+exposed or inferred. No list/mixed-search, stochastic or timing claim follows.
+These original cases earn no upstream method credit. Five original validator
+regressions check literal milestones and reject incorrect solutions and metadata.
+Run `python3 scripts/differential_solver.py` to refresh this evidence with the
+exact-search checks; raw cases, Python traces and both runtime outputs are saved
+in `work/oracle/termination-cases.json`.
 
 ## Evidence and limits
 
