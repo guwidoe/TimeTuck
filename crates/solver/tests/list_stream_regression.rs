@@ -392,6 +392,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
             let config = ConstructionConfig {
                 cancellation: None,
                 max_move_evaluations: None,
+                max_time: None,
                 max_evaluations,
                 pick_early,
                 assert_scores: true,

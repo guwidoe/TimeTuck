@@ -123,6 +123,7 @@ fn construction_policies_budgets_and_phase_handoff_match_full_scoring() {
             let config = ConstructionConfig {
                 cancellation: None,
                 max_move_evaluations: None,
+                max_time: None,
                 max_evaluations: budget,
                 pick_early: policy,
                 assert_scores: true,

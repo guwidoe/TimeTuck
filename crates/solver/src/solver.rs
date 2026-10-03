@@ -1,6 +1,6 @@
 //! Construction followed by configured improvement phases under shared controls.
 use crate::*;
-use std::{error::Error, fmt};
+use std::{error::Error, fmt, time::Duration};
 
 /// Shared limits for one solve. Phase-local controls can stop a phase earlier.
 /// Diagnostic callbacks are excluded from both evaluation counters.
@@ -8,6 +8,9 @@ use std::{error::Error, fmt};
 pub struct SolverLimits<'a, S = SimpleScore> {
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
+    /// Cooperative deadline shared by construction, improvement and stream graph
+    /// preparation. Initial scoring is allowed at zero time. None disables it.
+    pub max_time: Option<Duration>,
     pub cancellation: Option<&'a CancellationToken>,
     pub best_score_limit: Option<S>,
     pub stop_when_feasible: bool,
@@ -17,6 +20,7 @@ impl<S> Default for SolverLimits<'_, S> {
         Self {
             max_evaluations: 100_000,
             max_move_evaluations: None,
+            max_time: None,
             cancellation: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -26,7 +30,7 @@ impl<S> Default for SolverLimits<'_, S> {
 /// Always construct first, then run the listed local-search phases in order.
 /// Each improvement phase starts from the retained best complete assignment,
 /// with fresh acceptor state and its configured random seed. Empty local_search
-/// means construction only. Time limits remain phase-local.
+/// means construction only. A shared deadline can bound every phase.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct SolverConfig<'a, S = SimpleScore> {
     pub limits: SolverLimits<'a, S>,
@@ -98,6 +102,7 @@ pub enum SolverTermination {
     PlanCompleted,
     EvaluationLimit,
     MoveEvaluationLimit,
+    TimeLimit,
     Cancelled,
     BestScoreLimit,
     FeasibleScore,
@@ -169,6 +174,41 @@ enum PhaseRequest<'a, S> {
     Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),
 }
+// Clock readings are elapsed from entry to run(), including plan validation.
+// Clip immediately before phase entry, after any graph factory preparation.
+struct SolveTime<'c> {
+    limit: Option<Duration>,
+    clock: &'c mut dyn FnMut() -> Duration,
+    last: Duration,
+    shared_bound: bool,
+}
+impl SolveTime<'_> {
+    fn remaining(&mut self) -> Option<Duration> {
+        self.limit.map(|limit| {
+            self.last = self.last.max((self.clock)());
+            limit.saturating_sub(self.last)
+        })
+    }
+    fn expired(&mut self) -> bool {
+        self.remaining() == Some(Duration::ZERO)
+    }
+    fn bound(&mut self, own: &mut Option<Duration>) {
+        self.shared_bound = false;
+        if let Some(remaining) = self.remaining() {
+            self.shared_bound = own.is_none_or(|limit| remaining <= limit);
+            *own = Some(own.map_or(remaining, |limit| limit.min(remaining)));
+        }
+    }
+}
+impl<S> PhaseRequest<'_, S> {
+    fn with_time(mut self, time: &mut SolveTime<'_>) -> Self {
+        match &mut self {
+            Self::Construction(c) => time.bound(&mut c.max_time),
+            Self::LocalSearch(c) => time.bound(&mut c.max_time),
+        }
+        self
+    }
+}
 struct PhaseOutput<A, S> {
     assignment: Option<A>,
     score: Option<S>,
@@ -186,11 +226,40 @@ fn run<A, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
     construction: ConstructionConfig<'_>,
     local: &[LocalSearchConfig<'_, S>],
-    mut phase: impl FnMut(usize, Option<A>, PhaseRequest<'_, S>) -> Result<PhaseOutput<A, S>, E>,
+    phase: impl FnMut(
+        usize,
+        Option<A>,
+        PhaseRequest<'_, S>,
+        &mut SolveTime<'_>,
+    ) -> Result<PhaseOutput<A, S>, E>,
 ) -> Result<SolverResult<A, S>, SolverError<E>>
 where
     A: Clone,
 {
+    let mut clock = crate::time_limit::monotonic_clock(limits.max_time.is_some());
+    run_with_clock(limits, construction, local, phase, &mut clock)
+}
+fn run_with_clock<A, S: AdditiveScore, E>(
+    limits: SolverLimits<'_, S>,
+    construction: ConstructionConfig<'_>,
+    local: &[LocalSearchConfig<'_, S>],
+    mut phase: impl FnMut(
+        usize,
+        Option<A>,
+        PhaseRequest<'_, S>,
+        &mut SolveTime<'_>,
+    ) -> Result<PhaseOutput<A, S>, E>,
+    clock: &mut dyn FnMut() -> Duration,
+) -> Result<SolverResult<A, S>, SolverError<E>>
+where
+    A: Clone,
+{
+    let mut time = SolveTime {
+        limit: limits.max_time,
+        clock,
+        last: Duration::ZERO,
+        shared_bound: false,
+    };
     // Validate the entire plan before scoring, including phases that might never run.
     for (index, token) in std::iter::once(construction.cancellation)
         .chain(local.iter().map(|c| c.cancellation))
@@ -222,6 +291,8 @@ where
                 Some(SolverTermination::EvaluationLimit)
             } else if remaining_moves == Some(0) {
                 Some(SolverTermination::MoveEvaluationLimit)
+            } else if time.expired() {
+                Some(SolverTermination::TimeLimit)
             } else {
                 None
             };
@@ -258,10 +329,11 @@ where
             (PhaseRequest::LocalSearch(c), owned.0, owned.1)
         };
         let initial = result.as_ref().map(|r| r.assignment.clone());
-        let mut out = phase(index, initial, request).map_err(|error| SolverError::Phase {
-            phase: index,
-            error,
-        })?;
+        let mut out =
+            phase(index, initial, request, &mut time).map_err(|error| SolverError::Phase {
+                phase: index,
+                error,
+            })?;
         let r = result.get_or_insert_with(|| SolverResult {
             assignment: out
                 .assignment
@@ -313,6 +385,12 @@ where
             {
                 Some(SolverTermination::Cancelled)
             }
+            C(ConstructionTermination::TimeLimit) | L(LocalSearchTermination::TimeLimit)
+                if time.shared_bound =>
+            {
+                Some(SolverTermination::TimeLimit)
+            }
+            _ if time.expired() => Some(SolverTermination::TimeLimit),
             _ if !r.complete => Some(SolverTermination::IncompleteConstruction),
             _ if r.score.is_some_and(|score| {
                 limits
@@ -404,8 +482,8 @@ pub fn solve<V: Eq + Clone, S: AdditiveScore>(
         c.limits,
         c.construction,
         &c.local_search,
-        |_, a, request| {
-            Ok(match request {
+        |_, a, request, time| {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => constructed!(greedy_construction(p, n, c)?),
                 PhaseRequest::LocalSearch(c) => {
                     improved!(local_search_from(p, n, a.expect("handoff"), c)?)
@@ -424,8 +502,8 @@ pub fn solve_list<V: Eq + Clone, S: AdditiveScore>(
         c.limits,
         c.construction,
         &c.local_search,
-        |_, a, request| {
-            Ok(match request {
+        |_, a, request, time| {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => constructed!(greedy_list_construction(p, n, c)?),
                 PhaseRequest::LocalSearch(c) => {
                     improved!(list_local_search_from(p, n, a.expect("handoff"), c)?)
@@ -446,8 +524,8 @@ pub fn solve_mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         c.limits,
         c.construction.construction,
         &phases,
-        |index, a, request| {
-            Ok(match request {
+        |index, a, request, time| {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(config) => constructed!(greedy_mixed_construction(
                     p,
                     n,
@@ -484,9 +562,9 @@ pub fn solve_stream<'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         c.limits,
         c.construction,
         &c.local_search,
-        |_, a, request| {
+        |_, a, request, time| {
             let (g, s) = graph().map_err(StreamScoringError::from)?;
-            Ok(match request {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => {
                     constructed!(greedy_stream_construction(p, g, s, c)?)
                 }
@@ -507,9 +585,9 @@ pub fn solve_list_stream<'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
         c.limits,
         c.construction,
         &c.local_search,
-        |_, a, request| {
+        |_, a, request, time| {
             let (g, s) = graph().map_err(ListStreamScoringError::from)?;
-            Ok(match request {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => {
                     constructed!(greedy_list_stream_construction(p, g, s, c)?)
                 }
@@ -540,9 +618,9 @@ pub fn solve_mixed_stream<
         c.limits,
         c.construction.construction,
         &phases,
-        |index, a, request| {
+        |index, a, request, time| {
             let (g, s) = graph().map_err(MixedStreamScoringError::from)?;
-            Ok(match request {
+            Ok(match request.with_time(time) {
                 PhaseRequest::Construction(config) => {
                     constructed!(greedy_mixed_stream_construction(
                         p,
@@ -568,3 +646,7 @@ pub fn solve_mixed_stream<
         },
     )
 }
+
+#[cfg(test)]
+#[path = "solver_time_tests.rs"]
+mod time_tests;

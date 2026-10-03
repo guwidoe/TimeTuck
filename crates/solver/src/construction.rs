@@ -47,6 +47,9 @@ pub struct ConstructionConfig<'a> {
     pub max_evaluations: u64,
     /// Candidate evaluations only; initialization is excluded. None disables it.
     pub max_move_evaluations: Option<u64>,
+    /// Cooperative elapsed time, including initialization and diagnostics. Zero
+    /// permits initial scoring only; active callbacks cannot be interrupted.
+    pub max_time: Option<std::time::Duration>,
     pub pick_early: ConstructionPickEarly,
     /// Extra diagnostic full recomputations are excluded from reported work.
     pub assert_scores: bool,
@@ -57,6 +60,7 @@ impl Default for ConstructionConfig<'_> {
             cancellation: None,
             max_evaluations: 10_000,
             max_move_evaluations: None,
+            max_time: None,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
         }
@@ -72,6 +76,8 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
+    /// Elapsed time expired; retain the best scored prefix, possibly incomplete.
+    TimeLimit,
     /// An unevaluated candidate remains after the candidate-only budget is spent.
     MoveEvaluationLimit,
     /// Cancellation observed; the best evaluated prefix of the current scan is
@@ -145,6 +151,20 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
     config: ConstructionConfig,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    construction_impl_with_clock(problem, config, create, clock)
+}
+pub(crate) fn construction_impl_with_clock<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: SearchDirector<V, S>,
+>(
+    problem: &FiniteProblem<V>,
+    config: ConstructionConfig,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<ConstructionResult<V, S>, D::Error> {
+    let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let initial = problem.initial_assignment();
     let mut result = ConstructionResult {
         complete: problem.is_complete(&initial),
@@ -178,6 +198,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             result.termination = ConstructionTermination::Cancelled;
             break;
         }
+        if time.expired() {
+            result.termination = ConstructionTermination::TimeLimit;
+            break;
+        }
         if director.assignment().values()[index].is_some() || variable.allows_unassigned() {
             continue;
         }
@@ -192,7 +216,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
             result.evaluations,
         );
         let selection = director.select_best(
-            moves.take_while(|_| !config.cancelled()),
+            moves.take_while(|_| !config.cancelled() && !time.expired()),
             budget.remaining,
             false,
             |_, _| true,
@@ -212,6 +236,9 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirect
     }
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
+    }
+    if result.termination == ConstructionTermination::Completed && time.expired() {
+        result.termination = ConstructionTermination::TimeLimit;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

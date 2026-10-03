@@ -72,12 +72,14 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 389 original integration regression methods, thirty-one original unit tests, and thirty-three public API documentation tests.
+- 392 original integration regression methods, forty-two original unit tests, and thirty-three public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
-  and per-phase work. Read `docs/solver-contract.md`; elapsed/stagnation timing remains
-  phase-local and stream graphs are rebuilt per phase.
+  and per-phase work. Shared elapsed time now spans construction, improvement and
+  stream graph preparation. Construction also has a phase-local max_time control.
+  Read `docs/solver-contract.md`; stagnation remains phase-local, and stream graphs
+  are rebuilt per phase.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -137,7 +139,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 460 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 465 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -2371,3 +2373,63 @@ six list cards, refreshed list/stream figures, no overflow, stale alerts or erro
 Browser closed; upstream unchanged. The overall rewrite remains active. Shared
 elapsed/stagnation controls, problem changes/daemon/manager services, further
 upstream adaptations and stream performance remain substantive unfinished work.
+
+
+## Construction and shared elapsed time — latest increment
+
+ConstructionConfig::max_time now cooperatively bounds all six basic/list/mixed
+construction paths. Initial scoring and diagnostics count as elapsed time; zero
+permits the initial score only. Polls before items, between candidates and at the
+end retain the best evaluated prefix and distinguish TimeLimit from completion,
+including partial, already-complete, empty and optional-only models. Observed
+count caps and cancellation preserve their documented precedence. Disabled timing
+never starts or samples a clock. The shared algorithms accept private injected
+clocks for deterministic regressions; no sleeps were introduced.
+
+SolverLimits::max_time now spans construction and all configured improvement
+phases. The monotonic clock starts on entry to the shared engine, before plan
+validation. Each wrapper clips its phase limit immediately before entry, after
+stream graph preparation. Factories, diagnostics and phase handoffs consume the
+same total budget. An equal same-kind cap belongs to the shared limit; shorter
+phase caps can end just that phase. The engine polls on return and before starting
+another improvement phase, keeping each original PhaseReport reason. Validation,
+initial scoring and active callbacks remain cooperative; passing a remaining
+relative duration leaves a handoff/outer-validation interval before the phase
+clock starts, so no hard wall-clock bound is claimed. See docs/solver-contract.md.
+
+Six original construction unit tests exercise all model/backend paths, both mixed
+orders, early-pick policies, independent score/assignment validation, scored
+prefixes, diagnostics, competing limits, backwards clocks and no-required-work
+models. Five engine unit tests use actual stream construction/local search and a
+shared simulated clock to verify multiple phases and factory cost. Three new public
+integration methods verify all six orchestration entry points at zero time,
+phase-local continuation and validation/cancellation/count precedence. These
+fourteen methods add no adapted upstream credit. No upstream production code was
+inspected or copied.
+
+Development gate and release each pass 899 Rust tests: 465 adapted, 392 original
+integration and 42 unit methods. Development additionally passes 33 doctests and
+76 Python tests. Coverage remains 465/4,855 (9.58%), 4,108 pending and 282 excluded,
+with no failed or unverified methods. Logs use work/solve-time-*.log.
+
+Global stagnation, exact-search timing, live changes/daemon/manager services,
+additional upstream method adaptations and remaining solver/stream features are
+still pending. Keep the overall goal active. Do not infer whole-solver compatibility
+or Java timed lifecycle equivalence from native timing regressions.
+
+All nine Java/Rust evidence sections were refreshed successfully against the final
+source digest, and the report matches the live server fingerprint. Latest warmed
+stream medians (Rust/Java ms): hill32 47.158/14.077, hill96 162.038/23.961,
+tabu32 45.585/12.027, tabu96 160.467/23.000. Scores are equal; both 96-variable
+runs remain infeasible [-44,-484] at 50 steps. List comparisons remain 192 valid,
+189 equal; two-opt remains 61/64 equal with 49 Rust / 46 Java optima. Two-opt16
+medians are 0.283/8.884 ms and two-opt32 0.853/10.659 ms, retaining the existing
+score gaps. List32 construction remains [0,-1080] Rust / [0,-1062] Java. These are
+existing direct-phase workloads with timing limits disabled; no deadline overhead
+or orchestrated-solve performance claim is made.
+
+The existing dashboard server on port 8765 was reused. Browser checks at 1280x900
+and 390x844 verified 9.58% overall coverage, all 18 passed lifecycle methods
+(including the two elapsed-time source methods), six list/four stream cards,
+refreshed timing text, no visible stale/error messages, no page errors and no
+horizontal overflow. Browser session closed; upstream pin and submodule unchanged.

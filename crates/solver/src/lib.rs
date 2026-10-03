@@ -205,3 +205,6 @@ pub use solver::{
     SolverResult, SolverTermination, SolverWork, solve, solve_list, solve_list_stream, solve_mixed,
     solve_mixed_stream, solve_stream,
 };
+
+#[cfg(test)]
+mod timed_construction_tests;

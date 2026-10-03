@@ -795,3 +795,136 @@ fn a_controller_thread_can_cancel_the_second_improvement_phase() {
         assert_eq!(r.score, Some(SimpleScore::new(1)));
     }
 }
+
+#[test]
+fn zero_shared_time_scores_initial_state_only_in_all_six_entry_points() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        for initialized in [false, true] {
+            let factories = Cell::new(0);
+            let calls = Cell::new(0);
+            let r = run(
+                mode,
+                initialized,
+                SolverConfig {
+                    limits: SolverLimits {
+                        max_time: Some(Duration::ZERO),
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+                MixedConstructionOrder::BasicThenLists,
+                &factories,
+                None,
+                || calls.set(calls.get() + 1),
+            )
+            .unwrap();
+            assert_eq!(r.reason, SolverTermination::TimeLimit);
+            assert_eq!(r.complete, initialized);
+            assert_eq!(r.work.evaluations, 1);
+            assert_eq!(r.work.move_evaluations, 0);
+            assert_eq!(calls.get(), 1);
+            assert_eq!(factories.get(), usize::from(mode % 2 == 1));
+            assert_eq!(r.phases.len(), 1);
+            assert_eq!(
+                r.phases[0].termination,
+                PhaseTermination::Construction(ConstructionTermination::TimeLimit)
+            );
+        }
+    }
+}
+
+#[test]
+fn phase_local_zero_time_allows_later_improvement_when_construction_is_complete() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        for initialized in [false, true] {
+            let mut c = plan();
+            c.construction.max_time = Some(Duration::ZERO);
+            c.local_search[0].max_time = Some(Duration::ZERO);
+            let r = run(
+                mode,
+                initialized,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || {},
+            )
+            .unwrap();
+            if initialized {
+                assert_eq!(r.reason, SolverTermination::PlanCompleted);
+                assert_eq!(r.phases.len(), 3);
+                assert_eq!(r.score, Some(SimpleScore::new(1)));
+                assert_eq!(r.work.evaluations, 4);
+                assert_eq!(r.work.move_evaluations, 1);
+                assert_eq!(
+                    r.phases[1].termination,
+                    PhaseTermination::LocalSearch(LocalSearchTermination::TimeLimit)
+                );
+            } else {
+                assert_eq!(r.reason, SolverTermination::IncompleteConstruction);
+                assert_eq!(r.phases.len(), 1);
+                assert_eq!(r.work.evaluations, 1);
+            }
+        }
+    }
+}
+
+#[test]
+fn zero_shared_time_preserves_validation_budget_and_cancellation_precedence() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        let token = CancellationToken::new();
+        token.cancel();
+        for budget in [0, 100] {
+            let r = run(
+                mode,
+                false,
+                SolverConfig {
+                    limits: SolverLimits {
+                        cancellation: Some(&token),
+                        max_time: Some(Duration::ZERO),
+                        max_evaluations: budget,
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || panic!("no callbacks"),
+            )
+            .unwrap();
+            assert_eq!(r.work.evaluations, 0);
+            assert_eq!(
+                r.reason,
+                if budget == 0 {
+                    SolverTermination::EvaluationLimit
+                } else {
+                    SolverTermination::Cancelled
+                }
+            );
+        }
+        let mut c = plan();
+        c.limits.max_time = Some(Duration::ZERO);
+        c.local_search[1].acceptance = Acceptance::LateAcceptance {
+            history_size: 0,
+            hill_climbing: false,
+        };
+        let factories = Cell::new(0);
+        assert_eq!(
+            run(
+                mode,
+                false,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &factories,
+                None,
+                || panic!("invalid plan callback")
+            ),
+            Err(Failure::Acceptance(2))
+        );
+        assert_eq!(factories.get(), 0);
+    }
+}

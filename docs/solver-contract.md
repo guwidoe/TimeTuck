@@ -1,7 +1,7 @@
 # Multi-phase solving
 
 The native solver entry points run construction followed by configured local-search
-phases, sharing score/candidate budgets, cancellation and optional score/feasibility
+phases, sharing score/candidate budgets, elapsed time, cancellation and optional score/feasibility
 goals. They provide an orchestration layer over the already-tested algorithms;
 they do not establish whole-solver compatibility with Java.
 
@@ -34,7 +34,7 @@ validation at zero budget, which invokes a stream factory but no phase score wor
 ## Shared limits and phase boundaries
 
 The default shared score budget is 100,000. The candidate budget, cancellation token,
-best-score goal and feasibility goal are optional/disabled by default. Each phase
+elapsed-time budget, best-score goal and feasibility goal are optional/disabled by default. Each phase
 gets the tighter of its own score/candidate cap and the remaining shared cap.
 Initial scoring consumes a score evaluation in every phase that scores; it never
 consumes a candidate evaluation. Diagnostics consume neither count. Thus shared
@@ -68,9 +68,29 @@ An already-reported shared limit retains precedence over a later cancellation po
 Active callbacks, graph preparation, model validation and diagnostics are not
 preempted. There is no hard cancellation-latency guarantee.
 
-Total elapsed-time and global stagnation limits are not implemented here. Existing
-local-search elapsed/stagnation controls remain phase-local and reset each phase.
-Construction time limits, live problem changes, daemon operation, solver-manager
+SolverLimits::max_time starts a monotonic clock on entry to the shared solve engine,
+before plan validation. It spans construction and every improvement phase, including
+stream graph factories, handoffs and diagnostics. Immediately after preparation,
+each phase receives the smaller of its own elapsed limit and the remaining shared
+time. This remaining time is never reset to the original solve duration. A phase
+that reports TimeLimit with a shared-bound cap ends the solve; equal caps count as
+shared. The engine also polls on phase return and before another improvement phase,
+so a phase ending for a different reason may still finish the solve with TimeLimit.
+Its original reason remains in its PhaseReport. A phase's shorter time limit can
+allow later phases if shared time remains and construction is complete.
+
+Expiry is cooperative: active callbacks, factories, validation, enumeration and
+handoffs are not interrupted. Passing a remaining duration into a phase also leaves
+a small handoff/validation interval before that phase's clock starts; this is not a
+hard wall-clock deadline. Construction still validates and may score its initial
+state when shared time is zero or preparation has consumed the budget. A factory
+that fails still returns its phase error. Zero score budget, impossibility and
+pre-cancellation retain their existing precedence. After a phase, reported shared
+score/candidate caps and cancellation precede time; time precedes incomplete-state
+and shared-goal checks. Later improvement phases do not start once expiry is observed.
+
+Local-search stagnation timing remains phase-local and resets each phase. Global
+stagnation, exact-search timing, live problem changes, daemon operation, solver-manager
 services, concurrent phases and cross-phase cache reuse remain unfinished.
 
 ## Results and errors
@@ -101,14 +121,20 @@ when its phase starts; future graphs are not constructed eagerly for validation.
 
 ## Verification
 
-Eleven original integration methods cover all six entry points, two-phase handoffs,
+Fourteen original integration methods cover all six entry points, two-phase handoffs,
 exact shared-budget boundaries, paired backend accounting, competing phase/global
 caps, goals, zero-work phases, incomplete construction, future-config validation,
 factory failures, impossible models and controller-thread cancellation in a later
 phase. A coupled four-state mixed problem proves that a later phase's joint setting
 escapes a trap and reaches the independent exhaustive optimum. Its one joint move
 causes two stream callbacks but one scoped callback; reports preserve the difference.
-A public API doctest provides a minimal basic solve.
+A public API doctest provides a minimal basic solve. Three of these integration
+methods check real zero-time calls across all six entry points, phase-local versus
+shared scope and precedence. Five additional internal tests inject a shared clock
+into the engine and actual stream construction/search: one budget spans several
+phases, graph preparation reduces it before initialization, shorter phase limits
+and stagnation allow continuation, goals preserve time precedence, and disabled or
+backwards clocks behave correctly. No sleeps or Java timed traces are used.
 
 `cargo run --example mixed_routes` additionally checks scoped and stream orchestration
 with both construction orders against the existing independent optimum 0hard/-4soft.

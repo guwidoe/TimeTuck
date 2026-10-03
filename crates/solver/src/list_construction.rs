@@ -57,6 +57,21 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
     config: ConstructionConfig,
     make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
 ) -> Result<ListConstructionResult<V, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    construction_impl_with_clock(problem, initial, config, make_director, clock)
+}
+pub(crate) fn construction_impl_with_clock<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: ListSearchDirector<V, S>,
+>(
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<ListConstructionResult<V, S>, D::Error> {
+    let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     problem.validate(&initial).map_err(D::Error::from)?;
     let mut result = ListConstructionResult {
         complete: problem.is_complete(&initial),
@@ -91,6 +106,10 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                 result.termination = ConstructionTermination::Cancelled;
                 break;
             }
+            if time.expired() {
+                result.termination = ConstructionTermination::TimeLimit;
+                break;
+            }
             if director.assignment().location(value).is_some() {
                 continue;
             }
@@ -108,7 +127,7 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
                 result.evaluations,
             );
             let selection = director.select_best(
-                moves.take_while(|_| !config.cancelled()),
+                moves.take_while(|_| !config.cancelled() && !time.expired()),
                 budget.remaining,
                 false,
                 |_, _| true,
@@ -129,6 +148,9 @@ pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDi
     }
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
+    }
+    if result.termination == ConstructionTermination::Completed && time.expired() {
+        result.termination = ConstructionTermination::TimeLimit;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

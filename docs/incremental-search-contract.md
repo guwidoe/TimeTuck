@@ -172,8 +172,9 @@ phase across basic, list and mixed models with either scoring backend. Normal
 runs use `Instant`; disabled timing does not start or poll a clock. The limit
 includes initial scoring, first-fit initialization, phase validation, candidate
 selection and enabled diagnostic recomputations. Model/network/graph preparation
-before the search call is outside this phase. Construction and whole-solve time
-budgets are not implemented by this option.
+before the search call is outside this phase. Construction has a separate
+max_time control; multi-phase solving also accepts a shared limit as described in
+`solver-contract.md`.
 
 The clock is checked after existing step-boundary criteria, before scoring each
 emitted candidate, and after selection and diagnostics. Expiry stops the lazy
@@ -221,7 +222,8 @@ improvements, fallback/recovery, prefix retention, callback overrun, simultaneou
 expiry and backwards/maximum-duration samples. They earn no upstream method credit.
 
 Direct Java timed-search comparisons, complete upstream unimproved-time lifecycle
-adaptations, construction/whole-solve budgets and hard preemption remain pending. Deterministic benchmarks disable both time limits.
+adaptations and hard preemption remain pending. Deterministic benchmarks disable
+both time limits.
 
 ## Evidence and limits
 
@@ -695,3 +697,29 @@ strict/hill acceptance, rejected fallback, shuffled lookahead, both mixed constr
 orders, early picking, diagnostics, cancellation, time precedence and u64 boundaries.
 Returned construction assignments and scores are independently checked; bounded
 runs retain the same evaluated prefixes as the corresponding score-only caps.
+
+
+## Construction elapsed time
+
+ConstructionConfig::max_time optionally bounds all six construction paths. The
+clock starts on entering the shared algorithm, before initialization and diagnostic
+scoring. Model/network/source preparation in the outer entry point is outside this
+phase-local clock. Native multi-phase solves additionally charge preparation to
+their shared timer; see `solver-contract.md` for the cooperative handoff boundary.
+Disabled construction timing neither starts nor samples a clock.
+
+Polls occur before each item, between candidate emissions, and after the final scan.
+Expiry retains the best evaluated prefix of the current scan and reports TimeLimit,
+even if that prefix completed the model. Zero time allows initial scoring and no
+candidates. Optional-only and empty models still perform the final poll. Initial
+scoring and diagnostic callbacks count as time, while diagnostics remain excluded
+from evaluation counters. Active work cannot be preempted. Validation, impossible
+models, zero score budgets and pre-cancellation retain their existing order.
+An already observed score/candidate cap wins over a later poll; if time stops the
+iterator before selection sees that cap, time wins. Cancellation precedes time when
+both are observed at the same boundary.
+
+Six original unit methods check actual scoped and stream algorithms with controlled
+clocks, both mixed construction orders, early picks, independent assignment/score
+validation, partial and complete prefixes, diagnostics, competing limits and empty
+or optional-only models. These regressions add no adapted upstream method credit.

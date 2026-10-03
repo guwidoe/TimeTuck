@@ -107,6 +107,22 @@ pub(crate) fn construction_impl<
     settings: MixedConstructionConfig,
     make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
 ) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(settings.construction.max_time.is_some());
+    construction_impl_with_clock(problem, initial, settings, make_director, clock)
+}
+pub(crate) fn construction_impl_with_clock<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
+    let mut time = crate::time_limit::TimeBudget::new(settings.construction.max_time, None, clock);
     let config = settings.construction;
     problem.validate(&initial).map_err(D::Error::from)?;
     let mut result = MixedConstructionResult {
@@ -153,6 +169,10 @@ pub(crate) fn construction_impl<
                 result.termination = ConstructionTermination::Cancelled;
                 break 'phases;
             }
+            if time.expired() {
+                result.termination = ConstructionTermination::TimeLimit;
+                break 'phases;
+            }
             let previous = director.score();
             let budget = crate::count_limit::CandidateBudget::new(
                 config.max_evaluations,
@@ -175,7 +195,7 @@ pub(crate) fn construction_impl<
                         lists: ListMove::Composite(vec![]),
                     });
                     director.select_best(
-                        moves.take_while(|_| !config.cancelled()),
+                        moves.take_while(|_| !config.cancelled() && !time.expired()),
                         budget.remaining,
                         false,
                         |_, _| true,
@@ -202,7 +222,7 @@ pub(crate) fn construction_impl<
                             },
                         });
                     director.select_best(
-                        moves.take_while(|_| !config.cancelled()),
+                        moves.take_while(|_| !config.cancelled() && !time.expired()),
                         budget.remaining,
                         false,
                         |_, _| true,
@@ -230,6 +250,9 @@ pub(crate) fn construction_impl<
     }
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
+    }
+    if result.termination == ConstructionTermination::Completed && time.expired() {
+        result.termination = ConstructionTermination::TimeLimit;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();

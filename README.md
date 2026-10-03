@@ -68,6 +68,8 @@ Run `cargo run --release --example stream_list_routes` for stream-scored ordered
 construction and local search.
 Mixed stream construction and local search are also verified by `mixed_routes`,
 using joined depot/route facts and independent final-score checks.
+Construction and multi-phase solving support cooperative elapsed-time limits; a
+shared solve timer includes stream graph preparation. See `docs/solver-contract.md`.
 Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each

@@ -23,7 +23,7 @@ observation and floating comparison; no Java lifecycle equivalence is claimed.
 Two elapsed-time methods additionally preserve every millisecond threshold and
 progress assertion. Cooperative native phase timing is exercised with controlled
 clocks across all models/backends. This does not establish wall-clock trace parity,
-whole-solve time scope, preemption or unimproved-time compatibility. Native
+Java whole-solve time scope, preemption or unimproved-time compatibility. Native
 unimproved-time stopping additionally has six original controlled-clock regressions
 covering all model/backend paths; upstream lifecycle methods remain pending.
 
@@ -340,3 +340,11 @@ handoffs, retained results and accounting across all model/backend combinations.
 These do not adapt complete upstream solver lifecycle methods. Whole-solver Java
 compatibility, daemon/problem-change behavior and shared elapsed-time/stagnation
 limits remain pending; see `docs/solver-contract.md`.
+
+
+Native construction and multi-phase solving now have cooperative elapsed-time
+controls, independently checked with controlled clocks and real zero-time calls.
+The shared timer includes graph preparation and spans construction and improvement
+phases; it does not establish Java timer/lifecycle equivalence or hard preemption.
+All fourteen new regressions are original and add no upstream method coverage.
+See `solver-contract.md` and `incremental-search-contract.md` for scope and precedence.
