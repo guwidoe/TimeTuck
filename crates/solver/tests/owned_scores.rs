@@ -27,6 +27,7 @@ fn run<S: AdditiveScore + 'static>(
     c: SolverConfig<'_, S>,
     make: impl Fn(i64) -> S + Copy,
     order: MixedConstructionOrder,
+    raw: impl Fn(&S) -> RawScore + Copy,
 ) -> Result<Outcome, Failure> {
     let score = |v: &[Option<usize>]| make(v.iter().flatten().map(|&v| v as i64).sum());
     macro_rules! outcome {
@@ -187,7 +188,7 @@ fn run<S: AdditiveScore + 'static>(
     )
 }
 
-fn raw<S: Score>(score: &S) -> (i64, Vec<i64>) {
+fn raw<S: Score<Level = i64>>(score: &S) -> (i64, Vec<i64>) {
     (score.structural(), score.ordinary_levels().collect())
 }
 fn policies<S: AdditiveScore>(make: impl Fn(i64, i64) -> S) -> Vec<Acceptance<S>> {
@@ -262,6 +263,7 @@ fn every_solver_backend_preserves_owned_scores_through_phases_and_budgets() {
                             plain_plan,
                             |n| HardSoftScore::new(0, n),
                             order,
+                            raw,
                         );
                         let actual = run(
                             mode,
@@ -269,6 +271,7 @@ fn every_solver_backend_preserves_owned_scores_through_phases_and_budgets() {
                             owned_plan,
                             |n| OwnedScore::new(0, n),
                             order,
+                            raw,
                         );
                         assert_eq!(
                             actual, expected,
@@ -468,4 +471,99 @@ fn owned_score_director_clones_fail_before_installing_caches_or_moves() {
     .commit();
     assert_eq!(d.score(), OwnedScore::new(0, 2));
     d.assert_consistent().unwrap();
+}
+
+#[path = "support/decimal_score.rs"]
+mod decimal_support;
+#[test]
+fn every_solver_backend_accepts_fractional_and_extreme_magnitude_score_levels() {
+    use decimal_support::DecimalScore;
+    for scale in [-1000, 3, 1000] {
+        let make = |h, s| DecimalScore::scaled(h, s, scale);
+        let normalize = |s: &DecimalScore| {
+            (
+                s.structural(),
+                s.ordinary_levels()
+                    .map(|v| {
+                        let difference = v.scale() - scale;
+                        let ten = BigInt::from(10).pow(difference.unsigned_abs());
+                        let value = if difference >= 0 {
+                            v.coefficient() / ten
+                        } else {
+                            v.coefficient() * ten
+                        };
+                        value.to_string().parse::<i64>().unwrap()
+                    })
+                    .collect(),
+            )
+        };
+        for mode in 0..6 {
+            for initialized in [false, true] {
+                for budget in [0, 1, 2, 5, 12, 40] {
+                    for order in [
+                        MixedConstructionOrder::BasicThenLists,
+                        MixedConstructionOrder::ListsThenBasic,
+                    ] {
+                        for (decimal, integer) in
+                            policies(make).into_iter().zip(policies(HardSoftScore::new))
+                        {
+                            let plan = |acceptance, goal| SolverConfig {
+                                limits: SolverLimits {
+                                    max_evaluations: budget,
+                                    best_score_limit: Some(goal),
+                                    ..Default::default()
+                                },
+                                local_search: vec![
+                                    LocalSearchConfig {
+                                        acceptance,
+                                        max_steps: 4,
+                                        assert_scores: true,
+                                        ..Default::default()
+                                    };
+                                    2
+                                ],
+                                ..Default::default()
+                            };
+                            let decimal_plan = SolverConfig {
+                                limits: SolverLimits {
+                                    max_evaluations: budget,
+                                    best_score_limit: Some(make(0, 5)),
+                                    ..Default::default()
+                                },
+                                local_search: vec![
+                                    LocalSearchConfig {
+                                        acceptance: decimal,
+                                        max_steps: 4,
+                                        assert_scores: true,
+                                        ..Default::default()
+                                    };
+                                    2
+                                ],
+                                ..Default::default()
+                            };
+                            assert_eq!(
+                                run(
+                                    mode,
+                                    initialized,
+                                    decimal_plan,
+                                    |n| make(0, n),
+                                    order,
+                                    normalize
+                                ),
+                                run(
+                                    mode,
+                                    initialized,
+                                    plan(integer, HardSoftScore::new(0, 5)),
+                                    |n| HardSoftScore::new(0, n),
+                                    order,
+                                    raw
+                                ),
+                                "mode {mode}, initialized {initialized}, budget {budget}, scale {scale}"
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

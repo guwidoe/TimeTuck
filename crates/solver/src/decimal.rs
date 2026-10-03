@@ -17,6 +17,11 @@ pub struct Decimal {
     scale: i32,
 }
 impl Decimal {
+    /// Exact zero at scale zero.
+    pub const ZERO: Self = Self {
+        coefficient: BigInt::ZERO,
+        scale: 0,
+    };
     pub fn new(coefficient: BigInt, scale: i32) -> Self {
         Self { coefficient, scale }
     }

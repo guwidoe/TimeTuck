@@ -380,3 +380,10 @@ regressions compare a heap-owned integer score with the established integer fami
 including clone-failure rollback, and one doctest demonstrates the contract. This
 is groundwork for arbitrary-precision scores; ordinary levels remain i64 and no
 BigDecimal score-method credit is claimed. See `score-contract.md`.
+
+
+Native score levels now support i64 and Decimal through ScoreLevel. Original
+rational arithmetic checks and 2,160 decimal solver configurations exercise this
+numeric contract, including estimates at extreme scales. Exact score predicates
+remain separate. Public BigDecimal score families and the two pending decimal
+upstream gradient methods are not adapted by this change; coverage is unchanged.

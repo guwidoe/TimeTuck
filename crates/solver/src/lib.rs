@@ -12,6 +12,8 @@
 //! assert_eq!("0hard/-1000000soft".parse(), Ok(feasible));
 //! ```
 
+mod score_level;
+pub use score_level::ScoreLevel;
 pub mod score;
 pub use score::{
     AdditiveScore, HardMediumSoftScore, HardSoftScore, ParseScoreError, Score, SimpleScore,

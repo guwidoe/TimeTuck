@@ -1,5 +1,5 @@
 //! Seeded simulated annealing with a deterministic completed-step cooling clock.
-use crate::{AcceptanceError, Score, random::SplitMix64};
+use crate::{AcceptanceError, Score, ScoreLevel, random::SplitMix64};
 
 #[derive(Clone, Debug)]
 pub struct SimulatedAnnealing<S> {
@@ -13,7 +13,9 @@ impl<S: Score> SimulatedAnnealing<S> {
     pub(crate) fn validate(temperature: &S, cooling_steps: u64) -> Result<(), AcceptanceError> {
         if temperature.structural() != 0
             || temperature.ordinary_levels().next().is_none()
-            || temperature.ordinary_levels().any(|level| level < 0)
+            || temperature
+                .ordinary_levels()
+                .any(|level| level.numeric_cmp(&S::Level::zero()).is_lt())
         {
             return Err(AcceptanceError::InvalidTemperature);
         }
@@ -66,16 +68,7 @@ impl<S: Score> SimulatedAnnealing<S> {
             .zip(candidate.ordinary_levels())
             .zip(self.starting_temperature.ordinary_levels())
         {
-            // Subtract in a wider integer first: adjacent large scores must not
-            // collapse to a zero delta, and MIN-to-MAX losses must not overflow.
-            let loss = i128::from(before) - i128::from(after);
-            if loss > 0 {
-                let temperature = initial as f64 * (1.0 - gradient);
-                if temperature == 0.0 {
-                    return Ok(0.0);
-                }
-                energy += loss as f64 / temperature;
-            }
+            energy += before.cooling_loss(&after, &initial, gradient);
         }
         Ok((-energy).exp())
     }

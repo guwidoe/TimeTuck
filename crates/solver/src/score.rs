@@ -4,19 +4,21 @@
 //! Java `long`. All arithmetic clears the structural component. Use the checked methods when overflow should be an error. Floating
 //! arithmetic floors each ordinary component, then saturates to `i64` (NaN becomes zero).
 
+use crate::ScoreLevel;
 use std::{error::Error, fmt, ops, str::FromStr};
 
 /// Common behavior required by optimization algorithms. Scores may own storage;
 /// cloning must preserve an independent immutable logical value. Clone, comparison
 /// and arithmetic must not mutate other retained scores through shared interiors.
-/// Existing integer families remain Copy. Ordinary levels are still i64; this
-/// ownership contract alone does not add decimal score levels.
+/// Existing integer families remain Copy. The associated Level supplies numeric
+/// estimates independently of the score representation.
 ///
 /// ```
 /// use timetuck::{Score, FiniteProblem, Variable, exhaustive_search};
 /// #[derive(Clone,Debug,Eq,PartialEq,Ord,PartialOrd)]
 /// struct HeapScore(Vec<i64>);
 /// impl Score for HeapScore {
+///     type Level = i64;
 ///     const HARD_LEVEL_COUNT: usize = 0;
 ///     fn ordinary_levels(&self)->impl Iterator<Item=i64> {self.0.iter().copied()}
 ///     fn structural(&self)->i64 {0}
@@ -29,13 +31,14 @@ use std::{error::Error, fmt, ops, str::FromStr};
 /// assert_eq!(r.best.unwrap().score, HeapScore(vec![2]));
 /// ```
 pub trait Score: Clone + Ord + fmt::Debug {
+    type Level: ScoreLevel;
     /// Number of leading ordinary levels that represent hard constraints.
     /// Must not exceed the number of ordinary levels and is constant per type.
     const HARD_LEVEL_COUNT: usize;
 
-    /// Ordered ordinary integer levels, excluding structural state. The number
+    /// Ordered ordinary numeric levels, excluding structural state. The number
     /// and order of levels must be constant for a score type.
-    fn ordinary_levels(&self) -> impl Iterator<Item = i64>;
+    fn ordinary_levels(&self) -> impl Iterator<Item = Self::Level>;
 
     /// Negative values identify a structurally flawed candidate.
     fn structural(&self) -> i64;
@@ -197,6 +200,7 @@ macro_rules! fixed_score {
         }
 
         impl Score for $name {
+            type Level = i64;
             const HARD_LEVEL_COUNT: usize = $hard;
             fn ordinary_levels(&self) -> impl Iterator<Item = i64> { self.levels.iter().copied() }
             fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering {

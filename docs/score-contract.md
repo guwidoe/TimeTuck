@@ -103,10 +103,11 @@ Exception-class equality is not claimed. These are correctness checks, not new
 BendableScore timing benchmarks; existing timing charts still cover three fixed
 integer families.
 
-`Score::ordinary_levels()` now returns an iterator of i64 values instead of a
-borrowed contiguous slice, allowing both fixed and split-array storage without
-allocation. Consumers must preserve the declared level order. Construction,
-incremental scoring, exact search and acceptance policies use the common traits.
+`Score::ordinary_levels()` returns an iterator of its associated Level values
+instead of a borrowed contiguous slice, allowing fixed, split-array and owned
+storage. Integer families yield i64 without allocation. Consumers must preserve
+the declared level order. Construction, incremental scoring, exact search and
+acceptance policies use the common traits.
 
 ## Hard-level metadata and progress
 
@@ -126,8 +127,8 @@ The common `Score` bound is now `Clone + Ord + Debug`; it no longer requires Cop
 `structural`, `hard_cmp` and `is_feasible` borrow their receivers, and `hard_cmp`
 also borrows its other score. Custom implementations must update those signatures.
 The four existing integer families remain Copy and retain their arithmetic and
-ordering contracts. `ordinary_levels()` still yields i64; decimal level support
-and the BigDecimal score families remain pending.
+ordering contracts. Custom scores now declare an associated Level implementing
+ScoreLevel; the built-in BigDecimal score families remain pending.
 
 Caches, saved candidates, result accessors, acceptor history and phase plans clone
 scores where an independent retained value is needed. Read-only comparisons borrow
@@ -155,3 +156,37 @@ score-clone failure through graph and scoped-move preparation, and rollback with
 the very next clone configured to fail. A public doctest shows a custom owned score
 used by exact search. These checks add no upstream test-method credit and do not
 claim arbitrary-precision or decimal compatibility yet.
+
+
+## Numeric levels
+
+`Score` requires `type Level: ScoreLevel`, and `ordinary_levels()` yields that type.
+Existing integer implementations declare Level = i64. The public ScoreLevel trait
+supplies numeric zero/comparison, bounded progress fractions and cooled annealing
+losses; i64 and Decimal implement it. Decimal's representation-sensitive Eq/Ord
+remain unchanged, while score-level comparisons use numeric_cmp. A custom decimal
+score must independently implement numeric score ordering/equality, hard comparison
+and feasibility; deriving these from Decimal's representation ordering is wrong.
+
+Integer progress and annealing preserve the previous i128 widening and floating
+operation order. Decimal differences are computed exactly when cancellation can
+matter, then approximated with eighteen leading coefficient digits and a separate
+decimal exponent. If the scale gap exceeds the larger coefficient's digit count
+plus 32, the smaller operand contributes less than 10^-32 of the larger and can be
+omitted from an estimate without allocating scale-gap padding. Zero operands also
+avoid padding. Near floating-point limits, split powers retain representable
+subnormal/finite ratios. These are bounded floating estimates, not a guarantee of
+correct rounding or Java decimal gradient/annealing equivalence. Target ordering,
+feasibility, score goals and retained-best comparisons remain exact.
+
+Five original numeric integration methods check 42,875 fixed-point combinations
+against independent i128 rational arithmetic, varied cooling, 1,000-digit common
+offsets, differently represented equal values, i32-extreme scales, subnormal ratios,
+validation and exact-versus-estimated predicates. An additional original matrix
+compares 2,160 decimal solver configurations with scaled integer equivalents across
+all six model/backend entry points, five acceptance policies, budgets, construction
+orders and starts. It uses scales -1000, 3 and 1000 and independently rescales
+returned levels with BigInt arithmetic. A doctest demonstrates tiny-scale progress.
+These checks add no upstream method credit. Public Simple/HardSoft/HardMediumSoft/
+Bendable decimal score constructors, parsing, formatting and arithmetic remain
+pending and must be specified from pinned tests/public APIs before implementation.

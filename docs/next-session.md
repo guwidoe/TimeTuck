@@ -9,6 +9,8 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 
 ## Current implementation
 
+- Score levels support i64 and Decimal through ScoreLevel, including decimal
+  progress and annealing estimates. Public BigDecimal score families remain pending.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
@@ -72,7 +74,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 414 original integration regression methods, forty-nine original unit tests, and thirty-eight public API documentation tests.
+- 420 original integration regression methods, forty-nine original unit tests, and thirty-nine public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -2669,3 +2671,74 @@ respective scores remain Rust [0,-1250]/Java [0,-1254] and Rust [0,-1964]/Java
 [0,-2070]. Construction at 32 customers remains Rust [0,-1080]/Java [0,-1062].
 These are refreshed shared-machine observations, not a significance, general
 speedup, decimal-score performance, or equal-trace claim.
+
+
+## Numeric score levels — latest increment
+
+Score now declares type Level: ScoreLevel; ordinary_levels returns those values.
+Existing fixed/Bendable/owned integer scores use i64. ScoreLevel exposes zero,
+numeric comparison, capped progress_fraction and cooling_loss; i64 and Decimal
+implement it. Annealing/progress now delegate numeric calculations to the level.
+Integer widening/operation order is preserved. Decimal::ZERO is available as an
+owned const for additive custom scores. Decimal's representation-sensitive Eq/Ord
+are unchanged; scores must use numeric_cmp independently.
+
+Decimal estimates keep an eighteen-digit significand and separate exponent. They
+subtract exactly if the scale gap is at most the larger coefficient's decimal
+digit count plus 32 (cancellation can matter); otherwise the smaller operand is
+negligible below 10^-32 and is omitted. This bounds extra allocation by existing
+coefficient sizes rather than an arbitrary scale gap. Zero operands avoid padding.
+Split powers preserve representable finite/subnormal ratios near f64 limits.
+These are approximate gradients/energies, not correctly-rounded decimal arithmetic
+or Java decimal-gradient/annealing parity. Exact score predicates remain exact.
+
+Five new original numeric_score_levels.rs methods compare 42,875 fixed-point
+combinations with independent i128 rational arithmetic, plus cooling, thousand-digit
+cancellation, alternate scales, i32-extreme scales, subnormals, validation and
+exact predicates. A sixth new method in owned_scores.rs runs 2,160 decimal solver
+configurations at scales -1000, 3 and 1000 across every model/backend and acceptance
+policy, initialized/uninitialized starts, both mixed orders and six budgets. The
+fixture is tests/support/decimal_score.rs; its score Eq/Ord use numeric comparison.
+Returned scores are independently rescaled using BigInt arithmetic. A new doctest
+uses tolerance for decimal progress (0.6 need not be bit-exact).
+
+Development gate passes 950 Rust tests (481 adapted, 420 original integration,
+49 unit), 39 doctests and 83 Python tests. No provenance changes or upstream method
+credit: coverage remains 481/4,855 (9.91%), streams 291/1,301 (22.37%). Logs use
+work/numeric-level-*.log. Overall rewrite is still active.
+
+Next: implement the actual decimal score families with documented native APIs and
+pinned source-test adapters, then original Java/Rust/Python decimal comparisons.
+SimpleBigDecimalScoreTest (19 methods) was read in the previous increment; this
+increment also read all HardSoftBigDecimalScoreTest (20) and
+HardMediumSoftBigDecimalScoreTest (21). No production source was inspected.
+Both multi-level test classes preserve a zero level's scale in full formatting
+when another level is nonzero (e.g. 0.0hard/...); short form omits numeric zero.
+Negative and positive nonzero levels preserve scale. Equality/hash are numeric
+across trailing zeroes. Feasibility uses structural + hard only (medium can be
+negative); arithmetic examples and negative-scale clamping parallel Simple.
+The tests do not settle every rounding, parsing, zero-construction or floating
+boundary: probe pinned public APIs before choosing behavior. The complete
+BendableBigDecimalScoreTest (26 methods) was also read while release verification
+ran. It checks HSS and HHSSS shapes, all hard levels independently for feasibility,
+empty shape formatting, group-level omission in short form, shape-aware parsing,
+numeric equality/hash across scales, division flooring (21/5 -> 4, -21/5 -> -5
+at scale zero), and the same negative-scale clamping cases. Adapt shape definitions
+using native const dimensions as with integer BendableScore; do not inspect the
+production definition implementation. This increment claims no BigDecimal method pass.
+
+Final release gate passes all 950 tests. All nine evidence sections were regenerated
+from the final sources and are current; /api/freshness matches the report digest.
+Desktop 1280x900/mobile 390x844 checks confirm 19 benchmark cards, current timings,
+9.91% coverage, explicit infeasible stream scores and 8/18 membership differences.
+No visible alerts, page errors or horizontal overflow. Browser closed; existing
+127.0.0.1:8765 dashboard server reused. Upstream pin and checkout unchanged.
+
+Latest warmed Rust/Java median ms: exact 6-variable 0.009/3.948 and 8-variable
+0.131/5.955; stream hill 32-variable 45.427/15.772, 96-variable 168.711/27.327;
+stream tabu 32-variable 45.968/14.205, 96-variable 164.334/25.886. Both 96-variable
+stream scores remain infeasible [-44,-484] after 50 steps. List two-opt 16-customer
+0.276/7.578, 32-customer 0.951/9.465; scores still Rust [0,-1250]/Java [0,-1254]
+and Rust [0,-1964]/Java [0,-2070]. List construction at 32 customers still differs:
+Rust [0,-1080], Java [0,-1062]. These timings use integer score workloads and do not
+measure decimal performance or establish a significant regression/improvement.

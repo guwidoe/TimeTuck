@@ -199,6 +199,7 @@ impl<const H: usize, const S: usize> Default for BendableScore<H, S> {
     }
 }
 impl<const H: usize, const S: usize> Score for BendableScore<H, S> {
+    type Level = i64;
     const HARD_LEVEL_COUNT: usize = H;
     fn ordinary_levels(&self) -> impl Iterator<Item = i64> {
         self.hard.iter().chain(self.soft.iter()).copied()

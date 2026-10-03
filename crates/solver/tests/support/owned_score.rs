@@ -60,6 +60,7 @@ impl Ord for OwnedScore {
     }
 }
 impl Score for OwnedScore {
+    type Level = i64;
     const HARD_LEVEL_COUNT: usize = 1;
     fn ordinary_levels(&self) -> impl Iterator<Item = i64> {
         [self.hard(), self.soft()].into_iter()

@@ -1,5 +1,5 @@
 //! Score-based stopping criteria and weighted progress estimates.
-use crate::Score;
+use crate::{Score, ScoreLevel};
 use std::{error::Error, fmt};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -48,29 +48,17 @@ fn weights(levels: usize, splits: &[f64]) -> Result<(), ScoreProgressError> {
     Ok(())
 }
 
-// Integer differences are widened before conversion; subtracting two rounded
-// f64 scores could lose even a small, exactly representable score improvement.
-fn level_fraction(start: i64, target: i64, current: i64) -> f64 {
-    if current >= target {
-        1.0
-    } else if current <= start || target <= start {
-        0.0
-    } else {
-        (i128::from(current) - i128::from(start)) as f64
-            / (i128::from(target) - i128::from(start)) as f64
-    }
-}
-fn weighted(
-    start: impl Iterator<Item = i64>,
-    target: impl Iterator<Item = i64>,
-    current: impl Iterator<Item = i64>,
+fn weighted<L: ScoreLevel>(
+    start: impl Iterator<Item = L>,
+    target: impl Iterator<Item = L>,
+    current: impl Iterator<Item = L>,
     splits: &[f64],
 ) -> f64 {
     let mut remaining = 1.0;
     let mut progress = 0.0;
     for (i, ((start, target), current)) in start.zip(target).zip(current).enumerate() {
         let split = splits.get(i).copied().unwrap_or(1.0);
-        progress += level_fraction(start, target, current) * remaining * split;
+        progress += start.progress_fraction(&target, &current) * remaining * split;
         remaining *= 1.0 - split;
     }
     progress.clamp(0.0, 1.0)
@@ -168,7 +156,7 @@ impl<S: Score> FeasibilityProgress<S> {
         }
         weighted(
             self.start.ordinary_levels().take(S::HARD_LEVEL_COUNT),
-            std::iter::repeat(0),
+            std::iter::repeat_with(S::Level::zero),
             best.ordinary_levels().take(S::HARD_LEVEL_COUNT),
             &self.splits,
         )
