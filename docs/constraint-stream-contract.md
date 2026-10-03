@@ -1115,3 +1115,30 @@ callbacks follow the existing graph contract. Bound basic/list/mixed sources can
 feed these operators; verified integrations include basic construction/local search,
 composite basic moves and list previous-element snapshots. This adds no dedicated
 reference performance or general declarative-shadow compatibility claim.
+
+
+## Explicit dependency evaluation
+
+`DependencyGraph<K>` separates immutable fixed dependencies from a list of
+`(variable, dependency)` edges supplied for each evaluation. Declare every key
+up front. Unknown keys and duplicate declarations are errors; repeated edges are
+deduplicated. Fixed cycles are rejected at construction with exactly their cycle
+members in key order. Acyclic inputs can be evaluated with a callback receiving
+only their immediate prerequisites, in key order, and immutable captured facts.
+
+`DerivedValue<V>` has independent `value: Option<V>` and `inconsistent: bool`
+fields. Returning None does not mark a value inconsistent. Dynamic cycles and
+all values depending on them receive None with inconsistency set and never invoke
+the evaluator callback. Other ready variables evaluate in deterministic key order.
+A later evaluation without the cycle recovers. The algorithm does not recursively
+solve cyclic equations; dependency traversal uses explicit stacks, including fixed
+cycle discovery. Output values need not implement Clone.
+
+The plan is immutable and reusable after errors or callback unwind. Every dynamic
+edge is validated before any callback runs. Callbacks must be pure: external side
+effects are not undone. Each call recomputes the schedule and returns a new map.
+Inside scoped or stream score callbacks this supports task times derived from fixed
+dependencies and current list predecessors. Existing score directors cache and
+restore resulting contributions on trial/undo; they do not store these projections
+as mutable fields on user entities. Incremental recomputation and dependency-specific
+performance claims are outside this implementation.

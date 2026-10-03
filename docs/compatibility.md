@@ -755,3 +755,35 @@ foreign ports, construction and saved local-search candidates. These add no
 upstream credit. Graph dependencies remain explicitly constructed and acyclic;
 recursive shadow fixed points, automatic field dependency discovery, Java shadow
 inconsistency rules and full declarative shadow compatibility remain unimplemented.
+
+
+## Dependency schedules and cycles
+
+All three methods from `DependencyValuesShadowVariableTest` are adapted with the
+four dependency testdomain fixtures. A twelve-task/four-list schedule preserves
+all source start times, durations and fixed dependencies, solves through both
+native scoring backends under a 1,000 move-evaluation cap, and checks every source
+finish/start inequality. Temporary insertion of C before B,A preserves every null
+start/end assertion through undo and additionally checks the inconsistency states
+described in source comments. The fixed B/C loop is rejected with all requested
+variable/value names and without the unrelated Value A. Native configuration
+validation rejects it before solving; Java exception class and lifecycle stage
+are not reproduced. All attributions, including the specified error prefix, are
+recorded. Whole-minute fixture times are represented as exact minutes from epoch.
+
+The independently implemented `DependencyGraph` is an immutable plan with explicit
+fixed and per-evaluation dependency edges. Iterative SCC discovery reports exact
+fixed-cycle members; a topological evaluation marks dynamic cycles and every
+transitively blocked value inconsistent, without evaluating those callbacks.
+Unavailable values outside cycles remain consistent. Six original tests check all
+512 directed three-node graphs as fixed graphs and as dynamic graphs against an
+independent reachability oracle, cycle recovery, sorted/deduplicated dependencies,
+validation before callbacks, callback unwind, non-Clone values and a 20,000-node
+chain. They earn no extra upstream credit.
+
+Both scoped and stream fixture scoring invoke a full pure dependency projection;
+this is not an incremental shadow cache or Java update-order implementation.
+Automatic field discovery, arbitrary annotation semantics, recursive fixed points,
+general Java inconsistency parity and dedicated dependency performance comparisons
+remain unimplemented or unverified. Existing refreshed timings do not measure this
+new evaluator.

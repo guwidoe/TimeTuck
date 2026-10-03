@@ -4972,3 +4972,58 @@ native scan/transaction/search regressions and doctest.
 Next: extend native derived-domain/shadow behavior using the pinned declarative
 shadow tests and public APIs, including a direct Java/native generated reference
 comparison where useful. Full rewrite goal remains active and unfinished.
+
+## Derived dependency evaluation (2026-10-03)
+
+Added independent immutable `DependencyGraph<K>` with deterministic evaluation,
+fixed prerequisite validation and iterative cycle detection. Dynamic edges merge
+with fixed edges; cycles and their downstream dependents produce inconsistent
+values without invoking suppliers. Ordinary unavailable values remain distinct
+from inconsistency. Removing a dynamic cycle recovers on the next evaluation.
+Inputs are sorted and deduplicated; malformed edges fail before callbacks run.
+The plan supports non-Clone outputs and is reusable after a callback panic.
+Each evaluation recomputes the whole schedule: no incremental shadow cache or
+mutable entity-field installation is claimed.
+
+Adapted three complete DependencyValuesShadowVariableTest methods: testSolve,
+testLoopStatusOfEntityIsUpdatedEvenIfNoVariablesOnTheEntityChanged, and
+failsIfTwoValuesDependOnEachOther. Explicit native list-owner/predecessor views
+and exact integer-minute scheduling replace Java annotations. Both scoped and
+stream list solvers obey the native 1,000-move cap and verify all source dependency
+ordering assertions. Cycle insertion and undo preserve every source null-value
+assertion with additional inconsistency and score-restoration checks. Fixed cycles
+fail eagerly at native configuration, rather than Java solve time; this lifecycle
+deviation is explicit in provenance and documentation. All four source fixtures
+and the tested diagnostic prefix are attributed. Upstream remains unchanged.
+
+Six original regressions cover all 512 directed three-node graphs against an
+independent reachability oracle for fixed cycles and dynamic propagation, missing
+values, deterministic inputs, metadata errors, a 20,000-node chain, non-Clone
+outputs and panic recovery. Full debug gate passes 1,372 Rust tests (643 adapted,
+654 original integration, 75 unit), 68 doctests and 102 Python tests. Release
+all-target verification passes the same 1,372 tests; live_initialization delivers
+all four events and expected optima. The large release solver target was allowed
+to finish its several-minute compilation without restarting. Logs use
+work/dependency-graph-*. Source and provenance were frozen before verification.
+
+All ten comparison datasets refreshed and current; report verification succeeds
+and live freshness digest matches. Coverage is 643/4,855 (13.24%), 3,930 pending,
+282 excluded, zero failed/unverified. Domain model is 4/455 (0.88%). Browser checks
+at 1280x900 and 390x844 confirm all three new methods Passed, 29 benchmark cards,
+no overflow, stale messages or browser errors. Existing server retained and
+verification browser closed. No frontend edits or design skill this increment.
+
+Existing comparison outcomes persist: 512/512 list moves; 192 valid/189 equal-score
+list solves; 64 valid/equal-score stream solves; 128 valid/equal-score heuristic
+solves; 128/128 pillar transactions; known Great Deluge agreement 275/276. Stream
+tabu96 remains slower at Rust 178.873 vs Java 26.908 ms with equal [-44,-484].
+These comparisons do not measure the new DependencyGraph; no direct Java generated
+dependency oracle was added. Full rewrite goal remains active and unfinished.
+
+Next: extend missing declarative domain behavior or add direct Java/native
+dependency evidence. FollowerValuesShadowVariableTest was inspected, but its
+fixtures have not yet been read or adapted. Its testUpdateOnce requires one
+supplier call for A1 and none for A2/A3/B1/B2 after changing leader A, so matching
+follower values alone is insufficient: shared supplier computation must be
+preserved. AlwaysLoopedShadowVariableTest also remains pending; read its fixtures
+before adapting its odd/even fixed-loop diagnostic assertions.

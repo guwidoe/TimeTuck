@@ -318,3 +318,6 @@ pub use statistics::{
 
 mod reference_stream;
 pub use reference_stream::ReferenceNode;
+
+mod dependency_graph;
+pub use dependency_graph::{DependencyError, DependencyGraph, DerivedValue};

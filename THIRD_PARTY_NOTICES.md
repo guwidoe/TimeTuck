@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/dependency_schedule_cases.rs` adapts all three methods in
+  `DependencyValuesShadowVariableTest` and its four `testdomain/shadow/dependency`
+  fixtures. The fixed-cycle diagnostic prefix in `crates/solver/src/dependency_graph.rs`
+  follows that test contract; the graph algorithms are independently implemented.
+
 - `crates/solver/tests/basic_reference_cases.rs` adapts the complete basic inverse
   shadow propagation method from `BasicInverseShadowVariableTest`, with the
   entity, group, owner and solution fixtures in `testdomain/shadow/declarative/basicinverse`.
