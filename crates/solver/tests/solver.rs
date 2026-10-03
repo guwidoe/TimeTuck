@@ -13,6 +13,7 @@ struct Outcome {
 }
 #[derive(Debug, PartialEq)]
 enum Failure {
+    Empty,
     Acceptance(usize),
     Token(usize),
     Phase(usize),
@@ -49,7 +50,7 @@ fn run(
 }
 fn run_scored<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
-    c: impl Into<SolverPlan<'a>>,
+    c: impl Into<SolverSequence<'a>>,
     factories: &Cell<usize>,
     fail_factory: Option<usize>,
     hook: impl Fn(),
@@ -68,7 +69,7 @@ struct Update {
 }
 fn run_scored_observed<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
-    c: impl Into<SolverPlan<'a>>,
+    c: impl Into<SolverSequence<'a>>,
     factories: &Cell<usize>,
     fail_factory: Option<usize>,
     hook: impl Fn(),
@@ -97,7 +98,7 @@ struct Initialized {
 #[allow(clippy::too_many_arguments)] // Shared six-model event fixture.
 fn run_scored_events<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
-    c: impl Into<SolverPlan<'a>>,
+    c: impl Into<SolverSequence<'a>>,
     factories: &Cell<usize>,
     fail_factory: Option<usize>,
     hook: impl Fn(),
@@ -163,6 +164,7 @@ fn run_scored_events<'a>(
                         reason: r.termination,
                     })
                 }
+                Err(SolverError::EmptyPlan) => Err(Failure::Empty),
                 Err(SolverError::InvalidAcceptance { phase, .. }) => {
                     Err(Failure::Acceptance(phase))
                 }
@@ -250,12 +252,8 @@ fn run_scored_events<'a>(
             a.lists().location(&7).map(|p| p.entity),
         ]
     };
-    let c = MixedSolverPlan {
+    let c = MixedSolverSequence {
         limits: c.limits,
-        construction: MixedConstructionConfig {
-            construction: c.construction,
-            order,
-        },
         phases: c
             .phases
             .into_iter()
@@ -1423,3 +1421,6 @@ mod construction_cases;
 
 #[path = "support/solver_initialization_cases.rs"]
 mod initialization_cases;
+
+#[path = "support/solver_sequence_cases.rs"]
+mod sequence_cases;

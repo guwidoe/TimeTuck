@@ -621,3 +621,55 @@ Six source initialization-event tests remain pending. Construction-free plans,
 custom phases, the source early-CH exception contract and optional-list construction
 behavior are not established by these adaptations. Native exact boundary behavior
 and consumer scheduling are original contracts, not Java trace parity.
+
+
+## Explicit sequences without construction
+
+All ordinary, best-observed and event-observed solve entrypoints now accept
+`SolverSequence` (basic/list) or `MixedSolverSequence`, containing limits and the
+full phase vector. Existing SolverConfig/SolverPlan and mixed counterparts convert
+by prepending their configured construction phase, preserving prior behavior and
+phase indices. Sequence defaults retain the existing construction/local-search
+plan. Explicit sequences may instead start with local or exact search; no hidden
+initialization phase or extra scoring is inserted. Report, observer, producer and
+error indices directly address the explicit vector.
+
+A direct local-search phase requires a complete model initial assignment, including
+at zero budget or pre-cancellation; invalid initial state returns a phase error.
+A direct exact phase enumerates from its normal assignment-space order without an
+initial rescore. Its bounded result therefore compares scored candidates, not an
+unscored initial incumbent. If no scoring occurs, the result retains the model
+initial assignment and its independently determined completeness, with score None.
+A complete but unscored result is not a scored solution or an optimality claim.
+
+Empty explicit sequences return SolverError::EmptyPlan. Empty/invalid sequence
+validation happens before model-fact cloning, scoring and graph creation. A valid
+first exact phase checks scoped dimensions or stream-source ownership/emptiness
+even at zero budget. Existing whole-solve controls still clip each actual phase;
+initial scoring remains allowed at zero elapsed time for local/construction phases,
+while exact search charges each visited candidate. Graph factory work belongs to
+the shared clock. Local initial scoring precedes stagnation timing; exact search
+starts stagnation before enumeration.
+
+The first-local-search initialization boundary exists only if a preceding phase
+exists. Starting in local search emits no FirstInitialized event, even if later
+construction/local phases run. Starting in bounded exact search can hand off to
+construction or local search, with the usual completeness requirements and direct
+producer indices. The historical IncompleteConstruction termination is retained
+when partial initialization cannot proceed to the next phase or remains incomplete
+at the end; this also covers bounded exact initialization.
+
+One complete pinned SolverManagerTest adaptation now covers single local search:
+both entities start at the first value, ordinary score is zero, the shared target
+is zero, initialization and empty final consumers are registered, and final wait
+leaves the initialization marker false and producer absent. The attributed model,
+constant scorer and event helper are reused. Eight original integration methods
+exercise all six paths, explicit indexing, bounded exact proof, every shared count
+prefix, zero work/cancellation, initial-state preservation, invalid configurations,
+network/source validation, partial handoffs and event absence. A controlled-clock
+unit method verifies first-factory time and initial-scoring/stagnation behavior;
+a public sequence doctest demonstrates direct local search.
+
+Custom phases, both source early-construction initialization tests and live
+problem changes remain pending. This increment adds one upstream method, not a
+claim of general phase or lifecycle parity.

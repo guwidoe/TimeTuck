@@ -41,6 +41,10 @@ fn observer_time_preserves_shared_stagnation_in_local_and_exact_phases() {
             },
             ConstructionConfig::default(),
             &phases,
+            InitialState {
+                assignment: p.initial_assignment(),
+                complete: p.is_complete(&p.initial_assignment()),
+            },
             |index, a, request, time| -> Result<_, LocalSearchError> {
                 let request = request.with_time(time);
                 let kind = request.kind();
@@ -121,6 +125,10 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
         },
         ConstructionConfig::default(),
         &[SolverPhase::Exact(ExactPhaseConfig::default())],
+        InitialState {
+            assignment: p.initial_assignment(),
+            complete: p.is_complete(&p.initial_assignment()),
+        },
         |index, _, request, time| -> Result<_, LocalSearchError> {
             let request = request.with_time(time);
             let kind = request.kind();
@@ -172,8 +180,14 @@ fn initialization_callback_time_stops_the_solve_before_local_search() {
             max_time: Some(ms(5)),
             ..Default::default()
         },
-        ConstructionConfig::default(),
-        &[SolverPhase::LocalSearch(LocalSearchConfig::default())],
+        &[
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig::default()),
+        ],
+        || InitialState {
+            assignment: p.initial_assignment(),
+            complete: p.is_complete(&p.initial_assignment()),
+        },
         &mut observation,
         |index, _, request, time, _| -> Result<_, ScoringError> {
             assert_eq!(index, 0);

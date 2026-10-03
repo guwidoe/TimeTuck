@@ -14,18 +14,22 @@ fn exercise(
     exercise_scored(c, factory_cost, |v| v as i64)
 }
 fn exercise_scored<'a>(
-    c: impl Into<SolverPlan<'a>>,
+    c: impl Into<SolverSequence<'a>>,
     factory_cost: u64,
     score: impl Fn(usize) -> i64,
 ) -> SolverResult<Assignment<usize>, SimpleScore> {
     let c = c.into();
     let elapsed = Cell::new(0);
     let p = FiniteProblem::new(vec![Variable::new(vec![0usize, 1, 2]).with_initial(0)]).unwrap();
-    run_with_clock(
+    run_with_clock_observed(
         c.limits,
-        c.construction,
         &c.phases,
-        |_, a, request, time| -> Result<_, LocalSearchError> {
+        || InitialState {
+            assignment: p.initial_assignment(),
+            complete: p.is_complete(&p.initial_assignment()),
+        },
+        &mut PlanObservation::new(None),
+        |_, a, request, time, _| -> Result<_, LocalSearchError> {
             elapsed.set(elapsed.get() + factory_cost);
             let mut b = StreamGraphBuilder::new();
             let s = b.source::<usize, (usize, Option<usize>)>();
@@ -664,4 +668,41 @@ fn repeated_construction_shares_deadline_and_does_not_restart_stagnation() {
     assert_eq!(r.phases.len(), 4); // Post-search construction counts toward stagnation.
     assert_eq!(r.work.evaluations, 4);
     assert_eq!(r.score, Some(SimpleScore::ZERO));
+}
+
+#[test]
+fn direct_search_deadlines_include_first_factory_but_exclude_initial_score_from_stagnation() {
+    for exact in [false, true] {
+        let phase = if exact {
+            SolverPhase::Exact(ExactPhaseConfig::default())
+        } else {
+            SolverPhase::LocalSearch(LocalSearchConfig::default())
+        };
+        let c = SolverSequence {
+            limits: SolverLimits {
+                max_time: Some(ms(1)),
+                ..Default::default()
+            },
+            phases: vec![phase.clone()],
+        };
+        let r = exercise_scored(c, 2, |v| v as i64);
+        assert_eq!(r.termination, SolverTermination::TimeLimit);
+        assert_eq!(r.phases.len(), 1);
+        assert_eq!(r.phases[0].index, 0);
+        assert!(r.complete);
+        assert_eq!(r.work.evaluations, if exact { 0 } else { 1 });
+        assert_eq!(r.score, if exact { None } else { Some(SimpleScore::ZERO) });
+        let c = SolverSequence {
+            limits: SolverLimits {
+                max_unimproved_time: Some(ms(1)),
+                ..Default::default()
+            },
+            phases: vec![phase],
+        };
+        let r = exercise_scored(c, 100, |_| 0);
+        assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+        assert_eq!(r.work.evaluations, if exact { 1 } else { 2 });
+        assert_eq!(r.work.move_evaluations, 1);
+        assert!(r.complete);
+    }
 }

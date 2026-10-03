@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 586 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 10 manager), recorded in
+- 587 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 11 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 539 original integration regression methods, 68 original unit tests, and 52 public API documentation tests.
+- 547 original integration regression methods, 69 original unit tests, and 53 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3744,3 +3744,80 @@ and 32 0.941/12.099 retain the known score differences. List validation remains
 Great Deluge retains 275/276 Java agreements and its recorded ratio boundary gap.
 These ordinary workloads do not measure initialization-event/manager throughput;
 shared-machine timing differences alone do not establish improvements/regressions.
+
+
+## Explicit phase sequences — latest increment
+
+Added SolverSequence/MixedSolverSequence with shared limits and an explicit full
+phase vector. Defaults and From<SolverConfig/SolverPlan> preserve the existing
+construction-first plan by inserting construction into that vector. All 18 public
+ordinary/observer/event solve APIs now accept Into<Sequence>; existing concrete
+config/plan arguments remain accepted. Mixed conversions preserve each phase's
+construction order and local-search settings. Phase indices are direct vector
+indices in results, events, validation and factory errors.
+
+Shared run now walks the full vector rather than injecting construction at zero.
+A lazy InitialState factory creates the model initial assignment/completeness only
+after empty/acceptance/token validation. Result begins with that unscored state,
+so a first zero-work/cancelled local or exact phase can return without inventing
+an assignment or score. Exact candidates do not gain an extra initial evaluation;
+a complete initial assignment is not assumed to beat scored candidates until it
+is scored. Empty sequences return new SolverError::EmptyPlan, with no fact cloning,
+scoring or graph creation. Explicit incomplete initial state is rejected by first
+local-search validation even at zero budget/cancellation. The legacy partial
+initialization termination remains IncompleteConstruction when no next phase can
+accept partial state. Existing shared stopping precedence is unchanged.
+
+Scoped exact phase binding now explicitly calls network.validate before enumeration,
+including zero work; basic ConstraintNetwork.validate is pub(crate). Stream source
+validation already occurs there. This closes the dependency on an earlier
+construction phase. First-local index is direct: zero has no producer, so no
+initialization event. Partial exact-to-construction handoffs and later mixed phases
+use their exact sequence indices. Old controlled-clock observation helpers prepend
+their construction through a test adapter; the shared time fixture now uses explicit
+sequences directly. No callback evaluations are added by state setup.
+
+Eight original integration methods in support/solver_sequence_cases.rs cover all
+six paths: single local search with exactly one phase; exact-only candidate counts
+and exhaustion; zero work/pre-cancellation state retention; incomplete/empty plan
+errors (including a Clone implementation that panics if invalid plans touch facts);
+partial exact-to-construction handoff; absence of initialization for local-first
+sequences; indices/shared controls; zero-budget scoped/stream validation; and every
+small shared score/move prefix across local/exact phases. A controlled-clock unit
+test checks first graph-factory elapsed time and local-initial-score exclusion from
+stagnation. A public SolverSequence doctest adds direct-local usage.
+
+Adapted firstInitializedSolutionConsumerWithSingleLSPhase in solver_manager_cases.rs:
+two entities initialized to first value, constant-zero objective, sole local search,
+shared target zero, initialization listener plus empty final listener, final wait,
+false initialization marker and absent producer. Native extra assertions check the
+single phase at index zero, target stop and no callback failures. Provenance adds
+one method, reusing already-attributed fixtures; notices now count eleven manager
+methods. Only the pinned Community test was consulted, no production implementation.
+
+The five remaining initialization-event methods need custom phases or early-CH
+behavior (step-limit/exception and optional-list gaps). Live problem changes also
+remain pending. Keep the full goal active. Work logs use work/sequence-*.
+
+Validation completed for this increment: bash scripts/check.sh passes with 1,203
+Rust tests (587 adapted, 547 original integration, 69 unit), 53 doctests and 95
+Python tests. Release all-target tests pass all 1,203 cases; live_initialization
+also passes in release, delivering four initialization callbacks and four proven
+optima. All nine differential/performance datasets were refreshed successfully.
+Report verification is successful and its verification digest matches the live
+freshness endpoint. Coverage is 587/4,855 (12.09%), with 3,986 pending and 282
+excluded; lifecycle is 31/379 (8.18%).
+
+Browser verification at 1280x900 and 390x844 shows 23 benchmark cards, no horizontal
+overflow, no stale/error messages and no browser errors. Filtering lifecycle for
+firstInitializedSolutionConsumer shows four Passed and five Pending methods.
+Browser session closed; upstream submodule remains unchanged.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.011/3.928, exact 8
+0.150/6.987; Great Deluge 32 2.398/8.182, 96 14.071/16.376; stream tabu 96 remains
+slower at 166.569/30.248 with equal [-44,-484] scores. List two-opt 16 0.257/8.957
+and 32 0.908/11.194 retain the known score differences. List validation remains
+192 valid/189 equal-score, heuristic 128 valid/128 equal, stream 64 valid/64 equal.
+Great Deluge retains 275/276 Java agreements and its recorded ratio boundary gap.
+These workloads do not measure explicit-sequence or manager throughput, and these
+shared-machine samples alone do not establish an improvement or regression.

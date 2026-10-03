@@ -15,7 +15,7 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
-- `crates/solver/tests/solver_manager_cases.rs` adapts ten parallel-solving,
+- `crates/solver/tests/solver_manager_cases.rs` adapts eleven parallel-solving,
   job-status, duplicate-ID, callback, initialization-event, skip-ahead and error-handler methods from `SolverManagerTest.java`, with fixtures
   from that test, `PlannerTestUtils.java`, `PlannerAssert.java` and
   `DummySimpleScoreEasyScoreCalculator.java`.

@@ -523,3 +523,13 @@ The six other initialization-event methods remain pending; native regression
 coverage does not replace their custom-phase, construction-free or early-termination
 source assertions. Native exact boundaries and consumer scheduling add no Java
 trace claims. See solver-contract.md for the event and delivery contract.
+
+
+Explicit construction-free sequences now add the complete
+SolverManagerTest.firstInitializedSolutionConsumerWithSingleLSPhase adaptation.
+The two entities retain their initialized first values, a sole local-search phase
+uses target score zero, the final consumer is present and initialization remains
+absent after waiting. Existing plans/configurations convert without changing their
+construction-first behavior. Native direct-exact boundaries and zero-work handling
+have original regression coverage only. Five source initialization-event methods
+remain pending, including custom phases and early-construction behavior.

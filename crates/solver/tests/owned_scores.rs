@@ -59,6 +59,7 @@ fn run<S: AdditiveScore + 'static>(
                         reason: r.termination,
                     })
                 }
+                Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
                 Err(SolverError::InvalidAcceptance { phase, .. }) => {
                     Err(Failure::Acceptance(phase))
                 }

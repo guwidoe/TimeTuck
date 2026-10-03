@@ -149,7 +149,7 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     }
 }
 impl<V: Eq, S: AdditiveScore> ConstraintNetwork<'_, V, S> {
-    fn validate(
+    pub(crate) fn validate(
         &self,
         problem: &FiniteProblem<V>,
         assignment: &Assignment<V>,

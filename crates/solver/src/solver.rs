@@ -1,4 +1,4 @@
-//! Construction followed by configured improvement phases under shared controls.
+//! Ordered construction, local and exact phases under shared controls.
 #[path = "solver_exact.rs"]
 mod exact;
 use crate::*;
@@ -101,7 +101,7 @@ pub enum PhaseTermination {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct PhaseReport<S> {
-    /// Zero is construction; subsequent indices refer to phases[index-1].
+    /// Index in the explicit sequence; converted plans prepend construction at zero.
     pub index: usize,
     pub termination: PhaseTermination,
     pub work: SolverWork,
@@ -125,8 +125,8 @@ pub enum SolverTermination {
     IncompleteConstruction,
     NoCompleteAssignment,
 }
-/// The retained complete best, or partial construction progress if initialization
-/// did not complete. Equal-score phase results retain the earlier assignment.
+/// The retained complete best, partial initialization progress, or model initial
+/// assignment when no scoring occurred. Equal-score phase results retain the earlier assignment.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct SolverResult<A, S> {
     pub assignment: A,
@@ -151,6 +151,8 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// Explicit sequences must contain at least one phase.
+    EmptyPlan,
     InvalidAcceptance {
         phase: usize,
         error: AcceptanceError,
@@ -167,6 +169,7 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::EmptyPlan => write!(f, "a solve sequence must contain at least one phase"),
             Self::InvalidAcceptance { phase, error } => {
                 write!(f, "invalid acceptance in phase {phase}: {error}")
             }
@@ -183,7 +186,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
         match self {
             Self::InvalidAcceptance { error, .. } => Some(error),
             Self::Phase { error, .. } => Some(error),
-            Self::ConflictingCancellation { .. } => None,
+            Self::EmptyPlan | Self::ConflictingCancellation { .. } => None,
         }
     }
 }
@@ -316,8 +319,8 @@ pub enum SolverPhaseKind {
     LocalSearch,
     Exact,
 }
-/// A synchronous retained-best update from one ordered solve. Phase zero is
-/// construction; later indices address the requested improvement phases plus one.
+/// A synchronous retained-best update from one ordered solve. Phase indices refer
+/// to the explicit sequence; converted plans prepend construction at zero.
 /// Equal or worse phase-initial scores are suppressed across phase boundaries.
 /// Native phase metadata is not a Java event-producer identity. Borrowed state
 /// must be cloned for asynchronous publication. Observers must not mutate facts.
@@ -355,7 +358,7 @@ pub struct SolverInitialization {
 /// Synchronous plan notifications. Initialization fires once when the phase
 /// immediately before the first requested local search ends successfully, even
 /// if a limit left it partial or the solve stops at that boundary. It is omitted
-/// when no local search is planned or the producing phase fails. No rescoring is
+/// when local search has no preceding phase, is absent, or the producer fails. No rescoring is
 /// performed; a zero-work producing phase may have no score. Borrowed assignments
 /// must be cloned for asynchronous delivery. Callback time belongs to solve limits
 /// and panics propagate. Best updates retain their usual duplicate suppression.
@@ -475,10 +478,14 @@ impl<S> PhaseRequest<'_, S> {
     }
 }
 
+struct InitialState<A> {
+    assignment: A,
+    complete: bool,
+}
 fn run<A, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
-    construction: ConstructionConfig<'_>,
     local: &[SolverPhase<'_, S>],
+    initial: impl FnOnce() -> InitialState<A>,
     mut observation: PlanObservation<'_, A, S>,
     phase: impl FnMut(
         usize,
@@ -494,20 +501,14 @@ where
     let mut clock = crate::time_limit::monotonic_clock(
         limits.max_time.is_some() || limits.max_unimproved_time.is_some(),
     );
-    run_with_clock_observed(
-        limits,
-        construction,
-        local,
-        &mut observation,
-        phase,
-        &mut clock,
-    )
+    run_with_clock_observed(limits, local, initial, &mut observation, phase, &mut clock)
 }
 #[cfg(test)]
 fn run_with_clock<A: Clone, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
     construction: ConstructionConfig<'_>,
     local: &[SolverPhase<'_, S>],
+    initial: InitialState<A>,
     mut phase: impl FnMut(
         usize,
         Option<A>,
@@ -516,10 +517,13 @@ fn run_with_clock<A: Clone, S: AdditiveScore, E>(
     ) -> Result<PhaseOutput<A, S>, E>,
     clock: &mut dyn FnMut() -> Duration,
 ) -> Result<SolverResult<A, S>, SolverError<E>> {
+    let phases: Vec<_> = std::iter::once(SolverPhase::Construction(construction))
+        .chain(local.iter().cloned())
+        .collect();
     run_with_clock_observed(
         limits,
-        construction,
-        local,
+        &phases,
+        || initial,
         &mut PlanObservation::new(None),
         |i, a, r, t, _| phase(i, a, r, t),
         clock,
@@ -527,8 +531,8 @@ fn run_with_clock<A: Clone, S: AdditiveScore, E>(
 }
 fn run_with_clock_observed<A, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
-    construction: ConstructionConfig<'_>,
     local: &[SolverPhase<'_, S>],
+    initial: impl FnOnce() -> InitialState<A>,
     observation: &mut PlanObservation<'_, A, S>,
     mut phase: impl FnMut(
         usize,
@@ -555,13 +559,17 @@ where
         started: false,
         steps_expired: false,
     };
-    // Validate the entire plan before scoring, including phases that might never run.
-    for (index, token) in std::iter::once(construction.cancellation)
-        .chain(local.iter().map(|c| match c {
+    // Validate the entire sequence before scoring, including phases that might never run.
+    if local.is_empty() {
+        return Err(SolverError::EmptyPlan);
+    }
+    for (index, token) in local
+        .iter()
+        .map(|c| match c {
             SolverPhase::Construction(c) => c.cancellation,
             SolverPhase::LocalSearch(c) => c.cancellation,
             SolverPhase::Exact(c) => c.cancellation,
-        }))
+        })
         .enumerate()
     {
         if let (Some(global), Some(token)) = (limits.cancellation, token)
@@ -577,17 +585,24 @@ where
         c.acceptance
             .validate()
             .map_err(|error| SolverError::InvalidAcceptance {
-                phase: index + 1,
+                phase: index,
                 error,
             })?;
     }
     let first_local = local
         .iter()
-        .position(|p| matches!(p, SolverPhase::LocalSearch(_)))
-        .map(|p| p + 1);
-    let mut result: Option<SolverResult<A, S>> = None;
-    for index in 0..=local.len() {
-        let used = result.as_ref().map_or(SolverWork::default(), |r| r.work);
+        .position(|p| matches!(p, SolverPhase::LocalSearch(_)));
+    let initial = initial();
+    let mut result = SolverResult {
+        assignment: initial.assignment,
+        complete: initial.complete,
+        score: None,
+        work: SolverWork::default(),
+        phases: Vec::new(),
+        termination: SolverTermination::PlanCompleted,
+    };
+    for index in 0..local.len() {
+        let used = result.work;
         let remaining_scores = limits.max_evaluations - used.evaluations;
         let remaining_moves = limits
             .max_move_evaluations
@@ -607,14 +622,12 @@ where
                 None
             };
             if let Some(reason) = reason {
-                let r = result.as_mut().unwrap();
+                let r = &mut result;
                 r.termination = reason;
                 break;
             }
         }
-        let construction_request = if index == 0 {
-            Some(construction)
-        } else if let SolverPhase::Construction(c) = &local[index - 1] {
+        let construction_request = if let SolverPhase::Construction(c) = &local[index] {
             Some(*c)
         } else {
             None
@@ -628,7 +641,7 @@ where
             c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
             c.cancellation = c.cancellation.or(limits.cancellation);
             (PhaseRequest::Construction(c), owned.0, owned.1)
-        } else if let SolverPhase::Exact(mut c) = local[index - 1].clone() {
+        } else if let SolverPhase::Exact(mut c) = local[index].clone() {
             let owned = (
                 remaining_scores <= c.max_evaluations,
                 remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
@@ -641,13 +654,14 @@ where
                 (a, b) => a.or(b),
             };
             c.stop_when_feasible |= limits.stop_when_feasible;
-            let prior = result
-                .as_ref()
-                .filter(|r| r.complete)
-                .and_then(|r| r.score.clone());
+            let prior = if result.complete {
+                result.score.clone()
+            } else {
+                None
+            };
             (PhaseRequest::Exact(c, prior), owned.0, owned.1)
         } else {
-            let SolverPhase::LocalSearch(mut c) = local[index - 1].clone() else {
+            let SolverPhase::LocalSearch(mut c) = local[index].clone() else {
                 unreachable!()
             };
             let owned = (
@@ -664,24 +678,14 @@ where
             c.stop_when_feasible |= limits.stop_when_feasible;
             (PhaseRequest::LocalSearch(c), owned.0, owned.1)
         };
-        let initial = result.as_ref().map(|r| r.assignment.clone());
+        let initial = Some(result.assignment.clone());
         let mut out = phase(index, initial, request, &mut time, observation).map_err(|error| {
             SolverError::Phase {
                 phase: index,
                 error,
             }
         })?;
-        let r = result.get_or_insert_with(|| SolverResult {
-            assignment: out
-                .assignment
-                .take()
-                .expect("construction always returns an assignment"),
-            score: out.score.clone(),
-            complete: out.complete,
-            work: SolverWork::default(),
-            phases: Vec::new(),
-            termination: SolverTermination::PlanCompleted,
-        });
+        let r = &mut result;
         if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score.as_ref())
             && ((!r.complete && out.complete) || r.score.as_ref().is_none_or(|best| score > best))
         {
@@ -742,7 +746,7 @@ where
             _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
             _ if !r.complete
                 && !matches!(
-                    local.get(index),
+                    local.get(index + 1),
                     Some(SolverPhase::Exact(_) | SolverPhase::Construction(_))
                 ) =>
             {
@@ -771,7 +775,7 @@ where
             break;
         }
     }
-    Ok(result.expect("construction phase always runs"))
+    Ok(result)
 }
 
 macro_rules! constructed {
@@ -837,7 +841,7 @@ macro_rules! improved {
 pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_impl(p, n, c, None)
 }
@@ -849,7 +853,7 @@ pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
 pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, Assignment<V>, S>),
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_impl(p, n, c, Some(PlanCallback::Best(&mut observer)))
@@ -858,7 +862,7 @@ pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
 pub fn solve_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, Assignment<V>, S>),
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_impl(p, n, c, Some(PlanCallback::Events(&mut observer)))
@@ -866,15 +870,22 @@ pub fn solve_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
 fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, Assignment<V>, S>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     run(
         c.limits,
-        c.construction,
         &c.phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let request = request.with_time(time);
@@ -884,17 +895,20 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
                 observation.notify(index, kind, update)
             };
             Ok(match request {
-                PhaseRequest::Exact(c, prior) => exact::run_observed(
-                    c,
-                    prior,
-                    time,
-                    |visit| crate::search::visit_assignments(p, visit),
-                    |a| {
-                        n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
-                    },
-                    observed.then_some(&mut notify),
-                )?,
+                PhaseRequest::Exact(c, prior) => {
+                    n.validate(p, a.as_ref().expect("initial state"))?;
+                    exact::run_observed(
+                        c,
+                        prior,
+                        time,
+                        |visit| crate::search::visit_assignments(p, visit),
+                        |a| {
+                            n.calculate(p, a)
+                                .map(|score| (score, n.constraint_count() as u128))
+                        },
+                        observed.then_some(&mut notify),
+                    )?
+                }
                 PhaseRequest::Construction(c) => constructed!(if observed {
                     greedy_construction_from_with_observer(
                         p,
@@ -930,11 +944,11 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
         },
     )
 }
-/// Construct and improve ordered lists with shared solve budgets.
+/// Run ordered list phases with shared solve budgets.
 pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_impl(p, n, c, None)
 }
@@ -946,7 +960,7 @@ pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
 pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_impl(p, n, c, Some(PlanCallback::Best(&mut observer)))
@@ -955,7 +969,7 @@ pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
 pub fn solve_list_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, ListAssignment<V>, S>),
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_impl(p, n, c, Some(PlanCallback::Events(&mut observer)))
@@ -963,15 +977,22 @@ pub fn solve_list_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
 fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, ListAssignment<V>, S>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     run(
         c.limits,
-        c.construction,
         &c.phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let request = request.with_time(time);
@@ -981,17 +1002,20 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
                 observation.notify(index, kind, update)
             };
             Ok(match request {
-                PhaseRequest::Exact(c, prior) => exact::run_observed(
-                    c,
-                    prior,
-                    time,
-                    |visit| crate::list_search::visit_list_assignments(p, visit),
-                    |a| {
-                        n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
-                    },
-                    observed.then_some(&mut notify),
-                )?,
+                PhaseRequest::Exact(c, prior) => {
+                    n.validate(p, a.as_ref().expect("initial state"))?;
+                    exact::run_observed(
+                        c,
+                        prior,
+                        time,
+                        |visit| crate::list_search::visit_list_assignments(p, visit),
+                        |a| {
+                            n.calculate(p, a)
+                                .map(|score| (score, n.constraint_count() as u128))
+                        },
+                        observed.then_some(&mut notify),
+                    )?
+                }
                 PhaseRequest::Construction(c) => constructed!(if observed {
                     greedy_list_construction_from_with_observer(
                         p,
@@ -1037,7 +1061,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
 pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_impl(p, n, c, None)
 }
@@ -1049,7 +1073,7 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_impl(p, n, c, Some(PlanCallback::Best(&mut observer)))
@@ -1058,7 +1082,7 @@ pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveSc
 pub fn solve_mixed_with_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, MixedAssignment<B, L>, S>),
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_impl(p, n, c, Some(PlanCallback::Events(&mut observer)))
@@ -1066,16 +1090,23 @@ pub fn solve_mixed_with_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScor
 fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     observer: PlanObserver<'_, MixedAssignment<B, L>, S>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
     run(
         c.limits,
-        c.construction.construction,
         &phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let request = request.with_time(time);
@@ -1085,17 +1116,20 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                 observation.notify(index, kind, update)
             };
             Ok(match request {
-                PhaseRequest::Exact(c, prior) => exact::run_observed(
-                    c,
-                    prior,
-                    time,
-                    |visit| exact::visit_mixed(p, visit),
-                    |a| {
-                        n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
-                    },
-                    observed.then_some(&mut notify),
-                )?,
+                PhaseRequest::Exact(c, prior) => {
+                    n.validate(p, a.as_ref().expect("initial state"))?;
+                    exact::run_observed(
+                        c,
+                        prior,
+                        time,
+                        |visit| exact::visit_mixed(p, visit),
+                        |a| {
+                            n.calculate(p, a)
+                                .map(|score| (score, n.constraint_count() as u128))
+                        },
+                        observed.then_some(&mut notify),
+                    )?
+                }
                 PhaseRequest::Construction(config) => constructed!(if observed {
                     greedy_mixed_construction_from_with_observer(
                         p,
@@ -1103,11 +1137,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         a.unwrap_or_else(|| p.initial_assignment()),
                         MixedConstructionConfig {
                             construction: config,
-                            ..if index == 0 {
-                                c.construction
-                            } else {
-                                c.phases[index - 1].construction()
-                            }
+                            ..c.phases[index].construction()
                         },
                         &mut notify,
                     )
@@ -1118,11 +1148,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         a.unwrap_or_else(|| p.initial_assignment()),
                         MixedConstructionConfig {
                             construction: config,
-                            ..if index == 0 {
-                                c.construction
-                            } else {
-                                c.phases[index - 1].construction()
-                            }
+                            ..c.phases[index].construction()
                         },
                     )
                 }?),
@@ -1134,7 +1160,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         a.expect("handoff"),
                         MixedLocalSearchConfig {
                             search: config,
-                            ..c.phases[index - 1].local().clone()
+                            ..c.phases[index].local().clone()
                         },
                         &mut notify,
                     )
@@ -1146,7 +1172,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         a.expect("handoff"),
                         MixedLocalSearchConfig {
                             search: config,
-                            ..c.phases[index - 1].local().clone()
+                            ..c.phases[index].local().clone()
                         },
                     )
                 }?),
@@ -1163,7 +1189,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 pub fn solve_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_stream_impl(p, graph, c, None)
 }
@@ -1175,7 +1201,7 @@ pub fn solve_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
 pub fn solve_stream_with_observer<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, Assignment<V>, S>),
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_stream_impl(p, graph, c, Some(PlanCallback::Best(&mut observer)))
@@ -1184,7 +1210,7 @@ pub fn solve_stream_with_observer<'c, 'g, V: Eq + Clone + 'static, S: AdditiveSc
 pub fn solve_stream_with_events<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, Assignment<V>, S>),
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_stream_impl(p, graph, c, Some(PlanCallback::Events(&mut observer)))
@@ -1192,15 +1218,22 @@ pub fn solve_stream_with_events<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScor
 fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
     mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, Assignment<V>, S>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     run(
         c.limits,
-        c.construction,
         &c.phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let (mut g, s) = graph().map_err(StreamScoringError::from)?;
@@ -1272,7 +1305,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
 pub fn solve_list_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &ListProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_stream_impl(p, graph, c, None)
 }
@@ -1289,7 +1322,7 @@ pub fn solve_list_stream_with_observer<
 >(
     p: &ListProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_stream_impl(p, graph, c, Some(PlanCallback::Best(&mut observer)))
@@ -1303,7 +1336,7 @@ pub fn solve_list_stream_with_events<
 >(
     p: &ListProblem<V>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, ListAssignment<V>, S>),
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_stream_impl(p, graph, c, Some(PlanCallback::Events(&mut observer)))
@@ -1311,15 +1344,22 @@ pub fn solve_list_stream_with_events<
 fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &ListProblem<V>,
     mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
-    c: impl Into<SolverPlan<'c, S>>,
+    c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, ListAssignment<V>, S>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     run(
         c.limits,
-        c.construction,
         &c.phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let (mut g, s) = graph().map_err(ListStreamScoringError::from)?;
@@ -1395,7 +1435,7 @@ pub fn solve_mixed_stream<
 >(
     p: &MixedProblem<B, L>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_stream_impl(p, graph, c, None)
 }
@@ -1413,7 +1453,7 @@ pub fn solve_mixed_stream_with_observer<
 >(
     p: &MixedProblem<B, L>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_stream_impl(p, graph, c, Some(PlanCallback::Best(&mut observer)))
@@ -1428,7 +1468,7 @@ pub fn solve_mixed_stream_with_events<
 >(
     p: &MixedProblem<B, L>,
     graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     mut observer: impl FnMut(SolverEvent<'_, MixedAssignment<B, L>, S>),
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_stream_impl(p, graph, c, Some(PlanCallback::Events(&mut observer)))
@@ -1442,16 +1482,23 @@ fn solve_mixed_stream_impl<
 >(
     p: &MixedProblem<B, L>,
     mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
-    c: impl Into<MixedSolverPlan<'c, S>>,
+    c: impl Into<MixedSolverSequence<'c, S>>,
     observer: PlanObserver<'_, MixedAssignment<B, L>, S>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let c = c.into();
     let observation = PlanObservation::new(observer);
+    let initial = || {
+        let assignment = p.initial_assignment();
+        InitialState {
+            complete: p.is_complete(&assignment),
+            assignment,
+        }
+    };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
     run(
         c.limits,
-        c.construction.construction,
         &phases,
+        initial,
         observation,
         |index, a, request, time, observation| {
             let (mut g, s) = graph().map_err(MixedStreamScoringError::from)?;
@@ -1482,11 +1529,7 @@ fn solve_mixed_stream_impl<
                             a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
-                                ..if index == 0 {
-                                    c.construction
-                                } else {
-                                    c.phases[index - 1].construction()
-                                }
+                                ..c.phases[index].construction()
                             },
                             &mut notify,
                         )
@@ -1498,11 +1541,7 @@ fn solve_mixed_stream_impl<
                             a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
-                                ..if index == 0 {
-                                    c.construction
-                                } else {
-                                    c.phases[index - 1].construction()
-                                }
+                                ..c.phases[index].construction()
                             },
                         )
                     }?)
@@ -1516,7 +1555,7 @@ fn solve_mixed_stream_impl<
                         a.expect("handoff"),
                         MixedLocalSearchConfig {
                             search: config,
-                            ..c.phases[index - 1].local().clone()
+                            ..c.phases[index].local().clone()
                         },
                         &mut notify,
                     )
@@ -1529,7 +1568,7 @@ fn solve_mixed_stream_impl<
                         a.expect("handoff"),
                         MixedLocalSearchConfig {
                             search: config,
-                            ..c.phases[index - 1].local().clone()
+                            ..c.phases[index].local().clone()
                         },
                     )
                 }?),

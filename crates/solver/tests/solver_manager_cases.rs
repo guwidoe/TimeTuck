@@ -352,3 +352,55 @@ fn first_initialized_solution_consumer_with_two_ch_and_ls() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn first_initialized_solution_consumer_with_single_ls_phase() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let seen = event.clone();
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1).unwrap();
+    let job = manager
+        .submit_with_progress(
+            1,
+            |_, progress| {
+                let p =
+                    FiniteProblem::new(vec![Variable::new(vec![1, 2]).with_initial(1); 2]).unwrap();
+                let mut n = ConstraintNetwork::new(2);
+                n.add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                    .unwrap();
+                let c = SolverSequence {
+                    limits: SolverLimits {
+                        best_score_limit: Some(SimpleScore::ZERO),
+                        ..Default::default()
+                    },
+                    phases: vec![SolverPhase::LocalSearch(LocalSearchConfig::default())],
+                };
+                let r = solve_with_events(&p, &n, c, |event| {
+                    if let SolverEvent::FirstInitialized {
+                        initialization,
+                        assignment,
+                        ..
+                    } = event
+                    {
+                        assert!(progress.publish_first_initialized(
+                            assignment.values().to_vec(),
+                            initialization
+                        ));
+                    }
+                })
+                .map_err(|e| e.to_string())?;
+                assert_eq!(r.phases.len(), 1);
+                assert_eq!(r.phases[0].index, 0);
+                assert_eq!(r.termination, SolverTermination::BestScoreLimit);
+                Ok(r.assignment.values().to_vec())
+            },
+            SolverJobCallbacks::default()
+                .on_first_initialized(move |_, _, info| seen.lock().unwrap().read(info))
+                .on_final(|_, _| {}),
+        )
+        .unwrap();
+    check_initialized(&job);
+    assert!(!event.lock().unwrap().is_initialized);
+    assert_eq!(event.lock().unwrap().producer_id, None);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

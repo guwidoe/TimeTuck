@@ -171,3 +171,78 @@ impl<'a, S> From<MixedSolverConfig<'a, S>> for MixedSolverPlan<'a, S> {
         }
     }
 }
+
+/// An explicit, nonempty phase sequence. Unlike [`SolverPlan`], this does not
+/// insert construction. A first local-search phase requires a complete model
+/// initial assignment; exact search can start from an uninitialized model.
+/// Phase indices refer directly to this vector. Empty sequences are rejected
+/// before scoring or stream graph creation. The default retains construction
+/// followed by local search; existing configurations convert without changes.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)])?;
+/// let mut n = ConstraintNetwork::new(1);
+/// n.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap_or(0)))?;
+/// let result = solve(&p, &n, SolverSequence {
+///     phases: vec![SolverPhase::LocalSearch(LocalSearchConfig::default())],
+///     ..Default::default()
+/// })?;
+/// assert_eq!(result.score, Some(SimpleScore::new(1)));
+/// assert_eq!(result.phases.len(), 1);
+/// assert_eq!(result.phases[0].index, 0);
+/// assert_eq!(result.work.evaluations, 3);
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct SolverSequence<'a, S = SimpleScore> {
+    pub limits: SolverLimits<'a, S>,
+    pub phases: Vec<SolverPhase<'a, S>>,
+}
+/// Explicit mixed-model phases, with the same initial-state and validation rules
+/// as [`SolverSequence`]. Each construction/local phase retains its own settings.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct MixedSolverSequence<'a, S = SimpleScore> {
+    pub limits: SolverLimits<'a, S>,
+    pub phases: Vec<MixedSolverPhase<'a, S>>,
+}
+impl<S> Default for SolverSequence<'_, S> {
+    fn default() -> Self {
+        SolverPlan::default().into()
+    }
+}
+impl<S> Default for MixedSolverSequence<'_, S> {
+    fn default() -> Self {
+        MixedSolverPlan::default().into()
+    }
+}
+impl<'a, S> From<SolverPlan<'a, S>> for SolverSequence<'a, S> {
+    fn from(c: SolverPlan<'a, S>) -> Self {
+        Self {
+            limits: c.limits,
+            phases: std::iter::once(SolverPhase::Construction(c.construction))
+                .chain(c.phases)
+                .collect(),
+        }
+    }
+}
+impl<'a, S> From<MixedSolverPlan<'a, S>> for MixedSolverSequence<'a, S> {
+    fn from(c: MixedSolverPlan<'a, S>) -> Self {
+        Self {
+            limits: c.limits,
+            phases: std::iter::once(MixedSolverPhase::Construction(c.construction))
+                .chain(c.phases)
+                .collect(),
+        }
+    }
+}
+impl<'a, S> From<SolverConfig<'a, S>> for SolverSequence<'a, S> {
+    fn from(c: SolverConfig<'a, S>) -> Self {
+        SolverPlan::from(c).into()
+    }
+}
+impl<'a, S> From<MixedSolverConfig<'a, S>> for MixedSolverSequence<'a, S> {
+    fn from(c: MixedSolverConfig<'a, S>) -> Self {
+        MixedSolverPlan::from(c).into()
+    }
+}
