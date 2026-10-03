@@ -425,3 +425,13 @@ search phases in all six solver entry points. Original plateau, fallback/recover
 phase-boundary and precedence regressions verify this behavior. No new source
 methods were adapted: the existing UnimprovedStepCountTerminationTest adaptation
 still covers only its recorded phase assertions. See solver-contract.md.
+
+
+Native ordered SolverPlan/MixedSolverPlan now mix local and exact phases across all
+six model/backend entry points. Exact candidates share solve budgets, cancellation,
+time/stagnation and goals; only full enumeration with a complete scored result can
+report optimality. Scoped full scoring and transactional stream rebinding have
+original regression coverage, including partial construction and owned decimals.
+These original orchestration tests earn no upstream method credit. They do not
+establish Java phase/trace equivalence or benchmark the new exact orchestration;
+existing timed workloads retain their standalone algorithms and integer scores.

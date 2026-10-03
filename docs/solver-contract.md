@@ -1,7 +1,7 @@
 # Multi-phase solving
 
-The native solver entry points run construction followed by configured local-search
-phases, sharing score/candidate budgets, elapsed and unimproved time, cancellation and optional score/feasibility
+The native solver entry points run construction followed by ordered local-search or
+exact phases, sharing score/candidate budgets, elapsed and unimproved time, cancellation and optional score/feasibility
 goals. They provide an orchestration layer over the already-tested algorithms;
 they do not establish whole-solver compatibility with Java.
 
@@ -17,8 +17,13 @@ phase. An empty vector means construction only. MixedSolverConfig has the same
 shape with mixed phase configurations, preserving the construction order and each
 local phase's joint-move setting.
 
+SolverPlan and MixedSolverPlan add an ordered phases vector. SolverPhase and
+MixedSolverPhase select LocalSearch or Exact for each entry. All six entry points
+accept either the old configuration or its corresponding plan. Defaults retain the
+old construction-plus-one-local-phase behavior; conversion does not change it.
+
 Construction preserves supplied initial values according to its existing contract.
-Every improvement phase receives the retained best complete assignment. It creates
+Each local-search phase receives the retained best complete assignment. It creates
 fresh scoring and acceptor state and restarts its configured random seed. A phase's
 own limits, score goal, no-accepted-move reason or time limit normally end that phase
 and allow the next one. Equal-score results retain the earlier assignment.
@@ -27,7 +32,8 @@ Scoped entry points reuse a borrowed network. Stream entry points take a fallibl
 factory returning a fresh graph and its empty planning sources for each started
 phase. The factory must keep the same deterministic objective and immutable facts
 across phases. Preparation and preloaded immutable-fact scoring are outside solve
-evaluation counts; binding and initialization inside every phase count normally.
+evaluation counts; construction/local binding and initialization count normally.
+Exact phases instead bind, score and roll back each complete candidate.
 Skipped improvement phases do not call the factory. Construction still runs its
 validation at zero budget, which invokes a stream factory but no phase score work.
 
@@ -36,8 +42,9 @@ validation at zero budget, which invokes a stream factory but no phase score wor
 The default shared score budget is 100,000. The candidate budget, cancellation token,
 elapsed-time budget, unimproved-time budget, best-score goal and feasibility goal are optional/disabled by default. Each phase
 gets the tighter of its own score/candidate cap and the remaining shared cap.
-Initial scoring consumes a score evaluation in every phase that scores; it never
-consumes a candidate evaluation. Diagnostics consume neither count. Thus shared
+Construction/local initialization consumes one score evaluation and no candidate
+evaluation. Exact phases have no initial rescore; every complete candidate consumes
+one score and one candidate evaluation. Diagnostics consume neither count. Thus shared
 candidate count is the sum of per-phase counts, not total score evaluations minus
 one. Constraint-callback counts are independent: a candidate can invoke zero, one
 or several callbacks.
@@ -92,9 +99,9 @@ and shared-goal checks. Later improvement phases do not start once expiry is obs
 Local-search stagnation timing remains available per phase. SolverLimits also
 supports shared max_unimproved_time and max_unimproved_steps, described below.
 Live problem changes, daemon operation, solver-manager services, concurrent phases
-and cross-phase cache reuse remain unfinished. Standalone
-exact search has its own cooperative elapsed limit (see planning-contract.md); exact
-search is not yet an orchestrated phase.
+and cross-phase cache reuse remain unfinished. Standalone exact search keeps its
+existing configuration and result types (see planning-contract.md). Exact orchestration
+is specified below.
 
 ## Results and errors
 
@@ -112,8 +119,8 @@ PlanCompleted means all planned phases ended, including phases stopped at their 
 limits; it does not mean every construction scan finished, a score exists, or a global
 optimum was proved. An impossible model returns NoCompleteAssignment before shared
 zero-budget handling. If an incomplete initialization exhausts a shared cap, the
-shared limit reason accompanies its partial state; otherwise it returns
-IncompleteConstruction.
+shared limit reason accompanies its partial state; otherwise it can enter an immediately following exact phase, or returns
+IncompleteConstruction if the next phase requires complete input or no phase remains.
 
 Every phase's acceptance and token settings validate before callbacks, even if that
 phase will later be skipped. Model/network/source validation stays with the actual
@@ -154,8 +161,8 @@ SolverLimits::max_unimproved_time is disabled by default. When enabled, one
 monotonic timer spans local-search phases and returns SolverTermination::UnimprovedTimeLimit
 on expiry. Construction, first graph preparation and first search initialization
 (including its initial diagnostic scoring) are excluded. The timer starts when the
-first local search is ready after scoring its initial assignment. Construction-only
-plans, incomplete construction, skipped search and a shared goal met immediately
+first improvement phase is ready (after local initialization or before exact
+enumeration). Construction-only plans, skipped search and a shared goal met immediately
 after construction leave it inactive. A zero limit still allows construction and
 that first initial score, then stops before candidate scoring.
 
@@ -195,7 +202,7 @@ remain pending and these native regressions earn no upstream method credit.
 ## Solve-wide unimproved steps
 
 SolverLimits::max_unimproved_steps is an optional u64 limit, disabled by default.
-The shared counter starts when the first local search is initialized and persists
+The shared counter becomes active when the first improvement phase is ready and persists
 across subsequent phases. Each selected move completes one step, including a
 rejected fallback. Only a strict retained-best improvement resets its unimproved
 count to zero. Accepted ties, worsening moves and recovery to a previous best
@@ -231,3 +238,56 @@ simultaneous time/step limits with retained phase reasons. These are native
 orchestration regressions. The existing adapted UnimprovedStepCountTerminationTest
 method still covers its original phase threshold/progress assertions; this new
 solve-wide feature adds no upstream method credit or Java whole-solve trace claim.
+
+
+## Exact phases in ordered plans
+
+ExactPhaseConfig defaults to 10,000 complete candidates. Optional candidate/time
+caps, cancellation, best-score target and feasibility stop use the same shared
+controls as local search. The phase retains the earlier complete best as incumbent;
+it enumerates the full model space independently of movable initial assignments.
+Basic domains, optional unassignment, list order, ranges and pins keep the standalone
+exact-search semantics. Mixed enumeration visits each list assignment and then all
+basic assignments. This is exhaustive enumeration, not branch-and-bound.
+
+An exact phase can follow incomplete construction, including construction with a
+zero phase-local budget. A zero-work exact phase may pass that partial state to
+another exact phase. Local search still requires complete input. A newly found
+complete assignment supersedes partial progress; equal complete scores preserve
+the earlier assignment. A truncated exact prefix retains any better prior incumbent.
+
+Scoped candidates use the network's full calculate operation. Stream phases create
+one graph, validate empty planning sources, then bind each candidate in a transaction
+that is dropped after scoring. All basic variables, entity lists and value shadow
+rows are supplied; immutable facts survive rollback. No graph is constructed for a
+skipped phase. Candidate errors propagate with the phase index. This scoring path
+recomputes the candidate objective and makes no incremental exact-scoring performance
+claim. Score callback counts exclude immutable graph preparation and include actual
+candidate callbacks, even when several callbacks belong to one candidate.
+
+Every exact candidate consumes one evaluation and one move_evaluation. Exact phases
+add zero completed_steps and accepted_moves. They have no initial rescore. Shared
+unimproved time starts before the first exact enumeration if no earlier local phase
+started it. Later factories and handoffs consume the same timer. Strict exact
+improvements reset shared stagnation, including the step baseline, without adding
+local steps. An already-latched stagnation stop cannot be revived. A zero shared
+stagnation limit permits construction and exact setup but no exact candidate scoring.
+
+Before scoring each complete assignment, the exact phase checks score budget,
+candidate budget, cancellation, elapsed/shared-stagnation limits, score goal and
+feasibility goal, in that order. Enumeration and active callbacks are non-preemptive.
+Only a visit to the next candidate can establish that an unvisited suffix remains.
+Consequently, actually exhausting enumeration takes precedence over limits, goals
+or cancellation reached by the final callback. Exhaustion ends the plan immediately
+and skips future phases/factories. SolverTermination::Optimal and is_optimal()
+require an exhausted exact phase plus a retained complete scored solution; hard
+feasibility is not required. Without a complete solution, exhaustion cannot claim
+optimality. PlanCompleted and any bounded prefix never prove it.
+
+Fifteen original integration methods exercise all six public entry points, mixed
+phase orders, candidate/shared-cap boundaries, incomplete handoff, cancellation,
+phase/global goals, skipped-plan validation, source errors, empty/impossible models,
+owned decimal scores, pins/optionality and a local optimum escaped by exact search.
+Five internal methods verify shared timing, graph preparation, final exhaustion,
+step reset without added steps, list shadows/immutable facts and error rollback.
+These add no upstream method credit and do not assert Java exact-phase trace parity.

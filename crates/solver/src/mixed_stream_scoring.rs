@@ -46,7 +46,7 @@ impl<B: Clone + 'static, L: Clone + 'static> MixedStreamSources<B, L> {
             lists: ListStreamSources::new(builder),
         }
     }
-    fn validate<S: AdditiveScore>(
+    pub(crate) fn validate<S: AdditiveScore>(
         &self,
         graph: &StreamGraph<'_, S>,
     ) -> Result<(), MixedStreamScoringError> {

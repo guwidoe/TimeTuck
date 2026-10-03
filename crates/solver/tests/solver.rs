@@ -47,14 +47,15 @@ fn run(
         SimpleScore::new,
     )
 }
-fn run_scored(
+fn run_scored<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
-    c: SolverConfig<'_>,
+    c: impl Into<SolverPlan<'a>>,
     factories: &Cell<usize>,
     fail_factory: Option<usize>,
     hook: impl Fn(),
     make: impl Fn(i64) -> SimpleScore,
 ) -> Result<Outcome, Failure> {
+    let c = c.into();
     let (mode, initialized, order) = scenario;
     let score = |v: &[Option<usize>]| {
         hook();
@@ -174,18 +175,23 @@ fn run_scored(
             a.lists().location(&7).map(|p| p.entity),
         ]
     };
-    let c = MixedSolverConfig {
+    let c = MixedSolverPlan {
         limits: c.limits,
         construction: MixedConstructionConfig {
             construction: c.construction,
             order,
         },
-        local_search: c
-            .local_search
+        phases: c
+            .phases
             .into_iter()
-            .map(|search| MixedLocalSearchConfig {
-                search,
-                joint_moves: true,
+            .map(|phase| match phase {
+                SolverPhase::LocalSearch(search) => {
+                    MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
+                        search,
+                        joint_moves: true,
+                    })
+                }
+                SolverPhase::Exact(c) => MixedSolverPhase::Exact(c),
             })
             .collect(),
     };
@@ -1312,3 +1318,6 @@ fn shared_steps_keep_cancellation_validation_and_time_precedence() {
         );
     }
 }
+
+#[path = "support/solver_exact_cases.rs"]
+mod exact_cases;

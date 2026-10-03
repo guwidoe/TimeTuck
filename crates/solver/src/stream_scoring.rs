@@ -264,7 +264,7 @@ struct SavedStreamCandidate<V, S> {
     assignment: Assignment<V>,
     graph: crate::stream_graph::GraphState<S>,
 }
-fn validate_source<V: 'static, S: AdditiveScore>(
+pub(crate) fn validate_source<V: 'static, S: AdditiveScore>(
     graph: &StreamGraph<'_, S>,
     source: &PlanningStreamSource<V>,
 ) -> Result<(), StreamScoringError> {

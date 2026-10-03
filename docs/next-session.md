@@ -20,6 +20,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
+- Ordered SolverPlan/MixedSolverPlan mix exact/local phases in all six solver entry points,
+  sharing budgets, cancellation, time/stagnation and goals. Exact phases can finish
+  partial construction; Optimal requires full enumeration and a complete scored result.
+  See docs/solver-contract.md and the latest increment below.
 - Iterative exact search with evaluation budgets, cooperative elapsed-time limits and truthful
   exhaustion/optimality reporting. Original `tiny_schedule` example.
 - Mixed basic/list models, atomic combined moves and exact joint search over the full
@@ -3005,3 +3009,69 @@ Rust/Java quality differences remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]
 Construction32 remains [0,-1080]/[0,-1062]. These fixed-workload timings are not
 benchmarks of shared stagnation termination or evidence of statistically significant
 speed changes. The full rewrite remains unfinished; keep the goal active.
+
+
+## Ordered exact solver phases — latest increment
+
+Added SolverPlan, MixedSolverPlan, SolverPhase, MixedSolverPhase, ExactPhaseConfig
+and ExactPhaseTermination in solver_plan.rs. All six solve entry points accept
+impl Into<...Plan>; old SolverConfig/MixedSolverConfig convert without behavior
+changes. Construction is still phase zero. Arbitrary exact/local improvement orders
+retain the earlier complete best on ties and preserve each mixed local joint flag.
+SolverResult::is_optimal and SolverTermination::Optimal require exact exhaustion
+plus a complete scored result. Exhaustion stops future phases/factories immediately.
+
+solver_exact.rs has a shared complete-candidate runner over the existing native
+basic/list enumerators and their mixed product. Scoped candidates calculate the full
+network score. Stream candidates fill empty planning sources in a transaction and
+drop it after scoring, preserving immutable facts and restoring all planning/shadow
+rows. Graph validation helpers are now pub(crate). Candidate errors identify the
+phase. There is one graph per started phase, not per candidate.
+
+Each exact assignment consumes one evaluation and one candidate, no initialization
+rescore and no completed local steps. Shared and local caps/tokens/goals/timing are
+combined. Budget, candidate, cancellation, timer, score-goal and feasibility polls
+precede each complete candidate; final exhaustion wins over controls reached in the
+final callback. Enumeration and callbacks remain cooperative, not preemptive.
+Exact starts shared stagnation if no earlier improvement phase did. Strict exact
+improvements reset shared time and the private StepProgress baseline without adding
+steps; expired controls cannot revive. Construction remains outside stagnation.
+
+An incomplete construction may proceed to an immediately following exact phase if
+shared resources remain. Zero-work exact phases can hand partial progress to another
+exact phase. Local search still requires complete input. A first complete exact
+candidate supersedes partial progress. No bounded prefix claims optimality, including
+prefixes whose retained incumbent happens to be optimal.
+
+Fifteen original integration methods in tests/support/solver_exact_cases.rs reuse
+the existing six-backend fixture (now accepting Into<SolverPlan>). They cover exact/
+local ordering, shared/local cap matrices, partial construction, retained incumbents,
+ties, cancellation including the final callback, shared/phase goals, zero timing/
+stagnation, skipped-plan validation/factory failures, empty/impossible models,
+source validation, owned decimal scores/pins/optional values, and escape from a local
+optimum checked against independent enumeration. Five new unit methods cover simulated
+deadlines/factories, stagnation/handoffs/final exhaustion, step resets without added
+steps, list/mixed shadow/fact rollback and basic graph errors. Existing local-only
+time tests now use the same ordered engine; no sleeps or upstream production source.
+
+The development gate passes 1,087 Rust tests: 569 adapted, 456 original integration
+and 62 unit. All 43 doctests and 87 Python tests pass. Coverage remains 569/4,855
+(11.72%), pending 4,004, excluded 282, failed/unverified zero. No new adapted/copied
+cases or provenance changes; native orchestration tests add no source-method credit.
+Logs use work/exact-phase-*.log. The full rewrite remains active and unfinished.
+Next work: remaining lifecycle/problem-change support and pending source semantics;
+existing benchmarks do not measure the new orchestrated exact phases.
+
+Release verification also passes all 1,087 Rust tests. All nine correctness and
+performance sections were regenerated and report current; the live /api/freshness
+verification_digest matches the report. Browser verification confirms 11.72%,
+569/4,855, all 19 benchmark cards, 8,170 decimal comparisons, no stale-result messages,
+page errors or horizontal overflow. Browser closed; dashboard server remains running.
+
+Latest warmed Rust/Java median ms: exact6 0.011/4.679, exact8 0.171/5.794;
+stream hill32 48.532/15.755, hill96 174.222/27.893, tabu32 45.217/14.578,
+tabu96 177.437/23.971. Both 96-variable stream results remain [-44,-484],
+infeasible under their fixed cap. List two-opt16 0.388/15.487, two-opt32 1.426/22.917;
+Rust/Java scores remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070].
+Construction32 remains [0,-1080]/[0,-1062]. These fixed-workload observations do
+not measure the new exact-phase orchestration or establish significant speed changes.

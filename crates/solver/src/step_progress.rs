@@ -47,6 +47,9 @@ impl StepProgress {
     pub const fn unimproved_steps(self) -> u64 {
         self.completed - self.best_step
     }
+    pub(crate) fn record_improvement(&mut self) {
+        self.best_step = self.completed;
+    }
     /// Record whether this completed step strictly improved the global best.
     /// Panics without changing state if the completed count would overflow u64.
     pub fn complete_step(&mut self, improved: bool) {

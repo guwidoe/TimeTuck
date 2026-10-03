@@ -65,7 +65,7 @@ impl<V: Clone + 'static> ListStreamSources<V> {
             values: builder.source(),
         }
     }
-    fn validate<S: AdditiveScore>(
+    pub(crate) fn validate<S: AdditiveScore>(
         &self,
         graph: &StreamGraph<'_, S>,
     ) -> Result<(), ListStreamScoringError> {

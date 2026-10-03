@@ -13,17 +13,18 @@ fn exercise(
 ) -> SolverResult<Assignment<usize>, SimpleScore> {
     exercise_scored(c, factory_cost, |v| v as i64)
 }
-fn exercise_scored(
-    c: SolverConfig<'_>,
+fn exercise_scored<'a>(
+    c: impl Into<SolverPlan<'a>>,
     factory_cost: u64,
     score: impl Fn(usize) -> i64,
 ) -> SolverResult<Assignment<usize>, SimpleScore> {
+    let c = c.into();
     let elapsed = Cell::new(0);
     let p = FiniteProblem::new(vec![Variable::new(vec![0usize, 1, 2]).with_initial(0)]).unwrap();
     run_with_clock(
         c.limits,
         c.construction,
-        &c.local_search,
+        &c.phases,
         |_, a, request, time| -> Result<_, LocalSearchError> {
             elapsed.set(elapsed.get() + factory_cost);
             let mut b = StreamGraphBuilder::new();
@@ -37,6 +38,17 @@ fn exercise_scored(
             let start = elapsed.get();
             let clock = || ms(elapsed.get() - start);
             Ok(match request {
+                PhaseRequest::Exact(c, prior) => {
+                    let mut g = b.build();
+                    exact::run_with_clock(
+                        c,
+                        prior,
+                        time,
+                        |visit| crate::search::visit_assignments(&p, visit),
+                        |a| exact::score_basic(&p, &mut g, &s, a),
+                        clock,
+                    )?
+                }
                 PhaseRequest::Construction(c) => {
                     constructed!(crate::construction::construction_impl_with_clock(
                         &p,
@@ -462,5 +474,148 @@ fn shared_steps_preserve_time_priority_and_phase_return_reasons() {
     assert_eq!(
         r.phases[1].termination,
         PhaseTermination::LocalSearch(LocalSearchTermination::StepLimit)
+    );
+}
+
+fn exact_plan() -> SolverPlan<'static> {
+    SolverPlan {
+        phases: vec![SolverPhase::Exact(ExactPhaseConfig::default())],
+        ..Default::default()
+    }
+}
+#[test]
+fn exact_shared_deadline_includes_factories_and_final_exhaustion_wins() {
+    for factory in [0, 2] {
+        for cap in 0..=10 {
+            let mut c = exact_plan();
+            c.limits.max_time = Some(ms(cap));
+            let r = exercise_scored(c, factory, |v| v as i64);
+            let construction_end = factory + 1;
+            let exact_start = construction_end + factory;
+            let candidates = if cap <= construction_end {
+                0
+            } else {
+                cap.saturating_sub(exact_start).min(3)
+            };
+            assert_eq!(
+                r.work.evaluations,
+                1 + candidates,
+                "factory={factory},cap={cap}"
+            );
+            assert_eq!(r.work.move_evaluations, candidates);
+            assert_eq!(
+                r.score,
+                Some(SimpleScore::new(candidates.saturating_sub(1) as i64))
+            );
+            assert_eq!(
+                r.termination,
+                if candidates == 3 {
+                    SolverTermination::Optimal
+                } else {
+                    SolverTermination::TimeLimit
+                }
+            );
+        }
+    }
+}
+#[test]
+fn exact_unimproved_time_resets_only_for_strict_improvement_before_expiry() {
+    for increasing in [false, true] {
+        for cap in 0..=4 {
+            let mut c = exact_plan();
+            c.limits.max_unimproved_time = Some(ms(cap));
+            let r = exercise_scored(c, 0, |v| if increasing { v as i64 } else { 0 });
+            let candidates = cap.min(3);
+            assert_eq!(r.work.evaluations, 1 + candidates);
+            assert_eq!(
+                r.termination,
+                if candidates == 3 {
+                    SolverTermination::Optimal
+                } else {
+                    SolverTermination::UnimprovedTimeLimit
+                }
+            );
+            assert_eq!(
+                r.score,
+                Some(SimpleScore::new(if increasing {
+                    candidates.saturating_sub(1) as i64
+                } else {
+                    0
+                }))
+            );
+        }
+    }
+    // A bounded first phase improves at t=3; the second phase begins with that
+    // same retained best. Its first two candidates tie/worsen, so t=6 expires.
+    let mut c = exact_plan();
+    c.limits.max_unimproved_time = Some(ms(3));
+    c.phases.insert(
+        0,
+        SolverPhase::Exact(ExactPhaseConfig {
+            max_evaluations: 2,
+            ..Default::default()
+        }),
+    );
+    let r = exercise_scored(c, 0, |v| v as i64);
+    assert_eq!(r.termination, SolverTermination::Optimal); // final improvement at t=6 still proves optimum
+    assert_eq!(r.work.evaluations, 6);
+    assert_eq!(r.phases.len(), 3);
+    // Local-search initialization starts the shared timer before exact handoff.
+    let mut c = exact_plan();
+    c.limits.max_unimproved_time = Some(ms(3));
+    c.phases.insert(
+        0,
+        SolverPhase::LocalSearch(LocalSearchConfig {
+            max_steps: 0,
+            ..Default::default()
+        }),
+    );
+    let r = exercise_scored(c, 0, |_| 0);
+    assert_eq!(r.termination, SolverTermination::Optimal); // exactly three callbacks exhaust the space
+    assert_eq!(r.work.evaluations, 5);
+    let mut c = exact_plan();
+    c.limits.max_unimproved_time = Some(ms(2));
+    c.phases.insert(
+        0,
+        SolverPhase::LocalSearch(LocalSearchConfig {
+            max_steps: 0,
+            ..Default::default()
+        }),
+    );
+    let r = exercise_scored(c, 0, |_| 0);
+    assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+    assert_eq!(r.work.evaluations, 4);
+}
+#[test]
+fn exact_improvements_reset_shared_step_stagnation_without_adding_steps() {
+    use crate::time_limit::SearchControl;
+    let mut clock = || panic!("step-only solve must not sample a clock");
+    let mut control = step_control(3, &mut clock);
+    control.start_search();
+    control.complete_step(false);
+    control.complete_step(false);
+    let p = FiniteProblem::new(vec![Variable::new(vec![1, 2, 3])]).unwrap();
+    let out = exact::run_with_clock(
+        ExactPhaseConfig {
+            max_evaluations: 2,
+            ..Default::default()
+        },
+        Some(SimpleScore::ZERO),
+        &mut control,
+        |visit| crate::search::visit_assignments(&p, visit),
+        |a| Ok::<_, std::convert::Infallible>((SimpleScore::new(a.values()[0].unwrap()), 1)),
+        || panic!("no phase timer"),
+    )
+    .unwrap();
+    assert_eq!(out.work.completed_steps, 0);
+    assert_eq!(control.steps.completed_steps(), 2);
+    assert_eq!(control.steps.unimproved_steps(), 0);
+    control.complete_step(false);
+    control.complete_step(false);
+    assert_eq!(control.stop(), None);
+    control.complete_step(false);
+    assert_eq!(
+        control.stop(),
+        Some(LocalSearchTermination::UnimprovedStepLimit)
     );
 }

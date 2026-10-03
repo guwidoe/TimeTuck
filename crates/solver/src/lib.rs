@@ -227,3 +227,9 @@ pub use membership_join::MembershipJoinNode;
 
 #[cfg(test)]
 mod timed_exact_tests;
+
+mod solver_plan;
+pub use solver_plan::{
+    ExactPhaseConfig, ExactPhaseTermination, MixedSolverPhase, MixedSolverPlan, SolverPhase,
+    SolverPlan,
+};

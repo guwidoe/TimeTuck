@@ -5,9 +5,11 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 481 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination and constraint streams cover 569 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
-generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
+generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
+fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
+errors; decimal timing and general floating-exponent equivalence remain outside this evidence. Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
 with Java and independent enumeration, including per-variable ranges and optional
 values. Ordered lists support unique ownership, per-entity ranges, prefix/full pins and derived
@@ -41,7 +43,9 @@ See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 Use `solve`, `solve_list` or `solve_mixed` to construct and improve a model with
-shared evaluation budgets and cancellation. Stream counterparts use a fresh graph
+shared evaluation budgets and cancellation. SolverPlan and MixedSolverPlan can mix
+local search with exact phases; only fully exhausted enumeration proves optimality.
+Stream counterparts use a fresh graph
 factory for each phase. Results include partial progress, retained solutions and
 per-phase work. See [the solver contract](docs/solver-contract.md) for configuration,
 error behavior and limits; `mixed_routes` exercises both scoring backends.
