@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination and constraint streams cover 573 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle and constraint streams cover 615 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -16,7 +16,10 @@ values. Ordered lists support unique ownership, per-entity ranges, prefix/full p
 owner/index/neighbor views. Mixed models combine both variable kinds with atomic edits
 and exact joint optimization. Mixed scoped constraints cache contributions across
 both components and restore them atomically. Mixed local search supports joint
-moves under shared budgets and seeded acceptance. Mixed greedy construction fills
+moves under shared budgets and seeded acceptance. Atomic pillar moves change or
+swap whole groups across selected basic-variable columns; opt-in whole-group
+neighborhoods serve basic and mixed local search in both scoring backends.
+Mixed greedy construction fills
 missing required values in an explicit basic/list order before local search; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 512 original list-move cases check candidate,
 undo and commit states against Java and an independent reference. An additional

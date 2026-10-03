@@ -5,7 +5,7 @@ use crate::{
 };
 
 pub use crate::acceptance::Acceptance;
-use crate::neighborhood::{change_moves_ordered, swap_moves_ordered};
+use crate::neighborhood;
 use crate::random::SplitMix64;
 use crate::{AcceptanceError, Assignment, ModelError};
 use std::{error::Error, fmt};
@@ -81,6 +81,11 @@ impl From<AcceptanceError> for LocalSearchError {
 pub enum Neighborhood {
     Change,
     ChangeAndSwap,
+    /// Move whole equal-value groups of unpinned basic slots. Lists retain
+    /// ordinary changes and optional swaps; mixed joint moves use both sets.
+    Pillar {
+        swaps: bool,
+    },
     /// For list variables, use only in-place reversals and optional cross-owner
     /// nonempty tail swaps. No list assignment/unassignment/single relocations.
     /// Basic variables retain changes/swaps; mixed joint moves use this list set.
@@ -96,7 +101,7 @@ pub enum Neighborhood {
 }
 impl Neighborhood {
     pub(crate) fn includes_swaps(self) -> bool {
-        !matches!(self, Self::Change)
+        !matches!(self, Self::Change | Self::Pillar { swaps: false })
     }
 }
 
@@ -461,13 +466,12 @@ where
         {
             random.shuffle(&mut order);
         }
-        let changes = change_moves_ordered(problem, &snapshot, order.iter().copied());
-        let swaps = config
-            .neighborhood
-            .includes_swaps()
-            .then(|| swap_moves_ordered(problem, &snapshot, order.iter().copied()))
-            .into_iter()
-            .flatten();
+        let candidates = neighborhood::ordered(
+            problem,
+            &snapshot,
+            config.neighborhood,
+            order.iter().copied(),
+        );
         let current = director.score();
         let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
         let budget = crate::count_limit::CandidateBudget::new(
@@ -477,7 +481,7 @@ where
         );
         let selection = director.select_best(
             crate::random::order_moves(
-                changes.chain(swaps),
+                candidates,
                 config.move_order,
                 random.as_mut(),
                 budget.remaining,

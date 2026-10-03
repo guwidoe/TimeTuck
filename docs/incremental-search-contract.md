@@ -911,3 +911,36 @@ rules. Four original integration methods independently cover all six paths, mixe
 orders, positive/zero/negative optional objectives, budgets, cancellation, pins,
 resumption, input validation and unavailable insertions. The required early-CH
 exception and custom-phase initialization cases remain pending.
+
+## Whole-pillar neighborhoods
+
+`Neighborhood::Pillar { swaps }` selects whole equal-value groups of unpinned basic
+slots, including an unassigned group. A group may change only to a value accepted by
+every member's domain; None requires every member to allow unassignment. Unordered
+swaps require both cross-values to satisfy all target domains. No-op changes are
+omitted. Pins never join a movable group. Singletons are valid groups.
+
+Groups follow the first member in the configured variable order. Changes follow
+that member's domain order, with optional None last, then swaps follow group-pair
+order. ShuffledVariables changes that encounter order; ShuffledMoves uses the same
+existing bounded shuffle and seeded generator. Group membership costs O(n) storage
+and worst-case O(n²) equality comparisons. Candidate values are cloned lazily for
+only the current move; this does not imply constant-time group preparation or
+interruptible user equality/cloning operations. Shared boxed iterator dispatch also
+serves the existing basic neighborhoods.
+
+Both scoped and stream basic search use this provider. Mixed search uses it for the
+basic component and the ordinary list changes/optional swaps for the list component;
+joint mode combines both components. List-only searches likewise retain ordinary
+changes and the selected swap setting. Existing acceptance, first/best selection,
+limits and rollback apply to the resulting composite moves. Default neighborhoods
+are unchanged. This provider does not enumerate subpillars or infer entity schemas;
+use explicit multicolumn Pillar rows to construct such selected-variable group moves.
+
+Six original integration methods cover a group local optimum and a mixed joint
+trap in both scoring backends, seeded orders and evaluation caps, a small independent
+successor oracle over optional/ranged/pinned states, malformed/nonuniform groups,
+atomic score rollback/rejection and lazy candidate value cloning. Six complete
+pinned source methods add swap/undo/range/raw-execution evidence. Source unchecked
+execution intentionally includes a no-op and an out-of-range fixture; it grants no
+unchecked-operation safety or Java metamodel parity claim.

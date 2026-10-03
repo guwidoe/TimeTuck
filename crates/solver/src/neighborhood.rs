@@ -78,3 +78,20 @@ pub(crate) fn swap_moves_ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 
                 })
         })
 }
+
+pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    neighborhood: crate::Neighborhood,
+    order: I,
+) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    if let crate::Neighborhood::Pillar { swaps } = neighborhood {
+        return Box::new(crate::pillar::ordered(problem, assignment, swaps, order));
+    }
+    let swaps = neighborhood
+        .includes_swaps()
+        .then(|| swap_moves_ordered(problem, assignment, order.clone()))
+        .into_iter()
+        .flatten();
+    Box::new(change_moves_ordered(problem, assignment, order).chain(swaps))
+}

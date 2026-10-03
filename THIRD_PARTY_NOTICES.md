@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/pillar_cases.rs` adapts four complete swap/undo methods
+  from `PillarSwapMoveTest.java` and two range/execution methods from
+  `SelectorBasedPillarChangeMoveTest.java`, with their variable-selection helpers
+  and basic, multivariable and optional entity-local-range testdomain fixtures.
+
 - `crates/solver/tests/construction_optional_cases.rs` adapts two optional-variable
   methods from `DefaultConstructionHeuristicPhaseTest.java`, with model and scoring
   fixtures from `testdomain/unassignedvar` and `testdomain/list/unassignedvar`.

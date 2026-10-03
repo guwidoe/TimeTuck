@@ -9135,6 +9135,96 @@
       "upstream_test": "solveWithTerminationSpentLimit",
       "local_test": "solve_with_termination_spent_limit",
       "modifications": "Preserve the default one-second limit, job ID 1, the time-limit convenience override to 100 ms and gradient 0.5 at 50 ms. Native reusable SolverFactory copies effective settings per job and passes them, with its job cancellation token, to actual construction/ten-step local-search solving on the attributed two-entity/two-value constant-zero fixture. Explicit elapsed Duration replaces mocked SolverScope time; job.configuration limits are the same immutable settings copied into execution. Extra successful-result checks supplement source assertions; the whole-limit case additionally verifies default isolation. Native whole-limit replacement and one-field convenience mutation replace Java config objects and private job/factory casts. No Java API/ABI parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.bothOldValuesAreReadBeforeEitherPillarIsMutated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "bothOldValuesAreReadBeforeEitherPillarIsMutated",
+      "local_test": "both_old_values_are_read_before_either_pillar_is_mutated",
+      "modifications": "Preserve both changed values and the explicit not-equal assertion with native Pillar snapshots and a committed assignment transaction. Integer identities replace Java entity/value objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.unequalSizedPillarsSwapEveryMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "unequalSizedPillarsSwapEveryMember",
+      "local_test": "unequal_sized_pillars_swap_every_member",
+      "modifications": "Preserve the three-member versus five-member fixture and every resulting value using native Pillar swap construction and a committed assignment transaction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.multiVariateSwapsEveryDifferingVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "multiVariateSwapsEveryDifferingVariable",
+      "local_test": "multi_variate_swaps_every_differing_variable",
+      "modifications": "Preserve four entities, all eight primary/secondary assertions, and the allVariablesExceptTertiary selection. Explicit aligned slot rows replace Java metamodels; additionally check untouched tertiary values from the attributed generator."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.undoRestoresEveryMembersOriginalValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "undoRestoresEveryMembersOriginalValue",
+      "local_test": "undo_restores_every_members_original_value",
+      "modifications": "Preserve all four temporary swapped values and all four restored values; native drop rollback replaces executeTemporarily."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedPillarChangeMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_test": "is_move_doable_value_range_provider_on_entity",
+      "modifications": "Preserve both entity-local optional domains and all four target/doability assertions. Membership in the actual native whole-pillar candidate generator replaces Java isMoveDoable; raw native move construction deliberately permits no-ops and out-of-range targets."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedPillarChangeMoveTest.doMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "do_move",
+      "modifications": "Preserve all four two-/three-member state transitions and every value assertion, including no-ops and target 2 outside c's domain. Native raw Assignment transactions replace the source unchecked execution; validated native model/director application separately enforces domains and pins. Regenerate snapshots for each source state. Integer slots/value identities replace Java descriptors and objects."
     }
   ],
   "fixtures": [
@@ -10099,6 +10189,58 @@
       "id": "SolverManagerTest.configured_factory_fixture",
       "upstream_test": "solveWithOverride, solveWithTerminationSpentLimit",
       "modifications": "configured_fixture reuses the attributed PlannerTestUtils construction/ten-step-local-search and constant-zero fixture with native immutable factory defaults and real per-job sequence application. Explicit Duration inputs replace source mocked time. Helper-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.variable_selection_helpers",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "singleVariableList, allVariablesExceptTertiary",
+      "modifications": "One-column rows and explicit primary/secondary slot columns replace the test helpers' metamodel variable lists; tertiary slots are left unselected. Helper attribution only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.pillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Flatten basic generated entities into stable slots and replace generated values with integers 1 and 2; preserve source entity/value counts and method-specific starting assignments. Fixture-only attribution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiVarSolution.pillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Flatten four entities into primary/secondary/tertiary slot rows; primary values 1..4 and tertiary values 101/102 replace separate Java value types. Preserve tertiary alternating initialization and method-specific primary/secondary values. Fixture-only attribution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.pillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "constructor, getValue, getValueRange",
+      "modifications": "Native optional variables preserve the three inline ranges from SelectorBasedPillarChangeMoveTest with initially unassigned values; integer slots and values replace object codes. No Java reflection/annotation parity claimed. Fixture-only attribution."
     }
   ]
 }

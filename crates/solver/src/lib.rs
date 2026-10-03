@@ -29,6 +29,9 @@ pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search}
 pub mod scoring;
 pub use scoring::{ConstraintNetwork, ScoreDirector, ScoredMove, ScoringError};
 
+mod pillar;
+pub use pillar::{Pillar, PillarError, pillar_moves};
+
 pub mod neighborhood;
 pub use neighborhood::{change_moves, swap_moves};
 pub mod local_search;

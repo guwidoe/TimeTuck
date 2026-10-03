@@ -641,3 +641,28 @@ The source solveWithTerminationUnimprovedSpentLimit remains pending: native fiel
 mutation supports the functionality but does not reproduce its raw override-object
 and static TerminationFactory invocation assertions. No extra source credit is added
 for native-only tests, factory naming or Java reflection/XML/generic behavior.
+
+## Pillar change and swap increment
+
+Native Pillar rows support atomic single-/multicolumn basic-variable changes and
+swaps with unequal member counts. Opt-in whole-equal-value grouping is integrated
+with scoped/stream basic and mixed local search, including mixed joint moves.
+Domains, optional values and pins filter the automatic provider; raw move snapshots
+use the existing transactional primitives. No subpillar enumeration, inferred entity
+schemas or Java descriptor/rebase behavior is implemented by this increment.
+
+Six complete source methods are adapted: PillarSwapMoveTest's bothOldValuesAreReadBeforeEitherPillarIsMutated,
+unequalSizedPillarsSwapEveryMember, multiVariateSwapsEveryDifferingVariable and
+undoRestoresEveryMembersOriginalValue; SelectorBasedPillarChangeMoveTest's
+isMoveDoableValueRangeProviderOnEntity and doMove. The latter preserves all raw
+execution assertions including no-ops and an out-of-range third member. The native
+candidate generator performs doability filtering, while validated application checks
+the model separately. Fixture provenance includes source variable-selection helpers,
+basic/multivar generators and the optional entity-range fixture. Source rebase,
+Java descriptions/getters/equality, provider-specific subpillar enumeration and
+caller-misuse range-assertion behavior remain pending. Six independent native tests
+cover additional validation, scoring, search and laziness with no source credit.
+
+Existing differential/performance workloads exercise default neighborhoods. Their
+refresh checks continued correctness and provides current default-workload timings;
+it does not measure pillar-specific speed or establish Java pillar-search parity.

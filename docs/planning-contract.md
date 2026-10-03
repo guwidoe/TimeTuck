@@ -177,3 +177,20 @@ methods check real zero-duration precedence and unchanged disabled/large-duratio
 results against the budget-only entry points. One doctest shows the public setting.
 These checks use no sleeps and grant no additional upstream method credit or Java
 wall-clock/phase-trace equivalence. Existing exact benchmarks leave time disabled.
+
+## Pillar moves
+
+`Pillar` describes a nonempty group of members with aligned selected basic-variable
+slots. `new` creates one column; `from_rows` accepts multiple columns per member.
+Rows are canonicalized by slot order, but column order remains significant. Empty
+members/columns, ragged rows and duplicate slots are rejected. Move construction
+checks every selected slot and requires a uniform current value in each column.
+Swaps require disjoint groups with matching column counts; member counts may differ.
+All old values are read before constructing any write. Unselected slots stay intact.
+
+`change_move` and `swap_move` return ordinary `Move::Composite` snapshots. Rebuild
+these after assignment changes. Raw construction permits no-ops and out-of-range
+values, just like raw assignment transactions; `FiniteProblem::apply` and score
+directors enforce domains/pins atomically. Existing touched-variable discovery,
+score invalidation, commit and drop rollback cover every member. The API models
+selected slots explicitly and supplies no Java object metamodel or rebase operation.

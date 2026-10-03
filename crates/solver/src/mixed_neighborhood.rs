@@ -1,5 +1,5 @@
 //! Lazy mixed neighborhoods, optionally including simultaneous component moves.
-use crate::neighborhood::{change_moves_ordered, swap_moves_ordered};
+use crate::neighborhood;
 use crate::{ListMove, MixedAssignment, MixedError, MixedMove, MixedProblem, Move, Neighborhood};
 
 fn basics<'a, B: Eq + Clone, L: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -8,16 +8,11 @@ fn basics<'a, B: Eq + Clone, L: Eq + Clone, I: Iterator<Item = usize> + Clone + 
     neighborhood: Neighborhood,
     order: I,
 ) -> impl Iterator<Item = Move<B>> + 'a {
-    let swaps = neighborhood
-        .includes_swaps()
-        .then(|| swap_moves_ordered(problem.basic(), assignment.basic(), order.clone()))
-        .into_iter()
-        .flatten();
-    change_moves_ordered(problem.basic(), assignment.basic(), order).chain(swaps)
+    neighborhood::ordered(problem.basic(), assignment.basic(), neighborhood, order)
 }
 
-/// Basic changes/swaps, then list moves, then (when requested) every pair of one
-/// basic and one list move. Each component retains its native ordering, range,
+/// Basic moves (changes/swaps or whole pillars), then list moves, then (when
+/// requested) every pair of one basic and one list move. Each component retains its ordering, range,
 /// optionality and pin rules. Joint moves use the same immutable starting state;
 /// component independence makes their combined final state valid. Complete input
 /// stays complete. Ordered swaps can produce duplicate successor states, as in

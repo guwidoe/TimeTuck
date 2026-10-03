@@ -16,8 +16,8 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 594 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 16 manager), recorded in
-  `compat/provenance.json`.
+- 615 fully adapted source test methods, recorded individually in
+  `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
 - Ordered SolverPlan/MixedSolverPlan mix repeated construction, custom, exact and local phases in all six solver entry points,
@@ -4661,3 +4661,68 @@ Refreshed illustrative Rust/Java median milliseconds: exact 6 0.010/4.108 and ex
 retain documented score differences. Existing workloads do not isolate factory or
 configuration-copy overhead. Shared-machine results support no general speedup or
 regression claim. This increment is verified; the overall solver goal remains active.
+
+
+## Pillar move and neighborhood increment
+
+New pillar.rs implements native Pillar groups with one selected slot per member or
+explicit aligned multicolumn rows. Validate nonempty dimensions, duplicate slots,
+column uniformity, bounds, matching swap widths and disjointness before constructing
+ordinary Composite moves; both signatures are captured before any writes. Unequal
+member counts are supported. Canonical row ordering ignores member draw order while
+preserving column significance. Raw snapshot construction allows no-ops/out-of-range
+values; native validated application/score directors enforce ranges and pins.
+Snapshots must be regenerated when the starting assignment changes.
+
+Opt-in Neighborhood::Pillar groups all unpinned equal-valued basic slots, including
+None; filters change/swap targets against every member's range and optionality; and
+lazily clones only the emitted candidate's values. O(n) grouping storage and worst-
+case O(n²) equality work precede candidates. Shared boxed provider dispatch serves
+both basic scoring backends and mixed basic/joint enumeration. List components use
+ordinary changes/optional swaps. Defaults retain existing behavior. No inferred
+entity schema or subpillar enumeration is supplied.
+
+Six original integration tests cover real group/mixed-joint traps in both backends,
+seeded orders/first-best/budgets, an independent 36-state optional/ranged/pinned
+successor oracle, malformed/nonuniform groups, atomic rollback/rejection/score
+consistency and lazy clones. Six source methods cover four built-in PillarSwapMove
+state/undo cases and two SelectorBasedPillarChangeMove range/raw-execution cases.
+The raw execution source includes no-ops and a target outside the third member's
+range: preserve that through raw Assignment transactions, without a safety claim.
+All six methods and four helper/fixture sources have provenance/notices. No source
+production code was read. Rebase, Java descriptions/getters/equality, subpillar
+providers and mutated-source range-assertion cases remain pending. Whole-goal work
+continues after this increment. Logs use work/pillar-*.
+
+Full debug gate: bash scripts/check.sh passes 1,317 Rust tests (615 adapted,
+627 original integration, 75 unit), 64 doctests and 95 Python tests. Coverage is
+615/4,855 (12.67%), 3,958 pending, 282 excluded, no failed/unverified methods.
+The upstream pin and checkout are unchanged. Initial development fixed a borrowed
+iterator lifetime and a Clippy filter-map style finding before the successful gate.
+
+Next useful follow-up: independent cross-language whole-pillar workloads and
+explicit subpillar selection policies, while retaining pending credit for Java-only
+metadata/identity assertions. Existing benchmarks select default neighborhoods and
+do not isolate pillar-search performance or boxed-provider overhead.
+
+Release all-target verification passes the same 1,317 tests. The live_initialization
+example delivers all four events and proves four optima. Stream comparison cases
+and all 512 list-move cases pass; list solving retains 192 valid/189 equal-score
+cases, and stream search retains 64 valid/64 equal-score cases. These preserve the
+previously documented behavioral differences; no new parity claim is added.
+
+All nine differential/performance datasets were refreshed and report current, with
+successful verification and a matching live /api/freshness digest. Browser checks
+at 1280x900 and 390x844 show 615/4,855 (12.67%), 23 benchmark cards, no overflow,
+stale/error messages or browser errors. Moves/selectors show 89/874 (10.18%); searches
+show the six adapted pillar methods Passed and remaining pillar methods Pending.
+Reused the dashboard server and closed the verification browser. No frontend edits
+or design skills were used.
+
+Illustrative refreshed Rust/Java median milliseconds: exact 6 0.010/4.063 and exact 8
+0.144/5.341; Great Deluge 32 2.442/9.248 and 96 14.974/15.365; stream tabu 96
+174.475/24.580 with equal [-44,-484]. Two-opt 16 0.271/9.539 and 32 0.976/10.685
+retain known score differences. All measurements are workload-specific and use the
+existing default neighborhoods; no pillar-specific speed claim or general speedup/
+regression inference is supported. This increment is verified; the full rewrite
+remains unfinished and the goal stays active.
