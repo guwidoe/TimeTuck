@@ -1019,3 +1019,16 @@ score rebuilding. Two original domain regressions compare cached construction an
 ten bounded local searches (hill climbing and variable tabu) with independent
 ListConstraintNetwork scoring, and prove warm cached state survives a cyclic trial.
 These extend implementation evidence without adding upstream method credit.
+
+
+## Concurrent shadow performance evidence
+
+An original benchmark driver reuses the attributed concurrent fixtures to measure
+fully assigned list moves and cached shadow maintenance. It compares all nine
+fields against independent Python through trial, undo and commit, in 64 seeded
+small cases and every sample of four larger workloads. It calls public Java
+MoveTester and native ListProblem/CachedSchedule, with no scoring/search timing.
+Source and destination positions must differ because Java rejects same-position
+moves. This is an explicit input contract, checked before either runtime starts.
+The existing partial-group error cases remain in the separate correctness report;
+benchmark failures abort rather than discarding cases. No upstream method credit.

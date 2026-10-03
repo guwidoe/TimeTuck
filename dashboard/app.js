@@ -113,6 +113,7 @@ function render() {
     renderBenchmarks("list");
     renderBenchmarks("stream");
     renderBenchmarks("pillar");
+    renderBenchmarks("concurrent");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -222,7 +223,7 @@ function renderBenchmarks(kind = "score") {
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
-    const precision = kind === "pillar" ? 5 : solver ? 3 : 2;
+    const precision = (kind === "pillar" || kind === "concurrent") ? 5 : solver ? 3 : 2;
     const p = (solver ? report[`${kind}_performance`] : report.performance) || {},
         box = target("benchmarks");
     box.replaceChildren();
@@ -292,7 +293,7 @@ function renderBenchmarks(kind = "score") {
     if (kind === "list" && !missing) {
         target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
     }
-    if (kind === "pillar" && !missing) {
+    if ((kind === "pillar" || kind === "concurrent") && !missing) {
         target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
     }
     target("benchmark-method").textContent =
@@ -343,6 +344,7 @@ function renderDifferential() {
         ...(collectionFollowers ? [[{...collectionFollowers, status: report.stream_differential.status}, "collection follower cases agree with Java and independent Python", `${n(collectionFollowers.observations)} states and ${n(collectionFollowers.operations)} operations check minimum derived values across fixed nonempty leader collections. Cases include repeated references, null values, equal-code ties, and UTF-16 string ordering. Every derived identity and ordinary score is checked through commit and undo. Java recomputes observed scores. No dependency-list mutation, supplier-count, search or timing comparison.`]] : []),
         ...(listElements ? [[{...listElements, status: report.stream_differential.status}, "list-element cases agree with Java and independent Python", `${n(listElements.observations)} states and ${n(listElements.operations)} operations check ordered start/end chains and nullable owner aggregates through list moves, basic changes, composites and undo. Java move-driven shadows are observed unchanged; ordered scores come from a separate fully updated solution. Mixed cases compare derived values only. Includes empty lists and zero values. No supplier-count, search or timing comparison.`]] : []),
         ...(concurrent ? [[{...concurrent, status: report.stream_differential.status}, "concurrent-schedule cases agree with Java and independent Python", `${n(concurrent.native_reference_passed)}/${n(concurrent.total)} native cases match Python across ${n(concurrent.observations)} states and ${n(concurrent.operations)} operations. Java supplied ${n(concurrent.java_observations)} observed states; ${n(concurrent.java_error_cases)} cases ended in runtime errors and ${n(concurrent.divergent_cases)} cases had differing observations. Errors receive no agreement credit. A partial-group scoring error is also reproduced using unchanged pinned fixtures. Checks cover shared times, cycles, recovery and undo. Concurrent scoring now uses an owned cache, checked against full native evaluation and Python. Cached trial snapshots restore without supplier calls. No general Java supplier-count, search or timing comparison.`]] : []),
+        [{...report.concurrent_performance?.validation, seed: report.concurrent_performance?.config?.seed, status: report.concurrent_performance?.status}, "concurrent shadow transactions agree with Java and independent Python", "Fully assigned schedules and distinct move positions: all nine shadow fields checked through trial, undo and commit. Cache snapshots versus public Java shadow updates; no scoring or search timing. The separate partial-group correctness errors remain visible above."],
         [{...report.pillar_performance?.validation, seed: report.pillar_performance?.config?.seed, status: report.pillar_performance?.status}, "pillar transaction cases agree with Java and an independent reference", "Supplied groups and selected columns: change, swap, optional values and subgroups. Trial, undo and committed states match. No automatic grouping or solver search comparison."],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
@@ -422,6 +424,7 @@ async function reload() {
             renderBenchmarks("list");
             renderBenchmarks("stream");
             renderBenchmarks("pillar");
+            renderBenchmarks("concurrent");
             renderDifferential();
         }
         $("updated").textContent =

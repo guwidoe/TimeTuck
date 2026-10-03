@@ -12068,7 +12068,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
       "upstream_test": "required list and owner identity",
       "local_path": "compat/oracle/ConcurrentOracle.java",
-      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12107,7 +12107,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
       "upstream_test": "neighbor/index/cascading fields, ready/start/finish suppliers, group alignment, inconsistency and expected values",
       "local_path": "compat/oracle/ConcurrentOracle.java",
-      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12146,7 +12146,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
       "upstream_test": "inconsistent hard penalty and assigned consistent finish-time soft penalty",
       "local_path": "compat/oracle/ConcurrentOracle.java",
-      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12211,7 +12211,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
       "upstream_test": "solution lists and scoring fields",
       "local_path": "compat/oracle/ConcurrentOracle.java",
-      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12289,7 +12289,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12302,7 +12302,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12315,7 +12315,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
     }
   ]
 }

@@ -5676,3 +5676,61 @@ Desktop 1280x900 and mobile 390x844 verification shows 13.82%, 671/4,855,
 domain model 32/455, all seven concurrent methods Passed, owned-cache evidence,
 and 29 benchmark cards. No overflow, browser errors or stale messages. The browser
 verification session is closed; the existing localhost:8765 server stays running.
+
+## Concurrent shadow-update benchmark
+
+Added original Rust/Java drivers and scripts/benchmark_concurrent.py. Native timing
+uses ListProblem and CachedSchedule directly; Java uses public MoveTester with
+ConcurrentOracle's attributed domain. No stream graph, score engine, independent
+full rescoring, or solver search is timed. This measures the shadow evaluator used
+by cached scoring, not the whole cached graph. Both runtimes decode/construct moves,
+apply a temporary move, copy/check all nine shadow fields, undo, check restored
+ownership, and consume checksums. Native snapshots cache and output rows explicitly.
+Model/context setup, Python expected arrays, output encoding, and a separately
+validated committed move are outside timing. Runtime/framework costs differ.
+
+Scope: fully assigned 2–64 visits, disjoint fixed shared-start groups, one change
+or swap between distinct positions. An initial smoke run exposed Java's rejection
+of same-position changes; the generator now constructs valid distinct-position
+moves, and Python rejects invalid no-op requests before either runtime is invoked.
+No runtime-error sample is filtered out. Every failure aborts measurement. The
+separate partial-group oracle still retains all 21 known Java errors.
+
+64 seeded small cases validate cycle creation/recovery and all trial/restored/
+committed fields. Four workloads: swap/relocate, 16/64 visits. Defaults 200
+transactions per batch, five warmup batches, seven samples, three fresh processes;
+runtime order alternates. Five Python regressions cover independent expected fields,
+malformed counts/identities, every output column, checksums, complete batch accounting,
+invalid scope, deterministic generation and timing workloads. No upstream credit.
+
+The dashboard adds four cards under Concurrent shadow updates vs. the original,
+plus methodology/environment and correctness evidence. compat_report now exposes
+concurrent_performance as the eleventh dataset. Fixture reuse is noted in provenance
+and third-party notices. Full debug gate passes 1,437 Rust tests, 74 doctests and
+136 Python tests; release all-target tests also pass. Full refresh session 49560
+runs sequentially; logs work/concurrent-benchmark-* and work/concurrent-refresh-*.
+
+Refresh session 49560 completed exit 0. All eleven datasets are current and the
+live server/report/current verification digests match. The new default benchmark
+passes all 64 cases and every 3-fork x 7-sample x 200-transaction measurement.
+Median Rust/Java milliseconds per transaction: swap16 0.042828/0.100922,
+swap64 0.213895/0.128548, relocate16 0.033648/0.065776,
+relocate64 0.125279/0.130446. The 64-visit swap is slower in Rust; the
+near-1x relocate result has overlapping ranges and supports no speedup claim.
+These timings establish no historical regression or whole-solver performance.
+The separate concurrent comparison remains 107/128 Java agreement with 21 errors,
+128 native cases / 2,385 states, and no divergent successful observations. Other
+known boundaries remain explicit (Great Deluge 275/276; list search 189/192 equal).
+
+Desktop 1280x900 and mobile 390x844 show four new cards / 33 total, warmed final
+numbers, current metadata, 13.82% coverage, no overflow, browser errors or stale
+messages. Browser closed; existing localhost:8765 server remains running.
+
+Next useful backend work: profile the new 64-visit swap before choosing an
+optimization. DependencyCache currently rebuilds topology/reverse indexes after
+edge changes and CachedSchedule clones full visit metadata; measure which dominates
+rather than assuming supplier-call reductions mean faster moves. Keep the full
+three-node/exhaustive topology, panic/transaction and public field checks. Further
+Community method families remain pending; do not redefine completion as benchmark
+parity. GraphStructureTest and ListVariableShadowVariablesTest were inspected only
+as possible future specifications this turn; no claims or adaptations were added.

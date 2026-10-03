@@ -155,3 +155,11 @@ selection. scripts/step_counting_checks.py checks it against both native scoring
 backends and an independent Python neighbor enumerator. It exposes no Java internal
 acceptor state, counters or traces. HeuristicBenchmark also accepts `step`, selecting
 STEP mode with period 7 for matched full-scoring measurements.
+
+
+`ConcurrentBenchmark.java` is an original public MoveTester measurement driver
+reusing ConcurrentOracle's attributed domain. `scripts/benchmark_concurrent.py`
+checks all nine fields with independent Python, times fully assigned temporary
+moves/undo, and validates a separate committed move. Model setup, output encoding,
+scoring and search are outside timing. Any runtime error or differing field aborts
+the benchmark; existing partial-group errors remain in the broader oracle report.

@@ -14,6 +14,7 @@ python3 scripts/benchmark_lists.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
 python3 scripts/benchmark_pillars.py
+python3 scripts/benchmark_concurrent.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
@@ -396,3 +397,24 @@ independently rescored. Six workloads now occupy this section (21 across the ful
 dashboard), with quality beside each timing. Small validation expands to 96 runs,
 including 32 step-counting cases; validity, equal scores and optimality are separate.
 Other counting modes and incremental step-counting timings are not benchmarked.
+
+
+## Concurrent shadow transactions
+
+`benchmark_concurrent.py` measures temporary change/swap moves, all nine derived
+fields, and undo for fully assigned schedules with disjoint shared-start groups.
+Rust uses ListProblem plus CachedSchedule; Java uses public MoveTester with the
+attributed concurrent domain. This measures the evaluator used by cached scoring,
+not the stream graph or either score engine. Model setup and Python reference
+computation are outside timing; move decoding/construction, cache snapshots,
+full output copying/checking, undo and checksums are inside. Framework costs differ.
+
+All 64 seeded validation cases and every timing sample must match independent
+Python fields after trial, undo and a separately checked committed move. Invalid
+no-op positions are rejected before dispatch, matching Java's distinct-position
+requirement. No runtime-error case is silently removed. Fully assigned timing
+inputs leave the separate partial-group comparison and its 21 known Java errors
+unchanged. Default measurements use 200 transactions per batch, five warmup batches,
+seven measured batches and three fresh processes in alternating runtime order.
+The four workloads cover swap and relocate with 16 or 64 visits. Observed ranges
+are batch averages, not latency percentiles; there is no whole-solver speed claim.

@@ -21,7 +21,8 @@ The following test files adapt the pinned Community tests:
   `compat/oracle/ConcurrentOracle.java` adapts the public annotated domain and
   scoring fixtures; `ConcurrentOriginalBoundary.java` is an original diagnostic
   driver compiling those pinned fixtures unchanged. Generated inputs are original;
-  all fixture use is recorded in provenance.
+  all fixture use is recorded in provenance. Original `ConcurrentBenchmark.java`
+  and `concurrent_benchmark.rs` measurement drivers reuse these attributed fixtures.
 
 - `crates/solver/tests/list_element_cases.rs` adapts all six methods in
   `ListElementShadowVariableTest`. Its reusable
