@@ -5,9 +5,9 @@
 //! transaction. Stable IDs distinguish equal-valued occurrences. No-op removals
 //! are allowed, and an insertion at an existing ID replaces that occurrence.
 //!
-//! Callback failures before mutation leave that node unchanged. If a user key's
-//! ordering/cloning panics during mutation, the node becomes poisoned and refuses
-//! further reads/updates; rebuild the pipeline. Changes already delivered to other
+//! Callback failures before mutation leave that node unchanged. Some operators
+//! poison themselves after ordering/cloning panics during mutation; see each
+//! operator's contract. Rebuild poisoned nodes. Changes already delivered to other
 //! nodes are not rolled back. Immutable facts and deterministic callbacks remain
 //! required. [`crate::StreamGraphBuilder`] wraps these operators with automatic
 //! routing and graph transactions; [`crate::StreamScoreDirector`] binds such a
@@ -26,6 +26,9 @@
 //! }
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
+
+mod partitioned;
+pub use partitioned::PartitionedJoinNode;
 
 use crate::SnapshotMap;
 use std::any::Any;

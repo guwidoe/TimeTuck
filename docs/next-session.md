@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 404 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 158 stream), recorded in
+- 414 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 168 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 302 original integration regression methods, ten original unit tests, and twenty-five public API documentation tests.
+- 309 original integration regression methods, eleven original unit tests, and twenty-six public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -57,7 +57,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   incremental scoring or establish large-instance performance.
 - Persistent ordered joins support <, <=, > and >= through bounded AVL key
   traversal, with explicit left/right orientation and transactional rollback.
-  Equality retains exact bucket lookup. Read docs/constraint-stream-contract.md.
+  Equality retains exact bucket lookup. Partitioned joins additionally index one
+  ordered relation inside equality groups, including tuple equality keys.
+  Read docs/constraint-stream-contract.md.
 - Stream scoring has 128 original Java/Rust cases (2,899 states), checking
   partial assignments, signed/cancelling groups, duplicate/self edges, commits
   and undo. Python checks both ordinary scores and native exact match IDs/sums.
@@ -71,7 +73,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 404 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 414 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1266,4 +1268,56 @@ Existing timings do not benchmark ordered comparisons. Logs: work/ordered-join-c
 ordered-join-release.log, ordered-join-stream-evidence.log,
 ordered-join-stream-performance.log, ordered-join-list-refresh.log,
 ordered-join-core-refresh.log and ordered-join-heuristic-performance.log.
+Upstream pin/checkout remain unmodified. The full goal remains unfinished.
+
+
+Partitioned join increment: PartitionedJoinNode and graph join_partitioned accept
+projections returning (equality key, ordered key). Equality keys may be tuples;
+the ordered key supports equality and all four ordered comparisons, with explicit
+left/right orientation.
+Each side holds a persistent equality map of existing JoinSide ordered indexes
+and an ID-to-partition lookup. Updates visit only old/new partitions and matching
+ranges. Empty side partitions are removed. Candidate roots and output events are
+prepared before installation, so ordinary projection/clone/comparison failures
+preserve this standalone node, even after a candidate's old partition was removed.
+Graph checkpoints share roots. Existing equality-only/ordered-only indexes are
+unchanged. Inspection orders equality key, left ID, right ordered key and right ID.
+No multi-inequality index or Java event-order parity claim.
+
+Ten EqualsAndComparisonIndexerTest methods preserve every empty, insertion,
+membership, cardinality, ordinary iterator and boundary assertion. Stable literal
+names and tuple payloads replace Java references/index handles; peekable/Option
+preserves the tested iterator presence/exhaustion. Repeated-removal exception and
+random neighborhood iterator methods remain pending. Provenance records cases and
+helpers; upstream production code was not used.
+
+Seven original regressions cover 6,000 bidirectional edits (seed 20261114), 3,000
+shared-source transactions (seed 20261115) with commit/undo/full rebuild, sparse
+queries over 4,096 ordered keys and 4,096 unrelated partitions in both orientations,
+every key clone/ordering failure in a partition transfer, graph callbacks/errors,
+foreign ports, grouping with tuple equality keys, construction and local search.
+A private churn test checks partition/membership cleanup after 2,000 transfers.
+Native regressions receive no upstream method credit.
+
+Full debug gate passes: 734 Rust tests (414 adapted + 309 original integration +
+11 unit), 26 doctests and 53 Python regressions. Coverage is 414/4,855 = 8.53%;
+constraint streams 266/1,301 = 20.45%. There are 4,159 pending, 282 excluded and
+zero failed/unverified methods. The full rewrite remains unfinished.
+
+Release all-target checks also pass (734 tests). All nine comparison/timing
+sections are current after refresh; report/source/live fingerprints agree.
+The existing dashboard server was reused. Browser checks at 1280px and 390px
+confirm 8.53% overall and 20.45% constraint streams, with ten passed and ten
+pending EqualsAndComparisonIndexerTest methods; the passed filter shows exactly
+ten. No visible stale messages, console errors or horizontal overflow. Browser
+session closed.
+
+Current stream medians in ms (Rust / Java): hill32 64.872 / 20.321,
+hill96 241.347 / 34.591, tabu32 58.594 / 28.497, tabu96 259.714 / 45.167.
+Scores agree; both 96-variable workloads remain infeasible under the 50-step cap.
+List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+Existing timings do not exercise partitioned joins. Logs: work/partitioned-check.log,
+partitioned-release.log, partitioned-stream-evidence.log,
+partitioned-stream-performance.log, partitioned-list-refresh.log,
+partitioned-core-refresh.log and partitioned-heuristic-performance.log.
 Upstream pin/checkout remain unmodified. The full goal remains unfinished.

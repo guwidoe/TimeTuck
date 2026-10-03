@@ -32,7 +32,7 @@
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, FlatMapNode,
     GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector, ListSnapshot,
-    ReversibleCollector, SnapshotMap, TupleChange,
+    PartitionedJoinNode, ReversibleCollector, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -282,6 +282,35 @@ impl<
     K: Ord + Clone + 'static,
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0.apply_left(typed::<I, L>(event).clone())
+        }))
+    }
+}
+
+struct PartitionedJoin<'a, I, J, L, R, E, K>(PartitionedJoinNode<'a, I, J, L, R, E, K>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    E: Ord + Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for PartitionedJoin<'_, I, J, L, R, E, K>
 {
     fn clear(&mut self) {
         self.0.clear();
@@ -737,6 +766,35 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::comparing(
             comparison, left_key, right_key,
         )));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Match equal partitions and compare ordered keys inside each partition.
+    /// Projections return `(equality_key, ordered_key)`; tuple equality keys
+    /// support multiple equalities. Relation orientation is left versus right.
+    /// Only matching partitions/ranges are visited. Additional pair predicates
+    /// may be applied with `filter`; tuple ordering is lexicographic.
+    pub fn join_partitioned<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        E: Ord + Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> (E, K) + 'a,
+        right_key: impl Fn(&R) -> (E, K) + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(PartitionedJoin(
+            PartitionedJoinNode::<I, J, L, R, E, K>::new(comparison, left_key, right_key),
+        ));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)

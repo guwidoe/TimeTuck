@@ -91,8 +91,23 @@ Read the pipeline's final result only after all outputs have been delivered.
   looks up each payload by ID. Dense joins can have quadratic output size.
   Keys use native Rust Ord; callers explicitly choose missing-value handling.
   Tuple ordering is lexicographic, not a conjunction of separate inequalities.
-  Additional predicates use a downstream filter; no compound comparison index,
-  interval index, or Java event-order parity is claimed.
+  Additional predicates use a downstream filter; multiple ordered conditions,
+  interval indexing and Java event-order parity remain outside this operator.
+- `PartitionedJoinNode` and graph `join_partitioned` first match an equality key,
+  then compare an ordered key inside that equality partition. Projections return
+  `(equality_key, ordered_key)`; tuple equality keys support multiple equalities.
+  The ordered key still uses one native Ord relation, with explicit left/right
+  orientation. Both inputs retain unmatched rows. Identity remains `(left_id,
+  right_id)`; inspection orders equality key, left ID, right key and right ID.
+  Each side has a persistent equality map containing the existing ordered indexes,
+  plus an ID-to-partition lookup. Updates visit only old/new partitions and matching
+  ranges, keeping memory linear in indexed facts; dense output remains quadratic.
+  Empty side partitions are removed. Persistent candidate roots and events precede
+  installation, so ordinary callback/clone/comparison panics leave this standalone
+  node unchanged, including a partially prepared transfer between partitions.
+  Graph checkpoints share these roots. Same-key replacements retain membership;
+  retraction uses captured keys without invoking projections. No additional
+  overhead is added to the existing equality-only or ordered-only join indexes.
 - `ExistsNode` supports indexed equality plus a pair predicate, in Exists or
   NotExists mode. It preserves left IDs/payloads and never multiplies them by
   right-match count. Bidirectional cached match IDs make retractions callback-free;
@@ -827,3 +842,20 @@ both orientations visit fewer than 512 key comparisons among 4,096 opposite keys
 An internal bounded-map regression exhausts included/excluded/unbounded bound
 combinations on old/new snapshots. Existing Java/Rust timing workloads exercise
 equality joins; they do not measure ordered-join performance.
+
+## Equality plus ordered comparison evidence
+
+Ten adapted EqualsAndComparisonIndexerTest methods preserve all empty, insertion,
+match membership, size, ordinary iterator presence/exhaustion and boundary checks
+for gender equality with stored age <= query age. Native stable occurrence IDs,
+query rows and peekable/Option iterators replace Java index handles and iterator
+plumbing. Repeated-removal exception and random neighborhood iterator methods
+remain pending; native absent retraction is intentionally a no-op.
+
+Seven original regressions check 6,000 bidirectional edits (seed 20261114), 3,000
+shared-source transactions (seed 20261115), exact matches through commit/undo and
+rebuild, sparse queries across 4,096 ordered keys plus 4,096 unrelated partitions,
+key clone/ordering failure sweeps, graph callback errors/panics, foreign ports,
+grouped tuple equality keys and construction/local search. An internal churn test
+checks partition and membership cleanup. Current Java/Rust timing workloads do
+not exercise this partitioned operator; no new performance parity claim follows.

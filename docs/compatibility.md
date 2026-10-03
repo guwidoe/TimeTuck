@@ -187,6 +187,13 @@ numeric projections cover only the small source inputs; no general longValue,
 null-ordering or internal index-selection parity is claimed. Original range,
 transaction and search regressions grant no additional upstream method credit.
 
+Ten equality-plus-comparison index methods preserve every empty, membership,
+cardinality, ordinary iterator and boundary assertion through native partitioned
+joins. Multiple equality components may use tuple keys; one ordered relation is
+indexed inside each equality partition. Random neighborhood iterator and repeated
+removal exception methods remain pending. Native failure/rollback/search evidence
+is separate from these source-method credits.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

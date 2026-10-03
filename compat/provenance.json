@@ -6060,6 +6060,156 @@
       "upstream_test": "rightBridgeLessThanFlipsToGreaterThan",
       "local_test": "right_bridge_less_than_flips_to_greater_than",
       "modifications": "Preserve all exact match membership and size assertions, including duplicate age40 tuples and left/right comparison orientation. Stable integer IDs and (age,label) rows replace UniTuple storage and index handles; query rows on the opposite JoinNode side replace direct internal index probes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iEmpty",
+      "local_test": "i_empty",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.put",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "put",
+      "local_test": "put_case",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.forEach",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "forEach",
+      "local_test": "for_each",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorEmpty",
+      "local_test": "iterator_empty",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorSingleElement",
+      "local_test": "iterator_single_element",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorMultipleElementsSameKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorMultipleElementsSameKey",
+      "local_test": "iterator_multiple_elements_same_key",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorComparisonBoundary",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorComparisonBoundary",
+      "local_test": "iterator_comparison_boundary",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorComparisonExactBoundary",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorComparisonExactBoundary",
+      "local_test": "iterator_comparison_exact_boundary",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorComparisonNoneMatch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorComparisonNoneMatch",
+      "local_test": "iterator_comparison_none_match",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.iteratorDifferentGender",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "iteratorDifferentGender",
+      "local_test": "iterator_different_gender",
+      "modifications": "Preserve every match membership, cardinality and iterator presence/exhaustion assertion. Native partitioned JoinNode queries replace internal CompositeKey/index plumbing: gender equality and stored age <= query age. Stable literal name IDs and (name,gender,age) payloads replace UniTuple references/storage slots. Rust peekable/Option replaces Java hasNext/next for the tested ordinary iterators. No random iterator or repeated-removal exception parity claimed."
     }
   ],
   "fixtures": [
@@ -6556,6 +6706,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
       "upstream_test": "forEachToTuples",
       "modifications": "Collect exact native join rows for a single opposite-side query instead of CompositeKey/internal callback plumbing; source membership assertions preserved. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.partitioned_join_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "newTuple and joiner field",
+      "modifications": "Literal tuple names and explicit gender/age projections preserve source facts and equality-plus-lessThanOrEqual relation; stable IDs replace tuple storage slots. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/partitioned_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.partitioned_join_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "forEachToTuples",
+      "modifications": "Collect sorted native match names for one opposite-side query in place of CompositeKey callbacks; exact source membership assertions retained. Fixture only; no method credit."
     }
   ]
 }
