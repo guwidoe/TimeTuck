@@ -381,3 +381,43 @@ mock listener-event assertions remain pending. A separately seeded original corp
 adds 128 Java/Rust/Python candidate/undo/commit/shadow comparisons (seed 20261125),
 preserving all earlier 384 inputs. This adds no source-method coverage credit or
 Java span-search/performance equivalence claim.
+
+
+## Dedicated tail-swap and two-opt neighborhoods
+
+`list_tail_swap_moves(problem, assignment, include_reversing)` exchanges nonempty
+suffixes of different owners. Canonical owner order emits each pair once. Forward
+moves always appear; reversed exchanges appear only when requested and at least
+one suffix has two or more values. Empty tails, fully pinned owners, pinned
+prefixes and values outside the receiving owner's range are excluded.
+
+`list_two_opt_moves(problem, assignment, cross_entity)` first reverses every
+within-list span of length two or more in place. With crossing enabled, it then
+exchanges nonempty cross-owner tails without reversal. Native finite enumeration
+has no randomized sampling or Java stream-order guarantee. These providers reuse
+SubListChange/SubListSwap; transaction and score invalidation behavior is shared.
+
+`Neighborhood::TwoOpt { cross_entity }` selects only those list moves, including
+in mixed/joint search with either scoring backend. Basic variables still use
+changes/swaps. Optional values remain at the same assignment status and empty
+routes cannot receive customers through this neighborhood. This is an explicit
+tradeoff of this move set; use the existing broader neighborhoods to permit those
+changes. Defaults retain their previous move families and ordering.
+
+The dedicated generators visit start positions and reversal endpoints directly,
+without enumerating all pairs of arbitrary sublist ranges. The search dispatcher
+boxes the selected iterator to bound stack usage in nested mixed products; it
+allocates one iterator per list enumeration, and does not materialize successors.
+An existing lazy-product regression exposed a debug stack overflow with the
+larger combined iterator type and passes with this representation.
+
+Twelve fully adapted Community methods cover tail membership, reversal toggles,
+singleton-tail suppression, same-owner exclusions, in-place two-opt reversals,
+cross-owner toggles, pins, owner ranges and execution indexing. Supporting
+fixtures have separate provenance. Four original tests compare independent small
+successor sets (including empty/frozen owners and value ranges), cached trial and
+commit scores, list/joint-mixed plateau escape with both scoring backends, and
+basic-swap/optional-list behavior. Existing 512 Java move comparisons exercise
+the reused primitives; they do not prove dedicated provider sampling or Java
+whole-search trace equivalence. Existing benchmarks use their unchanged default
+neighborhoods; there is no new two-opt performance claim.

@@ -49,7 +49,7 @@ Thirty-four list-move methods additionally preserve ordered assignment, relocati
 swap, sublist relocation/reversal/exchange and span-unassignment states/undo, plus three
 sublist touched-entity membership assertions. Native derived owner/index/neighbor
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
-Nineteen list-provider methods additionally preserve move membership and
+Thirty-one list-provider methods additionally preserve move membership and
 exclusion assertions, including per-entity ranges. Native greedy list construction and bounded local search
 are verified separately with original regressions. Java move metadata, rebase,
 custom listeners, optional-list solving and matched mixed Java local-search
@@ -282,3 +282,12 @@ scores and list/joint-mixed search. Another 128 original Community public API
 comparisons cover candidate/undo/commit and built-in shadows without extra
 method credit. Overlap/empty-span errors are a native contract; no Java invalid
 move or internal listener protocol equivalence is claimed.
+
+
+Twelve ListTailSwapMoveProviderTest/TwoOptListMoveProviderTest methods additionally
+preserve all asserted membership/exclusion, nonemptiness, move-property and
+ordered-result checks. Explicit native flags replace Java default constructors;
+finite iterator sampling retains the source caps where present. No assertion of
+random-stream ordering, listener protocol or Java two-opt solving equivalence is
+made. Native two-opt integrates both list/mixed scoring backends and joint moves;
+original successor-set and cache/search regressions remain outside source credit.

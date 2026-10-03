@@ -524,3 +524,14 @@ search retains changes/swaps under this setting. Bounds below two add no spans.
 Relocations use post-removal indices; swaps use pre-move nonempty disjoint spans.
 See the list-planning contract for bounds, pins/ranges and evidence.
 Default benchmarks continue to use their existing single-value neighborhoods.
+
+
+`Neighborhood::TwoOpt { cross_entity }` uses only in-place reversals and optional
+non-reversing nonempty cross-owner tail swaps for lists. Basic search keeps its
+change/swap set; mixed joint search combines those basics with this list set.
+Optional-list assignment status and empty owners are unchanged by these moves.
+The dispatcher stores one boxed selected list iterator so nested mixed products
+remain bounded in stack size without materializing moves. All six search paths
+retain their existing acceptance and termination mechanisms. Source-adapted
+provider checks and original end-to-end search checks are documented in the list
+contract; the default benchmark workloads do not select two-opt.

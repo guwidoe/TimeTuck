@@ -75,7 +75,8 @@ pub use list_scoring::{
 pub mod list_neighborhood;
 pub use list_neighborhood::{
     list_assign_moves, list_change_moves, list_moves, list_sublist_change_moves,
-    list_sublist_swap_moves, list_swap_moves, list_unassign_moves,
+    list_sublist_swap_moves, list_swap_moves, list_tail_swap_moves, list_two_opt_moves,
+    list_unassign_moves,
 };
 
 pub mod list_construction;

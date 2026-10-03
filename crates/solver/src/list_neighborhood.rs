@@ -152,8 +152,9 @@ pub fn list_swap_moves<'a, V: Eq + Clone>(
     p.validate(a)?;
     Ok(swaps(p, a, 0..p.entities().len()))
 }
-/// Relocations, optional assignments/unassignments, then optional swaps. Preserves
-/// completeness when supplied a complete assignment; all pins remain unchanged.
+/// Enumerate the selected neighborhood. TwoOpt yields only reversals/tail swaps;
+/// other modes include relocations and optional assignments/unassignments.
+/// Complete inputs remain complete and all pins remain unchanged.
 pub fn list_moves<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
     a: &'a ListAssignment<V>,
@@ -167,7 +168,12 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     a: &'a ListAssignment<V>,
     neighborhood: Neighborhood,
     order: I,
-) -> impl Iterator<Item = ListMove<V>> + 'a {
+) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+    // Keep the selected family behind one pointer. Nested mixed products must
+    // not carry every possible iterator's state on the caller's stack.
+    if let Neighborhood::TwoOpt { cross_entity } = neighborhood {
+        return Box::new(two_opt_moves(p, a, cross_entity, order));
+    }
     let assigned = p
         .allows_unassigned()
         .then(|| assigns(p, a, order.clone()))
@@ -185,12 +191,14 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     };
     let spans = sublist_changes(p, a, max_length, order.clone());
     let span_swaps = sublist_swaps(p, a, max_length, order.clone());
-    changes(p, a, order)
-        .chain(assigned)
-        .chain(removed)
-        .chain(swapped)
-        .chain(spans)
-        .chain(span_swaps)
+    Box::new(
+        changes(p, a, order)
+            .chain(assigned)
+            .chain(removed)
+            .chain(swapped)
+            .chain(spans)
+            .chain(span_swaps),
+    )
 }
 
 fn sublist_changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -315,4 +323,94 @@ pub fn list_sublist_swap_moves<'a, V: Eq + Clone>(
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
     p.validate(a)?;
     Ok(sublist_swaps(p, a, max_length, 0..p.entities().len()))
+}
+
+fn tail_swaps<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    reverse: bool,
+    order: I,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    positions(p, a, order.clone()).flat_map(move |left| {
+        positions(p, a, order.clone())
+            .filter(move |right| {
+                left.entity < right.entity
+                    && a.lists()[left.entity][left.index..]
+                        .iter()
+                        .all(|v| p.accepts(right.entity, v))
+                    && a.lists()[right.entity][right.index..]
+                        .iter()
+                        .all(|v| p.accepts(left.entity, v))
+            })
+            .flat_map(move |right| {
+                let left = ListRange {
+                    entity: left.entity,
+                    start: left.index,
+                    end: a.lists()[left.entity].len(),
+                };
+                let right = ListRange {
+                    entity: right.entity,
+                    start: right.index,
+                    end: a.lists()[right.entity].len(),
+                };
+                [false, true]
+                    .into_iter()
+                    .filter(move |&r| {
+                        !r || reverse && (left.end - left.start > 1 || right.end - right.start > 1)
+                    })
+                    .map(move |reverse| ListMove::SubListSwap {
+                        left,
+                        right,
+                        reverse,
+                    })
+            })
+    })
+}
+fn two_opt_moves<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    cross_entity: bool,
+    order: I,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    let tails = cross_entity
+        .then(|| tail_swaps(p, a, false, order.clone()))
+        .into_iter()
+        .flatten();
+    positions(p, a, order)
+        .flat_map(move |source| {
+            (source.index.saturating_add(2)..=a.lists()[source.entity].len()).map(move |end| {
+                ListMove::SubListChange {
+                    entity: source.entity,
+                    start: source.index,
+                    end,
+                    destination: source,
+                    reverse: true,
+                }
+            })
+        })
+        .chain(tails)
+}
+/// Exchange nonempty tails of different owners, once per unordered owner pair.
+/// Include reversed exchanges when requested, except for two singleton tails.
+/// Pins and both receiving owners' ranges are respected. Empty tails are excluded.
+/// This finite lazy provider does not assign or unassign values.
+pub fn list_tail_swap_moves<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    include_reversing: bool,
+) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
+    p.validate(a)?;
+    Ok(tail_swaps(p, a, include_reversing, 0..p.entities().len()))
+}
+/// Reverse each unpinned within-list span of length >=2 in place, followed by
+/// optional non-reversing cross-owner tail exchanges. All tails are nonempty;
+/// empty owners cannot receive values through this provider. Generation is lazy.
+/// Pins and owner ranges are respected. Different moves may share a successor.
+pub fn list_two_opt_moves<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    cross_entity: bool,
+) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
+    p.validate(a)?;
+    Ok(two_opt_moves(p, a, cross_entity, 0..p.entities().len()))
 }

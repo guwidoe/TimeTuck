@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 448 fully adapted source test methods (74 score + 10 basic move + 34 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
+- 460 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -36,6 +36,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - 512 Java/Rust/Python list-move cases (1,795 operations) check candidates,
   undo, commit and all four built-in shadow relationships; original seed 20261003,
   additional span relocation/reversal seed 20261124 and span-swap seed 20261125.
+- Dedicated tail-swap and two-opt providers lazily enumerate nonempty cross-owner
+  tails and within-list reversals. Neighborhood::TwoOpt selects this smaller list
+  set; both backends and joint mixed search support it. Basic variables retain
+  changes/swaps. Empty owners cannot receive values through this neighborhood.
 - Scoped incremental basic/list/mixed score networks and atomic scored-move transactions.
   List scopes cover entity lists and value identities/shadows, with conservative
   neighbor invalidation and deferred cache updates.
@@ -57,7 +61,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 352 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
+- 356 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -112,7 +116,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 448 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 460 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1936,3 +1940,51 @@ alerts or page errors. Browser session closed; upstream unmodified. Remaining
 work includes broader provider and listener semantics, Java comparisons using
 larger neighborhoods, stream performance and pending solver infrastructure.
 The overarching rewrite goal is still active.
+
+## Dedicated two-opt/tail providers — latest verified increment
+
+list_tail_swap_moves exchanges nonempty tails across owners, optionally reversing
+both except when both tails are singletons. list_two_opt_moves reverses each
+unpinned within-list span of length >=2, then optionally exchanges cross-owner
+tails without reversal. Both generators are finite/lazy, use canonical owner
+pairs, and preserve pins and both receiving value ranges. They reuse existing
+span primitives; no new list mutation implementation or Java sampling-order claim.
+
+Neighborhood::TwoOpt { cross_entity } selects only this list set, including in
+both list/mixed scoring backends and mixed joint products. Basic variables retain
+changes/swaps. Empty owners cannot receive values and optional assignment status
+cannot change through these moves. Defaults remain unchanged. The selected list
+iterator is boxed once per enumeration: the initial combined concrete iterator
+type overflowed the debug stack in the existing mixed_local_search lazy-product
+regression. That test and the full gate pass with bounded dispatcher stack usage.
+
+Twelve complete ListTailSwapMoveProviderTest/TwoOptListMoveProviderTest methods
+are adapted with provenance/notices, including supporting two-entity and ranged
+fixtures. Four original methods check independent small successor sets with
+pins/ranges/empty owners, 120 scored trial/commit rounds, list/joint-mixed plateau
+escape in both backends, and basic-swap/optional-list behavior. An initial original
+test fixture mistakenly assigned an out-of-range value and was corrected before
+verification; no implementation relaxation was made.
+
+Development and release all-target gates pass: 843 Rust tests (460 adapted,
+356 original integration, 27 unit), 30 doctests and 74 Python checks. Overall
+460/4,855 = 9.47% displayed; moves/selectors 83/874 = 9.50%. Pending 4,113,
+excluded 282, failed/unverified zero. Existing 512 Java/Rust/Python list-move cases
+(1,795 operations) still pass. They check the underlying primitives and do not
+establish Java dedicated-provider enumeration or two-opt solve equivalence.
+
+All nine reports were refreshed sequentially against the final measured sources;
+source and live verification digests match. Logs:
+work/two-opt-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log. Stream medians ms Rust/Java:
+hill32 44.526/14.349, hill96 168.554/28.212, tabu32 46.908/14.759,
+tabu96 178.145/28.211. Both 96-variable stream runs remain [-44,-484] at 50 steps.
+List32 construction remains Rust [0,-1080] vs Java [0,-1062]; mixed-search quality
+remains exact64/Java39/native-local63 optima among 64 original cases. These
+workloads retain their default neighborhoods; no two-opt performance result.
+
+Browser QA at 1280x900 and 390x844 verified displayed counts and all twelve new
+passed methods, with no horizontal overflow, nonempty alerts or page errors.
+Browser session closed; upstream is unmodified. Remaining work includes broader
+move/provider semantics, direct Java route-neighborhood solving comparisons,
+stream performance and pending solver infrastructure. Goal remains active.

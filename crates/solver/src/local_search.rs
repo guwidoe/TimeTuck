@@ -70,6 +70,12 @@ impl From<AcceptanceError> for LocalSearchError {
 pub enum Neighborhood {
     Change,
     ChangeAndSwap,
+    /// For list variables, use only in-place reversals and optional cross-owner
+    /// nonempty tail swaps. No list assignment/unassignment/single relocations.
+    /// Basic variables retain changes/swaps; mixed joint moves use this list set.
+    TwoOpt {
+        cross_entity: bool,
+    },
     /// Add list-span relocations/reversals and disjoint span swaps after single swaps.
     /// Each span is bounded by max_length; span swaps include singleton partners.
     /// Values below two add no spans. Basic-variable search retains changes/swaps.
