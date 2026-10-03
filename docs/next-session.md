@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
-- Iterative exact search with explicit evaluation budgets and truthful
+- Iterative exact search with evaluation budgets, cooperative elapsed-time limits and truthful
   exhaustion/optimality reporting. Original `tiny_schedule` example.
 - Mixed basic/list models, atomic combined moves and exact joint search over the full
   product space. Read `docs/mixed-planning-contract.md`. `mixed_routes` proves
@@ -72,7 +72,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 406 original integration regression methods, forty-three original unit tests, and thirty-six public API documentation tests.
+- 408 original integration regression methods, forty-nine original unit tests, and thirty-seven public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -2553,3 +2553,52 @@ Reused the existing dashboard server. Browser QA at 1280x900 and 390x844 verifie
 Contain filter, the distinct/non-null agreement and explicit 8/18 boundary
 differences, six list/four stream timing cards, no visible alerts or page errors,
 and no horizontal overflow. Browser closed. Upstream pin and checkout unchanged.
+
+
+## Exact-search elapsed time — latest increment
+
+ExactSearchConfig now has optional max_time (default None), and Termination includes
+TimeLimit. All three configurable public exact entry points start a monotonic clock
+before setup. Controlled-clock internal counterparts reuse the existing TimeBudget.
+One timer spans mixed product enumeration and owned joint candidate preparation.
+Each complete candidate checks evaluation count, then cancellation, then time before
+scoring; mixed time is checked after its joint assignment copy. Active callbacks
+finish and eligible best results are retained even if the callback overruns. Real
+exhaustion wins over limits, including after the last callback; impossible spaces
+remain exhausted with no candidate, while singleton-empty assignments need scoring.
+No preemption occurs inside enumeration/value operations/callbacks, and no hard
+latency bound is claimed. Disabled controls never sample a clock. Budget-only
+entry points preserve their signatures and results; full config literals/exhaustive
+Termination matches need to account for the added field/variant.
+
+Six original controlled-clock methods cover all count/cancel/deadline prefix
+combinations across pinned/optional basic/list/mixed models, late callbacks,
+structural rejection, first-tie retention, disabled/large/backwards clocks, empty
+spaces, model setup costs and the final mixed candidate copy. Two original public
+regressions check zero-duration precedence and compare disabled/large limits with
+budget-only results. One public doctest demonstrates zero time. Existing cancellation
+regressions use Default for the added field. No upstream source-method credit,
+Java timed-trace equivalence or timing-enabled benchmark claim is added.
+
+Development gate passes 938 Rust tests (481 adapted, 408 original integration,
+49 unit), 37 doctests and 83 Python tests. Adapted coverage remains 481/4,855
+(9.91%), 291/1,301 streams (22.37%), 4,092 pending and 282 excluded, with no
+failed/unverified methods. Logs use work/exact-time-*.log. The full rewrite remains
+active: shared stagnation, exact orchestration phases, live changes/daemon/manager,
+additional source-method adaptations and other solver/stream gaps remain unfinished.
+
+Release also passes all 938 tests. All nine Java/Rust evidence sections are current
+and the live verification fingerprint matches. Existing deadline-disabled exact
+medians Rust/Java: 6-variable 0.011/3.881 ms, 8-variable 0.140/5.008 ms. Stream
+hill32 45.638/12.854 ms, hill96 168.006/23.188 ms, tabu32 46.797/10.917 ms,
+tabu96 164.366/25.495 ms. Both 96-variable stream scores remain infeasible
+[-44,-484] at 50 steps. List solving remains 192 valid / 189 equal-score cases;
+two-opt16 0.251/7.860 ms and two-opt32 0.892/10.220 ms retain their existing
+quality differences. These runs do not measure deadline-enabled overhead or timed
+Java parity. The 128 complete-planning comparison cases still agree.
+
+Reused the existing server on 8765. Browser verification at 1280x900 and 390x844
+confirmed unchanged 9.91% overall / 22.37% streams, updated exact and stream timing
+text, six list/four stream cards and the explicit 8/18 membership boundary
+differences. No visible alerts, page errors or horizontal overflow. Browser closed;
+upstream pin and checkout remain unchanged.

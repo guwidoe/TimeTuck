@@ -10,6 +10,8 @@ use crate::{Score, model::FiniteProblem, moves::Assignment};
 pub enum Termination {
     /// Unvisited assignments remain and cancellation was observed.
     Cancelled,
+    /// Unvisited assignments remain and the cooperative elapsed budget expired.
+    TimeLimit,
     /// Every complete assignment was evaluated.
     Exhausted,
     /// Unvisited assignments remain, but no score-evaluation budget remains.
@@ -21,11 +23,15 @@ pub enum Termination {
 /// entry points retain their behavior.
 ///
 /// Cancellation is checked before scoring each complete assignment, after the
-/// evaluation budget. An active callback finishes and its eligible result is
+/// evaluation budget and before elapsed time. An active callback finishes and its eligible result is
 /// retained. Enumeration itself is not preempted. If the final assignment has
 /// been evaluated, exhaustion wins even if that callback requested cancellation;
 /// an empty search space also reports exhaustion. Only actual exhaustion can
-/// prove optimality. There is no hard bound on cancellation latency.
+/// prove optimality. Elapsed time starts before model setup and enumeration and is
+/// polled at the same complete-candidate boundaries. Zero time invokes no scorer
+/// for a nonempty space. Evaluation budget precedes cancellation, which precedes
+/// time. Final exhaustion wins over all three. User callbacks and value operations
+/// are not preempted, so there is no hard bound on cancellation or time overshoot.
 ///
 /// ```
 /// use timetuck::{CancellationToken, ExactSearchConfig, FiniteProblem, Variable,
@@ -44,12 +50,27 @@ pub enum Termination {
 pub struct ExactSearchConfig<'a> {
     pub max_evaluations: u64,
     pub cancellation: Option<&'a crate::CancellationToken>,
+    /// Elapsed time from entry, including setup and enumeration. Disabled by default.
+    ///
+    /// ```
+    /// use std::time::Duration;
+    /// use timetuck::{ExactSearchConfig, FiniteProblem, Variable, SimpleScore,
+    ///     Termination, exhaustive_search_with_config};
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![1, 2])]).unwrap();
+    /// let r = exhaustive_search_with_config(&p, |_| SimpleScore::ZERO,
+    ///     ExactSearchConfig { max_time: Some(Duration::ZERO), ..Default::default() });
+    /// assert_eq!(r.termination, Termination::TimeLimit);
+    /// assert_eq!(r.evaluations, 0);
+    /// assert!(!r.is_optimal());
+    /// ```
+    pub max_time: Option<std::time::Duration>,
 }
 impl Default for ExactSearchConfig<'_> {
     fn default() -> Self {
         Self {
             max_evaluations: 10_000,
             cancellation: None,
+            max_time: None,
         }
     }
 }
@@ -120,11 +141,11 @@ where
     )
 }
 
-/// Exact enumeration with optional cooperative cancellation. See
+/// Exact enumeration with optional cooperative cancellation and elapsed time. See
 /// [`crate::ExactSearchConfig`] for polling and termination precedence.
 pub fn exhaustive_search_with_config<V, S, F>(
     problem: &FiniteProblem<V>,
-    mut evaluate: F,
+    evaluate: F,
     config: crate::ExactSearchConfig<'_>,
 ) -> SearchResult<V, S>
 where
@@ -132,13 +153,32 @@ where
     S: Score,
     F: FnMut(&Assignment<V>) -> S,
 {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    exhaustive_search_with_clock(problem, evaluate, config, clock)
+}
+
+pub(crate) fn exhaustive_search_with_clock<V, S, F>(
+    problem: &FiniteProblem<V>,
+    mut evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> SearchResult<V, S>
+where
+    V: Eq + Clone,
+    S: Score,
+    F: FnMut(&Assignment<V>) -> S,
+{
+    let mut timer = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let mut result = SearchResult {
         best: None,
         evaluations: 0,
         termination: Termination::Exhausted,
     };
     visit_assignments(problem, |working| {
-        if let Some(reason) = config.stop_before_next(result.evaluations) {
+        if let Some(reason) = config
+            .stop_before_next(result.evaluations)
+            .or_else(|| timer.expired().then_some(Termination::TimeLimit))
+        {
             result.termination = reason;
             return false;
         }

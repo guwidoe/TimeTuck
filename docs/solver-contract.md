@@ -90,8 +90,10 @@ score/candidate caps and cancellation precede time; time precedes incomplete-sta
 and shared-goal checks. Later improvement phases do not start once expiry is observed.
 
 Local-search stagnation timing remains phase-local and resets each phase. Global
-stagnation, exact-search timing, live problem changes, daemon operation, solver-manager
-services, concurrent phases and cross-phase cache reuse remain unfinished.
+stagnation, live problem changes, daemon operation, solver-manager
+services, concurrent phases and cross-phase cache reuse remain unfinished. Standalone
+exact search has its own cooperative elapsed limit (see planning-contract.md); exact
+search is not yet an orchestrated phase.
 
 ## Results and errors
 

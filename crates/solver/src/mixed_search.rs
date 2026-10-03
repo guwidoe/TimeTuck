@@ -74,11 +74,11 @@ where
     )
 }
 
-/// Exact enumeration with optional cooperative cancellation. See
+/// Exact enumeration with optional cooperative cancellation and elapsed time. See
 /// [`crate::ExactSearchConfig`] for polling and termination precedence.
 pub fn exhaustive_mixed_search_with_config<B, L, S, F>(
     problem: &MixedProblem<B, L>,
-    mut evaluate: F,
+    evaluate: F,
     config: crate::ExactSearchConfig<'_>,
 ) -> MixedSearchResult<B, L, S>
 where
@@ -87,6 +87,23 @@ where
     S: Score,
     F: FnMut(&MixedAssignment<B, L>) -> S,
 {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    exhaustive_mixed_search_with_clock(problem, evaluate, config, clock)
+}
+
+pub(crate) fn exhaustive_mixed_search_with_clock<B, L, S, F>(
+    problem: &MixedProblem<B, L>,
+    mut evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> MixedSearchResult<B, L, S>
+where
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: Score,
+    F: FnMut(&MixedAssignment<B, L>) -> S,
+{
+    let mut timer = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let mut result = MixedSearchResult {
         best: None,
         evaluations: 0,
@@ -102,6 +119,11 @@ where
                 return false;
             }
             let assignment = MixedAssignment::new(basic.clone(), lists.clone());
+            // Preparing the owned joint candidate belongs to the elapsed budget.
+            if timer.expired() {
+                result.termination = Termination::TimeLimit;
+                return false;
+            }
             let score = evaluate(&assignment);
             result.evaluations += 1;
             if score.structural() >= 0 && result.best.as_ref().is_none_or(|best| score > best.score)

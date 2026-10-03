@@ -349,3 +349,9 @@ mixed_solver_checks evidence uses the parent solver report's source fingerprint.
 Five original validator regressions guard against false scores, invalid ownership,
 false exhaustion, incomplete enumeration and incorrect quality accounting. These
 checks grant no adapted upstream method credit or trace/counter parity claim.
+
+`exhaustive_mixed_search_with_config` additionally accepts `ExactSearchConfig::max_time`.
+One cooperative timer spans the whole product, including setup, enumeration and
+preparing the owned joint assignment before scoring. It never resets between
+components. See `planning-contract.md` for exact-search deadline precedence,
+retained-best and final-exhaustion behavior, and the native verification scope.

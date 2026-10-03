@@ -214,3 +214,6 @@ mod timed_construction_tests;
 
 mod membership_join;
 pub use membership_join::MembershipJoinNode;
+
+#[cfg(test)]
+mod timed_exact_tests;

@@ -96,11 +96,11 @@ where
     )
 }
 
-/// Exact enumeration with optional cooperative cancellation. See
+/// Exact enumeration with optional cooperative cancellation and elapsed time. See
 /// [`crate::ExactSearchConfig`] for polling and termination precedence.
 pub fn exhaustive_list_search_with_config<V, S, F>(
     problem: &ListProblem<V>,
-    mut evaluate: F,
+    evaluate: F,
     config: crate::ExactSearchConfig<'_>,
 ) -> ListSearchResult<V, S>
 where
@@ -108,13 +108,32 @@ where
     S: Score,
     F: FnMut(&ListAssignment<V>) -> S,
 {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    exhaustive_list_search_with_clock(problem, evaluate, config, clock)
+}
+
+pub(crate) fn exhaustive_list_search_with_clock<V, S, F>(
+    problem: &ListProblem<V>,
+    mut evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> ListSearchResult<V, S>
+where
+    V: Eq + Clone,
+    S: Score,
+    F: FnMut(&ListAssignment<V>) -> S,
+{
+    let mut timer = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let mut result = ListSearchResult {
         best: None,
         evaluations: 0,
         termination: Termination::Exhausted,
     };
     visit_list_assignments(problem, |working| {
-        if let Some(reason) = config.stop_before_next(result.evaluations) {
+        if let Some(reason) = config
+            .stop_before_next(result.evaluations)
+            .or_else(|| timer.expired().then_some(Termination::TimeLimit))
+        {
             result.termination = reason;
             return false;
         }

@@ -436,3 +436,9 @@ cycle after five steps; seeded ordering is an opt-in way to explore other moves.
 The benchmark retains identical starts, limits and scoring but this changes its
 native ordering configuration. Java uses the same numeric seed with different
 PRNG/sampling behavior. Quality and callback counts remain explicit per workload.
+
+`exhaustive_list_search_with_config` now also accepts `ExactSearchConfig::max_time`.
+The cooperative timer spans setup and enumeration; it polls before scoring a
+complete candidate and retains the evaluated best on TimeLimit. Exhausted remains
+the only optimality-proving reason. See `planning-contract.md` for shared precedence,
+empty-space semantics, callback overshoot and controlled-clock verification.

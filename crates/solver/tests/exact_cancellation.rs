@@ -113,6 +113,7 @@ fn every_cancelled_exact_prefix_retains_eligible_best_without_claiming_optimalit
                     ExactSearchConfig {
                         max_evaluations: budget,
                         cancellation: Some(&token),
+                        ..Default::default()
                     },
                     |a| {
                         assert_eq!(a, &states[calls as usize]);
@@ -161,6 +162,7 @@ fn empty_spaces_are_exhausted_but_empty_assignments_still_need_evaluation() {
         let c = ExactSearchConfig {
             max_evaluations,
             cancellation: Some(&token),
+            ..Default::default()
         };
         let basic = FiniteProblem::<usize>::new(vec![Variable::new(vec![])]).unwrap();
         let lists = ListProblem::<usize>::new(vec![7], vec![]).unwrap();

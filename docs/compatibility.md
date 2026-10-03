@@ -338,7 +338,7 @@ under shared count budgets, cancellation and score/feasibility goals. Eleven
 original integration methods, one API doctest and the mixed routing example verify
 handoffs, retained results and accounting across all model/backend combinations.
 These do not adapt complete upstream solver lifecycle methods. Whole-solver Java
-compatibility, daemon/problem-change behavior and shared elapsed-time/stagnation
+compatibility, daemon/problem-change behavior and shared stagnation
 limits remain pending; see `docs/solver-contract.md`.
 
 
@@ -366,3 +366,10 @@ mismatches (duplicate-member multiplicity and unpartitioned null matching).
 These probes earn no method credit and are displayed separately on the dashboard.
 See the collection membership section of `docs/constraint-stream-contract.md` for
 exact inputs, counts and native-only regression scope.
+
+Native basic/list/mixed exact search now has optional cooperative elapsed-time
+limits. Six controlled-clock unit methods, two public integration methods and a
+doctest check candidate-prefix retention, competing controls, preparation costs
+and actual exhaustion. These original checks add no upstream-method coverage and
+do not establish Java timed phase traces or hard preemption. See the exact-search
+elapsed-time section of `planning-contract.md` for scope and precedence.

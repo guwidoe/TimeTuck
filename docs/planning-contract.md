@@ -141,3 +141,39 @@ pinned-prefix optional-list and mixed product spaces, retained eligible scores,
 empty versus singleton-empty spaces, exact-final-callback exhaustion and real
 controller-thread cancellation. A public API doctest demonstrates the new entry
 point. These tests add no upstream adapted-method credit.
+
+## Exact-search elapsed time
+
+All three configurable exact entry points additionally accept
+`ExactSearchConfig::max_time: Option<Duration>`, disabled by default. Their public
+wrappers start a monotonic clock before setup and enumeration. One timer spans the
+whole mixed product; it does not reset for each list or basic component. Elapsed
+time includes model preparation, enumeration, candidate copies, scorer calls and
+retaining the best assignment. The mixed scorer is polled for time after its owned
+joint assignment has been prepared. A disabled limit does not sample a clock.
+
+Before scoring an unvisited complete assignment, the evaluation cap has precedence,
+then cancellation, then elapsed time. An observed deadline returns
+`Termination::TimeLimit`, retaining the first best structurally eligible candidate
+already scored. A callback that overruns can finish and its result is still retained.
+Ties and negative structural scores keep their existing behavior. There is no
+preemption inside enumeration, a callback or a user value operation, and therefore
+no hard latency or deadline guarantee.
+
+Only a remaining candidate can report a limit. If enumeration actually finishes,
+`Exhausted` wins, even when the final callback overruns or requests cancellation.
+An impossible space is exhausted without scoring or clock polling; it has no best
+candidate and proves no optimum. A zero-variable/zero-value model instead contains
+one empty assignment; a zero deadline stops before scoring it. The old budget-only
+APIs leave the time control disabled and retain their signatures/order/results.
+The new config field and termination variant require callers with complete struct
+literals or exhaustive enum matches to account for them.
+
+Six original controlled-clock unit methods cover every evaluation/count/cancellation/
+time prefix for pinned/optional basic, list and mixed spaces; first-tie retention,
+structural rejection, late callbacks, disabled/very-large/backwards clock samples,
+empty spaces and setup/owned-joint-copy costs. Two original public integration
+methods check real zero-duration precedence and unchanged disabled/large-duration
+results against the budget-only entry points. One doctest shows the public setting.
+These checks use no sleeps and grant no additional upstream method credit or Java
+wall-clock/phase-trace equivalence. Existing exact benchmarks leave time disabled.
