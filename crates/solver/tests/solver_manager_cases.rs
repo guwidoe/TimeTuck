@@ -1473,3 +1473,96 @@ fn solve_and_listen_with_builder() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+fn configured_fixture(
+    limits: SolverLimits<'static>,
+) -> SolverFactory<FiniteProblem<i64>, Vec<Option<i64>>, String> {
+    SolverFactory::new(
+        SolverConfig {
+            limits,
+            local_search: vec![LocalSearchConfig {
+                max_steps: 10,
+                ..Default::default()
+            }],
+            ..Default::default()
+        },
+        |problem: FiniteProblem<i64>, config, progress| {
+            let mut network = ConstraintNetwork::new(2);
+            network
+                .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                .unwrap();
+            let result = solve_with_observer(&problem, &network, config, |update| {
+                progress.publish_from(
+                    update.assignment.values().to_vec(),
+                    SolverEventProducer::from(&update),
+                );
+            })
+            .map_err(|e| e.to_string())?;
+            Ok(result.assignment.values().to_vec())
+        },
+    )
+    .unwrap()
+}
+#[test]
+fn solve_with_override() {
+    let factory = configured_fixture(SolverLimits {
+        max_time: Some(Duration::from_secs(1)),
+        ..Default::default()
+    });
+    let mut manager = factory.build_manager(1).unwrap();
+    let job1 = manager
+        .job_builder(1)
+        .with_problem(statistics_problem(2, vec![1, 2]))
+        .run()
+        .unwrap();
+    assert_eq!(
+        job1.configuration()
+            .limits
+            .time_gradient(Duration::from_millis(50), Duration::ZERO),
+        Some(0.05)
+    );
+    let job2 = manager
+        .job_builder(2)
+        .with_problem(statistics_problem(2, vec![1, 2]))
+        .with_limits(SolverLimits {
+            max_time: Some(Duration::from_millis(100)),
+            ..Default::default()
+        })
+        .run()
+        .unwrap();
+    assert_eq!(
+        job2.configuration()
+            .limits
+            .time_gradient(Duration::from_millis(50), Duration::ZERO),
+        Some(0.5)
+    );
+    assert!(job1.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(job2.wait_timeout(LIMIT).unwrap().is_ok());
+    assert_eq!(
+        factory.configuration().limits.max_time,
+        Some(Duration::from_secs(1))
+    );
+    manager.shutdown().unwrap();
+}
+#[test]
+fn solve_with_termination_spent_limit() {
+    let factory = configured_fixture(SolverLimits {
+        max_time: Some(Duration::from_secs(1)),
+        ..Default::default()
+    });
+    let mut manager = factory.build_manager(1).unwrap();
+    let job = manager
+        .job_builder(1)
+        .with_problem(statistics_problem(2, vec![1, 2]))
+        .with_time_limit(Some(Duration::from_millis(100)))
+        .run()
+        .unwrap();
+    assert_eq!(
+        job.configuration()
+            .limits
+            .time_gradient(Duration::from_millis(50), Duration::ZERO),
+        Some(0.5)
+    );
+    assert!(job.wait_timeout(LIMIT).unwrap().is_ok());
+    manager.shutdown().unwrap();
+}

@@ -4593,3 +4593,71 @@ Illustrative refreshed Rust/Java median milliseconds: exact 6 0.012/3.955 and ex
 retain documented score differences. Existing workloads do not isolate builder or
 origin-publication overhead. Shared-machine timings support no general speedup or
 regression claim. This increment is verified; the overall solver goal remains active.
+
+
+## Reusable solver factory and per-job settings increment
+
+New solver_factory.rs provides SolverFactory<P,R,E,S> with immutable native
+SolverSequence defaults and a reusable concurrent solve function. build_manager
+creates a native pool; with_manager accepts existing pools including custom thread
+creation/consumer counts. ConfiguredSolverManager uses the existing builder/pool,
+with explicit shutdown and Deref for ordinary manager methods. Configured job
+builders clone settings, accept input/finder/callbacks/size, replace limits/phases,
+and set/disable time or unimproved-time limits in call order. Each submission holds
+an immutable effective config on ConfiguredSolverJob and injects a fresh job token
+into a copy passed to its real solve function. P/R/E need no Clone; P is Send only.
+Arbitrary solve closures must forward config to native solving. No Java reflection,
+XML config or automatic enforcement of arbitrary code is claimed.
+
+Empty phase vectors and cancellation references in factory/global/each local phase
+are rejected before execution. Model-specific validation remains in actual solving.
+Configured metadata survives failure, cancellation and ID reuse. Queued cancellation
+uses the captured-input builder contract; deferred finders remain uncalled. Pure
+SolverLimits::time_gradient uses explicit elapsed/unimproved durations with max/OR,
+capping at one, zero -> one and no timed criteria -> None. It omits other limits and
+does not infer stagnation from job duration.
+
+Seven original solver_factory tests cover actual move/time/unimproved termination,
+whole-limit/phase overrides and setter order, default isolation, validation, concurrent
+job cancellation, cloned factory/custom pool reuse, queued config/size/cancellation
+and ID reuse, failed reusable functions and non-Clone Send-only inputs, plus time
+fractions/zero/disabled/large-duration boundaries. Two full source methods preserve
+one-second/100-ms time gradients at 50 ms on real solving. Added fixture attribution
+reuses PlannerTestUtils constant-zero CH/LS10 configuration. Notices count 31 manager
+methods. Source adaptation waits assert success without requiring a 100-ms job to
+finish construction under arbitrary scheduling. Public factory doctest runs a real
+native solve. Logs use work/solver-factory-*. No upstream production read.
+
+Five manager source methods remain pending: create, errorThrowableInSolver,
+solveGenerics, solveWithTerminationUnimprovedSpentLimit and
+testSolveBuilderForExistingSolvingMethods. The unimproved source method checks a raw
+override with absent spentLimit and spies on TerminationFactory.create(rawOverride).
+Native convenience mutation preserves other effective fields and has no raw Java
+patch object/static factory interaction, so do not award that method merely because
+unimproved execution works. Other native factories do not establish Java reflection,
+XML, overload mock wiring or actual OOM recovery. Overall goal remains active.
+
+
+Full verification: bash scripts/check.sh passes 1,305 Rust tests (609 adapted,
+621 original integration, 75 unit), 63 doctests and 95 Python tests. Release all-target
+checks pass the same 1,305 tests. The public factory doctest needed an explicit
+String error annotation during development; the final full gate passes. The
+live_initialization example delivers all four initialization events and proves four
+optima. Coverage is 609/4,855 (12.54%), 3,964 pending, 282 excluded and zero failed/
+unverified. Lifecycle is 51/379 (13.46%). The upstream checkout/pin is unchanged.
+
+
+All nine differential/performance datasets were refreshed and report current;
+verification is successful and the live /api/freshness digest matches. Reused the
+running dashboard server. Browser checks at 1280x900 and 390x844 confirm 609/4,855,
+23 benchmark cards, no overflow, stale/error messages or browser errors. Lifecycle
+searches show solveWithOverride and solveWithTerminationSpentLimit Passed while
+solveWithTerminationUnimprovedSpentLimit remains Pending. Browser closed; server
+retained. No frontend edits or design skills used.
+
+Refreshed illustrative Rust/Java median milliseconds: exact 6 0.010/4.108 and exact 8
+0.137/5.943; Great Deluge 32 2.418/8.614 and 96 13.240/15.868; stream tabu 96
+168.339/31.034 with equal [-44,-484]. List two-opt 16 0.273/8.193 and 32 1.098/13.143
+retain documented score differences. Existing workloads do not isolate factory or
+configuration-copy overhead. Shared-machine results support no general speedup or
+regression claim. This increment is verified; the overall solver goal remains active.

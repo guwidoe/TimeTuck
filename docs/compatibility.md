@@ -628,3 +628,16 @@ source final-callback barrier; extra completed-job/failure checks prevent swallo
 callback errors from receiving credit. Native phase kind/index replaces Java producer
 identity, with no Java API or ABI claim. Six original infrastructure tests receive
 no source-method credit. solveGenerics and mocked overload delegation remain pending.
+
+
+SolverManagerTest.solveWithOverride and solveWithTerminationSpentLimit now have
+complete adaptations. A reusable native factory runs real construction and ten-step
+local search with per-job effective settings on the attributed two-entity/two-value
+fixture. Job settings preserve the one-second default's 0.05 gradient at 50 ms and
+the 100-ms override's 0.5 gradient, including the convenience setter. Explicit Duration
+values replace mocked SolverScope clock values. Native tests additionally establish
+actual limit enforcement, independent defaults/cancellation and metadata persistence.
+The source solveWithTerminationUnimprovedSpentLimit remains pending: native field
+mutation supports the functionality but does not reproduce its raw override-object
+and static TerminationFactory invocation assertions. No extra source credit is added
+for native-only tests, factory naming or Java reflection/XML/generic behavior.

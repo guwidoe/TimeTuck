@@ -1073,3 +1073,52 @@ non-null final/best solutions and best producer presence through real solving. N
 regressions additionally verify ownership, no eager lookup, rejection/cancellation,
 lookup failures, ID reuse, metadata coalescing, legacy publication and callback panic.
 Java callback variance and mocked convenience-overload delegation remain uncredited.
+
+
+## Reusable native solver factories
+
+`SolverFactory<P, R, E, S>` owns immutable SolverSequence defaults and a reusable
+Send + Sync solve function. Each invocation receives an owned input, the effective
+sequence and a progress publisher. It must use that sequence when calling the native
+solver and construct independent working/scoring state; arbitrary user closures
+cannot be forced to obey a deadline. Inputs/results/errors need no Clone, and inputs
+need only Send. Cloned factories share immutable defaults and the concurrent solve
+function. This factory does not provide Java reflection or XML configuration.
+
+`build_manager` creates the ordinary native pool; `with_manager` binds an existing
+pool, preserving custom thread factories and consumer counts. The configured manager
+provides a job builder without requiring another solve closure. Existing manager APIs
+remain available through Deref. Only configured submissions use the factory defaults;
+direct closure submissions retain their original contract. Explicit shutdown joins
+the pool; drop retains ordinary cancellation/detachment semantics.
+
+Each builder starts with an independent configuration copy. Whole-limit and phase
+setters replace their sections, while time/unimproved-time setters alter one field
+and use None to disable it. Setter order is significant. Submission validates and
+captures the effective settings in an immutable configured job handle; they remain
+inspectable during queueing, failure, cancellation and ID reuse. Worker execution
+copies these exact settings and binds the new job cancellation token. No original
+input is cloned. Queued cancellation follows the existing captured-input builder
+contract and never runs deferred lookup.
+
+Factories and configured submissions reject empty phase vectors and any template
+cancellation reference, including each phase-local variant. Cancellation belongs to
+the job and is injected into its solve-wide limits. Other phase/model validation is
+performed by native solving. Callback delivery, statistics, deferred lookup failures
+and ID reservation reuse the existing builder/manager paths. Caller-computed model
+size can be supplied before queueing.
+
+SolverLimits::time_gradient accepts explicit elapsed and unimproved Duration values.
+It reports the maximum fraction of the configured time criteria (OR), capped at one;
+zero limits yield one and no time criteria yields None. It omits counts, scores,
+cancellation and phase-local limits, and does not infer stagnation from wall time or
+job duration. It is inspection of supplied clock evidence, not a second timer.
+
+Two complete source manager adaptations preserve default one-second and overridden
+100-ms gradients at 50 ms through actual configured solving. Native tests separately
+prove that time, unimproved-time and move limits affect solver results; they also
+cover defaults, phase replacement, cancellation isolation, factory failure/reuse,
+queued inspection/metadata, no eager lookup, validation and gradient boundary cases.
+The source unimproved override method still requires a Java static-factory interaction
+and inspection of its raw override object; the native effective-settings interface
+has a different contract and does not earn that method yet.

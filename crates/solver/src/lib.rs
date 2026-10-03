@@ -251,6 +251,12 @@ pub use solver_manager::{
     SolverThreadSpec, SolverThreadTask, SubmitError,
 };
 
+mod solver_factory;
+pub use solver_factory::{
+    ConfiguredSolverJob, ConfiguredSolverJobBuildError, ConfiguredSolverJobBuilder,
+    ConfiguredSolverManager, SolverFactory, SolverFactoryError,
+};
+
 mod solver_job_builder;
 pub use solver_job_builder::{SolverJobBuildError, SolverJobBuilder};
 

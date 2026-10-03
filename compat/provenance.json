@@ -9105,6 +9105,36 @@
       "upstream_test": "solveAndListenWithBuilder",
       "local_test": "solve_and_listen_with_builder",
       "modifications": "Preserve job ID 1, deferred DEFAULT_PROBLEM_FINDER with two entities/two values, real constant-zero scoring with construction then local search bounded by ten steps, and an exception handler that fails the test. Preserve both final and best callback delivery and non-null final solution, best solution and best-event producer. Copy native phase kind/index from actual synchronous solver updates; additional assertions verify construction phase zero. Native job_builder takes an explicit solve function and with_callbacks bundle; native phase metadata replaces Java producer identity without API parity. Timed channel receipt replaces the final-consumer CyclicBarrier; completed-job wait and callback-failure assertions additionally prove no silent error. Reuse attributed PlannerTestUtils/DummySimpleScore fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveWithOverride",
+      "status": "implemented",
+      "upstream_test": "solveWithOverride",
+      "local_test": "solve_with_override",
+      "modifications": "Preserve the default one-second limit, first job ID 1 and gradient 0.05 at 50 ms; replace the whole native SolverLimits for ID 2 with a 100-ms time limit and assert gradient 0.5 at 50 ms. Native reusable SolverFactory copies effective settings per job and passes them, with its job cancellation token, to actual construction/ten-step local-search solving on the attributed two-entity/two-value constant-zero fixture. Explicit elapsed Duration replaces mocked SolverScope time; job.configuration limits are the same immutable settings copied into execution. Extra successful-result checks supplement source assertions; the whole-limit case additionally verifies default isolation. Native whole-limit replacement and one-field convenience mutation replace Java config objects and private job/factory casts. No Java API/ABI parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveWithTerminationSpentLimit",
+      "status": "implemented",
+      "upstream_test": "solveWithTerminationSpentLimit",
+      "local_test": "solve_with_termination_spent_limit",
+      "modifications": "Preserve the default one-second limit, job ID 1, the time-limit convenience override to 100 ms and gradient 0.5 at 50 ms. Native reusable SolverFactory copies effective settings per job and passes them, with its job cancellation token, to actual construction/ten-step local-search solving on the attributed two-entity/two-value constant-zero fixture. Explicit elapsed Duration replaces mocked SolverScope time; job.configuration limits are the same immutable settings copied into execution. Extra successful-result checks supplement source assertions; the whole-limit case additionally verifies default isolation. Native whole-limit replacement and one-field convenience mutation replace Java config objects and private job/factory casts. No Java API/ABI parity claim."
     }
   ],
   "fixtures": [
@@ -10056,6 +10086,19 @@
       "id": "SolverManagerTest.builder_fixtures",
       "upstream_test": "DEFAULT_PROBLEM_FINDER",
       "modifications": "builder_problem_finder maps supplied ID to the attributed PlannerTestUtils two-entity/two-value fixture. builder_solve reuses its constant-zero scorer, construction and ten-step local-search configuration and forwards actual solver-update snapshots with native phase provenance. Native integer IDs replace generated solution-code strings. Helper-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.configured_factory_fixture",
+      "upstream_test": "solveWithOverride, solveWithTerminationSpentLimit",
+      "modifications": "configured_fixture reuses the attributed PlannerTestUtils construction/ten-step-local-search and constant-zero fixture with native immutable factory defaults and real per-job sequence application. Explicit Duration inputs replace source mocked time. Helper-only attribution; no additional method credit."
     }
   ]
 }
