@@ -32,6 +32,18 @@ impl ConstructionPickEarly {
     }
 }
 
+/// How construction treats missing optional values.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum OptionalConstruction {
+    /// Leave optional values for local search.
+    #[default]
+    Preserve,
+    /// Evaluate legal assignments and retain the first best candidate whose score
+    /// is at least the current score. Otherwise preserve unassignment. Existing
+    /// assignments and pinned unassignment are never reconsidered.
+    NonWorsening,
+}
+
 /// Shared controls for basic, list and mixed construction in both scoring
 /// backends. A cancellation request retains the best evaluated candidate of the
 /// current scan, including incomplete progress. Initialization and diagnostics
@@ -40,8 +52,9 @@ impl ConstructionPickEarly {
 /// precedence. A zero move budget permits initialization, then no candidates.
 /// The default token is None. Configurations borrow tokens and remain Copy.
 ///
-/// A construction step installs one previously missing required value. A step
-/// limit preserves the winner of its entire scan, unlike a candidate limit:
+/// A step evaluates one missing item. Required items are assigned; optional scans
+/// may reject all candidates. A step limit preserves an entire scan, unlike a
+/// candidate limit (unless another control interrupts the scan):
 ///
 /// ```
 /// use timetuck::{ConstructionConfig, ConstructionTermination, ConstraintNetwork,
@@ -68,10 +81,13 @@ pub struct ConstructionConfig<'a> {
     pub max_evaluations: u64,
     /// Candidate evaluations only; initialization is excluded. None disables it.
     pub max_move_evaluations: Option<u64>,
-    /// Newly assigned required variables or list values per call. None disables
-    /// this limit. Initial scoring, existing assignments and optional None values
-    /// do not consume steps. A step finishes its candidate scan before stopping.
+    /// Evaluated variable/value scans per call. None disables this limit.
+    /// Scans of optional values count even if every candidate is rejected.
+    /// Initialization, existing assignments and scans with no candidates do not
+    /// consume steps. A step finishes its scan unless another limit interrupts it.
     pub max_steps: Option<u64>,
+    /// Whether to consider missing optional values. Defaults to Preserve.
+    pub optional: OptionalConstruction,
     /// Cooperative elapsed time, including initialization and diagnostics. Zero
     /// permits initial scoring only; active callbacks cannot be interrupted.
     pub max_time: Option<std::time::Duration>,
@@ -86,6 +102,7 @@ impl Default for ConstructionConfig<'_> {
             max_evaluations: 10_000,
             max_move_evaluations: None,
             max_steps: None,
+            optional: OptionalConstruction::Preserve,
             max_time: None,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
@@ -94,9 +111,8 @@ impl Default for ConstructionConfig<'_> {
 }
 
 impl ConstructionConfig<'_> {
-    pub(crate) fn step_limit_reached(&self, assigned: usize) -> bool {
-        self.max_steps
-            .is_some_and(|limit| assigned as u128 >= u128::from(limit))
+    pub(crate) fn step_limit_reached(&self, completed: u64) -> bool {
+        self.max_steps.is_some_and(|limit| completed >= limit)
     }
 
     pub(crate) fn cancelled(&self) -> bool {
@@ -107,7 +123,7 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
-    /// Another required assignment remains after the step budget is spent.
+    /// Another eligible unassigned item remains after the step budget is spent.
     /// The preceding scan's winner is retained without truncating that scan.
     StepLimit,
     /// Elapsed time expired; retain the best scored prefix, possibly incomplete.
@@ -117,7 +133,8 @@ pub enum ConstructionTermination {
     /// Cancellation observed; the best evaluated prefix of the current scan is
     /// installed. The returned assignment may be partial or complete.
     Cancelled,
-    /// Every required variable is assigned and its scan finished or picked early.
+    /// All eligible items were visited and their scans finished or picked early.
+    /// Optional values may remain unassigned; empty scans consume no steps.
     /// This does not imply hard feasibility or optimality.
     Completed,
     /// An unevaluated candidate remains. The best evaluated value is retained;
@@ -135,6 +152,9 @@ pub struct ConstructionResult<V, S> {
     pub complete: bool,
     pub evaluations: u64,
     pub assigned_variables: usize,
+    /// Scans with at least one evaluated candidate, including an interrupted scan
+    /// and optional scans that reject every candidate. Resets on each call.
+    pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
 }
@@ -158,8 +178,9 @@ impl<V: Clone, S: Clone> ConstructionResult<V, S> {
     }
 }
 
-/// Visit unassigned required variables in model order and evaluate domain values
-/// in domain order. Preserve supplied values, pins and optional None values.
+/// Visit missing variables in model order and evaluate domain values in domain
+/// order. Preserve supplied values and pins. Optional None values are preserved
+/// by default, or considered under [`OptionalConstruction::NonWorsening`].
 /// Constraints must support partial assignments (None in scoped arguments).
 /// Each variable's candidates use the same prior assignment; ties retain the
 /// first candidate. Cached contributions install without rescoring the winner.
@@ -173,7 +194,8 @@ pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 pub fn greedy_construction_from<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
@@ -220,6 +242,7 @@ pub(crate) fn construction_impl_with_clock<
         score: None,
         evaluations: 0,
         assigned_variables: 0,
+        completed_steps: 0,
         constraint_evaluations: 0,
         termination: ConstructionTermination::EvaluationLimit,
     };
@@ -251,10 +274,13 @@ pub(crate) fn construction_impl_with_clock<
             result.termination = ConstructionTermination::TimeLimit;
             break;
         }
-        if director.assignment().values()[index].is_some() || variable.allows_unassigned() {
+        if director.assignment().values()[index].is_some()
+            || variable.is_pinned()
+            || (variable.allows_unassigned() && config.optional == OptionalConstruction::Preserve)
+        {
             continue;
         }
-        if config.step_limit_reached(result.assigned_variables) {
+        if config.step_limit_reached(result.completed_steps) {
             result.termination = ConstructionTermination::StepLimit;
             break;
         }
@@ -272,13 +298,14 @@ pub(crate) fn construction_impl_with_clock<
             moves.take_while(|_| !config.cancelled() && !time.expired()),
             budget.remaining,
             false,
-            |_, _| true,
+            |_, score| !variable.allows_unassigned() || score >= previous,
             |score| config.pick_early.should_pick(previous.clone(), score),
             config.assert_scores,
         )?;
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
-        result.assigned_variables += usize::from(selection.evaluations > 0);
+        result.completed_steps += u64::from(selection.evaluations > 0);
+        result.assigned_variables += usize::from(selection.selected.is_some());
         if config.assert_scores {
             director.assert_consistent()?;
         }

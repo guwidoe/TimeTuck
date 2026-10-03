@@ -15,10 +15,15 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
-- `crates/solver/tests/solver_manager_cases.rs` adapts eleven parallel-solving,
+- `crates/solver/tests/construction_optional_cases.rs` adapts two optional-variable
+  methods from `DefaultConstructionHeuristicPhaseTest.java`, with model and scoring
+  fixtures from `testdomain/unassignedvar` and `testdomain/list/unassignedvar`.
+
+- `crates/solver/tests/solver_manager_cases.rs` adapts twelve parallel-solving,
   job-status, duplicate-ID, callback, initialization-event, skip-ahead and error-handler methods from `SolverManagerTest.java`, with fixtures
   from that test, `PlannerTestUtils.java`, `PlannerAssert.java` and
-  `DummySimpleScoreEasyScoreCalculator.java`.
+  `DummySimpleScoreEasyScoreCalculator.java`, and the optional-list model/scorer
+  fixtures in `testdomain/list/unassignedvar`.
 
 - `crates/solver/tests/great_deluge.rs` preserves all three methods from
   `GreatDelugeAcceptorTest.java`, with initialized score fixtures from

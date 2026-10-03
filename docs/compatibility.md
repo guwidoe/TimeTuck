@@ -539,3 +539,13 @@ basic/list/mixed models and both scoring backends. Original tests cover partial
 initialization events and resumable phase handoffs. No source-method credit is
 added: the Java early-CH exception path and optional-list construction behavior
 remain pending, as do the custom-phase initialization cases.
+
+
+Score-aware optional construction adds three fully adapted methods: the basic and
+list optional-construction cases in DefaultConstructionHeuristicPhaseTest and the
+early-terminated optional-list initialization case in SolverManagerTest. Explicit
+native NonWorsening configuration preserves every source result assertion; it is
+not a Java default-policy or internal evaluation-trace claim. The optional-list
+fixture preserves both entity-size and unassigned-value penalties. Four source
+initialization-event methods remain pending (early required construction and three
+custom-phase cases); original optional regressions add no further method credit.

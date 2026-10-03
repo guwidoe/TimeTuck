@@ -8805,6 +8805,51 @@
       "id": "SolverManagerTest.firstInitializedSolutionConsumerWithSingleLSPhase",
       "status": "implemented",
       "modifications": "Preserve a local-search-only phase sequence, two entities initialized to the first of two values, constant-zero ordinary scoring, best-score limit zero, registered initialization and empty final consumers, final wait, false initialized marker and absent producer identity. Native SolverSequence removes construction entirely; owned snapshots and Mutex reuse the attributed event/scorer/generator fixtures. Extra checks establish one phase at index zero, target termination, initialized final state and no callback failures. No Java trace/scheduling parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithAllowsUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithAllowsUnassignedBasicVariable",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "local_test": "solve_with_allows_unassigned_basic_variable",
+      "modifications": "Preserve three optional entities over two values, first initial value, duplicate ordered-pair penalty 1000 and unassigned penalty 1, final score -1 and assignments first value/second value/unassigned. Native construction-only SolverPlan explicitly selects NonWorsening; ordinal integer IDs replace Java objects, scoped scoring replaces the easy calculator. All source result assertions retained; no candidate-count or Java trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithAllowsUnassignedValuesListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithAllowsUnassignedValuesListVariable",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "local_test": "solve_with_allows_unassigned_values_list_variable",
+      "modifications": "Preserve four values, one optional list initially containing the first two, list-size penalty, final score -2 and exact retained initial order. Native derived list relationships replace explicit shadow-variable synchronization. Construction-only SolverPlan explicitly uses NonWorsening; typed Result replaces the non-null result assertion. No reflection, default-policy or trace parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerEarlyTerminatedCHListVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "firstInitializedSolutionConsumerEarlyTerminatedCHListVar",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "local_test": "first_initialized_solution_consumer_early_terminated_ch_list_var",
+      "modifications": "Preserve two optional values/two empty lists, entity-size and unassigned-value penalties, construction step limit one, local-search step limit zero, successful final wait, called consumer, false non-early marker and construction producer index zero. Native explicit NonWorsening policy considers optional insertions; owned snapshots and Mutex/AtomicBool adapt event delivery. Extra assertions require an actual assigned value, two executed phases, score -2 and no callback failure. No scheduling/trace or default-policy parity claim."
     }
   ],
   "fixtures": [
@@ -9535,6 +9580,149 @@
       "id": "DummySimpleScoreEasyScoreCalculator.initialized_event_fixture",
       "upstream_test": "calculateScore",
       "modifications": "Preserve constant ordinary SimpleScore zero. Native scoped scoring additionally tracks required-unassigned structural count separately; no source-method credit for the fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntity.optional_construction_0",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "planning value",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Native optional variables preserve the initial first value and two unassigned values; integer IDs replace test objects and reflection descriptors are omitted. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSolution.optional_construction_1",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "entity and value collections",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Preserve the explicitly supplied three-entity/two-value registry and SimpleScore; source generator is not used. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEasyScoreCalculator.optional_construction_2",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Preserve penalty one per null and penalty 1000 per ordered pair of distinct entities sharing a non-null value; native scoped contribution uses the same assertions fixture. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEasyScoreCalculator.optional_construction_3",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Preserve negative total list length; native scoped list contribution replaces the easy calculator. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListConstraintProvider.optional_construction_4",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListConstraintProvider.java",
+      "upstream_test": "defineConstraints, entityConstraint, valueConstraint",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "modifications": "Preserve the sum of negative list sizes and one penalty for each unassigned value using native entity/value scopes. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.optional_construction_5",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Preserve optional list metadata and supplied order; native ListEntity replaces reflection. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.optional_construction_6",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Preserve explicit ordered entity and value registries with SimpleScore; generator not used. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.optional_construction_7",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/construction_optional_cases.rs",
+      "modifications": "Integer identities and native derived owner/index/neighbor relationships replace test objects and mutable shadow fields; no descriptor API port. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.optional_construction_8",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "modifications": "Preserve optional list metadata and supplied order; native ListEntity replaces reflection. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.optional_construction_9",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "modifications": "Preserve explicit ordered entity and value registries with SimpleScore; generator not used. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.optional_construction_10",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "optional list fixture",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "modifications": "Integer identities and native derived owner/index/neighbor relationships replace test objects and mutable shadow fields; no descriptor API port. Fixture only; no separate method credit."
     }
   ]
 }

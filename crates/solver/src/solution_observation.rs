@@ -97,7 +97,8 @@ pub fn greedy_construction_with_observer<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
@@ -181,7 +182,8 @@ pub fn greedy_stream_construction_with_observer<
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_stream_construction_from_with_observer<
@@ -306,7 +308,8 @@ pub fn greedy_list_construction_with_observer<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_list_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
@@ -378,7 +381,8 @@ pub fn greedy_list_stream_construction_with_observer<
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_list_stream_construction_from_with_observer<
@@ -507,7 +511,8 @@ pub fn greedy_mixed_construction_with_observer<B: Eq + Clone, L: Eq + Clone, S: 
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_mixed_construction_from_with_observer<
@@ -590,7 +595,8 @@ pub fn greedy_mixed_stream_construction_with_observer<
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 /// Initial scoring and committed placements notify synchronously; see [`SolutionUpdate`].
 pub fn greedy_mixed_stream_construction_from_with_observer<

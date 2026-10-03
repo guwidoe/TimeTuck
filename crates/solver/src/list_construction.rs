@@ -14,6 +14,8 @@ pub struct ListConstructionResult<V, S> {
     pub complete: bool,
     pub evaluations: u64,
     pub assigned_values: usize,
+    /// Scans with at least one candidate, even when optional placement is rejected.
+    pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
 }
@@ -37,7 +39,8 @@ impl<V: Clone, S: Clone> ListConstructionResult<V, S> {
 /// Preserve initial lists and pins. Insert missing required values in range order,
 /// scanning entities and insertion indices in order. Ties retain the first best
 /// candidate; the shared early-pick policy compares ordinary levels. Optional
-/// missing values remain unassigned for subsequent local search to consider.
+/// missing values remain unassigned by default; NonWorsening also considers them
+/// and preserves unassignment when every evaluated insertion is worse.
 /// Initial scoring and every trial count toward the budget; installing a winner
 /// reuses its saved contribution cache. Partial progress is returned on limits.
 pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
@@ -49,7 +52,8 @@ pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 pub fn greedy_list_construction_from<V: Eq + Clone, S: AdditiveScore>(
     problem: &ListProblem<V>,
@@ -90,6 +94,7 @@ pub(crate) fn construction_impl_with_clock<
         score: None,
         evaluations: 0,
         assigned_values: 0,
+        completed_steps: 0,
         constraint_evaluations: 0,
         termination: ConstructionTermination::EvaluationLimit,
     };
@@ -112,7 +117,8 @@ pub(crate) fn construction_impl_with_clock<
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
-    if !problem.allows_unassigned() {
+    if !problem.allows_unassigned() || config.optional == crate::OptionalConstruction::NonWorsening
+    {
         for value in problem.values() {
             if config.cancelled() {
                 result.termination = ConstructionTermination::Cancelled;
@@ -125,7 +131,7 @@ pub(crate) fn construction_impl_with_clock<
             if director.assignment().location(value).is_some() {
                 continue;
             }
-            if config.step_limit_reached(result.assigned_values) {
+            if config.step_limit_reached(result.completed_steps) {
                 result.termination = ConstructionTermination::StepLimit;
                 break;
             }
@@ -146,13 +152,14 @@ pub(crate) fn construction_impl_with_clock<
                 moves.take_while(|_| !config.cancelled() && !time.expired()),
                 budget.remaining,
                 false,
-                |_, _| true,
+                |_, score| !problem.allows_unassigned() || score >= previous,
                 |score| config.pick_early.should_pick(previous.clone(), score),
                 config.assert_scores,
             )?;
             result.evaluations += selection.evaluations;
             result.constraint_evaluations += selection.constraint_evaluations;
             result.assigned_values += usize::from(selection.selected.is_some());
+            result.completed_steps += u64::from(selection.evaluations > 0);
             if config.assert_scores {
                 director.assert_consistent()?;
             }

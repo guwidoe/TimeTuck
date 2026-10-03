@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 587 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 11 manager), recorded in
+- 590 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 12 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 554 original integration regression methods, 70 original unit tests, and 54 public API documentation tests.
+- 558 original integration regression methods, 70 original unit tests, and 54 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3888,3 +3888,89 @@ stream validation cases retain equal scores; list validation remains 192 valid,
 use default unlimited construction steps and do not measure the new step-limited
 phase/event throughput; shared-machine timing changes alone prove no regression
 or improvement. Keep the full goal active.
+
+
+## Optional construction — latest increment
+
+ConstructionConfig::optional now offers OptionalConstruction::Preserve (default)
+and NonWorsening. The latter scans missing optional basic/list values in existing
+model/domain/insertion order across all six paths. Supplied values, list pins and
+basic variables pinned to None are preserved. Optional candidates must score at
+least the cached pre-scan state; best accepted score wins, ties keep the first
+candidate (including ties with unassignment). All-worse/unavailable insertions
+leave None untouched. No null synthetic candidate or extra rescore is counted.
+Required assignments keep their old behavior and structural priority.
+
+Each construction result now exposes completed_steps, counting scans with at least
+one evaluated candidate, including rejected optional scans and interrupted scans.
+Assigned counters count installed placements only. Mixed has one scan count across
+both components. max_steps now bounds that count; under default Preserve behavior
+it equals the old assignment count. Empty scans count zero, but the pre-scan cap
+can stop before discovering no candidates. Resume resets the count and considers
+remaining missing items again, including earlier optional rejections. Native
+solver work/stagnation counters still exclude construction. Standalone observers
+notify initial state and committed placements; rejected scans add no events.
+All 12 resume API comments now describe configured optional construction.
+
+Three complete source methods now adapted: DefaultConstructionHeuristicPhaseTest.
+solveWithAllowsUnassignedBasicVariable (first value/second value/null, score -1)
+and solveWithAllowsUnassignedValuesListVariable (retain two initial values from
+four, score -2), in construction_optional_cases.rs; SolverManagerTest.
+firstInitializedSolutionConsumerEarlyTerminatedCHListVar in solver_manager_cases.rs
+(two optional values/two empty lists, CH step one, LS step zero, successful final
+wait, called callback, early flag true and producer CH0). The manager test also
+requires an actual placement and both phase reports; it does not simulate events.
+Explicit NonWorsening is a native configuration adaptation, not Java default-policy
+parity. The existing InitialSolutionEvent helper is reused. Eleven fixture records
+cover the optional basic/list model metadata and the distinct scoring rules; notices
+now count twelve manager methods and the two new construction methods. No production
+source was inspected. The tests use native derived list relationships instead of
+explicit Java shadow synchronization.
+
+Four original integration methods: three in support/optional_construction_cases.rs
+(included by construction_cancellation.rs) check all six paths, both mixed orders,
+positive/zero/negative objectives, early picks, diagnostics, all small budget
+combinations and cancellation prefixes; one in construction_resume.rs checks pins,
+empty domains, unavailable insertion, existing assignments, observers and resumed
+mixed step budgets. The former fixture's run_problem helper takes optional model
+and objective parameters; legacy run delegates with its unchanged required model.
+Outcome now includes completed_steps. Four explicit legacy ConstructionConfig
+literals supply optional: Preserve. Focused and full debug checks passed.
+
+Remaining initialization source methods: early required CH (native incomplete
+handoff still returns IncompleteConstruction rather than Java exception) and the
+three custom-phase cases. Live problem changes and broader solver parity remain
+pending. Work logs use work/optional-construction-*.
+
+Further source evidence for future custom-phase work: read the three manager
+custom-phase initialization tests and pinned public docs optimization-algorithms/
+overview.adoc around lines 880–938. Commands run in sequence, must cooperate with
+termination, and mutate entities through score-aware move operations; problem facts
+are not mutable through this contract. The docs state non-improving commands do not
+replace the best state carried into later phases/commands. The manager fixtures
+assert no initialization during custom commands; CH/custom/LS attributes the event
+to custom phase 1, and two custom phases without LS emit none. This needs an actual
+command/phase API, not simulated producer notifications. No command implementation
+was inspected or adapted in this increment.
+
+Final verification: bash scripts/check.sh passes 1,218 Rust tests (590 adapted,
+558 original integration, 70 unit), 54 doctests and 95 Python tests. Release
+all-target tests pass the same 1,218 cases; live_initialization delivers four
+callbacks and proves four optima. All nine differential/performance datasets are
+current, report verification succeeds, and the live freshness verification digest
+matches. Coverage is 590/4,855 (12.15%), 3,983 pending, 282 excluded; lifecycle
+32/379 (8.44%) and search algorithms 24/158 (15.19%). Upstream unchanged.
+
+Browser checks at 1280x900 and 390x844 show 23 benchmark cards, no horizontal
+overflow, stale/error messages or browser errors. Lifecycle filtering shows five
+Passed and four Pending firstInitializedSolutionConsumer methods; search-algorithm
+filtering shows both optional-construction methods Passed. Browser session closed.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.012/4.294, exact 8
+0.137/5.577; Great Deluge 32 2.402/8.804, 96 13.996/14.477; stream tabu 96
+176.778/28.934 (equal [-44,-484]). List two-opt 16 0.289/8.581, 32 1.059/15.435
+retain known score differences. Validation remains 128 heuristic/64 stream equal
+scores, list 192 valid/189 equal. Great Deluge remains 275/276 Java agreement with
+its recorded ratio boundary difference. These default-policy workloads do not
+benchmark optional-construction throughput; shared-machine samples alone establish
+no performance improvement/regression. Keep the full goal active.

@@ -10,6 +10,7 @@ struct Outcome {
     evaluations: u64,
     callbacks: u128,
     assigned: usize,
+    steps: u64,
     reason: ConstructionTermination,
 }
 fn objective(v: &[Option<usize>]) -> SimpleScore {
@@ -21,6 +22,16 @@ fn run(
     config: ConstructionConfig<'_>,
     hook: impl Fn(),
 ) -> Outcome {
+    run_problem(mode, order, config, false, hook, objective)
+}
+fn run_problem(
+    mode: usize,
+    order: MixedConstructionOrder,
+    config: ConstructionConfig<'_>,
+    optional: bool,
+    hook: impl Fn(),
+    objective: impl Fn(&[Option<usize>]) -> SimpleScore,
+) -> Outcome {
     let score = |v: &[Option<usize>]| {
         hook();
         objective(v)
@@ -31,13 +42,16 @@ fn run(
             assert_eq!(r.move_evaluations(), r.evaluations.saturating_sub(1));
             $p.validate(&r.assignment).unwrap();
             let values: Vec<Option<usize>> = $values(&r.assignment);
-            assert_eq!(r.complete, values.iter().all(Option::is_some));
+            assert_eq!(r.complete, optional || values.iter().all(Option::is_some));
             assert_eq!(r.solution().is_some(), r.complete && r.score.is_some());
             if let Some(s) = r.score {
                 assert_eq!(
                     s,
-                    objective(&values)
-                        .with_structural(-(values.iter().filter(|v| v.is_none()).count() as i64))
+                    objective(&values).with_structural(if optional {
+                        0
+                    } else {
+                        -(values.iter().filter(|v| v.is_none()).count() as i64)
+                    })
                 );
             }
             Outcome {
@@ -47,12 +61,15 @@ fn run(
                 evaluations: r.evaluations,
                 callbacks: r.constraint_evaluations,
                 assigned: $assigned(&r),
+                steps: r.completed_steps,
                 reason: r.termination,
             }
         }};
     }
     if mode < 2 {
-        let p = FiniteProblem::new(vec![Variable::new(vec![0usize, 1]); 2]).unwrap();
+        let v = Variable::new(vec![0usize, 1]);
+        let p = FiniteProblem::new(vec![if optional { v.allowing_unassigned() } else { v }; 2])
+            .unwrap();
         let values = |a: &Assignment<usize>| a.values().to_vec();
         let assigned = |r: &ConstructionResult<usize, SimpleScore>| r.assigned_variables;
         if mode == 0 {
@@ -78,11 +95,12 @@ fn run(
         );
     }
     let lists = |values| {
-        ListProblem::new(
+        let p = ListProblem::new(
             values,
             vec![ListEntity::new(vec![]), ListEntity::new(vec![])],
         )
-        .unwrap()
+        .unwrap();
+        if optional { p.allowing_unassigned() } else { p }
     };
     if mode < 4 {
         let p = lists(vec![7, 8]);
@@ -144,7 +162,12 @@ fn run(
         );
     }
     let p = MixedProblem::new(
-        FiniteProblem::new(vec![Variable::new(vec![0usize, 1])]).unwrap(),
+        FiniteProblem::new(vec![if optional {
+            Variable::new(vec![0usize, 1]).allowing_unassigned()
+        } else {
+            Variable::new(vec![0usize, 1])
+        }])
+        .unwrap(),
         lists(vec![7]),
     );
     let values = |a: &MixedAssignment<usize, usize>| {
@@ -607,3 +630,6 @@ fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observat
 
 #[path = "support/construction_step_cases.rs"]
 mod step_cases;
+
+#[path = "support/optional_construction_cases.rs"]
+mod optional_cases;

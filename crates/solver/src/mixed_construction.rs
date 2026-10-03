@@ -28,6 +28,8 @@ pub struct MixedConstructionResult<B, L, S> {
     pub evaluations: u64,
     pub assigned_basic_variables: usize,
     pub assigned_list_values: usize,
+    /// Evaluated scans across both components, including rejected optional scans.
+    pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
 }
@@ -57,8 +59,8 @@ enum Phase {
 
 /// Preserve every supplied value, pin and initial list order. Fill missing required
 /// basics in model/domain order and required list values in registry/entity/index
-/// order, following the explicit component order. Optional unassignment remains
-/// untouched for local search. Constraints must handle partial combined states.
+/// order, following the explicit component order. Optional unassignment follows
+/// ConstructionConfig::optional. Constraints must handle partial combined states.
 ///
 /// One budget includes the initial score and every candidate in both phases.
 /// Winners reuse saved caches without callback replay. A truncated scan retains
@@ -94,7 +96,8 @@ pub fn greedy_mixed_construction<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 pub fn greedy_mixed_construction_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     problem: &MixedProblem<B, L>,
@@ -143,6 +146,7 @@ pub(crate) fn construction_impl_with_clock<
         evaluations: 0,
         assigned_basic_variables: 0,
         assigned_list_values: 0,
+        completed_steps: 0,
         constraint_evaluations: 0,
         termination: ConstructionTermination::EvaluationLimit,
     };
@@ -194,16 +198,14 @@ pub(crate) fn construction_impl_with_clock<
             let selection = match phase {
                 Phase::Basic => {
                     let variable = &problem.basic().variables()[index];
-                    if variable.allows_unassigned()
+                    if (variable.allows_unassigned()
+                        && config.optional == crate::OptionalConstruction::Preserve)
+                        || variable.is_pinned()
                         || director.assignment().basic().values()[index].is_some()
                     {
                         continue;
                     }
-                    if config.step_limit_reached(
-                        result
-                            .assigned_basic_variables
-                            .saturating_add(result.assigned_list_values),
-                    ) {
+                    if config.step_limit_reached(result.completed_steps) {
                         result.termination = ConstructionTermination::StepLimit;
                         break 'phases;
                     }
@@ -218,7 +220,7 @@ pub(crate) fn construction_impl_with_clock<
                         moves.take_while(|_| !config.cancelled() && !time.expired()),
                         budget.remaining,
                         false,
-                        |_, _| true,
+                        |_, score| !variable.allows_unassigned() || score >= previous,
                         |score| config.pick_early.should_pick(previous.clone(), score),
                         config.assert_scores,
                     )?
@@ -226,16 +228,13 @@ pub(crate) fn construction_impl_with_clock<
                 Phase::Lists => {
                     let lists = problem.lists();
                     let value = &lists.values()[index];
-                    if lists.allows_unassigned()
+                    if (lists.allows_unassigned()
+                        && config.optional == crate::OptionalConstruction::Preserve)
                         || director.assignment().lists().location(value).is_some()
                     {
                         continue;
                     }
-                    if config.step_limit_reached(
-                        result
-                            .assigned_basic_variables
-                            .saturating_add(result.assigned_list_values),
-                    ) {
+                    if config.step_limit_reached(result.completed_steps) {
                         result.termination = ConstructionTermination::StepLimit;
                         break 'phases;
                     }
@@ -253,13 +252,14 @@ pub(crate) fn construction_impl_with_clock<
                         moves.take_while(|_| !config.cancelled() && !time.expired()),
                         budget.remaining,
                         false,
-                        |_, _| true,
+                        |_, score| !lists.allows_unassigned() || score >= previous,
                         |score| config.pick_early.should_pick(previous.clone(), score),
                         config.assert_scores,
                     )?
                 }
             };
             result.evaluations += selection.evaluations;
+            result.completed_steps += u64::from(selection.evaluations > 0);
             result.constraint_evaluations += selection.constraint_evaluations;
             if selection.selected.is_some() {
                 match phase {

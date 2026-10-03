@@ -554,3 +554,115 @@ fn zero_construction_steps_keep_validation_impossibility_and_optional_semantics(
         }
     }
 }
+
+#[test]
+fn optional_construction_preserves_pins_and_supplied_values_with_observed_resumption() {
+    let b = FiniteProblem::new(vec![
+        Variable::new(vec![1, 2])
+            .allowing_unassigned()
+            .with_pinned(true),
+        Variable::new(vec![]).allowing_unassigned(),
+        Variable::new(vec![1, 2])
+            .allowing_unassigned()
+            .with_initial(2),
+        Variable::new(vec![1, 2]).allowing_unassigned(),
+    ])
+    .unwrap();
+    let l = ListProblem::new(
+        vec![7, 8, 9],
+        vec![
+            ListEntity::new(vec![7]).with_pinned(true),
+            ListEntity::new(vec![8]).with_pinned_prefix(1),
+        ],
+    )
+    .unwrap()
+    .allowing_unassigned();
+    let c = ConstructionConfig {
+        optional: OptionalConstruction::NonWorsening,
+        assert_scores: true,
+        ..Default::default()
+    };
+    for stream in [false, true] {
+        let mut events = vec![];
+        let r = basic(stream, &b, b.initial_assignment(), c, Some(&mut events)).unwrap();
+        assert_eq!(
+            r,
+            basic(stream, &b, b.initial_assignment(), c, None).unwrap()
+        );
+        assert_eq!(r.assignment.values(), &[None, None, Some(2), Some(1)]);
+        assert_eq!(r.completed_steps, 1);
+        assert_eq!(r.assigned_variables, 1);
+        assert_eq!(events.len(), 2);
+        assert!(events.iter().all(|e| e.2));
+        assert!(
+            basic(
+                stream,
+                &b,
+                Assignment::new(vec![Some(1), None, Some(2), None]),
+                c,
+                None
+            )
+            .is_err()
+        );
+        let mut events = vec![];
+        let r = lists(stream, &l, l.initial_assignment(), c, Some(&mut events)).unwrap();
+        assert_eq!(
+            r,
+            lists(stream, &l, l.initial_assignment(), c, None).unwrap()
+        );
+        assert_eq!(r.assignment, ListAssignment::new(vec![vec![7], vec![8, 9]]));
+        assert_eq!(r.completed_steps, 1);
+        assert_eq!(r.assigned_values, 1);
+        assert_eq!(events.len(), 2);
+        let p = MixedProblem::new(b.clone(), l.clone());
+        for order in [
+            MixedConstructionOrder::BasicThenLists,
+            MixedConstructionOrder::ListsThenBasic,
+        ] {
+            let config = MixedConstructionConfig {
+                construction: ConstructionConfig {
+                    max_steps: Some(1),
+                    ..c
+                },
+                order,
+            };
+            let mut events = vec![];
+            let r = mixed(
+                stream,
+                &p,
+                p.initial_assignment(),
+                config,
+                Some(&mut events),
+            )
+            .unwrap();
+            assert_eq!(
+                r,
+                mixed(stream, &p, p.initial_assignment(), config, None).unwrap()
+            );
+            assert_eq!(r.completed_steps, 1);
+            assert_eq!(r.assigned_basic_variables + r.assigned_list_values, 1);
+            assert_eq!(r.termination, ConstructionTermination::StepLimit);
+            assert!(r.complete);
+            assert_eq!(events.len(), 2);
+            let r = mixed(stream, &p, r.assignment, config, None).unwrap();
+            assert_eq!(r.completed_steps, 1);
+            assert_eq!(
+                r.assignment.basic().values(),
+                &[None, None, Some(2), Some(1)]
+            );
+            assert_eq!(
+                r.assignment.lists(),
+                &ListAssignment::new(vec![vec![7], vec![8, 9]])
+            );
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+        }
+        let l = ListProblem::new(vec![7], vec![ListEntity::new(vec![]).with_pinned(true)])
+            .unwrap()
+            .allowing_unassigned();
+        let r = lists(stream, &l, l.initial_assignment(), c, None).unwrap();
+        assert_eq!(r.completed_steps, 0);
+        assert_eq!(r.assigned_values, 0);
+        assert_eq!(r.evaluations, 1);
+        assert_eq!(r.termination, ConstructionTermination::Completed);
+    }
+}

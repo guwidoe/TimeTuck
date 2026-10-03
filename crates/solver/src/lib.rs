@@ -44,7 +44,7 @@ mod random;
 pub mod construction;
 pub use construction::{
     ConstructionConfig, ConstructionPickEarly, ConstructionResult, ConstructionTermination,
-    greedy_construction, greedy_construction_from,
+    OptionalConstruction, greedy_construction, greedy_construction_from,
 };
 
 pub mod tabu;

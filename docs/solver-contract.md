@@ -684,3 +684,16 @@ The existing native IncompleteConstruction result for incomplete local-search
 handoffs remains unchanged, and these native regressions do not earn credit for
 Timefold's early-CH event methods. See incremental-search-contract.md for boundaries
 and precedence. Local-search work/stagnation counters exclude construction steps.
+
+
+ConstructionConfig::optional now selects Preserve (default) or NonWorsening. The
+latter considers missing optional values and rejects insertions/assignments worse
+than the cached current state. Equal-score placements are allowed. Construction
+results distinguish completed scan steps from installed assignments; optional
+all-rejected scans consume one step. SolverWork and solve-wide stagnation remain
+local-search-only counters. Initialization-event early termination continues to be
+independent of completeness: the adapted optional-list case is complete throughout,
+ends construction at StepLimit, executes zero local-search steps and delivers the
+event from construction phase zero. Its manager wait includes callback delivery.
+Four source initialization cases remain pending. See incremental-search-contract.md
+for the optional policy, budget and resume details.

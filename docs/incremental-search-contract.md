@@ -824,23 +824,24 @@ it does not measure ratio rain, incremental Great Deluge scoring or decimal scor
 
 ## Construction assignment-step limits
 
-`ConstructionConfig::max_steps: Option<u64>` bounds newly assigned required basic
+`ConstructionConfig::max_steps: Option<u64>` bounds evaluated scans of missing basic
 variables or list values. None (the default) leaves existing behavior unchanged.
 One step finishes a variable's domain scan or a list value's insertion scan,
 including an early pick; scanning several candidates still consumes one step.
-The assignment counters on construction results expose this work. Mixed construction
+Construction result completed_steps counts scans with at least one candidate; the
+assignment counters separately count installed placements. Mixed construction
 uses a single limit across both components, in its configured component order.
 Each call or phase starts a fresh count, including resumptions.
 
-The limit is tested before scanning the next missing required item. Initial scoring,
-diagnostics, preserved assignments, pins and skipped optional unassignment consume
-no steps. A zero limit permits initialization, then no assignment. If no missing
-required item remains, completion wins, including exactly reaching the limit on
-the final assignment. Optional-only and empty models still complete with one
-initial score. Optional values continue to be left unassigned by native construction;
-this change does not establish Java optional-list construction semantics.
+The limit is tested before scanning the next eligible missing item. Initial scoring,
+diagnostics, preserved assignments, pins and scans with no candidates consume no
+steps. Optional unassignment is skipped by the default Preserve policy. A zero limit permits initialization, then no assignment. If no eligible missing
+item remains, completion wins, including exactly reaching the limit on the final
+scan. Optional-only and empty models still complete with one
+initial score. The optional NonWorsening policy also scans unassigned optional values as described
+below; their rejected scans count toward the same step budget.
 
-`ConstructionTermination::StepLimit` means a further required assignment was stopped.
+`ConstructionTermination::StepLimit` means a further eligible item was stopped.
 It does not truncate the preceding scan. An evaluation/candidate cap can truncate
 that scan, retaining its best prefix and its own stop reason; cancellation and time
 also retain their existing cooperative polling behavior. Validation, impossibility,
@@ -860,5 +861,53 @@ orders, early picks, diagnostic scoring, every small score/candidate/step budget
 combination, cancellation, prior assignments/pins/optional values, validation,
 impossibility, resumptions and phase/event handoffs. A controlled-clock unit method
 checks elapsed-time precedence. A public doctest demonstrates a two-call resume.
-These cases add no upstream-method credit: Java's early-CH exception path and
-optional-list construction behavior still need their own full implementations.
+Those original step-limit cases add no upstream-method credit. Optional-construction
+adaptations are recorded separately below; the early required-CH exception path
+remains pending.
+
+
+## Score-aware optional construction
+
+ConstructionConfig::optional defaults to OptionalConstruction::Preserve.
+OptionalConstruction::NonWorsening considers missing optional variables and list
+values using the same domain/insertion order as required construction, across all
+six model/backend paths. Supplied assignments, full/prefix list pins and optional
+basic variables pinned to None are preserved. Each optional candidate must score
+at least as well as the cached pre-scan state. The highest accepted score wins;
+ties keep the first candidate, including a tie with the initial unassignment.
+If all candidates are worse or no placement is legal, the item stays unassigned.
+No extra synthetic null candidate or initial rescoring is charged.
+
+The initial policy decision uses full score ordering; structural state is unchanged
+by optional placement. Required variables retain their existing fill behavior even
+if their ordinary score worsens. Early-pick policies apply only to candidates that
+meet the optional non-worsening condition. Normal evaluation/candidate limits can
+truncate the scan, committing only an eligible winner from the evaluated prefix.
+Time, cancellation, diagnostics and transactional rollback retain existing rules.
+
+All three construction result types expose completed_steps. It counts scans with
+at least one evaluated candidate, including all-rejected optional scans and an
+interrupted scan. Empty candidate scans count zero. A step cap is checked before
+candidate enumeration, so a zero cap stops before discovering whether the next
+missing item has any candidates. Assigned-variable/value counters increase only
+on committed placements. Mixed models share one completed-step count across both
+components. A resumed call starts scanning the remaining missing items again,
+including previously rejected optional items; it is not a persisted scan cursor.
+Standalone observers emit initial state and committed placements, with no duplicate
+notification for a rejected optional scan. Ordered solver best-event filtering and
+local-search-only work/stagnation counters remain unchanged.
+
+Optional assignments are already complete in the native model. Completed, StepLimit
+and complete=true can therefore coexist with unassigned values, and an early
+initialization event does not imply an incomplete assignment. Cross-phase equal
+scores still preserve the earlier retained assignment under the solver contract.
+
+Three complete pinned methods are now adapted: DefaultConstructionHeuristicPhaseTest
+basic and list optional construction cases, and SolverManagerTest's early-terminated
+optional-list construction initialization event. They explicitly select NonWorsening;
+no Java default-policy, evaluation-count or internal-trace parity is claimed.
+Fixture provenance covers both optional model families and their distinct scoring
+rules. Four original integration methods independently cover all six paths, mixed
+orders, positive/zero/negative optional objectives, budgets, cancellation, pins,
+resumption, input validation and unavailable insertions. The required early-CH
+exception and custom-phase initialization cases remain pending.

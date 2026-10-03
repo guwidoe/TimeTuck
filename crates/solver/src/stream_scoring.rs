@@ -287,7 +287,8 @@ pub fn greedy_stream_construction<V: Eq + Clone + 'static, S: AdditiveScore + 's
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 pub fn greedy_stream_construction_from<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     problem: &FiniteProblem<V>,

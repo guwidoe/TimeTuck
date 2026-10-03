@@ -339,7 +339,8 @@ pub fn greedy_mixed_stream_construction<
 }
 
 /// Resume construction from a validated assignment, preserving supplied values and pins.
-/// Only missing required values are filled; each call initializes its own scoring cache.
+/// Missing required and configured optional values are considered; each call
+/// initializes its own scoring cache.
 /// Validation runs even with zero budget or a cancelled token.
 pub fn greedy_mixed_stream_construction_from<
     B: Eq + Clone + 'static,

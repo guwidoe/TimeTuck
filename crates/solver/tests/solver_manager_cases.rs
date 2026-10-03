@@ -404,3 +404,95 @@ fn first_initialized_solution_consumer_with_single_ls_phase() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn first_initialized_solution_consumer_early_terminated_ch_list_var() {
+    use std::sync::atomic::{AtomicBool, Ordering};
+    let called = Arc::new(AtomicBool::new(false));
+    let seen_called = called.clone();
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let seen = event.clone();
+    let mut manager = SolverManager::<ListAssignment<i64>, String>::new(1).unwrap();
+    let job = manager
+        .submit_with_progress(
+            1,
+            |_, progress| {
+                let p = ListProblem::new(vec![1, 2], vec![ListEntity::new(vec![]); 2])
+                    .unwrap()
+                    .allowing_unassigned();
+                let mut n = ListConstraintNetwork::new(2, 2);
+                for index in 0..2 {
+                    n.add_constraint(
+                        format!("entity {index} size"),
+                        vec![ListScope::Entity(index)],
+                        |v| {
+                            let ListFact::Entity(list) = &v[0] else {
+                                panic!()
+                            };
+                            SimpleScore::new(-(list.len() as i64))
+                        },
+                    )
+                    .unwrap();
+                    n.add_constraint(
+                        format!("value {index} unassigned"),
+                        vec![ListScope::Value(index)],
+                        |v| {
+                            let ListFact::Value { element, .. } = &v[0] else {
+                                panic!()
+                            };
+                            SimpleScore::new(-i64::from(element.is_none()))
+                        },
+                    )
+                    .unwrap();
+                }
+                let c = SolverConfig {
+                    construction: ConstructionConfig {
+                        max_steps: Some(1),
+                        optional: OptionalConstruction::NonWorsening,
+                        ..Default::default()
+                    },
+                    local_search: vec![LocalSearchConfig {
+                        max_steps: 0,
+                        ..Default::default()
+                    }],
+                    ..Default::default()
+                };
+                let r = solve_list_with_events(&p, &n, c, |event| {
+                    if let SolverEvent::FirstInitialized {
+                        initialization,
+                        assignment,
+                        ..
+                    } = event
+                    {
+                        assert!(
+                            progress.publish_first_initialized(assignment.clone(), initialization)
+                        );
+                    }
+                })
+                .map_err(|e| e.to_string())?;
+                assert_eq!(r.phases.len(), 2);
+                assert_eq!(
+                    r.phases[0].termination,
+                    PhaseTermination::Construction(ConstructionTermination::StepLimit)
+                );
+                assert_eq!(r.phases[1].work.completed_steps, 0);
+                assert_eq!(r.score, Some(SimpleScore::new(-2)));
+                assert_eq!(r.assignment.lists().iter().map(Vec::len).sum::<usize>(), 1);
+                Ok(r.assignment)
+            },
+            SolverJobCallbacks::default().on_first_initialized(move |_, _, info| {
+                seen_called.store(true, Ordering::SeqCst);
+                seen.lock().unwrap().read(info);
+            }),
+        )
+        .unwrap();
+    assert!(job.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(called.load(Ordering::SeqCst));
+    assert!(!event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Construction, 0))
+    );
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
