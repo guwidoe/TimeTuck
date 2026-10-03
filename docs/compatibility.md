@@ -194,6 +194,12 @@ indexed inside each equality partition. Random neighborhood iterator and repeate
 removal exception methods remain pending. Native failure/rollback/search evidence
 is separate from these source-method credits.
 
+Original public-API ordered-join comparisons additionally check 135 cases / 8,976
+states across five relations and zero/one/two equality keys. Independent Python
+pairs verify both runtime scores and exact native match IDs/payloads through edits
+and undo. These are separate from upstream method coverage and timing; Java
+recalculates each score via Community SolutionManager.update.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

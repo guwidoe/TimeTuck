@@ -859,3 +859,23 @@ key clone/ordering failure sweeps, graph callback errors/panics, foreign ports,
 grouped tuple equality keys and construction/local search. An internal churn test
 checks partition and membership cleanup. Current Java/Rust timing workloads do
 not exercise this partitioned operator; no new performance parity claim follows.
+
+## Direct ordered-join Community comparisons
+
+Original public-API comparisons now exercise all five relations (equal, less than,
+less than or equal, greater than, greater than or equal) without equality
+partitions, with one equality key, and with two equality keys. Across 135 seeded
+cases and 8,976 states, Java Community SolutionManager.update and native
+incremental graphs agree with independent Python pair enumeration on match counts
+and weighted scores. Exact native pair IDs and both captured row payloads are
+checked separately. Cases include duplicate/extreme ordered keys, payload-only and
+key replacements, signed/zero weights, independent left/right edits, absent and
+last removals, trials and undo; all cases finish empty.
+
+The Java adapter uses public Joiners and score updates with problem facts and one
+assigned dummy planning entity. It rebuilds a score session per observation; it
+does not verify Java incremental notification traces or expose Community match
+analysis. The native adapter checks full graph rebuild consistency after every
+committed or undone operation. No new upstream method credit or timing claim.
+Inputs and both outputs are retained under ordered_join_checks in the downloadable
+stream differential report. Seed 20261116; scripts/ordered_join_checks.py.

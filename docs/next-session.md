@@ -65,6 +65,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and undo. Python checks both ordinary scores and native exact match IDs/sums.
   Community `SolutionManager.update()` is used; `analyze()` requires Enterprise
   in this release and must not be used. No Java match-analysis claim.
+- Direct ordered/partitioned Joiners comparisons now pass 135 original cases /
+  8,976 states for five relations and zero/one/two equality keys. Community score
+  recalculation agrees with Rust incremental edits and independent Python pairs.
+  Native exact match IDs/payloads are checked separately; no method-credit or
+  Java incremental notification/timing claim.
 - Matched incremental-stream hill/tabu benchmarks use 32/96 variables and
   50-step budgets, with 64 small independently checked search cases. Scores,
   validity and terminal weighting calls accompany times. Rust graph construction
@@ -1321,3 +1326,43 @@ partitioned-release.log, partitioned-stream-evidence.log,
 partitioned-stream-performance.log, partitioned-list-refresh.log,
 partitioned-core-refresh.log and partitioned-heuristic-performance.log.
 Upstream pin/checkout remain unmodified. The full goal remains unfinished.
+
+
+Ordered-join direct evidence increment: OrderedJoinOracle.java uses only public
+Community Joiners/ConstraintFactory/SolutionManager APIs. One assigned dummy
+planning entity supports fact-only left/right relations. Fifteen modes cover five
+ordered/equality relations with zero, one or two equality keys. Java rebuilds each
+score observation; no Enterprise match analysis or incremental notification claim.
+The Rust ordered_join_oracle example uses persistent graph transactions, exposes
+exact pair IDs and both payloads, and checks full rebuild consistency after each
+committed/undone operation. Python independently enumerates pairs and validates
+counts, signed products and every native match field. No solver implementation or
+upstream-method credit is added by this original evidence.
+
+All 135 cases / 8,976 states pass, seed 20261116. Extreme/duplicate ordered keys,
+signed/zero weights, payload-only replacements, equality/range key changes,
+independent left/right insertion/removal, absent/last removals and trials/undo are
+covered; every case finishes empty. Full inputs and Java/Rust outputs live under
+ordered_join_checks in work/stream-differential.json and the downloadable report.
+The dashboard describes the evidence separately from method coverage and timings.
+Four Python regressions check literal truth tables and scores, snapshot undo,
+corruption rejection (including stale zero-weight payloads), and generator coverage.
+Full debug gate passes 734 Rust tests, 26 doctests and 57 Python regressions.
+Coverage remains 414/4,855 (8.53%), streams 266/1,301 (20.45%); no new source methods.
+
+Release all-target tests also pass (734). All nine evidence sections are current;
+source/report/live fingerprints match. The existing dashboard server was reused.
+Browser checks at 1280px and 390px confirm the 135/135, 8,976-state ordered-join
+summary, unchanged 8.53% coverage, and no visible stale messages, console errors
+or horizontal overflow. Browser session closed.
+
+Current stream medians in ms (Rust / Java): hill32 62.108 / 29.937,
+hill96 240.454 / 38.812, tabu32 64.125 / 20.833, tabu96 255.619 / 32.702.
+Scores agree; both 96-variable workloads remain infeasible under the 50-step cap.
+List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+These existing timing workloads do not exercise ordered/partitioned comparisons.
+Logs: work/ordered-evidence-check.log, ordered-evidence-release.log,
+ordered-evidence-stream.log, ordered-evidence-stream-performance.log,
+ordered-evidence-list-refresh.log, ordered-evidence-core-refresh.log and
+ordered-evidence-heuristic-performance.log. Upstream pin/checkout remain unmodified.
+The full goal remains unfinished.
