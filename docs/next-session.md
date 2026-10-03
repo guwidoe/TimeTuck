@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 473 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 177 stream + 18 termination), recorded in
+- 481 fully adapted source test methods (74 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 18 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -72,7 +72,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 398 original integration regression methods, forty-two original unit tests, and thirty-five public API documentation tests.
+- 406 original integration regression methods, forty-three original unit tests, and thirty-six public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -139,7 +139,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 473 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 481 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -2493,3 +2493,63 @@ search/filter view, the distinct 34-case/2,139-state comparison detail, six list
 four stream timing cards, no visible stale/error message, no page errors and no
 horizontal overflow. The live report verification digest matches, the browser is
 closed, and the upstream checkout remains unchanged at the pinned commit.
+
+
+## Collection membership joins — latest increment
+
+MembershipJoinNode and four graph helpers implement containing, contained-in and
+any-common-element joins with optional tuple equality partitions. Independent
+persistent inverted indexes retain captured distinct per-row keys and deduplicate
+pair identities. Replacements retract lost pairs and put new/surviving pairs;
+projections run once per put and never on retraction. Empty-key rows are retained.
+Option::None is an explicit key. Persistent roots isolate clone/comparison/payload
+preparation before installation, and existing graph transactions restore downstream
+failures. See the membership section of docs/constraint-stream-contract.md.
+
+Eight complete size/forEach/remove-last-reuse source methods from the three
+membership indexer test classes are adapted, with provenance and notices. Java
+entry handles, random iterators and combined-indexer methods remain pending.
+Eight original integration methods cover seeded standalone/graph updates, exact
+pairs/payloads, commit/undo, failure injection, rebuild, sparse queries, foreign
+ports and basic construction/local search with saved prefixes. One unit churn test
+and one doctest cover cleanup and public usage. No production upstream code was
+inspected or copied.
+
+MembershipJoinOracle.java, examples/membership_oracle.rs and
+scripts/membership_join_checks.py compare 54 original cases / 4,420 states for
+three relations and zero/one/two equality partitions (seed 20261207). This agreement
+matrix deliberately uses distinct non-null collection members. A separate native
+54-case / 4,420-state matrix checks duplicates/nulls against independent Python.
+Eighteen fixed Java public-API boundary probes retain eight known differences:
+containing and any-of can multiply duplicate-member matches, and unpartitioned
+containing/contained-in skip the singleton-null match. Rust consistently retains
+one pair. Exact probe inputs and observed outputs are documented and asserted;
+these differences are not counted as passing compatibility evidence. Five Python
+regressions validate the reference logic, payloads, identities, response counts,
+fixed divergent results and the distinction between the matrices. The dashboard
+comparison detail explicitly shows eight of eighteen probe differences. No
+membership timing or Java incremental-notification/match-ID parity is claimed.
+
+Development gate passes 930 Rust methods (481 adapted, 406 original integration,
+43 unit), 36 doctests and 83 Python tests. Overall coverage: 481/4,855 (9.91%),
+4,092 pending, 282 excluded, no failed/unverified methods. Constraint streams:
+291/1,301 (22.37%). Logs use work/membership-*.log. The full solver rewrite remains
+active and incomplete; broader orchestration/lifecycle/stream gaps remain as listed
+above. Do not infer full membership compatibility from the adapted indexer tests.
+
+Release also passes all 930 tests. All nine evidence sections were refreshed and
+are current against the final source digest; the live verification digest matches.
+Warmed stream Rust/Java medians in ms: hill32 43.844/12.979, hill96
+170.473/22.532, tabu32 42.826/10.641, tabu96 172.390/26.769. Scores remain
+equal, with both 96-variable runs infeasible [-44,-484] at 50 steps. List solving
+retains 192 valid / 189 equal-score cases. Two-opt medians Rust/Java: 16 customers
+0.336/9.109 ms, 32 customers 0.858/10.498 ms; the existing scores remain
+[0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]. List32 construction remains
+[0,-1080]/[0,-1062]. These existing workloads do not use the new membership node;
+no membership performance claim is made.
+
+Reused the existing dashboard server. Browser QA at 1280x900 and 390x844 verified
+9.91% overall, 22.37% streams, all eight new adapted methods under the passed
+Contain filter, the distinct/non-null agreement and explicit 8/18 boundary
+differences, six list/four stream timing cards, no visible alerts or page errors,
+and no horizontal overflow. Browser closed. Upstream pin and checkout unchanged.

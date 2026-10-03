@@ -357,3 +357,12 @@ using the original min/max projections and zero-valued tuple suffixes. Six origi
 regressions and 34 original Community/Rust/Python stream comparisons separately
 check group retention, changes, failures, rollback and solver integration; they add
 no method credit. See `constraint-stream-contract.md` for scope and limitations.
+
+Collection membership adds eight complete deterministic indexer-method adaptations.
+The native API deduplicates pairs and treats Option::None as an ordinary explicit
+key. Public Community agreement is limited to the 54-case distinct/non-null-member
+matrix; eighteen separate boundary probes retain eight observed Java/Rust
+mismatches (duplicate-member multiplicity and unpartitioned null matching).
+These probes earn no method credit and are displayed separately on the dashboard.
+See the collection membership section of `docs/constraint-stream-contract.md` for
+exact inputs, counts and native-only regression scope.

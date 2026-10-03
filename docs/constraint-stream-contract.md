@@ -1029,3 +1029,61 @@ Rejected-only groups, duplicate values, replacements, key transfers, removals an
 trial undo agree. No Java match-ID, incremental-notification or timing claim follows,
 and these original cases add no upstream method credit. The evidence is included
 in stream-differential.json and the dashboard's comparison details.
+
+## Collection membership joins
+
+`MembershipJoinNode` and graph helpers `join_containing`, `join_contained_in`,
+`join_containing_any_of` and `join_containing_any_of_partitioned` implement native
+set membership. Each input occurrence retains its captured distinct projected
+keys. Optional equality partitions can use tuple keys for several equalities.
+A scalar is projected as a singleton. Empty collections match nothing but remain
+retained input rows; Option::None is an ordinary explicit key. The caller decides
+how a missing collection maps to a collection of keys.
+
+Each side has a persistent inverted index from partition and key to occurrence
+IDs. Queries union matching buckets, so multiple shared keys and duplicate members
+produce exactly one pair. Pair IDs are (left ID, right ID). Updates emit lost-pair
+retractions followed by new/surviving puts in opposite-ID order. A surviving pair
+gets one put even when its shared keys change. Projections run once per put and
+never on retraction; same-key-set replacements retain index membership and update
+payloads. Snapshot roots and captured key sets are shared. State is linear in rows
+plus distinct per-row keys; transient match sets and dense outputs can be large.
+Ord/Eq must be consistent and stable, and clones must not share mutable logical
+state. Ordinary projection, comparison or clone panics preserve standalone roots;
+graph transactions also restore changes if downstream processing fails. Neither
+mechanism rolls back arbitrary external callback side effects.
+
+Eight complete source methods cover size, forEach and remove-last/reuse in the
+three collection indexer test classes. Native left-row emptiness expresses the
+reuse assertion; Java entry handles, duplicate-handle semantics, isRemovable-only
+methods, combined joiner index tests and random iterators remain pending. Eight
+original integration methods check 3,600 bidirectional edits, 1,800 shared-source
+transactions, exact payloads/pair IDs, callbacks, every injected key-clone/comparison
+failure during a partition transfer, downstream errors/panics, rebuilds, foreign
+ports, sparse queries and basic construction/search including saved prefixes.
+An internal 2,000-replacement churn test checks bucket cleanup. These are correctness
+and work-bound checks, not a membership performance benchmark.
+
+The public Community comparison deliberately exposes a compatibility limit:
+54 original cases / 4,420 states agree across Java, Rust and Python for distinct,
+non-null collection members, all three relations and zero/one/two equality keys
+(seed 20261207). Another 54 native cases / 4,420 states include duplicate/null
+members and are checked against Python only. Java recalculates each score with
+SolutionManager.update; Rust applies persistent incremental transactions. Python
+also checks exact native pair IDs and original payloads, including member order
+and duplicates. No Java match-ID or incremental notification/timing claim follows.
+
+Eighteen fixed boundary probes characterize the pinned public API. The duplicate
+probe has left members [7,7], right members [7], scalar 7 on both sides, equal
+partition keys and weights 2/3. Java yields two matches and score (2,12) for
+containing and any-of at all three equality arities; Rust yields (1,6).
+Contained-in agrees at (1,6). The null probe has singleton [null] collections,
+null scalars, the same partitions and weights. Unpartitioned Java containing and
+contained-in return (0,0), while Rust returns (1,6); the other seven modes agree.
+Thus eight of eighteen final probe states differ. These exact Java outputs are
+validated and retained separately, never counted as passing compatibility cases.
+The native contract consistently deduplicates pairs and permits explicit null
+keys. These public-join differences do not invalidate the eight narrower adapted
+indexer methods, but do rule out blanket membership-join compatibility. The
+report and dashboard expose the distinction; no upstream production implementation
+was inspected to explain or reproduce the Java behavior.

@@ -7095,6 +7095,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every empty, insertion, duplicate, retraction and replacement assertion in native ConditionalCollector<IntCollector>. Fixed-size arrays preserve the original arity and zero-valued trailing fields; captured Option values replace predicate decisions and Java retractors. Update slots use stable CollectNode IDs. Read the original min/max result from the native integer summary (binary update uses min, binary insertion uses max). Collector empty output is read from Default after the last group retracts. Small Java Integer inputs use i64; no Java integer-overflow or lifecycle parity is claimed."
+    },
+    {
+      "id": "ContainingIndexerTest.size",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "size",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "containing_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainingIndexerTest.forEach",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "forEach",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "containing_for_each",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainingIndexerTest.removeLastTupleThenReuseKeys",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "removeLastTupleThenReuseKeys",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "containing_remove_last_tuple_then_reuse_keys",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainingAnyOfIndexerTest.size",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "size",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "any_of_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainingAnyOfIndexerTest.forEach",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "forEach",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "any_of_for_each",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainingAnyOfIndexerTest.removeLastTupleThenReuseKeys",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "removeLastTupleThenReuseKeys",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "any_of_remove_last_tuple_then_reuse_keys",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainedInIndexerTest.size",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "size",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "contained_in_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
+    },
+    {
+      "id": "ContainedInIndexerTest.forEach",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "forEach",
+      "local_path": "crates/solver/tests/membership_join_cases.rs",
+      "local_test": "contained_in_for_each",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every deterministic size, membership and key-reuse assertion with inline labeled fixtures. Native occurrence IDs replace Java entry handles; scalar membership projects a singleton, including Option::None for null. Query a single right row and compare sorted left labels. Empty retained-left state maps the remove-last isRemovable assertion. No Java entry-handle, duplicate-handle or random-iterator contract is claimed."
     }
   ],
   "fixtures": [

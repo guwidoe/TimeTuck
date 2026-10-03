@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 473 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 481 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree

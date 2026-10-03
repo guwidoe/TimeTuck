@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from differential_scores import ROOT, REF, source_digest
 from differential_solver import generate as basic_cases, encode as encode_basic
 from prepare_solver_oracle import prepare_solver_java
+from membership_join_checks import run_checks as check_memberships
 from conditional_collector_checks import run_checks as check_conditionals
 from average_collector_checks import run_checks as check_averages
 from duration_collector_checks import run_checks as check_durations
@@ -87,13 +88,15 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
     cp,artifacts=prepare();digest=source_digest();cases=generate();payload='\n'.join(map(encode,cases))+'\n'
     subprocess.run(['java','-Xms256m','-Xmx256m','-cp',cp,'AggregationBoundaryOracle'],check=True,timeout=60)
+    membership_checks=check_memberships(cp)
+    print(f'Membership joins: {membership_checks["passed"]}/{membership_checks["total"]} cases; {membership_checks["observations"]} observations',flush=True)
     conditional_checks=check_conditionals(cp)
     print(f'Conditional collectors: {conditional_checks["passed"]}/{conditional_checks["total"]} cases; {conditional_checks["observations"]} observations',flush=True)
     average_checks=check_averages(cp)
@@ -124,6 +127,7 @@ def main():
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
             'reference':REF,'artifacts':artifacts,'seed':SEED,'total':len(cases),'passed':len(cases),
             'observations':len(observations),'failures':[],'cases':cases,'results':results,'platform':platform.platform(),
+            'membership_join_checks':membership_checks,
             'conditional_collector_checks':conditional_checks,
             'average_collector_checks':average_checks,
             'duration_collector_checks':duration_checks,

@@ -360,6 +360,35 @@ impl<
     }
 }
 
+struct MembershipJoin<'a, I, J, L, R, K, E>(crate::MembershipJoinNode<'a, I, J, L, R, K, E>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    E: Ord + Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for MembershipJoin<'_, I, J, L, R, K, E>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0.apply_left(typed::<I, L>(event).clone())
+        }))
+    }
+}
+
 struct Distinct<I, T>(DistinctNode<I, T>);
 impl<I: Ord + Clone + 'static, T: Ord + Clone + 'static, S: AdditiveScore> Node<S>
     for Distinct<I, T>
@@ -909,6 +938,87 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
+    }
+    /// Join collections with any common key, emitting each pair once regardless
+    /// of duplicate elements or the number of common keys. Empty sets match none.
+    pub fn join_containing_any_of<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_keys: impl Fn(&L) -> Vec<K> + 'a,
+        right_keys: impl Fn(&R) -> Vec<K> + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.join_containing_any_of_partitioned(
+            left,
+            right,
+            move |r| ((), left_keys(r)),
+            move |r| ((), right_keys(r)),
+        )
+    }
+    /// Any shared collection key within equal partitions. Projections return an
+    /// equality key and collection; tuple equality keys express multiple equalities.
+    pub fn join_containing_any_of_partitioned<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+        E: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_keys: impl Fn(&L) -> (E, Vec<K>) + 'a,
+        right_keys: impl Fn(&R) -> (E, Vec<K>) + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(MembershipJoin(
+            crate::MembershipJoinNode::<I, J, L, R, K, E>::partitioned(left_keys, right_keys),
+        ));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Match a left collection containing the projected right scalar. Duplicate
+    /// members still emit one pair. Use a singleton in the partitioned helper
+    /// when additional equalities are needed.
+    pub fn join_containing<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_keys: impl Fn(&L) -> Vec<K> + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.join_containing_any_of(left, right, left_keys, move |r| vec![right_key(r)])
+    }
+    /// Match a projected left scalar contained in the right collection.
+    pub fn join_contained_in<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_keys: impl Fn(&R) -> Vec<K> + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.join_containing_any_of(left, right, move |r| vec![left_key(r)], right_keys)
     }
     /// Emit one representative per value class under `T::cmp`. The lowest input
     /// ID supplies the payload; a representative change propagates an update.

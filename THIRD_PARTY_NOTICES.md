@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/membership_join_cases.rs` from eight complete deterministic
+  size, membership and key-reuse methods (and their inline fixtures) in
+  `ContainingIndexerTest.java`, `ContainingAnyOfIndexerTest.java` and
+  `ContainedInIndexerTest.java`.
+
 - `crates/solver/tests/count_limit_cases.rs` from all five methods in
   `MoveCountTerminationTest.java` and `ScoreCalculationCountTerminationTest.java`.
 
