@@ -6,7 +6,7 @@ use timetuck::{
     SimpleScore, TabuMemory, Variable, local_search,
 };
 
-fn config() -> LocalSearchConfig {
+fn config() -> LocalSearchConfig<'static> {
     LocalSearchConfig {
         max_evaluations: 100,
         max_accepted_moves: 3,

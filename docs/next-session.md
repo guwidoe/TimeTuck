@@ -57,11 +57,15 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   retained-best improvements. Expiry latches before resets; all six search paths
   share this behavior, checked by six additional controlled-clock regressions.
   This adds no upstream method credit or Java timed-trace claim.
+- Optional borrowed CancellationToken supports cooperative cross-thread cancellation
+  in all six local-search paths, retaining the best scored prefix. Tokens are
+  one-way and clone-shared; initialization, callbacks and diagnostics are not
+  preempted. Config types now carry a token lifetime. No lifecycle method credit.
 - ScoreTargetProgress and FeasibilityProgress offer validated weighted estimates
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 359 original integration regression methods, thirty original unit tests, and thirty public API documentation tests.
+- 365 original integration regression methods, thirty original unit tests, and thirty-one public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -2097,3 +2101,57 @@ scores/times, 61/64 equality, 49/46 optima and the documented 1,024 window, with
 horizontal overflow, stale alerts or page errors. Browser closed; upstream
 unmodified. Remaining work includes broader move/search infrastructure, additional
 source semantics, and stream performance. The overarching goal remains active.
+
+
+## Cooperative cancellation — latest verified increment
+
+CancellationToken provides clone-shared, one-way atomic cancellation with an
+idempotent cancel() result. LocalSearchConfig<'a, S> optionally borrows a token;
+MixedLocalSearchConfig carries the same lifetime. Both remain Copy. Helpers or
+aliases with an explicit return/type signature may need a lifetime; configurations
+without a borrowed token can use 'static. Default configuration has no token.
+
+All six local-search model/backend paths poll before scoring, at step boundaries,
+between candidates and after selection. A pre-requested valid nonzero-budget run
+returns Cancelled with no best and zero work. A request during scoring finishes
+that callback and retains the selected scored prefix and the best seen solution.
+Rejected fallback can update the working state without losing that retained best.
+Validation still precedes cancellation; zero evaluation budget and empty basic
+search space retain their previous reasons. Already-observed evaluation exhaustion
+wins after selection, otherwise cancellation precedes time/no-accepted reasons.
+See docs/incremental-search-contract.md for detailed precedence and API behavior.
+
+Cancellation is cooperative: no preemption of callbacks, validation, diagnostics
+or bounded prefetch, and no hard latency bound. Construction, exact search,
+whole-solve orchestration, daemon operation and problem-change queues remain
+outside this new API. The inspected upstream BasicPlumbingTerminationTest and
+DefaultSolver lifecycle cases are not fully adapted, and receive no method credit.
+
+Six original integration methods cover all six paths with first/best selection,
+initial/candidate cancellation, repeated runs, zero budgets, invalid inputs,
+rejected fallback and a separate controller thread cancelling a blocked callback.
+Eight simultaneous requests also verify exactly one first cancel result. One
+public API doctest exercises token sharing. The upstream coverage ledger is
+unchanged: 460/4855 = 9.47%, pending 4113, excluded 282, failed/unverified zero.
+
+Development and release gates pass: 855 Rust tests (460 adapted, 365 original
+integration, 30 unit), 31 doctests and 76 Python checks. All nine comparison and
+performance reports were refreshed sequentially from final measured sources;
+verification succeeds and the live freshness digest matches. Logs:
+work/cancellation-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log.
+
+Refreshed stream median ms Rust/Java: hill32 45.457/16.404, hill96 181.838/29.041,
+tabu32 45.809/16.556, tabu96 165.014/23.577. The existing stream performance gap
+remains; both 96-variable workloads retain [-44,-484] at 50 steps. List validation
+remains 192 valid / 189 equal scores; two-opt 61/64 equal and Rust49/Java46 optima.
+Two-opt medians: 16 customers 0.226/10.339 ms, 32 customers 0.852/9.866 ms; scores
+and callback counts are unchanged. Mixed quality remains native exact64 / Java39 /
+native scoped and stream local63 optima among64. Cancellation is disabled in these
+benchmarks; no cancellation-latency comparison is claimed.
+
+Browser checks at 1280x900 and 390x844 verified coverage, passed-method filtering,
+six list timing cards with refreshed figures and explicit quality differences,
+no horizontal overflow, no stale alerts and no page errors. Browser closed;
+upstream unmodified. Remaining work includes broader solver lifecycle semantics,
+additional source-test adaptations and stream performance. The goal stays active.

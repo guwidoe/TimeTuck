@@ -15,7 +15,7 @@ fn landscape(values: &[Option<&i32>]) -> SimpleScore {
         _ => panic!("unexpected assignment"),
     })
 }
-fn config() -> LocalSearchConfig {
+fn config() -> LocalSearchConfig<'static> {
     LocalSearchConfig {
         max_evaluations: 100,
         max_accepted_moves: 20,

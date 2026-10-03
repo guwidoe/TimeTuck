@@ -115,7 +115,7 @@ fn run_all(c: LocalSearchConfig<HardSoftScore>, score: fn(usize) -> HardSoftScor
     )));
     results
 }
-fn config() -> LocalSearchConfig<HardSoftScore> {
+fn config() -> LocalSearchConfig<'static, HardSoftScore> {
     LocalSearchConfig {
         max_steps: 10,
         max_evaluations: 10_000,

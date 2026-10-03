@@ -131,6 +131,10 @@ where
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = LocalSearchTermination::Cancelled;
+        return Ok(result);
+    }
     let mut director = make_director(initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
@@ -151,6 +155,10 @@ where
     time_budget.start_search();
     let mut progress = crate::StepProgress::default();
     loop {
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
+            return Ok(result);
+        }
         if let Some(reason) = config.step_termination(
             result.best.as_ref().expect("initial best").score,
             result.accepted_moves,
@@ -185,7 +193,7 @@ where
                 random.as_mut(),
                 config.max_evaluations - result.evaluations,
             )
-            .take_while(|_| !time_budget.expired()),
+            .take_while(|_| !config.cancelled() && !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -226,6 +234,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
         if let Some(reason) = time_budget.stop() {

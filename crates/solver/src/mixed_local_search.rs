@@ -13,13 +13,13 @@ use std::{error::Error, fmt};
 
 /// Shared search controls, plus optional simultaneous basic/list candidates.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct MixedLocalSearchConfig<S = crate::SimpleScore> {
-    pub search: LocalSearchConfig<S>,
+pub struct MixedLocalSearchConfig<'a, S = crate::SimpleScore> {
+    pub search: LocalSearchConfig<'a, S>,
     /// Include the Cartesian product after single-component candidates. This may
     /// escape coupled local traps but can make neighborhoods much larger.
     pub joint_moves: bool,
 }
-impl<S> Default for MixedLocalSearchConfig<S> {
+impl<S> Default for MixedLocalSearchConfig<'_, S> {
     fn default() -> Self {
         Self {
             search: LocalSearchConfig::default(),
@@ -163,6 +163,10 @@ where
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = LocalSearchTermination::Cancelled;
+        return Ok(result);
+    }
     let mut director = make_director(initial)?;
     let mut acceptor = config.acceptance.start(director.score())?;
     let mut random = match config.move_order {
@@ -183,6 +187,10 @@ where
     time_budget.start_search();
     let mut progress = crate::StepProgress::default();
     loop {
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
+            return Ok(result);
+        }
         if let Some(reason) = config.step_termination(
             result.best.as_ref().expect("initial best").score,
             result.accepted_moves,
@@ -221,7 +229,7 @@ where
                 random.as_mut(),
                 config.max_evaluations - result.evaluations,
             )
-            .take_while(|_| !time_budget.expired()),
+            .take_while(|_| !config.cancelled() && !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -262,6 +270,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
         if let Some(reason) = time_budget.stop() {

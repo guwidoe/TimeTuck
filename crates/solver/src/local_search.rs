@@ -122,7 +122,10 @@ pub enum RejectedMovePolicy {
 /// The accepted-move limit is separate. Optional diagnostic recomputations are
 /// excluded from both budgets and from the constraint-evaluation statistic.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct LocalSearchConfig<S = crate::SimpleScore> {
+pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
+    /// Optional external cancellation. Borrowing keeps this configuration Copy.
+    /// Model/configuration validation precedes cancellation checks.
+    pub cancellation: Option<&'a crate::CancellationToken>,
     pub max_evaluations: u64,
     pub max_accepted_moves: u64,
     pub max_steps: u64,
@@ -145,9 +148,10 @@ pub struct LocalSearchConfig<S = crate::SimpleScore> {
     pub rejected_moves: RejectedMovePolicy,
     pub assert_scores: bool,
 }
-impl<S> Default for LocalSearchConfig<S> {
+impl<S> Default for LocalSearchConfig<'_, S> {
     fn default() -> Self {
         Self {
+            cancellation: None,
             max_evaluations: 10_000,
             max_accepted_moves: 1_000,
             max_steps: 1_000,
@@ -165,7 +169,11 @@ impl<S> Default for LocalSearchConfig<S> {
         }
     }
 }
-impl<S: crate::Score> LocalSearchConfig<S> {
+impl<S: crate::Score> LocalSearchConfig<'_, S> {
+    pub(crate) fn cancelled(&self) -> bool {
+        self.cancellation
+            .is_some_and(crate::CancellationToken::is_cancelled)
+    }
     // Preserve existing count-limit precedence; new optional criteria are checked
     // only at step boundaries, never midway through candidate evaluation.
     pub(crate) fn step_termination(
@@ -210,6 +218,8 @@ impl<S: crate::Score> LocalSearchConfig<S> {
 /// best improvement resets it. Expiry latches; total time wins simultaneous expiry.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
+    /// The external cancellation token was observed. Does not prove optimality.
+    Cancelled,
     EvaluationLimit,
     TimeLimit,
     UnimprovedTimeLimit,
@@ -339,6 +349,10 @@ where
     if config.max_evaluations == 0 {
         return Ok(result);
     }
+    if config.cancelled() {
+        result.termination = LocalSearchTermination::Cancelled;
+        return Ok(result);
+    }
     let initial = initial.unwrap_or_else(|| {
         let mut assignment = problem.initial_assignment();
         for (i, variable) in problem.variables().iter().enumerate() {
@@ -368,6 +382,10 @@ where
     time_budget.start_search();
     let mut progress = crate::StepProgress::default();
     loop {
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
+            return Ok(result);
+        }
         if let Some(reason) = config.step_termination(
             result.best.as_ref().expect("initial best").score,
             result.accepted_moves,
@@ -405,7 +423,7 @@ where
                 random.as_mut(),
                 config.max_evaluations - result.evaluations,
             )
-            .take_while(|_| !time_budget.expired()),
+            .take_while(|_| !config.cancelled() && !time_budget.expired()),
             config.max_evaluations - result.evaluations,
             config.rejected_moves == RejectedMovePolicy::BestScore,
             |movement, score| {
@@ -447,6 +465,10 @@ where
         }
         if selection.evaluation_limit {
             result.termination = LocalSearchTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if config.cancelled() {
+            result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
         if let Some(reason) = time_budget.stop() {

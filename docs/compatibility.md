@@ -306,3 +306,11 @@ original conservation/laziness and all-backend search regressions. It changes no
 adapted-method count and makes no Java PRNG/trace claim. The two-opt comparison
 now explicitly uses it with seed 20261006/window1024; Java keeps its seeded public
 provider. Numeric equality of seeds does not imply matching random sequences.
+
+
+Cooperative external cancellation is now an original native local-search feature
+across all six model/backend paths. Six regression methods verify cross-thread
+requests, scored-prefix retention, validation and fallback. This does not adapt
+the complete Java plumbing/lifecycle tests, which also involve daemon execution,
+problem-change queues and listeners. Those source methods remain pending and the
+adapted-method count is unchanged.

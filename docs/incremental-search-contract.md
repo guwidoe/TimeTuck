@@ -221,8 +221,7 @@ improvements, fallback/recovery, prefix retention, callback overrun, simultaneou
 expiry and backwards/maximum-duration samples. They earn no upstream method credit.
 
 Direct Java timed-search comparisons, complete upstream unimproved-time lifecycle
-adaptations, construction/whole-solve budgets, external cancellation and hard
-preemption remain pending. Deterministic benchmarks disable both time limits.
+adaptations, construction/whole-solve budgets and hard preemption remain pending. Deterministic benchmarks disable both time limits.
 
 ## Evidence and limits
 
@@ -569,3 +568,47 @@ and empty/singleton/non-fused inputs. Three original integration methods cover
 neutral-cycle escape through all six model/backend paths, identical backend
 scores/counters/termination, repeatability, one-slot identity and budget limits.
 They establish specific cases, not a general quality or Java PRNG equivalence.
+
+
+## Cooperative external cancellation
+
+`CancellationToken` is a cloneable, thread-safe, one-way request shared by any
+local-search phases configured with `cancellation: Some(&token)`. `cancel()` returns
+true only for the first request across all clones. There is no reset; use a fresh
+token for an independently cancellable run. Equality compares shared token identity,
+not its changing flag. All three model types and both scoring backends return
+`LocalSearchTermination::Cancelled` when they observe the request.
+
+`LocalSearchConfig<'a, S>` borrows the token to remain Copy; mixed configuration
+carries the same lifetime. Named type aliases and helpers returning configurations
+may need an explicit lifetime. A helper returning a configuration without a token
+can use `'static`; one returning a borrowed token must use that token's lifetime.
+The default remains `None`.
+
+Model, initial-assignment and acceptance validation precede cancellation. An empty
+basic search space still returns NoCompleteAssignment, and a zero evaluation
+budget still returns EvaluationLimit. Otherwise a request observed before scoring
+returns no best solution and zero evaluations/steps. Cancellation during initial
+scoring retains the scored initial solution. Cancellation during candidate scoring
+allows the callback to finish, then installs the selected eligible candidate from
+the evaluated prefix, preserving the retained global best even when rejected-move
+fallback installs a worse working solution.
+
+Search polls before initialization, at each step boundary, between candidates and
+after selection. At a step boundary cancellation precedes count, score and time
+criteria. After selection, already-observed evaluation exhaustion wins; otherwise
+cancellation precedes time expiry and no-accepted-move termination. A request that
+closes enumeration before another candidate is emitted can prevent evaluation
+exhaustion from being observed, even when the last evaluation spent the budget.
+
+This is cooperative phase cancellation. Active callbacks, validation, optional
+score diagnostics and bounded candidate prefetch are not interrupted; diagnostics
+may execute after a request. There is no bounded cancellation latency or optimality
+claim. Construction, exact search, whole-solve orchestration, daemon operation and
+queued problem changes do not gain cancellation support from this API.
+
+Six original integration methods exercise all six paths, repeated requests and
+shared identity, a real thread cancelling a blocked score callback, initial and
+candidate prefix retention, both selection policies, validation and rejected-move
+fallback. These checks earn no upstream method credit; the complete Java solver
+lifecycle methods remain pending.

@@ -130,7 +130,7 @@ fn run_all<C: FnMut() -> Duration>(
     )));
     results
 }
-fn config() -> LocalSearchConfig<HardSoftScore> {
+fn config() -> LocalSearchConfig<'static, HardSoftScore> {
     LocalSearchConfig {
         max_time: Some(Duration::from_millis(3)),
         max_steps: 2,
@@ -310,7 +310,7 @@ fn first_observed_candidate_limit_determines_time_vs_evaluation_reason() {
     }
 }
 
-fn stagnation_config() -> LocalSearchConfig<HardSoftScore> {
+fn stagnation_config() -> LocalSearchConfig<'static, HardSoftScore> {
     LocalSearchConfig {
         max_time: None,
         max_unimproved_time: Some(Duration::from_millis(3)),

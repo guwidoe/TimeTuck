@@ -40,7 +40,7 @@ fn network() -> MixedConstraintNetwork<'static, i32, i32, SimpleScore> {
     .unwrap();
     net
 }
-fn config() -> MixedLocalSearchConfig {
+fn config() -> MixedLocalSearchConfig<'static> {
     MixedLocalSearchConfig {
         search: LocalSearchConfig {
             max_evaluations: 1000,

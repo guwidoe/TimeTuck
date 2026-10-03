@@ -188,3 +188,6 @@ pub use time_limit::ElapsedTimeLimit;
 
 #[cfg(test)]
 mod timed_search_tests;
+
+pub mod cancellation;
+pub use cancellation::CancellationToken;

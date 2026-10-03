@@ -5,7 +5,7 @@ use timetuck::{
     LocalSearchTermination as Stop, Neighborhood, SimpleScore, Variable, exhaustive_search,
     local_search,
 };
-fn config<S>() -> LocalSearchConfig<S> {
+fn config<S>() -> LocalSearchConfig<'static, S> {
     LocalSearchConfig {
         assert_scores: true,
         ..LocalSearchConfig::default()
