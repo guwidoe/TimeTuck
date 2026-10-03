@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 513 original integration regression methods, 64 original unit tests, and 49 public API documentation tests.
+- 520 original integration regression methods, 66 original unit tests, and 50 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3524,3 +3524,69 @@ heuristics 128 valid/128 equal; stream search 64 valid/64 equal. Great Deluge is
 still 275/276 Java agreements, retaining the known ratio boundary discrepancy.
 These ordinary solver workloads do not measure observer/consumer throughput;
 shared-machine timing changes are not proof of a regression or improvement.
+
+
+## Observed ordered solve plans — latest increment
+
+Added six solve*_with_observer APIs sharing private implementations with the
+ordinary solve APIs. PlanObservation filters retained-best updates across all
+phases, retaining first ties and preferring complete over incomplete states just
+like SolverResult. SolverUpdate borrows assignment and carries cached score,
+completeness, phase index and SolverPhaseKind::{Construction,LocalSearch,Exact}.
+Construction is index zero; later indices follow the requested plan. Initial
+construction may be partial; later phase initial scores equal to the retained best
+are suppressed. No score replay or extra evaluation work is introduced.
+
+Observed local helper entrypoints now accept the existing SearchControl reference
+so whole-solve stagnation time and step limits are preserved. Public individual
+phase observers still pass None. Exact phases optionally notify after recording a
+strict improvement above their carried-in score. Ordinary exact execution passes
+None without new score clones. Original controllable-clock helpers remain for
+tests. Callback time and cooperative cancellation use existing phase/solve rules;
+final exact exhaustion still wins over final-candidate cancellation. Native phase
+metadata is not Java event-producer identity/first-initialized parity.
+
+Seven original integration methods in support/solver_observer_cases.rs use the
+existing six-backend solver fixture, now optionally observing. They check full
+outcome/work equality, both mixed construction orders, cross-phase duplicates,
+phase metadata, exact-after-partial construction, every score/move budget prefix,
+shared stagnation steps, whole-plan validation before events, callback cancellation
+and panic capture, graph-factory error event prefixes, managed final delivery and
+exact final-candidate cancellation/exhaustion precedence. Two controlled-clock
+unit methods check shared stagnation in local/exact phases and exact observer
+elapsed time. A public doctest exercises the API. All are original tests; no new
+source method/fixture credit is claimed.
+
+Original live_plan example composes construction, one local-search step and exact
+search in four manager jobs. One observer publishes snapshots without a manual
+cross-phase filter. Every consumer checks monotonic scores, nonzero consumption,
+final Exact phase index 2, four assigned values 2 and proven optimum score 8.
+
+First-initialized callbacks, custom/repeated construction phases and live problem
+changes remain pending. Read the earlier firstInitializedSolutionConsumer warning
+before implementing those source semantics. The full rewrite remains active and
+incomplete. Logs use work/plan-observers-*.
+
+Development gate passes 1,169 Rust tests: 583 adapted, 520 original integration and
+66 unit. All 50 doctests and 95 Python tests pass. Source coverage remains
+583/4,855 (12.01%), pending 3,990, excluded 282 and failed/unverified zero;
+solver lifecycle remains 27/379 (7.12%). No source-method credit was added.
+
+Release verification also passes all 1,169 Rust tests. Release live_plan output
+confirms all four jobs emitted updates and reached proven optimum 8; callbacks
+verify final Exact phase index 2, assigned values and per-job consumption. All nine
+comparison/performance groups were refreshed and are current. The verified report
+matches the live-server fingerprint. Browser checks at 1280x900 and 390x844 show
+12.01% overall, 7.12% lifecycle and 23 benchmark cards, with no stale warning,
+horizontal overflow or browser errors.
+
+Fresh illustrative Rust/Java median milliseconds: exact six-variable solve
+0.011/4.132, eight-variable 0.145/5.832; Great Deluge32 2.388/9.691 and 96
+13.627/14.666. Incremental stream tabu96 remains slower at 169.649/28.677 with
+equal [-44,-484] scores. List two-opt16 0.273/10.079 and 32 0.893/10.797 retain
+the existing score differences. List validation remains 192 valid/189 equal-score;
+heuristic validation 128 valid/128 equal; stream search 64 valid/64 equal.
+Great Deluge remains 275/276 Java agreements with its recorded ratio discrepancy.
+These benchmarks use ordinary solve paths and do not measure observer/consumer
+throughput. Timing changes between shared-machine runs are not established
+regressions or improvements.

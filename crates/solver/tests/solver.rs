@@ -55,6 +55,26 @@ fn run_scored<'a>(
     hook: impl Fn(),
     make: impl Fn(i64) -> SimpleScore,
 ) -> Result<Outcome, Failure> {
+    run_scored_observed(scenario, c, factories, fail_factory, hook, make, None)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Update {
+    values: Vec<Option<usize>>,
+    score: SimpleScore,
+    complete: bool,
+    phase: usize,
+    kind: SolverPhaseKind,
+}
+fn run_scored_observed<'a>(
+    scenario: (usize, bool, MixedConstructionOrder),
+    c: impl Into<SolverPlan<'a>>,
+    factories: &Cell<usize>,
+    fail_factory: Option<usize>,
+    hook: impl Fn(),
+    make: impl Fn(i64) -> SimpleScore,
+    mut observer: Option<&mut dyn FnMut(Update)>,
+) -> Result<Outcome, Failure> {
     let c = c.into();
     let (mode, initialized, order) = scenario;
     let score = |v: &[Option<usize>]| {
@@ -69,6 +89,16 @@ fn run_scored<'a>(
             Ok(())
         }
     };
+    macro_rules! observing {
+        ($plain:path, $observed:path, $values:expr; $($args:expr),*) => {{
+            if let Some(observer) = observer.as_deref_mut() {
+                $observed($($args,)* |u| observer(Update {
+                    values: $values(u.assignment), score: u.score, complete: u.complete,
+                    phase: u.phase, kind: u.kind,
+                }))
+            } else { $plain($($args),*) }
+        }};
+    }
     macro_rules! outcome {
         ($r:expr,$p:expr,$values:expr) => {{
             match $r {
@@ -110,10 +140,14 @@ fn run_scored<'a>(
             let mut n = ConstraintNetwork::new(1);
             n.add_constraint("score", vec![0], |v| score(&[v[0].copied()]))
                 .unwrap();
-            return outcome!(solve(&basic, &n, c), basic, values);
+            return outcome!(
+                observing!(solve, solve_with_observer, values; &basic, &n, c),
+                basic,
+                values
+            );
         }
         return outcome!(
-            solve_stream(
+            observing!(solve_stream, solve_stream_with_observer, values;
                 &basic,
                 || {
                     factory()?;
@@ -122,8 +156,7 @@ fn run_scored<'a>(
                     b.score("score", s.port(), |(_, v)| score(&[*v]))?;
                     Ok((b.build(), s))
                 },
-                c
-            ),
+                c),
             basic,
             values
         );
@@ -148,10 +181,14 @@ fn run_scored<'a>(
                 score(&[element.as_ref().map(|v| v.position.entity)])
             })
             .unwrap();
-            return outcome!(solve_list(&lists, &n, c), lists, values);
+            return outcome!(
+                observing!(solve_list, solve_list_with_observer, values; &lists, &n, c),
+                lists,
+                values
+            );
         }
         return outcome!(
-            solve_list_stream(
+            observing!(solve_list_stream, solve_list_stream_with_observer, values;
                 &lists,
                 || {
                     factory()?;
@@ -162,8 +199,7 @@ fn run_scored<'a>(
                     })?;
                     Ok((b.build(), s))
                 },
-                c
-            ),
+                c),
             lists,
             values
         );
@@ -209,10 +245,14 @@ fn run_scored<'a>(
             },
         )
         .unwrap();
-        return outcome!(solve_mixed(&p, &n, c), p, values);
+        return outcome!(
+            observing!(solve_mixed, solve_mixed_with_observer, values; &p, &n, c),
+            p,
+            values
+        );
     }
     outcome!(
-        solve_mixed_stream(
+        observing!(solve_mixed_stream, solve_mixed_stream_with_observer, values;
             &p,
             || {
                 factory()?;
@@ -224,8 +264,7 @@ fn run_scored<'a>(
                 })?;
                 Ok((b.build(), s))
             },
-            c
-        ),
+            c),
         p,
         values
     )
@@ -1330,3 +1369,6 @@ mod great_deluge_cases;
 
 #[path = "support/solver_manager_integration.rs"]
 mod manager_integration;
+
+#[path = "support/solver_observer_cases.rs"]
+mod observer_cases;

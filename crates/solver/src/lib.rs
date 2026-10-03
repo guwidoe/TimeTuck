@@ -257,3 +257,9 @@ pub use search::exhaustive_search_with_observer;
 
 mod solution_observation;
 pub use solution_observation::*;
+
+pub use solver::{
+    SolverPhaseKind, SolverUpdate, solve_list_stream_with_observer, solve_list_with_observer,
+    solve_mixed_stream_with_observer, solve_mixed_with_observer, solve_stream_with_observer,
+    solve_with_observer,
+};

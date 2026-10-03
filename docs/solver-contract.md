@@ -481,3 +481,41 @@ Direct construction/local-search observer entrypoints are now available; unified
 ordered-plan observers, first-initialized event semantics and dynamic problem
 changes still require implementation. Native notifications do not establish Java
 callback-count or event-producer parity.
+
+### Observing an ordered solve
+
+`solve_with_observer` and its list, mixed and three stream counterparts observe
+one complete SolverPlan/MixedSolverPlan. They share the ordinary plan runner,
+validation, phase factories, controls and result retention. `SolverUpdate` carries
+borrowed assignment, cached score, completeness, native phase index and
+SolverPhaseKind (Construction, LocalSearch or Exact). Index zero is construction;
+subsequent indices are positions in the requested phase sequence plus one.
+
+The first scored state is emitted, including partial construction. Later updates
+must improve the solve's retained state; repeated initial scoring at a phase
+handoff is suppressed. Complete results supersede incomplete ones, as in ordinary
+result retention. Exact phases emit only candidates beating their carried-in best,
+with no additional score calculation. Empty/zero-budget paths can emit nothing.
+Observers may clone state into a SolverProgress publisher without manually
+filtering cross-phase duplicates. Native metadata does not establish equivalence
+to Java event-producer IDs or first-initialized events.
+
+Observed local search receives the same shared stagnation/step control as ordinary
+local search. Callback time remains part of phase/solve deadlines. Cancellation
+from a callback is cooperative and retains the committed prefix. Full enumeration
+on the final exact candidate still proves optimality, even if that final callback
+requests cancellation; cancellation before further candidates does not prove it.
+Panics propagate and become solve panics when called in managed jobs. A graph
+factory failure can follow already-delivered events, but still returns a phase
+error rather than a partial SolverResult. Facts/objectives must remain stable.
+
+Original tests compare observed and unobserved results/work for every score/move
+budget prefix in all six backends, both mixed construction orders, exact phases
+following partial construction, metadata, duplicate suppression, shared step
+stagnation, cancellation/panics, graph failure prefixes, and managed delivery.
+Controlled-clock tests check shared stagnation across local/exact phases and exact
+elapsed-time stopping. `live_plan` runs four observed construction/local/exact jobs,
+checking monotonic delivery, final phase metadata and independently bounded score 8
+with exact exhaustion. No additional upstream method coverage is claimed.
+First-initialized callback semantics, custom/repeated construction phases and
+live problem changes remain pending; the rewrite remains incomplete.

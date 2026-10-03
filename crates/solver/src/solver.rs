@@ -309,6 +309,84 @@ fn smaller(a: Option<u64>, b: Option<u64>) -> Option<u64> {
         (a, b) => a.or(b),
     }
 }
+/// Native origin of a retained-best update within a solve plan.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum SolverPhaseKind {
+    Construction,
+    LocalSearch,
+    Exact,
+}
+/// A synchronous retained-best update from one ordered solve. Phase zero is
+/// construction; later indices address the requested improvement phases plus one.
+/// Equal or worse phase-initial scores are suppressed across phase boundaries.
+/// Native phase metadata is not a Java event-producer identity. Borrowed state
+/// must be cloned for asynchronous publication. Observers must not mutate facts.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2])])?;
+/// let mut n = ConstraintNetwork::new(1);
+/// n.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap_or(0)))?;
+/// let mut updates = Vec::new();
+/// let r = solve_with_observer(&p, &n, SolverConfig::default(), |u| {
+///     updates.push((u.phase, u.kind, u.score));
+/// })?;
+/// assert_eq!(updates.last().unwrap().2, r.score.unwrap());
+/// assert!(updates.windows(2).all(|w| w[0].2 < w[1].2));
+/// assert_eq!(updates[0].1, SolverPhaseKind::Construction);
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+#[derive(Debug)]
+pub struct SolverUpdate<'a, A, S> {
+    pub phase: usize,
+    pub kind: SolverPhaseKind,
+    pub assignment: &'a A,
+    pub score: S,
+    pub complete: bool,
+}
+type PlanObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolverUpdate<'_, A, S>)>;
+struct PlanObservation<'a, A, S> {
+    callback: PlanObserver<'a, A, S>,
+    score: Option<S>,
+    complete: bool,
+}
+impl<'a, A, S: Score> PlanObservation<'a, A, S> {
+    fn new(callback: PlanObserver<'a, A, S>) -> Self {
+        Self {
+            callback,
+            score: None,
+            complete: false,
+        }
+    }
+    fn notify(&mut self, phase: usize, kind: SolverPhaseKind, update: SolutionUpdate<'_, A, S>) {
+        let Some(callback) = &mut self.callback else {
+            return;
+        };
+        if (!self.complete && update.complete)
+            || self.score.as_ref().is_none_or(|best| update.score > *best)
+        {
+            self.score = Some(update.score.clone());
+            self.complete = update.complete;
+            callback(SolverUpdate {
+                phase,
+                kind,
+                assignment: update.assignment,
+                score: update.score,
+                complete: update.complete,
+            });
+        }
+    }
+}
+impl<S> PhaseRequest<'_, S> {
+    fn kind(&self) -> SolverPhaseKind {
+        match self {
+            Self::Construction(_) => SolverPhaseKind::Construction,
+            Self::LocalSearch(_) => SolverPhaseKind::LocalSearch,
+            Self::Exact(..) => SolverPhaseKind::Exact,
+        }
+    }
+}
+
 fn run<A, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
     construction: ConstructionConfig<'_>,
@@ -622,14 +700,42 @@ pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverPlan<'c, S>>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
+    solve_impl(p, n, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
+    p: &FiniteProblem<V>,
+    n: &ConstraintNetwork<'_, V, S>,
+    c: impl Into<SolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, Assignment<V>, S>),
+) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
+    solve_impl(p, n, c, Some(&mut observer))
+}
+fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
+    p: &FiniteProblem<V>,
+    n: &ConstraintNetwork<'_, V, S>,
+    c: impl Into<SolverPlan<'c, S>>,
+    observer: PlanObserver<'_, Assignment<V>, S>,
+) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     run(
         c.limits,
         c.construction,
         &c.phases,
-        |_, a, request, time| {
-            Ok(match request.with_time(time) {
-                PhaseRequest::Exact(c, prior) => exact::run(
+        |index, a, request, time| {
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
+                PhaseRequest::Exact(c, prior) => exact::run_observed(
                     c,
                     prior,
                     time,
@@ -638,16 +744,32 @@ pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
                         n.calculate(p, a)
                             .map(|score| (score, n.constraint_count() as u128))
                     },
+                    observed.then_some(&mut notify),
                 )?,
-                PhaseRequest::Construction(c) => constructed!(greedy_construction(p, n, c)?),
+                PhaseRequest::Construction(c) => constructed!(if observed {
+                    greedy_construction_with_observer(p, n, c, &mut notify)
+                } else {
+                    greedy_construction(p, n, c)
+                }?),
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(crate::local_search::local_search_from_monitored(
-                        time.monitor(),
-                        p,
-                        n,
-                        a.expect("handoff"),
-                        c
-                    )?)
+                    improved!(if observed {
+                        crate::solution_observation::local_search_from_observed(
+                            time.monitor(),
+                            p,
+                            n,
+                            a.expect("handoff"),
+                            c,
+                            &mut notify,
+                        )
+                    } else {
+                        crate::local_search::local_search_from_monitored(
+                            time.monitor(),
+                            p,
+                            n,
+                            a.expect("handoff"),
+                            c,
+                        )
+                    }?)
                 }
             })
         },
@@ -659,14 +781,42 @@ pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverPlan<'c, S>>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
+    solve_list_impl(p, n, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
+    p: &ListProblem<V>,
+    n: &ListConstraintNetwork<'_, V, S>,
+    c: impl Into<SolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, ListAssignment<V>, S>),
+) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
+    solve_list_impl(p, n, c, Some(&mut observer))
+}
+fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
+    p: &ListProblem<V>,
+    n: &ListConstraintNetwork<'_, V, S>,
+    c: impl Into<SolverPlan<'c, S>>,
+    observer: PlanObserver<'_, ListAssignment<V>, S>,
+) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     run(
         c.limits,
         c.construction,
         &c.phases,
-        |_, a, request, time| {
-            Ok(match request.with_time(time) {
-                PhaseRequest::Exact(c, prior) => exact::run(
+        |index, a, request, time| {
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
+                PhaseRequest::Exact(c, prior) => exact::run_observed(
                     c,
                     prior,
                     time,
@@ -675,16 +825,32 @@ pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
                         n.calculate(p, a)
                             .map(|score| (score, n.constraint_count() as u128))
                     },
+                    observed.then_some(&mut notify),
                 )?,
-                PhaseRequest::Construction(c) => constructed!(greedy_list_construction(p, n, c)?),
+                PhaseRequest::Construction(c) => constructed!(if observed {
+                    greedy_list_construction_with_observer(p, n, c, &mut notify)
+                } else {
+                    greedy_list_construction(p, n, c)
+                }?),
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(crate::list_local_search::list_local_search_from_monitored(
-                        time.monitor(),
-                        p,
-                        n,
-                        a.expect("handoff"),
-                        c
-                    )?)
+                    improved!(if observed {
+                        crate::solution_observation::list_local_search_from_observed(
+                            time.monitor(),
+                            p,
+                            n,
+                            a.expect("handoff"),
+                            c,
+                            &mut notify,
+                        )
+                    } else {
+                        crate::list_local_search::list_local_search_from_monitored(
+                            time.monitor(),
+                            p,
+                            n,
+                            a.expect("handoff"),
+                            c,
+                        )
+                    }?)
                 }
             })
         },
@@ -697,15 +863,43 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverPlan<'c, S>>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
+    solve_mixed_impl(p, n, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    p: &MixedProblem<B, L>,
+    n: &MixedConstraintNetwork<'_, B, L, S>,
+    c: impl Into<MixedSolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
+    solve_mixed_impl(p, n, c, Some(&mut observer))
+}
+fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    p: &MixedProblem<B, L>,
+    n: &MixedConstraintNetwork<'_, B, L, S>,
+    c: impl Into<MixedSolverPlan<'c, S>>,
+    observer: PlanObserver<'_, MixedAssignment<B, L>, S>,
+) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
     run(
         c.limits,
         c.construction.construction,
         &phases,
         |index, a, request, time| {
-            Ok(match request.with_time(time) {
-                PhaseRequest::Exact(c, prior) => exact::run(
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
+                PhaseRequest::Exact(c, prior) => exact::run_observed(
                     c,
                     prior,
                     time,
@@ -714,16 +908,41 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         n.calculate(p, a)
                             .map(|score| (score, n.constraint_count() as u128))
                     },
+                    observed.then_some(&mut notify),
                 )?,
-                PhaseRequest::Construction(config) => constructed!(greedy_mixed_construction(
-                    p,
-                    n,
-                    MixedConstructionConfig {
-                        construction: config,
-                        ..c.construction
-                    }
-                )?),
-                PhaseRequest::LocalSearch(config) => improved!(
+                PhaseRequest::Construction(config) => constructed!(if observed {
+                    greedy_mixed_construction_with_observer(
+                        p,
+                        n,
+                        MixedConstructionConfig {
+                            construction: config,
+                            ..c.construction
+                        },
+                        &mut notify,
+                    )
+                } else {
+                    greedy_mixed_construction(
+                        p,
+                        n,
+                        MixedConstructionConfig {
+                            construction: config,
+                            ..c.construction
+                        },
+                    )
+                }?),
+                PhaseRequest::LocalSearch(config) => improved!(if observed {
+                    crate::solution_observation::mixed_local_search_from_observed(
+                        time.monitor(),
+                        p,
+                        n,
+                        a.expect("handoff"),
+                        MixedLocalSearchConfig {
+                            search: config,
+                            ..c.phases[index - 1].local().clone()
+                        },
+                        &mut notify,
+                    )
+                } else {
                     crate::mixed_local_search::mixed_local_search_from_monitored(
                         time.monitor(),
                         p,
@@ -732,9 +951,9 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         MixedLocalSearchConfig {
                             search: config,
                             ..c.phases[index - 1].local().clone()
-                        }
-                    )?
-                ),
+                        },
+                    )
+                }?),
             })
         },
     )
@@ -747,39 +966,84 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 /// their phase; previously completed work is not returned on an error.
 pub fn solve_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
-    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
     c: impl Into<SolverPlan<'c, S>>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
+    solve_stream_impl(p, graph, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_stream_with_observer<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    p: &FiniteProblem<V>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    c: impl Into<SolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, Assignment<V>, S>),
+) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
+    solve_stream_impl(p, graph, c, Some(&mut observer))
+}
+fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    p: &FiniteProblem<V>,
+    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    c: impl Into<SolverPlan<'c, S>>,
+    observer: PlanObserver<'_, Assignment<V>, S>,
+) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     run(
         c.limits,
         c.construction,
         &c.phases,
-        |_, a, request, time| {
+        |index, a, request, time| {
             let (mut g, s) = graph().map_err(StreamScoringError::from)?;
-            Ok(match request.with_time(time) {
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
                 PhaseRequest::Exact(c, prior) => {
                     crate::stream_scoring::validate_source(&g, &s)?;
-                    exact::run(
+                    exact::run_observed(
                         c,
                         prior,
                         time,
                         |visit| crate::search::visit_assignments(p, visit),
                         |a| exact::score_basic(p, &mut g, &s, a),
+                        observed.then_some(&mut notify),
                     )?
                 }
                 PhaseRequest::Construction(c) => {
-                    constructed!(greedy_stream_construction(p, g, s, c)?)
+                    constructed!(if observed {
+                        greedy_stream_construction_with_observer(p, g, s, c, &mut notify)
+                    } else {
+                        greedy_stream_construction(p, g, s, c)
+                    }?)
                 }
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(crate::stream_scoring::stream_local_search_from_monitored(
-                        time.monitor(),
-                        p,
-                        g,
-                        s,
-                        a.expect("handoff"),
-                        c
-                    )?)
+                    improved!(if observed {
+                        crate::solution_observation::stream_local_search_from_observed(
+                            time.monitor(),
+                            p,
+                            g,
+                            s,
+                            a.expect("handoff"),
+                            c,
+                            &mut notify,
+                        )
+                    } else {
+                        crate::stream_scoring::stream_local_search_from_monitored(
+                            time.monitor(),
+                            p,
+                            g,
+                            s,
+                            a.expect("handoff"),
+                            c,
+                        )
+                    }?)
                 }
             })
         },
@@ -788,40 +1052,88 @@ pub fn solve_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
 /// Ordered-list stream solve; the factory has the same contract as solve_stream.
 pub fn solve_list_stream<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &ListProblem<V>,
-    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
     c: impl Into<SolverPlan<'c, S>>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
+    solve_list_stream_impl(p, graph, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_list_stream_with_observer<
+    'c,
+    'g,
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &ListProblem<V>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
+    c: impl Into<SolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, ListAssignment<V>, S>),
+) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
+    solve_list_stream_impl(p, graph, c, Some(&mut observer))
+}
+fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    p: &ListProblem<V>,
+    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, ListStreamSources<V>), GraphError>,
+    c: impl Into<SolverPlan<'c, S>>,
+    observer: PlanObserver<'_, ListAssignment<V>, S>,
+) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     run(
         c.limits,
         c.construction,
         &c.phases,
-        |_, a, request, time| {
+        |index, a, request, time| {
             let (mut g, s) = graph().map_err(ListStreamScoringError::from)?;
-            Ok(match request.with_time(time) {
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
                 PhaseRequest::Exact(c, prior) => {
                     s.validate(&g)?;
-                    exact::run(
+                    exact::run_observed(
                         c,
                         prior,
                         time,
                         |visit| crate::list_search::visit_list_assignments(p, visit),
                         |a| exact::score_list(p, &mut g, &s, a),
+                        observed.then_some(&mut notify),
                     )?
                 }
                 PhaseRequest::Construction(c) => {
-                    constructed!(greedy_list_stream_construction(p, g, s, c)?)
+                    constructed!(if observed {
+                        greedy_list_stream_construction_with_observer(p, g, s, c, &mut notify)
+                    } else {
+                        greedy_list_stream_construction(p, g, s, c)
+                    }?)
                 }
-                PhaseRequest::LocalSearch(c) => improved!(
+                PhaseRequest::LocalSearch(c) => improved!(if observed {
+                    crate::solution_observation::list_stream_local_search_from_observed(
+                        time.monitor(),
+                        p,
+                        g,
+                        s,
+                        a.expect("handoff"),
+                        c,
+                        &mut notify,
+                    )
+                } else {
                     crate::list_stream_scoring::list_stream_local_search_from_monitored(
                         time.monitor(),
                         p,
                         g,
                         s,
                         a.expect("handoff"),
-                        c
-                    )?
-                ),
+                        c,
+                    )
+                }?),
             })
         },
     )
@@ -835,10 +1147,44 @@ pub fn solve_mixed_stream<
     S: AdditiveScore + 'static,
 >(
     p: &MixedProblem<B, L>,
-    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
     c: impl Into<MixedSolverPlan<'c, S>>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
+    solve_mixed_stream_impl(p, graph, c, None)
+}
+/// Observe retained-best progress throughout construction, local search and
+/// exact phases. Shares all validation, work limits and result semantics with
+/// the ordinary solve. Notifications are synchronous, suppress cross-phase
+/// duplicates and do not rescore. Observer time belongs to solve/phase limits;
+/// panics propagate. See [`SolverUpdate`] for native phase metadata.
+pub fn solve_mixed_stream_with_observer<
+    'c,
+    'g,
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &MixedProblem<B, L>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    c: impl Into<MixedSolverPlan<'c, S>>,
+    mut observer: impl FnMut(SolverUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
+    solve_mixed_stream_impl(p, graph, c, Some(&mut observer))
+}
+fn solve_mixed_stream_impl<
+    'c,
+    'g,
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &MixedProblem<B, L>,
+    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    c: impl Into<MixedSolverPlan<'c, S>>,
+    observer: PlanObserver<'_, MixedAssignment<B, L>, S>,
+) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let c = c.into();
+    let mut observation = PlanObservation::new(observer);
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
     run(
         c.limits,
@@ -846,29 +1192,62 @@ pub fn solve_mixed_stream<
         &phases,
         |index, a, request, time| {
             let (mut g, s) = graph().map_err(MixedStreamScoringError::from)?;
-            Ok(match request.with_time(time) {
+            let request = request.with_time(time);
+            let observed = observation.callback.is_some();
+            let kind = request.kind();
+            let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                observation.notify(index, kind, update)
+            };
+            Ok(match request {
                 PhaseRequest::Exact(c, prior) => {
                     s.validate(&g)?;
-                    exact::run(
+                    exact::run_observed(
                         c,
                         prior,
                         time,
                         |visit| exact::visit_mixed(p, visit),
                         |a| exact::score_mixed(p, &mut g, &s, a),
+                        observed.then_some(&mut notify),
                     )?
                 }
                 PhaseRequest::Construction(config) => {
-                    constructed!(greedy_mixed_stream_construction(
+                    constructed!(if observed {
+                        greedy_mixed_stream_construction_with_observer(
+                            p,
+                            g,
+                            s,
+                            MixedConstructionConfig {
+                                construction: config,
+                                ..c.construction
+                            },
+                            &mut notify,
+                        )
+                    } else {
+                        greedy_mixed_stream_construction(
+                            p,
+                            g,
+                            s,
+                            MixedConstructionConfig {
+                                construction: config,
+                                ..c.construction
+                            },
+                        )
+                    }?)
+                }
+                PhaseRequest::LocalSearch(config) => improved!(if observed {
+                    crate::solution_observation::mixed_stream_local_search_from_observed(
+                        time.monitor(),
                         p,
                         g,
                         s,
-                        MixedConstructionConfig {
-                            construction: config,
-                            ..c.construction
-                        }
-                    )?)
-                }
-                PhaseRequest::LocalSearch(config) => improved!(
+                        a.expect("handoff"),
+                        MixedLocalSearchConfig {
+                            search: config,
+                            ..c.phases[index - 1].local().clone()
+                        },
+                        &mut notify,
+                    )
+                } else {
                     crate::mixed_stream_scoring::mixed_stream_local_search_from_monitored(
                         time.monitor(),
                         p,
@@ -878,9 +1257,9 @@ pub fn solve_mixed_stream<
                         MixedLocalSearchConfig {
                             search: config,
                             ..c.phases[index - 1].local().clone()
-                        }
-                    )?
-                ),
+                        },
+                    )
+                }?),
             })
         },
     )
@@ -889,3 +1268,7 @@ pub fn solve_mixed_stream<
 #[cfg(test)]
 #[path = "solver_time_tests.rs"]
 mod time_tests;
+
+#[cfg(test)]
+#[path = "solver_observation_tests.rs"]
+mod observation_tests;

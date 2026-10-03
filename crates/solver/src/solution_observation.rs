@@ -110,6 +110,17 @@ pub fn local_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    local_search_from_observed(None, problem, network, initial, config, observer)
+}
+
+pub(crate) fn local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.acceptance.validate()?;
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
@@ -118,7 +129,7 @@ pub fn local_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
         }
         .into());
     }
-    crate::local_search::search_impl_monitored(None, problem, Some(initial), config, |initial| {
+    crate::local_search::search_impl_monitored(shared, problem, Some(initial), config, |initial| {
         ScoreDirector::new(problem, network, initial)
             .map(|director| Observed { director, observer })
     })
@@ -160,9 +171,24 @@ pub fn stream_local_search_from_with_observer<
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    stream_local_search_from_observed(None, problem, graph, source, initial, config, observer)
+}
+
+pub(crate) fn stream_local_search_from_observed<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.acceptance.validate()?;
     crate::stream_scoring::validate_source(&graph, &source)?;
-    crate::local_search::search_impl_monitored(None, problem, Some(initial), config, |initial| {
+    crate::local_search::search_impl_monitored(shared, problem, Some(initial), config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
             .map(|director| Observed { director, observer })
     })
@@ -242,9 +268,20 @@ pub fn list_local_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list_local_search_from_observed(None, problem, network, initial, config, observer)
+}
+
+pub(crate) fn list_local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.acceptance.validate()?;
     network.validate(problem, &initial)?;
-    crate::list_local_search::search_impl_monitored(None, problem, initial, config, |initial| {
+    crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
             .map(|director| Observed { director, observer })
     })
@@ -287,9 +324,24 @@ pub fn list_stream_local_search_from_with_observer<
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list_stream_local_search_from_observed(None, problem, graph, sources, initial, config, observer)
+}
+
+pub(crate) fn list_stream_local_search_from_observed<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.acceptance.validate()?;
     sources.validate(&graph)?;
-    crate::list_local_search::search_impl_monitored(None, problem, initial, config, |initial| {
+    crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListStreamScoreDirector::new(problem, graph, sources, initial)
             .map(|director| Observed { director, observer })
     })
@@ -374,12 +426,29 @@ pub fn mixed_local_search_from_with_observer<B: Eq + Clone, L: Eq + Clone, S: Ad
     settings: MixedLocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed_local_search_from_observed(None, problem, network, initial, settings, observer)
+}
+
+pub(crate) fn mixed_local_search_from_observed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     settings.search.acceptance.validate()?;
     network.validate(problem, &initial)?;
-    crate::mixed_local_search::search_impl_monitored(None, problem, initial, settings, |initial| {
-        MixedScoreDirector::new(problem, network, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::mixed_local_search::search_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| {
+            MixedScoreDirector::new(problem, network, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 /// Construct with synchronous scored-state notifications. See [`SolutionUpdate`].
@@ -421,12 +490,36 @@ pub fn mixed_stream_local_search_from_with_observer<
     settings: MixedLocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed_stream_local_search_from_observed(
+        None, problem, graph, sources, initial, settings, observer,
+    )
+}
+
+pub(crate) fn mixed_stream_local_search_from_observed<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     settings.search.acceptance.validate()?;
     sources.validate(&graph)?;
-    crate::mixed_local_search::search_impl_monitored(None, problem, initial, settings, |initial| {
-        MixedStreamScoreDirector::new(problem, graph, sources, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::mixed_local_search::search_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| {
+            MixedStreamScoreDirector::new(problem, graph, sources, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 #[cfg(test)]

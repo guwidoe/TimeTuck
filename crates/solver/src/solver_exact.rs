@@ -3,23 +3,40 @@
 use super::*;
 use crate::time_limit::{TimeBudget, monotonic_clock};
 
-pub(super) fn run<A: Clone, S: AdditiveScore, E>(
+type ExactObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
+
+pub(super) fn run_observed<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
     control: &mut SolveControl<'_>,
     enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
     evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
+    observer: ExactObserver<'_, A, S>,
 ) -> Result<PhaseOutput<A, S>, E> {
     let clock = monotonic_clock(config.max_time.is_some());
-    run_with_clock(config, prior, control, enumerate, evaluate, clock)
+    run_with_clock_observed(config, prior, control, enumerate, evaluate, clock, observer)
 }
+
+#[cfg(test)]
 pub(super) fn run_with_clock<A: Clone, S: AdditiveScore, E>(
+    config: ExactPhaseConfig<'_, S>,
+    prior: Option<S>,
+    control: &mut SolveControl<'_>,
+    enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
+    evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
+    clock: impl FnMut() -> Duration,
+) -> Result<PhaseOutput<A, S>, E> {
+    run_with_clock_observed(config, prior, control, enumerate, evaluate, clock, None)
+}
+
+pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
     control: &mut SolveControl<'_>,
     enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
     mut evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
     clock: impl FnMut() -> Duration,
+    mut observer: ExactObserver<'_, A, S>,
 ) -> Result<PhaseOutput<A, S>, E> {
     use ExactPhaseTermination as X;
     let mut timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
@@ -83,6 +100,13 @@ pub(super) fn run_with_clock<A: Clone, S: AdditiveScore, E>(
             out.assignment = Some(a.clone());
             out.score = Some(score);
             out.complete = true;
+            if let Some(observer) = &mut observer {
+                observer(SolutionUpdate {
+                    assignment: out.assignment.as_ref().unwrap(),
+                    score: out.score.as_ref().unwrap().clone(),
+                    complete: true,
+                });
+            }
         }
         true
     });

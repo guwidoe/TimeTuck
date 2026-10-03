@@ -496,3 +496,10 @@ validation, cancellation, plateau, panic and controlled-time regressions establi
 the native contract without additional upstream method credit. Unified ordered-plan
 observation and Java first-initialized/producer event semantics remain pending;
 independent per-phase initial notifications are not claimed to match Java event counts.
+
+Observed ordered-plan APIs now cover all six solver paths, including exact phases.
+Native phase indices/kinds accompany retained-best updates, with duplicate initial
+scores suppressed across phase boundaries. Original tests establish work/result
+parity, shared limits, cancellation, failure prefixes and managed delivery. This
+adds no source-method credit; Java producer IDs, first-initialized semantics and
+custom/repeated construction phase behavior remain unverified.
