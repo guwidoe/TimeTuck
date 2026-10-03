@@ -1324,3 +1324,6 @@ mod exact_cases;
 
 #[path = "support/solver_step_counting_cases.rs"]
 mod step_counting_cases;
+
+#[path = "support/solver_great_deluge_cases.rs"]
+mod great_deluge_cases;

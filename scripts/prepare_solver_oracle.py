@@ -40,7 +40,7 @@ def prepare_solver_java():
     if [p.name for p in core] != [f'timefold-solver-core-{REF["tag"][1:]}.jar']:
         raise RuntimeError('Expected exactly the pinned Community core artifact')
     classpath = os.pathsep.join([str(work), *(str(p) for p in jars)])
-    subprocess.run(['javac', '-cp', classpath, '-d', str(work), str(ROOT / 'compat/oracle/SolverOracle.java'), str(ROOT / 'compat/oracle/RangeSolverOracle.java'), str(ROOT / 'compat/oracle/SolverBenchmark.java'), str(ROOT / 'compat/oracle/HeuristicBenchmark.java'), str(ROOT / 'compat/oracle/TerminationOracle.java'), str(ROOT / 'compat/oracle/StepCountingOracle.java')], check=True)
+    subprocess.run(['javac', '-cp', classpath, '-d', str(work), str(ROOT / 'compat/oracle/SolverOracle.java'), str(ROOT / 'compat/oracle/RangeSolverOracle.java'), str(ROOT / 'compat/oracle/SolverBenchmark.java'), str(ROOT / 'compat/oracle/HeuristicBenchmark.java'), str(ROOT / 'compat/oracle/TerminationOracle.java'), str(ROOT / 'compat/oracle/StepCountingOracle.java'), str(ROOT / 'compat/oracle/GreatDelugeOracle.java')], check=True)
     artifacts = [{'name': p.name, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in jars]
     return classpath, artifacts
 

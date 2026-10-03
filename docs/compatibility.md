@@ -445,3 +445,15 @@ mixed local search in scoped and stream scoring. Six hundred additional original
 public-Java/native/Python cases verify deterministic final assignments and scores;
 native counters/reasons are checked separately. These add no further source-method
 credit or Java internal trace claim. See incremental-search-contract.md.
+
+
+Great Deluge adds all three pinned GreatDelugeAcceptorTest methods (36 acceptance
+assertions). Its exact native arithmetic supports fixed score rain and rational
+rain across six model/backend paths. Separate original comparisons verify all
+276 native cases against exact Python enumeration; 275 final assignments/scores
+agree with public Community solving. One observed ratio boundary differs, and a
+25-prefix probe records two differing outputs separately from agreement passes.
+Floating accumulation reproduces the observed delay but is not a claim about Java
+internals. General floating/overflow and decimal search parity remain unverified.
+The new full-scoring timing workload uses fixed rain only. See
+incremental-search-contract.md for the contract and evidence limits.

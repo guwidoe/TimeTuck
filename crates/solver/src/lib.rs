@@ -236,3 +236,6 @@ pub use solver_plan::{
 
 mod step_counting;
 pub use step_counting::{StepCountingHillClimbing, StepCountingMode};
+
+mod great_deluge;
+pub use great_deluge::{GreatDeluge, GreatDelugeRise};

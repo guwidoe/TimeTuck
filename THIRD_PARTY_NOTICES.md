@@ -15,6 +15,10 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/great_deluge.rs` preserves all three methods from
+  `GreatDelugeAcceptorTest.java`, with initialized score fixtures from
+  `AbstractAcceptorTest.java`.
+
 - `crates/solver/tests/step_counting_hill_climbing.rs` preserves three step-mode
   methods and the zero-size check from `StepCountingHillClimbingAcceptorTest.java`,
   with initialized score fixtures from `AbstractAcceptorTest.java`. The signed

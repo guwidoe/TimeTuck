@@ -1,6 +1,7 @@
 //! Acceptance configurations and per-search state.
 use crate::{
-    Score, SimpleScore, SimulatedAnnealing, StepCountingHillClimbing, StepCountingMode, TabuMemory,
+    GreatDeluge, GreatDelugeRise, Score, SimpleScore, SimulatedAnnealing, StepCountingHillClimbing,
+    StepCountingMode, TabuMemory,
 };
 use std::{cmp::Ordering, error::Error, fmt};
 
@@ -12,6 +13,10 @@ pub enum Acceptance<S = SimpleScore> {
         starting_temperature: S,
         cooling_steps: u64,
         seed: u64,
+    },
+    GreatDeluge {
+        initial_water_level: Option<S>,
+        rise: GreatDelugeRise<S>,
     },
     StepCountingHillClimbing {
         period: u64,
@@ -32,6 +37,9 @@ pub enum Acceptance<S = SimpleScore> {
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum AcceptanceError {
+    UnsupportedScoreArithmetic,
+    InvalidWaterLevel,
+    InvalidWaterLevelIncrement,
     ZeroStepCountingPeriod,
     EmptyHistory,
     EmptyTabu,
@@ -44,6 +52,13 @@ pub enum AcceptanceError {
 impl fmt::Display for AcceptanceError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::UnsupportedScoreArithmetic => {
+                "score levels do not support exact threshold arithmetic"
+            }
+            Self::InvalidWaterLevel => "water levels and increments require structural zero",
+            Self::InvalidWaterLevelIncrement => {
+                "rain requires nonnegative score levels or a positive ratio"
+            }
             Self::ZeroStepCountingPeriod => "step-counting hill-climbing period must be positive",
             Self::InvalidTemperature => {
                 "temperature must have structural zero and nonnegative ordinary levels"
@@ -60,6 +75,13 @@ impl fmt::Display for AcceptanceError {
 impl Error for AcceptanceError {}
 impl<S: Score> Acceptance<S> {
     pub fn validate(&self) -> Result<(), AcceptanceError> {
+        if let Self::GreatDeluge {
+            initial_water_level,
+            rise,
+        } = self
+        {
+            GreatDeluge::validate(initial_water_level.as_ref(), rise)?;
+        }
         if matches!(self, Self::StepCountingHillClimbing { period: 0, .. }) {
             return Err(AcceptanceError::ZeroStepCountingPeriod);
         }
@@ -90,6 +112,10 @@ impl<S: Score> Acceptance<S> {
     pub fn start(&self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
         self.validate()?;
         Ok(match self.clone() {
+            Self::GreatDeluge {
+                initial_water_level,
+                rise,
+            } => Acceptor::GreatDeluge(GreatDeluge::new(initial_water_level, rise, initial_best)?),
             Self::StepCountingHillClimbing { period, mode } => Acceptor::StepCountingHillClimbing(
                 StepCountingHillClimbing::new(period, mode, initial_best)?,
             ),
@@ -121,6 +147,7 @@ impl<S: Score> Acceptance<S> {
 }
 #[derive(Clone, Debug)]
 pub enum Acceptor<S> {
+    GreatDeluge(GreatDeluge<S>),
     StepCountingHillClimbing(StepCountingHillClimbing<S>),
     SimulatedAnnealing(SimulatedAnnealing<S>),
     StrictImprovement,
@@ -135,6 +162,7 @@ impl<S: Score> Acceptor<S> {
     /// completed steps replace their threshold or advance cooling/history.
     pub fn accepts(&mut self, current: S, candidate: S, variables: &[usize]) -> bool {
         match self {
+            Self::GreatDeluge(state) => state.accepts(current, candidate),
             Self::StepCountingHillClimbing(state) => state.accepts(current, candidate),
             Self::SimulatedAnnealing(state) => state.accepts(current, candidate),
             Self::StrictImprovement => candidate > current,
@@ -148,6 +176,7 @@ impl<S: Score> Acceptor<S> {
     /// Record a completed step, never an unselected trial move.
     pub fn step_ended(&mut self, score: S, variables: &[usize]) {
         match self {
+            Self::GreatDeluge(state) => state.step_ended(),
             Self::StepCountingHillClimbing(state) => state.step_ended(score),
             Self::SimulatedAnnealing(state) => state.step_ended(),
             Self::LateAcceptance(state) => state.step_ended(score),

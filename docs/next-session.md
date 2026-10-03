@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 573 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 15 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
+- 576 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -51,6 +51,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Scoped incremental basic/list/mixed score networks and atomic scored-move transactions.
   List scopes cover entity lists and value identities/shadows, with conservative
   neighbor invalidation and deferred cache updates.
+- GreatDeluge supports exact fixed/rational rain with strict current-score aspiration.
+  Three pinned methods are adapted; 275/276 original search cases agree with Java
+  and all 276 with exact Python. One ratio boundary divergence remains explicit.
 - StepCountingHillClimbing supports all five counting modes with a positive u64 period,
   fixed per-scan thresholds and phase-local state. Four pinned methods are adapted;
   600 original public-Java/native/Python cases check final assignments and scores.
@@ -83,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 441 original integration regression methods, fifty-seven original unit tests, and forty-two public API documentation tests.
+- 474 original integration regression methods, 62 original unit tests, and 45 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3153,3 +3156,79 @@ stream outcomes remain [-44,-484]. List two-opt16 0.333/9.382 and two-opt32
 0.906/12.497 retain Rust/Java quality differences [0,-1250]/[0,-1254] and
 [0,-1964]/[0,-2070]; construction32 remains [0,-1080]/[0,-1062]. These warmed
 fixed-workload observations do not prove general speedups or significant changes.
+
+
+## Great Deluge — latest increment
+
+Added GreatDeluge<S>, GreatDelugeRise<S> and Acceptance::GreatDeluge. Fixed rain
+adds a nonnegative score; ratio rain uses positive u64 numerator/denominator and
+exact accumulated fractions of the absolute initial water components. Thresholds
+are unbounded Decimal values (integer scale zero, decimal initial scale clamped
+to at least zero), preventing integer overflow and per-drop rounding loss. Water
+starts at the phase initial score or explicit initial_water_level, rises after
+every completed step including fallback, and stays fixed during trials. Acceptance
+is candidate >= water OR candidate > current; ties below water are rejected.
+Sessions bind S and clone/reset independently. All six model/backend paths and
+ordered phase plans use the existing shared Acceptor integration.
+
+ScoreLevel::exact_decimal is an optional capability, implemented by i64/Decimal.
+Custom types default to None and retain other search policies; Great Deluge rejects
+them before work. Existing constant score dimensions and precision contracts apply.
+Native exact arithmetic is deliberate; no general Java floating/overflow parity.
+Public 2.7.0 config signatures were checked with javap -public; no production source
+was inspected. The pinned GreatDelugeAcceptorTest was read in full and all three
+methods are adapted with 36 acceptance assertions and full provenance/notices.
+Source final-step scope typos are documented; threshold advances do not depend on
+the selected score. Eight original boundary tests and two six-backend integration
+tests cover exact arithmetic, precision, aspiration, resets, invalid parameters,
+custom unsupported levels, fallback and skipped-phase validation.
+
+GreatDelugeOracle.java uses only public Community configuration and solve APIs.
+great_deluge_oracle.rs covers scoped/stream. great_deluge_checks.py uses seed
+20261220 and independent Python batch-neighbor enumeration: 276 cases with three
+fixed increments, three rational increments, both selections, pins, zero steps,
+plateaus, fallback, negative/positive water. All 276 native results/counters/reasons
+match exact Python. Java assignments/scores agree in 275. The explicit remaining
+case random-9-ratio-1-10-first returns Java score [0,1], values [2,1,0], versus
+native [0,9], [2,2,0] at 12 steps. Frozen 1..25-step prefix outputs confirm that
+Rust reaches [0,9] at step 11 and Java at 13 (23 agreements, two divergences).
+A separate cumulative binary-floating ratio hypothesis reproduces those final
+outputs; Java internal threshold/trace behavior was not inspected or claimed.
+Both native backends run every prefix too; combined reference steps are 3,109.
+Known differences are verified against frozen observations and never included in
+agreement passes. Any other/changed result fails the parent differential command.
+Four Python tests protect reference semantics, deterministic generation, response
+validation and the arithmetic boundary. Dashboard exposes all counts and limits.
+
+Full-scoring benchmark adds internal algorithm deluge with fixed (0hard/1soft)
+rain, original ordering, best-accepted selection, first ties, best-rejected fallback
+and the existing 50-step budget. Both Java and Rust share this configuration.
+Adds 32/96-variable workloads and expands small independent validation to 128 cases;
+ratio rain and incremental/decimal Great Deluge are not timed.
+
+Development gate passes 1,112 Rust tests: 576 adapted, 474 original integration,
+62 unit. All 45 doctests and 95 Python tests pass. Coverage is 576/4,855 (11.86%),
+pending 3,997, excluded 282, failed/unverified zero. Search is 22/158 (13.92%).
+Logs use work/great-deluge-*.log. The full rewrite remains active and incomplete;
+remaining lifecycle/problem-change support and search/stream semantics are next gaps.
+
+Release also passes all 1,112 Rust tests. All nine comparison/performance sections
+were refreshed and are current; live /api/freshness matches verification_digest.
+Great Deluge again reports 275/276 Java agreements, 276 native reference passes,
+one explicit divergence, and the 25-prefix probe's 23 agreements/two divergences.
+Heuristic small-case validation is 128/128 valid and equal-score cases; both
+engines reach 106 independently enumerated optima. Browser verification confirms
+11.86% overall, 13.92% search, all three new method rows, 23 timing cards and the
+275/276 evidence with divergence explanation. No stale messages, browser errors
+or horizontal overflow at 1280px and 390px. Browser closed; server remains running.
+
+New fixed-rain Great Deluge warmed Rust/Java median ms: 32 variables 2.573/9.995,
+96 variables 16.098/18.226. Both return [0,0] for 32 and [-44,-22] for 96; the latter
+remains infeasible under the fixed 50-step cap. Small validation uses the same
+fixed-rain configuration. Existing exact6/8 medians are 0.015/5.319 and 0.356/6.319;
+stream tabu32/96 are 80.471/32.443 and 277.811/46.439, with scores [0,0] and
+[-44,-484] respectively. List two-opt16/32 are 0.417/16.462 and 1.160/18.457;
+quality differences remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]. Another
+project's CPU-intensive build was observed during this refresh. These shared-machine
+measurements and broad ranges do not establish significant speed changes or general
+solver superiority. No unrelated processes were interrupted.

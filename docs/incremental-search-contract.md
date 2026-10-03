@@ -772,3 +772,52 @@ Rust backends agree on final assignments and scores. Independent Python enumerat
 also checks native completed/accepted/unimproved counts and stop reasons, over 6,180
 reference steps. Java internal traces and list/mixed differential equivalence are
 not asserted. These generated checks add no source-method credit.
+
+## Great Deluge
+
+`GreatDeluge<S>` and `Acceptance::GreatDeluge` accept a candidate when it meets
+or exceeds the water level, or strictly improves the previous completed score.
+An equal score below water is rejected. Water starts at the phase initial score
+unless `initial_water_level` supplies an explicit threshold. Trial evaluation,
+best-score changes and rejected candidates leave water unchanged. Every completed
+step raises water, including a selected best-rejected fallback. Each phase starts
+a fresh session; all six basic/list/mixed scoped/stream engines use the shared
+acceptor. Configuration is validated before solver work, even for skipped phases.
+
+`GreatDelugeRise::Score` adds nonnegative ordinary levels after each step; zero
+rain is permitted. Initial water, score increments and phase initial scores must
+have structural zero. `GreatDelugeRise::Ratio` requires positive u64 numerator
+and denominator. It adds that fraction of the absolute initial water components
+per step. Fractional rain accumulates exactly, then the total is rounded down at
+the initial component's decimal scale (at least zero). The initial water is not
+replaced by improved scores. Zero initial components stay zero with ratio rain.
+Integer thresholds use arbitrary precision and cannot wrap into acceptance.
+Native Decimal thresholds retain their precision, with the same potentially
+unbounded storage needs as existing exact decimal arithmetic.
+
+The optional `ScoreLevel::exact_decimal` capability supplies numeric levels and
+precision. It must return Some for every value or None for the entire level type;
+i64 and Decimal implement it. Other custom levels retain their existing search
+policies but reject Great Deluge with UnsupportedScoreArithmetic. Score's existing
+constant dimension/order requirement applies. Standalone sessions bind their
+score type and expose numeric thresholds through `water_levels()`.
+
+All three pinned GreatDelugeAcceptorTest methods are adapted, preserving 36
+acceptance assertions. Original boundary/integration regressions and the public
+Community API comparison add no method credit. The original 276-case matrix
+covers fixed rain (0,1)/(1,0)/(1,3), ratios 1/10, 1/2 and 1/100, first/best accepted
+selection and rejected fallback. Rust scoped/stream results and counters match
+independent exact Python enumeration in all 276 cases. Java final scores and
+assignments agree in 275. The remaining ratio case is a recorded divergence:
+Rust reaches (0,9) at step 11; Java reaches it at step 13. A frozen 25-prefix probe
+checks this boundary (23 agreements, two divergences). A separate Python model
+using cumulative binary-floating ratios reproduces those final outputs; this is
+an explanatory hypothesis, not an inspection of Java's thresholds or traces.
+Known divergences never count as agreement passes; changed or unexplained outputs
+fail the comparison command. No general Java floating/overflow or decimal-search
+parity is claimed. See `scripts/great_deluge_checks.py` and report details.
+
+The public configuration and default initial-water concept are described in
+[Timefold's local-search documentation](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/local-search).
+The original fixed-rain performance workload uses (0hard/1soft) and 50 steps;
+it does not measure ratio rain, incremental Great Deluge scoring or decimal scores.

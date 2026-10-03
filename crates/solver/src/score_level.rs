@@ -20,6 +20,13 @@ use std::cmp::Ordering;
 /// assert!((start.progress_fraction(&target, &current) - 0.6).abs() < 1e-15);
 /// ```
 pub trait ScoreLevel: Clone {
+    /// Optional exact arithmetic representation for rising score thresholds.
+    /// Return Some for every value or None for the entire level type. The scale
+    /// specifies the level's arithmetic precision (integer levels use zero).
+    /// Unsupported levels remain usable by all other existing search policies.
+    fn exact_decimal(&self) -> Option<Decimal> {
+        None
+    }
     fn zero() -> Self;
     fn numeric_cmp(&self, other: &Self) -> Ordering;
     /// Capped progress from self to target. A flat/reversed interval earns its
@@ -32,6 +39,9 @@ pub trait ScoreLevel: Clone {
     fn cooling_loss(&self, candidate: &Self, temperature: &Self, gradient: f64) -> f64;
 }
 impl ScoreLevel for i64 {
+    fn exact_decimal(&self) -> Option<Decimal> {
+        Some(Decimal::from(*self))
+    }
     fn zero() -> Self {
         0
     }
@@ -130,6 +140,9 @@ impl Magnitude {
     }
 }
 impl ScoreLevel for Decimal {
+    fn exact_decimal(&self) -> Option<Decimal> {
+        Some(self.clone())
+    }
     fn zero() -> Self {
         Self::from(0)
     }
