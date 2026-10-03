@@ -171,3 +171,6 @@ pub use flat_map_stream::FlatMapNode;
 
 mod overlap_join;
 pub use overlap_join::OverlapJoinNode;
+
+mod equality_existence;
+pub use equality_existence::ExistsEqualNode;

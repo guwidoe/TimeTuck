@@ -14,6 +14,7 @@ from average_collector_checks import run_checks as check_averages
 from duration_collector_checks import run_checks as check_durations
 from big_number_collector_checks import run_checks as check_big_numbers
 from mixed_stream_checks import run_checks as check_mixed_streams
+from equality_existence_checks import run_checks as check_equality_existence
 from ordered_join_checks import run_checks as check_ordered_joins
 
 SEED = 20261017
@@ -85,8 +86,8 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
@@ -100,6 +101,8 @@ def main():
     print(f'Big-number collectors: {big_number_checks["passed"]}/{big_number_checks["total"]} cases; {big_number_checks["observations"]} observations',flush=True)
     ordered_checks=check_ordered_joins(cp)
     print(f'Ordered joins: {ordered_checks["passed"]}/{ordered_checks["total"]} cases; {ordered_checks["observations"]} observations',flush=True)
+    existence_checks=check_equality_existence(cp)
+    print(f'Equality existence: {existence_checks["passed"]}/{existence_checks["total"]} cases; {existence_checks["observations"]} observations',flush=True)
     mixed_checks=check_mixed_streams(cp)
     print(f'Mixed streams: {mixed_checks["passed"]}/{mixed_checks["total"]} cases; {mixed_checks["observations"]} observations',flush=True)
     outputs={}
@@ -122,7 +125,7 @@ def main():
             'duration_collector_checks':duration_checks,
             'big_number_collector_checks':big_number_checks,
             'mixed_stream_checks':mixed_checks,
-            'ordered_join_checks':ordered_checks,
+            'ordered_join_checks':ordered_checks,'equality_existence_checks':existence_checks,
             'aggregation_boundary_checks':{'passed':3,'total':3,
                 'scope':'Separate Community full score updates for empty, one zero-valued fact, and removed-last-fact global count/sum groups. Native boundaries checked by collecting_stream_regression; no additional differential-case or upstream-method credit.'},
             'methodology':'Original required-variable cases, including partial assignments, duplicate/self edges, signed weights, zero/cancelling group sums, pins, committed and trial/undo edits. Constraints: indexed edge/job joins penalize equal endpoint values; nonzero group sums contribute sum*abs(sum) to soft score. Java Community SolutionManager.update rebuilds a score session for each observation; Rust uses persistent incremental transactions. Both ordinary scores checked against independent Python loops. Native exact conflict IDs and group sums also checked. Community update exposes no match-analysis API; no Java match-set, structural-validation or incremental-update timing claim. No additional upstream method coverage.'}

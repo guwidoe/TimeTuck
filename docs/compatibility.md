@@ -207,6 +207,12 @@ pairs verify both runtime scores and exact native match IDs/payloads through edi
 and undo. These are separate from upstream method coverage and timing; Java
 recalculates each score via Community SolutionManager.update.
 
+Four binary-stream existence methods additionally preserve all zero/one-equality
+initial/removal scores and match assertions. Native pure equality uses right-key
+counts and linear retained state; complement composes this specialization. Generic
+filtered existence remains available. Original randomized, fault-injection and
+dense-bucket regressions and public-API Java comparisons are separate evidence.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

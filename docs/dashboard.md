@@ -321,3 +321,13 @@ It retains all inputs and runtime outputs for 153 cases / 10,155 states, seed
 and touching, zero-length, reversed and extreme endpoints. Independent Python pairs check Java/Rust match counts and weighted
 scores plus native exact IDs/payloads. Existing benchmark cards do not measure
 these operators. This evidence does not add upstream test-method coverage.
+
+
+Equality-only existence evidence is retained under `equality_existence_checks` in
+the stream comparison report, with all original inputs and both runtime outputs.
+The dashboard shows 54 cases / 4,834 states, seed 20261118, covering Exists/NotExists
+with zero, one and two equality keys. Independent Python enumeration validates
+retained counts, signed/zero-weight scores and exact native left IDs/payloads.
+Community recalculates scores through public APIs; no Java match-analysis or
+incremental-notification claim. Existing timing workloads do not measure this
+specialization or complement. Generated cases earn no upstream method credit.

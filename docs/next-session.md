@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 419 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 173 stream), recorded in
+- 423 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 315 original integration regression methods, twelve original unit tests, and twenty-seven public API documentation tests.
+- 324 original integration regression methods, twelve original unit tests, and twenty-eight public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -73,6 +73,10 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   recalculation agrees with Rust incremental edits and independent Python pairs.
   Native exact match IDs/payloads are checked separately; no method-credit or
   Java incremental notification/timing claim.
+- Equality-only existence/anti-existence now uses per-key right counts and linear
+  retained state, including complement. Original Community checks pass 54 cases /
+  4,834 states across zero/one/two equality keys, with native left IDs/payloads
+  independently checked. Generic per-pair filters still use cached match links.
 - Matched incremental-stream hill/tabu benchmarks use 32/96 variables and
   50-step budgets, with 64 small independently checked search cases. Scores,
   validity and terminal weighting calls accompany times. Rust graph construction
@@ -81,7 +85,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 419 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 423 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -99,9 +103,11 @@ initialization-score assumptions. No production implementation has been ported.
    value class and refreshes changed representative payloads. Twenty mapping/
    distinct tests across uni/bi/tri/quad streams have full assertion adaptations.
    Indexed existence/anti-existence with pair filters is now implemented; thirteen
-   more upstream methods preserve all score/match assertions. Cached match links
-   require memory proportional to matching pairs; consider counts-only equality
-   specialization when profiling warrants it. Read the stream contract first.
+   more upstream methods preserve all score/match assertions. Equality-only
+   existence now uses right-key counts and linear retained state; complement uses
+   it too. Generic filtered existence still retains matching pairs. Four binary
+   stream methods additionally preserve zero/one-equality existence assertions.
+   Read the stream contract first.
    Public-API Community stream comparisons and matched timing now exist.
    Warmed stream samples show Rust slower than Java, with equal final scores.
    Use the latest work/stream-performance.json and profile these workloads before
@@ -1418,3 +1424,54 @@ checks at 1280px and 390px confirmed coverage, the 153/153 and 10,155-state summ
 and all five overlap methods under the Passed filter, with no page errors,
 staleness messages or horizontal overflow. Existing server was reused; browser
 verification session closed. The full solver rewrite remains active and incomplete.
+
+## Equality-only existence counts increment
+
+Added ExistsEqualNode and graph existence_equal for Exists/NotExists with constant
+or tuple equality keys. Persistent roots retain left rows and memberships, right
+ID-to-key mappings and one count per right key. There are no pair links, and right
+payloads are discarded after projection. Right changes visit left rows only when
+a key crosses empty/nonempty; same-key replacements and duplicate insert/removal
+emit no events. Left payload changes still replace visible rows. Retractions use
+captured keys; two-key transfers emit deterministic left-ID order. All candidate
+roots and output preparation precede installation. Graph checkpoints share roots.
+Complement now composes this linear-state specialization with map and concat;
+filtered ExistsNode remains unchanged and still retains matching pairs.
+
+Four AbstractBiConstraintStreamTest methods fully preserve initial/removal scores
+and match sets for no-joiner and one-equality Exists/NotExists. Native ID-ordered
+self-joins generate the unique pairs; explicit facts retain source identities,
+codes and assigned value references. Method/fixture provenance is recorded.
+Nine original integration regressions cover 6,000 independent edits, 2,000 shared
+source transactions, duplicate counts, key transfers, payload replacement,
+callback/clone/ordering faults, terminal errors, optional/tuple keys and foreign
+ports. A dense 16,384-by-16,384 case avoids materializing 268 million pairs and
+bounds duplicate-update key comparisons. Non-Clone right payloads work standalone.
+Existing complement tests run against the new composition.
+
+New original Java/Rust/Python equality-existence checks pass 54 cases / 4,834
+states, seed 20261118. Modes alternate Exists/NotExists with zero, one and two
+equality keys. Each Rust transaction exposes exact retained left IDs/payloads;
+independent Python nested enumeration verifies those and both runtime scores.
+Java uses public ifExists/ifNotExists and SolutionManager.update recalculation;
+no Java match-analysis, incremental notification, timing or method-credit claim.
+Inputs and both outputs live under equality_existence_checks in the downloadable
+stream report. Four Python regressions guard literal outcomes and response checks.
+
+Development/release verification: 759 Rust tests (423 adapted, 324 original
+integration, 12 original unit), 28 doctests and 62 Python checks pass. Coverage
+423 / 4,855 = 8.71%; Constraint streams 275 / 1,301 = 21.14%. Pending 4,150,
+excluded 282, failed/unverified zero. The Community pin remains unmodified.
+Stream medians ms Rust/Java: hill32 53.977/16.167, hill96 260.152/44.017,
+tabu32 63.002/24.613, tabu96 283.591/43.212. Both 96-variable scores remain
+[-44,-484], infeasible at the 50-step cap. These benchmarks do not exercise pure
+equality existence or complement, and do not measure this specialization's speed.
+Logs: work/equality-existence-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log. Full goal remains unfinished.
+
+All nine evidence sections were refreshed and verified current against source and
+verification fingerprints; the live dashboard freshness digest matches. Browser
+checks at 1280px and 390px confirmed 8.71% overall, 21.14% streams, all four new
+Passed methods and the 54/54, 4,834-state existence summary. No page errors,
+staleness messages or horizontal overflow. Existing server reused; browser closed.
+List32 construction remains Rust [0,-1080] versus Java [0,-1062].

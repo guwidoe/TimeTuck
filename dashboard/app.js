@@ -304,6 +304,8 @@ function renderDifferential() {
     const durations = report.stream_differential?.duration_collector_checks;
     const bigNumbers = report.stream_differential?.big_number_collector_checks;
     const mixed = report.stream_differential?.mixed_stream_checks;
+    const existence = report.stream_differential?.equality_existence_checks;
+    const existenceDetail = existence ? ` Separate equality-existence checks (seed ${existence.seed}): ${n(existence.passed)} / ${n(existence.total)} cases and ${n(existence.observations)} states agree on retained counts and scores for exists/not-exists with zero, one, or two equality keys. Python checks native left identities and payloads through duplicate matches, first/last removals and undo. Java recalculates each score; no existence timing claim.` : "";
     const ordered = report.stream_differential?.ordered_join_checks;
     const orderedDetail = ordered ? ` Separate ordered/overlap join checks (seed ${ordered.seed}): ${n(ordered.passed)} / ${n(ordered.total)} cases and ${n(ordered.observations)} states agree on match counts and weighted scores across five relations with zero, one, or two equality keys, plus interval overlaps with and without equality partitions. Python also checks native match identities and payloads through edits and undo. Java recalculates each score; no ordered/overlap join timing claim.` : "";
     const mixedDetail = mixed ? ` Separate mixed-model checks (seed ${mixed.seed}): ${n(mixed.passed)} / ${n(mixed.total)} cases, ${n(mixed.observations)} states, and ${n(mixed.operations)} basic/list operations agree on scores, assignments, and owner/index/neighbor views through commit and undo. Java recalculates each score; no mixed search or timing claim.` : "";
@@ -313,7 +315,7 @@ function renderDifferential() {
     for (const [d, label, detail] of [
         [report.differential || {}, "generated score cases agree with Java", "Boundary values, structural scores, arithmetic, and ordering."],
         [report.solver_differential || {}, "complete planning cases agree with Java and independent enumeration", "Finite domains, pinned variables, hard conflicts and soft preferences; movable initial values reset before both solves."],
-        [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}${mixedDetail}${orderedDetail}`],
+        [report.stream_differential || {}, "stream cases agree with Java score updates", `${n(report.stream_differential?.observations || 0)} states cover incremental candidates, commits and undo. Python separately checks native conflict IDs and group sums. Java Community comparison exposes scores only.${averageDetail}${durationDetail}${bigNumberDetail}${mixedDetail}${orderedDetail}${existenceDetail}`],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
         if (d.total == null) {

@@ -30,9 +30,10 @@
 //! ```
 
 use crate::{
-    AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, FlatMapNode,
-    GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector, ListSnapshot, OverlapJoinNode,
-    PartitionedJoinNode, ReversibleCollector, SnapshotMap, TupleChange,
+    AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsEqualNode, ExistsNode,
+    FilterNode, FlatMapNode, GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector,
+    ListSnapshot, OverlapJoinNode, PartitionedJoinNode, ReversibleCollector, SnapshotMap,
+    TupleChange,
 };
 use std::{
     any::Any,
@@ -408,6 +409,37 @@ impl<
     }
 }
 
+struct ExistsEqual<'a, I, J, L, R, K>(ExistsEqualNode<'a, I, J, L, R, K>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for ExistsEqual<'_, I, J, L, R, K>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0
+                .apply_left(typed::<I, L>(event).clone())
+                .into_iter()
+                .collect()
+        }))
+    }
+}
+
 struct Group<'a, I, T, K> {
     node: GroupNode<I, K>,
     mapping: Box<GroupMapping<'a, T, K>>,
@@ -661,8 +693,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// `ConcatId::Right`. Coverage compares the supplied keys before padding.
     /// Fact discovery, assigned-value filtering and padding are explicit. Both
     /// ports are validated before adding any topology. Internally this composes
-    /// indexed anti-existence, mapping and concatenation, including their cached
-    /// match-link memory cost and transactional rollback guarantees.
+    /// count-based equality anti-existence, mapping and concatenation with linear
+    /// retained state and transactional rollback guarantees.
     ///
     /// Padding runs only on emitted missing rows, but shared-source updates can
     /// expose transient missing rows before routing drains. It must therefore be
@@ -701,13 +733,12 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     ) -> Result<ConcatenatedStreamPort<I, J, T>, GraphError> {
         self.validate(input)?;
         self.validate(universe)?;
-        let missing = self.existence(
+        let missing = self.existence_equal(
             universe,
             input,
             ExistenceMode::NotExists,
             universe_key,
             input_key,
-            |_, _| true,
         )?;
         let padded = self.map(&missing, padding)?;
         self.concat(input, &padded)
@@ -914,6 +945,32 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(right)?;
         let out = self.push(Exists(ExistsNode::<I, J, L, R, K>::new(
             mode, left_key, right_key, predicate,
+        )));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Equality-only semi/anti join with linear retained state. Right updates
+    /// visit left rows only when a key gains its first or loses its last match.
+    /// Constant keys test any right presence; tuple keys express multiple equalities.
+    pub fn existence_equal<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        mode: ExistenceMode,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Result<StreamPort<I, L>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(ExistsEqual(ExistsEqualNode::<I, J, L, R, K>::new(
+            mode, left_key, right_key,
         )));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);

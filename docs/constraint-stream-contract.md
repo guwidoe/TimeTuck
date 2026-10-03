@@ -133,6 +133,17 @@ Read the pipeline's final result only after all outputs have been delivered.
   ordinary callback/key/clone panics leave this standalone node unchanged.
   Memory is proportional to facts plus matching pairs; dense relations can require
   quadratic space. Empty right input retains every left row only in NotExists mode.
+- `ExistsEqualNode` and graph `existence_equal` specialize pure equality
+  existence/anti-existence. Constant keys express any right presence; tuple keys
+  express multiple equalities. Persistent maps retain left rows and key memberships,
+  right ID-to-key mappings, and one right count per key. Right payloads are discarded
+  after projection. Memory is linear in input rows even for dense buckets. A right
+  update visits left rows only when an old/new key becomes empty or nonempty;
+  duplicate changes and same-key right replacements emit nothing. Visible left
+  updates refresh payloads. Retractions use captured keys without callbacks.
+  Outputs are ordered by left ID, including transfers between two keys. Candidate
+  roots and output construction precede installation, as for the filtered operator.
+  Pair predicates and self-exclusion continue to use `ExistsNode` explicitly.
 - `FlatMapNode<I,T,U>` expands a changed input to a finite ordered sequence of
   payloads. Child IDs are `(input_id, zero_based_position)`, so duplicate payloads
   remain separate occurrences. Replacing an input first retracts positions past
@@ -229,9 +240,9 @@ keys absent from the universe remain unchanged. Coverage is determined before
 padding; the mapper is responsible for any desired relationship between padded
 payload fields and the universe key. All keys must have stable ordering.
 
-This builder composition uses indexed NotExists, map and concat. Cached match
-links inherit the existence operator's potentially quadratic memory in dense key
-buckets. It does not add a second transactional engine. Universe insert/update/
+This builder composition uses count-based equality NotExists, map and concat.
+Its retained state is linear in input and universe occurrences, including dense
+key buckets. It does not add a second transactional engine. Universe insert/update/
 removal and input changes participate in ordinary graph rollback, reconstruction
 and saved candidate installation. Both ports validate before topology registration.
 Universe facts are explicit and can come from a shared source or another graph
@@ -896,3 +907,28 @@ analysis. The native adapter checks full graph rebuild consistency after every
 committed or undone operation. No new upstream method credit or timing claim.
 Inputs and both outputs are retained under ordered_join_checks in the downloadable
 stream differential report. Seed 20261116; scripts/ordered_join_checks.py.
+
+
+## Equality-only existence counts
+
+Four additional AbstractBiConstraintStreamTest methods preserve all original
+initial/removal scores and matches for Exists/NotExists with zero or one equality
+joiner. Ordered ID self-joins produce unique pairs; counts retain each accepted
+pair once, regardless of right multiplicity. Stable IDs and explicit facts replace
+Java fact discovery and reference identity. These tests do not claim filtering,
+unknown-class diagnostics or Java notification-trace parity.
+
+Original regressions independently enumerate 6,000 bidirectional edits and check
+2,000 shared-source graph transactions; they cover duplicate counts, payload/key
+changes, first/last removal, exact two-key transfer events, callback/clone/ordering
+failures, terminal errors, tuple/optional keys and foreign ports. A dense case
+with 16,384 left and 16,384 right occurrences completes without storing 268 million
+pair links; counted key comparisons bound duplicate right work independently of
+wall-clock timing. Complement now uses this specialization; its existing source
+adaptations and rollback/solver regressions run against the new composition.
+
+Original Java Community comparisons cover Exists/NotExists with zero, one and two
+equality keys. Python nested enumeration checks both scores and native left
+identities/payloads through edits, duplicate removal, commit and undo. Java uses
+public ifExists/ifNotExists via score recalculation. This evidence does not add
+method credit or measure Java incremental notifications, match analysis or timing.
