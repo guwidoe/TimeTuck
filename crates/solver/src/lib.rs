@@ -247,7 +247,8 @@ pub use great_deluge::{GreatDeluge, GreatDelugeRise};
 
 mod solver_manager;
 pub use solver_manager::{
-    SolverJob, SolverJobError, SolverJobResult, SolverManager, SolverStatus, SubmitError,
+    SolverJob, SolverJobError, SolverJobResult, SolverManager, SolverStatus, SolverThreadRole,
+    SolverThreadSpec, SolverThreadTask, SubmitError,
 };
 
 mod solver_manager_callbacks;

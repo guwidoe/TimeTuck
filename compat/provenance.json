@@ -9060,6 +9060,21 @@
       "upstream_test": "testProblemSizeStatisticsForWaitingJob",
       "local_test": "test_problem_size_statistics_for_waiting_job",
       "modifications": "Preserve one worker with actual paused custom phase followed by construction, four entities/four values, second queued job ID 2 and best consumer. Before solving assert four entities/four variables/four values and scale 256 from the native model. Queue addition of a fifth fact, release the shared pause, await successful completed change receipt, and verify the consumer solution has five values. Recomputed model metadata at revision 1 gives four/four/five and scale 625. Extra assertions prove queued status, revision identity and immutability of retained revision-zero metadata. Mutex/Condvar replaces CountDownLatch; native revision receipts replace Java futures; stable value 5 represents addedValue. Reuse attributed PlannerTestUtils fixture, constant-zero scorer and prior live-change fixture helper. No Java reflection/API equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.threadFactoryIsUsed",
+      "status": "implemented",
+      "upstream_test": "threadFactoryIsUsed",
+      "local_test": "thread_factory_is_used",
+      "modifications": "Preserve custom factory creating threads named CustomThread, a real custom phase checking its current thread name, construction afterward, job ID 1, four initially unassigned entities/four values, and a successful non-null final result. Native with_thread_factory receives an owned runnable and returns a std::thread JoinHandle; Builder replaces the Java ThreadFactory class/reflection. Extra assertions verify initialized output and no callback failures. Reuse attributed PlannerTestUtils generator and constant-zero scoring. No Java threading/reflection API parity claim."
     }
   ],
   "fixtures": [
@@ -9985,6 +10000,19 @@
       "id": "SolverManagerTest.multi_job_consumer_helpers",
       "upstream_test": "createSolverManagerTestableByDifferentConsumers, assertSolveWithoutConsumer, assertSolveWithConsumer, assertInitializedJobs, assertConsumedSolutions, assertConsumedSolutionsWithListeningWhileSolving, assertConsumedFirstBestSolution, assertConsumedFinalBestSolution",
       "modifications": "Adapt two actual custom assignment phases, initialization checks and all consumer count/state assertions for the CPU-scaled three-mode batch. Stable index/value identities replace entity/value codes; Arc/Mutex snapshot vectors and completed-job waits plus atomic final counts replace synchronized Java lists/maps and CountDownLatch. Fixture/helper attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.custom_thread_factory_fixture",
+      "upstream_test": "CustomThreadFactory.newThread, CUSTOM_THREAD_NAME",
+      "modifications": "Native Builder creates and names the supplied runnable thread CustomThread; the public native spawn hook supplies it to both managed worker roles. Adapted factory helper only; no extra method credit."
     }
   ]
 }

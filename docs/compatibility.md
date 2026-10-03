@@ -608,3 +608,11 @@ revision and is updated before publishing its solution. Native exact/upper-bound
 BigUint assignment spaces and decimal output do not claim Java logarithmic formatting,
 class maps or unused fact-registry behavior; the separate ProblemSizeStatisticsTest
 methods remain pending. Native-only statistics checks add no source-method credit.
+
+SolverManagerTest.threadFactoryIsUsed is now fully adapted through an actual native
+spawn hook. The supplied factory creates the worker named CustomThread; an actual
+custom solver phase checks that name before construction solves the four-entity,
+four-value fixture. The successful final result assertion is preserved. Native
+Builder/JoinHandle replace Java ThreadFactory and reflective configuration. Factory
+helper attribution is recorded separately. Additional native pool dispatch, cleanup,
+wait-protection and live-restart tests do not earn source-method credit.

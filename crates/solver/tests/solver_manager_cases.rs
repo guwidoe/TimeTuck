@@ -1331,3 +1331,50 @@ fn test_problem_size_statistics_for_waiting_job() {
     assert!(second.wait_timeout(LIMIT).unwrap().is_ok());
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn thread_factory_is_used() {
+    let mut manager =
+        SolverManager::<Vec<Option<i64>>, String>::with_thread_factory(1, 1, |_, task| {
+            std::thread::Builder::new()
+                .name("CustomThread".into())
+                .spawn(task)
+        })
+        .unwrap();
+    let job = manager
+        .submit(1, |token| {
+            let problem = statistics_problem(4, vec![1, 2, 3, 4]);
+            let mut network = ConstraintNetwork::new(4);
+            network
+                .add_constraint("dummy", vec![0, 1, 2, 3], |_| SimpleScore::ZERO)
+                .unwrap();
+            let result = solve_with_commands(
+                &problem,
+                &network,
+                SolverSequence {
+                    phases: vec![
+                        SolverPhase::Custom(CustomPhaseConfig::default()),
+                        SolverPhase::Construction(ConstructionConfig::default()),
+                    ],
+                    limits: SolverLimits {
+                        cancellation: Some(&token),
+                        ..Default::default()
+                    },
+                },
+                |_, _| {
+                    assert_eq!(
+                        std::thread::current().name(),
+                        Some("CustomThread"),
+                        "Custom thread factory not used"
+                    );
+                    Ok(())
+                },
+            )
+            .map_err(|e| e.to_string())?;
+            Ok(result.assignment.values().to_vec())
+        })
+        .unwrap();
+    check_initialized(&job);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

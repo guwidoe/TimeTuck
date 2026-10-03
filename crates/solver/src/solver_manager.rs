@@ -291,6 +291,32 @@ impl<R, E> SolverJob<R, E> {
     }
 }
 
+/// The pool function executed by a managed thread.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub enum SolverThreadRole {
+    Solver,
+    Consumer,
+}
+/// Factory calls occur synchronously on the constructor's thread, in solver-then-
+/// consumer order. Indices start at zero independently for each role.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub struct SolverThreadSpec {
+    pub role: SolverThreadRole,
+    pub index: usize,
+}
+impl SolverThreadSpec {
+    pub fn default_name(self) -> String {
+        let role = match self.role {
+            SolverThreadRole::Solver => "solver",
+            SolverThreadRole::Consumer => "consumer",
+        };
+        format!("timetuck-{role}-{}", self.index)
+    }
+}
+/// Run exactly once on the newly spawned thread. A factory must return its handle
+/// promptly, and must not execute this long-lived task inline in the constructor.
+pub type SolverThreadTask = Box<dyn FnOnce() + Send + 'static>;
+
 /// A fixed number of solver threads execute owned solve functions. Separate
 /// consumer threads deliver best/final/error callbacks (one by default). Each job gets
 /// an independent cancellation token; pass it into the existing solver config.
@@ -331,6 +357,35 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         parallel_solver_count: usize,
         consumer_count: usize,
     ) -> io::Result<Self> {
+        Self::with_thread_factory(parallel_solver_count, consumer_count, |spec, task| {
+            thread::Builder::new().name(spec.default_name()).spawn(task)
+        })
+    }
+    /// Supply native thread creation, including names, stack sizes and wrappers.
+    /// Every successful call must spawn the supplied task once and return that
+    /// thread's JoinHandle. The factory runs without manager locks and may borrow
+    /// caller-local state. Returned errors preserve their kind/message; unwinding
+    /// panics during a factory call become io::ErrorKind::Other. Both paths close and join all threads
+    /// whose handles were already returned. The factory owns cleanup for any
+    /// thread it starts without returning its handle.
+    ///
+    /// ```
+    /// use timetuck::SolverManager;
+    /// let mut manager = SolverManager::<String, String>::with_thread_factory(1, 1,
+    ///     |spec, task| std::thread::Builder::new()
+    ///         .name(format!("app-{}", spec.default_name()))
+    ///         .stack_size(2 * 1024 * 1024)
+    ///         .spawn(task))?;
+    /// let job = manager.submit(1, |_| Ok(std::thread::current().name().unwrap().to_owned()))?;
+    /// assert_eq!(job.wait().as_ref().as_ref().unwrap(), "app-timetuck-solver-0");
+    /// manager.shutdown()?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn with_thread_factory(
+        parallel_solver_count: usize,
+        consumer_count: usize,
+        mut factory: impl FnMut(SolverThreadSpec, SolverThreadTask) -> io::Result<JoinHandle<()>>,
+    ) -> io::Result<Self> {
         if parallel_solver_count == 0 || consumer_count == 0 {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -362,29 +417,28 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
                     })?,
             )
             .map_err(io::Error::other)?;
-        for index in 0..parallel_solver_count {
-            let shared = manager.shared.clone();
-            match thread::Builder::new()
-                .name(format!("timetuck-solver-{index}"))
-                .spawn(move || worker(shared))
-            {
-                Ok(worker) => manager.workers.push(worker),
-                Err(error) => {
-                    let _ = manager.shutdown();
-                    return Err(error);
-                }
-            }
-        }
-        for index in 0..consumer_count {
-            let shared = manager.shared.clone();
-            match thread::Builder::new()
-                .name(format!("timetuck-consumer-{index}"))
-                .spawn(move || consumer(shared))
-            {
-                Ok(worker) => manager.workers.push(worker),
-                Err(error) => {
-                    let _ = manager.shutdown();
-                    return Err(error);
+        for (role, count) in [
+            (SolverThreadRole::Solver, parallel_solver_count),
+            (SolverThreadRole::Consumer, consumer_count),
+        ] {
+            for index in 0..count {
+                let shared = manager.shared.clone();
+                let task: SolverThreadTask = match role {
+                    SolverThreadRole::Solver => Box::new(move || worker(shared)),
+                    SolverThreadRole::Consumer => Box::new(move || consumer(shared)),
+                };
+                let result = capture(|| factory(SolverThreadSpec { role, index }, task))
+                    .unwrap_or_else(|message| {
+                        Err(io::Error::other(format!(
+                            "solver thread factory panicked: {message}"
+                        )))
+                    });
+                match result {
+                    Ok(worker) => manager.workers.push(worker),
+                    Err(error) => {
+                        let _ = manager.shutdown();
+                        return Err(error);
+                    }
                 }
             }
         }

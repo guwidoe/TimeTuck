@@ -4455,3 +4455,70 @@ retain known score differences. Validation remains 128/128 equal heuristic cases
 agreement with its documented ratio-boundary difference. Existing benchmarks do not
 measure telemetry/inspection overhead. Shared-machine timings support no general
 speedup/regression claim. This increment is verified; the overall goal stays active.
+
+## Configurable thread factory increment
+
+Both ordinary and live managers now accept with_thread_factory(workers, consumers,
+factory), passing SolverThreadSpec(role/index) and an owned runnable. Calls execute
+synchronously on the caller, solver pool then consumer pool, with independent
+zero-based indices. Factories may borrow state and configure Builder names/stacks
+or wrap execution. Existing constructor names/counts are preserved. Live restarts
+reuse workers. Factory errors preserve I/O details; factory-call unwinding panics
+become Other errors. Both failure paths close and join already returned handles.
+Factories own cleanup of threads started without returning their handles and must
+spawn the runnable exactly once rather than execute it inline. Pool TLS guards
+remain independent of custom thread names.
+
+Six original thread_factory tests cover actual two-by-two dispatch, invalid counts,
+errors at every partial creation position, panics before/after successful creation,
+default/custom names with own-pool wait protection, and live daemon reuse. One full
+source adaptation checks CustomThread inside a real custom phase followed by CH for
+four entities/four values. Provenance records method and helper separately; notices
+now count 27 manager methods. A public doctest demonstrates custom name/stack setup.
+No production source read, upstream pin unchanged. Logs use work/thread-factory-*.
+
+Nine manager source methods remain pending: create, errorThrowableInSolver,
+solveGenerics, solveWithOverride, solveWithTerminationSpentLimit,
+solveWithTerminationUnimprovedSpentLimit, testSolveBuilderForExistingSolvingMethods,
+solveWithBuilder and solveAndListenWithBuilder. Existing native panic containment
+must not be advertised as recovery from actual out-of-memory/process aborts. The
+separate ProblemSizeStatisticsTest remains pending for the previously recorded
+reflection, empty value-registry and formatting differences.
+
+Next evidence read only from SolverManagerTest: solveWithBuilder requires a delayed
+problem finder, final callback and exception callback with successful final delivery;
+solveAndListenWithBuilder additionally requires a non-null best-event producer ID.
+Current native best callbacks carry only the result, unlike initialization callbacks,
+so builder syntax alone cannot earn the listening method. solveGenerics exercises
+Java callback variance; choose and document a meaningful native typing contract.
+testSolveBuilderForExistingSolvingMethods verifies mock delegation counts for three
+convenience overloads; native behavioral tests alone are not that complete method.
+The three config-override methods inspect time gradients at 50 ms (0.05 for 1 s,
+0.5 for 100 ms), and the exact overridden termination passed to a factory. Native
+SolverLimits supports max_time/max_unimproved_time but has no managed default/override
+configuration or corresponding job gradient introspection yet. Keep these pending
+until the full assertions have meaningful native counterparts.
+
+
+Final checks: bash scripts/check.sh passes 1,288 Rust tests (605 adapted,
+608 original integration, 75 unit), 61 doctests and 95 Python tests. Release all-target
+checks pass the same 1,288 tests. The live_initialization example delivers all four
+initialization events and proves four optima. Coverage is 605/4,855 (12.46%),
+3,968 pending, 282 excluded, zero failed/unverified; lifecycle is 47/379 (12.40%).
+Upstream checkout and pinned revision are unchanged.
+
+All nine differential/performance datasets have been refreshed and report current.
+Verification is successful and the live /api/freshness digest matches the report.
+The running dashboard server was reused. Browser checks at 1280x900 and 390x844
+confirm 605/4,855, 23 benchmark cards, no overflow, stale/error messages or browser
+errors; the lifecycle search shows threadFactoryIsUsed Passed. Browser closed,
+server retained. No frontend edits or design skills were used.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.012/4.183 and exact 8
+0.152/6.884; Great Deluge 32 2.569/14.946 and 96 14.748/20.705; stream tabu 96
+209.569/28.816 with equal [-44,-484]. List two-opt 16 0.322/8.716 and 32 0.956/14.254
+retain the documented score differences. Heuristic validation remains 128 valid/128
+equal, streams 64/64 and lists 192 valid/189 equal. Great Deluge remains 275/276 with
+its documented ratio-boundary difference. Existing benchmarks do not isolate thread
+factory overhead; shared-machine results support no blanket speedup/regression claim.
+This increment is verified; the overall independent solver goal remains active.

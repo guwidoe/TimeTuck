@@ -401,6 +401,21 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             registry: Arc::new(Mutex::new(HashMap::new())),
         })
     }
+    /// Configure both native worker pools; live restarts reuse those same threads.
+    /// Factory and cleanup requirements match SolverManager::with_thread_factory.
+    pub fn with_thread_factory(
+        workers: usize,
+        consumers: usize,
+        factory: impl FnMut(
+            SolverThreadSpec,
+            SolverThreadTask,
+        ) -> io::Result<std::thread::JoinHandle<()>>,
+    ) -> io::Result<Self> {
+        Ok(Self {
+            inner: SolverManager::with_thread_factory(workers, consumers, factory)?,
+            registry: Arc::new(Mutex::new(HashMap::new())),
+        })
+    }
     pub fn submit(
         &self,
         id: u64,

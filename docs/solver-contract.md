@@ -1005,3 +1005,32 @@ native statistics tests additionally enumerate small pinned/optional/restricted 
 spaces, check large exact counts, mixed bounds, timing boundaries, idle restarts,
 overflow, speeds, failure, stale publishers and unknown statistics. These tests do
 not establish all ProblemSizeStatisticsTest formatting/reflection behavior.
+
+## Configurable managed threads
+
+`SolverManager::with_thread_factory` and `LiveSolverManager::with_thread_factory`
+accept a native spawn function receiving `SolverThreadSpec` and an owned
+`SolverThreadTask`. Specifications identify the solver or consumer role and its
+zero-based pool index. The constructor calls the factory synchronously on the
+caller thread, without manager locks, in solver-then-consumer order. The factory
+may borrow caller-local state and can configure names, stack sizes and wrappers.
+Existing constructors retain their counts and `timetuck-{role}-{index}` names.
+Live revisions and daemon restarts reuse the same threads.
+
+A successful factory call must spawn the supplied long-lived runnable exactly
+once on a new thread, promptly returning its matching JoinHandle. Running it
+inline would block construction. Wrappers must allow the task to run and finish;
+the manager cannot make arbitrary wrapper code cooperate. Count validation and
+handle reservation precede factory calls. A returned I/O error preserves its kind
+and message; an unwinding panic during the factory call becomes an Other I/O error.
+Both failure paths close the pools and join every previously returned handle before
+returning. A factory is responsible for any thread it starts without returning its
+handle. This containment does not cover arbitrary factory-capture destruction or
+process-aborting failures. Pool-thread synchronous-wait protection uses native
+thread-local identity, so custom or identical names do not disable it.
+
+The complete pinned threadFactoryIsUsed adaptation runs a real custom command
+asserting the worker's configured name, followed by construction for four entities
+and four values. Six original regressions cover dispatch across both pools, invalid
+counts, partial failure/panic cleanup, default names, wait guards and live restarts.
+These native tests add no upstream method credit or Java reflection/API claim.
