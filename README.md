@@ -4,8 +4,8 @@ An independent constraint optimization solver being written from scratch in Rust
 The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
-**Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction and local search.**
-The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 414 adapted upstream
+**Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
+The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 465 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
@@ -16,9 +16,9 @@ and exact joint optimization. Mixed scoped constraints cache contributions acros
 both components and restore them atomically. Mixed local search supports joint
 moves under shared budgets and seeded acceptance. Mixed greedy construction fills
 missing required values in an explicit basic/list order before local search; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
-incremental candidate scoring with transactional cache updates. Another 256 original list-move cases check candidate,
+incremental candidate scoring with transactional cache updates. Another 512 original list-move cases check candidate,
 undo and commit states against Java and an independent reference. An additional
-128 original list-solving cases validate construction/local search and compare
+192 original list-solving cases validate construction/local search, including two-opt, and compare
 quality with independently enumerated optima, including entity-specific ranges. Separate full-scoring routing
 benchmarks show Java/Rust timings together with final scores.
 Native snapshot constraint streams now support typed filtering, joins, existence checks,
@@ -39,6 +39,12 @@ primitive basic/list operations against Java public moves and score updates.
 Separate incremental-search benchmarks report Java/Rust quality and timing.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
+
+Use `solve`, `solve_list` or `solve_mixed` to construct and improve a model with
+shared evaluation budgets and cancellation. Stream counterparts use a fresh graph
+factory for each phase. Results include partial progress, retained solutions and
+per-phase work. See [the solver contract](docs/solver-contract.md) for configuration,
+error behavior and limits; `mixed_routes` exercises both scoring backends.
 
 ## Development
 

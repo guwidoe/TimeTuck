@@ -1,0 +1,797 @@
+//! Original multi-phase orchestration checks; no upstream method credit.
+use std::cell::Cell;
+use timetuck::*;
+
+#[derive(Debug, PartialEq)]
+struct Outcome {
+    values: Vec<Option<usize>>,
+    score: Option<SimpleScore>,
+    complete: bool,
+    work: SolverWork,
+    phases: Vec<PhaseReport<SimpleScore>>,
+    reason: SolverTermination,
+}
+#[derive(Debug, PartialEq)]
+enum Failure {
+    Acceptance(usize),
+    Token(usize),
+    Phase(usize),
+}
+fn plan() -> SolverConfig<'static> {
+    SolverConfig {
+        local_search: vec![
+            LocalSearchConfig {
+                max_steps: 1,
+                ..Default::default()
+            };
+            2
+        ],
+        ..Default::default()
+    }
+}
+fn run(
+    mode: usize,
+    initialized: bool,
+    c: SolverConfig<'_>,
+    order: MixedConstructionOrder,
+    factories: &Cell<usize>,
+    fail_factory: Option<usize>,
+    hook: impl Fn(),
+) -> Result<Outcome, Failure> {
+    let score = |v: &[Option<usize>]| {
+        hook();
+        SimpleScore::new(v.iter().flatten().map(|&v| v as i64).sum())
+    };
+    let factory = || {
+        factories.set(factories.get() + 1);
+        if fail_factory == Some(factories.get()) {
+            Err(GraphError::ForeignPort)
+        } else {
+            Ok(())
+        }
+    };
+    macro_rules! outcome {
+        ($r:expr,$p:expr,$values:expr) => {{
+            match $r {
+                Ok(r) => {
+                    $p.validate(&r.assignment).unwrap();
+                    assert_eq!(r.complete, $p.is_complete(&r.assignment));
+                    let values: Vec<Option<usize>> = $values(&r.assignment);
+                    assert_eq!(r.solution().is_some(), r.complete && r.score.is_some());
+                    if let Some(s) = r.score {
+                        assert_eq!(
+                            s,
+                            SimpleScore::new(values.iter().flatten().map(|&v| v as i64).sum())
+                                .with_structural(
+                                    -(values.iter().filter(|v| v.is_none()).count() as i64)
+                                )
+                        );
+                    }
+                    Ok(Outcome {
+                        values,
+                        score: r.score,
+                        complete: r.complete,
+                        work: r.work,
+                        phases: r.phases,
+                        reason: r.termination,
+                    })
+                }
+                Err(SolverError::InvalidAcceptance { phase, .. }) => {
+                    Err(Failure::Acceptance(phase))
+                }
+                Err(SolverError::ConflictingCancellation { phase }) => Err(Failure::Token(phase)),
+                Err(SolverError::Phase { phase, .. }) => Err(Failure::Phase(phase)),
+            }
+        }};
+    }
+    let v = Variable::new(vec![0usize, 1, 2]);
+    let basic = FiniteProblem::new(vec![if initialized { v.with_initial(0) } else { v }]).unwrap();
+    if mode < 2 {
+        let values = |a: &Assignment<usize>| a.values().to_vec();
+        if mode == 0 {
+            let mut n = ConstraintNetwork::new(1);
+            n.add_constraint("score", vec![0], |v| score(&[v[0].copied()]))
+                .unwrap();
+            return outcome!(solve(&basic, &n, c), basic, values);
+        }
+        return outcome!(
+            solve_stream(
+                &basic,
+                || {
+                    factory()?;
+                    let mut b = StreamGraphBuilder::new();
+                    let s = b.source::<usize, (usize, Option<usize>)>();
+                    b.score("score", s.port(), |(_, v)| score(&[*v]))?;
+                    Ok((b.build(), s))
+                },
+                c
+            ),
+            basic,
+            values
+        );
+    }
+    let lists = ListProblem::new(
+        vec![7usize],
+        vec![
+            ListEntity::new(if initialized { vec![7] } else { vec![] }),
+            ListEntity::new(vec![]),
+            ListEntity::new(vec![]),
+        ],
+    )
+    .unwrap();
+    if mode < 4 {
+        let values = |a: &ListAssignment<usize>| vec![a.location(&7).map(|p| p.entity)];
+        if mode == 2 {
+            let mut n = ListConstraintNetwork::new(3, 1);
+            n.add_constraint("score", vec![ListScope::Value(0)], |v| {
+                let ListFact::Value { element, .. } = &v[0] else {
+                    panic!()
+                };
+                score(&[element.as_ref().map(|v| v.position.entity)])
+            })
+            .unwrap();
+            return outcome!(solve_list(&lists, &n, c), lists, values);
+        }
+        return outcome!(
+            solve_list_stream(
+                &lists,
+                || {
+                    factory()?;
+                    let mut b = StreamGraphBuilder::new();
+                    let s = ListStreamSources::<usize>::new(&mut b);
+                    b.score("score", s.values.port(), |v| {
+                        score(&[v.position.map(|p| p.entity)])
+                    })?;
+                    Ok((b.build(), s))
+                },
+                c
+            ),
+            lists,
+            values
+        );
+    }
+    let p = MixedProblem::new(basic, lists);
+    let values = |a: &MixedAssignment<usize, usize>| {
+        vec![
+            a.basic().values()[0],
+            a.lists().location(&7).map(|p| p.entity),
+        ]
+    };
+    let c = MixedSolverConfig {
+        limits: c.limits,
+        construction: MixedConstructionConfig {
+            construction: c.construction,
+            order,
+        },
+        local_search: c
+            .local_search
+            .into_iter()
+            .map(|search| MixedLocalSearchConfig {
+                search,
+                joint_moves: true,
+            })
+            .collect(),
+    };
+    if mode == 4 {
+        let mut n = MixedConstraintNetwork::new(1, 3, 1);
+        n.add_constraint(
+            "score",
+            vec![MixedScope::Basic(0), MixedScope::ListValue(0)],
+            |v| {
+                let (MixedFact::Basic(a), MixedFact::ListValue { element, .. }) = (&v[0], &v[1])
+                else {
+                    panic!()
+                };
+                score(&[a.copied(), element.as_ref().map(|v| v.position.entity)])
+            },
+        )
+        .unwrap();
+        return outcome!(solve_mixed(&p, &n, c), p, values);
+    }
+    outcome!(
+        solve_mixed_stream(
+            &p,
+            || {
+                factory()?;
+                let mut b = StreamGraphBuilder::new();
+                let s = MixedStreamSources::<usize, usize>::new(&mut b);
+                let j = b.join_equal(s.basic.port(), s.lists.values.port(), |_| (), |_| ())?;
+                b.score("score", &j, |((_, a), v)| {
+                    score(&[*a, v.position.map(|p| p.entity)])
+                })?;
+                Ok((b.build(), s))
+            },
+            c
+        ),
+        p,
+        values
+    )
+}
+fn execute(mode: usize, c: SolverConfig<'_>) -> Outcome {
+    let factories = Cell::new(0);
+    let callbacks = Cell::new(0);
+    let r = run(
+        mode,
+        true,
+        c,
+        MixedConstructionOrder::BasicThenLists,
+        &factories,
+        None,
+        || callbacks.set(callbacks.get() + 1),
+    )
+    .unwrap();
+    if mode % 2 == 1 {
+        assert_eq!(factories.get(), r.phases.len());
+    } else {
+        assert_eq!(factories.get(), 0);
+    }
+    assert_eq!(callbacks.get() as u128, r.work.constraint_evaluations);
+    assert_eq!(
+        r.work.evaluations,
+        r.phases.iter().map(|p| p.work.evaluations).sum()
+    );
+    assert_eq!(
+        r.work.move_evaluations,
+        r.phases.iter().map(|p| p.work.move_evaluations).sum()
+    );
+    assert_eq!(
+        r.work.completed_steps,
+        r.phases.iter().map(|p| p.work.completed_steps).sum()
+    );
+    assert_eq!(
+        r.work.accepted_moves,
+        r.phases.iter().map(|p| p.work.accepted_moves).sum()
+    );
+    for (index, p) in r.phases.iter().enumerate() {
+        assert_eq!(p.index, index);
+    }
+    r
+}
+#[test]
+fn construction_and_two_phases_share_budgets_and_count_each_initialization() {
+    for mode in 0..6 {
+        let full = execute(mode, plan());
+        assert_eq!(full.reason, SolverTermination::PlanCompleted);
+        assert_eq!(full.score, Some(SimpleScore::new(2)));
+        assert_eq!(full.work.evaluations, 6);
+        assert_eq!(full.work.move_evaluations, 3);
+        assert_eq!(full.work.completed_steps, 2);
+        assert_eq!(full.work.accepted_moves, 2);
+        assert_eq!(
+            full.phases
+                .iter()
+                .map(|p| p.work.evaluations)
+                .collect::<Vec<_>>(),
+            [1, 2, 3]
+        );
+        for (cap, score, phases) in [
+            (0, None, 1),
+            (1, Some(0), 1),
+            (2, Some(0), 2),
+            (3, Some(1), 2),
+            (4, Some(1), 3),
+            (5, Some(1), 3),
+            (6, Some(2), 3),
+        ] {
+            let r = execute(
+                mode,
+                SolverConfig {
+                    limits: SolverLimits {
+                        max_evaluations: cap,
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+            );
+            assert_eq!(r.work.evaluations, cap);
+            assert_eq!(r.score, score.map(SimpleScore::new));
+            assert_eq!(r.phases.len(), phases);
+            assert_eq!(
+                r.reason,
+                if cap == 6 {
+                    SolverTermination::PlanCompleted
+                } else {
+                    SolverTermination::EvaluationLimit
+                }
+            );
+        }
+        for (cap, evals, score, phases) in [(0, 1, 0, 1), (1, 3, 1, 2), (2, 5, 1, 3), (3, 6, 2, 3)]
+        {
+            let r = execute(
+                mode,
+                SolverConfig {
+                    limits: SolverLimits {
+                        max_move_evaluations: Some(cap),
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+            );
+            assert_eq!(r.work.move_evaluations, cap);
+            assert_eq!(r.work.evaluations, evals);
+            assert_eq!(r.score, Some(SimpleScore::new(score)));
+            assert_eq!(r.phases.len(), phases);
+            assert_eq!(
+                r.reason,
+                if cap == 3 {
+                    SolverTermination::PlanCompleted
+                } else {
+                    SolverTermination::MoveEvaluationLimit
+                }
+            );
+        }
+    }
+}
+#[test]
+fn paired_backends_agree_for_competing_global_and_phase_budgets() {
+    for score_cap in 0..=8 {
+        for move_cap in 0..=5 {
+            for phase_cap in 0..=4 {
+                let c = SolverConfig {
+                    limits: SolverLimits {
+                        max_evaluations: score_cap,
+                        max_move_evaluations: Some(move_cap),
+                        ..Default::default()
+                    },
+                    local_search: vec![
+                        LocalSearchConfig {
+                            max_evaluations: phase_cap,
+                            max_steps: 1,
+                            ..Default::default()
+                        };
+                        2
+                    ],
+                    ..Default::default()
+                };
+                for pair in [0, 2, 4] {
+                    let scoped = execute(pair, c.clone());
+                    let stream = execute(pair + 1, c.clone());
+                    assert_eq!(scoped, stream);
+                    assert!(scoped.work.evaluations <= score_cap);
+                    assert!(scoped.work.move_evaluations <= move_cap);
+                    let scores: Vec<_> = scoped.phases.iter().filter_map(|p| p.score).collect();
+                    assert!(scores.windows(2).all(|w| w[0] <= w[1]));
+                }
+            }
+        }
+    }
+}
+#[test]
+fn whole_solve_targets_stop_later_phases_and_phase_targets_do_not() {
+    for mode in 0..6 {
+        for (target, expected_score, phase_count) in [(0, 0, 1), (1, 1, 2), (2, 2, 3)] {
+            let r = execute(
+                mode,
+                SolverConfig {
+                    limits: SolverLimits {
+                        best_score_limit: Some(SimpleScore::new(target)),
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+            );
+            assert_eq!(r.reason, SolverTermination::BestScoreLimit);
+            assert_eq!(r.score, Some(SimpleScore::new(expected_score)));
+            assert_eq!(r.phases.len(), phase_count);
+        }
+        let r = execute(
+            mode,
+            SolverConfig {
+                limits: SolverLimits {
+                    stop_when_feasible: true,
+                    ..Default::default()
+                },
+                ..plan()
+            },
+        );
+        assert_eq!(r.reason, SolverTermination::FeasibleScore);
+        assert_eq!(r.phases.len(), 1);
+        let mut c = plan();
+        c.local_search[0].best_score_limit = Some(SimpleScore::ZERO);
+        let r = execute(mode, c);
+        assert_eq!(r.reason, SolverTermination::PlanCompleted);
+        assert_eq!(r.phases.len(), 3);
+        assert_eq!(r.score, Some(SimpleScore::new(1)));
+        let mut c = plan();
+        c.local_search.insert(
+            0,
+            LocalSearchConfig {
+                max_evaluations: 0,
+                ..Default::default()
+            },
+        );
+        let r = execute(mode, c);
+        assert_eq!(r.phases.len(), 4);
+        assert_eq!(r.work.evaluations, 6);
+        assert_eq!(r.score, Some(SimpleScore::new(2)));
+    }
+}
+#[test]
+fn incomplete_construction_is_retained_and_never_passed_to_local_search() {
+    for mode in 0..6 {
+        for order in [
+            MixedConstructionOrder::BasicThenLists,
+            MixedConstructionOrder::ListsThenBasic,
+        ] {
+            let factories = Cell::new(0);
+            let c = SolverConfig {
+                construction: ConstructionConfig {
+                    max_evaluations: 2,
+                    ..Default::default()
+                },
+                ..plan()
+            };
+            let r = run(mode, false, c, order, &factories, None, || {}).unwrap();
+            if mode >= 4 {
+                assert_eq!(r.reason, SolverTermination::IncompleteConstruction);
+                assert_eq!(r.phases.len(), 1);
+                assert!(!r.complete);
+                assert_eq!(r.values.iter().filter(|v| v.is_some()).count(), 1);
+            } else {
+                assert_eq!(r.reason, SolverTermination::PlanCompleted);
+                assert!(r.complete);
+                assert_eq!(r.phases.len(), 3);
+            }
+            let r = run(
+                mode,
+                false,
+                SolverConfig {
+                    limits: SolverLimits {
+                        max_evaluations: 2,
+                        ..Default::default()
+                    },
+                    ..plan()
+                },
+                order,
+                &Cell::new(0),
+                None,
+                || {},
+            )
+            .unwrap();
+            assert_eq!(r.reason, SolverTermination::EvaluationLimit);
+            assert_eq!(r.phases.len(), 1);
+            assert_eq!(r.work.evaluations, 2);
+        }
+    }
+}
+#[test]
+fn cancellation_reaches_all_phases_and_preserves_the_last_scored_best() {
+    for mode in 0..6 {
+        for at in 0..=6 {
+            let token = CancellationToken::new();
+            let clone = token.clone();
+            if at == 0 {
+                token.cancel();
+            }
+            let calls = Cell::new(0);
+            let factories = Cell::new(0);
+            let mut c = plan();
+            c.limits.cancellation = Some(&token);
+            c.local_search[0].cancellation = Some(&clone);
+            let r = run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &factories,
+                None,
+                || {
+                    calls.set(calls.get() + 1);
+                    if calls.get() == at {
+                        token.cancel();
+                    }
+                },
+            )
+            .unwrap();
+            assert_eq!(r.reason, SolverTermination::Cancelled);
+            assert_eq!(r.work.evaluations, at as u64);
+            assert_eq!(calls.get(), at);
+            assert_eq!(
+                r.score,
+                match at {
+                    0 => None,
+                    1 | 2 => Some(SimpleScore::ZERO),
+                    3..=5 => Some(SimpleScore::new(1)),
+                    _ => Some(SimpleScore::new(2)),
+                }
+            );
+            assert_eq!(
+                r.phases.len(),
+                if at <= 1 {
+                    1
+                } else if at <= 3 {
+                    2
+                } else {
+                    3
+                }
+            );
+        }
+    }
+}
+#[test]
+fn invalid_future_settings_fail_before_any_scoring_or_factory_work() {
+    for mode in 0..6 {
+        let token = CancellationToken::new();
+        let other = CancellationToken::new();
+        token.cancel();
+        let mut c = plan();
+        c.limits.max_evaluations = 0;
+        c.limits.cancellation = Some(&token);
+        c.local_search[1].cancellation = Some(&other);
+        let factories = Cell::new(0);
+        assert_eq!(
+            run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &factories,
+                None,
+                || panic!("invalid plan scored")
+            ),
+            Err(Failure::Token(2))
+        );
+        let mut c = plan();
+        c.local_search[1].acceptance = Acceptance::LateAcceptance {
+            history_size: 0,
+            hill_climbing: false,
+        };
+        assert_eq!(
+            run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &factories,
+                None,
+                || panic!("invalid plan scored")
+            ),
+            Err(Failure::Acceptance(2))
+        );
+        assert_eq!(factories.get(), 0);
+    }
+}
+#[test]
+fn graph_factory_errors_identify_the_phase_and_skip_later_work() {
+    for mode in [1, 3, 5] {
+        for fail in 1..=3 {
+            let factories = Cell::new(0);
+            let callbacks = Cell::new(0);
+            assert_eq!(
+                run(
+                    mode,
+                    true,
+                    plan(),
+                    MixedConstructionOrder::BasicThenLists,
+                    &factories,
+                    Some(fail),
+                    || callbacks.set(callbacks.get() + 1)
+                ),
+                Err(Failure::Phase(fail - 1))
+            );
+            assert_eq!(factories.get(), fail);
+            assert_eq!(callbacks.get(), [0, 1, 3][fail - 1]);
+        }
+    }
+}
+
+#[test]
+fn empty_plans_and_phase_local_limits_preserve_results_without_stopping_the_plan() {
+    for mode in 0..6 {
+        let mut c = plan();
+        c.local_search.clear();
+        let r = execute(mode, c.clone());
+        assert_eq!(r.reason, SolverTermination::PlanCompleted);
+        assert_eq!(r.work.evaluations, 1);
+        assert_eq!(r.phases.len(), 1);
+        c.construction.max_evaluations = 0;
+        let r = execute(mode, c);
+        assert!(r.complete);
+        assert_eq!(r.score, None);
+        assert_eq!(r.reason, SolverTermination::PlanCompleted);
+        let mut c = plan();
+        c.construction.max_evaluations = 0;
+        let r = execute(mode, c);
+        assert_eq!(r.work.evaluations, 5);
+        assert_eq!(r.score, Some(SimpleScore::new(2)));
+        let mut c = plan();
+        c.local_search[0].max_move_evaluations = Some(0);
+        let r = execute(mode, c);
+        assert_eq!(
+            r.phases[1].termination,
+            PhaseTermination::LocalSearch(LocalSearchTermination::MoveEvaluationLimit)
+        );
+        assert_eq!(r.work.evaluations, 4);
+        assert_eq!(r.score, Some(SimpleScore::new(1)));
+        assert_eq!(r.reason, SolverTermination::PlanCompleted);
+        let c = SolverConfig {
+            limits: SolverLimits {
+                max_evaluations: 5,
+                max_move_evaluations: Some(2),
+                ..Default::default()
+            },
+            ..plan()
+        };
+        assert_eq!(execute(mode, c).reason, SolverTermination::EvaluationLimit);
+    }
+}
+#[test]
+fn impossible_models_and_invalid_networks_keep_their_reasons_at_zero_budget() {
+    let basic = FiniteProblem::<usize>::new(vec![Variable::new(vec![])]).unwrap();
+    let lists = ListProblem::<usize>::new(vec![7], vec![]).unwrap();
+    let c = SolverConfig::<SimpleScore> {
+        limits: SolverLimits {
+            max_evaluations: 0,
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    let b = solve(&basic, &ConstraintNetwork::new(1), c.clone()).unwrap();
+    let l = solve_list(&lists, &ListConstraintNetwork::new(0, 1), c.clone()).unwrap();
+    let p = MixedProblem::new(basic, lists);
+    let m = solve_mixed(
+        &p,
+        &MixedConstraintNetwork::new(1, 0, 1),
+        MixedSolverConfig {
+            limits: c.limits,
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    for (reason, work, count) in [
+        (b.termination, b.work, b.phases.len()),
+        (l.termination, l.work, l.phases.len()),
+        (m.termination, m.work, m.phases.len()),
+    ] {
+        assert_eq!(reason, SolverTermination::NoCompleteAssignment);
+        assert_eq!(work, SolverWork::default());
+        assert_eq!(count, 1);
+    }
+    assert!(matches!(
+        solve(p.basic(), &ConstraintNetwork::new(0), c.clone()),
+        Err(SolverError::Phase { phase: 0, .. })
+    ));
+    assert!(matches!(
+        solve_list(p.lists(), &ListConstraintNetwork::new(1, 1), c.clone()),
+        Err(SolverError::Phase { phase: 0, .. })
+    ));
+    assert!(matches!(
+        solve_mixed(
+            &p,
+            &MixedConstraintNetwork::new(0, 0, 1),
+            MixedSolverConfig {
+                limits: c.limits,
+                ..Default::default()
+            }
+        ),
+        Err(SolverError::Phase { phase: 0, .. })
+    ));
+}
+#[test]
+fn mixed_phases_keep_individual_joint_move_settings_and_escape_a_coupled_trap() {
+    let p = MixedProblem::new(
+        FiniteProblem::new(vec![Variable::new(vec![0usize, 1]).with_initial(0)]).unwrap(),
+        ListProblem::new(
+            vec![7usize],
+            vec![ListEntity::new(vec![7]), ListEntity::new(vec![])],
+        )
+        .unwrap(),
+    );
+    let value = |basic: Option<usize>, owner: Option<usize>| {
+        SimpleScore::new(match (basic, owner) {
+            (Some(1), Some(1)) => 10,
+            (Some(0), Some(0)) => 0,
+            _ => -1,
+        })
+    };
+    let mut n = MixedConstraintNetwork::new(1, 2, 1);
+    n.add_constraint(
+        "coupled",
+        vec![MixedScope::Basic(0), MixedScope::ListValue(0)],
+        |v| {
+            let (MixedFact::Basic(b), MixedFact::ListValue { element, .. }) = (&v[0], &v[1]) else {
+                panic!()
+            };
+            value(b.copied(), element.as_ref().map(|v| v.position.entity))
+        },
+    )
+    .unwrap();
+    let c = MixedSolverConfig {
+        local_search: vec![
+            MixedLocalSearchConfig {
+                joint_moves: false,
+                ..Default::default()
+            },
+            MixedLocalSearchConfig {
+                joint_moves: true,
+                search: LocalSearchConfig {
+                    max_steps: 1,
+                    ..Default::default()
+                },
+            },
+        ],
+        ..Default::default()
+    };
+    let scoped = solve_mixed(&p, &n, c.clone()).unwrap();
+    let stream = solve_mixed_stream(
+        &p,
+        || {
+            let mut b = StreamGraphBuilder::new();
+            let s = MixedStreamSources::<usize, usize>::new(&mut b);
+            let j = b.join_equal(s.basic.port(), s.lists.values.port(), |_| (), |_| ())?;
+            b.score("coupled", &j, |((_, b), v)| {
+                value(*b, v.position.map(|p| p.entity))
+            })?;
+            Ok((b.build(), s))
+        },
+        c,
+    )
+    .unwrap();
+    // The joint move changes the basic row, then the list-value row. The stream
+    // join scores both updates, whereas the scoped constraint scores once.
+    let mut expected_stream = scoped.clone();
+    expected_stream.work.constraint_evaluations += 1;
+    expected_stream.phases[2].work.constraint_evaluations += 1;
+    assert_eq!(stream, expected_stream);
+    assert_eq!(scoped.work.constraint_evaluations, 8);
+    assert_eq!(stream.work.constraint_evaluations, 9);
+    assert_eq!(
+        scoped.phases[1].termination,
+        PhaseTermination::LocalSearch(LocalSearchTermination::NoAcceptedMove)
+    );
+    assert_eq!(scoped.phases[1].score, Some(SimpleScore::ZERO));
+    assert_eq!(scoped.score, Some(SimpleScore::new(10)));
+    assert_eq!(scoped.assignment.basic().values(), &[Some(1)]);
+    assert_eq!(scoped.assignment.lists().location(&7).unwrap().entity, 1);
+    let exact = exhaustive_mixed_search(
+        &p,
+        |a| {
+            value(
+                a.basic().values()[0],
+                a.lists().location(&7).map(|p| p.entity),
+            )
+        },
+        4,
+    );
+    assert!(exact.is_optimal());
+    assert_eq!(exact.best.unwrap().score, scoped.score.unwrap());
+}
+#[test]
+fn a_controller_thread_can_cancel_the_second_improvement_phase() {
+    use std::{sync::mpsc, time::Duration};
+    for mode in 0..6 {
+        let token = CancellationToken::new();
+        let worker_token = token.clone();
+        let (entered_tx, entered_rx) = mpsc::sync_channel(0);
+        let (release_tx, release_rx) = mpsc::sync_channel(0);
+        let worker = std::thread::spawn(move || {
+            let mut c = plan();
+            c.limits.cancellation = Some(&worker_token);
+            let calls = Cell::new(0);
+            run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || {
+                    calls.set(calls.get() + 1);
+                    if calls.get() == 5 {
+                        entered_tx.send(()).unwrap();
+                        release_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+                    }
+                },
+            )
+            .unwrap()
+        });
+        entered_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+        token.cancel();
+        release_tx.send(()).unwrap();
+        let r = worker.join().unwrap();
+        assert_eq!(r.reason, SolverTermination::Cancelled);
+        assert_eq!(r.phases.len(), 3);
+        assert_eq!(r.work.evaluations, 5);
+        assert_eq!(r.score, Some(SimpleScore::new(1)));
+    }
+}

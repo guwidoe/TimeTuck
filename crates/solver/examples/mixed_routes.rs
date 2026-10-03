@@ -222,5 +222,47 @@ fn main() {
             construction.evaluations + improved.evaluations,
             construction.constraint_evaluations + improved.constraint_evaluations
         );
+        let plan = timetuck::MixedSolverConfig {
+            construction: MixedConstructionConfig {
+                construction: ConstructionConfig {
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                order,
+            },
+            local_search: vec![MixedLocalSearchConfig {
+                search: LocalSearchConfig {
+                    max_evaluations: 1000,
+                    max_steps: 20,
+                    selection: MoveSelection::BestAccepted,
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                joint_moves: true,
+            }],
+            ..Default::default()
+        };
+        let automatic = timetuck::solve_mixed(&problem, &network, plan.clone()).unwrap();
+        let automatic_stream =
+            timetuck::solve_mixed_stream(&problem, || Ok(route_graph()), plan).unwrap();
+        for r in [&automatic, &automatic_stream] {
+            assert!(r.complete);
+            assert_eq!(r.score, Some(best.score));
+            assert_eq!(r.score, Some(score(&r.assignment)));
+            assert_eq!(r.phases.len(), 2);
+            assert_eq!(r.termination, timetuck::SolverTermination::PlanCompleted);
+        }
+        assert_eq!(
+            automatic_stream.work.evaluations,
+            construction.evaluations + improved.evaluations
+        );
+        assert_eq!(
+            automatic_stream.work.constraint_evaluations,
+            construction.constraint_evaluations + improved.constraint_evaluations
+        );
+        println!(
+            "Orchestrated {order:?}: {} / {} evaluations, both at {}",
+            automatic.work.evaluations, automatic_stream.work.evaluations, best.score
+        );
     }
 }

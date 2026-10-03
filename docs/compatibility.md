@@ -331,3 +331,12 @@ mocked Java scope/director counters. Construction and local search now separatel
 limit candidate evaluations, excluding initial scoring; accepted moves and callback
 counts remain separate. Original integration/clock tests verify all native paths,
 without claiming Java move traces, identical counters or whole-solver lifecycle.
+
+
+Native multi-phase entry points now compose construction and local-search phases
+under shared count budgets, cancellation and score/feasibility goals. Eleven
+original integration methods, one API doctest and the mixed routing example verify
+handoffs, retained results and accounting across all model/backend combinations.
+These do not adapt complete upstream solver lifecycle methods. Whole-solver Java
+compatibility, daemon/problem-change behavior and shared elapsed-time/stagnation
+limits remain pending; see `docs/solver-contract.md`.

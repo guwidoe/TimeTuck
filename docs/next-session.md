@@ -72,7 +72,12 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 378 original integration regression methods, thirty-one original unit tests, and thirty-two public API documentation tests.
+- 389 original integration regression methods, thirty-one original unit tests, and thirty-three public API documentation tests.
+- Native solve/solve_list/solve_mixed and stream counterparts compose construction
+  and ordered local-search phases under shared score/candidate budgets, cancellation
+  and score/feasibility goals. Results retain complete best or partial initialization
+  and per-phase work. Read `docs/solver-contract.md`; elapsed/stagnation timing remains
+  phase-local and stream graphs are rebuilt per phase.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -2288,3 +2293,81 @@ Selecting a family resets filters as before; reapply Passed after selecting it.
 Browser closed; upstream unmodified. Overall rewrite remains active. Whole-solve
 orchestration/accounting, broader source semantics and stream performance remain
 substantive unfinished work.
+
+## Multi-phase solver orchestration — latest verified increment
+
+Public solve/solve_list/solve_mixed entry points now compose construction and an
+ordered vector of local-search phases using scoped networks. solve_stream,
+solve_list_stream and solve_mixed_stream use fallible fresh-graph factories. All six
+share one engine in crates/solver/src/solver.rs. Read docs/solver-contract.md before
+changing ownership, limits or lifecycle behavior.
+
+SolverConfig defaults to construction plus one local phase; MixedSolverConfig
+preserves construction order and each phase's joint-move flag. SolverLimits defaults
+to 100,000 total score evaluations with optional global candidate cap, cancellation,
+score target and feasibility stop. Phases receive the tighter own/remaining caps.
+Each phase's initial score counts separately; candidate counts sum per phase instead
+of subtracting one from the total. Diagnostics are excluded. No time is hidden in a
+claimed whole-solve deadline: elapsed/stagnation timing remains phase-local.
+
+Every local phase starts from the retained best complete assignment with fresh
+acceptor/seed state. Incomplete construction returns partial progress without
+entering local search. Complete construction truncated by its own cap can continue.
+Whole-solve goals stop later phases; phase-local goals/limits normally allow them.
+An observed matching shared limit stops the solve, with equal caps treated as
+shared. Before later phases, zero remaining score/move budgets stop without another
+initial score (score wins simultaneous exhaustion). PlanCompleted means the plan
+ended, not that every phase exhausted its neighborhood or that optimality is proven.
+
+A single global cancellation token is forwarded to all phases. A phase token can
+be absent or share the global token's identity; incompatible simultaneous tokens
+fail preflight instead of silently losing one. Without a global token, distinct
+phase tokens are allowed; a cancelled phase ends the solve. All acceptance/token
+settings validate before callbacks, including unused future phases. Graph factories
+are lazy per started phase; model/network/source validation remains at entry points.
+Errors identify their phase and do not return prior partial results. Graph factories
+must preserve the same objective/facts. Whole-solve timing, daemon/problem changes,
+solver-manager services and cross-phase score-cache reuse remain pending.
+
+SolverResult returns assignment, optional score, completeness, aggregate SolverWork,
+ordered PhaseReports and overall SolverTermination. solution() only exposes complete
+scored results, without a hard-feasibility or optimality implication. Phase reports
+retain original reasons and logical score/candidate/step/acceptance/callback counts.
+
+Eleven original integration methods cover all six paths, exact small shared-budget
+boundaries and competing own/global budgets, two-phase handoffs, target scoping,
+zero-work phases, partial initialization, preflight, graph errors, impossible models
+and cross-thread cancellation in the second improvement phase. A mixed four-state
+coupled trap verifies that a later phase's joint flag reaches the independent exact
+optimum. Initial test development incorrectly expected equal callbacks for one joint
+move; the stream join legitimately evaluates after both basic and list row delivery.
+The corrected test explicitly verifies eight scoped versus nine stream callbacks,
+with identical score/move/step counts, assignments and phase reasons.
+
+The mixed_routes example now runs automatic scoped/stream solves for both orders,
+independently recomputes scores and checks the known optimum 0hard/-4soft. It matches
+manual phase composition: 141 evaluations basic-first, 173 list-first; callbacks
+249/353 and313/469 scoped/stream. One API doctest shows basic usage. README stale
+coverage and case totals were corrected and the new contract linked.
+
+Development gate passes: 885 Rust tests (465 adapted,389 original integration,31 unit),
+33 doctests and76 Python checks. No new upstream method credit: coverage465/4855
+=9.58%, pending4108, excluded282, failed/unverified zero. No production upstream
+code inspected or copied, and the pinned checkout is unmodified.
+
+Release also passes all885 Rust tests and the mixed_routes example. All nine evidence
+and performance reports are refreshed/current with matching live freshness. Logs:
+work/solver-plan-{check,focused,example,release,release-example,stream-evidence,
+stream-performance,list-refresh,core-refresh,heuristic-performance}.log.
+Stream medians ms Rust/Java: hill32 45.103/12.995,hill96 165.897/23.362,
+tabu32 44.349/12.609,tabu96 168.140/24.675. Existing stream96 infeasibility remains
+[-44,-484]. List validation stays192 valid/189 equal scores; two-opt61/64 equality
+and Rust49/Java46 optima. Two-opt medians16 0.241/7.694ms,32 0.838/11.837ms.
+Mixed quality counts and other final scores are unchanged. These benchmarks retain
+their existing direct-phase entry points; they do not claim orchestration timing.
+
+Browser1280x900/390x844 checks confirm9.58% coverage, passed-method filtering,
+six list cards, refreshed list/stream figures, no overflow, stale alerts or errors.
+Browser closed; upstream unchanged. The overall rewrite remains active. Shared
+elapsed/stagnation controls, problem changes/daemon/manager services, further
+upstream adaptations and stream performance remain substantive unfinished work.

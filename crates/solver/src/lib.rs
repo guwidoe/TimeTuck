@@ -198,3 +198,10 @@ pub use search::{ExactSearchConfig, exhaustive_search_with_config};
 
 pub mod count_limit;
 pub use count_limit::CountLimit;
+
+pub mod solver;
+pub use solver::{
+    MixedSolverConfig, PhaseReport, PhaseTermination, SolverConfig, SolverError, SolverLimits,
+    SolverResult, SolverTermination, SolverWork, solve, solve_list, solve_list_stream, solve_mixed,
+    solve_mixed_stream, solve_stream,
+};
