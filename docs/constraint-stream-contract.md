@@ -309,7 +309,12 @@ shared AVL trees. Each graph terminal stores its payload and cached contribution
 in one map, plus a scalar total; its checkpoint retains both. Standalone ScoreNode
 continues to store contributions without payloads. Integer collector multiplicities
 use the same storage. Cloning a map shares its root without cloning keys, values or rows;
-updates allocate only search/rebalance paths, sharing unchanged branches.
+updates copy shared search/rebalance paths and reuse uniquely owned nodes.
+All key comparisons finish before mutation, using a bounded stack path. This keeps
+comparison panics atomic even when an entire tree is uniquely owned. Rotations
+and metadata updates invoke no user comparisons or key/value clones. Existing-key
+replacement retains the original key object and allocates only the new value plus
+any shared path nodes.
 
 Dropping restores owned roots and scalar state with no predicate, key, scoring,
 cloning or comparison callbacks. Commit keeps current roots with no callback
@@ -932,3 +937,49 @@ equality keys. Python nested enumeration checks both scores and native left
 identities/payloads through edits, duplicate removal, commit and undo. Java uses
 public ifExists/ifNotExists via score recalculation. This evidence does not add
 method credit or measure Java incremental notifications, match analysis or timing.
+
+
+## Snapshot allocation profiling and copy-on-write updates
+
+The matched stream workload at baseline commit 6fd8b99 showed substantial allocator
+work in Callgrind. Snapshot maps previously rebuilt every AVL path, even after
+transaction-local updates made nodes uniquely owned. Arc copy-on-write now reuses
+those nodes. Shared branches remain immutable and snapshots retain Send/Sync.
+A stack search plan bounds depth by twice the usize bit width (a conservative AVL
+height bound); all comparisons finish before any mutation. No unsafe code, user
+key/value Clone requirement or runtime dependency was added.
+
+The new ownership regression checks reuse through replacement, insertion/removal
+and single/double rotations. The comparison-panic regression now checks uniquely
+owned and shared trees, exact root identity and every retained entry. Existing
+20,000-update AVL/reference-map tests, bounded ranges, payload sharing, graph
+snapshots, collector states, saved search candidates and rollback tests remain
+part of the full gate. This optimization adds no upstream method credit.
+
+Local Valgrind 3.22.0 profiles used the original 32-variable hill workload with
+50 steps, no warmup and one solve. Diagnostic builds used release optimization
+plus debug information. Total allocated volume fell from 71,705,255 to 55,254,648
+bytes; allocation blocks fell from 1,027,292 to 724,323 (29.5%). Peak live heap
+was essentially unchanged: 172,661 versus 172,446 bytes. Callgrind instruction
+references fell from 370,789,666 to 341,311,713. These whole-process diagnostic
+counts are not elapsed-time or general memory-usage guarantees.
+
+Separately, uninstrumented before/after binaries ran three fresh processes per binary and
+workload, three warmups and five samples per process, alternating order. Every
+sample was independently rescored; final assignments, scores and terminal callback
+counts were identical before/after. Final measured medians on this shared machine:
+
+| Workload | Before ms | After ms |
+| --- | ---: | ---: |
+| Hill climbing, 32 variables | 71.201 | 63.927 |
+| Hill climbing, 96 variables | 280.967 | 249.524 |
+| Tabu, 32 variables | 67.638 | 68.745 |
+| Tabu, 96 variables | 251.331 | 217.973 |
+
+Three medians improved; the 32-variable tabu median was about 1.6% slower. Small
+wall-clock differences are not conclusive on this shared machine. This comparison
+is against the prior Rust binary, separate from refreshed Java/Rust dashboard
+benchmarks. Neither comparison establishes a general solver speedup or parity.
+Raw samples, frozen inputs, before binaries, profile outputs and the local runner
+remain in work/profiling/. The profiler was extracted there without changing
+system packages. No original Timefold implementation was inspected or translated.

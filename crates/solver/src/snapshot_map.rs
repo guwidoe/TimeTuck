@@ -1,7 +1,8 @@
 //! Immutable inspection of ordered stream state with inexpensive snapshots.
 //!
 //! Cloning shares an AVL tree root; internal updates copy only the search and
-//! rebalance paths. Keys and values on unchanged paths are shared, not cloned.
+//! rebalance paths when shared, reusing uniquely owned nodes. Keys and values
+//! on unchanged paths are shared, not cloned. All comparisons precede mutation.
 //! Snapshots retain Send/Sync when their keys and values do. Identity and contents
 //! must remain immutable. Stream graph scheduling remains single-threaded.
 //!
@@ -61,143 +62,164 @@ fn height<K, V>(n: &Link<K, V>) -> usize {
 fn size<K, V>(n: &Link<K, V>) -> usize {
     n.as_ref().map_or(0, |n| n.size)
 }
-fn node<K, V>(key: Arc<K>, value: Arc<V>, left: Link<K, V>, right: Link<K, V>) -> Arc<Node<K, V>> {
-    Arc::new(Node {
-        key,
-        value,
-        height: 1 + height(&left).max(height(&right)),
-        size: 1 + size(&left) + size(&right),
-        left,
-        right,
-    })
-}
-fn balance<K, V>(
-    key: Arc<K>,
-    value: Arc<V>,
-    left: Link<K, V>,
-    right: Link<K, V>,
-) -> Arc<Node<K, V>> {
-    if height(&left) > height(&right) + 1 {
-        let l = left.as_ref().expect("left-heavy node");
-        if height(&l.left) >= height(&l.right) {
-            let r = node(key, value, l.right.clone(), right);
-            node(l.key.clone(), l.value.clone(), l.left.clone(), Some(r))
-        } else {
-            let pivot = l.right.as_ref().expect("inner left branch");
-            let a = node(
-                l.key.clone(),
-                l.value.clone(),
-                l.left.clone(),
-                pivot.left.clone(),
-            );
-            let b = node(key, value, pivot.right.clone(), right);
-            node(pivot.key.clone(), pivot.value.clone(), Some(a), Some(b))
+// Clone only shared ownership, never user keys or values.
+impl<K, V> Clone for Node<K, V> {
+    fn clone(&self) -> Self {
+        Self {
+            key: self.key.clone(),
+            value: self.value.clone(),
+            left: self.left.clone(),
+            right: self.right.clone(),
+            height: self.height,
+            size: self.size,
         }
-    } else if height(&right) > height(&left) + 1 {
-        let r = right.as_ref().expect("right-heavy node");
-        if height(&r.right) >= height(&r.left) {
-            let l = node(key, value, left, r.left.clone());
-            node(r.key.clone(), r.value.clone(), Some(l), r.right.clone())
-        } else {
-            let pivot = r.left.as_ref().expect("inner right branch");
-            let a = node(key, value, left, pivot.left.clone());
-            let b = node(
-                r.key.clone(),
-                r.value.clone(),
-                pivot.right.clone(),
-                r.right.clone(),
-            );
-            node(pivot.key.clone(), pivot.value.clone(), Some(a), Some(b))
-        }
-    } else {
-        node(key, value, left, right)
     }
 }
-fn put<K: Ord, V>(root: &Link<K, V>, key: Arc<K>, value: Arc<V>) -> Arc<Node<K, V>> {
-    let Some(n) = root else {
-        return node(key, value, None, None);
+fn refresh<K, V>(n: &mut Node<K, V>) {
+    n.height = 1 + height(&n.left).max(height(&n.right));
+    n.size = 1 + size(&n.left) + size(&n.right);
+}
+fn rotate_left<K, V>(root: &mut Link<K, V>) {
+    let mut old = root.take().expect("rotation root");
+    let mut pivot = Arc::make_mut(&mut old).right.take().expect("right pivot");
+    let middle = Arc::make_mut(&mut pivot).left.take();
+    let n = Arc::make_mut(&mut old);
+    n.right = middle;
+    refresh(n);
+    let p = Arc::make_mut(&mut pivot);
+    p.left = Some(old);
+    refresh(p);
+    *root = Some(pivot);
+}
+fn rotate_right<K, V>(root: &mut Link<K, V>) {
+    let mut old = root.take().expect("rotation root");
+    let mut pivot = Arc::make_mut(&mut old).left.take().expect("left pivot");
+    let middle = Arc::make_mut(&mut pivot).right.take();
+    let n = Arc::make_mut(&mut old);
+    n.left = middle;
+    refresh(n);
+    let p = Arc::make_mut(&mut pivot);
+    p.right = Some(old);
+    refresh(p);
+    *root = Some(pivot);
+}
+fn balance<K, V>(root: &mut Link<K, V>) {
+    // Ancestors already refreshed their uniquely-owned node while unwinding.
+    // Avoid repeating the atomic uniqueness check on an unchanged balance.
+    let Some(n) = root.as_ref() else { return };
+    if height(&n.left) > height(&n.right) + 1 {
+        let l = n.left.as_ref().expect("left-heavy");
+        if height(&l.right) > height(&l.left) {
+            rotate_left(&mut Arc::make_mut(root.as_mut().unwrap()).left);
+        }
+        rotate_right(root);
+    } else if height(&n.right) > height(&n.left) + 1 {
+        let r = n.right.as_ref().expect("right-heavy");
+        if height(&r.left) > height(&r.right) {
+            rotate_right(&mut Arc::make_mut(root.as_mut().unwrap()).right);
+        }
+        rotate_left(root);
+    }
+}
+// Resolve all user comparisons before mutating ownership or nodes. A comparison
+// panic must preserve even the exact original root, including unshared trees.
+// An AVL tree with usize-sized node count has height below twice usize::BITS.
+// Keep this bounded search plan on the stack instead of allocating per update.
+struct Path {
+    directions: [Ordering; 2 * usize::BITS as usize],
+    len: usize,
+}
+impl Path {
+    fn as_slice(&self) -> &[Ordering] {
+        &self.directions[..self.len]
+    }
+}
+fn locate<K: Ord, V>(root: &Link<K, V>, key: &K) -> (Path, bool) {
+    let mut path = Path {
+        directions: [Ordering::Equal; 2 * usize::BITS as usize],
+        len: 0,
     };
-    match key.cmp(&n.key) {
-        Ordering::Less => balance(
-            n.key.clone(),
-            n.value.clone(),
-            Some(put(&n.left, key, value)),
-            n.right.clone(),
-        ),
-        Ordering::Greater => balance(
-            n.key.clone(),
-            n.value.clone(),
-            n.left.clone(),
-            Some(put(&n.right, key, value)),
-        ),
-        Ordering::Equal => node(n.key.clone(), value, n.left.clone(), n.right.clone()),
+    let mut next = root.as_deref();
+    while let Some(n) = next {
+        let direction = key.cmp(&n.key);
+        match direction {
+            Ordering::Equal => return (path, true),
+            Ordering::Less => next = n.left.as_deref(),
+            Ordering::Greater => next = n.right.as_deref(),
+        }
+        path.directions[path.len] = direction;
+        path.len += 1;
     }
+    (path, false)
 }
-fn remove_first<K, V>(n: &Arc<Node<K, V>>) -> Link<K, V> {
-    if let Some(left) = &n.left {
-        Some(balance(
-            n.key.clone(),
-            n.value.clone(),
-            remove_first(left),
-            n.right.clone(),
-        ))
+fn put<K, V>(root: &mut Link<K, V>, path: &[Ordering], key: Option<Arc<K>>, value: Arc<V>) {
+    if let Some((&direction, tail)) = path.split_first() {
+        let n = Arc::make_mut(root.as_mut().expect("prepared path"));
+        put(
+            if direction == Ordering::Less {
+                &mut n.left
+            } else {
+                &mut n.right
+            },
+            tail,
+            key,
+            value,
+        );
+        refresh(n);
+        balance(root);
+    } else if let Some(n) = root {
+        Arc::make_mut(n).value = value;
     } else {
-        n.right.clone()
+        *root = Some(Arc::new(Node {
+            key: key.expect("new key"),
+            value,
+            left: None,
+            right: None,
+            height: 1,
+            size: 1,
+        }));
     }
 }
-fn erase<K: Ord, V>(root: &Link<K, V>, key: &K) -> (Link<K, V>, bool) {
-    let Some(n) = root else { return (None, false) };
-    match key.cmp(&n.key) {
-        Ordering::Less => {
-            let (left, found) = erase(&n.left, key);
-            if !found {
-                return (root.clone(), false);
-            }
-            (
-                Some(balance(
-                    n.key.clone(),
-                    n.value.clone(),
-                    left,
-                    n.right.clone(),
-                )),
-                true,
-            )
-        }
-        Ordering::Greater => {
-            let (right, found) = erase(&n.right, key);
-            if !found {
-                return (root.clone(), false);
-            }
-            (
-                Some(balance(
-                    n.key.clone(),
-                    n.value.clone(),
-                    n.left.clone(),
-                    right,
-                )),
-                true,
-            )
-        }
-        Ordering::Equal => match (&n.left, &n.right) {
-            (None, _) => (n.right.clone(), true),
-            (_, None) => (n.left.clone(), true),
-            (Some(_), Some(right)) => {
-                let mut first = right;
-                while let Some(left) = &first.left {
-                    first = left;
-                }
-                (
-                    Some(balance(
-                        first.key.clone(),
-                        first.value.clone(),
-                        n.left.clone(),
-                        remove_first(right),
-                    )),
-                    true,
-                )
-            }
-        },
+fn remove_first<K, V>(root: &mut Link<K, V>) -> (Arc<K>, Arc<V>) {
+    let n = Arc::make_mut(root.as_mut().expect("nonempty successor"));
+    if n.left.is_some() {
+        let entry = remove_first(&mut n.left);
+        refresh(n);
+        balance(root);
+        entry
+    } else {
+        let entry = (n.key.clone(), n.value.clone());
+        let right = n.right.take();
+        *root = right;
+        entry
     }
+}
+fn erase<K, V>(root: &mut Link<K, V>, path: &[Ordering]) {
+    let n = Arc::make_mut(root.as_mut().expect("prepared removal"));
+    if let Some((&direction, tail)) = path.split_first() {
+        erase(
+            if direction == Ordering::Less {
+                &mut n.left
+            } else {
+                &mut n.right
+            },
+            tail,
+        );
+    } else if n.left.is_none() {
+        let child = n.right.take();
+        *root = child;
+        return;
+    } else if n.right.is_none() {
+        let child = n.left.take();
+        *root = child;
+        return;
+    } else {
+        let (key, value) = remove_first(&mut n.right);
+        n.key = key;
+        n.value = value;
+    }
+    refresh(n);
+    balance(root);
 }
 impl<K, V> SnapshotMap<K, V> {
     pub(crate) fn new() -> Self {
@@ -295,12 +317,20 @@ impl<K: Ord, V> SnapshotMap<K, V> {
         self.get(key).is_some()
     }
     pub(crate) fn insert(&mut self, key: K, value: V) {
-        let root = put(&self.root, Arc::new(key), Arc::new(value));
-        self.root = Some(root);
+        let (path, found) = locate(&self.root, &key);
+        let key = if found {
+            drop(key);
+            None
+        } else {
+            Some(Arc::new(key))
+        };
+        put(&mut self.root, path.as_slice(), key, Arc::new(value));
     }
     pub(crate) fn remove(&mut self, key: &K) -> bool {
-        let (root, found) = erase(&self.root, key);
-        self.root = root;
+        let (path, found) = locate(&self.root, key);
+        if found {
+            erase(&mut self.root, path.as_slice());
+        }
         found
     }
 }
@@ -552,6 +582,46 @@ mod tests {
         assert_eq!(base.len(), 8192);
     }
     #[test]
+    fn unshared_updates_reuse_nodes_through_replacements_and_rotations() {
+        fn addresses<K, V>(root: &Link<K, V>, out: &mut HashSet<usize>) {
+            if let Some(n) = root {
+                out.insert(Arc::as_ptr(n) as usize);
+                addresses(&n.left, out);
+                addresses(&n.right, out);
+            }
+        }
+        for order in [vec![3, 2, 1, 0, 4, 5, 6], vec![3, 1, 2, 6, 4, 5, 0]] {
+            let mut map = SnapshotMap::new();
+            let mut before = HashSet::new();
+            for key in order {
+                map.insert(key, key);
+                let mut after = HashSet::new();
+                addresses(&map.root, &mut after);
+                assert!(before.is_subset(&after));
+                assert_eq!(after.len(), before.len() + 1);
+                before = after;
+                check(&map.root);
+            }
+            for key in 0..7 {
+                map.insert(key, 99);
+                let mut after = HashSet::new();
+                addresses(&map.root, &mut after);
+                assert_eq!(after, before);
+                assert_eq!(map.get(&key), Some(&99));
+                check(&map.root);
+            }
+            for key in [3, 0, 6, 2, 1, 4, 5] {
+                assert!(map.remove(&key));
+                let mut after = HashSet::new();
+                addresses(&map.root, &mut after);
+                assert!(after.is_subset(&before));
+                assert_eq!(before.len(), after.len() + 1);
+                before = after;
+                check(&map.root);
+            }
+        }
+    }
+    #[test]
     fn comparison_panics_preserve_the_exact_original_root() {
         struct Key(i32, Rc<Cell<usize>>);
         impl PartialEq for Key {
@@ -580,23 +650,34 @@ mod tests {
         for k in 0..127 {
             map.insert(Key(k, count.clone()), k);
         }
-        let original = map.clone();
-        for fail in 1..=7 {
-            count.set(fail);
-            assert!(
-                catch_unwind(AssertUnwindSafe(|| map.insert(Key(128, count.clone()), 128)))
-                    .is_err()
-            );
-            assert!(Arc::ptr_eq(
-                map.root.as_ref().unwrap(),
-                original.root.as_ref().unwrap()
-            ));
-            count.set(fail);
-            assert!(catch_unwind(AssertUnwindSafe(|| map.remove(&Key(0, count.clone())))).is_err());
-            assert!(Arc::ptr_eq(
-                map.root.as_ref().unwrap(),
-                original.root.as_ref().unwrap()
-            ));
+        for shared in [false, true] {
+            let original = shared.then(|| map.clone());
+            let address = Arc::as_ptr(map.root.as_ref().unwrap()) as usize;
+            for fail in 1..=7 {
+                count.set(fail);
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| map.insert(Key(128, count.clone()), 128)))
+                        .is_err()
+                );
+                assert_eq!(Arc::as_ptr(map.root.as_ref().unwrap()) as usize, address);
+                count.set(fail);
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| map.remove(&Key(0, count.clone())))).is_err()
+                );
+                assert_eq!(Arc::as_ptr(map.root.as_ref().unwrap()) as usize, address);
+                count.set(0);
+                check(&map.root);
+                assert_eq!(
+                    map.iter().map(|(k, v)| (k.0, *v)).collect::<Vec<_>>(),
+                    (0..127).map(|k| (k, k)).collect::<Vec<_>>()
+                );
+                if let Some(original) = &original {
+                    assert!(Arc::ptr_eq(
+                        map.root.as_ref().unwrap(),
+                        original.root.as_ref().unwrap()
+                    ));
+                }
+            }
         }
         count.set(0);
         check(&map.root);

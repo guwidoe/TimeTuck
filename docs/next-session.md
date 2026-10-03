@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 324 original integration regression methods, twelve original unit tests, and twenty-eight public API documentation tests.
+- 324 original integration regression methods, thirteen original unit tests, and twenty-eight public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -113,7 +113,8 @@ initialization-score assumptions. No production implementation has been ported.
    Use the latest work/stream-performance.json and profile these workloads before
    choosing optimizations; ratios vary on the shared machine.
    Checkpoints and saved candidates now share persistent AVL map roots, avoiding
-   whole-node row cloning. Stream construction/local search already share existing
+   whole-node row cloning. Shared AVL update paths are copied while uniquely owned
+   nodes are now reused after comparison preflight. Stream construction/local search already share existing
    algorithms. Do not hide mutable nodes inside scoped callbacks: those callbacks
    cannot undo external state. Read `docs/constraint-stream-contract.md`.
 
@@ -1475,3 +1476,59 @@ checks at 1280px and 390px confirmed 8.71% overall, 21.14% streams, all four new
 Passed methods and the 54/54, 4,834-state existence summary. No page errors,
 staleness messages or horizontal overflow. Existing server reused; browser closed.
 List32 construction remains Rust [0,-1080] versus Java [0,-1062].
+
+## Snapshot copy-on-write profiling increment
+
+Profiled baseline 6fd8b99 using locally extracted Valgrind 3.22.0. Callgrind showed
+substantial allocation work. SnapshotMap previously rebuilt every AVL search path;
+updates now reuse uniquely owned nodes and copy only shared paths with Arc::make_mut.
+A bounded stack path resolves every key comparison before mutation, preserving
+exact root/content state on comparison panics for both shared and unique trees.
+Rotations and metadata refresh need no user comparisons or key/value clones.
+Existing-key replacement retains the old key and avoids allocating a duplicate.
+No unsafe code, dependency or public API change. Snapshot Send/Sync is retained.
+
+One original ownership regression checks node reuse through inserts, replacements,
+removals and single/double rotations. Existing comparison-panic checks now cover
+unique trees and every retained entry. Existing 20,000-update reference/AVL,
+shared payload, bounded-range, snapshot/rollback and saved-candidate tests pass.
+Development gate: 760 Rust tests (423 adapted, 324 original integration, 13 original
+unit), 28 doctests and 62 Python checks. Coverage stays 423 / 4,855 = 8.71%; streams
+275 / 1,301 = 21.14%, pending 4,150, excluded 282, failed/unverified zero.
+
+Final 32-variable hill/50-step/one-solve diagnostics: allocated blocks
+1,027,292 -> 724,323 (-29.5%), total bytes 71,705,255 -> 55,254,648 (-22.9%);
+peak live bytes 172,661 -> 172,446 (essentially unchanged). Callgrind instruction
+references 370,789,666 -> 341,311,713. Diagnostic release builds include debug
+information. Counts cover the whole process; they are not elapsed-time measures.
+
+Separate uninstrumented A/B uses three fresh processes per binary/workload,
+three warmups and five samples each, alternating order. All final assignments, scores
+and terminal callback counts are identical before/after, with independent Python score
+validation. Final before/after medians ms: hill32 71.201/63.927,
+hill96 280.967/249.524, tabu32 67.638/68.745, tabu96 251.331/217.973.
+Three medians improved; tabu32 was about 1.6% slower. Small wall-clock differences
+are not conclusive on the shared machine. Do not claim a uniform/general speedup.
+The contract includes the complete measurement scope and table.
+
+Raw inputs, baseline binaries, compiler/environment and SHA256 manifest,
+Callgrind/DHAT outputs, comparison runner and samples live in work/profiling/.
+The first exploratory COW profiles are separately retained; final after.* files
+and compare.json correspond to the final code. No system packages were changed.
+The upstream checkout and pin remain unmodified. Full goal remains unfinished.
+
+Release all-target tests also pass. Refreshed stream medians ms Rust/Java:
+hill32 58.725/23.829, hill96 226.604/42.539, tabu32 58.735/26.824,
+tabu96 236.649/42.363. Both 96-variable scores remain [-44,-484], infeasible at
+50 steps. List32 construction remains Rust [0,-1080] versus Java [0,-1062].
+Native A/B medians above are separate measurements; do not infer change magnitude
+from successive Java/Rust refreshes on the shared machine. Verification logs:
+work/cow-snapshots-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log.
+
+All nine comparison/performance sections are current and source/verification
+fingerprints match the live server. Browser checks at 1280px and 390px verified
+unchanged honest coverage, refreshed stream medians/quality/callback counts,
+no stale warnings, no page errors and no horizontal overflow. Existing server
+reused; browser session closed. This remains a performance increment, not new
+upstream test-method coverage or completion of the full solver rewrite.
