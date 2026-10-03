@@ -288,7 +288,7 @@ function renderBenchmarks(kind = "score") {
         target("benchmark-caption").textContent = `At most ${p.config.steps} completed steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
     }
     if (kind === "list" && !missing) {
-        target("benchmark-caption").textContent = `Construction completes all insertions; hill climbing uses at most ${p.config.steps} steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+        target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
     }
     target("benchmark-method").textContent =
         p.methodology ||
@@ -344,6 +344,12 @@ function renderDifferential() {
             const v = h.validation, p = node("p");
             p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(label));
             box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
+            if (key === "list_performance" && v.by_mode) {
+                const names = {construct: "Construction", hill: "Relocation hill climbing", "two-opt": "Two-opt"};
+                for (const [mode, detail] of Object.entries(v.by_mode)) {
+                    box.append(node("p", "note", `${names[mode] || mode}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; independently proven optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}. Candidate sampling and move order can differ.`));
+                }
+            }
             if (h.status === "stale" || !fresh) box.append(node("p", "note", "Previous solving result: measured sources have changed."));
         }
     }

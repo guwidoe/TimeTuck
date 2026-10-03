@@ -80,6 +80,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   match 398 reference steps. Includes delayed improvements after fallback and
   recovery. Java internal counters/traces, list/mixed search, and timing are not
   claimed. Run differential_solver.py; see the incremental-search contract.
+- Required-list comparisons cover 192 original cases: 64 construction, 64
+  relocation hill climbing and 64 two-opt. The latter use first-accepted search,
+  20 steps and a 10,000 score-evaluation budget; Java sampling differs from native
+  enumeration. All 64 are valid, 55 have equal scores, and optima counts are
+  Rust 44 / Java 46. Six timing workloads show quality beside each time ratio.
 - Separate score microbenchmarks and two small matched exact-search workloads.
   The latter compare BRUTE_FORCE/ORIGINAL_ORDER Java with Rust finite enumeration.
   Matched full-scoring heuristic comparisons now cover hill climbing and tabu,
@@ -1988,3 +1993,50 @@ passed methods, with no horizontal overflow, nonempty alerts or page errors.
 Browser session closed; upstream is unmodified. Remaining work includes broader
 move/provider semantics, direct Java route-neighborhood solving comparisons,
 stream performance and pending solver infrastructure. Goal remains active.
+
+## Java/native two-opt solving comparison — latest verified increment
+
+ListSolverBenchmark.java now selects the Community public preview
+TwoOptListMoveProvider through NeighborhoodProvider/NeighborhoodBuilder and
+NEIGHBORHOODS. Only public signatures and pinned tests were consulted, without
+production implementation inspection. The native list_solver_benchmark selects
+Neighborhood::TwoOpt { cross_entity:true }. Both use first-accepted hill climbing,
+complete identical starts, the requested step limit (default 20) and a 10,000
+score-calculation/evaluation budget. Java seeded sampling and native deterministic
+finite enumeration differ, as does score-count accounting. No equal-work or
+identical search-trace claim; final state/score/pins/shadows are validated.
+
+benchmark_lists.py preserves the prior construction/relocation inputs and adds
+64 two-opt cases copied from the complete original/ranged hill inputs with new
+IDs. All 192 cases are valid; 183 have equal scores. Per-phase optima/equalities:
+construction 64 equal, Rust 48 / Java 48 optimal; relocation 64 equal, Rust 61 / Java 61;
+two-opt 55 equal, Rust 44 / Java 46. These are optima in the full pin/range-constrained
+routing space, not necessarily reachable within the selected neighborhood.
+No adapted-method credit. Two original Python tests ensure corpus/start identity,
+workload completeness and rejection of regressing/impossible/unknown-mode results.
+
+The list dashboard now has six warmed timing cards and per-phase quality counts.
+Two-opt median ms Rust/Java: 16 customers 0.059/9.042 with scores
+[0,-1484]/[0,-1254] and calls 39/155; 32 customers 0.190/10.004 with scores
+[0,-2472]/[0,-2070] and calls 134/153. Rust is faster but finds worse solutions;
+the UI marks both ratios as quality-different, retains raw score/callback/range
+information, and states sampling differences. The existing list32 construction
+quality gap remains [0,-1080]/[0,-1062]. Three forks, three warmups and five measured
+solves per fork; smoke-run startup-heavy numbers were replaced by full measurements.
+
+Full development/release gates pass: 843 Rust tests, 30 doctests, 76 Python checks.
+Adapted source coverage stays 460/4855 = 9.47%, moves 83/874 = 9.50%, with 4113 pending,
+282 excluded and zero failed/unverified. All nine reports were refreshed from the
+final measured sources; live freshness matches. Logs:
+work/two-opt-comparison-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log.
+Stream median ms Rust/Java: hill32 43.316/16.801, hill96 177.939/33.612,
+tabu32 48.489/15.111, tabu96 176.643/27.151. Stream96 retains [-44,-484] at 50 steps.
+Mixed quality counts remain exact 64 / Java 39 / native local 63 among 64 original cases.
+
+Desktop 1280x900 / mobile 390x844 checks verified six list timing cards, three explicit
+quality-difference labels, two-opt 55/64 equality and 44/46 optima, 192/192 valid cases,
+correct budget caption and 9.47% coverage, with no overflow, stale alerts or page
+errors. Browser closed; upstream unchanged. Next work should investigate the
+native deterministic first-accepted route-search quality gap, along with remaining
+solver behavior and stream performance. The overall rewrite goal remains active.

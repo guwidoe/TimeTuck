@@ -20,6 +20,8 @@ import ai.timefold.solver.core.config.localsearch.decider.acceptor.*;
 import ai.timefold.solver.core.config.localsearch.decider.forager.*;
 import ai.timefold.solver.core.config.solver.*;
 import ai.timefold.solver.core.config.solver.termination.TerminationConfig;
+import ai.timefold.solver.core.preview.api.neighborhood.*;
+import ai.timefold.solver.core.preview.api.move.builtin.TwoOptListMoveProvider;
 
 public final class ListSolverBenchmark {
     @PlanningEntity public static class Vehicle {
@@ -43,6 +45,12 @@ public final class ListSolverBenchmark {
         @PlanningEntityCollectionProperty public List<Vehicle> vehicles;
         @PlanningScore public HardSoftScore score;
         public Problem() {}
+    }
+    public static final class TwoOptNeighborhood implements NeighborhoodProvider<Problem> {
+        public Neighborhood defineNeighborhood(NeighborhoodBuilder<Problem> builder) {
+            var variable=builder.getSolutionMetaModel().genuineEntity(Vehicle.class).listVariable("stops",Stop.class);
+            return builder.add(new TwoOptListMoveProvider<>(variable,true)).build();
+        }
     }
     public static class Calculator implements EasyScoreCalculator<Problem,HardSoftScore> {
         static long calls;
@@ -123,7 +131,7 @@ public final class ListSolverBenchmark {
     }
     static String lists(Problem p) {return p.vehicles.stream().map(e->e.stops.isEmpty()?"-":e.stops.stream().map(v->""+v.id).collect(Collectors.joining(","))).collect(Collectors.joining(";"));}
     public static void main(String[] args)throws Exception {
-        if(args.length!=4)throw new IllegalArgumentException("construct|hill steps warmup samples");
+        if(args.length!=4)throw new IllegalArgumentException("construct|hill|two-opt steps warmup samples");
         String mode=args[0]; int steps=Integer.parseInt(args[1]),warmup=Integer.parseInt(args[2]),samples=Integer.parseInt(args[3]);
         if(steps<1 || warmup<0 || samples<1)throw new IllegalArgumentException("counts");
         var config=new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Vehicle.class,Stop.class)
@@ -136,12 +144,19 @@ public final class ListSolverBenchmark {
             .withAcceptorConfig(new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING)))
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE).withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
             .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps)));
+        else if(mode.equals("two-opt")) {
+            config.withPreviewFeature(PreviewFeature.NEIGHBORHOODS).withPhases(new LocalSearchPhaseConfig()
+                .withMoveProviderClass(TwoOptNeighborhood.class)
+                .withAcceptorConfig(new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING)))
+                .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(1).withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
+                .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps).withScoreCalculationCountLimit(10_000L)));
+        }
         else throw new IllegalArgumentException("mode");
         var factory=SolverFactory.<Problem>create(config);
         try(var input=new BufferedReader(new InputStreamReader(System.in))) {
             for(String line;(line=input.readLine())!=null;) {
                 var f=line.split("\t",-1);var original=parse(f);
-                if(mode.equals("hill") && original.vehicles.stream().mapToInt(e->e.stops.size()).sum()!=original.stops.size()) throw new IllegalArgumentException("complete hill input required");
+                if(!mode.equals("construct") && original.vehicles.stream().mapToInt(e->e.stops.size()).sum()!=original.stops.size()) throw new IllegalArgumentException("complete search input required");
                 for(int run=0;run<Math.addExact(warmup,samples);run++) {
                     Calculator.calls=0;long start=System.nanoTime();
                     var solved=factory.buildSolver().solve(copy(original)); long calls=Calculator.calls;

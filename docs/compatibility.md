@@ -291,3 +291,11 @@ finite iterator sampling retains the source caps where present. No assertion of
 random-stream ordering, listener protocol or Java two-opt solving equivalence is
 made. Native two-opt integrates both list/mixed scoring backends and joint moves;
 original successor-set and cache/search regressions remain outside source credit.
+
+
+Original required-list solving evidence now includes 64 two-opt cases alongside
+64 construction and 64 relocation cases. Identical complete inputs, pins/ranges,
+step limits and full-scoring objectives are checked; Java's seeded preview
+provider and native finite enumeration have different candidate sampling. Final
+scores, optima and timings are reported separately, including disagreements.
+This adds no adapted-method coverage and no equal-trace/equal-work claim.

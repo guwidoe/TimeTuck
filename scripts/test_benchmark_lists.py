@@ -1,7 +1,7 @@
 """Original regression tests for truthful list-solving evidence."""
 from copy import deepcopy
 import unittest
-from benchmark_lists import encode, generate, generate_extended, optimum, parse_result, score
+from benchmark_lists import encode, generate, generate_extended, generate_two_opt, workload, optimum, parse_result, score
 
 class ListSolverEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -64,6 +64,25 @@ class ListSolverEvidenceTests(unittest.TestCase):
                 for e,row in enumerate(c['initial']):self.assertTrue(set(row)<=set(c['ranges'][e]))
                 self.assertIsNotNone(optimum(c))
                 if mode=='hill':self.assertGreaterEqual(optimum(c),score(c,c['initial']))
+    def test_two_opt_inputs_preserve_starts_and_workload_equality(self):
+        rows=generate_two_opt();self.assertEqual(rows,generate_two_opt());self.assertEqual(len(rows),64)
+        self.assertEqual(len({c['id'] for c in rows}),64)
+        originals=generate()['hill']+generate_extended()['hill']
+        for c,before in zip(rows,originals):
+            expected=deepcopy(before);expected['id']=expected['id'].replace('hill','two-opt')
+            self.assertEqual(c,expected)
+            self.assertGreaterEqual(optimum(c),score(c,c['initial']))
+        for n in (16,32):
+            c=workload(n,'two-opt');before=workload(n,'hill');before['id']=c['id']
+            self.assertEqual(c,before)
+            self.assertEqual(sorted(v for row in c['initial'] for v in row),list(range(n)))
+
+    def test_two_opt_cannot_hide_regression_or_impossible_scores(self):
+        self.assertEqual(parse_result(self.case,self.good,'two-opt',(0,-4))['score'],[0,-4])
+        with self.assertRaisesRegex(ValueError,'regressed'):parse_result(self.case,'case\t10\t0\t-36\t1;0\t3','two-opt')
+        with self.assertRaisesRegex(ValueError,'optimum'):parse_result(self.case,self.good,'two-opt',(0,-5))
+        with self.assertRaisesRegex(ValueError,'Unknown mode'):parse_result(self.case,self.good,'unknown')
+
     def test_construction_range_rejection_is_independent_of_completeness_and_score(self):
         c=deepcopy(self.case);c['initial']=[[],[]];c['ranges']=[[1],[0]]
         with self.assertRaisesRegex(ValueError,'entity range'):parse_result(c,self.good,'construct')

@@ -10,8 +10,8 @@ use std::{
 use timetuck::*;
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 || !["construct", "hill"].contains(&args[1].as_str()) {
-        return Err("construct|hill steps warmup samples".into());
+    if args.len() != 5 || !["construct", "hill", "two-opt"].contains(&args[1].as_str()) {
+        return Err("construct|hill|two-opt steps warmup samples".into());
     }
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -21,8 +21,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     for line in io::stdin().lock().lines() {
         let case = Case::parse(&line?)?;
-        if args[1] == "hill" && !case.problem.is_complete(&case.problem.initial_assignment()) {
-            return Err("complete hill input required".into());
+        if args[1] != "construct" && !case.problem.is_complete(&case.problem.initial_assignment()) {
+            return Err("complete search input required".into());
         }
         let mut network = ListConstraintNetwork::new(case.depots.len(), case.points.len());
         network.add_constraint(
@@ -62,15 +62,27 @@ fn main() -> Result<(), Box<dyn Error>> {
                     &network,
                     case.problem.initial_assignment(),
                     LocalSearchConfig {
-                        max_evaluations: steps
-                            .checked_mul(scan_bound)
-                            .and_then(|x| x.checked_add(1))
-                            .ok_or("budget overflow")?,
+                        max_evaluations: if args[1] == "two-opt" {
+                            10_000
+                        } else {
+                            steps
+                                .checked_mul(scan_bound)
+                                .and_then(|x| x.checked_add(1))
+                                .ok_or("budget overflow")?
+                        },
                         max_steps: steps,
                         max_accepted_moves: u64::MAX,
                         acceptance: Acceptance::HillClimbing,
-                        neighborhood: Neighborhood::Change,
-                        selection: MoveSelection::BestAccepted,
+                        neighborhood: if args[1] == "two-opt" {
+                            Neighborhood::TwoOpt { cross_entity: true }
+                        } else {
+                            Neighborhood::Change
+                        },
+                        selection: if args[1] == "two-opt" {
+                            MoveSelection::FirstAccepted
+                        } else {
+                            MoveSelection::BestAccepted
+                        },
                         rejected_moves: RejectedMovePolicy::BestScore,
                         ..Default::default()
                     },

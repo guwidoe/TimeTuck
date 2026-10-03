@@ -230,7 +230,8 @@ described below.
 ## Java list-solving evidence
 
 `benchmark_lists.py` uses the original public-API `ListSolverBenchmark.java` and
-native `list_solver_benchmark` adapters for construction and hill climbing.
+native `list_solver_benchmark` adapters for construction, relocation hill climbing
+and two-opt.
 The legacy seven-field protocol records case ID, customer x:y coordinates, depot
 coordinates, route capacities, initial value-ID lists, full-pin bits and prefix
 lengths. An optional eighth field records each entity range: `*` inherits the
@@ -243,11 +244,13 @@ independent of Java; these bounds belong to the development protocol only.
 Both adapters retain initial states. Construction must finish assigning required
 values while retaining preexisting values in their original routes and relative
 order. Local search starts complete, retains at least its initial quality, and
-uses a matched completed-step budget. Rust's evaluation limit is an upper bound
-on all candidate scans, not an earlier cutoff. Java uses only public annotations
+uses a matched completed-step budget. For relocation hill climbing, Rust's
+evaluation limit bounds all candidate scans without an earlier cutoff. Two-opt
+uses first-accepted hill climbing and a separate 10,000 score-evaluation budget;
+Java uses its seeded public preview provider while Rust enumerates deterministically. Java uses only public annotations
 and configuration, with NO_ASSERT and a fixed seed. Full pins, pinned prefixes,
-empty ranges, capacity violations and Manhattan distances are checked by 128
-original generated cases (64 unrestricted and 64 with per-entity ranges) with independent Python enumeration of the global
+empty ranges, capacity violations and Manhattan distances are checked by 192
+original generated cases (96 unrestricted and 96 with per-entity ranges; 64 per phase) with independent Python enumeration of the global
 pin-constrained optimum. Equality and optimum attainment are observations, not
 criteria weakened into validity claims. See docs/dashboard.md for measurement
 conditions and scope. Matching Java traces, custom shadows, optional-list solving
@@ -419,5 +422,7 @@ successor sets (including empty/frozen owners and value ranges), cached trial an
 commit scores, list/joint-mixed plateau escape with both scoring backends, and
 basic-swap/optional-list behavior. Existing 512 Java move comparisons exercise
 the reused primitives; they do not prove dedicated provider sampling or Java
-whole-search trace equivalence. Existing benchmarks use their unchanged default
-neighborhoods; there is no new two-opt performance claim.
+whole-search trace equivalence. The original timing workloads retain their prior neighborhoods. Two new
+two-opt workloads use the same 16/32-customer inputs with first-accepted search;
+the dashboard reports differing final quality and candidate-work counts. These
+measurements do not establish equal traces or equal work.

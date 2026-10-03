@@ -233,7 +233,7 @@
                                 solution quality beside every timing.
                             </p>
                         </div>
-                        <span class="tag">Construction &amp; hill climbing</span>
+                        <span class="tag">Construction &amp; route search</span>
                     </div>
                     <div id="list-benchmark-state" class="message" hidden></div>
                     <div class="benchmark-legend">
@@ -252,8 +252,9 @@
                     <div class="benchmark-footer">
                         <p id="list-benchmark-caption"></p>
                         <p>
-                            Both engines recalculate the full score. Move order and tie
-                            handling can differ; compare final quality before time ratios.
+                            Both engines recalculate the full score. Two-opt uses first-accepted
+                            search with step and score-evaluation limits; candidate sampling differs.
+                            Move order and tie handling can differ; compare final quality before time ratios.
                             Optima are unknown for these larger routing workloads.
                         </p>
                     </div>

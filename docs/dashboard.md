@@ -181,10 +181,10 @@ additional upstream coverage credit. See `list-planning-contract.md`.
 
 ## List-solving comparison
 
-`python3 scripts/benchmark_lists.py` adds required-list construction and hill
-climbing with identical routing inputs, Manhattan round-trip distance and capacity
-penalties. The 128 original small validation cases (64 unrestricted and 64 with
-entity-specific ranges) cover empty ranges, complete or
+`python3 scripts/benchmark_lists.py` adds required-list construction, relocation hill
+climbing and two-opt with identical routing inputs, Manhattan round-trip distance and capacity
+penalties. The 192 original small validation cases (96 unrestricted and 96 with
+entity-specific ranges; 64 per phase) cover empty ranges, complete or
 partial initial lists, full pins and pinned prefixes. Python independently
 checks every output and enumerates complete owner/permutation assignments to
 record exact optima. Construction retains existing values in their original
@@ -192,7 +192,7 @@ routes and relative order; hill climbing must not regress from the initial score
 Validity, Java/Rust score agreement and optimum attainment are separate counts.
 These generated cases grant no additional upstream test-method coverage.
 
-Four measured workloads use 16 or 32 customers, four depots, capacity n/4 and
+Six measured workloads use 16 or 32 customers, four depots, capacity n/4 and
 seed 20261006; the additional range cases use seed 20261007. Larger timing
 workloads remain unrestricted. Construction evaluates insertions without early picking and runs
 to completion. Hill climbing starts from complete identical assignments, evaluates
@@ -200,6 +200,15 @@ relocations, picks the best accepted candidate, accepts ties and permits a best
 rejected fallback. Its default limit is 20 completed steps. Engine-specific
 original move ordering and construction tie handling remain intact; equal scores
 or traces are not assumed. The UI marks differing final quality beside the ratio.
+Two-opt instead uses first-accepted hill climbing with cross-owner tail swaps
+and within-route reversals, the same 20-step limit, and a 10,000 score-evaluation
+budget. Java uses the public preview TwoOptListMoveProvider with NEIGHBORHOODS;
+Rust uses deterministic finite enumeration. Sampling order and score accounting
+differ; these are bounded quality/time comparisons, not equal-work measurements.
+The small two-opt corpus reuses the 64 complete hill-climbing inputs, including
+pins/ranges, without changing either earlier phase corpus. Per-phase equality and
+optimum counts are displayed separately. Enumerated optima cover the full legal
+routing space; the restricted two-opt neighborhood need not reach that space.
 Larger workload optima are unknown and are explicitly labeled as such.
 
 The default is three fresh processes per runtime, three warmup solves and five

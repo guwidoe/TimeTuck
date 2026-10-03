@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and measure native/Java required-list construction and hill climbing."""
+"""Validate and measure native/Java construction, relocation and two-opt search."""
 import argparse
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -58,6 +58,7 @@ def optimum(c):
 
 
 def parse_result(c, line, mode, optimal=None):
+    if mode not in ('construct','hill','two-opt'): raise ValueError('Unknown mode')
     fields = line.split('\t')
     if len(fields)!=6 or fields[0]!=c['id']: raise ValueError('Response identity/shape mismatch')
     elapsed,hard,soft,calls=map(int,[fields[1],fields[2],fields[3],fields[5]])
@@ -74,7 +75,7 @@ def parse_result(c, line, mode, optimal=None):
             if retained!=before: raise ValueError('Construction changed an initial value or its order')
     claimed=(hard,soft)
     if score(c,lists)!=claimed: raise ValueError('Score mismatch')
-    if mode=='hill' and claimed<score(c,c['initial']): raise ValueError('Best regressed from initial')
+    if mode in ('hill','two-opt') and claimed<score(c,c['initial']): raise ValueError('Best regressed from initial')
     if optimal is not None and claimed>optimal: raise ValueError('Score exceeds independent optimum')
     return {'elapsed_ns':elapsed,'score':list(claimed),'lists':lists,'score_calls':calls}
 
@@ -123,11 +124,18 @@ def generate_extended():
     return cases
 
 
+def generate_two_opt():
+    """Reuse complete original/ranged inputs; preserve earlier phase corpora."""
+    cases = deepcopy(generate()['hill'] + generate_extended()['hill'])
+    for c in cases: c['id'] = c['id'].replace('hill','two-opt')
+    return cases
+
+
 def workload(n,mode):
     rng=random.Random(SEED+n)
     c={'id':f'{mode}-{n}', 'points':[(rng.randrange(101),rng.randrange(101)) for _ in range(n)],
        'depots':[(0,0),(100,0),(100,100),(0,100)],'capacities':[n//4]*4,
-       'initial':[list(range(e,n,4)) if mode=='hill' else [] for e in range(4)],
+       'initial':[list(range(e,n,4)) if mode!='construct' else [] for e in range(4)],
        'pins':[False]*4,'prefixes':[0]*4}
     return c
 
@@ -155,6 +163,7 @@ def main():
     checks=[]
     cases_by_mode=generate()
     for mode,items in generate_extended().items():cases_by_mode[mode].extend(items)
+    cases_by_mode['two-opt']=generate_two_opt()
     for mode,cases in cases_by_mode.items():
         optima={c['id']:optimum(c) for c in cases}
         runs={runtime:run(runtime,mode,cases,0,1,optima) for runtime in bases}
@@ -163,13 +172,13 @@ def main():
             entry['equal_scores']=entry['rust']['score']==entry['java']['score'];checks.append(entry)
     print(f'List solving validation: {len(checks)} valid; {sum(c["equal_scores"] for c in checks)} equal-score cases',flush=True)
     results=[]
-    for mode in ['construct','hill']:
+    for mode in ['construct','hill','two-opt']:
         for index,n in enumerate([16,32]):
             c=workload(n,mode);measurements={r:[] for r in bases}
             for fork in range(args.forks):
                 order=['java','rust'] if (fork+index)%2==0 else ['rust','java']
                 for runtime in order: measurements[runtime].extend(run(runtime,mode,[c],args.warmup,args.samples)[0])
-            entry={'name':f'{"Construction" if mode=="construct" else "Hill climbing"} · {n} customers',
+            entry={'name':f'{ {"construct":"Construction","hill":"Hill climbing","two-opt":"Two-opt"}[mode]} · {n} customers',
                    'mode':mode,'case':c,'unit':'ms / solve','optimal_score':None,'samples':measurements}
             for runtime,rows in measurements.items():
                 scores={tuple(r['score']) for r in rows}
@@ -181,12 +190,16 @@ def main():
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}',flush=True)
     if digest!=source_digest(): raise RuntimeError('Sources changed during measurement')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,
-            'config':{**vars(args),'seed':SEED,'range_seed':SEED+1,'iterations':1},'workloads':results,
+            'config':{**vars(args),'seed':SEED,'range_seed':SEED+1,'two_opt_score_limit':10_000,'iterations':1},'workloads':results,
             'validation':{'total':len(checks),'passed':len(checks),'equal_scores':sum(c['equal_scores'] for c in checks),
-                          'optimal':{r:sum(c[r]['score']==c['optimal_score'] for c in checks) for r in bases},'cases':checks},
+                          'optimal':{r:sum(c[r]['score']==c['optimal_score'] for c in checks) for r in bases},
+                          'by_mode':{mode:{'total':sum(c['mode']==mode for c in checks),
+                                           'equal_scores':sum(c['mode']==mode and c['equal_scores'] for c in checks),
+                                           'optimal':{r:sum(c['mode']==mode and c[r]['score']==c['optimal_score'] for c in checks) for r in bases}}
+                                     for mode in cases_by_mode},'cases':checks},
             'environment':{'cpu':next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown'),
                            'platform':platform.platform(),'rust':version(['rustc','--version']),'java':version(['java','-version'])},
-            'methodology':'Required ordered lists with Manhattan round-trip distance and per-route capacity penalties. Construction inserts missing values using best insertion with no early pick; engine-specific tie handling is retained. Hill climbing uses complete identical inputs, relocation moves, best accepted/first tie, best-rejected fallback, and the same step cap. Deterministic native original orders may differ (Rust entity/position order; Java configured ORIGINAL); scores, callback work and optima agreement are reported, not identical traces. Full scoring in both engines: Java EasyScoreCalculator, one global Rust constraint. Timed: per-solve setup, solving and assignment/score/shadow validation. Excluded: input parsing, model/network/factory creation, process startup and output encoding. Warmups and alternating runtime order across fresh processes. Every measured output is independently checked for ownership, completeness, pins, score and (hill) non-regression; construction retains existing route values in relative order. Small original cases, including per-entity ranges, have independently enumerated optima. Legacy seven-field inputs use the full global registry as every entity range; eight-field inputs add explicit subsets. Larger timing workloads retain unrestricted ranges. Larger workload optima are unknown. Rust list transactions clone state and derive shadows by linear lookup; Java uses managed shadows. No general solver, incremental-scoring, memory, optional-list or mixed-model performance claim.'}
+            'methodology':'Required ordered lists with Manhattan round-trip distance and per-route capacity penalties. Construction inserts missing values using best insertion with no early pick; engine-specific tie handling is retained. Relocation hill climbing uses complete identical inputs, best accepted/first tie, best-rejected fallback, and the same step cap. Two-opt uses identical complete starts, within-route reversals and non-reversing cross-owner nonempty tail exchanges, first accepted hill climbing and the same step cap, with an additional 10,000 score-calculation/evaluation budget. Java uses its seeded public preview TwoOptListMoveProvider; native enumeration is deterministic. Candidate sampling/order and score-count accounting differ, so these are bounded quality/time comparisons, not equal-work or equal-trace claims. Deterministic native original orders may differ (Rust entity/position order; Java configured ORIGINAL); scores, callback work and optima agreement are reported, not identical traces. Full scoring in both engines: Java EasyScoreCalculator, one global Rust constraint. Timed: per-solve setup, solving and assignment/score/shadow validation. Excluded: input parsing, model/network/factory creation, process startup and output encoding. Warmups and alternating runtime order across fresh processes. Every measured output is independently checked for ownership, completeness, pins, score and local-search non-regression; construction retains existing route values in relative order. Small original cases, including per-entity ranges, have independently enumerated optima. Legacy seven-field inputs use the full global registry as every entity range; eight-field inputs add explicit subsets. Larger timing workloads retain unrestricted ranges. Larger workload optima are unknown. Rust list transactions clone state and derive shadows by linear lookup; Java uses managed shadows. No general solver, incremental-scoring, memory, optional-list or mixed-model performance claim.'}
     (ROOT/'work/list-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':main()
