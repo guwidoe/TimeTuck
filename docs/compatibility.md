@@ -845,3 +845,33 @@ for all concrete-entity sources. Supplier counts, Java structural-score fields,
 Java incremental scoring performance and follower solve quality are not compared
 by these generated checks. Java's null alignment-key supplier-call behavior remains
 outside the native shared-reference compatibility claim.
+
+## Collection follower conformance
+
+Both FollowerSetValuesShadowVariableTest methods preserve all source assertions:
+AB/AC/BC derived values after three changes, and all eight final follower values
+against direct supplier evaluation in the 3/8/2 solve. The exact seed-0 distinct
+leader pairs were verified with JDK 21. Native full-score checks and a shared
+1,000-move cap accompany the adapted solve. Explicit membership joins and
+conditional ordered collections replace annotated fields. All fixture, inherited
+code/identity, and solution-generator attributions are recorded.
+
+The supplier selects the first non-null value with the minimum code. Native keys
+use UTF-16 code units and reference-list position, preserving Java string ordering
+and first-reference ties even for distinct identities with equal codes. All-null
+groups produce None, and explicit follower projections retain each row in the
+interface-based score, including null values. Two original native regressions
+check Unicode/tie identities, duplicate references, all-null transitions, undo and
+search agreement with independent full scoring; they earn no method credit.
+
+`collection_follower_checks.py` adds 128 separate public-runtime cases, 2,368 states
+and 3,724 operations. Both runtimes and independent Python agree on every leader
+value, derived value identity, ordinary score and completeness flag through
+composite commits and trial/undo. Include zero followers, duplicate references,
+empty and duplicate code strings, BMP/non-BMP order, repeated writes and nulls.
+Java MoveTester updates shadows; scores are rebuilt with UPDATE_SCORE_ONLY.
+Seven Python regressions validate independent boundaries and reject corrupted,
+missing and reordered observations. The dashboard reports this evidence separately
+from adapted method coverage and performance. No supplier-call counts, mutable
+code/dependency lists, empty/null dependency collections, Java PlanningId behavior,
+structural-score fields, search quality or timing comparison is claimed.

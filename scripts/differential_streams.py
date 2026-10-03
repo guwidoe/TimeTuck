@@ -17,6 +17,7 @@ from duration_collector_checks import run_checks as check_durations
 from big_number_collector_checks import run_checks as check_big_numbers
 from mixed_stream_checks import run_checks as check_mixed_streams
 from follower_checks import run_checks as check_followers
+from collection_follower_checks import run_checks as check_collection_followers
 from equality_existence_checks import run_checks as check_equality_existence
 from ordered_join_checks import run_checks as check_ordered_joins
 
@@ -114,6 +115,8 @@ def main():
     print(f'Mixed streams: {mixed_checks["passed"]}/{mixed_checks["total"]} cases; {mixed_checks["observations"]} observations',flush=True)
     follower_checks=check_followers(cp)
     print(f'Follower shadows: {follower_checks["passed"]}/{follower_checks["total"]} cases; {follower_checks["observations"]} observations',flush=True)
+    collection_follower_checks=check_collection_followers(cp)
+    print(f'Collection follower shadows: {collection_follower_checks["passed"]}/{collection_follower_checks["total"]} cases; {collection_follower_checks["observations"]} observations',flush=True)
     outputs={}
     for runtime,cmd in {'java':['java','-Xms256m','-Xmx256m','-cp',cp,'StreamOracle'],
                         'rust':[str(ROOT/'target/release/examples/stream_oracle')]}.items():
@@ -137,6 +140,7 @@ def main():
             'big_number_collector_checks':big_number_checks,
             'mixed_stream_checks':mixed_checks,
             'follower_checks':follower_checks,
+            'collection_follower_checks':collection_follower_checks,
             'ordered_join_checks':ordered_checks,'equality_existence_checks':existence_checks,
             'aggregation_boundary_checks':{'passed':3,'total':3,
                 'scope':'Separate Community full score updates for empty, one zero-valued fact, and removed-last-fact global count/sum groups. Native boundaries checked by collecting_stream_regression; no additional differential-case or upstream-method credit.'},

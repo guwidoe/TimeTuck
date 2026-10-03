@@ -5171,3 +5171,56 @@ browser closed. This increment is verified; the complete rewrite remains active.
 Final attribution review clarified the copied static boundary in adapter/script
 headers. Full checks, release tests, all ten dataset refreshes and both dashboard
 viewports were repeated after that source-fingerprint change; all pass/current.
+
+## Collection follower conformance increment
+
+Adapt both FollowerSetValuesShadowVariableTest methods with complete original
+assertions: nine change assertions and every final supplier value in the 3/8/2
+solve. Exact Random(0) distinct leader pairs were verified with JDK 21. The native
+solve uses a shared 1,000-move cap and full-score consistency assertions. No
+production implementation changed: a reusable attributed test/example fixture
+combines existing membership joins, conditional ordered collection and references.
+Keys use UTF-16 code units plus first-reference position, preserving Java string
+order and distinct value identities with equal codes. All-null follower rows remain
+in the interface-based count-squared score. Two original native tests cover
+Unicode/ties, duplicate references, null transitions, undo and search/full-scoring
+agreement.
+
+A separate public Java/Rust/Python collection comparison passes 128/128 cases,
+2,368 states and 3,724 operations. Java MoveTester updates annotated fields;
+SolutionManager.UPDATE_SCORE_ONLY recomputes observed ordinary scores. Independent
+Python validates every leader and derived identity, completeness flag and score.
+Include zero followers, repeated references, empty/duplicate/Unicode codes,
+all-null groups, repeated writes, composite commits and trial/undo. Dependencies
+are fixed nonempty collections; code strings are immutable. No empty/null
+collection, PlanningId, supplier-count, structural-score, search-quality or timing
+claim. Generated inputs are original and earn no extra upstream-method credit.
+Seven Python regressions cover boundaries and corrupt/missing/reordered responses.
+
+Debug gate and release all-target checks pass 1,388 Rust tests (651 adapted, 662
+original integration, 75 unit); 69 doctests and 116 Python tests pass. Live
+initialization delivers all four events before completion and proves all four
+optima. Source/provenance frozen before final verification; logs use
+work/collection-follower-*. Coverage is 651/4,855 (13.41%), 3,922 pending,
+282 excluded, zero failed/unverified. Domain model is 12/455 (2.64%).
+
+Next: ListElementShadowVariableTest has been fully read (fixtures not yet read).
+Six methods cover list-element end-time chains and owner last-end aggregate,
+empty-list aggregate fallback, composite list moves, basic duration changes
+retriggering an owner aggregate without list changes, and full-assert solves from
+initialized and uninitialized assignments. Read all seven fixtures in
+core/testdomain/shadow/list_element before implementation. A generated public
+comparison should cover list changes and basic/list coupling with independent
+reference values. Preserve the interface/concrete-source null-filter distinction
+from the previous increment. The full rewrite remains unfinished and active.
+
+All ten differential/performance datasets refreshed and current, successful report
+verification and matching live freshness digest. Existing comparisons retain
+512/512 list moves, 192 valid/189 equal-score list solves, 64 valid/equal-score
+stream solves, 128 valid/equal-score heuristic solves and 128/128 pillar cases.
+Exact8 Rust/Java was 0.162/5.025 ms; stream tabu96 was 174.222/27.575 ms. These
+remain scoped measurements; the new collection comparison contains no timing.
+Browser checked at 1280x900 and 390x844: 13.41%, 651/4,855, domain 12/455, both
+collection follower methods Passed, 29 benchmark cards, separate 128/128 evidence
+with 2,368 states/3,724 operations. No overflow, stale messages or browser errors.
+Existing server retained; verification browser closed. No design skill/delegation.

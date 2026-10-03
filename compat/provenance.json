@@ -9735,6 +9735,36 @@
       "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
       "local_test": "test_leader_change_move",
       "modifications": "Preserve both initially assigned leaders, three followers with matching initial derived values, and all nine assertions after two reassignments and null unassignment. Native graph initialization computes initial shadow snapshots rather than accepting externally stored shadow fields; no annotation or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerSetValuesShadowVariableTest.testMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerSetValuesShadowVariableTest.java",
+      "upstream_test": "testMove",
+      "local_path": "crates/solver/tests/follower_set_cases.rs",
+      "local_test": "test_move",
+      "modifications": "Preserve all nine derived-value/null assertions for AB/AC/BC followers after changing A/B/C. Numeric stable IDs replace object references; explicit membership joins, conditional ordered collection and reference projections replace annotated fields. Preserve code order and first-reference ties. Native consistency checks add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerSetValuesShadowVariableTest.testSolve",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerSetValuesShadowVariableTest.java",
+      "upstream_test": "testSolve",
+      "local_path": "crates/solver/tests/follower_set_cases.rs",
+      "local_test": "test_solve",
+      "modifications": "Preserve generateSolution(3 leaders, 8 followers, 2 values), exact seed-0 distinct leader pairs verified with JDK 21, 1000-move cap, full score assertions and every derived value versus direct supplier equality. Native snapshots replace mutable shadow fields. Direct scan preserves the source supplier for fixture ASCII codes; generic helper uses UTF-16 keys. No Java search trace or optimum claim."
     }
   ],
   "fixtures": [
@@ -11401,6 +11431,123 @@
       "upstream_test": "testMove three-leader/five-follower fixture",
       "local_path": "scripts/follower_checks.py",
       "modifications": "Retain the A/A/A/B/B fixed follower references and three leader value changes as a public-runtime score boundary. Add an independent temporary null-value change, explicit ordinary scores, and undo observation. Other seeded cases are original; no additional source method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSetEntity.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower_set/TestdataFollowerSetEntity.java",
+      "upstream_test": "valueSupplier and fixed leader collection",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeaderEntity.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
+      "upstream_test": "genuine value and stable identity",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerConstraintProvider.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerConstraintProvider.java",
+      "upstream_test": "interface-based count-squared constraint",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHasValue.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataHasValue.java",
+      "upstream_test": "getValue interface",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "value identity and inherited code",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.collection_follower_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "code property",
+      "local_path": "crates/solver/examples/collection_follower_support/mod.rs",
+      "modifications": "Native indexed membership joins and conditional ordered collection implement minimum non-null code with first-reference tie breaking. UTF-16 code-unit keys preserve Java String ordering; explicit occurrence position retains the first equal-code value identity. Stable numeric IDs and immutable code strings replace objects/fields. Interface scoring retains null rows. This reusable test/example fixture grants no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSetSolution.collection_follower_case_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower_set/TestdataFollowerSetSolution.java",
+      "upstream_test": "generateSolution and solution fields",
+      "local_path": "crates/solver/tests/follower_set_cases.rs",
+      "modifications": "Retain three leaders, eight followers, two values and exact Random(0) distinct leader pairs [0,1],[1,2],[2,0],[0,2],[2,1],[2,1],[0,2],[2,1], independently observed with JDK 21. Native variable slots and solver graph replace Java entity collections, score fields and solver configuration. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSetEntity.collection_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower_set/TestdataFollowerSetEntity.java",
+      "upstream_test": "valueSupplier and fixed collection fields",
+      "local_path": "compat/oracle/CollectionFollowerOracle.java",
+      "modifications": "Public Java annotations, MoveTester and SolutionManager adapter for generated inputs. Replace value wrappers with stable Integer identities plus immutable code strings; keep strict minimum code comparison and first-reference ties. Reuse the attributed FollowerOracle leader/interface/provider. Nonempty dependency lists are validated; empty-list and PlanningId behavior are outside comparison scope. Generated code sets, duplicate references, composite moves and Unicode/tie boundaries are original extensions; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSetSolution.collection_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower_set/TestdataFollowerSetSolution.java",
+      "upstream_test": "solution fields and value range",
+      "local_path": "compat/oracle/CollectionFollowerOracle.java",
+      "modifications": "Public Java annotations, MoveTester and SolutionManager adapter for generated inputs. Replace value wrappers with stable Integer identities plus immutable code strings; keep strict minimum code comparison and first-reference ties. Reuse the attributed FollowerOracle leader/interface/provider. Nonempty dependency lists are validated; empty-list and PlanningId behavior are outside comparison scope. Generated code sets, duplicate references, composite moves and Unicode/tie boundaries are original extensions; no extra method credit."
     }
   ]
 }

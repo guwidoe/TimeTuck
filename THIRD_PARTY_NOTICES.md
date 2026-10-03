@@ -15,6 +15,14 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/follower_set_cases.rs` adapts both methods in
+  `FollowerSetValuesShadowVariableTest`. Its reusable
+  `examples/collection_follower_support/mod.rs` fixture and
+  `compat/oracle/CollectionFollowerOracle.java` adapt the collection follower
+  supplier/domain and existing follower interface/scoring fixtures. Seeded inputs
+  in `scripts/collection_follower_checks.py` are original; see provenance for
+  inherited value identity/code and solution-generator attribution.
+
 - `crates/solver/tests/dynamic_follower_cases.rs` adapts all three methods in
   `DynamicFollowerValuesShadowVariableTest` and its five `dynamic_follower`
   fixtures. `compat/oracle/FollowerOracle.java` and

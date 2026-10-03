@@ -1194,3 +1194,24 @@ fixture's partial scores are corrected and verified directly against Java. Nativ
 explicit source filtering remains under the caller's control; no automatic Java
 class/interface discovery is implemented. Shared cases also check missing fixed
 references for values and scores only; no Java null-key supplier counts are claimed.
+
+## Collection-derived follower values
+
+A reusable attributed test/example fixture combines indexed collection membership,
+conditional ordered collection, and reference projections for fixed collections of
+leader values. The ordered key is `(UTF-16 code units, first reference position,
+value identity)`, so minima retain Java String order and the first equal-code
+identity. Duplicate references remain semantically harmless to this minimum;
+all-null groups retain a None result. Every follower remains in the interface
+score, including null rows. Inputs and code strings are fixed for a graph instance;
+leader values update transactionally and cached minima participate in undo and
+saved search candidates. No new production operator was needed.
+
+Two complete upstream methods cover changes and solving; two original native
+regressions cover Unicode/tie handling, undo and search/full-score agreement.
+Another 128 Java/Rust/Python collection-follower cases observe 2,368 states across
+3,724 operations, including repeated references, equal-code identities, empty
+codes, all-null states and composite temporary moves. Java updates annotated
+shadows using public moves and recomputes each observed ordinary score. No direct
+Java timing, supplier-count, PlanningId, code/dependency mutation or empty/null
+collection compatibility follows from these comparisons.
