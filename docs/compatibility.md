@@ -584,3 +584,17 @@ and explicit rebuilding replace Java reflection and ProblemChangeDirector. This 
 method-level behavioral evidence, not complete live-planning/API compatibility;
 within-run intermediate publication and automatic domain reconciliation remain out
 of scope for this increment. Original live_changes regressions earn no source credit.
+
+Four more SolverManagerTest methods are now adapted: terminateEarly,
+terminateSolverJobEarly_stillReturnsBestSolution,
+terminateScheduledSolverJobEarly_returnsInputProblem and
+submitMoreProblemsThanCpus_allGetSolved. Explicit synchronous native cancellation
+preserves the source completion/status assertions; submit_owned preserves exact
+queued-input identity and a latched termination-request flag. Active custom phases
+wait for cancellation to remove fixture scheduling races. The batch uses twice
+Rust's detected available CPU count, two real custom assignment phases and all
+three source consumer modes, including optional coalescing of the first improvement.
+Every source result assertion is retained with stable integer entity/value identities.
+Java signatures, default pool sizing, arbitrary cross-phase timing and native initial
+unassigned-score notification parity are not claimed. Native-only regressions receive
+no additional source-method credit.

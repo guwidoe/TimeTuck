@@ -920,3 +920,264 @@ fn add_problem_change_to_waiting_solver() {
     assert!(second.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+fn owned_manager_problem(count: usize) -> Arc<ChangedProblemSnapshot> {
+    Arc::new(ChangedProblemSnapshot {
+        values: (1..=count as i64).collect(),
+        assignment: vec![None; count],
+    })
+}
+fn paused_owned_manager_job(
+    manager: &SolverManager<Arc<ChangedProblemSnapshot>, String>,
+    id: u64,
+    input: Arc<ChangedProblemSnapshot>,
+    started: mpsc::Sender<u64>,
+    local: bool,
+) -> SolverJob<Arc<ChangedProblemSnapshot>, String> {
+    manager
+        .submit_owned(
+            id,
+            input,
+            move |input, token, _| {
+                let count = input.assignment.len();
+                let problem =
+                    FiniteProblem::new(vec![Variable::new(input.values.clone()); count]).unwrap();
+                let mut network = ConstraintNetwork::new(count);
+                network
+                    .add_constraint("dummy", (0..count).collect(), |_| SimpleScore::ZERO)
+                    .unwrap();
+                let mut phases = vec![
+                    SolverPhase::Custom(CustomPhaseConfig {
+                        max_time: Some(LIMIT),
+                        ..Default::default()
+                    }),
+                    SolverPhase::Construction(ConstructionConfig::default()),
+                ];
+                if local {
+                    phases.push(SolverPhase::LocalSearch(LocalSearchConfig::default()));
+                }
+                let result = solve_with_commands(
+                    &problem,
+                    &network,
+                    SolverSequence {
+                        phases,
+                        limits: SolverLimits {
+                            cancellation: Some(&token),
+                            ..Default::default()
+                        },
+                    },
+                    |_, context| {
+                        started.send(id).unwrap();
+                        // Deterministically keep the source's active job at its custom phase
+                        // until cancellation; the timeout only bounds a failed test.
+                        while !context.is_terminated() {
+                            std::thread::yield_now();
+                        }
+                        assert!(token.is_cancelled(), "test must cancel before its timeout");
+                        Ok(())
+                    },
+                )
+                .map_err(|e| e.to_string())?;
+                Ok(Arc::new(ChangedProblemSnapshot {
+                    values: input.values.clone(),
+                    assignment: result.assignment.values().to_vec(),
+                }))
+            },
+            SolverJobCallbacks::default(),
+        )
+        .unwrap()
+}
+#[test]
+fn terminate_early() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let (started, ready) = mpsc::channel();
+    let jobs: Vec<_> = (1..=3)
+        .map(|id| {
+            paused_owned_manager_job(
+                &manager,
+                id,
+                owned_manager_problem(4),
+                started.clone(),
+                true,
+            )
+        })
+        .collect();
+    assert_eq!(ready.recv_timeout(LIMIT).unwrap(), 1);
+    let status = |id: u64, expected| {
+        assert_eq!(manager.status(id), expected);
+        assert_eq!(jobs[id as usize - 1].status(), expected);
+    };
+    status(1, SolverStatus::Active);
+    status(2, SolverStatus::Scheduled);
+    status(3, SolverStatus::Scheduled);
+    assert!(
+        manager
+            .terminate_early_and_wait(2)
+            .unwrap()
+            .unwrap()
+            .is_ok()
+    );
+    status(1, SolverStatus::Active);
+    status(2, SolverStatus::NotSolving);
+    status(3, SolverStatus::Scheduled);
+    assert!(
+        manager
+            .terminate_early_and_wait(1)
+            .unwrap()
+            .unwrap()
+            .is_ok()
+    );
+    status(1, SolverStatus::NotSolving);
+    assert_eq!(ready.recv_timeout(LIMIT).unwrap(), 3);
+    status(3, SolverStatus::Active);
+    assert!(
+        manager
+            .terminate_early_and_wait(3)
+            .unwrap()
+            .unwrap()
+            .is_ok()
+    );
+    status(3, SolverStatus::NotSolving);
+    assert!(jobs.iter().all(SolverJob::is_termination_requested));
+    manager.shutdown().unwrap();
+}
+#[test]
+fn terminate_solver_job_early_still_returns_best_solution() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let (started, ready) = mpsc::channel();
+    let job = paused_owned_manager_job(&manager, 1, owned_manager_problem(2), started, false);
+    assert_eq!(ready.recv_timeout(LIMIT).unwrap(), 1);
+    let result = job.cancel_and_wait().unwrap();
+    let solution = result.as_ref().as_ref().unwrap();
+    assert_eq!(solution.assignment.len(), 2);
+    assert!(job.is_termination_requested());
+    manager.shutdown().unwrap();
+}
+#[test]
+fn terminate_scheduled_solver_job_early_returns_input_problem() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let (started, ready) = mpsc::channel();
+    let first = paused_owned_manager_job(
+        &manager,
+        1,
+        owned_manager_problem(4),
+        started.clone(),
+        false,
+    );
+    assert_eq!(ready.recv_timeout(LIMIT).unwrap(), 1);
+    let input = owned_manager_problem(4);
+    let second = paused_owned_manager_job(&manager, 2, input.clone(), started, false);
+    let result = second.cancel_and_wait().unwrap();
+    assert!(Arc::ptr_eq(result.as_ref().as_ref().unwrap(), &input));
+    assert!(second.is_termination_requested());
+    assert_eq!(second.status(), SolverStatus::NotSolving);
+    assert!(
+        ready.try_recv().is_err(),
+        "scheduled custom phase never started"
+    );
+    assert!(first.cancel_and_wait().unwrap().is_ok());
+    manager.shutdown().unwrap();
+}
+
+#[test]
+fn submit_more_problems_than_cpus_all_get_solved() {
+    use std::sync::{
+        Mutex,
+        atomic::{AtomicUsize, Ordering},
+    };
+    let cpus = std::thread::available_parallelism().unwrap().get();
+    let problem_count = cpus * 2;
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(cpus).unwrap();
+    for mode in 0..3 {
+        let consumed = Arc::new(Mutex::new(vec![vec![]; problem_count]));
+        let finals = Arc::new(AtomicUsize::new(0));
+        let mut jobs = vec![];
+        for id in 0..problem_count {
+            let mut callbacks = SolverJobCallbacks::default();
+            if mode == 1 {
+                let seen = consumed.clone();
+                callbacks = callbacks.on_best(move |id, v: &Vec<Option<i64>>| {
+                    seen.lock().unwrap()[id as usize].push(v.clone())
+                });
+            }
+            if mode != 0 {
+                let seen = consumed.clone();
+                let finished = finals.clone();
+                callbacks = callbacks.on_final(move |id, v: &Vec<Option<i64>>| {
+                    if mode == 2 {
+                        seen.lock().unwrap()[id as usize].push(v.clone());
+                    }
+                    finished.fetch_add(1, Ordering::SeqCst);
+                });
+            }
+            jobs.push(
+                manager
+                    .submit_with_progress(
+                        id as u64,
+                        |token, progress| {
+                            let problem =
+                                FiniteProblem::new(vec![Variable::new(vec![1i64, 2]); 2]).unwrap();
+                            let mut score = ConstraintNetwork::new(2);
+                            score
+                                .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                                .unwrap();
+                            let plan = SolverSequence {
+                                phases: vec![SolverPhase::Custom(CustomPhaseConfig::default()); 2],
+                                limits: SolverLimits {
+                                    cancellation: Some(&token),
+                                    ..Default::default()
+                                },
+                            };
+                            let r = solve_with_commands_and_events(
+                                &problem,
+                                &score,
+                                plan,
+                                |index, context| {
+                                    context.execute(&Move::Change {
+                                        variable: index,
+                                        value: Some(index as i64 + 1),
+                                    })?;
+                                    Ok(())
+                                },
+                                |event| {
+                                    if let SolverEvent::Best(update) = event
+                                        && update.assignment.values().iter().any(Option::is_some)
+                                    {
+                                        // The source observes the two assignment improvements,
+                                        // not the native initial all-unassigned score snapshot.
+                                        progress.publish(update.assignment.values().to_vec());
+                                    }
+                                },
+                            )
+                            .map_err(|e| e.to_string())?;
+                            Ok(r.assignment.values().to_vec())
+                        },
+                        callbacks,
+                    )
+                    .unwrap(),
+            );
+        }
+        for job in &jobs {
+            check_initialized(job);
+        }
+        if mode != 0 {
+            assert_eq!(finals.load(Ordering::SeqCst), problem_count);
+        }
+        let consumed = consumed.lock().unwrap();
+        for solutions in consumed.iter() {
+            match mode {
+                0 => assert!(solutions.is_empty()),
+                1 => {
+                    assert!((1..=2).contains(&solutions.len()));
+                    if solutions.len() == 2 {
+                        assert_eq!(solutions[0], vec![Some(1), None]);
+                    }
+                    assert_eq!(solutions.last().unwrap(), &vec![Some(1), Some(2)]);
+                }
+                2 => assert_eq!(solutions, &vec![vec![Some(1), Some(2)]]),
+                _ => unreachable!(),
+            }
+        }
+    }
+    manager.shutdown().unwrap();
+}

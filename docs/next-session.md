@@ -4313,3 +4313,74 @@ the documented ratio-boundary discrepancy. These are existing solver workloads,
 not live-change throughput measurements; shared-machine timings support no broad
 speedup or regression claim. All required work for this increment is verified;
 the overall solver goal remains active.
+
+## Owned input cancellation increment
+
+solver_manager.rs now stores an optional owned R separately from its solve closure.
+submit_owned moves it to the worker on start; queued cancellation/shutdown returns
+that exact R as success, with no Clone requirement or callbacks. Existing opaque
+submit APIs retain CancelledBeforeStart. cancel_and_wait and manager
+terminate_early_and_wait include callback completion and capture the original run
+across ID reuse. is_termination_requested exposes the existing latched token. Scoped
+thread-local pool identity rejects unfinished same-pool synchronous waits with
+WouldBlock after cancellation; completed/queued-cancelled results remain accessible.
+No unsafe code. Direct wait and asynchronous cancel semantics are unchanged.
+
+Six original owned_cancellation tests pass, covering original Arc identity, zero
+callbacks/solve on queued cancellation, shutdown with mixed submission modes,
+active start-vs-cancel boundary and blocked final consumer, same-pool solver/consumer
+WouldBlock, allowed completed and cross-pool waits, ID reuse/history, non-Clone inputs
+and error delivery. A public doctest demonstrates exact queued-input recovery.
+
+Four source manager methods are adapted: all three pending cancellation methods and
+the CPU-scaled three-consumer-mode batch. Actual custom phases hold active jobs until
+cancellation, replacing scheduling races with a deterministic cancellation boundary;
+subsequent source CH(/LS) configuration is retained. Queued identity uses Arc::ptr_eq.
+The batch runs 2*available_parallelism jobs per mode, two actual custom assignment
+phases, checks all initialized results and final notifications, exact final-only
+counts and optional first/required final best snapshots. The producer suppresses the
+native initial all-unassigned score snapshot, publishing actual assignment improvements.
+All source assertions are preserved with stable indices/values replacing e/v codes.
+Provenance records four cases plus batch helpers, with explicit adaptations; notices
+now count twenty-three manager methods. No upstream production source inspected.
+
+Verification logs use work/owned-cancellation-*. Initial Clippy complexity warning
+was fixed by naming the internal SolveTask type. Final results are recorded below.
+Goal remains active.
+
+Next lifecycle evidence (test bodies only) suggests managed statistics. The finished
+score-count method requires an actual global five-score-call limit yielding exactly
+five score calculations/four move evaluations, nonnegative duration and speeds.
+The finished problem-size method expects two entities, two variables, two values and
+formatted scale "4". The waiting-size method expects four/four/four and scale "256"
+while queued behind a paused actual custom phase, then adds a fifth problem fact,
+awaits consumer acknowledgement and expects four/four/five and scale "625". This
+needs real pre-solve model statistics and revision-aware updates on live jobs, not
+hardcoded metadata or statistics derived only after solving. Existing native work
+counts may support telemetry; inspect their counting semantics before attribution.
+The source errorThrowableInSolver explicitly throws a synthetic OutOfMemoryError;
+Rust unwinding-panic recovery does not establish actual allocation-failure recovery.
+Keep that method pending unless the adaptation's error-category limits are explicit.
+
+Final verification: bash scripts/check.sh passes 1,270 Rust tests (601 adapted,
+594 original integration, 75 unit), 59 doctests and 95 Python tests. Release all-target
+checks pass the same 1,270 tests; live_initialization delivers all four events and
+proves four optima. All nine differential/performance datasets were refreshed and
+report current. Verification is successful; live /api/freshness matches the report
+digest. Upstream checkout and pinned revision are unchanged. Coverage is 601/4,855
+(12.38%), 3,972 pending, 282 excluded, zero failed/unverified; lifecycle 43/379 (11.35%).
+
+Reused the running dashboard server. Browser checks at 1280x900 and 390x844 confirm
+601/4,855, 23 benchmark cards, no overflow, stale/error messages or browser errors.
+Lifecycle searches show all three cancellation cases and the CPU-scaled batch Passed.
+Unrelated termination methods remain Pending. Closed the browser session; server
+remains running. No frontend changes or design skills were used.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.011/3.457, exact 8
+0.187/5.896; Great Deluge 32 2.344/7.673 and 96 13.432/14.601; stream tabu 96
+165.956/23.057 with equal [-44,-484]. List two-opt 16 0.274/8.842 and 32 0.774/9.165
+retain known score differences. Heuristic validation remains 128 valid/128 equal,
+streams 64/64, lists 192 valid/189 equal; Great Deluge 275/276 retains its documented
+ratio-boundary difference. Existing workloads do not measure owned-job cancellation
+latency. Shared-machine timings support no blanket speedup/regression claim. This
+increment is verified; the overall solver goal remains active.

@@ -2,6 +2,7 @@
 use crate::solver_manager_callbacks::{ProgressMessage, capture, dispose};
 use crate::{CancellationToken, SolverCallbackFailure, SolverJobCallbacks, SolverProgress};
 use std::{
+    cell::Cell,
     collections::{BTreeMap, VecDeque},
     error::Error,
     fmt, io,
@@ -9,6 +10,21 @@ use std::{
     thread::{self, JoinHandle},
     time::Duration,
 };
+
+thread_local! {
+    static CURRENT_POOL: Cell<Option<usize>> = const { Cell::new(None) };
+}
+struct PoolThreadGuard(Option<usize>);
+impl PoolThreadGuard {
+    fn enter<R, E>(shared: &Shared<R, E>) -> Self {
+        Self(CURRENT_POOL.replace(Some(std::ptr::from_ref(shared) as usize)))
+    }
+}
+impl Drop for PoolThreadGuard {
+    fn drop(&mut self) {
+        CURRENT_POOL.set(self.0);
+    }
+}
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolverStatus {
@@ -66,10 +82,13 @@ struct JobCell<R, E> {
     ready: Condvar,
     cancellation: CancellationToken,
 }
+type SolveTask<R, E> =
+    Box<dyn FnOnce(Option<R>, CancellationToken, SolverProgress<R>) -> Result<R, E> + Send>;
 struct Task<R, E> {
     id: u64,
     cell: Arc<JobCell<R, E>>,
-    run: Box<dyn FnOnce(CancellationToken, SolverProgress<R>) -> Result<R, E> + Send>,
+    input: Option<R>,
+    run: SolveTask<R, E>,
     callbacks: SolverJobCallbacks<R, E>,
 }
 struct Delivery<R, E> {
@@ -128,17 +147,19 @@ impl<R, E> Shared<R, E> {
             return false;
         }
         let first = cell.cancellation.cancel();
-        let removed = queue
+        let mut removed = queue
             .tasks
             .iter()
             .position(|task| task.id == id)
             .and_then(|index| queue.tasks.remove(index));
-        if removed.is_some() {
+        if let Some(task) = &mut removed {
             Self::finish_locked(
                 &mut queue,
                 id,
                 &cell,
-                Err(SolverJobError::CancelledBeforeStart),
+                task.input
+                    .take()
+                    .ok_or(SolverJobError::CancelledBeforeStart),
                 Vec::new(),
             );
         }
@@ -152,13 +173,15 @@ impl<R, E> Shared<R, E> {
         for cell in queue.jobs.values() {
             cell.cancellation.cancel();
         }
-        let tasks = std::mem::take(&mut queue.tasks);
-        for task in &tasks {
+        let mut tasks = std::mem::take(&mut queue.tasks);
+        for task in &mut tasks {
             Self::finish_locked(
                 &mut queue,
                 task.id,
                 &task.cell,
-                Err(SolverJobError::CancelledBeforeStart),
+                task.input
+                    .take()
+                    .ok_or(SolverJobError::CancelledBeforeStart),
                 Vec::new(),
             );
         }
@@ -223,7 +246,35 @@ impl<R, E> SolverJob<R, E> {
             .result
             .clone()
     }
-    /// Scheduled jobs are removed immediately. Active jobs receive a cooperative
+    /// Whether cancellation was requested while this run was still registered.
+    /// Retained after completion; cancelling a stale handle does not change it.
+    pub fn is_termination_requested(&self) -> bool {
+        self.cell.cancellation.is_cancelled()
+    }
+    /// Request cancellation and wait for the result, including callback completion.
+    /// Queued owned-input jobs return that input without invoking user callbacks.
+    /// From this pool's solver/consumer threads, an unfinished result returns
+    /// WouldBlock after requesting cancellation, avoiding a pool-thread deadlock.
+    /// Arbitrary uncooperative user code can still delay an external caller forever.
+    pub fn cancel_and_wait(&self) -> io::Result<SolverJobResult<R, E>> {
+        self.cancel();
+        if let Some(result) = self.try_result() {
+            return Ok(result);
+        }
+        if self
+            .manager
+            .upgrade()
+            .is_some_and(|m| CURRENT_POOL.get() == Some(Arc::as_ptr(&m) as usize))
+        {
+            return Err(io::Error::new(
+                io::ErrorKind::WouldBlock,
+                "cannot wait for an unfinished job from its own solver manager pool",
+            ));
+        }
+        Ok(self.wait())
+    }
+    /// Scheduled jobs are removed immediately, returning the original input for
+    /// submit_owned and CancelledBeforeStart otherwise. Active jobs receive a cooperative
     /// request and remain Active through solve and callback completion. Returns true only
     /// for the first request on a live run; stale handles cannot cancel a new run.
     pub fn cancel(&self) -> bool {
@@ -357,6 +408,67 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         run: impl FnOnce(CancellationToken, SolverProgress<R>) -> Result<R, E> + Send + 'static,
         callbacks: SolverJobCallbacks<R, E>,
     ) -> Result<SolverJob<R, E>, SubmitError> {
+        self.enqueue(
+            problem_id,
+            None,
+            move |_, token, progress| run(token, progress),
+            callbacks,
+        )
+    }
+    /// Submit an owned input whose type is also the result type. If cancelled
+    /// while queued (including shutdown), return this exact input as success,
+    /// without cloning, solving or invoking callbacks. Once a worker starts,
+    /// cancellation is cooperative and the solve function determines the result.
+    /// Rejected submissions still drop their input, like the other submit APIs.
+    ///
+    /// ```
+    /// use std::sync::{Arc, mpsc};
+    /// use timetuck::{SolverManager, SolverJobCallbacks};
+    /// let mut manager = SolverManager::<Arc<Vec<i64>>, String>::new(1)?;
+    /// let (started, ready) = mpsc::channel();
+    /// let (release, resume) = mpsc::channel();
+    /// let first = manager.submit(1, move |_| {
+    ///     started.send(()).unwrap();
+    ///     resume.recv().unwrap();
+    ///     Ok(Arc::new(vec![]))
+    /// })?;
+    /// ready.recv()?;
+    /// let input = Arc::new(vec![1, 2]);
+    /// let queued = manager.submit_owned(2, input.clone(),
+    ///     |problem, _, _| Ok(problem), SolverJobCallbacks::default())?;
+    /// let result = queued.cancel_and_wait()?;
+    /// assert!(Arc::ptr_eq(result.as_ref().as_ref().unwrap(), &input));
+    /// assert!(queued.is_termination_requested());
+    /// release.send(())?;
+    /// assert!(first.wait().is_ok());
+    /// manager.shutdown()?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn submit_owned(
+        &self,
+        problem_id: u64,
+        input: R,
+        run: impl FnOnce(R, CancellationToken, SolverProgress<R>) -> Result<R, E> + Send + 'static,
+        callbacks: SolverJobCallbacks<R, E>,
+    ) -> Result<SolverJob<R, E>, SubmitError> {
+        self.enqueue(
+            problem_id,
+            Some(input),
+            move |input, token, progress| {
+                run(input.expect("owned submission has input"), token, progress)
+            },
+            callbacks,
+        )
+    }
+    fn enqueue(
+        &self,
+        problem_id: u64,
+        input: Option<R>,
+        run: impl FnOnce(Option<R>, CancellationToken, SolverProgress<R>) -> Result<R, E>
+        + Send
+        + 'static,
+        callbacks: SolverJobCallbacks<R, E>,
+    ) -> Result<SolverJob<R, E>, SubmitError> {
         let mut queue = self.shared.queue.lock().unwrap();
         if queue.closed {
             return Err(SubmitError::Closed);
@@ -377,6 +489,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         queue.tasks.push_back(Task {
             id: problem_id,
             cell: cell.clone(),
+            input,
             run: Box::new(run),
             callbacks,
         });
@@ -401,6 +514,27 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
     }
     pub fn terminate_early(&self, problem_id: u64) -> bool {
         self.shared.cancel(problem_id, None)
+    }
+    /// Cancel the currently registered run for this ID and wait through delivery.
+    /// Returns None for an unknown/completed ID. ID reuse cannot redirect the wait.
+    /// As with SolverJob::cancel_and_wait, pool-thread waits may return WouldBlock.
+    pub fn terminate_early_and_wait(
+        &self,
+        problem_id: u64,
+    ) -> io::Result<Option<SolverJobResult<R, E>>> {
+        let job = self
+            .shared
+            .queue
+            .lock()
+            .unwrap()
+            .jobs
+            .get(&problem_id)
+            .map(|cell| SolverJob {
+                id: problem_id,
+                cell: cell.clone(),
+                manager: Arc::downgrade(&self.shared),
+            });
+        job.map(|job| job.cancel_and_wait()).transpose()
     }
     /// Reject new submissions, cancel queued jobs, and request active cancellation.
     /// This method does not wait; use shutdown or individual job result handles.
@@ -439,6 +573,7 @@ impl<R, E> Drop for SolverManager<R, E> {
     }
 }
 fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared<R, E>>) {
+    let _pool = PoolThreadGuard::enter(shared.as_ref());
     loop {
         let task = {
             let queue = shared.queue.lock().unwrap();
@@ -456,6 +591,7 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
         let Task {
             id,
             cell,
+            input,
             run,
             mut callbacks,
         } = task;
@@ -518,7 +654,7 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
             dispose(old);
             true
         });
-        let result = match capture(|| run(cell.cancellation.clone(), progress)) {
+        let result = match capture(|| run(input, cell.cancellation.clone(), progress)) {
             Ok(result) => result.map_err(SolverJobError::Solve),
             Err(message) => Err(SolverJobError::Panicked(message)),
         };
@@ -543,6 +679,7 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
     }
 }
 fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared<R, E>>) {
+    let _pool = PoolThreadGuard::enter(shared.as_ref());
     loop {
         let delivery = {
             let queue = shared.queue.lock().unwrap();

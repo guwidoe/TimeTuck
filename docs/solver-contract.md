@@ -911,3 +911,40 @@ the original four-entity/four-value fixture. Original checks cover all six nativ
 solver paths, added/removed values and score decreases, blocked/coalesced consumers,
 active scoring interruption, fresh limits, final-only daemon delivery, cancellation
 during changes, queued cancellation, reused IDs, failures and concurrent shutdown.
+
+## Owned job input and synchronous cancellation
+
+`SolverManager::submit_owned` accepts an input of the same type as the result.
+The solve closure receives that owned input, cancellation token and progress
+publisher. If cancellation or shutdown removes the task while it is queued, the
+manager returns the exact input as a successful result, without cloning, scoring,
+solving or invoking any callbacks. Once a worker marks the job Active, the input
+belongs to the solve closure and cancellation is cooperative. Existing opaque
+submit APIs still return CancelledBeforeStart for queued cancellation. Rejected
+submissions drop their input; this API does not add input recovery on rejection.
+
+`SolverJob::is_termination_requested` exposes the run's latched request flag after
+completion. Requesting cancellation on a completed/stale handle does not set the
+flag or affect a reused ID. `cancel_and_wait` requests cancellation and waits through
+callback delivery. `SolverManager::terminate_early_and_wait` captures the currently
+registered job before cancelling/waiting; unknown or completed IDs return None.
+The asynchronous cancel/terminate methods retain their existing behavior.
+
+Synchronous waits on unfinished jobs from the same pool's solver or consumer thread
+return io::ErrorKind::WouldBlock after requesting cancellation. Already completed
+results (including immediately cancelled queued jobs) remain available from those
+threads. A thread-local pool identity is scoped to each worker's lifetime; no unsafe
+code or thread-name matching is used. Cross-pool waits are allowed, but callers must
+avoid cyclic dependencies. External callers can still wait indefinitely on user
+code that ignores cancellation. Existing direct wait APIs remain unchanged.
+
+Three source cancellation methods now preserve synchronous status boundaries,
+termination history and exact queued-input identity. Actual native custom commands
+hold the active fixture until cancellation to remove scheduling races, with test
+limits; no Java cross-phase timing parity is claimed. The CPU-scaled source batch
+method runs twice the available CPU count through three consumer modes using two
+real custom assignment phases. Its producer selects the two assignment improvements,
+omitting the native initial all-unassigned snapshot. It preserves every source
+initialization, final-delivery, coalescing-count and entity/value assertion with
+stable native identities. Six original regressions cover ownership, shutdown,
+active callback waits, pool-thread deadlock avoidance, reused IDs and non-Clone inputs.
