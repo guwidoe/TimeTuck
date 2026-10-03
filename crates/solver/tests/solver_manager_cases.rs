@@ -730,3 +730,193 @@ fn first_initialized_solution_consumer_early_terminated_ch() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+#[derive(Clone, Debug)]
+struct ChangedProblemSnapshot {
+    values: Vec<i64>,
+    assignment: Vec<Option<i64>>,
+}
+// PlannerTestUtils' four initially unassigned entities and constant-zero objective.
+fn solve_changed_problem(
+    values: &[i64],
+    previous: Option<&ChangedProblemSnapshot>,
+    token: &CancellationToken,
+    pause: Option<&(std::sync::Mutex<bool>, std::sync::Condvar)>,
+) -> Result<ChangedProblemSnapshot, String> {
+    let problem = FiniteProblem::new(
+        (0..4)
+            .map(|i| {
+                let variable = Variable::new(values.to_vec());
+                previous
+                    .and_then(|p| p.assignment[i])
+                    .filter(|v| values.contains(v))
+                    .map_or(variable.clone(), |v| variable.with_initial(v))
+            })
+            .collect(),
+    )
+    .unwrap();
+    let mut network = ConstraintNetwork::new(4);
+    network
+        .add_constraint("dummy", vec![0, 1, 2, 3], |_| SimpleScore::ZERO)
+        .unwrap();
+    let phases = if pause.is_some() {
+        vec![
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::Construction(ConstructionConfig::default()),
+        ]
+    } else {
+        vec![
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: 10,
+                ..Default::default()
+            }),
+        ]
+    };
+    let result = solve_with_commands(
+        &problem,
+        &network,
+        SolverSequence {
+            phases,
+            limits: SolverLimits {
+                cancellation: Some(token),
+                ..Default::default()
+            },
+        },
+        |_, _| {
+            let (lock, changed) = pause.unwrap();
+            let (open, timeout) = changed
+                .wait_timeout_while(lock.lock().unwrap(), LIMIT, |open| !*open)
+                .unwrap();
+            assert!(
+                *open && !timeout.timed_out(),
+                "paused custom phase must be released"
+            );
+            Ok(())
+        },
+    )
+    .map_err(|e| e.to_string())?;
+    Ok(ChangedProblemSnapshot {
+        values: values.to_vec(),
+        assignment: result.assignment.values().to_vec(),
+    })
+}
+
+#[test]
+fn add_problem_change() {
+    let mut manager =
+        LiveSolverManager::<Vec<i64>, ChangedProblemSnapshot, String>::new(1).unwrap();
+    let best = Arc::new(std::sync::Mutex::new(None));
+    let seen = best.clone();
+    let job = manager
+        .submit(
+            1,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig {
+                daemon: true,
+                ..Default::default()
+            },
+            |p, old, token| solve_changed_problem(p, old, token, None),
+            move |_, s| *seen.lock().unwrap() = Some(s.clone()),
+        )
+        .unwrap();
+    let receipt = manager
+        .add_problem_change(1, |p| {
+            p.push(5);
+            Ok(())
+        })
+        .unwrap();
+    assert_eq!(receipt.wait_timeout(LIMIT), Some(Ok(())));
+    assert_eq!(receipt.try_result(), Some(Ok(())));
+    assert_eq!(best.lock().unwrap().as_ref().unwrap().values.len(), 5);
+    job.cancel();
+    assert!(job.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+
+#[test]
+fn add_problem_change_to_non_existing_problem_fails_fast() {
+    let mut manager =
+        LiveSolverManager::<Vec<i64>, ChangedProblemSnapshot, String>::new(1).unwrap();
+    let job = manager
+        .submit(
+            1,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig::default(),
+            |p, old, token| solve_changed_problem(p, old, token, None),
+            |_, _| {},
+        )
+        .unwrap();
+    let error = match manager.add_problem_change(999, |p| {
+        p.push(5);
+        Ok(())
+    }) {
+        Err(e) => e,
+        Ok(_) => panic!("unknown ID accepted"),
+    };
+    assert_eq!(
+        error,
+        ProblemChangeSubmitError::Unavailable { problem_id: 999 }
+    );
+    assert!(error.to_string().contains("999"));
+    assert!(job.wait_timeout(LIMIT).unwrap().is_ok());
+    manager.shutdown().unwrap();
+}
+
+#[test]
+fn add_problem_change_to_waiting_solver() {
+    let mut manager =
+        LiveSolverManager::<Vec<i64>, ChangedProblemSnapshot, String>::new(1).unwrap();
+    let latch = Arc::new((std::sync::Mutex::new(false), std::sync::Condvar::new()));
+    let first_latch = latch.clone();
+    let (entered, started) = mpsc::channel();
+    let first = manager
+        .submit(
+            1,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig::default(),
+            move |p, old, token| {
+                entered.send(()).unwrap();
+                solve_changed_problem(p, old, token, Some(&first_latch))
+            },
+            |_, _| {},
+        )
+        .unwrap();
+    started.recv_timeout(LIMIT).unwrap();
+    let second_latch = latch.clone();
+    let best = Arc::new(std::sync::Mutex::new(None));
+    let seen = best.clone();
+    let second = manager
+        .submit(
+            2,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig {
+                delivery: LiveDelivery::Final,
+                ..Default::default()
+            },
+            move |p, old, token| solve_changed_problem(p, old, token, Some(&second_latch)),
+            move |_, s| *seen.lock().unwrap() = Some(s.clone()),
+        )
+        .unwrap();
+    assert_eq!(second.status(), SolverStatus::Scheduled);
+    let receipt = manager
+        .add_problem_change(2, |p| {
+            p.push(5);
+            Ok(())
+        })
+        .unwrap();
+    assert_eq!(receipt.try_result(), None);
+    *latch.0.lock().unwrap() = true;
+    latch.1.notify_all();
+    assert_eq!(receipt.wait_timeout(LIMIT), Some(Ok(())));
+    assert_eq!(receipt.try_result(), Some(Ok(())));
+    let snapshot = best.lock().unwrap().clone().unwrap();
+    assert_eq!(snapshot.values.len(), 5);
+    assert_eq!(snapshot.assignment.len(), 4);
+    assert!(snapshot.assignment.iter().all(Option::is_some));
+    assert!(first.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(second.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(second.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

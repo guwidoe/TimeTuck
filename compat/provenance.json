@@ -8910,6 +8910,51 @@
       "local_path": "crates/solver/tests/solver_manager_cases.rs",
       "local_test": "first_initialized_solution_consumer_early_terminated_ch",
       "modifications": "Preserve two required entities/two values reset to unassigned, penalty of one per assigned entity, CH step limit one followed by LS, registered initialization consumer, final wait, called=true, non-early=false and construction producer zero. Explicit native IncompleteHandoffPolicy::Error exercises the source conditional failure branch rather than omitting it: SolverJobError::Solve wraps typed SolverError::IncompleteLocalSearch at local phase 1, with the source initialized-solution message and a verified root Error chain. Native invalid-start enum replaces Java IllegalStateException; no Java exception-class ABI claim. Existing attributed event helper is reused. Extra channel synchronization proves wait includes initialization delivery even when solve fails; snapshot has one assignment and structural -1/ordinary -1, no final callback and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.addProblemChange",
+      "upstream_test": "addProblemChange",
+      "local_test": "add_problem_change",
+      "modifications": "Preserve daemon job ID 1, four entities/four values, best consumer, adding a fifth problem fact, successful completed change future and consumer solution value count five. Owned native problem data, queued revision changes and receipts replace ProblemChangeDirector/reflection/futures. Every solution comes from actual native solving with fresh scoring and warm reconciliation. Reuse attributed PlannerTestUtils generated required variables and constant-zero DummySimpleScoreEasyScoreCalculator; default phases use the source ten-step local cap. Stable value 5 represents addedValue; display codes and Java event wrappers omitted. No intermediate-update, score-trace or Java API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.addProblemChangeToNonExistingProblem_failsFast",
+      "upstream_test": "addProblemChangeToNonExistingProblem_failsFast",
+      "local_test": "add_problem_change_to_non_existing_problem_fails_fast",
+      "modifications": "Preserve existing job ID 1 with four entities/four values and a best consumer. Adding a fact to absent ID 999 fails immediately with native Unavailable and a diagnostic containing 999; no Java exception ABI claim. Owned native problem data, queued revision changes and receipts replace ProblemChangeDirector/reflection/futures. Every solution comes from actual native solving with fresh scoring and warm reconciliation. Reuse attributed PlannerTestUtils generated required variables and constant-zero DummySimpleScoreEasyScoreCalculator; default phases use the source ten-step local cap. Stable value 5 represents addedValue; display codes and Java event wrappers omitted. No intermediate-update, score-trace or Java API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.addProblemChangeToWaitingSolver",
+      "upstream_test": "addProblemChangeToWaitingSolver",
+      "local_test": "add_problem_change_to_waiting_solver",
+      "modifications": "Preserve one solver worker, two four-entity/four-value jobs, actual blocking custom phase followed by construction in both jobs, a final consumer for job 2, adding a fifth value while job 2 is queued, releasing the shared latch, completed future and final consumer value count five. Mutex/Condvar replaces CountDownLatch; extra assertions prove scheduled status and complete assignment. Owned native problem data, queued revision changes and receipts replace ProblemChangeDirector/reflection/futures. Every solution comes from actual native solving with fresh scoring and warm reconciliation. Reuse attributed PlannerTestUtils generated required variables and constant-zero DummySimpleScoreEasyScoreCalculator; default phases use the source ten-step local cap. Stable value 5 represents addedValue; display codes and Java event wrappers omitted. No intermediate-update, score-trace or Java API parity claim."
     }
   ],
   "fixtures": [
@@ -9561,7 +9606,7 @@
       ],
       "id": "PlannerTestUtils.manager_fixture",
       "upstream_test": "generateTestdataSolution(String), generateTestdataSolution(String,int)",
-      "modifications": "Map v1/v2 and e1/e2 to values 1/2 and variable indices 0/1; preserve initially unassigned required variables. Solution display codes omitted; no separate method credit. The skipAhead adaptation additionally preserves the four-entity/four-value initially unassigned fixture with values 1..4."
+      "modifications": "Map v1/v2 and e1/e2 to values 1/2 and variable indices 0/1; preserve initially unassigned required variables. Solution display codes omitted; no separate method credit. The skipAhead adaptation additionally preserves the four-entity/four-value initially unassigned fixture with values 1..4. The three live-change methods also preserve four initially unassigned entities and four values; the added fifth value has stable identity 5."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",

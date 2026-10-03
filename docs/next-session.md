@@ -4249,3 +4249,67 @@ still have equal scores; list validation remains 192 valid/189 equal. Great Delu
 retains 275/276 Java agreement and the explicit ratio-boundary difference. These
 workloads use default ReturnPartial and do not benchmark strict-error delivery;
 shared-machine samples establish no broad performance improvement/regression.
+
+## Live changes increment
+
+Added live_solver.rs, a native generic live-job layer over the existing solver and
+consumer pools. It owns P, serializes queued changes by revision, restarts using a
+fresh token and previous R, and acknowledges receipts only after successful user
+consumer return. Daemon waits use a Condvar. Best snapshots coalesce cumulatively;
+Final delivery in daemon mode requires cancellation before receipts complete.
+Changes can lower scores. Model/scorer rebuilding and warm reconciliation are
+explicit user closures; no automatic graph repair or within-run best streaming.
+
+Eleven original tests cover all six actual solver paths, added/removed facts and
+lower scores, slow/coalesced consumers, queued changes/cancellation, stale handles,
+active native scoring interruption and fresh budgets, failures, in-flight change
+cancellation, final-only daemon completion, drop and concurrent shutdown. Cancellation
+uses the exact job handle; a second state snapshot after pool closure covers racing
+submissions. No user callback or captured change destruction runs under state locks.
+
+Three source methods are adapted in solver_manager_cases.rs using the actual
+four-entity/four-value generated fixture, constant-zero objective and ten-step local
+cap. addProblemChange adds fact 5 in daemon mode and checks the acknowledged consumer;
+unknown 999 rejects with its ID; waiting solver uses one worker, actual paused custom
+phase then construction, and final delivery. Existing fixture records are extended;
+three case records and notices added. Source production implementation untouched.
+A native public doctest demonstrates actual solver rebuilding and receipts.
+
+Verification logs use work/live-changes-*. Final results are recorded below.
+Goal remains active.
+
+Next lifecycle specifications inspected (test bodies only): terminateEarly expects
+one active/two queued jobs, queued removal and synchronous NotSolving after active
+termination. Native terminate_early currently signals cooperatively, so do not mark
+that method covered just by inserting status assertions before completion. The
+active-job method also checks an isTerminatedEarly flag; native handles do not expose
+that history. The scheduled-job method requires returning the identical input
+problem without solving, whereas native cancellation returns CancelledBeforeStart.
+That difference needs explicit API design, not credit for an error result.
+submitMoreProblemsThanCpus_allGetSolved runs 2*availableProcessors across three
+consumer modes with two real custom assignment phases; its helper/assertions must
+be fully read before adapting. It is a promising next bounded manager increment.
+
+Final verification: bash scripts/check.sh passes 1,260 Rust tests (597 adapted,
+588 original integration, 75 unit), 58 doctests and 95 Python tests. Release all-target
+checks pass the same 1,260 tests; the initialization example delivers all four events
+and proves four optima. All nine differential/performance datasets were regenerated
+and report current, with successful verification and a matching live freshness digest.
+Coverage is 597/4,855 (12.30%), 3,976 pending, 282 excluded and no failed/unverified
+methods. Lifecycle is 39/379 (10.29%). Upstream checkout/pin remain unchanged.
+
+Reused the existing dashboard server. Browser checks at 1280x900 and 390x844 verify
+597/4,855, 23 benchmark cards, no horizontal overflow, stale/error messages or browser
+errors. Lifecycle search shows the three added change methods Passed; the separate
+non-daemon BasicPlumbingTerminationTest methods remain Pending. Browser session is
+closed; dashboard server remains running. No frontend design changes were made.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.012/3.960, exact 8
+0.132/4.849; Great Deluge 32 2.455/8.207, 96 13.387/15.567; stream tabu 96
+170.278/26.437 with equal [-44,-484]. List two-opt 16 0.296/8.820 and 32 0.885/10.883
+retain the known quality differences. Heuristic validation is still 128/128 equal
+scores, stream validation 64/64 equal; Great Deluge differential remains 275/276 with
+the documented ratio-boundary discrepancy. These are existing solver workloads,
+not live-change throughput measurements; shared-machine timings support no broad
+speedup or regression claim. All required work for this increment is verified;
+the overall solver goal remains active.

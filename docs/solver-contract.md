@@ -862,3 +862,52 @@ contains exactly one assigned value and structural -1/ordinary -1. Four original
 cross-backend methods cover both policies, partial/resumed/custom/exact handoffs,
 zero work, shared stops and event prefixes. A controlled-clock unit check covers
 initialization callback time, and a public doctest demonstrates the policy.
+
+## Live problem changes
+
+`LiveSolverManager<P, R, E>` owns mutable input per job and reuses the fixed solver
+and consumer pools. `submit` takes a solve closure that rebuilds a native model and
+scorer from `&P`, reconciles the previous `&R` for a warm start, and uses the supplied
+per-run cancellation token. Changes execute serially on the solver worker as
+`FnOnce(&mut P) -> Result<(), String>`. A change arriving during a run cancels that
+run's token; after it returns, queued changes apply before a fresh solve. Each run
+rebuilds ordinary phase/solve limits. Explicit job cancellation stays latched.
+
+Changes receive monotonically increasing revisions. `ProblemChangeReceipt` succeeds
+only after the configured user consumer returns successfully with that revision or
+a later one. Applying a change, scoring or publishing a snapshot is insufficient.
+Best delivery coalesces obsolete waiting snapshots; consuming a later revision
+acknowledges every included change. Changed problems may have lower scores, so each
+completed run is eligible for publication. `LiveSolution` retains the revision and
+an `Arc<R>` without requiring `R: Clone`. Published results must be independent of
+mutable input facts; shared interior mutation is the caller's responsibility.
+
+Daemon jobs wait on a condition variable after ordinary termination. New changes
+wake them; explicit cancellation/shutdown ends them. Non-daemon jobs atomically stop
+accepting changes once their run ends with no queued changes. A queued job accepts
+changes before its first run. Unknown or closed jobs fail immediately and identify
+the problem ID. Final-only delivery postpones receipts until job completion, also
+in daemon mode; consumers should use Best when acknowledgements are needed while
+a daemon remains running. A receipt timeout does not cancel anything.
+
+Cancellation does not preempt user code. An already executing change may finish and
+be delivered; later unapplied changes fail with Cancelled. Queued cancellation drops
+the job without solving. Change errors fail outstanding receipts with ChangeFailed;
+solve errors/panics fail still-pending applied receipts with SolveFailed. Unapplied
+receipts may already have been closed as Stopped or Cancelled. Consumer panic fails
+pending receipts with ConsumerPanicked, records its normal callback diagnostic and
+stops the live loop. A successful solver result can coexist with consumer failure.
+No rollback of partially applied problem changes is promised. Previously settled
+receipts never change. Job waits include callback completion.
+
+This API publishes completed runs, not intermediate improvements during a run. It
+requires explicit model/scorer rebuilding and warm reconciliation; it does not
+provide Java reflection, ProblemChangeDirector, automatic object graph repair or
+full real-time-planning compatibility. Ordinary SolverManager jobs are unchanged.
+
+Three complete source adaptations cover addProblemChange, unknown-ID rejection and
+changes to waiting solvers, using real native custom/construction/local phases and
+the original four-entity/four-value fixture. Original checks cover all six native
+solver paths, added/removed values and score decreases, blocked/coalesced consumers,
+active scoring interruption, fresh limits, final-only daemon delivery, cancellation
+during changes, queued cancellation, reused IDs, failures and concurrent shutdown.

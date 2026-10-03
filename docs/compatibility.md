@@ -573,3 +573,14 @@ message; Rust enums replace Java exception classes. The fixture penalizes assign
 entities only. All nine pinned firstInitializedSolutionConsumer methods now have
 full adaptations. Broader lifecycle behavior, live changes and deferred-score
 custom commands remain pending; this does not establish full manager compatibility.
+
+Three pinned SolverManagerTest live-change methods are now adapted: addProblemChange,
+addProblemChangeToNonExistingProblem_failsFast and addProblemChangeToWaitingSolver.
+Each preserves the four-entity/four-value fixture and every source result assertion.
+Changes use a real owned input queue and native solving; their receipts wait for
+successful best/final consumer return. The waiting case runs the source custom
+pause followed by construction on a single worker. Rust ownership, revision receipts
+and explicit rebuilding replace Java reflection and ProblemChangeDirector. This is
+method-level behavioral evidence, not complete live-planning/API compatibility;
+within-run intermediate publication and automatic domain reconciliation remain out
+of scope for this increment. Original live_changes regressions earn no source credit.
