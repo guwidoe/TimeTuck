@@ -928,3 +928,126 @@ fn zero_shared_time_preserves_validation_budget_and_cancellation_precedence() {
         assert_eq!(factories.get(), 0);
     }
 }
+
+#[test]
+fn shared_zero_stagnation_excludes_construction_and_stops_all_six_search_paths() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        for initialized in [false, true] {
+            for order in [
+                MixedConstructionOrder::BasicThenLists,
+                MixedConstructionOrder::ListsThenBasic,
+            ] {
+                let factories = Cell::new(0);
+                let mut c = plan();
+                c.limits.max_unimproved_time = Some(Duration::ZERO);
+                let r = run(mode, initialized, c, order, &factories, None, || {}).unwrap();
+                assert!(r.complete);
+                assert_eq!(r.reason, SolverTermination::UnimprovedTimeLimit);
+                assert_eq!(r.phases.len(), 2);
+                assert_eq!(
+                    r.phases[0].termination,
+                    PhaseTermination::Construction(ConstructionTermination::Completed)
+                );
+                assert_eq!(
+                    r.phases[1].termination,
+                    PhaseTermination::LocalSearch(LocalSearchTermination::UnimprovedTimeLimit)
+                );
+                assert_eq!(r.phases[1].work.evaluations, 1);
+                assert_eq!(r.phases[1].work.move_evaluations, 0);
+                assert_eq!(r.phases[0].score, r.score);
+                assert_eq!(factories.get(), if mode % 2 == 1 { 2 } else { 0 });
+            }
+        }
+    }
+}
+
+#[test]
+fn shared_stagnation_stays_inactive_without_started_local_search() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        for construction_only in [false, true] {
+            let mut c = plan();
+            c.limits.max_unimproved_time = Some(Duration::ZERO);
+            if construction_only {
+                c.local_search.clear();
+            } else {
+                c.construction.max_evaluations = 1;
+            }
+            let r = run(
+                mode,
+                false,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || {},
+            )
+            .unwrap();
+            assert_eq!(r.phases.len(), 1);
+            assert_eq!(
+                r.reason,
+                if construction_only {
+                    SolverTermination::PlanCompleted
+                } else {
+                    SolverTermination::IncompleteConstruction
+                }
+            );
+        }
+        let mut c = plan();
+        c.limits.max_unimproved_time = Some(Duration::ZERO);
+        c.limits.best_score_limit = Some(SimpleScore::ZERO);
+        let r = run(
+            mode,
+            true,
+            c,
+            MixedConstructionOrder::BasicThenLists,
+            &Cell::new(0),
+            None,
+            || {},
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::BestScoreLimit);
+        assert_eq!(r.phases.len(), 1);
+    }
+}
+
+#[test]
+fn shared_stagnation_preserves_validation_and_zero_budget_precedence() {
+    use std::time::Duration;
+    for mode in 0..6 {
+        let mut c = plan();
+        c.limits.max_unimproved_time = Some(Duration::ZERO);
+        c.local_search[1].acceptance = Acceptance::LateAcceptance {
+            history_size: 0,
+            hill_climbing: false,
+        };
+        assert_eq!(
+            run(
+                mode,
+                true,
+                c,
+                MixedConstructionOrder::BasicThenLists,
+                &Cell::new(0),
+                None,
+                || panic!("invalid plan")
+            ),
+            Err(Failure::Acceptance(2))
+        );
+        let mut c = plan();
+        c.limits.max_unimproved_time = Some(Duration::ZERO);
+        c.limits.max_evaluations = 0;
+        let r = run(
+            mode,
+            true,
+            c,
+            MixedConstructionOrder::BasicThenLists,
+            &Cell::new(0),
+            None,
+            || panic!("zero work"),
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::EvaluationLimit);
+        assert_eq!(r.work.evaluations, 0);
+    }
+}

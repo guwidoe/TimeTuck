@@ -11,6 +11,10 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Cooperative deadline shared by construction, improvement and stream graph
     /// preparation. Initial scoring is allowed at zero time. None disables it.
     pub max_time: Option<Duration>,
+    /// Solve-wide stagnation, starting after the first local-search initialization.
+    /// Construction is excluded. Later phases/handoffs do not reset the timer.
+    /// Only strict retained-best improvement resets it, before expiry.
+    pub max_unimproved_time: Option<Duration>,
     pub cancellation: Option<&'a CancellationToken>,
     pub best_score_limit: Option<S>,
     pub stop_when_feasible: bool,
@@ -21,6 +25,7 @@ impl<S> Default for SolverLimits<'_, S> {
             max_evaluations: 100_000,
             max_move_evaluations: None,
             max_time: None,
+            max_unimproved_time: None,
             cancellation: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -103,6 +108,7 @@ pub enum SolverTermination {
     EvaluationLimit,
     MoveEvaluationLimit,
     TimeLimit,
+    UnimprovedTimeLimit,
     Cancelled,
     BestScoreLimit,
     FeasibleScore,
@@ -181,11 +187,33 @@ struct SolveTime<'c> {
     clock: &'c mut dyn FnMut() -> Duration,
     last: Duration,
     shared_bound: bool,
+    unimproved_limit: Option<Duration>,
+    last_improvement: Option<Duration>,
+    unimproved_expired: bool,
 }
 impl SolveTime<'_> {
+    fn sample(&mut self) {
+        self.last = self.last.max((self.clock)());
+    }
+    fn stagnated(&mut self) -> bool {
+        if let (Some(limit), Some(last_improvement)) =
+            (self.unimproved_limit, self.last_improvement)
+        {
+            self.sample();
+            self.unimproved_expired |= self.last - last_improvement >= limit;
+        }
+        self.unimproved_expired
+    }
+    fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchStagnation> {
+        if self.unimproved_limit.is_some() {
+            Some(self)
+        } else {
+            None
+        }
+    }
     fn remaining(&mut self) -> Option<Duration> {
         self.limit.map(|limit| {
-            self.last = self.last.max((self.clock)());
+            self.sample();
             limit.saturating_sub(self.last)
         })
     }
@@ -198,6 +226,23 @@ impl SolveTime<'_> {
             self.shared_bound = own.is_none_or(|limit| remaining <= limit);
             *own = Some(own.map_or(remaining, |limit| limit.min(remaining)));
         }
+    }
+}
+impl crate::time_limit::SearchStagnation for SolveTime<'_> {
+    fn start_search(&mut self) {
+        if self.last_improvement.is_none() {
+            self.sample();
+            self.last_improvement = Some(self.last);
+        }
+    }
+    fn record_improvement(&mut self) {
+        // Keep late improvements in the solution, but never revive an expired solve.
+        if !self.stagnated() && self.last_improvement.is_some() {
+            self.last_improvement = Some(self.last);
+        }
+    }
+    fn expired(&mut self) -> bool {
+        self.stagnated()
     }
 }
 impl<S> PhaseRequest<'_, S> {
@@ -236,7 +281,9 @@ fn run<A, S: AdditiveScore, E>(
 where
     A: Clone,
 {
-    let mut clock = crate::time_limit::monotonic_clock(limits.max_time.is_some());
+    let mut clock = crate::time_limit::monotonic_clock(
+        limits.max_time.is_some() || limits.max_unimproved_time.is_some(),
+    );
     run_with_clock(limits, construction, local, phase, &mut clock)
 }
 fn run_with_clock<A, S: AdditiveScore, E>(
@@ -259,6 +306,9 @@ where
         clock,
         last: Duration::ZERO,
         shared_bound: false,
+        unimproved_limit: limits.max_unimproved_time,
+        last_improvement: None,
+        unimproved_expired: false,
     };
     // Validate the entire plan before scoring, including phases that might never run.
     for (index, token) in std::iter::once(construction.cancellation)
@@ -293,6 +343,8 @@ where
                 Some(SolverTermination::MoveEvaluationLimit)
             } else if time.expired() {
                 Some(SolverTermination::TimeLimit)
+            } else if time.stagnated() {
+                Some(SolverTermination::UnimprovedTimeLimit)
             } else {
                 None
             };
@@ -391,6 +443,7 @@ where
                 Some(SolverTermination::TimeLimit)
             }
             _ if time.expired() => Some(SolverTermination::TimeLimit),
+            _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
             _ if !r.complete => Some(SolverTermination::IncompleteConstruction),
             _ if r.score.as_ref().is_some_and(|score| {
                 limits
@@ -487,7 +540,13 @@ pub fn solve<V: Eq + Clone, S: AdditiveScore>(
             Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => constructed!(greedy_construction(p, n, c)?),
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(local_search_from(p, n, a.expect("handoff"), c)?)
+                    improved!(crate::local_search::local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        n,
+                        a.expect("handoff"),
+                        c
+                    )?)
                 }
             })
         },
@@ -507,7 +566,13 @@ pub fn solve_list<V: Eq + Clone, S: AdditiveScore>(
             Ok(match request.with_time(time) {
                 PhaseRequest::Construction(c) => constructed!(greedy_list_construction(p, n, c)?),
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(list_local_search_from(p, n, a.expect("handoff"), c)?)
+                    improved!(crate::list_local_search::list_local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        n,
+                        a.expect("handoff"),
+                        c
+                    )?)
                 }
             })
         },
@@ -535,15 +600,18 @@ pub fn solve_mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         ..c.construction
                     }
                 )?),
-                PhaseRequest::LocalSearch(config) => improved!(mixed_local_search_from(
-                    p,
-                    n,
-                    a.expect("handoff"),
-                    MixedLocalSearchConfig {
-                        search: config,
-                        ..c.local_search[index - 1]
-                    }
-                )?),
+                PhaseRequest::LocalSearch(config) => improved!(
+                    crate::mixed_local_search::mixed_local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        n,
+                        a.expect("handoff"),
+                        MixedLocalSearchConfig {
+                            search: config,
+                            ..c.local_search[index - 1]
+                        }
+                    )?
+                ),
             })
         },
     )
@@ -570,7 +638,14 @@ pub fn solve_stream<'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                     constructed!(greedy_stream_construction(p, g, s, c)?)
                 }
                 PhaseRequest::LocalSearch(c) => {
-                    improved!(stream_local_search_from(p, g, s, a.expect("handoff"), c)?)
+                    improved!(crate::stream_scoring::stream_local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        g,
+                        s,
+                        a.expect("handoff"),
+                        c
+                    )?)
                 }
             })
         },
@@ -592,13 +667,16 @@ pub fn solve_list_stream<'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 PhaseRequest::Construction(c) => {
                     constructed!(greedy_list_stream_construction(p, g, s, c)?)
                 }
-                PhaseRequest::LocalSearch(c) => improved!(list_stream_local_search_from(
-                    p,
-                    g,
-                    s,
-                    a.expect("handoff"),
-                    c
-                )?),
+                PhaseRequest::LocalSearch(c) => improved!(
+                    crate::list_stream_scoring::list_stream_local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        g,
+                        s,
+                        a.expect("handoff"),
+                        c
+                    )?
+                ),
             })
         },
     )
@@ -633,16 +711,19 @@ pub fn solve_mixed_stream<
                         }
                     )?)
                 }
-                PhaseRequest::LocalSearch(config) => improved!(mixed_stream_local_search_from(
-                    p,
-                    g,
-                    s,
-                    a.expect("handoff"),
-                    MixedLocalSearchConfig {
-                        search: config,
-                        ..c.local_search[index - 1]
-                    }
-                )?),
+                PhaseRequest::LocalSearch(config) => improved!(
+                    crate::mixed_stream_scoring::mixed_stream_local_search_from_monitored(
+                        time.monitor(),
+                        p,
+                        g,
+                        s,
+                        a.expect("handoff"),
+                        MixedLocalSearchConfig {
+                            search: config,
+                            ..c.local_search[index - 1]
+                        }
+                    )?
+                ),
             })
         },
     )

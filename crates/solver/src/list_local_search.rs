@@ -81,13 +81,25 @@ pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list_local_search_from_monitored(None, problem, network, initial, config)
+}
+
+pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.acceptance.validate()?;
     network.validate(problem, &initial)?;
-    search_impl(problem, initial, config, |initial| {
+    search_impl_monitored(shared, problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
     })
 }
-pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+
+pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -99,9 +111,10 @@ where
     let clock = crate::time_limit::monotonic_clock(
         config.max_time.is_some() || config.max_unimproved_time.is_some(),
     );
-    search_impl_with_clock(problem, initial, config, make_director, clock)
+    search_impl_with_clock_monitored(shared, problem, initial, config, make_director, clock)
 }
 
+#[cfg(test)]
 pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
@@ -112,8 +125,27 @@ pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: ListSea
 where
     ListLocalSearchError: From<D::Error>,
 {
+    search_impl_with_clock_monitored(None, problem, initial, config, make_director, clock)
+}
+
+pub(crate) fn search_impl_with_clock_monitored<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: ListSearchDirector<V, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
+where
+    ListLocalSearchError: From<D::Error>,
+{
     let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock);
+        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
+            .with_shared(shared);
     config.acceptance.validate()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {

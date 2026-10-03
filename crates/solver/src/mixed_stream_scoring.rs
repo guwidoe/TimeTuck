@@ -351,11 +351,30 @@ pub fn mixed_stream_local_search_from<
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed_stream_local_search_from_monitored(None, problem, graph, sources, initial, settings)
+}
+
+pub(crate) fn mixed_stream_local_search_from_monitored<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     settings.search.acceptance.validate()?;
     sources.validate(&graph)?;
-    crate::mixed_local_search::search_impl(problem, initial, settings, |initial| {
-        MixedStreamScoreDirector::new(problem, graph, sources, initial)
-    })
+    crate::mixed_local_search::search_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| MixedStreamScoreDirector::new(problem, graph, sources, initial),
+    )
 }
 
 #[cfg(test)]

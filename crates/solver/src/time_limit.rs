@@ -26,7 +26,15 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
     move || start.map_or(Duration::ZERO, |s| s.elapsed())
 }
 
-pub(crate) struct TimeBudget<C> {
+/// Optional solve-wide observer; phase timers remain independent.
+pub(crate) trait SearchStagnation {
+    fn start_search(&mut self);
+    fn record_improvement(&mut self);
+    fn expired(&mut self) -> bool;
+}
+
+pub(crate) struct TimeBudget<'m, C> {
+    shared: Option<&'m mut dyn SearchStagnation>,
     limit: Option<ElapsedTimeLimit>,
     unimproved_limit: Option<ElapsedTimeLimit>,
     clock: C,
@@ -34,9 +42,10 @@ pub(crate) struct TimeBudget<C> {
     last_improvement: Duration,
     reason: Option<crate::LocalSearchTermination>,
 }
-impl<C: FnMut() -> Duration> TimeBudget<C> {
+impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
     pub(crate) fn new(limit: Option<Duration>, unimproved: Option<Duration>, clock: C) -> Self {
         Self {
+            shared: None,
             limit: limit.map(ElapsedTimeLimit::new),
             unimproved_limit: unimproved.map(ElapsedTimeLimit::new),
             clock,
@@ -45,17 +54,27 @@ impl<C: FnMut() -> Duration> TimeBudget<C> {
             reason: None,
         }
     }
+    pub(crate) fn with_shared(mut self, shared: Option<&'m mut dyn SearchStagnation>) -> Self {
+        self.shared = shared;
+        self
+    }
     fn sample(&mut self) {
         // Also protect tests with injected clocks against backwards samples.
         self.last = self.last.max((self.clock)());
     }
     pub(crate) fn start_search(&mut self) {
+        if let Some(shared) = &mut self.shared {
+            shared.start_search();
+        }
         if self.unimproved_limit.is_some() {
             self.sample();
             self.last_improvement = self.last;
         }
     }
     pub(crate) fn record_improvement(&mut self) {
+        if let Some(shared) = &mut self.shared {
+            shared.record_improvement();
+        }
         // Poll before resetting: a late improvement must not revive an expired
         // search. Preserve that improvement in the result regardless of expiry.
         if self.unimproved_limit.is_some() && self.stop().is_none() {
@@ -64,13 +83,16 @@ impl<C: FnMut() -> Duration> TimeBudget<C> {
     }
     pub(crate) fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
         use crate::LocalSearchTermination::{TimeLimit, UnimprovedTimeLimit};
-        if self.reason.is_none() && (self.limit.is_some() || self.unimproved_limit.is_some()) {
+        if self.reason.is_none()
+            && (self.limit.is_some() || self.unimproved_limit.is_some() || self.shared.is_some())
+        {
             self.sample();
             self.reason = if self.limit.is_some_and(|limit| limit.is_reached(self.last)) {
                 Some(TimeLimit)
-            } else if self
-                .unimproved_limit
-                .is_some_and(|limit| limit.is_reached(self.last - self.last_improvement))
+            } else if self.shared.as_mut().is_some_and(|shared| shared.expired())
+                || self
+                    .unimproved_limit
+                    .is_some_and(|limit| limit.is_reached(self.last - self.last_improvement))
             {
                 Some(UnimprovedTimeLimit)
             } else {

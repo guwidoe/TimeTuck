@@ -289,10 +289,30 @@ pub fn local_search_from<V: Eq + Clone, S: AdditiveScore>(
     initial: Assignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    local_search_impl(problem, network, Some(initial), config)
+    local_search_from_monitored(None, problem, network, initial, config)
+}
+
+pub(crate) fn local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    local_search_impl_monitored(shared, problem, network, Some(initial), config)
 }
 
 fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    local_search_impl_monitored(None, problem, network, initial, config)
+}
+
+fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Option<Assignment<V>>,
@@ -306,12 +326,13 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
         }
         .into());
     }
-    search_impl(problem, initial, config, |initial| {
+    search_impl_monitored(shared, problem, initial, config, |initial| {
         ScoreDirector::new(problem, network, initial)
     })
 }
 
-pub(crate) fn search_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -323,9 +344,10 @@ where
     let clock = crate::time_limit::monotonic_clock(
         config.max_time.is_some() || config.max_unimproved_time.is_some(),
     );
-    search_impl_with_clock(problem, initial, config, create, clock)
+    search_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
 }
 
+#[cfg(test)]
 pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
@@ -336,8 +358,27 @@ pub(crate) fn search_impl_with_clock<V: Eq + Clone, S: AdditiveScore, D: SearchD
 where
     LocalSearchError: From<D::Error>,
 {
+    search_impl_with_clock_monitored(None, problem, initial, config, create, clock)
+}
+
+pub(crate) fn search_impl_with_clock_monitored<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: SearchDirector<V, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &FiniteProblem<V>,
+    initial: Option<Assignment<V>>,
+    config: LocalSearchConfig<S>,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError>
+where
+    LocalSearchError: From<D::Error>,
+{
     let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock);
+        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
+            .with_shared(shared);
     config.acceptance.validate()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;

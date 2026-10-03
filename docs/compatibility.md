@@ -409,3 +409,12 @@ shape. Combined with the unchanged fixed-family corpus: 8,170 comparisons and
 225 expected errors. Source-method credit remains separate from these original
 checks. Native factors/powers retain the fixed-family input limits; no decimal
 performance or general Java floating-input parity claim. See score-contract.md.
+
+
+Native solver orchestration now supports a shared unimproved-time limit across all
+six basic/list/mixed entry points and both backends. It excludes construction and
+first search initialization, carries through later phases and resets only on a
+strict retained-best improvement before expiry. Original deterministic clock and
+public-entry-point regressions establish this native contract. No source-method
+credit or Java timed lifecycle/trace parity is added; the six upstream
+UnimprovedTimeMillisSpentTerminationTest methods remain pending. See solver-contract.md.

@@ -101,18 +101,30 @@ pub fn mixed_local_search_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed_local_search_from_monitored(None, problem, network, initial, settings)
+}
+
+pub(crate) fn mixed_local_search_from_monitored<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     settings.search.acceptance.validate()?;
     network.validate(problem, &initial)?;
-    search_impl(problem, initial, settings, |initial| {
+    search_impl_monitored(shared, problem, initial, settings, |initial| {
         MixedScoreDirector::new(problem, network, initial)
     })
 }
-pub(crate) fn search_impl<
+
+pub(crate) fn search_impl_monitored<
     B: Eq + Clone,
     L: Eq + Clone,
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -124,9 +136,10 @@ where
     let clock = crate::time_limit::monotonic_clock(
         settings.search.max_time.is_some() || settings.search.max_unimproved_time.is_some(),
     );
-    search_impl_with_clock(problem, initial, settings, make_director, clock)
+    search_impl_with_clock_monitored(shared, problem, initial, settings, make_director, clock)
 }
 
+#[cfg(test)]
 pub(crate) fn search_impl_with_clock<
     B: Eq + Clone,
     L: Eq + Clone,
@@ -142,10 +155,30 @@ pub(crate) fn search_impl_with_clock<
 where
     MixedLocalSearchError: From<D::Error>,
 {
+    search_impl_with_clock_monitored(None, problem, initial, settings, make_director, clock)
+}
+
+pub(crate) fn search_impl_with_clock_monitored<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError>
+where
+    MixedLocalSearchError: From<D::Error>,
+{
     let config = settings.search;
     let joint_moves = settings.joint_moves;
     let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock);
+        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
+            .with_shared(shared);
     config.acceptance.validate()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {

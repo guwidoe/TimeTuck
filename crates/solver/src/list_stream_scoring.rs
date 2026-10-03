@@ -339,9 +339,23 @@ pub fn list_stream_local_search_from<V: Eq + Clone + 'static, S: AdditiveScore +
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list_stream_local_search_from_monitored(None, problem, graph, sources, initial, config)
+}
+
+pub(crate) fn list_stream_local_search_from_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.acceptance.validate()?;
     sources.validate(&graph)?;
-    crate::list_local_search::search_impl(problem, initial, config, |initial| {
+    crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListStreamScoreDirector::new(problem, graph, sources, initial)
     })
 }

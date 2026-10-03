@@ -69,7 +69,9 @@ construction and local search.
 Mixed stream construction and local search are also verified by `mixed_routes`,
 using joined depot/route facts and independent final-score checks.
 Construction and multi-phase solving support cooperative elapsed-time limits; a
-shared solve timer includes stream graph preparation. See `docs/solver-contract.md`.
+shared solve timer includes stream graph preparation. A shared unimproved-time
+limit excludes construction and the first search initialization, then spans later
+phases. See `docs/solver-contract.md`.
 Basic/list/mixed exact search also supports a cooperative `ExactSearchConfig::max_time`
 limit, with explicit TimeLimit results; see `docs/planning-contract.md`.
 Local search supports strict improvement, hill climbing, late acceptance,

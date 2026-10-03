@@ -296,7 +296,7 @@ pub fn stream_local_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     source: PlanningStreamSource<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    stream_search(problem, graph, source, None, config)
+    stream_search(None, problem, graph, source, None, config)
 }
 /// Improve an explicit complete assignment using a fresh stream scoring session.
 /// Initialization counts once; graph preparation before this call is excluded.
@@ -307,9 +307,24 @@ pub fn stream_local_search_from<V: Eq + Clone + 'static, S: AdditiveScore + 'sta
     initial: Assignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    stream_search(problem, graph, source, Some(initial), config)
+    stream_local_search_from_monitored(None, problem, graph, source, initial, config)
+}
+
+pub(crate) fn stream_local_search_from_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    stream_search(shared, problem, graph, source, Some(initial), config)
 }
 fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    shared: Option<&mut dyn crate::time_limit::SearchStagnation>,
     problem: &FiniteProblem<V>,
     graph: StreamGraph<'_, S>,
     source: PlanningStreamSource<V>,
@@ -318,7 +333,7 @@ fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.acceptance.validate()?;
     validate_source(&graph, &source)?;
-    crate::local_search::search_impl(problem, initial, config, |initial| {
+    crate::local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
     })
 }
