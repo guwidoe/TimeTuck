@@ -290,3 +290,9 @@ pub use solver::IncompleteHandoffPolicy;
 
 pub mod live_solver;
 pub use live_solver::*;
+
+mod statistics;
+pub use statistics::{
+    AssignmentSpace, ProblemSizeStatistics, ProblemStatistics, RevisionProblemSize,
+    SolverJobStatistics,
+};

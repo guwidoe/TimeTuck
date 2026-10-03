@@ -9015,6 +9015,51 @@
       "upstream_test": "submitMoreProblemsThanCpus_allGetSolved",
       "local_test": "submit_more_problems_than_cpus_all_get_solved",
       "modifications": "Preserve twice the detected available CPU count of jobs in each of three sequential modes: no consumer, best plus final notification, and final-only. Real native custom phases assign entity index 0 to value 1 then index 1 to value 2 under the constant-zero objective. Check every final result initialized, all final consumers finished, exactly one complete final-only snapshot, and one or two best snapshots with the exact optional first [1,None] and final [1,2] states. Stable indices map source e1/e2 and integers map v1/v2; solution display codes are omitted. The producer suppresses the native initial all-unassigned snapshot and publishes the two actual scored assignment improvements, preserving the source consumer contract; coalescing may omit the first. Rust available_parallelism replaces Java availableProcessors and is also the explicit worker count. No scheduling/trace equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.testScoreCalculationCountForFinishedJob",
+      "upstream_test": "testScoreCalculationCountForFinishedJob",
+      "local_test": "test_score_calculation_count_for_finished_job",
+      "modifications": "Preserve job ID 2, initially unassigned two-entity/two-value generated problem, constant-zero scoring, construction/local configuration with the source ten-step local cap, and actual global score-calculation limit five. Record native SolverWork from the real solve and assert exactly five score calculations/four move evaluations after completion. Native Duration and unsigned speeds preserve source nonnegative duration/speed assertions, including zero; assert speeds are reported rather than absent. No hardcoded counters or exact timing/trace equivalence claim. Reuse attributed PlannerTestUtils fixture, constant-zero scorer and prior live-change fixture helper. No Java reflection/API equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.testProblemSizeStatisticsForFinishedJob",
+      "upstream_test": "testProblemSizeStatisticsForFinishedJob",
+      "local_test": "test_problem_size_statistics_for_finished_job",
+      "modifications": "Preserve job ID 2, actual two-entity/two-value generated problem and solve completion before checking two entities, two variables, two values and formatted scale 4. Compute metadata directly from the native finite model before submission. Native complete-assignment BigUint count and decimal format replace the Java approximate logarithmic statistic; no broader formatting/class-map parity claim. Reuse attributed PlannerTestUtils fixture, constant-zero scorer and prior live-change fixture helper. No Java reflection/API equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SolverManagerTest.testProblemSizeStatisticsForWaitingJob",
+      "upstream_test": "testProblemSizeStatisticsForWaitingJob",
+      "local_test": "test_problem_size_statistics_for_waiting_job",
+      "modifications": "Preserve one worker with actual paused custom phase followed by construction, four entities/four values, second queued job ID 2 and best consumer. Before solving assert four entities/four variables/four values and scale 256 from the native model. Queue addition of a fifth fact, release the shared pause, await successful completed change receipt, and verify the consumer solution has five values. Recomputed model metadata at revision 1 gives four/four/five and scale 625. Extra assertions prove queued status, revision identity and immutability of retained revision-zero metadata. Mutex/Condvar replaces CountDownLatch; native revision receipts replace Java futures; stable value 5 represents addedValue. Reuse attributed PlannerTestUtils fixture, constant-zero scorer and prior live-change fixture helper. No Java reflection/API equivalence claim."
     }
   ],
   "fixtures": [

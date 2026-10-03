@@ -948,3 +948,60 @@ omitting the native initial all-unassigned snapshot. It preserves every source
 initialization, final-delivery, coalescing-count and entity/value assertion with
 stable native identities. Six original regressions cover ownership, shutdown,
 active callback waits, pool-thread deadlock avoidance, reused IDs and non-Clone inputs.
+
+## Problem size and managed statistics
+
+`ProblemStatistics` derives `ProblemSizeStatistics` from finite, list and mixed
+models without scoring or enumerating assignments. Counts include pinned slots;
+a basic slot or list owner is one entity/variable. Values are deduplicated across
+basic domains; list models use their registry; mixed components have distinct
+namespaces. An empty finite model has no separate fact registry, so its value count
+is zero. Java class/variable-name maps and unused external fact registries are not
+represented by this native model.
+
+`AssignmentSpace` counts structurally complete assignments before scoring constraints
+using BigUint. Basic counts multiply each unpinned domain plus its optional null;
+pinned slots contribute one. An empty required domain yields zero and the empty
+model has one assignment. List counts retain fully pinned lists and pinned prefixes,
+then distribute ordered free values across the remaining labelled suffixes. Optional
+lists sum over every selected subset size. Per-owner restrictions that exclude a
+free value mark the unrestricted count as an upper bound (`exact = false`). Mixed
+models multiply their component spaces and retain the bound quality. Decimal output
+is full digits, without Java locale grouping, floating logarithms or rounding.
+
+`SolverJob::statistics` exposes revisioned immutable model size, optional SolverWork,
+measured duration and whether timing is active. `submit_with_statistics` accepts size
+computed before submission, so queued jobs can report it. `SolverProgress::record_work`
+records cumulative counters; `add_work` accumulates completed-run counters. Work is
+None until reported, not a fabricated zero. Decreasing cumulative updates and stale
+problem revisions are rejected. Overflow saturates and sets work_overflowed. Speeds
+are unsigned events per second, floored and saturated; zero duration gives zero,
+and unreported work gives None. Reports do not require solution consumers.
+
+Timing begins at the solve function, after started callbacks, and freezes when it
+returns or unwinds. Queue time and later consumer delivery are excluded. Best
+consumers may run concurrently with solving; their overlap does not pause the solver
+clock. Queued cancellation has zero solving duration and no work report. Closing the
+run rejects stale statistics publishers, including after reuse of the problem ID.
+Previously reported counters survive solver failure; missing failed-run work is not
+invented. This is explicit telemetry from native solver results, not automatic
+instrumentation of arbitrary user closures.
+
+`LiveSolverManager::submit_with_statistics` accepts a model inspector and a solve
+closure returning `LiveRun { solution, work }`. Inspection occurs before queueing
+and after each applied change batch; a published solution therefore includes its
+revision's size metadata. Inspection before submission runs on the caller; later
+inspection runs on the solver worker and has normal contained solve-panic semantics.
+Completed-run work accumulates across revisions. Daemon condition-variable waits
+pause timing; applying changes, inspecting/rebuilding and solving are measured.
+Existing unmeasured live jobs still expose duration but keep unknown counters/size.
+A failed inspector leaves the last known revision's metadata. Retained metadata is
+immutable, and receipt acknowledgement still waits for successful consumer return.
+
+Three complete source manager adaptations now cover five real score calculations
+and four move evaluations, finished two-by-two size/scale 4, and queued four-by-four
+size/scale 256 changing to four-by-five/625 after consumer acknowledgement. The
+native statistics tests additionally enumerate small pinned/optional/restricted list
+spaces, check large exact counts, mixed bounds, timing boundaries, idle restarts,
+overflow, speeds, failure, stale publishers and unknown statistics. These tests do
+not establish all ProblemSizeStatisticsTest formatting/reflection behavior.

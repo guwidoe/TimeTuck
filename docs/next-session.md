@@ -4384,3 +4384,74 @@ streams 64/64, lists 192 valid/189 equal; Great Deluge 275/276 retains its docum
 ratio-boundary difference. Existing workloads do not measure owned-job cancellation
 latency. Shared-machine timings support no blanket speedup/regression claim. This
 increment is verified; the overall solver goal remains active.
+
+## Managed statistics increment
+
+New statistics.rs derives finite/list/mixed model size and BigUint complete-assignment
+space. Basic spaces are exact (pins/optional included). List formulas distribute
+ordered free values over unpinned suffixes while preserving prefixes/full pins;
+optional lists sum subsets. Restricting per-owner free-value ranges marks the count
+as an upper bound. Mixed components multiply counts. Native slot counts and disjoint
+mixed value namespaces are explicit; empty finite models have no spare fact registry.
+No Java class maps, logarithmic/locale formatting or structural constraint scoring.
+
+Job statistics record revisioned immutable size, optional actual SolverWork, overflow
+flag, active timing/duration and floored/saturated unsigned speeds. Unknown work is
+None. Progress can record cumulative/additive work and revisioned sizes independently
+of listeners. Decreases/stale revisions/closed-run reports are rejected. Worker time
+starts after started callbacks and freezes before completion delivery. Queued jobs
+have zero time/no counters. Existing cancellation/result behavior is retained.
+
+Live submit_with_statistics inspects model metadata before queueing and after each
+applied change batch, and accepts LiveRun carrying real result plus SolverWork.
+Completed-run work accumulates; daemon waits pause timing. Both measured and original
+live jobs exclude idle waits; original jobs retain unknown counters/size. Size is
+updated before publication and receipts retain the successful-consumer boundary.
+Initial inspector runs on caller before submission; later failures are solve panics.
+
+Eight original job_statistics methods test list-space enumeration, pins/optional/
+restricted ranges, basic >u128 counts, mixed bound quality, unknown metrics, queued/
+started/consumer/idle timing, counter monotonicity/overflow, revisions, stale publishers,
+speed arithmetic and failure. Three source methods now preserve actual five/four
+work counts and the finished/waiting size assertions including live scale 256 -> 625.
+The existing live fixture helper now also returns native work; its original wrapper
+preserves earlier methods. Provenance adds three methods; notices count 26 manager
+methods. A public doctest uses real solving and telemetry. Verification logs use
+work/job-statistics-*. Final results are recorded below. No upstream production
+code inspected; goal remains active.
+
+Next manager source evidence: threadFactoryIsUsed supplies CustomThreadFactory, whose
+newThread wraps the runnable in a thread named "CustomThread". A real custom phase
+checks the current thread name, then construction runs for four entities/four values
+and the final result is non-null. Native managers currently instantiate Builder
+threads directly. An injectable native spawn factory receiving worker role/index and
+owned runnable would provide the capability (including naming/stack options), rather
+than awarding credit for hardcoded renaming. Cover partial-spawn failure cleanup,
+solver/consumer dispatch, defaults and own-pool wait protection. Ten manager methods
+remain pending: create, errorThrowableInSolver, solveGenerics, three override/time-limit
+methods, three builder methods and threadFactoryIsUsed. Source production was not read.
+The separate ProblemSizeStatisticsTest remains pending: it additionally asserts Java
+entity/variable class maps, unused value ranges on empty models and locale/log-scale
+formatting; current native metadata intentionally does not imply those contracts.
+
+Final verification: bash scripts/check.sh passes 1,281 Rust tests (604 adapted,
+602 original integration, 75 unit), 60 doctests and 95 Python tests. Release all-target
+checks pass the same 1,281 tests; live_initialization delivers all four events and
+proves four optima. All nine differential/performance datasets were regenerated and
+are current. Report verification succeeds and the live freshness digest matches.
+Coverage is 604/4,855 (12.44%), 3,969 pending, 282 excluded, zero failed/unverified;
+lifecycle is 46/379 (12.14%). Upstream checkout and pinned revision remain unchanged.
+
+Reused the running dashboard server. Browser checks at 1280x900 and 390x844 verify
+604/4,855, 23 benchmark cards, no overflow, stale/error messages or browser errors.
+Lifecycle searches show the score-count, finished-size and waiting-size cases Passed.
+Browser session closed; server retained. No frontend code or design skills used.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.011/3.838, exact 8
+0.147/5.206; Great Deluge 32 2.334/8.777 and 96 13.143/15.181; stream tabu 96
+169.030/25.595 with equal [-44,-484]. List two-opt 16 0.358/9.473 and 32 0.997/10.692
+retain known score differences. Validation remains 128/128 equal heuristic cases,
+64/64 equal stream cases, 192 valid/189 equal list cases and 275/276 Great Deluge
+agreement with its documented ratio-boundary difference. Existing benchmarks do not
+measure telemetry/inspection overhead. Shared-machine timings support no general
+speedup/regression claim. This increment is verified; the overall goal stays active.

@@ -743,6 +743,14 @@ fn solve_changed_problem(
     token: &CancellationToken,
     pause: Option<&(std::sync::Mutex<bool>, std::sync::Condvar)>,
 ) -> Result<ChangedProblemSnapshot, String> {
+    solve_changed_problem_measured(values, previous, token, pause).map(|run| run.solution)
+}
+fn solve_changed_problem_measured(
+    values: &[i64],
+    previous: Option<&ChangedProblemSnapshot>,
+    token: &CancellationToken,
+    pause: Option<&(std::sync::Mutex<bool>, std::sync::Condvar)>,
+) -> Result<LiveRun<ChangedProblemSnapshot>, String> {
     let problem = FiniteProblem::new(
         (0..4)
             .map(|i| {
@@ -796,9 +804,12 @@ fn solve_changed_problem(
         },
     )
     .map_err(|e| e.to_string())?;
-    Ok(ChangedProblemSnapshot {
-        values: values.to_vec(),
-        assignment: result.assignment.values().to_vec(),
+    Ok(LiveRun {
+        solution: ChangedProblemSnapshot {
+            values: values.to_vec(),
+            assignment: result.assignment.values().to_vec(),
+        },
+        work: result.work,
     })
 }
 
@@ -1179,5 +1190,144 @@ fn submit_more_problems_than_cpus_all_get_solved() {
             }
         }
     }
+    manager.shutdown().unwrap();
+}
+
+fn statistics_problem(entities: usize, values: Vec<i64>) -> FiniteProblem<i64> {
+    FiniteProblem::new(vec![Variable::new(values); entities]).unwrap()
+}
+fn statistics_job(
+    manager: &SolverManager<Vec<Option<i64>>, String>,
+    max_evaluations: u64,
+) -> SolverJob<Vec<Option<i64>>, String> {
+    let problem = statistics_problem(2, vec![1, 2]);
+    let size = problem.problem_size_statistics();
+    manager
+        .submit_with_statistics(
+            2,
+            size,
+            move |token, progress| {
+                let mut network = ConstraintNetwork::new(2);
+                network
+                    .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                    .unwrap();
+                let result = solve(
+                    &problem,
+                    &network,
+                    SolverConfig {
+                        limits: SolverLimits {
+                            max_evaluations,
+                            cancellation: Some(&token),
+                            ..Default::default()
+                        },
+                        local_search: vec![LocalSearchConfig {
+                            max_steps: 10,
+                            ..Default::default()
+                        }],
+                        ..Default::default()
+                    },
+                )
+                .map_err(|e| e.to_string())?;
+                assert!(progress.record_work(result.work));
+                Ok(result.assignment.values().to_vec())
+            },
+            SolverJobCallbacks::default(),
+        )
+        .unwrap()
+}
+#[test]
+fn test_score_calculation_count_for_finished_job() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = statistics_job(&manager, 5);
+    assert!(job.wait_timeout(LIMIT).unwrap().is_ok());
+    let statistics = job.statistics();
+    let work = statistics.work.unwrap();
+    assert_eq!(work.evaluations, 5);
+    assert_eq!(work.move_evaluations, 4);
+    assert!(statistics.solving_duration >= Duration::ZERO);
+    assert!(statistics.score_calculation_speed().is_some());
+    assert!(statistics.move_evaluation_speed().is_some());
+    // Native Duration/u64 make the source nonnegative checks structural.
+    assert!(!statistics.solving);
+    assert!(!statistics.work_overflowed);
+    manager.shutdown().unwrap();
+}
+#[test]
+fn test_problem_size_statistics_for_finished_job() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = statistics_job(&manager, 100_000);
+    check_initialized(&job);
+    let statistics = job.statistics().problem_size.unwrap();
+    assert_eq!(statistics.size.entity_count, 2);
+    assert_eq!(statistics.size.variable_count, 2);
+    assert_eq!(statistics.size.value_count, 2);
+    assert_eq!(statistics.size.assignment_space.decimal(), "4");
+    assert!(statistics.size.assignment_space.exact);
+    manager.shutdown().unwrap();
+}
+#[test]
+fn test_problem_size_statistics_for_waiting_job() {
+    let mut manager =
+        LiveSolverManager::<Vec<i64>, ChangedProblemSnapshot, String>::new(1).unwrap();
+    let latch = Arc::new((std::sync::Mutex::new(false), std::sync::Condvar::new()));
+    let first_latch = latch.clone();
+    let (entered, started) = mpsc::channel();
+    let first = manager
+        .submit(
+            1,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig::default(),
+            move |p, old, token| {
+                entered.send(()).unwrap();
+                solve_changed_problem(p, old, token, Some(&first_latch))
+            },
+            |_, _| {},
+        )
+        .unwrap();
+    started.recv_timeout(LIMIT).unwrap();
+    let second_latch = latch.clone();
+    let best = Arc::new(std::sync::Mutex::new(None));
+    let seen = best.clone();
+    let second = manager
+        .submit_with_statistics(
+            2,
+            vec![1, 2, 3, 4],
+            LiveSolverConfig::default(),
+            |p| statistics_problem(4, p.clone()).problem_size_statistics(),
+            move |p, old, token| solve_changed_problem_measured(p, old, token, Some(&second_latch)),
+            move |_, s| *seen.lock().unwrap() = Some(s.clone()),
+        )
+        .unwrap();
+    assert_eq!(second.status(), SolverStatus::Scheduled);
+    let before = second.statistics().problem_size.unwrap();
+    assert_eq!(before.revision, 0);
+    assert_eq!(before.size.entity_count, 4);
+    assert_eq!(before.size.variable_count, 4);
+    assert_eq!(before.size.value_count, 4);
+    assert_eq!(before.size.assignment_space.decimal(), "256");
+    let receipt = manager
+        .add_problem_change(2, |p| {
+            p.push(5);
+            Ok(())
+        })
+        .unwrap();
+    *latch.0.lock().unwrap() = true;
+    latch.1.notify_all();
+    assert_eq!(receipt.wait_timeout(LIMIT), Some(Ok(())));
+    assert_eq!(receipt.try_result(), Some(Ok(())));
+    assert_eq!(best.lock().unwrap().as_ref().unwrap().values.len(), 5);
+    let after = second.statistics().problem_size.unwrap();
+    assert_eq!(after.revision, 1);
+    assert_eq!(after.size.entity_count, 4);
+    assert_eq!(after.size.variable_count, 4);
+    assert_eq!(after.size.value_count, 5);
+    assert_eq!(after.size.assignment_space.decimal(), "625");
+    assert_eq!(
+        before.size.assignment_space.decimal(),
+        "256",
+        "retained metadata must be immutable"
+    );
+    assert!(first.wait_timeout(LIMIT).unwrap().is_ok());
+    assert!(second.wait_timeout(LIMIT).unwrap().is_ok());
     manager.shutdown().unwrap();
 }

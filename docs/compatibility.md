@@ -598,3 +598,13 @@ Every source result assertion is retained with stable integer entity/value ident
 Java signatures, default pool sizing, arbitrary cross-phase timing and native initial
 unassigned-score notification parity are not claimed. Native-only regressions receive
 no additional source-method credit.
+
+Three further manager statistics methods are fully adapted: the finished score and
+move counts, finished problem size, and queued problem size updated after a live
+change. Real solver output supplies the exact five/four work counts; native model
+metadata supplies scales 4, 256 and 625. All source assertions are retained, with
+unsigned speed/Duration types preserving nonnegative checks. Metadata has an explicit
+revision and is updated before publishing its solution. Native exact/upper-bound
+BigUint assignment spaces and decimal output do not claim Java logarithmic formatting,
+class maps or unused fact-registry behavior; the separate ProblemSizeStatisticsTest
+methods remain pending. Native-only statistics checks add no source-method credit.

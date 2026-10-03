@@ -284,6 +284,12 @@ impl<P> Drop for RunGuard<P> {
         }
     }
 }
+/// A completed native run with its actual work counters.
+pub struct LiveRun<R> {
+    pub solution: R,
+    pub work: SolverWork,
+}
+type InspectProblem<P> = Box<dyn Fn(&P) -> ProblemSizeStatistics + Send>;
 /// A live job handle. Cancellation remains latched across automatic restarts.
 pub struct LiveSolverJob<P, R, E> {
     inner: SolverJob<LiveSolution<R>, LiveSolveError<E>>,
@@ -300,6 +306,9 @@ impl<P, R, E> Clone for LiveSolverJob<P, R, E> {
 impl<P, R, E> LiveSolverJob<P, R, E> {
     pub fn problem_id(&self) -> u64 {
         self.inner.problem_id()
+    }
+    pub fn statistics(&self) -> SolverJobStatistics {
+        self.inner.statistics()
     }
     pub fn status(&self) -> SolverStatus {
         self.inner.status()
@@ -398,8 +407,52 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         problem: P,
         config: LiveSolverConfig,
         mut solve: impl FnMut(&P, Option<&R>, &CancellationToken) -> Result<R, E> + Send + 'static,
+        consumer: impl FnMut(u64, &R) + Send + 'static,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            None,
+            move |p, old, token| solve(p, old, token).map(|r| (r, None)),
+            consumer,
+        )
+    }
+    /// Derive model size before queueing and after applying each batch of changes.
+    /// Accumulate counters returned by real solves; failed runs add no invented work.
+    /// Daemon idle waits are excluded from solving duration.
+    pub fn submit_with_statistics(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        inspect: impl Fn(&P) -> ProblemSizeStatistics + Send + 'static,
+        mut solve: impl FnMut(&P, Option<&R>, &CancellationToken) -> Result<LiveRun<R>, E>
+        + Send
+        + 'static,
+        consumer: impl FnMut(u64, &R) + Send + 'static,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            Some(Box::new(inspect)),
+            move |p, old, token| solve(p, old, token).map(|r| (r.solution, Some(r.work))),
+            consumer,
+        )
+    }
+    fn submit_inner(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        inspect: Option<InspectProblem<P>>,
+        mut solve: impl FnMut(&P, Option<&R>, &CancellationToken) -> Result<(R, Option<SolverWork>), E>
+        + Send
+        + 'static,
         mut consumer: impl FnMut(u64, &R) + Send + 'static,
     ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        let initial_size = inspect.as_ref().map(|inspect| inspect(&problem));
         let state = Arc::new(State::new());
         {
             let mut registry = self.registry.lock().unwrap();
@@ -443,71 +496,77 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                 failed.fail(ProblemChangeFailure::SolveFailed(error.to_string()));
             }
         });
-        let inner = self.inner.submit_with_progress(
-            id,
-            move |global, progress| {
-                let mut guard = guard;
-                guard.started = true;
-                let mut problem = problem;
-                let mut best: Option<LiveSolution<R>> = None;
-                loop {
-                    let (mut batch, token) = {
-                        let mut d = guard.state.data.lock().unwrap();
-                        let token = CancellationToken::new();
-                        if d.cancelled || global.is_cancelled() {
-                            token.cancel();
-                        }
-                        d.running = Some(token.clone());
-                        (std::mem::take(&mut d.queue), token)
-                    };
-                    while let Some(change) = batch.pop_front() {
-                        if guard.state.data.lock().unwrap().cancelled || global.is_cancelled() {
-                            dispose(change);
-                            dispose(batch);
-                            break;
-                        }
-                        if let Err(message) = (change.apply)(&mut problem) {
-                            guard
-                                .state
-                                .fail(ProblemChangeFailure::ChangeFailed(message.clone()));
-                            dispose(batch);
-                            return Err(LiveSolveError::Change {
-                                revision: change.revision,
-                                message,
-                            });
-                        }
-                        guard.state.data.lock().unwrap().applied = change.revision;
-                    }
-                    let result =
-                        solve(&problem, best.as_ref().map(|b| b.solution.as_ref()), &token)
-                            .map_err(LiveSolveError::Solve)?;
-                    let revision = guard.state.data.lock().unwrap().applied;
-                    let snapshot = LiveSolution {
-                        revision,
-                        solution: Arc::new(result),
-                    };
-                    if config.delivery == LiveDelivery::Best {
-                        progress.publish(snapshot.clone());
-                    }
-                    best = Some(snapshot);
+        let run = move |global: CancellationToken, progress: SolverProgress<LiveSolution<R>>| {
+            let mut guard = guard;
+            guard.started = true;
+            let mut problem = problem;
+            let mut best: Option<LiveSolution<R>> = None;
+            loop {
+                progress.timing(true);
+                let (mut batch, token) = {
                     let mut d = guard.state.data.lock().unwrap();
-                    d.running = None;
-                    while config.daemon
-                        && d.queue.is_empty()
-                        && !d.cancelled
-                        && !global.is_cancelled()
-                    {
-                        d = guard.state.ready.wait(d).unwrap();
+                    let token = CancellationToken::new();
+                    if d.cancelled || global.is_cancelled() {
+                        token.cancel();
                     }
-                    if d.cancelled || global.is_cancelled() || d.queue.is_empty() {
-                        d.accepting = false;
+                    d.running = Some(token.clone());
+                    (std::mem::take(&mut d.queue), token)
+                };
+                while let Some(change) = batch.pop_front() {
+                    if guard.state.data.lock().unwrap().cancelled || global.is_cancelled() {
+                        dispose(change);
+                        dispose(batch);
                         break;
                     }
+                    if let Err(message) = (change.apply)(&mut problem) {
+                        guard
+                            .state
+                            .fail(ProblemChangeFailure::ChangeFailed(message.clone()));
+                        dispose(batch);
+                        return Err(LiveSolveError::Change {
+                            revision: change.revision,
+                            message,
+                        });
+                    }
+                    guard.state.data.lock().unwrap().applied = change.revision;
                 }
-                Ok(best.expect("at least one solve"))
-            },
-            callbacks,
-        )?;
+                let revision = guard.state.data.lock().unwrap().applied;
+                if let Some(inspect) = &inspect {
+                    progress.record_problem_size(revision, inspect(&problem));
+                }
+                let (result, work) =
+                    solve(&problem, best.as_ref().map(|b| b.solution.as_ref()), &token)
+                        .map_err(LiveSolveError::Solve)?;
+                if let Some(work) = work {
+                    progress.add_work(work);
+                }
+                let snapshot = LiveSolution {
+                    revision,
+                    solution: Arc::new(result),
+                };
+                if config.delivery == LiveDelivery::Best {
+                    progress.publish(snapshot.clone());
+                }
+                best = Some(snapshot);
+                progress.timing(false);
+                let mut d = guard.state.data.lock().unwrap();
+                d.running = None;
+                while config.daemon && d.queue.is_empty() && !d.cancelled && !global.is_cancelled()
+                {
+                    d = guard.state.ready.wait(d).unwrap();
+                }
+                if d.cancelled || global.is_cancelled() || d.queue.is_empty() {
+                    d.accepting = false;
+                    break;
+                }
+            }
+            Ok(best.expect("at least one solve"))
+        };
+        let inner = if let Some(size) = initial_size {
+            self.inner.submit_with_statistics(id, size, run, callbacks)
+        } else {
+            self.inner.submit_with_progress(id, run, callbacks)
+        }?;
         let cancellation = inner.clone();
         let _ = state
             .cancel_job

@@ -76,6 +76,7 @@ struct JobData<R, E> {
     status: SolverStatus,
     result: Option<SolverJobResult<R, E>>,
     failures: Vec<SolverCallbackFailure>,
+    statistics: crate::statistics::StatisticsState,
 }
 struct JobCell<R, E> {
     data: Mutex<JobData<R, E>>,
@@ -133,6 +134,7 @@ impl<R, E> Shared<R, E> {
     ) {
         let mut data = cell.data.lock().unwrap();
         queue.jobs.remove(&id);
+        data.statistics.finish();
         data.status = SolverStatus::NotSolving;
         data.result = Some(Arc::new(result));
         data.failures = failures;
@@ -212,6 +214,11 @@ impl<R, E> Clone for SolverJob<R, E> {
 impl<R, E> SolverJob<R, E> {
     pub fn problem_id(&self) -> u64 {
         self.id
+    }
+    /// Snapshot actual reported work and model size, with active solve time.
+    /// Queue/started-callback/consumer delays are excluded; unknown work is None.
+    pub fn statistics(&self) -> crate::SolverJobStatistics {
+        self.cell.data.lock().unwrap().statistics.read()
     }
     pub fn status(&self) -> SolverStatus {
         self.cell.data.lock().unwrap().status
@@ -411,6 +418,47 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         self.enqueue(
             problem_id,
             None,
+            None,
+            move |_, token, progress| run(token, progress),
+            callbacks,
+        )
+    }
+    /// Make computed model size available immediately, including while queued.
+    /// The solve function reports its actual work through SolverProgress.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![7i64, 9])])?;
+    /// let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1)?;
+    /// let job = manager.submit_with_statistics(1, p.problem_size_statistics(),
+    ///     move |token, progress| {
+    ///         let mut score = ConstraintNetwork::new(1);
+    ///         score.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap_or(0))).unwrap();
+    ///         let result = solve(&p, &score, SolverConfig {
+    ///             limits: SolverLimits { cancellation: Some(&token), ..Default::default() },
+    ///             local_search: vec![], ..Default::default()
+    ///         }).map_err(|e| e.to_string())?;
+    ///         progress.record_work(result.work);
+    ///         Ok(result.assignment.values().to_vec())
+    ///     }, SolverJobCallbacks::default())?;
+    /// assert!(job.wait().is_ok());
+    /// let statistics = job.statistics();
+    /// assert_eq!(statistics.work.unwrap().evaluations, 3);
+    /// assert_eq!(statistics.problem_size.unwrap().size.assignment_space.decimal(), "2");
+    /// manager.shutdown()?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn submit_with_statistics(
+        &self,
+        problem_id: u64,
+        problem_size: crate::ProblemSizeStatistics,
+        run: impl FnOnce(CancellationToken, SolverProgress<R>) -> Result<R, E> + Send + 'static,
+        callbacks: SolverJobCallbacks<R, E>,
+    ) -> Result<SolverJob<R, E>, SubmitError> {
+        self.enqueue(
+            problem_id,
+            None,
+            Some(problem_size),
             move |_, token, progress| run(token, progress),
             callbacks,
         )
@@ -454,6 +502,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         self.enqueue(
             problem_id,
             Some(input),
+            None,
             move |input, token, progress| {
                 run(input.expect("owned submission has input"), token, progress)
             },
@@ -464,6 +513,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         &self,
         problem_id: u64,
         input: Option<R>,
+        problem_size: Option<crate::ProblemSizeStatistics>,
         run: impl FnOnce(Option<R>, CancellationToken, SolverProgress<R>) -> Result<R, E>
         + Send
         + 'static,
@@ -481,6 +531,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
                 status: SolverStatus::Scheduled,
                 result: None,
                 failures: Vec::new(),
+                statistics: crate::statistics::StatisticsState::new(problem_size),
             }),
             ready: Condvar::new(),
             cancellation: CancellationToken::new(),
@@ -620,11 +671,15 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
                 dispose(message);
                 return false;
             };
+            if let ProgressMessage::Statistics(update) = message {
+                return delivery.cell.data.lock().unwrap().statistics.update(update);
+            }
             let mut queue = shared.queue.lock().unwrap();
             let mut state = delivery.state.lock().unwrap();
             let listening = match &message {
                 ProgressMessage::Best(_) => state.listening,
                 ProgressMessage::Initialized(..) => state.initialized_available,
+                ProgressMessage::Statistics(_) => unreachable!("handled before delivery"),
             };
             if state.closed || !listening {
                 drop(state);
@@ -633,6 +688,7 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
                 return false;
             }
             let old = match message {
+                ProgressMessage::Statistics(_) => unreachable!("handled before delivery"),
                 ProgressMessage::Best(snapshot) => {
                     state.initialized_before_latest = true;
                     state.latest.replace(snapshot)
@@ -654,10 +710,12 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
             dispose(old);
             true
         });
+        cell.data.lock().unwrap().statistics.start();
         let result = match capture(|| run(input, cell.cancellation.clone(), progress)) {
             Ok(result) => result.map_err(SolverJobError::Solve),
             Err(message) => Err(SolverJobError::Panicked(message)),
         };
+        cell.data.lock().unwrap().statistics.finish();
         let mut queue = shared.queue.lock().unwrap();
         queue.running -= 1;
         let mut state = delivery.state.lock().unwrap();

@@ -237,6 +237,7 @@ pub(crate) fn dispose<T>(value: T) {
 pub(crate) enum ProgressMessage<R> {
     Best(R),
     Initialized(R, SolverInitialization),
+    Statistics(crate::statistics::StatisticsUpdate),
 }
 
 /// A cloneable publisher tied to one job execution. Pass owned snapshots when the
@@ -276,6 +277,33 @@ impl<R> SolverProgress<R> {
         Self {
             send: std::sync::Arc::new(send),
         }
+    }
+    /// Record cumulative actual work. Rejects decreasing counters or updates
+    /// after solving ends; no solution consumer is required.
+    pub fn record_work(&self, work: crate::SolverWork) -> bool {
+        (self.send)(ProgressMessage::Statistics(
+            crate::statistics::StatisticsUpdate::Work { work, add: false },
+        ))
+    }
+    /// Add a completed run's work. Overflow saturates and is flagged in statistics.
+    pub fn add_work(&self, work: crate::SolverWork) -> bool {
+        (self.send)(ProgressMessage::Statistics(
+            crate::statistics::StatisticsUpdate::Work { work, add: true },
+        ))
+    }
+    /// Replace size metadata for this problem revision. Older revisions are rejected.
+    pub fn record_problem_size(&self, revision: u64, size: crate::ProblemSizeStatistics) -> bool {
+        (self.send)(ProgressMessage::Statistics(
+            crate::statistics::StatisticsUpdate::Size(crate::RevisionProblemSize {
+                revision,
+                size: std::sync::Arc::new(size),
+            }),
+        ))
+    }
+    pub(crate) fn timing(&self, running: bool) -> bool {
+        (self.send)(ProgressMessage::Statistics(
+            crate::statistics::StatisticsUpdate::Timing(running),
+        ))
     }
     pub fn publish(&self, snapshot: R) -> bool {
         (self.send)(ProgressMessage::Best(snapshot))
