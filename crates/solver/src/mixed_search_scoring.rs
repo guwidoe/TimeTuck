@@ -4,6 +4,7 @@ use crate::{AdditiveScore, MixedAssignment, MixedMove, MixedScoreDirector, Mixed
 
 pub(crate) trait MixedSearchDirector<B, L, S> {
     type Error: From<crate::MixedError>;
+    fn notify_best(&mut self, _complete: impl FnOnce(&MixedAssignment<B, L>) -> bool) {}
     fn assignment(&self) -> &MixedAssignment<B, L>;
     fn score(&self) -> S;
     fn initial_constraint_evaluations(&self) -> u128;

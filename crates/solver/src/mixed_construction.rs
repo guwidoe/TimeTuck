@@ -154,6 +154,7 @@ pub(crate) fn construction_impl_with_clock<
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
     let phases = match settings.order {
         MixedConstructionOrder::BasicThenLists => [Phase::Basic, Phase::Lists],
@@ -241,6 +242,9 @@ pub(crate) fn construction_impl_with_clock<
             }
             if config.assert_scores {
                 director.assert_consistent()?;
+            }
+            if selection.selected.is_some() {
+                director.notify_best(|assignment| problem.is_complete(assignment));
             }
             if selection.evaluation_limit {
                 result.termination = budget.construction_reason();

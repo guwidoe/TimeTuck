@@ -4,6 +4,7 @@ use crate::{AdditiveScore, Assignment, Move, ScoreDirector, ScoringError};
 
 pub(crate) trait SearchDirector<V, S> {
     type Error;
+    fn notify_best(&mut self, _complete: impl FnOnce(&Assignment<V>) -> bool) {}
     fn assignment(&self) -> &Assignment<V>;
     fn score(&self) -> S;
     fn initial_constraint_evaluations(&self) -> u128;

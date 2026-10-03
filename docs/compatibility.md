@@ -488,3 +488,11 @@ Native publishers and closures replace Java custom-phase/event plumbing. The new
 exact-search observers are independently tested across basic, list and mixed models;
 those original tests add no source-method credit. Construction/local-search event
 automation, first-initialized events and problem changes remain pending.
+
+Native synchronous construction/local-search observers now cover basic, list and
+mixed models with both scoring backends. They expose cached committed states and
+connect directly to the managed best publisher. Original cross-backend, budget,
+validation, cancellation, plateau, panic and controlled-time regressions establish
+the native contract without additional upstream method credit. Unified ordered-plan
+observation and Java first-initialized/producer event semantics remain pending;
+independent per-phase initial notifications are not claimed to match Java event counts.

@@ -441,3 +441,43 @@ race deterministic. Original tests exercise multi-consumer ordering/coalescing,
 shutdown, error chains, stale publishers, non-Clone results, destructor reentrancy,
 and exact-search observers across all three model types. No Java event-object ABI,
 custom phase API, exact callback schedule or manager performance parity is claimed.
+
+### Construction and local-search observers
+
+All six model/backend combinations now expose `greedy_*construction_with_observer`
+and `*local_search_from_with_observer`. `SolutionUpdate` borrows the committed
+assignment and carries its cached score and completeness flag. Observers are
+synchronous, may borrow non-Send local state, and can clone snapshots into a
+SolverProgress publisher. Input facts must remain immutable during a solve.
+
+Construction emits its scored initial state, including a partial one, and each
+installed placement after requested consistency checks. It emits no trial candidate.
+Optional unassigned variables may already be complete. Local search emits its
+initial retained best, then only strict improvements after the accepted step and
+requested diagnostics finish. Ties and accepted worsening moves emit nothing.
+Each phase independently emits its initial score; composed publishers may filter
+equal scores at phase boundaries, as demonstrated by `live_heuristic`.
+
+Observed and ordinary paths share search loops, validation, selection and scoring
+implementations. A private director adapter supplies notifications. Ordinary
+unobserved directors use a no-op hook; completeness is computed lazily only for
+observers, avoiding added validation/Eq calls on existing paths. Observations do
+not trigger scoring or change counters. Zero scoring budgets, pre-cancellation,
+impossible spaces and validation errors emit no scored state. Callback panics
+propagate to the caller; inside a manager job they become solve panics.
+
+Observer work counts toward elapsed deadlines and, during local search, the
+unimproved-time limit. Cancellation is cooperative at the normal polling points.
+The already committed state is retained if an observer cancels. Original tests
+cover all six paths, both mixed construction orders, every small budget prefix,
+score/counter equivalence, partial progress, plateaus, accepted worsening moves,
+validation at zero budget, optional/empty models, managed delivery and panic
+containment. Controlled clocks verify observer time against elapsed/stagnation
+limits without sleeps. No additional upstream method credit is assigned.
+
+`live_heuristic` runs four construction/local-search jobs, publishes strict
+cross-phase improvements, and checks every job's final score and assigned values.
+Direct construction/local-search observer entrypoints are now available; unified
+ordered-plan observers, first-initialized event semantics and dynamic problem
+changes still require implementation. Native notifications do not establish Java
+callback-count or event-producer parity.

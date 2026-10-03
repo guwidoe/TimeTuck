@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 506 original integration regression methods, 62 original unit tests, and 48 public API documentation tests.
+- 513 original integration regression methods, 64 original unit tests, and 49 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3461,3 +3461,66 @@ known ratio boundary remains 275/276 Java agreements, explicitly not credited as
 full agreement. These workloads do not measure live-callback throughput or prove
 a general Rust advantage; timing changes between shared-machine runs are not
 established regressions or improvements.
+
+
+## Construction/local-search observations — latest increment
+
+Added public SolutionUpdate<'a,A,S> with borrowed assignment, cached score and
+completeness. Twelve *_with_observer entrypoints cover construction and explicit
+initial-assignment local search across basic/list/mixed and scoped/stream backends.
+A private Observed director adapter delegates all scoring/selection and implements
+a new internal notification hook. Existing directors use a no-op hook; completeness
+is passed as a lazy closure, so unobserved paths do not add validation/Eq work.
+
+Construction emits initial scoring and installed placements after requested
+consistency checks, including partial states. Local search emits its initial best
+and strict retained-best improvements after step bookkeeping/diagnostics, never
+trial candidates, ties or accepted worsening moves. No rescoring or score-counter
+increments occur. Ordinary validation/zero-budget/pre-cancellation/impossibility
+rules remain. Observer execution counts toward elapsed and local stagnation time;
+cooperative cancellation retains the committed prefix. Panics propagate to the
+caller and are caught as solve panics inside managed jobs. Callbacks need not be
+Send when created in a worker; publish owned snapshots for consumer delivery.
+
+Each phase independently emits an initial score. The original live_heuristic
+example filters cross-phase duplicate scores while running four actual construction
+and local-search jobs; every consumer verifies it received updates and final
+score 12 with six values assigned to 2. This is an original illustrative objective,
+not a Timefold fixture or optimality claim from local-search termination itself.
+
+Seven original integration methods in phase_observers.rs cover all twelve paths,
+both mixed construction orders, committed-state/score/count equivalence, small
+budget prefixes, initial cancellation, plateaus and accepted worsening moves,
+observer panics/worker reuse, actual manager delivery, invalid acceptance/network/
+foreign-stream validation at zero budget, and optional/empty initial completeness.
+Two original unit methods use controlled clocks to check construction elapsed time
+and local elapsed/stagnation deadlines. A new public doctest demonstrates partial
+and complete construction updates. No source tests/fixtures were adapted in this
+increment, so provenance credit stays 583/4,855 (12.01%).
+
+Unified ordered-plan observation, first-initialized callbacks with correct phase
+producer semantics and live problem changes remain pending. The whole rewrite
+remains active and incomplete. Logs use work/phase-observers-*.
+
+Development gate passes 1,160 Rust tests: 583 adapted, 513 original integration and
+64 unit. All 49 doctests and 95 Python tests pass. Coverage remains 583/4,855
+(12.01%), pending 3,990, excluded 282 and failed/unverified zero; lifecycle remains
+27/379 (7.12%). These new original observer tests earn no adapted-method credit.
+
+Release verification also passes all 1,160 Rust tests. Release live_heuristic
+output confirms each of the four jobs emitted updates and finished with score 12;
+its final callbacks check the six assigned values and nonzero per-job consumption.
+All nine comparison/performance evidence groups were refreshed and are current.
+The generated report verifies successfully and matches the live-server fingerprint.
+Desktop (1280x900) and mobile (390x844) browser checks confirm 12.01% coverage,
+7.12% lifecycle and 23 benchmark cards, without stale warnings, overflow or errors.
+
+Fresh illustrative medians, Rust/Java milliseconds: exact six-variable solve
+0.012/4.681, eight-variable 0.160/5.595; Great Deluge32 2.590/8.757 and 96
+15.093/16.915. Incremental stream tabu96 remains slower at 169.535/24.549 with
+equal [-44,-484] scores. List two-opt16 0.333/10.359 and 32 0.946/11.430 retain
+the existing differing scores. List validation remains 192 valid/189 equal-score;
+heuristics 128 valid/128 equal; stream search 64 valid/64 equal. Great Deluge is
+still 275/276 Java agreements, retaining the known ratio boundary discrepancy.
+These ordinary solver workloads do not measure observer/consumer throughput;
+shared-machine timing changes are not proof of a regression or improvement.

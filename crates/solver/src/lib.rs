@@ -254,3 +254,6 @@ pub use solver_manager_callbacks::{
 pub use list_search::exhaustive_list_search_with_observer;
 pub use mixed_search::exhaustive_mixed_search_with_observer;
 pub use search::exhaustive_search_with_observer;
+
+mod solution_observation;
+pub use solution_observation::*;

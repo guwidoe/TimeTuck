@@ -433,6 +433,7 @@ where
         director.assert_consistent()?;
     }
     time_budget.start_search();
+    director.notify_best(|_| true);
     let mut progress = crate::StepProgress::default();
     loop {
         if config.cancelled() {
@@ -497,10 +498,12 @@ where
         )?;
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
+        let mut notify_improvement = false;
         if let Some(movement) = &selection.selected {
             let improved =
                 director.score() > result.best.as_ref().expect("initial best exists").score;
             if improved {
+                notify_improvement = true;
                 time_budget.record_improvement();
                 result.best = Some(ScoredAssignment {
                     assignment: director.assignment().clone(),
@@ -521,6 +524,9 @@ where
         }
         if config.assert_scores {
             director.assert_consistent()?;
+        }
+        if notify_improvement {
+            director.notify_best(|_| true);
         }
         if selection.evaluation_limit {
             result.termination = budget.local_reason();
