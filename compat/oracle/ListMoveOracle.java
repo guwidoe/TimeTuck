@@ -74,6 +74,7 @@ public final class ListMoveOracle {
                         case "a" -> Moves.assign(variable,p.values.get(v[0]),p.entities.get(v[1]),v[2]);
                         case "c" -> Moves.change(variable,p.entities.get(v[0]),v[1],p.entities.get(v[2]),v[3]);
                         case "r" -> Moves.change(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]),ElementPosition.of(p.entities.get(v[3]),v[4]),v[5]==1);
+                        case "x" -> Moves.swap(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]),new Range<>(p.entities.get(v[3]),v[4],v[5]),v[6]==1);
                         case "s" -> Moves.swap(variable,p.entities.get(v[0]),v[1],p.entities.get(v[2]),v[3]);
                         case "u" -> Moves.unassign(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]));
                         default -> throw new IllegalArgumentException("Unknown move");

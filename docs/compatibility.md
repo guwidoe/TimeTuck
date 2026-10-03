@@ -45,8 +45,8 @@ not this Rust implementation. Its cases must be classified and adapted.
 6. Expand to incremental scoring, move application/undo, small planning problems,
    then heuristic solving. Check incremental scores against full recomputation.
 
-Twenty-nine list-move methods additionally preserve ordered assignment, relocation,
-swap, sublist relocation/reversal and span-unassignment states/undo, plus two
+Thirty-four list-move methods additionally preserve ordered assignment, relocation,
+swap, sublist relocation/reversal/exchange and span-unassignment states/undo, plus three
 sublist touched-entity membership assertions. Native derived owner/index/neighbor
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
 Nineteen list-provider methods additionally preserve move membership and
@@ -273,3 +273,12 @@ score-cache updates, pins/ranges and candidate/undo/commit shadows separately.
 Java span-search configuration, other move metadata, rebase and listener-event
 parity remain pending. Supporting fixtures are separately attributed; these
 checks do not add upstream method credit.
+
+
+Five SubListSwapMoveTest methods preserve all ordered-state, undo and entity
+membership assertions using native pre-move spans. Original tests additionally
+exercise unequal lengths, reversed exchanges, neighborhood completeness, cached
+scores and list/joint-mixed search. Another 128 original Community public API
+comparisons cover candidate/undo/commit and built-in shadows without extra
+method credit. Overlap/empty-span errors are a native contract; no Java invalid
+move or internal listener protocol equivalence is claimed.

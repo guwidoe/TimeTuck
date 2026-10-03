@@ -518,8 +518,9 @@ also compare whole searches with separately written full-scoring loops. See
 
 
 Opt-in `Neighborhood::ChangeSwapAndSubList { max_length }` adds lazy contiguous
-list-span relocation/reversal after the existing families. Both list/mixed scoring
+list-span relocation/reversal and disjoint span swaps after the existing families. Both list/mixed scoring
 backends share it; mixed joint moves combine basic moves with spans. Basic-only
 search retains changes/swaps under this setting. Bounds below two add no spans.
-See the list-planning contract for post-removal indexing, pins/ranges and evidence.
+Relocations use post-removal indices; swaps use pre-move nonempty disjoint spans.
+See the list-planning contract for bounds, pins/ranges and evidence.
 Default benchmarks continue to use their existing single-value neighborhoods.

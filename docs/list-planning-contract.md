@@ -27,7 +27,7 @@ Unchecked assignments can be constructed, but model operations validate them.
 ## Atomic moves
 
 `ListMove` supports assignment of an unassigned value, single-value relocation,
-position swap, contiguous-span relocation/reversal, half-open span unassignment,
+position swap, contiguous-span relocation/reversal/exchange, half-open span unassignment,
 and ordered composition. Within-list
 relocation removes the source first, then inserts at the destination index in the
 shortened list. Cross-list relocation uses the destination's current index.
@@ -41,8 +41,9 @@ duplicate assignment, unknown values, invalid ranges and final pin violations
 restore the complete starting state, including after earlier composite changes.
 Pins are checked on the final composite state, matching native basic transactions;
 an intermediate edit restored within the same composite is allowed. Required
-values may be unassigned during partial planning. Empty spans, relocations back to the same index and empty
-compositions are native no-ops.
+values may be unassigned during partial planning. Empty relocation/unassignment
+spans, relocations back to the same index and empty compositions are native no-ops.
+Span swaps require two nonempty, disjoint ranges.
 
 Ordinary panic unwinding restores the lists. Normal `Clone`/`Eq` identity semantics
 are required; interior mutations of shared value objects are outside the contract.
@@ -52,10 +53,10 @@ explicit stack; dropping deeply nested move enums has ordinary recursive destruc
 behavior. Full-state cloning remains the list transaction strategy. Incremental contribution
 scoring is described below; move application itself still clones the lists.
 
-Twenty-nine adapted upstream methods preserve assertions in five assign,
-six swap, nine change, two span-unassign and seven sublist-change methods. See `compat/provenance.json`.
+Thirty-four adapted upstream methods preserve assertions in five assign,
+six swap, nine change, two span-unassign, seven sublist-change and five sublist-swap methods. See `compat/provenance.json`.
 The shared modulo-distribution fixture is attributed separately. Two sublist-change
-methods check touched entity identities; other Java move metadata, rebase,
+methods and one sublist-swap method check touched entity identities; other Java move metadata, rebase,
 score-director notification and custom listener assertions
 remain pending and receive no credit from these tests.
 
@@ -332,8 +333,8 @@ after pinned prefixes; pinned owners are excluded and every moved value must fit
 the destination range. Different moves may yield the same successor. Bounds below
 two yield no span moves; `usize::MAX` is safely capped by available list length.
 
-`Neighborhood::ChangeSwapAndSubList { max_length }` appends these moves after the
-existing change/optional assign/unassign/swap families. It enables list and mixed
+`Neighborhood::ChangeSwapAndSubList { max_length }` appends these moves, then
+disjoint span swaps described below, after the existing change/optional assign/unassign/swap families. It enables list and mixed
 local search with both scoring backends. Joint mixed moves also combine basics
 with spans. Basic-only search uses changes/swaps for this option. Default
 neighborhoods retain their prior move order and size; the larger neighborhood is
@@ -348,3 +349,35 @@ The list oracle adds two reused upstream fixtures, two original boundary cases a
 stream candidate/undo/commit states and owner/index/previous/next views agree with
 Python slicing. This move evidence adds no extra source-method credit, Java pin
 or sublist-search trace claim, or new performance workload.
+
+
+## Disjoint sublist swapping
+
+`ListRange { entity, start, end }` describes a half-open pre-move span.
+`ListMove::SubListSwap { left, right, reverse }` exchanges two nonempty spans,
+optionally reversing both blocks. Different lengths, different owners, adjacent
+same-list spans and either argument order are supported. Empty spans, invalid
+bounds and same-list overlap are rejected. Final pin/range checks, touched owner
+metadata, composite failure and caller-unwind rollback share the list transaction.
+
+`list_sublist_swap_moves(problem, assignment, max_length)` lazily enumerates
+owner/start/end pairs, then forward/reversed exchanges. Each span is bounded and
+at least one has length two or more; ordinary swaps already handle two singletons.
+Pairs use canonical owner/start order, so symmetric duplicates are omitted, but
+different moves may have the same successor. Fully pinned owners and pinned
+prefixes are excluded. Every value must fit the receiving owner's range. Bounds
+below two produce no moves; oversized bounds are clamped without overflow.
+The existing opt-in ChangeSwapAndSubList neighborhood now includes these swaps
+after span relocations, in list and joint mixed search through both score backends.
+Default neighborhoods and performance workloads remain unchanged.
+
+Five full Community SubListSwapMoveTest methods cover ordered results, undo and
+owner membership. Five original regressions additionally cover invalid moves and
+atomic rollback, all disjoint spans across every two-owner split of seven values,
+both argument orders/reversal, independent successor sets, pins/ranges, 120 scored
+trials/commits and list/joint-mixed plateau escape requiring a separated block swap.
+Metadata for captured pre-move values, Java equality/string/rebase behavior and
+mock listener-event assertions remain pending. A separately seeded original corpus
+adds 128 Java/Rust/Python candidate/undo/commit/shadow comparisons (seed 20261125),
+preserving all earlier 384 inputs. This adds no source-method coverage credit or
+Java span-search/performance equivalence claim.

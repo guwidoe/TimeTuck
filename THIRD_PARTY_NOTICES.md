@@ -15,6 +15,9 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/sublist_swap_cases.rs` from five complete state, undo and
+  entity-membership methods in `SubListSwapMoveTest.java`.
+
 - `crates/solver/tests/sublist_change_cases.rs` from seven state, undo and entity-
   membership methods in `SubListChangeMoveTest.java`. The forward/backward fixture
   is also reused in `scripts/differential_lists.py`; the forward fixture is reused

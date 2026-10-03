@@ -22,10 +22,19 @@ class ListEvidenceTests(unittest.TestCase):
         for op in [['r',0,1,3,0,4,0],['r',0,3,2,0,0,0],['r',0,0,6,0,0,0],['r',0,0,2,0,0,2]]:
             with self.assertRaises(ValueError): apply([[0,1,2,3,4]],op)
 
+    def test_swap_reference_handles_adjacent_unequal_reversed_spans_and_errors(self):
+        rows = [[7,2,9,4,1,8]]
+        self.assertEqual(apply(rows,['x',0,1,2,0,2,5,1]),[[7,1,4,9,2,8]])
+        self.assertEqual(apply(rows,['x',0,2,5,0,1,2,1]),[[7,1,4,9,2,8]])
+        self.assertEqual(apply([[7,2,9],[4,1,8]],['x',0,0,2,1,2,3,1]),[[8,9],[4,1,2,7]])
+        for op in [['x',0,1,1,0,2,4,0],['x',0,1,3,0,2,5,0],['x',0,0,7,0,2,4,0],
+                   ['x',0,1,3,0,4,5,2],['x',0,1,3,2,4,5,0]]:
+            with self.assertRaises(ValueError): apply(rows,op)
+
     def test_generator_is_deterministic_and_has_unique_cases(self):
         cases = generate()
-        self.assertEqual(cases,generate());self.assertEqual(len(cases),384)
-        self.assertEqual(len({c['id'] for c in cases}),384)
+        self.assertEqual(cases,generate());self.assertEqual(len(cases),512)
+        self.assertEqual(len({c['id'] for c in cases}),512)
         for case in cases: self.assertIsNone(validate(case,expected(case)))
 
 if __name__ == '__main__': unittest.main()

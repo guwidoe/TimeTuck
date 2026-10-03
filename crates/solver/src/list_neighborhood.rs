@@ -1,5 +1,7 @@
 //! Lazy list neighborhoods over one immutable assignment snapshot.
-use crate::{ListAssignment, ListError, ListMove, ListPosition, ListProblem, Neighborhood};
+use crate::{
+    ListAssignment, ListError, ListMove, ListPosition, ListProblem, ListRange, Neighborhood,
+};
 
 pub(crate) fn positions<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
@@ -182,11 +184,13 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         _ => 0,
     };
     let spans = sublist_changes(p, a, max_length, order.clone());
+    let span_swaps = sublist_swaps(p, a, max_length, order.clone());
     changes(p, a, order)
         .chain(assigned)
         .chain(removed)
         .chain(swapped)
         .chain(spans)
+        .chain(span_swaps)
 }
 
 fn sublist_changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -245,4 +249,70 @@ pub fn list_sublist_change_moves<'a, V: Eq + Clone>(
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
     p.validate(a)?;
     Ok(sublist_changes(p, a, max_length, 0..p.entities().len()))
+}
+
+fn ranges<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    max_length: usize,
+    order: I,
+) -> impl Iterator<Item = ListRange> + 'a {
+    positions(p, a, order).flat_map(move |pos| {
+        let last = a.lists()[pos.entity]
+            .len()
+            .min(pos.index.saturating_add(max_length));
+        (pos.index + 1..=last).map(move |end| ListRange {
+            entity: pos.entity,
+            start: pos.index,
+            end,
+        })
+    })
+}
+fn sublist_swaps<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    max_length: usize,
+    order: I,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    (max_length >= 2)
+        .then(|| ranges(p, a, max_length, order.clone()))
+        .into_iter()
+        .flatten()
+        .flat_map(move |left| {
+            ranges(p, a, max_length, order.clone())
+                .filter(move |right| {
+                    // Canonical owner/index order avoids duplicate symmetric swaps.
+                    (left.entity < right.entity
+                        || (left.entity == right.entity && left.end <= right.start))
+                        && (left.end - left.start > 1 || right.end - right.start > 1)
+                        && a.lists()[left.entity][left.start..left.end]
+                            .iter()
+                            .all(|v| p.accepts(right.entity, v))
+                        && a.lists()[right.entity][right.start..right.end]
+                            .iter()
+                            .all(|v| p.accepts(left.entity, v))
+                })
+                .flat_map(move |right| {
+                    [false, true]
+                        .into_iter()
+                        .map(move |reverse| ListMove::SubListSwap {
+                            left,
+                            right,
+                            reverse,
+                        })
+                })
+        })
+}
+/// Lazy disjoint span swaps, with both ordinary and reversed exchanges. Each
+/// nonempty span has length <= max_length and at least one has length >= two.
+/// Single/single swaps belong to list_swap_moves. Bounds below two yield no moves.
+/// Pins and both owners' value ranges are respected; symmetric pairs occur once.
+/// Different moves may still have identical successors.
+pub fn list_sublist_swap_moves<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    max_length: usize,
+) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
+    p.validate(a)?;
+    Ok(sublist_swaps(p, a, max_length, 0..p.entities().len()))
 }

@@ -6645,6 +6645,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListSwapMoveTest.swapNonOverlappingSpans",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "swapNonOverlappingSpans",
+      "local_path": "crates/solver/tests/sublist_swap_cases.rs",
+      "local_test": "swap_non_overlapping_spans",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered-list, temporary undo or unordered entity-membership assertions using native transactions and stable owner indices. Inline values A1..A4/B1..B3 are renamed A..D/E..G without changing identity. No Java descriptor/ABI parity claimed."
+    },
+    {
+      "id": "SubListSwapMoveTest.swapNormalizesOutOfOrderSpans",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "swapNormalizesOutOfOrderSpans",
+      "local_path": "crates/solver/tests/sublist_swap_cases.rs",
+      "local_test": "swap_normalizes_out_of_order_spans",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered-list, temporary undo or unordered entity-membership assertions using native transactions and stable owner indices. Inline values A1..A4/B1..B3 are renamed A..D/E..G without changing identity. No Java descriptor/ABI parity claimed."
+    },
+    {
+      "id": "SubListSwapMoveTest.swapSpansOfDifferingLength",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "swapSpansOfDifferingLength",
+      "local_path": "crates/solver/tests/sublist_swap_cases.rs",
+      "local_test": "swap_spans_of_differing_length",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered-list, temporary undo or unordered entity-membership assertions using native transactions and stable owner indices. Inline values A1..A4/B1..B3 are renamed A..D/E..G without changing identity. No Java descriptor/ABI parity claimed."
+    },
+    {
+      "id": "SubListSwapMoveTest.executeTemporarilyThenUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "executeTemporarilyThenUndo",
+      "local_path": "crates/solver/tests/sublist_swap_cases.rs",
+      "local_test": "execute_temporarily_then_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered-list, temporary undo or unordered entity-membership assertions using native transactions and stable owner indices. Inline values A1..A4/B1..B3 are renamed A..D/E..G without changing identity. No Java descriptor/ABI parity claimed."
+    },
+    {
+      "id": "SubListSwapMoveTest.getPlanningEntitiesForDifferentEntitiesSwap",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "getPlanningEntitiesForDifferentEntitiesSwap",
+      "local_path": "crates/solver/tests/sublist_swap_cases.rs",
+      "local_test": "get_planning_entities_for_different_entities_swap",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered-list, temporary undo or unordered entity-membership assertions using native transactions and stable owner indices. Inline values A1..A4/B1..B3 are renamed A..D/E..G without changing identity. No Java descriptor/ABI parity claimed."
     }
   ],
   "fixtures": [

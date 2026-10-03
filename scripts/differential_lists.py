@@ -11,6 +11,7 @@ from prepare_solver_oracle import prepare_solver_java
 
 SEED = 20261003
 SUBLIST_SEED = 20261124
+SUBLIST_SWAP_SEED = 20261125
 
 
 def apply(lists, op):
@@ -38,6 +39,27 @@ def apply(lists, op):
         lists[e] = lists[e][:start] + lists[e][end:]
         if reverse: block = block[::-1]
         lists[d] = lists[d][:j] + block + lists[d][j:]
+    elif kind == 'x':
+        e, start, end, d, other_start, other_end, reverse = v
+        if not 0 <= e < len(lists) or not 0 <= d < len(lists) or reverse not in (0,1):
+            raise ValueError('Invalid swap metadata')
+        if not (0 <= start < end <= len(lists[e]) and 0 <= other_start < other_end <= len(lists[d])):
+            raise ValueError('Invalid nonempty swap bounds')
+        if e == d and start < other_end and other_start < end:
+            raise ValueError('Overlapping swap spans')
+        left, right = lists[e][start:end], lists[d][other_start:other_end]
+        if reverse: left, right = left[::-1], right[::-1]
+        # Read only pre-move rows; emit replacement blocks at their original starts.
+        result = []
+        for owner,row in enumerate(lists):
+            output = []
+            for i,value in enumerate(row):
+                if owner == e and i == start: output.extend(right)
+                if owner == d and i == other_start: output.extend(left)
+                if not ((owner == e and start <= i < end) or (owner == d and other_start <= i < other_end)):
+                    output.append(value)
+            result.append(output)
+        lists = result
     elif kind == 's':
         e, i, d, j = v
         a, b = lists[e][i], lists[d][j]
@@ -143,6 +165,23 @@ def generate():
             op = rng.choice(options)
             moves.append(op); current = apply(current,op)
         add(count,initial,moves)
+    # Preserve all previous inputs; original swaps use an independent random seed.
+    rng = random.Random(SUBLIST_SWAP_SEED)
+    for _ in range(128):
+        count, entities = rng.randint(4,8), rng.randint(1,3)
+        initial = [[] for _ in range(entities)]
+        for value in rng.sample(range(count),count): initial[rng.randrange(entities)].append(value)
+        current, moves = deepcopy(initial), []
+        for _ in range(rng.randint(1,6)):
+            spans = [(e,start,end) for e,row in enumerate(current)
+                     for start in range(len(row)) for end in range(start+1,len(row)+1)]
+            options = [['x',e,start,end,d,other_start,other_end,reverse]
+                       for e,start,end in spans for d,other_start,other_end in spans
+                       if e != d or end <= other_start or other_end <= start
+                       for reverse in (0,1)]
+            op = rng.choice(options)
+            moves.append(op); current = apply(current,op)
+        add(count,initial,moves)
     return cases
 
 
@@ -169,11 +208,11 @@ def main():
     if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     failed = {f['case'] for f in failures}
     report = {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
-              'revision':REF['commit'],'seed':SEED,'sublist_seed':SUBLIST_SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
+              'revision':REF['commit'],'seed':SEED,'sublist_seed':SUBLIST_SEED,'sublist_swap_seed':SUBLIST_SWAP_SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
               'moves':sum(len(c['moves']) for c in cases),'artifacts':artifacts,'environment':platform.platform(),
-              'scope':'Original valid assign/change/swap/span-unassign composites, plus 128 span-relocation/reversal cases (seed 20261124). Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
+              'scope':'Original valid assign/change/swap/span-unassign composites, plus 128 span-relocation/reversal cases (seed 20261124). 128 original disjoint span-swap/reversal cases (seed 20261125), including unequal lengths and reversed argument order. Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
     (ROOT/'work/list-differential.json').write_text(json.dumps(report,indent=2)+'\n')
-    (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'sublist_seed':SUBLIST_SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
+    (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'sublist_seed':SUBLIST_SEED,'sublist_swap_seed':SUBLIST_SWAP_SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
     print(f'Differential list cases: {report["passed"]}/{report["total"]} passed ({report["moves"]} moves)')
     for failure in failures[:8]: print(json.dumps(failure))
     return bool(failures)

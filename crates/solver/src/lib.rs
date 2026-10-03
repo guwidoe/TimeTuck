@@ -57,7 +57,7 @@ pub use bendable::BendableScore;
 pub mod list;
 pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
-    ListProblem,
+    ListProblem, ListRange,
 };
 pub mod list_search;
 pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};
@@ -74,8 +74,8 @@ pub use list_scoring::{
 
 pub mod list_neighborhood;
 pub use list_neighborhood::{
-    list_assign_moves, list_change_moves, list_moves, list_sublist_change_moves, list_swap_moves,
-    list_unassign_moves,
+    list_assign_moves, list_change_moves, list_moves, list_sublist_change_moves,
+    list_sublist_swap_moves, list_swap_moves, list_unassign_moves,
 };
 
 pub mod list_construction;

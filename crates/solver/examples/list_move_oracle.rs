@@ -123,6 +123,23 @@ fn main() {
                             reverse: *reverse == 1,
                         }
                     }
+                    ("x", [e, start, end, d, other_start, other_end, reverse])
+                        if matches!(reverse, 0 | 1) =>
+                    {
+                        ListMove::SubListSwap {
+                            left: ListRange {
+                                entity: usize::try_from(*e).unwrap(),
+                                start: usize::try_from(*start).unwrap(),
+                                end: usize::try_from(*end).unwrap(),
+                            },
+                            right: ListRange {
+                                entity: usize::try_from(*d).unwrap(),
+                                start: usize::try_from(*other_start).unwrap(),
+                                end: usize::try_from(*other_end).unwrap(),
+                            },
+                            reverse: *reverse == 1,
+                        }
+                    }
                     ("s", [e, i, d, j]) => ListMove::Swap {
                         left: position(*e, *i),
                         right: position(*d, *j),

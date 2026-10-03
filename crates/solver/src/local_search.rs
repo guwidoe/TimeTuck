@@ -70,7 +70,8 @@ impl From<AcceptanceError> for LocalSearchError {
 pub enum Neighborhood {
     Change,
     ChangeAndSwap,
-    /// Add list-span relocations/reversals of length 2..=max_length after swaps.
+    /// Add list-span relocations/reversals and disjoint span swaps after single swaps.
+    /// Each span is bounded by max_length; span swaps include singleton partners.
     /// Values below two add no spans. Basic-variable search retains changes/swaps.
     ChangeSwapAndSubList {
         max_length: usize,

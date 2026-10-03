@@ -59,6 +59,14 @@ pub struct ListPosition {
     pub index: usize,
 }
 
+/// A half-open span in the assignment before a move is applied.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub struct ListRange {
+    pub entity: usize,
+    pub start: usize,
+    pub end: usize,
+}
+
 /// Read-only built-in shadow information for an assigned element.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ListElement<'a, V> {
@@ -139,6 +147,10 @@ pub enum ListError {
         entity: usize,
     },
     AlreadyAssigned,
+    OverlappingRanges {
+        left: ListRange,
+        right: ListRange,
+    },
 }
 impl fmt::Display for ListError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -329,6 +341,48 @@ impl<V: Eq + Clone> ListProblem<V> {
                     transaction.assignment.lists[destination.entity]
                         .splice(destination.index..destination.index, span);
                 }
+                ListMove::SubListSwap {
+                    left,
+                    right,
+                    reverse,
+                } => {
+                    for range in [left, right] {
+                        if range.start >= range.end
+                            || range.end > transaction.entity(range.entity)?.len()
+                        {
+                            return Err(ListError::InvalidRange {
+                                entity: range.entity,
+                                start: range.start,
+                                end: range.end,
+                            });
+                        }
+                    }
+                    if left.entity == right.entity
+                        && left.start < right.end
+                        && right.start < left.end
+                    {
+                        return Err(ListError::OverlappingRanges {
+                            left: *left,
+                            right: *right,
+                        });
+                    }
+                    let mut a = transaction.entity(left.entity)?[left.start..left.end].to_vec();
+                    let mut b = transaction.entity(right.entity)?[right.start..right.end].to_vec();
+                    if *reverse {
+                        a.reverse();
+                        b.reverse();
+                    }
+                    // Replace the later span first so pre-move indices remain valid.
+                    if left.entity == right.entity && left.start < right.start {
+                        transaction.assignment.lists[right.entity]
+                            .splice(right.start..right.end, a);
+                        transaction.assignment.lists[left.entity].splice(left.start..left.end, b);
+                    } else {
+                        transaction.assignment.lists[left.entity].splice(left.start..left.end, b);
+                        transaction.assignment.lists[right.entity]
+                            .splice(right.start..right.end, a);
+                    }
+                }
                 ListMove::Swap { left, right } => {
                     transaction.element_index(*left)?;
                     transaction.element_index(*right)?;
@@ -395,6 +449,14 @@ pub enum ListMove<V> {
         destination: ListPosition,
         reverse: bool,
     },
+    /// Exchange two nonempty disjoint spans using pre-move indices. Spans may
+    /// have different lengths; reverse=true reverses both exchanged spans.
+    /// Empty spans and overlapping same-list spans are rejected atomically.
+    SubListSwap {
+        left: ListRange,
+        right: ListRange,
+        reverse: bool,
+    },
     Swap {
         left: ListPosition,
         right: ListPosition,
@@ -417,6 +479,9 @@ impl<V> ListMove<V> {
                     source,
                     destination,
                 } => entities.extend([source.entity, destination.entity]),
+                Self::SubListSwap { left, right, .. } => {
+                    entities.extend([left.entity, right.entity])
+                }
                 Self::Swap { left, right } => entities.extend([left.entity, right.entity]),
                 Self::SubListChange {
                     entity,
