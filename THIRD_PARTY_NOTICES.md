@@ -15,6 +15,14 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/concurrent_cases.rs` adapts all seven methods in
+  `ConcurrentValuesShadowVariableTest`. Its reusable `concurrent_support` example
+  module adapts the concurrent domain, suppliers and expected-score fixtures.
+  `compat/oracle/ConcurrentOracle.java` adapts the public annotated domain and
+  scoring fixtures; `ConcurrentOriginalBoundary.java` is an original diagnostic
+  driver compiling those pinned fixtures unchanged. Generated inputs are original;
+  all fixture use is recorded in provenance.
+
 - `crates/solver/tests/list_element_cases.rs` adapts all six methods in
   `ListElementShadowVariableTest`. Its reusable
   `crates/solver/examples/list_element_support/mod.rs` fixture and

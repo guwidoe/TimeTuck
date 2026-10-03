@@ -112,6 +112,102 @@ impl<K: Ord + Clone> DependencyGraph<K> {
     pub fn keys(&self) -> &[K] {
         &self.keys
     }
+    /// Evaluate explicitly aligned variables as one shared computation.
+    ///
+    /// Alignment pairs form transitive equivalence classes. Their dependencies
+    /// are combined; each dependency appears once under its smallest member key.
+    /// The callback receives sorted member keys and sorted canonical dependencies,
+    /// runs once per consistent class, and its result is cloned to every member.
+    /// Alignment is a caller promise that these variables share a result; this
+    /// method does not infer it from equal values or invoke separate suppliers.
+    ///
+    /// Collapsing a dependency inside its own class creates a cycle. Such classes
+    /// and their downstream dependents are inconsistent, without callback calls.
+    /// Fixed, dynamic and alignment metadata are all validated before callbacks.
+    /// The immutable plan is reusable with different alignments on each call.
+    /// Like `evaluate`, this rebuilds the schedule rather than caching updates.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let graph = DependencyGraph::new([("i", vec![]), ("x", vec!["i"]), ("y", vec![])])?;
+    /// let values = graph.evaluate_aligned(&[], &[("x", "y")], |members, inputs| {
+    ///     if members == ["i"] { Some(2) } else { inputs[0].1.value.map(|v| v + 1) }
+    /// })?;
+    /// assert_eq!(values["x"].value, Some(3));
+    /// assert_eq!(values["x"], values["y"]);
+    /// # Ok::<(), DependencyError<&str>>(())
+    /// ```
+    pub fn evaluate_aligned<V: Clone>(
+        &self,
+        dynamic: &[(K, K)],
+        alignment: &[(K, K)],
+        mut evaluate: impl FnMut(&[K], &[(&K, &DerivedValue<V>)]) -> Option<V>,
+    ) -> Result<BTreeMap<K, DerivedValue<V>>, DependencyError<K>> {
+        let mut parent: Vec<_> = (0..self.keys.len()).collect();
+        fn root(parent: &mut [usize], mut i: usize) -> usize {
+            while parent[i] != i {
+                parent[i] = parent[parent[i]];
+                i = parent[i];
+            }
+            i
+        }
+        for (a, b) in alignment {
+            let a = *self
+                .index
+                .get(a)
+                .ok_or_else(|| DependencyError::UnknownNode(a.clone()))?;
+            let b = *self
+                .index
+                .get(b)
+                .ok_or_else(|| DependencyError::UnknownNode(b.clone()))?;
+            let (a, b) = (root(&mut parent, a), root(&mut parent, b));
+            parent[a.max(b)] = a.min(b);
+        }
+        let canonical: Vec<_> = (0..self.keys.len()).map(|i| root(&mut parent, i)).collect();
+        let mut groups: BTreeMap<K, Vec<K>> = BTreeMap::new();
+        for (i, key) in self.keys.iter().enumerate() {
+            groups
+                .entry(self.keys[canonical[i]].clone())
+                .or_default()
+                .push(key.clone());
+        }
+        let mut edges = Vec::new();
+        for (i, dependencies) in self.fixed.iter().enumerate() {
+            for &j in dependencies {
+                edges.push((
+                    self.keys[canonical[i]].clone(),
+                    self.keys[canonical[j]].clone(),
+                ));
+            }
+        }
+        for (node, dependency) in dynamic {
+            let &i = self
+                .index
+                .get(node)
+                .ok_or_else(|| DependencyError::UnknownNode(node.clone()))?;
+            let &j =
+                self.index
+                    .get(dependency)
+                    .ok_or_else(|| DependencyError::UnknownDependency {
+                        node: node.clone(),
+                        dependency: dependency.clone(),
+                    })?;
+            edges.push((
+                self.keys[canonical[i]].clone(),
+                self.keys[canonical[j]].clone(),
+            ));
+        }
+        // All dependencies enter evaluation dynamically, including cycles that
+        // only appear when otherwise acyclic fixed nodes are aligned.
+        let quotient = DependencyGraph::new(groups.keys().cloned().map(|key| (key, vec![])))?;
+        let values = quotient.evaluate(&edges, |key, inputs| evaluate(&groups[key], inputs))?;
+        Ok(self
+            .keys
+            .iter()
+            .enumerate()
+            .map(|(i, key)| (key.clone(), values[&self.keys[canonical[i]]].clone()))
+            .collect())
+    }
     pub fn evaluate<V>(
         &self,
         dynamic: &[(K, K)],

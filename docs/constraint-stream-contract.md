@@ -1235,3 +1235,30 @@ methods, three original Rust regressions and 128 separate public Java/Rust/Pytho
 cases establish the scoped behavior. Mixed comparisons observe values only;
 ordered Java scores use a detached full-update solution to leave move-driven
 shadow observations untouched. No incremental Java scoring/timing claim follows.
+
+## Explicitly aligned dependency evaluation
+
+DependencyGraph.evaluate_aligned forms transitive classes from explicit key pairs.
+Each class uses its smallest key, unions fixed and dynamic dependencies, and calls
+one supplier with sorted members and canonical distinct inputs. Its result is
+cloned to all class members. Dependencies inside a collapsed class create cycles;
+cycles and downstream classes produce inconsistent absent values without callback
+calls. Validation precedes every callback. The original evaluate method still
+supports non-Clone values. Both APIs rebuild their schedules each evaluation;
+this is not an incremental dependency cache or automatic alignment inference.
+
+A concurrent-schedule fixture aligns start variables while ready/finish variables
+remain distinct. An inconsistent activity can retain an independent ready time;
+only cycle-dependent fields become absent. Shared group starts can reach unassigned
+members when other members are assigned. The stream fixture projects a complete
+list snapshot and rescans dependencies on each source event. Temporary duplicate
+ownership while owner rows arrive is normalized privately; the validated final
+assignment has unique ownership and receives the complete projection. Candidate
+installation and undo preserve every final cached derived field and score.
+
+Seven adapted methods and original exhaustive/transaction tests establish native
+behavior. Generated comparisons retain 107/128 Java agreements and 21 runtime
+error cases, while all 128 native cases match independent Python. Errors are shown
+separately and not counted as passes; an unchanged-fixture probe reproduces the
+partial-group null-finish/scoring boundary. Java scores come from detached full
+updates, leaving observed move-driven shadows untouched. No Java timing claim.

@@ -904,3 +904,39 @@ is not used as a scoring oracle. Mixed fixtures have no score provider; their
 zero protocol field is not scoring evidence. Seven Python tests cover independent
 boundaries and reject corrupt/missing/reordered observations. Supplier counts,
 reflection, fixed-property mutation, search quality and timing are not compared.
+
+## Shared concurrent scheduling and reference-runtime failures
+
+Seven ConcurrentValuesShadowVariableTest methods retain every neighbor/index,
+cascading-time, shared start/finish, inconsistency and recovery assertion. Initial
+supplier-count assertions retain A1/B1 as the only group callers. Both source
+3-owner/6-value solves retain the 1,000-move limit, full-score checks and feasibility
+assertion; an independent closure/relaxation score checks every native graph
+projection. Minute offsets replace LocalDateTime from the fixed 2025-01-01 09:00
+base. Native explicit dependency alignment replaces annotated group suppliers.
+No general Java supplier-count or search-trace equivalence follows.
+
+Original production-evaluator tests cover all 512 three-node directed graphs under
+all five partitions (2,560 combinations), alignment-created fixed-edge cycles,
+recovery, canonical inputs, invalid metadata before callbacks, unavailable values,
+unwind reuse and a 10,000-node group. Two domain regressions check transactional
+cycle/undo snapshots and 1,944 small partial orderings against independent scores.
+
+Generated public comparisons retain all 128 cases and 2,385 native states across
+3,574 operations. Every native field and score matches independent recursive
+Python expectations. Java emits 2,025 matching states, fully agrees on 107 cases,
+and throws in 21 cases; none of those error cases receives agreement credit.
+The report preserves case inputs, native observations and Java error diagnostics.
+No differing successful Java observations were seen. Seven Python tests enforce
+reference boundaries, failure accounting and response integrity.
+
+The minimal failure has three values, group [0,1], lists [2,1]/empty: first group
+member 0 is unassigned. Java can leave assigned member 1's finish null, then throw
+while calculating finish-time penalties. ConcurrentOriginalBoundary compiles the
+original pinned concurrent fixtures unchanged and reproduces both null finish and
+a scoring NullPointerException through public APIs. The native model follows the
+fixture's independent expected-value semantics: a partially assigned group shares
+the maximum available ready time, including with unassigned members. This known
+reference-runtime boundary remains a reported discrepancy, not a compatibility
+pass or justification to remove cases. Mutating groups, general date/time APIs,
+Java structural scores, search quality and performance remain outside this evidence.

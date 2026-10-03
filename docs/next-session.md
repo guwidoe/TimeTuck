@@ -5328,3 +5328,110 @@ Browser verified at 1280x900 and 390x844: 13.53%, 657/4,855 methods, domain 18/4
 all six list-element methods Passed, separate 128/128 list-element evidence and
 29 benchmark cards. No overflow, stale messages or browser errors. Existing
 server retained, verification browser closed. Upstream submodule stays unmodified.
+
+## Explicit shared dependency evaluation and concurrent scheduling
+
+Add production DependencyGraph.evaluate_aligned: explicit key pairs form transitive
+classes with the smallest key as representative. Combine fixed/dynamic dependencies,
+normalize inputs to distinct canonical keys, invoke one callback per consistent
+class with sorted members/inputs, clone the result to each member. Alignment-created
+self cycles and downstream classes are inconsistent without supplier calls. Validate
+all metadata before callbacks. Plans stay immutable/reusable. Original evaluate
+still supports non-Clone values. This rebuilds scheduling; no incremental cache.
+
+Four original evaluator tests cover 512 graphs x 5 partitions (2,560 combinations),
+fixed-edge collapse cycles, transitivity/duplicates, recovery, canonical inputs,
+None versus inconsistency, pre-callback validation, unwind reuse and a 10,000-node
+class. New doctest documents the public API. All seven ConcurrentValuesShadowVariableTest
+methods preserve full assertions, including all five initial supplier counts and
+both 3-owner/6-visit 1,000-move full-assert feasible solves. Source fixtures and
+assertion easy calculator are attributed. Native minute offsets replace the fixed
+2025-01-01 09:00 LocalDateTime base; start classes share maximum available ready time.
+
+The reusable concurrent_support fixture feeds previous-finish dynamic edges into
+shared start evaluation. Crucial observed behavior: entity inconsistency does NOT
+clear unrelated ready values. An assigned first visit retains ready=0 even if its
+shared start is cyclic. The initial native projection incorrectly cleared every
+field on inconsistent entities; direct Java observations corrected this before
+final checks. Generated comparisons check every final field. Full stream projection
+rebuilds a global list snapshot. Owner rows arrive separately, so a transfer may
+transiently duplicate ownership; normalize this private intermediate snapshot,
+while validated final assignments remain unique. Two original domain tests verify
+complete cached field/score restoration through cycle/undo and 1,944 small partial
+orders against independent closure/relaxation scoring. The independent scorer also
+checks every stream projection during the adapted solves.
+
+Generated concurrent comparisons retain ALL 128 cases, 2,385 native observations,
+3,574 primitive operations. Every native state matches independent recursive
+Python. Java emits 2,025 matching observations and fully agrees on 107/128 cases;
+21 cases terminate with recorded runtime errors, zero successful observations
+differ. Runtime errors receive NO agreement credit. Preserve their cases, native
+states, observed Java prefixes and error messages in the downloadable report.
+Seven Python tests enforce boundary values, snapshots, invalid metadata/moves,
+reproducibility and honest error/divergence accounting; corrupt/missing/reordered
+outputs cannot silently pass.
+
+Important reference boundary: 3 values, group [0,1], lists [2,1]/empty. Group member
+0 is unassigned; Java may leave assigned member 1's finish null, then throw in
+scoring or a dependent ready supplier. Native semantics follow the source fixture's
+independent expected-value helpers (max non-null readiness shared with all members).
+Do NOT imitate an exception as the native desired behavior or delete these cases
+to get 128/128. ConcurrentOriginalBoundary compiles all five original concurrent
+fixtures unchanged from the pinned test tree and uses public APIs only; it observes
+assigned_member_finish=null and error=java.lang.NullPointerException:temporal.
+This rules out the Long-minute adapter as the cause of this minimal failure.
+The diagnostic is rechecked on every concurrent comparison and grants no coverage.
+The public annotation used by the pinned fixture emits a deprecation warning;
+keep pinned behavior, do not switch versions or use Enterprise.
+
+Debug gate passes 1,410 Rust tests (664 adapted, 671 original integration, 75 unit),
+70 doctests and 130 Python tests. Coverage 664/4,855 (13.68%), 3,909 pending,
+282 excluded, no failed/unverified adapted methods; domain model 25/455 (5.49%).
+Sources/provenance were reviewed and frozen before release/report refresh.
+Logs use work/concurrent-*. Dashboard adds separate 107/128 concurrent evidence
+with explicit 128/128 native validation and 21 Java error cases; benchmark cards
+remain at 29. No design skill/delegation.
+
+Next candidates inspected read-only: AlwaysLoopedShadowVariableTest has one fixed
+odd/even-cycle diagnostic method (full test read, fixtures not read); existing
+DependencyGraph may already satisfy its native behavior. AffectedEntitiesUpdaterTest
+only exposes entity-to-node grouping. More substantial work is persistent dynamic
+dependency updates: AbstractTopologicalGraphTest has seven mutation/permutation
+methods for loops, edge removal and joining/separating loops. Only method names
+were read this turn; read the full tests before implementation. Do not inspect
+production implementations. An incremental native dependency cache would address
+the current full-rebuild limitation; its design and validation remain outstanding.
+
+Additional read-only preparation: AbstractTopologicalGraphTest (all seven methods
+and permutation helpers) and DefaultTopologicalGraphTest were fully read. The
+source default implementation test explicitly says it is not incremental. Tests
+need SCC members, relative topological ranks, batched edge additions/removals and
+changed bits for cycle-membership toggles only. Splitting a four-node SCC into two
+cycles must report ZERO changed bits because all four remain cyclic. Removing the
+last back edge of a two-node cycle reports exactly those two members. Current
+DependencyGraph inconsistent flags include downstream nodes, a different concept.
+Source edge direction is prerequisite->dependent; current native evaluation edges
+point node->dependency, so adapt orientation explicitly.
+
+The all-permutation helper permutes both node labels and edge insertion orders.
+The three larger cases permute all six-node labels, Java-shuffle edges with a
+count-dependent Random seed and use a recursive 1,000-limit permutation helper.
+Do not silently reduce those cases while claiming complete method adaptation.
+A persistent topology abstraction and later incremental value cache remain design
+work; source tests do not by themselves require an incremental implementation.
+
+Final verification for this checkpoint: release all-target tests pass all 1,410
+cases; the live initialization example delivers all four events before completion
+and reaches all four proven optima. All ten comparison/performance datasets were
+refreshed after the final source edits and report current; verification.successful
+is true and the localhost freshness digest matches the generated report. The
+repeated concurrent comparison retains 107 agreements, 21 Java errors and all
+128 independently validated native cases, including the unchanged-fixture error.
+Desktop 1280x900 and mobile 390x844 browser checks show 13.68%, all seven concurrent
+methods Passed, the explicit 21-error evidence, and 29 benchmark cards. No page
+errors, horizontal overflow or stale-data messages. Browser verification closed;
+the existing dashboard server remains running on localhost:8765.
+
+Current timing examples (Rust/Java): exact 8-value search 0.188/5.371 ms;
+96-value stream tabu 173.031/30.907 ms. These are bounded measured workloads,
+not an overall solver speed claim. Concurrent scheduling has no timing comparison.

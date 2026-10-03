@@ -321,6 +321,7 @@ function renderDifferential() {
     const followers = report.stream_differential?.follower_checks;
     const collectionFollowers = report.stream_differential?.collection_follower_checks;
     const listElements = report.stream_differential?.list_element_checks;
+    const concurrent = report.stream_differential?.concurrent_checks;
     const existence = report.stream_differential?.equality_existence_checks;
     const existenceDetail = existence ? ` Separate equality-existence checks (seed ${existence.seed}): ${n(existence.passed)} / ${n(existence.total)} cases and ${n(existence.observations)} states agree on retained counts and scores for exists/not-exists with zero, one, or two equality keys. Python checks native left identities and payloads through duplicate matches, first/last removals and undo. Java recalculates each score; no existence timing claim.` : "";
     const ordered = report.stream_differential?.ordered_join_checks;
@@ -341,6 +342,7 @@ function renderDifferential() {
         ...(followers ? [[{...followers, status: report.stream_differential.status}, "follower cases agree with Java and independent Python", `${n(followers.observations)} states and ${n(followers.operations)} operations check dynamic leader references and fixed shared followers, including null values, composites, commit and undo. Every reference, derived value and ordinary score is checked. Java maintains shadow fields through public moves and recalculates scores; Rust uses reference streams. The pinned interface-based constraint includes null-valued rows. No supplier-count, search or timing comparison.`]] : []),
         ...(collectionFollowers ? [[{...collectionFollowers, status: report.stream_differential.status}, "collection follower cases agree with Java and independent Python", `${n(collectionFollowers.observations)} states and ${n(collectionFollowers.operations)} operations check minimum derived values across fixed nonempty leader collections. Cases include repeated references, null values, equal-code ties, and UTF-16 string ordering. Every derived identity and ordinary score is checked through commit and undo. Java recomputes observed scores. No dependency-list mutation, supplier-count, search or timing comparison.`]] : []),
         ...(listElements ? [[{...listElements, status: report.stream_differential.status}, "list-element cases agree with Java and independent Python", `${n(listElements.observations)} states and ${n(listElements.operations)} operations check ordered start/end chains and nullable owner aggregates through list moves, basic changes, composites and undo. Java move-driven shadows are observed unchanged; ordered scores come from a separate fully updated solution. Mixed cases compare derived values only. Includes empty lists and zero values. No supplier-count, search or timing comparison.`]] : []),
+        ...(concurrent ? [[{...concurrent, status: report.stream_differential.status}, "concurrent-schedule cases agree with Java and independent Python", `${n(concurrent.native_reference_passed)}/${n(concurrent.total)} native cases match Python across ${n(concurrent.observations)} states and ${n(concurrent.operations)} operations. Java supplied ${n(concurrent.java_observations)} observed states; ${n(concurrent.java_error_cases)} cases ended in runtime errors and ${n(concurrent.divergent_cases)} cases had differing observations. Errors receive no agreement credit. A partial-group scoring error is also reproduced using unchanged pinned fixtures. Checks cover shared times, cycles, recovery and undo. No general supplier-count, search or timing comparison.`]] : []),
         [{...report.pillar_performance?.validation, seed: report.pillar_performance?.config?.seed, status: report.pillar_performance?.status}, "pillar transaction cases agree with Java and an independent reference", "Supplied groups and selected columns: change, swap, optional values and subgroups. Trial, undo and committed states match. No automatic grouping or solver search comparison."],
         [report.list_differential || {}, "list-move cases agree with Java and an independent reference", "Candidate, undo and committed lists, including owner, index and previous/next neighbors. Move checks only; list-solving evidence is reported separately."],
     ]) {
@@ -354,7 +356,7 @@ function renderDifferential() {
         if (d.status === "stale" || !fresh)
             box.append(node("p", "note", "Previous result: measured sources have changed; rerun the oracle."));
         if (d.failures?.length)
-            box.append(node("p", "note", `${n(d.failures.length)} mismatches are recorded in the downloadable report.`));
+            box.append(node("p", "note", `${n(d.failures.length)} discrepancies are recorded in the downloadable report.`));
     }
     for (const [key, label] of [
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],

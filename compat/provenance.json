@@ -9855,6 +9855,111 @@
       "local_path": "crates/solver/tests/list_element_cases.rs",
       "local_test": "solve_with_full_assert",
       "modifications": "Preserve generated 3-owner/6-value fixture with empty initial lists, starts by owner index, durations 1+(index%3), 1000-move cap, full-score checks, non-null solve result and every owner aggregate against its last element or empty fallback. Optional list semantics retained; no search-trace/quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.simpleChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "simpleChain",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "simple_chain",
+      "modifications": "Preserve all neighbor, index, cascading-time, start/finish and consistency assertions before and after reordering three visits. Minute offsets from the fixed base replace LocalDateTime objects. Explicit projection replaces annotation-driven update entry point."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.solutionSimpleChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "solutionSimpleChain",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "solution_simple_chain",
+      "modifications": "Preserve the same full two-state assertions as the solution-based source method, sharing a native projection helper with simpleChain. No Java reflection/API distinction is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.groupChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "groupChain",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "group_chain",
+      "modifications": "Preserve all initial and reordered shared start/finish/consistency assertions, including all five initial per-entity supplier-call counts. Native canonical smallest-member group evaluation replaces Java alignment; group lists retain their source identity ordering. No general Java callback-count parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.groupChainValidToInvalid",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "groupChainValidToInvalid",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "group_chain_valid_to_invalid",
+      "modifications": "Preserve initial valid shared times, all six invalid start/finish/flags after a cyclic reorder, and five invalid visits plus the valid independent prefix visit after its relocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.groupChainInvalidToValid",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "groupChainInvalidToValid",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "group_chain_invalid_to_valid",
+      "modifications": "Preserve the initially invalid five visits and valid independent visit, then all restored shared start/finish/flags, including an unassigned group member. Native explicit alignments replace annotations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.solveNoConcurrentValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "solveNoConcurrentValues",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "solve_no_concurrent_values",
+      "modifications": "Preserve the 3-owner/6-visit empty initial fixture, 1000-move limit, full-score verification and final feasibility. Add native completeness and independent closure-scoring checks. Native deterministic construction/local search replaces Java search, with no trace/quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConcurrentValuesShadowVariableTest.solveWithConcurrentValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/ConcurrentValuesShadowVariableTest.java",
+      "upstream_test": "solveWithConcurrentValues",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "local_test": "solve_with_concurrent_values",
+      "modifications": "Preserve the 3-owner/6-visit fixture, groups A=[0,1] and B=[2,3,4], empty initial lists, 1000-move limit, full-score verification and final feasibility. Independent closure/relaxation scoring replaces the source assertion easy calculator. Native deterministic search replaces Java search; no trace/quality parity claim."
     }
   ],
   "fixtures": [
@@ -11820,6 +11925,201 @@
       "upstream_test": "generated values/starts and duration range",
       "local_path": "crates/solver/tests/list_element_cases.rs",
       "modifications": "Preserve owner-index starts, cyclic durations 1+(index%3), source list assignments and optional basic duration range 1..9 in native planning models. Test-only fixture, no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentEntity.concurrent_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
+      "upstream_test": "required list and owner identity",
+      "local_path": "crates/solver/examples/concurrent_support/mod.rs",
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentEntity.concurrent_original_boundary_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
+      "upstream_test": "required list and owner identity",
+      "local_path": "compat/oracle/ConcurrentOriginalBoundary.java",
+      "modifications": "Original diagnostic driver compiles this fixture unchanged from pinned test source and calls public domain accessors, MoveTester and SolutionManager. Retains a 3-value partial-group counterexample with assigned null finish and scoring NullPointerException. Does not call internal solution-descriptor helpers. No copied production implementation or additional method/pass credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentEntity.concurrent_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
+      "upstream_test": "required list and owner identity",
+      "local_path": "compat/oracle/ConcurrentOracle.java",
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentValue.concurrent_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "neighbor/index/cascading fields, ready/start/finish suppliers, group alignment, inconsistency and expected values",
+      "local_path": "crates/solver/examples/concurrent_support/mod.rs",
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentValue.concurrent_original_boundary_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "neighbor/index/cascading fields, ready/start/finish suppliers, group alignment, inconsistency and expected values",
+      "local_path": "compat/oracle/ConcurrentOriginalBoundary.java",
+      "modifications": "Original diagnostic driver compiles this fixture unchanged from pinned test source and calls public domain accessors, MoveTester and SolutionManager. Retains a 3-value partial-group counterexample with assigned null finish and scoring NullPointerException. Does not call internal solution-descriptor helpers. No copied production implementation or additional method/pass credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentValue.concurrent_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "neighbor/index/cascading fields, ready/start/finish suppliers, group alignment, inconsistency and expected values",
+      "local_path": "compat/oracle/ConcurrentOracle.java",
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentConstraintProvider.concurrent_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
+      "upstream_test": "inconsistent hard penalty and assigned consistent finish-time soft penalty",
+      "local_path": "crates/solver/examples/concurrent_support/mod.rs",
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentConstraintProvider.concurrent_original_boundary_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
+      "upstream_test": "inconsistent hard penalty and assigned consistent finish-time soft penalty",
+      "local_path": "compat/oracle/ConcurrentOriginalBoundary.java",
+      "modifications": "Original diagnostic driver compiles this fixture unchanged from pinned test source and calls public domain accessors, MoveTester and SolutionManager. Retains a 3-value partial-group counterexample with assigned null finish and scoring NullPointerException. Does not call internal solution-descriptor helpers. No copied production implementation or additional method/pass credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentConstraintProvider.concurrent_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
+      "upstream_test": "inconsistent hard penalty and assigned consistent finish-time soft penalty",
+      "local_path": "compat/oracle/ConcurrentOracle.java",
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentAssertionEasyScoreCalculator.concurrent_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentAssertionEasyScoreCalculator.java",
+      "upstream_test": "independent inconsistency and finish-time score",
+      "local_path": "crates/solver/examples/concurrent_support/mod.rs",
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentAssertionEasyScoreCalculator.concurrent_original_boundary_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentAssertionEasyScoreCalculator.java",
+      "upstream_test": "independent inconsistency and finish-time score",
+      "local_path": "compat/oracle/ConcurrentOriginalBoundary.java",
+      "modifications": "Original diagnostic driver compiles this fixture unchanged from pinned test source and calls public domain accessors, MoveTester and SolutionManager. Retains a 3-value partial-group counterexample with assigned null finish and scoring NullPointerException. Does not call internal solution-descriptor helpers. No copied production implementation or additional method/pass credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentSolution.concurrent_native_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "solution lists and scoring fields",
+      "local_path": "crates/solver/examples/concurrent_support/mod.rs",
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentSolution.concurrent_original_boundary_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "solution lists and scoring fields",
+      "local_path": "compat/oracle/ConcurrentOriginalBoundary.java",
+      "modifications": "Original diagnostic driver compiles this fixture unchanged from pinned test source and calls public domain accessors, MoveTester and SolutionManager. Retains a 3-value partial-group counterexample with assigned null finish and scoring NullPointerException. Does not call internal solution-descriptor helpers. No copied production implementation or additional method/pass credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentSolution.concurrent_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "solution lists and scoring fields",
+      "local_path": "compat/oracle/ConcurrentOracle.java",
+      "modifications": "Public MoveTester preserves original observed shadows; detached public UPDATE_ALL computes ordinary scores. Long minute offsets replace LocalDateTime and numeric IDs replace PlanningId; supplier null returns and all graph dependencies retained. Runtime errors are recorded without agreement credit, not repaired or hidden. Generated inputs are original; no new method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentSolution.concurrent_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "solution lists and scoring fields",
+      "local_path": "crates/solver/tests/concurrent_cases.rs",
+      "modifications": "Preserve source owner/value counts, stable identities, initial empty lists, alignment groups and feasibility assertion with a native 1000-move cap. Native solver result replaces mutable Java solution fields."
     }
   ]
 }

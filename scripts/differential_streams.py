@@ -19,6 +19,7 @@ from mixed_stream_checks import run_checks as check_mixed_streams
 from follower_checks import run_checks as check_followers
 from collection_follower_checks import run_checks as check_collection_followers
 from list_element_checks import run_checks as check_list_elements
+from concurrent_checks import run_checks as check_concurrent
 from equality_existence_checks import run_checks as check_equality_existence
 from ordered_join_checks import run_checks as check_ordered_joins
 
@@ -120,6 +121,8 @@ def main():
     print(f'Collection follower shadows: {collection_follower_checks["passed"]}/{collection_follower_checks["total"]} cases; {collection_follower_checks["observations"]} observations',flush=True)
     list_element_checks=check_list_elements(cp)
     print(f'List element shadows: {list_element_checks["passed"]}/{list_element_checks["total"]} cases; {list_element_checks["observations"]} observations',flush=True)
+    concurrent_checks=check_concurrent(cp)
+    print(f'Concurrent shadows: {concurrent_checks["passed"]}/{concurrent_checks["total"]} agreement; {concurrent_checks["java_error_cases"]} Java error cases; {concurrent_checks["observations"]} native observations',flush=True)
     outputs={}
     for runtime,cmd in {'java':['java','-Xms256m','-Xmx256m','-cp',cp,'StreamOracle'],
                         'rust':[str(ROOT/'target/release/examples/stream_oracle')]}.items():
@@ -145,6 +148,7 @@ def main():
             'follower_checks':follower_checks,
             'collection_follower_checks':collection_follower_checks,
             'list_element_checks':list_element_checks,
+            'concurrent_checks':concurrent_checks,
             'ordered_join_checks':ordered_checks,'equality_existence_checks':existence_checks,
             'aggregation_boundary_checks':{'passed':3,'total':3,
                 'scope':'Separate Community full score updates for empty, one zero-valued fact, and removed-last-fact global count/sum groups. Native boundaries checked by collecting_stream_regression; no additional differential-case or upstream-method credit.'},
