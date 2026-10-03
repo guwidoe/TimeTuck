@@ -239,3 +239,8 @@ pub use step_counting::{StepCountingHillClimbing, StepCountingMode};
 
 mod great_deluge;
 pub use great_deluge::{GreatDeluge, GreatDelugeRise};
+
+mod solver_manager;
+pub use solver_manager::{
+    SolverJob, SolverJobError, SolverJobResult, SolverManager, SolverStatus, SubmitError,
+};

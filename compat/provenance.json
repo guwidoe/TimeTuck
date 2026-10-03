@@ -8640,6 +8640,51 @@
       "upstream_test": "waterLevelIncrementRatio",
       "local_test": "water_level_increment_ratio",
       "modifications": "Preserve every ordered acceptance assertion, repeated check, initial/current score, fixed/rational rain and completed-step boundary. Replace Java mock move/phase wrappers with initialized native scores. The final SimpleScore/ratio source steps write the preceding step scope; native step_ended has no score argument because water advances independently of the chosen score. No Java phase API parity; native ratio 1/10 accumulates exactly."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveBatch_2InParallel",
+      "status": "implemented",
+      "upstream_test": "solveBatch_2InParallel",
+      "local_test": "solve_batch_two_in_parallel",
+      "modifications": "Preserve two parallel jobs, a two-worker rendezvous before construction, and both initialized nonempty result assertions. Native u64 IDs and owned job closures replace Java solver configuration/reflection. Two unassigned required variables with values 1/2 preserve the generated fixture; native constant-zero construction scoring is an original fixture objective, with no score/trace equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.getSolverStatus",
+      "status": "implemented",
+      "upstream_test": "getSolverStatus",
+      "local_test": "get_solver_status",
+      "modifications": "Preserve all manager/job scheduled, active and not-solving assertions for two jobs on one worker, before and after both release boundaries and final result retrieval. Channels replace paired Java barriers; native completion waits have a ten-second test timeout. Native u64 IDs and owned job closures replace Java solver configuration/reflection. Two unassigned required variables with values 1/2 preserve the generated fixture; native constant-zero construction scoring is an original fixture objective, with no score/trace equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.runSameIdProcesses_throwsIllegalStateException",
+      "status": "implemented",
+      "upstream_test": "runSameIdProcesses_throwsIllegalStateException",
+      "local_test": "run_same_id_processes_throws_illegal_state_exception",
+      "modifications": "Hold the first job active, preserve duplicate problem-ID rejection and already-solving diagnostic; native SubmitError replaces IllegalStateException. Release and verify the original job for deterministic cleanup. Native u64 IDs and owned job closures replace Java solver configuration/reflection. Two unassigned required variables with values 1/2 preserve the generated fixture; native constant-zero construction scoring is an original fixture objective, with no score/trace equivalence claim."
     }
   ],
   "fixtures": [
@@ -9279,6 +9324,45 @@
       "id": "AbstractAcceptorTest.great_deluge_score_fixture",
       "upstream_test": "buildMoveScope",
       "modifications": "Map initialized SimpleScore move wrappers to native structurally-zero scores; move mocks and unrelated scope metadata omitted. Fixture only; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.manager_fixture",
+      "upstream_test": "generateTestdataSolution(String), generateTestdataSolution(String,int)",
+      "modifications": "Map v1/v2 and e1/e2 to values 1/2 and variable indices 0/1; preserve initially unassigned required variables. Solution display codes omitted; no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.manager_fixture",
+      "upstream_test": "assertSolutionInitialized",
+      "modifications": "Preserve non-null successful solution, nonempty entity list and all planning values assigned. Native Result and Vec<Option<i64>> replace Java wrappers; helper only, no separate method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.manager_fixture",
+      "upstream_test": "createPhaseWithConcurrentSolvingStart",
+      "modifications": "Rust two-party Barrier preserves the parallel-start rendezvous. Duplicate-ID case uses started/release channels for deterministic cleanup instead of the Java helper barrier. No custom phase API parity; helper only, no extra method credit."
     }
   ]
 }

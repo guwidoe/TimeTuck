@@ -1327,3 +1327,6 @@ mod step_counting_cases;
 
 #[path = "support/solver_great_deluge_cases.rs"]
 mod great_deluge_cases;
+
+#[path = "support/solver_manager_integration.rs"]
+mod manager_integration;

@@ -457,3 +457,14 @@ Floating accumulation reproduces the observed delay but is not a claim about Jav
 internals. General floating/overflow and decimal search parity remain unverified.
 The new full-scoring timing workload uses fixed rain only. See
 incremental-search-contract.md for the contract and evidence limits.
+
+
+Native SolverManager adds bounded concurrent asynchronous solving, queued/active/
+finished statuses, result handles, duplicate-ID validation and cooperative
+cancellation. Three complete SolverManagerTest methods are adapted with their
+construction and synchronization fixtures. Native queued cancellation returns an
+explicit error, and active cancellation requests do not wait; Java methods asserting
+input-return or blocking termination remain pending. Original regressions exercise
+all six actual solver paths inside manager jobs, along with ownership, errors,
+panics and shutdown. Callbacks, live problem changes and manager performance are
+not established by these tests. See solver-contract.md.

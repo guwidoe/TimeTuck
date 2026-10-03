@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 576 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
+- 579 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 3 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 474 original integration regression methods, 62 original unit tests, and 45 public API documentation tests.
+- 488 original integration regression methods, 62 original unit tests, and 46 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3232,3 +3232,82 @@ quality differences remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]. Another
 project's CPU-intensive build was observed during this refresh. These shared-machine
 measurements and broad ranges do not establish significant speed changes or general
 solver superiority. No unrelated processes were interrupted.
+
+
+## Asynchronous solver manager — latest increment
+
+Added SolverManager<R,E> with an explicitly sized native worker pool, FIFO queue,
+u64 problem IDs, duplicate live-ID validation, Scheduled/Active/NotSolving states,
+SolverJob handles and shared final results without Clone bounds on R/E. submit
+accepts an owned Send closure with an independent CancellationToken. Build the
+actual solver/network inside the worker and pass that token into native configs;
+worker-local scoring closures need not be Send. R/E must be Send + Sync. Completion
+publishes status/result and removes the ID atomically under queue -> job lock order.
+Completed IDs can be reused; old handles cannot cancel replacement runs. Finished
+results are retained only by their handles, not a growing manager registry.
+
+Queued cancellation removes work and returns CancelledBeforeStart without executing
+its closure. Active cancellation is nonblocking/cooperative; status stays Active
+until the function returns, preserving existing solver best-prefix semantics.
+request_shutdown closes submissions, cancels the queue and requests active stops.
+shutdown additionally joins workers; own-worker shutdown returns WouldBlock rather
+than self-joining. Drop requests shutdown and detaches workers. A function ignoring
+its token can delay explicit shutdown indefinitely. Unbounded FIFO capacity and
+explicit worker count are documented; no AUTO count or queue backpressure yet.
+
+Solver errors and unwinding panics become job results and leave the worker usable.
+Captured queued inputs are destroyed outside locks, permitting reentrancy. Worker
+cleanup catches panics from abandoned result destructors. Destroying a caught panic
+payload is guarded; a secondary destructor-panic payload is deliberately forgotten
+to avoid recursive panic destruction. Abort/OOM and double-panic unwinding are not
+recoverable. Standard panic hooks are retained. No unsafe code or new dependencies.
+
+Pinned SolverManagerTest was inspected for parallel solve/status/duplicate-ID and
+cancellation behavior, with public Community library-integration documentation.
+Three complete methods are adapted in solver_manager_cases.rs: solveBatch_2InParallel,
+getSolverStatus, runSameIdProcesses_throwsIllegalStateException. Provenance/notices
+record its barrier helper and PlannerTestUtils/PlannerAssert fixtures (two required,
+unassigned variables with values 1/2; initialized result assertions). Native zero
+objective is original fixture scoring; no source score/trace equivalence. Java's
+blocking terminateEarly and returning input for scheduled cancellation differ from
+the native contract; their methods remain pending. No production source inspected.
+
+Twelve original standalone regression methods cover queued cancellation/ID reuse,
+active cancellation retaining an actual exact-search result, typed errors and
+string/non-string panics, many waiters, non-Clone results, timeout semantics,
+shutdown/drop/self-join, FIFO and simultaneous producers with the concurrency cap,
+payload/result destructor panics, reentrant captured-input destruction and result
+release. Two integration methods run all six actual solver paths, including
+worker-local Rc<Cell<_>> scoring and cancellation returning valid retained state.
+Backend comparisons deliberately exclude constraint-callback counts, which differ
+between scoped and stream scoring; assignments, score, work counts and reasons agree.
+The original batch_schedules example queues eight exact six-variable problems onto
+two workers; each proves 0hard/-3soft over 729 candidates and shuts down explicitly.
+
+The manager is a usable asynchronous execution layer, not complete lifecycle parity.
+Callbacks, intermediate best events, problem changes, live statistics and automatic
+CPU sizing remain pending. Existing timing cards do not measure manager throughput.
+
+Development gate passes 1,129 Rust tests: 579 adapted, 488 original integration and
+62 unit. All 46 doctests and 95 Python tests pass. Coverage is 579/4,855 (11.93%),
+pending 3,994, excluded 282, failed/unverified zero; lifecycle reaches 23/379
+(6.07%). The batch example independently confirms eight optimal results. Logs use
+work/manager-*.log. Full rewrite remains active and incomplete; subsequent work
+should fill the remaining event/problem-change lifecycle and algorithm semantics.
+
+Release verification also passes all 1,129 tests and the eight-job batch example.
+All nine comparison/performance sections were regenerated and are current; the
+live /api/freshness verification_digest matches the report. Existing Great Deluge
+agreement remains 275/276 with the same explicit ratio divergence; heuristic small
+validation remains 128/128 valid and equal-score cases. Browser confirms 11.93%,
+all three new manager rows marked Passed, lifecycle 6.07%, 23 timing cards, no
+stale messages or errors, and no overflow at 1280px/390px. Browser closed; the
+existing dashboard server remains running.
+
+Current warmed Rust/Java medians in ms: exact6 0.012/4.628, exact8 0.151/6.270;
+Great Deluge fixed-rain32 2.629/9.962, 96 15.269/17.210 (equal scores [0,0] and
+[-44,-22], latter infeasible under the cap). Stream tabu96 is 173.986/31.960,
+score [-44,-484] in both. List two-opt16 0.348/11.152 and 32 0.892/11.795 retain
+quality differences [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]. Construction32
+remains [0,-1080]/[0,-1062]. These existing workloads do not measure manager
+parallel throughput or establish significant changes between shared-machine runs.

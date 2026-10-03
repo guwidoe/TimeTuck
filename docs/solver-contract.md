@@ -291,3 +291,63 @@ owned decimal scores, pins/optionality and a local optimum escaped by exact sear
 Five internal methods verify shared timing, graph preparation, final exhaustion,
 step reset without added steps, list shadows/immutable facts and error rollback.
 These add no upstream method credit and do not assert Java exact-phase trace parity.
+
+## Asynchronous solver manager
+
+`SolverManager<R,E>` runs owned solve functions on an explicit fixed number of
+native worker threads. `submit(problem_id, |token| ...)` queues work and returns a
+`SolverJob` immediately. Jobs use u64 problem IDs; duplicate queued or active IDs
+are rejected, and completion releases an ID for reuse. The queue is FIFO and is
+not size-limited. Parallelism limits active functions, not threads that a caller
+might independently create. Build the chosen basic/list/mixed solver and its score
+network inside the function, passing the supplied CancellationToken into its
+configuration. The captured input must be Send; returned results/errors must be
+Send + Sync. Worker-local network closures can borrow non-Send state. See the
+original `batch_schedules` example and six-backend orchestration regressions.
+
+Manager and job handles expose Scheduled, Active and NotSolving. Unknown IDs are
+NotSolving. Completion, registry removal, final status and result publication are
+synchronized; an observed result is final. Cloneable job handles share an immutable
+Arc<Result<R,SolverJobError<E>>> without requiring R/E to implement Clone. `wait`
+blocks for completion, `wait_timeout` bounds the caller's wait without cancelling,
+and `try_result` polls. Completed handles keep their original result when the same
+ID is reused. The manager does not retain finished results after handles are gone.
+
+`terminate_early` and `job.cancel()` are nonblocking cooperative requests. Scheduled
+jobs are removed and finish with CancelledBeforeStart; their solve function never
+runs. Active jobs remain Active until returning; passing the token to native solver
+limits preserves the best valid prefix according to that solver's contract. A
+function that ignores cancellation can still return success. Stale handles cannot
+cancel a newer job with the same ID. Dropping a job handle does not cancel work.
+This differs from Java's blocking terminateEarly and input-return behavior for
+scheduled cancellation; those source methods remain pending.
+
+Solver errors and unwinding panics become job results and leave the worker available
+for later jobs. Standard panic hooks still run. Abort/OOM and double panics during
+unwinding cannot be recovered. If destroying a caught custom panic payload itself
+panics, the secondary payload is deliberately forgotten to prevent recursively
+panicking destructors from killing the worker. Captured queued inputs are destroyed
+outside manager locks, allowing their destructors to reenter the manager. Workers
+also contain unwinding panics when destroying an abandoned final result, so the
+next queued job can still run; destructors executed by a result owner remain that
+owner's responsibility.
+
+`request_shutdown` rejects further submissions, cancels queued jobs and requests
+active cancellation without waiting. `shutdown` additionally joins all workers;
+uncooperative functions can delay it indefinitely. Calling shutdown from the same
+pool's worker requests shutdown but returns WouldBlock instead of self-joining.
+Drop uses the nonblocking request and detaches workers; surviving job handles still
+receive results. Avoid waiting inside a worker for work queued to that same saturated
+pool. On partial thread-start failure, construction closes and joins workers already
+started before returning the I/O error.
+
+Three complete pinned SolverManagerTest methods establish parallel initialization,
+manager/job status transitions and duplicate-ID rejection, with fixture attribution.
+Original tests additionally establish queue cancellation, ID reuse, exact-search
+best retention, typed failures/panics, multi-waiter ownership, FIFO/concurrency caps,
+shutdown/drop behavior, reentrancy and cancellation across all six real solver paths.
+Native u64 IDs/closures replace Java reflection/configuration; consumer callbacks,
+intermediate best events, problem changes, automatic CPU sizing and live statistics
+remain pending. No Java scheduling trace or manager throughput comparison is claimed.
+The public Community lifecycle reference is
+[Timefold's library integration guide](https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/library/library-integration).
