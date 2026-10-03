@@ -86,6 +86,9 @@ pub enum Neighborhood {
     Pillar {
         swaps: bool,
     },
+    /// Select subsets of equal-value basic groups. Lists retain ordinary changes
+    /// and swaps when swap_selection is enabled.
+    SubPillar(crate::SubPillarConfig),
     /// For list variables, use only in-place reversals and optional cross-owner
     /// nonempty tail swaps. No list assignment/unassignment/single relocations.
     /// Basic variables retain changes/swaps; mixed joint moves use this list set.
@@ -101,7 +104,11 @@ pub enum Neighborhood {
 }
 impl Neighborhood {
     pub(crate) fn includes_swaps(self) -> bool {
-        !matches!(self, Self::Change | Self::Pillar { swaps: false })
+        match self {
+            Self::Change | Self::Pillar { swaps: false } => false,
+            Self::SubPillar(config) => config.swap_selection.is_some(),
+            _ => true,
+        }
     }
 }
 

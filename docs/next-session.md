@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 615 fully adapted source test methods, recorded individually in
+- 628 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -4726,3 +4726,82 @@ retain known score differences. All measurements are workload-specific and use t
 existing default neighborhoods; no pillar-specific speed claim or general speedup/
 regression inference is supported. This increment is verified; the full rewrite
 remains unfinished and the goal stays active.
+
+
+## Subpillar selection and search increment
+
+New subpillar.rs provides validated Copy SubPillarSelection policies for bounded
+combinations and consecutive windows. Enumerate increasing size then lexicographic
+positions, with max clipped to group size, undersized groups empty and O(k) current
+indices. No bitmask/power-set allocation or binomial count; usize::MAX upper bounds
+work. Pillar::subpillars preserves aligned columns and uses canonical member-row
+order; moves still validate current uniformity. No inferred entity schema.
+
+SubPillarConfig exposes selection, PillarChangeMode (Disabled/AssignedOnly/All/
+UnassignOnly), and optional independent swap_selection. new enables All and symmetric
+swaps. Native public subpillar_moves validates the model and snapshots the existing
+unpinned equal-value groups. Changes scan each subset's first-member domain, not
+its full group's first-member domain. None is allowed only for optional selected
+members. Equal swap policies visit unordered groups; different policies visit both
+orientations. Reject groups below either minimum before expanding subsets, avoiding
+an exponential scan for a large group paired with an undersized singleton. Products
+and cloned candidate values are lazy, with no whole-space deduplication. Filtering
+otherwise may still scan many rejected subsets and is not preemptible by candidate
+budgets. Finite enumeration does not promise Java random-sampler parity.
+
+Neighborhood::SubPillar feeds both basic scoring backends and mixed basic/joint
+search; list components keep ordinary changes and enable swaps iff swap_selection
+is Some. Basic change mode does not restrict list moves. ShuffledVariables changes
+encounter order (including consecutive membership); ShuffledMoves keeps the existing
+seeded bounded shuffle. Direct provider uses index order. Group helpers were shared
+with whole-pillar enumeration without changing its behavior.
+
+Thirteen adapted source methods cover five change provider assertions, all four
+unassign provider methods and four swap provider methods. Preserve all source
+assertions/sample caps through finite deterministic subsets; stable slots replace
+Java object identities. Four testdomain fixtures are attributed, with notices.
+Pending: crossingNull constructor validation (native heterogeneous slots filter per
+member), shared sampler reset/identity behavior, Java constructor variants and
+automatic multivariate provider cases. Native explicit multicolumn subsets do not
+justify these credits. No production upstream source was read.
+
+Six new original methods cover bitmask subset order/bounds, independent successor
+sets with pins/domains/None/asymmetric swaps, partial-group local-optimum escape in
+both backends under seeded orders/selections/evaluation caps, consecutive order and
+subset-local domains, large lazy candidate cloning and early undersized swap-pair
+rejection. Existing mixed-joint trap also runs subpillar settings. A public doctest
+shows enumeration. During development, the write helper needed an explicit shared
+lifetime; review caught undersized swap-pair expansion before release. The in-flight
+old-source gate rejected its stale fingerprint after the fix, as intended; final
+verification reruns against frozen sources. Logs use work/subpillar-*.
+
+Next useful follow-up: dedicated Java/Rust pillar/subpillar workloads and automatic
+multivariate schema selection; existing default-workload benchmarks do not establish
+pillar-specific performance. The overall solver goal remains active.
+
+Final debug gate passes 1,336 Rust tests (628 adapted, 633 original integration,
+75 unit), 65 doctests and 95 Python tests. Coverage: 628/4,855 (12.94%), 3,945 pending,
+282 excluded and no failed/unverified methods. Moves/selectors: 102/874 (11.67%).
+The pinned upstream checkout is unchanged.
+
+Release all-target tests pass the same 1,336 cases. The live_initialization example
+delivers all four initialization events and proves four optima. All production/source
+changes were frozen before these checks and the subsequent comparison refresh.
+
+All nine comparison datasets were refreshed and are current; verification succeeded
+and the live /api/freshness digest matches. Browser checks at 1280x900 and 390x844
+show 628/4,855 (12.94%), 23 benchmark cards, no overflow, stale/error messages or
+browser errors. SubPillar search shows all thirteen adapted methods Passed and the
+remaining config, constructor, sampler and multivariate methods Pending. Reused the
+running dashboard server and closed the verification browser. No frontend edits or
+design skills were used.
+
+Existing outcomes remain: 512/512 list-move cases, 192 valid/189 equal-score list
+solves, 64 valid/64 equal-score stream solves and 128 valid/128 equal-score heuristic
+solves. Great Deluge retains its documented 275/276 Java agreement. Illustrative
+Rust/Java median milliseconds: exact 6 0.012/4.120, exact 8 0.145/5.245; Great Deluge
+32 2.392/9.180, 96 15.383/14.700; stream tabu 96 180.007/24.737 with equal [-44,-484].
+List two-opt 16 0.336/9.121 and 32 1.081/13.573 retain their documented score
+differences. Default-workload timings do not isolate the new subpillar provider,
+and shared-machine measurements support no general speedup/regression claim.
+This increment is verified; the full rewrite remains unfinished and active.

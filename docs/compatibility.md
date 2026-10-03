@@ -666,3 +666,27 @@ cover additional validation, scoring, search and laziness with no source credit.
 Existing differential/performance workloads exercise default neighborhoods. Their
 refresh checks continued correctness and provides current default-workload timings;
 it does not measure pillar-specific speed or establish Java pillar-search parity.
+
+## Subpillar selection increment
+
+Native bounded combination and consecutive-member selection now extends Pillar rows
+and basic/mixed local-search neighborhoods. Independent change/null-target and swap-
+side settings filter every selected member's range and pins. Existing whole-pillar
+APIs and default neighborhoods retain their behavior. Finite enumeration replaces
+random resampling; no Java sampler distribution, sequence, aliasing/reset lifecycle,
+custom comparator identity or reflection behavior is claimed.
+
+Thirteen complete provider test methods are adapted: five from
+SubPillarChangeMoveProviderTest (membership, diversity, pin exclusion and both null
+policies), all four SubPillarUnassignMoveProviderTest methods (including twenty
+undersized singleton slices), and four SubPillarSwapMoveProviderTest methods
+(membership, diversity, independent side sizes and pins). All source assertions and
+sample caps are preserved over native finite iterators with attributed fixtures.
+The explicit crossingNull constructor rejection remains pending because native
+heterogeneous slots filter None per member rather than reject a whole schema.
+Shared-sampler identity/reset, Java constructor variants and multivariate automatic
+provider behavior also remain pending. Explicit multicolumn Pillar::subpillars is
+native functionality, not evidence for those methods. Six new original tests and
+an expanded mixed regression grant no additional source credit.
+
+Current default-workload benchmarks do not isolate subpillar selection/search cost.

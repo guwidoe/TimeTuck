@@ -88,6 +88,11 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     if let crate::Neighborhood::Pillar { swaps } = neighborhood {
         return Box::new(crate::pillar::ordered(problem, assignment, swaps, order));
     }
+    if let crate::Neighborhood::SubPillar(config) = neighborhood {
+        return Box::new(crate::subpillar::ordered(
+            problem, assignment, config, order,
+        ));
+    }
     let swaps = neighborhood
         .includes_swaps()
         .then(|| swap_moves_ordered(problem, assignment, order.clone()))

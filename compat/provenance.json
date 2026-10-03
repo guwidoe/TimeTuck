@@ -9225,6 +9225,201 @@
       "upstream_test": "doMove",
       "local_test": "do_move",
       "modifications": "Preserve all four two-/three-member state transitions and every value assertion, including no-ops and target 2 outside c's domain. Native raw Assignment transactions replace the source unchecked execution; validated native model/director application separately enforces domains and pins. Regenerate snapshots for each source state. Integer slots/value identities replace Java descriptors and objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarChangeMoveProviderTest.subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "local_test": "change_subpillar_members_are_always_a_subset_of_the_full_pillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain five equal-valued entities, two-value range and nonempty/subset/at-most-two checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarChangeMoveProviderTest.differentDrawsProduceDifferentSubpillars",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "differentDrawsProduceDifferentSubpillars",
+      "local_test": "change_different_draws_produce_different_subpillars",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain five-member fixture and more-than-one distinct member-set assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarChangeMoveProviderTest.pinnedEntityExcludedFromSubpillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "pinnedEntityExcludedFromSubpillar",
+      "local_test": "change_pinned_entity_excluded_from_subpillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain one pinned and two free same-valued members and nonempty/pin-exclusion assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarChangeMoveProviderTest.crossingNullDefaultTrueAlsoUnassignsSubpillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullDefaultTrueAlsoUnassignsSubpillar",
+      "local_test": "change_crossing_null_default_true_also_unassigns_subpillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. All mode includes optional unassignment for six same-valued optional entities over three values; preserve existence of a null-target move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarChangeMoveProviderTest.crossingNullFalseNeverUnassignsSubpillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullFalseNeverUnassignsSubpillar",
+      "local_test": "change_crossing_null_false_never_unassigns_subpillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. AssignedOnly mode replaces explicit crossingNull=false; retain nonempty and no-null-target assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarUnassignMoveProviderTest.subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarUnassignMoveProviderTest.java",
+      "upstream_test": "subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "local_test": "unassign_subpillar_members_are_always_a_subset_of_the_full_pillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain six same-valued optional entities and nonempty/subset/at-most-two/all-null checks; UnassignOnly emits the dedicated native operation set."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarUnassignMoveProviderTest.differentDrawsProduceDifferentSubpillars",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarUnassignMoveProviderTest.java",
+      "upstream_test": "differentDrawsProduceDifferentSubpillars",
+      "local_test": "unassign_different_draws_produce_different_subpillars",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain six-member optional fixture and more-than-one distinct member-set assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarUnassignMoveProviderTest.survivesSlicesSmallerThanTheSamplersMinimumSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarUnassignMoveProviderTest.java",
+      "upstream_test": "survivesSlicesSmallerThanTheSamplersMinimumSize",
+      "local_test": "unassign_survives_slices_smaller_than_the_samplers_minimum_size",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Preserve one two-member group and twenty singleton groups, all exact member and null-target assertions. Finite enumeration skips undersized groups rather than random retry."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarUnassignMoveProviderTest.pinnedEntityNeverUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarUnassignMoveProviderTest.java",
+      "upstream_test": "pinnedEntityNeverUnassigned",
+      "local_test": "unassign_pinned_entity_never_unassigned",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain one-value optional range, one pinned/two free members and nonempty/pin-exclusion assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "subpillarMembersAreAlwaysASubsetOfTheFullPillar",
+      "local_test": "swap_subpillar_members_are_always_a_subset_of_the_full_pillar",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Preserve two five-member groups and nonempty/at-most-four/union-membership assertions with independent size-two selections."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.differentDrawsProduceDifferentSubpillars",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "differentDrawsProduceDifferentSubpillars",
+      "local_test": "swap_different_draws_produce_different_subpillars",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Preserve two five-member groups and more-than-one distinct combined member-set assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.bothSidesRespectTheirOwnRule",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "bothSidesRespectTheirOwnRule",
+      "local_test": "swap_both_sides_respect_their_own_rule",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Preserve independent size-one and size-three selections on two five-member groups and all nonempty/at-most-four assertions; enumerate both group orientations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.pinnedEntityNeverParticipatesInSubpillarSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "pinnedEntityNeverParticipatesInSubpillarSwap",
+      "local_test": "swap_pinned_entity_never_participates_in_subpillar_swap",
+      "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain one pinned member sharing value with two free members, two other free members on the second value and nonempty/pin-exclusion assertions."
     }
   ],
   "fixtures": [
@@ -10241,6 +10436,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
       "upstream_test": "constructor, getValue, getValueRange",
       "modifications": "Native optional variables preserve the three inline ranges from SelectorBasedPillarChangeMoveTest with initially unassigned values; integer slots and values replace object codes. No Java reflection/annotation parity claimed. Fixture-only attribution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.subpillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Native integer-valued slots preserve the generated basic solution sizes and shared domains, with the source methods' explicit all-equal/two-group assignments replacing generated starting values. Fixture-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSolution.subpillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve shared optional domains and entity/value counts; source tests overwrite generated values to a shared initial value, mirrored in the native fixture. Fixture-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedEntity.subpillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedEntity.java",
+      "upstream_test": "constructor, getValue, isPinned",
+      "modifications": "Native initial values and immutable pins replace Java value and pin fields in the inline change/swap fixtures. Fixture-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/subpillar_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedEntity.subpillar_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedEntity.java",
+      "upstream_test": "constructor, getValue, isPinned",
+      "modifications": "Native optional variables and immutable pins preserve source optional pinned/unpinned members in the dedicated unassignment fixture. Fixture-only attribution; no additional method credit."
     }
   ]
 }

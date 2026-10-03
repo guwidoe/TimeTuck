@@ -127,6 +127,9 @@ fn joint_pillar_and_list_moves_escape_a_mixed_trap_in_both_backends() {
     for neighborhood in [
         Neighborhood::ChangeAndSwap,
         Neighborhood::Pillar { swaps: true },
+        Neighborhood::SubPillar(SubPillarConfig::new(
+            SubPillarSelection::combinations(2, 2).unwrap(),
+        )),
     ] {
         for joint_moves in [false, true] {
             let c = MixedLocalSearchConfig {
@@ -156,7 +159,11 @@ fn joint_pillar_and_list_moves_escape_a_mixed_trap_in_both_backends() {
             let streamed =
                 mixed_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), c)
                     .unwrap();
-            let expected = if matches!(neighborhood, Neighborhood::Pillar { .. }) && joint_moves {
+            let expected = if matches!(
+                neighborhood,
+                Neighborhood::Pillar { .. } | Neighborhood::SubPillar(_)
+            ) && joint_moves
+            {
                 10
             } else {
                 0

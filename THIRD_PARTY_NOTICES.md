@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/subpillar_cases.rs` adapts thirteen membership, diversity,
+  pinning, null-target and selection-size methods from `SubPillarChangeMoveProviderTest`,
+  `SubPillarUnassignMoveProviderTest` and `SubPillarSwapMoveProviderTest`, with
+  their inline basic/optional/pinned testdomain fixtures.
+
 - `crates/solver/tests/pillar_cases.rs` adapts four complete swap/undo methods
   from `PillarSwapMoveTest.java` and two range/execution methods from
   `SelectorBasedPillarChangeMoveTest.java`, with their variable-selection helpers

@@ -944,3 +944,49 @@ atomic score rollback/rejection and lazy candidate value cloning. Six complete
 pinned source methods add swap/undo/range/raw-execution evidence. Source unchecked
 execution intentionally includes a no-op and an out-of-range fixture; it grants no
 unchecked-operation safety or Java metamodel parity claim.
+
+## Subpillar neighborhoods
+
+`Neighborhood::SubPillar(config)` uses bounded subsets of the existing unpinned
+single-column equal-value groups. `SubPillarConfig::new(selection)` enables all
+change targets and swaps with the same selection on each side. `changes` accepts
+Disabled, AssignedOnly, All or UnassignOnly; optional None targets remain subject
+to every selected member's domain policy. `swap_selection: None` disables swaps,
+otherwise its independent bounds/order apply to the second group. A required
+member does not globally reject optional mode; it simply cannot receive None.
+
+Group order follows first encounter in the configured variable order. Within each
+group, subsets follow increasing size then member positions (combinations or
+consecutive windows). Targets follow the first selected member's domain, with None
+last where enabled. Range checks apply only to selected members, so a value absent
+from an unselected full-group member's range remains eligible. Swap pairs follow
+changes. Equal selection policies visit unordered full-group pairs; different
+policies visit both orientations so asymmetric bounds cover both assignments of
+roles. Selected groups never overlap. Equivalent successors can still occur when
+bounds overlap across asymmetric roles; no global deduplication is promised.
+
+Both basic scoring backends use this provider. Mixed search uses it for basic moves
+and joint products; list components retain ordinary changes and enable swaps when
+swap_selection is Some. The basic change mode does not restrict list operations.
+ShuffledVariables changes group/member encounter order, including consecutive
+windows; ShuffledMoves retains the existing bounded seeded shuffle. Direct public
+subpillar_moves uses increasing variable indices. Explicit Pillar::subpillars uses
+canonical row order instead. No Java random-sampler trace/distribution or comparator
+identity compatibility is claimed. No variable schema is inferred.
+
+Subsets and pair products are generated lazily; only emitted move values are cloned.
+Grouping still takes O(n) storage and worst-case O(n²) comparisons. A current subset
+cursor stores O(k) indices, and a swap keeps current left/right selections without
+materializing their Cartesian product. An unrestricted combination policy can expose
+an exponential number of candidates; search limits cap scored candidates but do not
+preempt grouping, filtering rejected subsets or user value operations. Use bounds
+appropriate to the model; no hard latency guarantee follows from a candidate cap.
+
+Six original methods verify subset order against independent bitmasks, boundaries,
+multicolumn rows, huge lazy combination spaces, complete successor sets under domains/
+pins/optional values/asymmetric swaps, both basic backends escaping a partial-group
+trap under seeds/budgets, subset-local domains and early rejection of undersized
+swap partners before expanding large combination spaces. The existing mixed joint trap now
+also exercises subpillar neighborhoods. Thirteen complete source methods preserve
+provider membership, diversity, pinning, null-target and independent-size assertions
+through finite enumeration; source random draw sequences remain outside that evidence.

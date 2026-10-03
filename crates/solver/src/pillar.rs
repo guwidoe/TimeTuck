@@ -172,7 +172,7 @@ impl Pillar {
         ))
     }
 }
-fn accepts<V: Eq>(p: &FiniteProblem<V>, members: &[usize], value: Option<&V>) -> bool {
+pub(crate) fn accepts<V: Eq>(p: &FiniteProblem<V>, members: &[usize], value: Option<&V>) -> bool {
     members.iter().all(|&i| match value {
         Some(v) => p.variables()[i].domain().contains(v),
         None => p.variables()[i].allows_unassigned(),
@@ -198,18 +198,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     swaps: bool,
     order: impl Iterator<Item = usize>,
 ) -> impl Iterator<Item = Move<V>> + 'a {
-    let mut groups: Vec<Vec<usize>> = vec![];
-    for i in order.filter(|&i| !p.variables()[i].is_pinned()) {
-        if let Some(g) = groups
-            .iter_mut()
-            .find(|g| a.values()[g[0]] == a.values()[i])
-        {
-            g.push(i);
-        } else {
-            groups.push(vec![i]);
-        }
-    }
-    let groups = Arc::new(groups);
+    let groups = groups(p, a, order);
     let changes = {
         let groups = groups.clone();
         (0..groups.len()).flat_map(move |g| {
@@ -261,4 +250,23 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
         })
     });
     changes.chain(exchanges)
+}
+
+pub(crate) fn groups<V: Eq>(
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+    order: impl Iterator<Item = usize>,
+) -> Arc<Vec<Vec<usize>>> {
+    let mut groups: Vec<Vec<usize>> = vec![];
+    for i in order.filter(|&i| !p.variables()[i].is_pinned()) {
+        if let Some(g) = groups
+            .iter_mut()
+            .find(|g| a.values()[g[0]] == a.values()[i])
+        {
+            g.push(i);
+        } else {
+            groups.push(vec![i]);
+        }
+    }
+    Arc::new(groups)
 }

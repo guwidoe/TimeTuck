@@ -194,3 +194,18 @@ values, just like raw assignment transactions; `FiniteProblem::apply` and score
 directors enforce domains/pins atomically. Existing touched-variable discovery,
 score invalidation, commit and drop rollback cover every member. The API models
 selected slots explicitly and supplies no Java object metamodel or rebase operation.
+
+## Subpillar membership selection
+
+`SubPillarSelection::combinations(min, max)` lazily enumerates all member subsets
+within an inclusive size interval. `consecutive(min, max)` restricts selection to
+contiguous member windows. Both reject zero/reversed bounds; bounds above a group's
+size are clipped, and groups below the minimum yield nothing. Results are ordered
+by increasing size, then lexicographic member position. Each cursor retains O(k)
+indices for its current size rather than precomputing a power set; usize::MAX is
+supported as a maximum bound without computing binomial counts or bit masks.
+
+`Pillar::subpillars` selects complete rows in the pillar's canonical slot order,
+retaining selected-column order. It does not read assignment values; the resulting
+pillar validates uniformity when building a change/swap. This permits explicit
+multicolumn subsets without inferring an entity schema or storing user comparators.
