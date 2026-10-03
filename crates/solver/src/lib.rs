@@ -177,3 +177,6 @@ pub use equality_existence::ExistsEqualNode;
 
 mod step_progress;
 pub use step_progress::{StepCountLimit, StepProgress};
+
+mod score_progress;
+pub use score_progress::{FeasibilityProgress, ScoreProgressError, ScoreTargetProgress};

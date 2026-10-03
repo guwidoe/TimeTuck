@@ -8,6 +8,10 @@ use std::{error::Error, fmt, ops, str::FromStr};
 
 /// Common behavior required by optimization algorithms.
 pub trait Score: Copy + Ord + fmt::Debug {
+    /// Number of leading ordinary levels that represent hard constraints.
+    /// Must not exceed the number of ordinary levels and is constant per type.
+    const HARD_LEVEL_COUNT: usize;
+
     /// Ordered ordinary integer levels, excluding structural state. The number
     /// and order of levels must be constant for a score type.
     fn ordinary_levels(&self) -> impl Iterator<Item = i64>;
@@ -172,6 +176,7 @@ macro_rules! fixed_score {
         }
 
         impl Score for $name {
+            const HARD_LEVEL_COUNT: usize = $hard;
             fn ordinary_levels(&self) -> impl Iterator<Item = i64> { self.levels.iter().copied() }
             fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
                 self.levels[..$hard].cmp(&other.levels[..$hard])

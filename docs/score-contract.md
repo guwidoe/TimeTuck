@@ -107,3 +107,15 @@ integer families.
 borrowed contiguous slice, allowing both fixed and split-array storage without
 allocation. Consumers must preserve the declared level order. Construction,
 incremental scoring, exact search and acceptance policies use the common traits.
+
+## Hard-level metadata and progress
+
+`Score` now requires `HARD_LEVEL_COUNT`, the number of leading ordinary levels
+that represent hard constraints. It is 0 for SimpleScore, 1 for HardSoftScore and
+HardMediumSoftScore, and H for BendableScore<H,S>. Custom native score implementations
+must supply this constant consistently with their ordinary levels and feasibility.
+`ScoreTargetProgress` and `FeasibilityProgress` provide validated weighted progress
+estimates with exact stopping predicates; their contract and source-test mapping
+are documented in `incremental-search-contract.md`. Gradient differences widen
+integers before conversion to floating point; ordinary score arithmetic retains
+its existing wrapping semantics.

@@ -120,8 +120,33 @@ while threshold decisions remain exact integer comparisons. Two adapted upstream
 methods preserve all twelve threshold and twelve gradient assertions for step and
 unimproved-step limits. Eleven original integration regressions cover native
 boundaries, resets, fallback steps and both backends across all model types.
-Score-target and feasibility gradient methods remain pending, as does time-based
-termination.
+Nine additional integer score-target/feasibility methods now have complete
+adaptations; the two decimal score-target gradient methods and time-based
+termination remain pending.
+
+`ScoreTargetProgress` fixes a starting score, target score and N-1 split weights
+for N ordinary levels. Each weight receives that fraction of the remaining share,
+and the final level receives the rest. Per-level fractions are capped to [0,1];
+flat or reversed intervals earn their share if the current level meets target.
+An exact target check returns 1 first; a lexicographic regression below the start
+returns 0. `FeasibilityProgress` uses only the hard levels and zero as their target,
+without letting positive hard levels compensate for negative ones. Both reject
+structurally flawed reference scores and invalid/missing/nonfinite weights. Flawed
+current scores produce zero progress and do not meet the stopping criterion.
+No-hard-level types are feasible once structurally sound.
+
+These reusable estimates do not change local search's existing stopping rules or
+automatic completed-step annealing clock. Callers can supply their fraction to
+`SimulatedAnnealing::probability_at` or `accepts_at`. Use the separate `is_reached`
+method for exact termination: zero weights and floating rounding can produce 1
+before the target is reached. Integer differences are widened to i128 before
+conversion to f64 so adjacent large scores are not lost and full-width differences
+do not overflow. This is a native numeric policy, not a Java overflow-parity claim.
+Seven original regressions cover these bounds, structural flaws, all-hard-level
+feasibility, invalid inputs and explicit annealing use. Nine source adaptations
+preserve every termination/gradient assertion for scalar, HardSoft and Bendable
+integer scores; they replace mock phase/solver scopes with fixed score references.
+No Java lifecycle or direct Java gradient-oracle comparison is claimed.
 
 Original direct Community comparisons now cover 219 deterministic required-basic
 cases (seed 20261119). They use public OR-composed phase limits and original-order

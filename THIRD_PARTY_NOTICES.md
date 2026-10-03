@@ -15,6 +15,9 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/score_progress_cases.rs` from
+  `BestScoreTerminationTest.java` and `BestScoreFeasibleTerminationTest.java`.
+
 - `crates/solver/tests/step_termination_cases.rs` from
   `StepCountTerminationTest.java` and `UnimprovedStepCountTerminationTest.java`.
 

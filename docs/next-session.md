@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 425 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 2 termination), recorded in
+- 434 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 11 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -40,7 +40,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 335 original integration regression methods, thirteen original unit tests, and twenty-nine public API documentation tests.
+- ScoreTargetProgress and FeasibilityProgress offer validated weighted estimates
+  and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
+  Native full-width differences are widened before conversion to f64. Automatic
+  step-based cooling and local-search stopping behavior remain unchanged.
+- 342 original integration regression methods, thirteen original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -91,7 +95,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 425 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 434 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -139,7 +143,7 @@ initialization-score assumptions. No production implementation has been ported.
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
    Extend deterministic termination evidence beyond the 219 basic-search cases
-   to list/mixed models and complete score-target/feasibility gradient methods.
+   to list/mixed models, decimal gradients and time-based termination.
 4. Extend matched Java heuristic evidence to more workloads and randomized
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
@@ -1626,3 +1630,50 @@ The existing server's live fingerprint matches the final report. Browser checks
 at 1280px and 390px verify 219 / 219 termination cases, the explicit limitations,
 unchanged 8.75% upstream coverage, no stale alert, no page errors and no horizontal
 overflow. No server restart was needed; browser session closed. Upstream clean.
+
+## Weighted score and feasibility progress increment
+
+New ScoreTargetProgress and FeasibilityProgress hold fixed starting scores and
+validated split weights. Target progress uses all ordinary levels; feasibility
+uses only the hard prefix. Score now requires HARD_LEVEL_COUNT (0 for Simple,
+1 for HardSoft and HardMediumSoft, H for Bendable<H,S>). Custom native score types
+must supply it consistently. Exact is_reached decisions remain separate from
+floating estimates, which may saturate before a target under rounding/zero weights.
+Negative structural current scores report zero and never meet the criterion;
+flawed reference scores and wrong/nonfinite/out-of-range weights are rejected.
+
+Per-level integer differences widen to i128 before f64 conversion, avoiding
+wrapping and loss of adjacent large values. This native full-width policy is not
+a Java overflow-parity claim. Positive hard scores do not compensate for another
+negative hard level. No-hard-level scores are feasible when structurally sound.
+Local-search stopping and automatic annealing cooling remain unchanged. Explicit
+annealing probability_at/accepts_at callers can consume the new estimates.
+
+Nine fully adapted integer methods from BestScoreTerminationTest and
+BestScoreFeasibleTerminationTest preserve every threshold and gradient assertion,
+including repeated observations, weights, multi-level scores and floating tolerances.
+Native fixed references replace mocked initialized solver/phase scopes and score
+definitions. Provenance/notices updated. The two decimal gradient methods, Java
+lifecycle behavior, automatic gradient-driven cooling and direct Java gradient
+oracle comparisons remain pending. Seven original regressions cover validation,
+full-width boundaries, structural flaws, hard/soft separation, estimate saturation,
+reversed intervals and explicit annealing integration.
+
+Development gate and release all-target suites pass: 789 Rust tests (434 adapted,
+342 original integration, 13 original unit), 30 doctests and 67 Python checks.
+Coverage 434 / 4,855 = 8.94%; Solver lifecycle 11 / 379 = 2.90%; streams remain
+275 / 1,301 = 21.14%. Pending 4,139, excluded 282, failed/unverified zero. The full
+solver rewrite remains unfinished. Logs use work/score-progress-{check,release,
+stream-evidence,stream-performance,list-refresh,core-refresh,heuristic-performance}.log.
+
+All nine comparison/performance sections were refreshed and are current, including
+219 termination and 128 exact-search cases. Latest stream medians ms Rust/Java:
+hill32 45.048/16.932, hill96 171.007/23.375, tabu32 49.159/17.210,
+tabu96 171.208/26.516. Both 96-variable scores remain [-44,-484], infeasible
+at 50 steps. List32 construction remains Rust [0,-1080] versus Java [0,-1062].
+Shared-machine timing shifts do not demonstrate an improvement from this feature.
+
+The live server fingerprint matches the final report. Desktop 1280px and mobile
+390px browser checks show 8.94% overall, Solver lifecycle 2.90%, all eleven passed
+lifecycle cases, no stale alert, page errors or horizontal overflow. Existing
+server reused; browser session closed; upstream remains clean.

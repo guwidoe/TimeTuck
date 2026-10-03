@@ -15,7 +15,10 @@ score-target and feasibility stops have original integration checks. An addition
 scores with Community and independent Python search. Both native scoring backends
 also match Python step/acceptance/stagnation counts and termination reasons; Java
 internal counters and traces are not compared. These cases earn no method credit;
-upstream score-target and feasibility gradient methods remain pending.
+nine integer score-target/feasibility methods now have complete adaptations.
+The two decimal gradient methods remain pending. Native progress objects replace
+mock initialized phase/solver scopes and preserve every score, weight, repeated
+observation and floating comparison; no Java lifecycle equivalence is claimed.
 
 ## Why the existing suite needs an adapter
 
