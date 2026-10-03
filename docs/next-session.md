@@ -5092,3 +5092,82 @@ all three static follower methods Passed and the three dynamic follower methods
 still Pending. All 29 benchmark cards render; no overflow, stale messages or
 browser errors. Existing server retained, verification browser closed. No frontend
 edits, Impeccable use or delegation. Full rewrite goal remains active.
+
+## Dynamic followers and Java follower evidence (2026-10-03)
+
+Three complete DynamicFollowerValuesShadowVariableTest methods now pass through
+existing native reference streams: three leader-value changes (nine assertions),
+two reference changes plus null unassignment (nine assertions), and a fully
+unassigned three-leader/eight-follower/two-value solve with shared 1,000-move budget
+and full score assertions. Final native snapshots preserve all source follower/
+leader equalities. No production library changes were needed. All five fixture
+attributions are recorded; stable slots replace Java object identity and explicit
+graph projections replace externally stored shadow fields.
+
+Added durable public Java/Rust follower adapters and scripts/follower_checks.py,
+integrated into differential_streams.py. All 128 cases (65 dynamic, 63 fixed/shared),
+2,373 observed states and 3,714 primitive operations agree with independent Python
+reference values and scores. Include zero followers, null leader values, null
+references, shared and unreferenced targets, repeated writes, no-ops, composite
+commits and temporary moves with undo. Java public MoveTester updates annotated
+shadows; SolutionManager.UPDATE_SCORE_ONLY recomputes each observed score. Rust
+uses persistent follow_reference/follow_shared_reference projections. Every leader
+value, reference, derived value, ordinary score and completeness flag is checked.
+Shared null-reference values agree, but Java null-alignment supplier-call counts
+are NOT compared or claimed. Java structural scores, incremental scoring timing,
+search quality and general reflection parity are outside these generated checks.
+
+IMPORTANT correction to the preceding handoff: the pinned fixture's interface
+source forEach(HasValue.class) includes null genuine variables as well as null
+shadow values. Generic concrete-entity filtering was an incorrect assumption.
+Direct Java initially returned -20 where the old native/Python assumption gave -8.
+Both native fixtures now group all interface rows, and all generated observations
+match Java. The static source fixture scores are -64,-32,-26,-34 (structural
+components remain -3,-2,-1,0), replacing the previous -25,-20,-25,-34 assertions.
+The original value and shared supplier-count assertions still pass. Keep the
+interface/concrete-source distinction explicit when adapting subsequent fixtures.
+Initial adapter setup also required correcting its work/oracle/solver classpath
+and adding normal bean setters; no upstream production implementation was read.
+
+Seven new Python regressions check null-row scoring, fixed versus genuine-reference
+completeness, sequential writes, undo without aliasing, bad indices/domains, corrupt
+or incomplete responses, and deterministic generation. All fixtures used in both
+adapters are attributed, as is the reused static testMove boundary in the Python
+case generator; other generated inputs earn no additional method credit. Dashboard
+adds one evidence entry using its existing presentation and refreshes the JS asset
+hash. No design skill or delegation used.
+
+Debug gate and release all-target verification both pass 1,384 Rust tests (649
+adapted, 660 original integration, 75 unit); 69 doctests and 109 Python tests pass.
+Live initialization delivers all four events before completion and proves all four
+optima. Source/provenance frozen before successful full verification; logs use
+work/dynamic-follower-*. Coverage 649/4,855 (13.37%), 3,924 pending, 282 excluded,
+zero failed/unverified. Domain model now 10/455 (2.20%).
+
+Next: FollowerSetValuesShadowVariableTest and both follower_set fixtures were read.
+It has two pending methods: 3/8/2 solve with seed-0 distinct pairs of leader IDs,
+and nine assertions on AB/AC/BC followers after changing A/B/C. Supplier selects
+the minimum non-null value by Java string code, not numeric identity; all-null
+returns null. Its source list is nonempty and can be represented with indexed
+membership joins plus grouped minima; preserve empty/missing and duplicate behavior
+explicitly if extending beyond the fixture. It reuses the fixed follower interface
+constraint and leader fixture, so keep all null-valued interface rows in scoring.
+A generated public Java multi-reference comparison would strengthen this next
+increment. The complete rewrite remains unfinished and the goal stays active.
+
+All ten differential/performance datasets refreshed and current, with successful
+report verification and a matching live freshness digest. Existing results retain
+512/512 list moves, 192 valid/189 equal-score list solves, 64 valid/equal-score stream
+solves, 128 valid/equal-score heuristic solves and 128/128 pillar transactions.
+Default workload timings remain scoped measurements; the new follower comparison
+contains no timings. Exact8 Rust/Java was 0.168/5.658 ms in the final refresh.
+
+Browser checked at 1280x900 and 390x844: 13.37%, 649/4,855 methods, domain 10/455,
+all three dynamic follower methods Passed, 29 benchmark cards, and the separate
+128/128 follower evidence entry with 2,373 states/3,714 operations and its limitations.
+No overflow, stale messages or browser errors. Existing server retained; verification
+browser closed. This increment is verified; the complete rewrite remains active.
+
+Final attribution review clarified the copied static boundary in adapter/script
+headers. Full checks, release tests, all ten dataset refreshes and both dashboard
+viewports were repeated after that source-fingerprint change; all pass/current.

@@ -9690,6 +9690,51 @@
       "upstream_test": "testUpdateOnce",
       "local_test": "test_update_once",
       "modifications": "Preserve initialization, clear supplier observations, change leader A, then assert A1 supplier once and A2/A3/B1/B2 never. Native per-follower identity observations replace Mockito spies. Shared supplier uses the smallest native tuple ID as representative; no general Java representative-choice or annotation-discovery equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DynamicFollowerValuesShadowVariableTest.testSolve",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DynamicFollowerValuesShadowVariableTest.java",
+      "upstream_test": "testSolve",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "local_test": "test_solve",
+      "modifications": "Preserve three leaders, eight initially unassigned followers, two values, 1000-move budget, full-score checks and every follower/leader value assertion. Native basic slots and reference streams replace mutable Java fields; retained assignment reconstruction uses the same graph as search. Preserve interface-based count-squared objective, including null genuine and shadow values, verified separately against the public runtime. No Java search trace or optimality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DynamicFollowerValuesShadowVariableTest.testLeaderValueChangeMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DynamicFollowerValuesShadowVariableTest.java",
+      "upstream_test": "testLeaderValueChangeMove",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "local_test": "test_leader_value_change_move",
+      "modifications": "Preserve all nine value/null assertions across three changes to leader values. Native slots, stable numeric value/leader IDs and stream-derived snapshots replace annotated entities and MoveTester; extra consistency checks add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DynamicFollowerValuesShadowVariableTest.testLeaderChangeMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DynamicFollowerValuesShadowVariableTest.java",
+      "upstream_test": "testLeaderChangeMove",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "local_test": "test_leader_change_move",
+      "modifications": "Preserve both initially assigned leaders, three followers with matching initial derived values, and all nine assertions after two reassignments and null unassignment. Native graph initialization computes initial shadow snapshots rather than accepting externally stored shadow fields; no annotation or reflection parity claimed."
     }
   ],
   "fixtures": [
@@ -10965,7 +11010,7 @@
       "id": "TestdataFollowerEntity.follower_shadow_fixture",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerEntity.java",
       "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
-      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over all leaders and followers, including null genuine/shadow values; public Java generated comparisons establish this interface-source behavior. Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -10978,7 +11023,7 @@
       "id": "TestdataLeaderEntity.follower_shadow_fixture",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
       "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
-      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over all leaders and followers, including null genuine/shadow values; public Java generated comparisons establish this interface-source behavior. Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -10991,7 +11036,7 @@
       "id": "TestdataFollowerSolution.follower_shadow_fixture",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerSolution.java",
       "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
-      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over all leaders and followers, including null genuine/shadow values; public Java generated comparisons establish this interface-source behavior. Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -11004,7 +11049,7 @@
       "id": "TestdataFollowerConstraintProvider.follower_shadow_fixture",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerConstraintProvider.java",
       "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
-      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over all leaders and followers, including null genuine/shadow values; public Java generated comparisons establish this interface-source behavior. Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -11017,7 +11062,345 @@
       "id": "TestdataHasValue.follower_shadow_fixture",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataHasValue.java",
       "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
-      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over all leaders and followers, including null genuine/shadow values; public Java generated comparisons establish this interface-source behavior. Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicLeaderEntity.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicLeaderEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerEntity.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerSolution.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerSolution.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerConstraintProvider.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerConstraintProvider.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicHasValue.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicHasValue.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicLeaderEntity.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicLeaderEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerEntity.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerSolution.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerSolution.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerConstraintProvider.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerConstraintProvider.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicHasValue.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicHasValue.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicLeaderEntity.dynamic_follower_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicLeaderEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerEntity.dynamic_follower_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerSolution.dynamic_follower_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerSolution.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicFollowerConstraintProvider.dynamic_follower_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicFollowerConstraintProvider.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDynamicHasValue.dynamic_follower_cases_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dynamic_follower/TestdataDynamicHasValue.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/tests/dynamic_follower_cases.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeaderEntity.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerEntity.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSolution.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerSolution.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerConstraintProvider.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerConstraintProvider.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHasValue.dynamic_follower_java_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataHasValue.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "compat/oracle/FollowerOracle.java",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeaderEntity.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerEntity.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerEntity.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSolution.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerSolution.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerConstraintProvider.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerConstraintProvider.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHasValue.dynamic_follower_rust_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataHasValue.java",
+      "upstream_test": "entity fields, supplier, solution fields and interface-based count-squared scoring",
+      "local_path": "crates/solver/examples/follower_oracle.rs",
+      "modifications": "Preserve optional values and leader references, direct or aligned shadow suppliers and interface-based count-squared objective. Numeric IDs replace object codes. Java adapter uses public annotations and MoveTester; Rust uses explicit reference/shared-supplier graphs. Native snapshots replace stored shadows; null genuine and shadow values participate in this pinned interface query. Generated adapter dimensions, inputs, composite/trial sequences and missing fixed references are original extensions; Java null-alignment supplier counts are not compared. Fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerValuesShadowVariableTest.follower_differential_boundary",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerValuesShadowVariableTest.java",
+      "upstream_test": "testMove three-leader/five-follower fixture",
+      "local_path": "scripts/follower_checks.py",
+      "modifications": "Retain the A/A/A/B/B fixed follower references and three leader value changes as a public-runtime score boundary. Add an independent temporary null-value change, explicit ordinary scores, and undo observation. Other seeded cases are original; no additional source method credit."
     }
   ]
 }

@@ -15,6 +15,14 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/dynamic_follower_cases.rs` adapts all three methods in
+  `DynamicFollowerValuesShadowVariableTest` and its five `dynamic_follower`
+  fixtures. `compat/oracle/FollowerOracle.java` and
+  `crates/solver/examples/follower_oracle.rs` adapt both dynamic and fixed follower
+  domain/scoring fixtures for generated public-API comparisons. One boundary in
+  `scripts/follower_checks.py` retains the static testMove fixture; other generated
+  inputs are original and earn no upstream method credit.
+
 - `crates/solver/tests/follower_shadow_cases.rs` adapts all three methods in
   `FollowerValuesShadowVariableTest` and the five `testdomain/shadow/follower`
   fixtures, including aligned supplier counts and the seeded solution generator.

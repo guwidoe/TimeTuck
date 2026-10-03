@@ -1171,4 +1171,26 @@ Three attributed follower methods cover solving, value changes and exact shared
 supplier counts. Six original regressions additionally compare generated updates
 with full scans and construction/local search with direct scoring, including
 rollback, unwind, representative replacement, missing targets and same-source
-references. No dedicated performance or generated Java comparison is claimed.
+references. Generated Java follower evidence is recorded in the next section;
+no dedicated performance comparison is claimed.
+
+## Dynamic follower conformance and generated comparisons
+
+Native basic-variable reference graphs now have all three complete dynamic
+follower method adaptations, plus the existing fixed/shared follower adaptations.
+A generated public-API comparison in `follower_checks.py` covers 128 fixed/shared
+and dynamic models through 2,373 initial/trial/undo/committed states and 3,714
+primitive operations. Java maintains annotated shadows with public MoveTester;
+Rust maintains graph projections. Independent Python calculations verify all
+references, derived values, ordinary scores and completeness flags. Java scores
+are recomputed for each observation; there is no timing or incremental Java score
+claim, and these generated cases grant no source method credit.
+
+The public runtime exposed an interface-source distinction: in these fixtures,
+`forEach(HasValue.class)` includes rows with null genuine variables. Native fixture
+scoring therefore groups all leader and follower values, including nulls, rather
+than applying the usual concrete-entity assignment filter. The previous static
+fixture's partial scores are corrected and verified directly against Java. Native
+explicit source filtering remains under the caller's control; no automatic Java
+class/interface discovery is implemented. Shared cases also check missing fixed
+references for values and scores only; no Java null-key supplier counts are claimed.

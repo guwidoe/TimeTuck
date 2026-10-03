@@ -28,10 +28,9 @@ fn graph<'a>(
     let shadow = b.score("shadows", &values, |_| SimpleScore::ZERO).unwrap();
     let follower_values = b.map(&values, |(_, v)| *v).unwrap();
     let leader_values = b.map(source.port(), |r| r.1).unwrap();
-    // forEach excludes null genuine leader variables, but followers have only
-    // shadow variables and therefore retain their null-valued group.
-    let assigned_leaders = b.filter(&leader_values, Option::is_some).unwrap();
-    let all = b.concat(&follower_values, &assigned_leaders).unwrap();
+    // Interface-based forEach includes null genuine and shadow values in the
+    // pinned public runtime; see generated follower comparisons.
+    let all = b.concat(&follower_values, &leader_values).unwrap();
     let counts = b.group_collect(&all, |v| (*v, 1)).unwrap();
     b.score("Minimize value count", &counts, |(_, n)| {
         SimpleScore::new(-(n.count as i64).pow(2))
@@ -52,10 +51,10 @@ fn test_move() {
     let p = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 3]).unwrap();
     let (g, s, shadow) = graph(&[0, 0, 0, 1, 1], &calls);
     let mut d = StreamScoreDirector::new(&p, g, s, p.initial_assignment()).unwrap();
-    assert_eq!(d.score(), SimpleScore::new(-25).with_structural(-3));
+    assert_eq!(d.score(), SimpleScore::new(-64).with_structural(-3));
     for (leader, value, expected, score) in [
-        (0, 1, [Some(1), Some(1), Some(1), None, None], -20),
-        (1, 2, [Some(1), Some(1), Some(1), Some(2), Some(2)], -25),
+        (0, 1, [Some(1), Some(1), Some(1), None, None], -32),
+        (1, 2, [Some(1), Some(1), Some(1), Some(2), Some(2)], -26),
         (2, 1, [Some(1), Some(1), Some(1), Some(2), Some(2)], -34),
     ] {
         d.apply(&Move::Change {

@@ -811,3 +811,37 @@ same-source cycles, foreign ports and construction/saved search candidates again
 independent full scoring. They add no upstream method credit. Existing benchmarks
 do not isolate this operator and no direct Java generated follower comparison is
 claimed by this increment.
+
+## Dynamic followers and direct public-runtime evidence
+
+All three DynamicFollowerValuesShadowVariableTest methods now preserve their
+complete source assertions. Native reference streams cover leader-value changes,
+follower leader reassignment and null unassignment. The three-leader/eight-follower/
+two-value solve begins unassigned, uses a 1,000-move cap and full-score checks,
+and verifies every final follower/leader equality. Numeric slots replace Java
+objects; derived graph snapshots replace externally stored shadow fields. Search
+traces, annotation discovery and Java lifecycle identity are not claimed.
+
+`follower_checks.py`, integrated into stream differential reporting, compares 128
+cases, 2,373 states and 3,714 operations against the pinned Java public runtime and
+independent Python calculations. It covers both fixed shared and dynamic follower
+references, zero followers, null/missing references, null leader values, repeated
+writes, composite commits and temporary moves with undo. Every ordinary score,
+completeness flag, leader value, reference and derived value must agree. Java
+MoveTester maintains shadows; SolutionManager.UPDATE_SCORE_ONLY computes each
+observed score. Rust uses persistent reference/shared-supplier graphs. Fixtures
+and the reused static boundary are attributed; generated cases grant no method
+credit. Seven Python regressions reject corrupt, missing or reordered responses
+and verify independent null, sequential-write, completeness and undo boundaries.
+
+This evidence corrected a fixture scoring error in the previous increment:
+`forEach(HasValue.class)` in this pinned interface-based model includes all
+implementing entities, including null genuine variables. Generic concrete-entity
+filtering was an incorrect assumption here. Both native follower fixtures now count
+all interface rows; the static fixture scores are -64, -32, -26 and -34 across its
+initial/three-change states. Existing source value and supplier-count assertions
+still pass. This is observed behavior of this interface query, not a general rule
+for all concrete-entity sources. Supplier counts, Java structural-score fields,
+Java incremental scoring performance and follower solve quality are not compared
+by these generated checks. Java's null alignment-key supplier-call behavior remains
+outside the native shared-reference compatibility claim.
