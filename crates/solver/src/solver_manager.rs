@@ -1,10 +1,10 @@
 //! Asynchronous, independent solves on a fixed-size native worker pool.
-use crate::CancellationToken;
+use crate::solver_manager_callbacks::{capture, dispose};
+use crate::{CancellationToken, SolverCallbackFailure, SolverJobCallbacks};
 use std::{
     collections::{BTreeMap, VecDeque},
     error::Error,
     fmt, io,
-    panic::{AssertUnwindSafe, catch_unwind},
     sync::{Arc, Condvar, Mutex, Weak},
     thread::{self, JoinHandle},
     time::Duration,
@@ -59,6 +59,7 @@ pub type SolverJobResult<R, E> = Arc<Result<R, SolverJobError<E>>>;
 struct JobData<R, E> {
     status: SolverStatus,
     result: Option<SolverJobResult<R, E>>,
+    failures: Vec<SolverCallbackFailure>,
 }
 struct JobCell<R, E> {
     data: Mutex<JobData<R, E>>,
@@ -69,15 +70,26 @@ struct Task<R, E> {
     id: u64,
     cell: Arc<JobCell<R, E>>,
     run: Box<dyn FnOnce(CancellationToken) -> Result<R, E> + Send>,
+    callbacks: SolverJobCallbacks<R, E>,
+}
+struct Completion<R, E> {
+    id: u64,
+    cell: Arc<JobCell<R, E>>,
+    result: Result<R, SolverJobError<E>>,
+    callbacks: SolverJobCallbacks<R, E>,
+    failures: Vec<SolverCallbackFailure>,
 }
 struct Queue<R, E> {
     closed: bool,
+    running: usize,
+    completions: VecDeque<Completion<R, E>>,
     tasks: VecDeque<Task<R, E>>,
     jobs: BTreeMap<u64, Arc<JobCell<R, E>>>,
 }
 struct Shared<R, E> {
     queue: Mutex<Queue<R, E>>,
     available: Condvar,
+    completed: Condvar,
 }
 impl<R, E> Shared<R, E> {
     // Lock order is always queue -> job. User code and captured input destruction
@@ -87,11 +99,13 @@ impl<R, E> Shared<R, E> {
         id: u64,
         cell: &JobCell<R, E>,
         result: Result<R, SolverJobError<E>>,
+        failures: Vec<SolverCallbackFailure>,
     ) {
         let mut data = cell.data.lock().unwrap();
         queue.jobs.remove(&id);
         data.status = SolverStatus::NotSolving;
         data.result = Some(Arc::new(result));
+        data.failures = failures;
         cell.ready.notify_all();
     }
     fn cancel(&self, id: u64, expected: Option<&Arc<JobCell<R, E>>>) -> bool {
@@ -114,6 +128,7 @@ impl<R, E> Shared<R, E> {
                 id,
                 &cell,
                 Err(SolverJobError::CancelledBeforeStart),
+                Vec::new(),
             );
         }
         drop(queue);
@@ -133,9 +148,11 @@ impl<R, E> Shared<R, E> {
                 task.id,
                 &task.cell,
                 Err(SolverJobError::CancelledBeforeStart),
+                Vec::new(),
             );
         }
         self.available.notify_all();
+        self.completed.notify_all();
         drop(queue);
         drop(tasks);
     }
@@ -164,6 +181,11 @@ impl<R, E> SolverJob<R, E> {
     }
     pub fn status(&self) -> SolverStatus {
         self.cell.data.lock().unwrap().status
+    }
+    /// Final callback diagnostics are published with the result. Empty while the
+    /// solve/callback pipeline is still active; use a result wait before inspecting.
+    pub fn callback_failures(&self) -> Vec<SolverCallbackFailure> {
+        self.cell.data.lock().unwrap().failures.clone()
     }
     pub fn try_result(&self) -> Option<SolverJobResult<R, E>> {
         self.cell.data.lock().unwrap().result.clone()
@@ -200,20 +222,24 @@ impl<R, E> SolverJob<R, E> {
     }
 }
 
-/// A fixed number of worker threads execute owned solve functions. Each job gets
+/// A fixed number of solver threads execute owned solve functions. Separate
+/// consumer threads deliver final/error callbacks (one by default). Each job gets
 /// an independent cancellation token; pass it into the existing solver config.
 /// Build thread-local score networks inside the function, so closures in those
 /// networks do not need Send. Only the captured input and returned result cross
 /// threads. IDs are native u64 values and are unique among queued/active jobs.
 ///
 /// Submission is nonblocking (the FIFO queue is not size-limited). Completion
-/// releases the ID and wakes all result waiters atomically. Failed/panicking jobs
+/// releases the ID and wakes all result waiters atomically, after final/error
+/// callback delivery. Active includes jobs awaiting or executing that delivery. Failed/panicking jobs
 /// also release their slot. No user solver runs under the manager's locks.
 ///
 /// Drop requests cancellation, removes queued jobs and detaches workers, without
 /// waiting for potentially uncooperative code. Call shutdown to join workers.
 /// Cancellation does not preempt user code; active jobs may still return success.
-/// Do not block a worker waiting for work queued to the same saturated pool.
+/// Do not block a worker waiting for work queued to the same saturated pool,
+/// or a callback waiting for its own final result. Explicit shutdown drains
+/// callbacks from started jobs even after cancellation is requested.
 ///
 /// ```
 /// use timetuck::SolverManager;
@@ -228,20 +254,30 @@ pub struct SolverManager<R, E> {
     workers: Vec<JoinHandle<()>>,
 }
 impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
+    /// Create a solver pool with one separate callback consumer thread.
     pub fn new(parallel_solver_count: usize) -> io::Result<Self> {
-        if parallel_solver_count == 0 {
+        Self::with_consumer_count(parallel_solver_count, 1)
+    }
+    pub fn with_consumer_count(
+        parallel_solver_count: usize,
+        consumer_count: usize,
+    ) -> io::Result<Self> {
+        if parallel_solver_count == 0 || consumer_count == 0 {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
-                "parallel solver count must be positive",
+                "solver and consumer counts must be positive",
             ));
         }
         let shared = Arc::new(Shared {
             queue: Mutex::new(Queue {
                 closed: false,
+                running: 0,
+                completions: VecDeque::new(),
                 tasks: VecDeque::new(),
                 jobs: BTreeMap::new(),
             }),
             available: Condvar::new(),
+            completed: Condvar::new(),
         });
         let mut manager = Self {
             shared,
@@ -249,13 +285,32 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         };
         manager
             .workers
-            .try_reserve_exact(parallel_solver_count)
+            .try_reserve_exact(
+                parallel_solver_count
+                    .checked_add(consumer_count)
+                    .ok_or_else(|| {
+                        io::Error::new(io::ErrorKind::InvalidInput, "worker count overflow")
+                    })?,
+            )
             .map_err(io::Error::other)?;
         for index in 0..parallel_solver_count {
             let shared = manager.shared.clone();
             match thread::Builder::new()
                 .name(format!("timetuck-solver-{index}"))
                 .spawn(move || worker(shared))
+            {
+                Ok(worker) => manager.workers.push(worker),
+                Err(error) => {
+                    let _ = manager.shutdown();
+                    return Err(error);
+                }
+            }
+        }
+        for index in 0..consumer_count {
+            let shared = manager.shared.clone();
+            match thread::Builder::new()
+                .name(format!("timetuck-consumer-{index}"))
+                .spawn(move || consumer(shared))
             {
                 Ok(worker) => manager.workers.push(worker),
                 Err(error) => {
@@ -271,6 +326,14 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         problem_id: u64,
         run: impl FnOnce(CancellationToken) -> Result<R, E> + Send + 'static,
     ) -> Result<SolverJob<R, E>, SubmitError> {
+        self.submit_with_callbacks(problem_id, run, SolverJobCallbacks::default())
+    }
+    pub fn submit_with_callbacks(
+        &self,
+        problem_id: u64,
+        run: impl FnOnce(CancellationToken) -> Result<R, E> + Send + 'static,
+        callbacks: SolverJobCallbacks<R, E>,
+    ) -> Result<SolverJob<R, E>, SubmitError> {
         let mut queue = self.shared.queue.lock().unwrap();
         if queue.closed {
             return Err(SubmitError::Closed);
@@ -282,6 +345,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
             data: Mutex::new(JobData {
                 status: SolverStatus::Scheduled,
                 result: None,
+                failures: Vec::new(),
             }),
             ready: Condvar::new(),
             cancellation: CancellationToken::new(),
@@ -291,6 +355,7 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
             id: problem_id,
             cell: cell.clone(),
             run: Box::new(run),
+            callbacks,
         });
         self.shared.available.notify_one();
         Ok(SolverJob {
@@ -361,41 +426,72 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
             let Some(task) = queue.tasks.pop_front() else {
                 return;
             };
+            queue.running += 1;
             task.cell.data.lock().unwrap().status = SolverStatus::Active;
             task
         };
-        let result = match catch_unwind(AssertUnwindSafe(|| {
-            (task.run)(task.cell.cancellation.clone())
-        })) {
+        let Task {
+            id,
+            cell,
+            run,
+            mut callbacks,
+        } = task;
+        let dispatch = !callbacks.is_empty();
+        let failures = callbacks.start(id);
+        let result = match capture(|| run(cell.cancellation.clone())) {
             Ok(result) => result.map_err(SolverJobError::Solve),
-            Err(payload) => {
-                let message = payload
-                    .downcast_ref::<String>()
-                    .cloned()
-                    .or_else(|| payload.downcast_ref::<&str>().map(|s| s.to_string()))
-                    .unwrap_or_else(|| "non-string panic payload".to_owned());
-                // A custom panic payload may itself panic when destroyed. Keep
-                // that secondary panic from killing this worker; leak only the
-                // secondary payload because recursively dropping it is unsafe.
-                discard_panic(payload);
-                Err(SolverJobError::Panicked(message))
-            }
+            Err(message) => Err(SolverJobError::Panicked(message)),
         };
-        Shared::finish_locked(
-            &mut shared.queue.lock().unwrap(),
-            task.id,
-            &task.cell,
-            result,
-        );
-        // With no surviving handle, this worker owns the final result. A user
-        // result destructor must not strand later jobs by killing the worker.
-        if let Err(payload) = catch_unwind(AssertUnwindSafe(|| drop(task.cell))) {
-            discard_panic(payload);
+        let mut queue = shared.queue.lock().unwrap();
+        queue.running -= 1;
+        if dispatch {
+            queue.completions.push_back(Completion {
+                id,
+                cell,
+                result,
+                callbacks,
+                failures,
+            });
+            shared.completed.notify_all();
+        } else {
+            Shared::finish_locked(&mut queue, id, &cell, result, failures);
+            shared.completed.notify_all();
+            drop(queue);
+            dispose(cell);
         }
     }
 }
-fn discard_panic(payload: Box<dyn std::any::Any + Send>) {
-    if let Err(secondary) = catch_unwind(AssertUnwindSafe(|| drop(payload))) {
-        std::mem::forget(secondary);
+fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared<R, E>>) {
+    loop {
+        let completion = {
+            let queue = shared.queue.lock().unwrap();
+            let mut queue = shared
+                .completed
+                .wait_while(queue, |q| {
+                    q.completions.is_empty() && !(q.closed && q.running == 0)
+                })
+                .unwrap();
+            let Some(completion) = queue.completions.pop_front() else {
+                return;
+            };
+            completion
+        };
+        let Completion {
+            id,
+            cell,
+            result,
+            mut callbacks,
+            mut failures,
+        } = completion;
+        callbacks.finish(id, &result, &mut failures);
+        dispose(callbacks);
+        Shared::finish_locked(
+            &mut shared.queue.lock().unwrap(),
+            id,
+            &cell,
+            result,
+            failures,
+        );
+        dispose(cell);
     }
 }

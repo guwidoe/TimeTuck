@@ -1,45 +1,65 @@
 //! Original managed execution of all six actual solver entry points.
 use super::*;
-use std::{rc::Rc, sync::mpsc, time::Duration};
+use std::{
+    rc::Rc,
+    sync::{
+        Arc,
+        atomic::{AtomicUsize, Ordering},
+        mpsc,
+    },
+    time::Duration,
+};
 const LIMIT: Duration = Duration::from_secs(10);
 #[test]
 fn manager_runs_all_models_and_backends_with_worker_local_non_send_scoring() {
     let mut manager = SolverManager::<Outcome, Failure>::new(2).unwrap();
+    let delivered = Arc::new(AtomicUsize::new(0));
     let mut jobs = Vec::new();
     for mode in 0..6 {
+        let seen = delivered.clone();
         jobs.push(
             manager
-                .submit(mode as u64, move |token| {
-                    let calls = Rc::new(Cell::new(0));
-                    let config = SolverPlan {
-                        limits: SolverLimits {
-                            cancellation: Some(&token),
+                .submit_with_callbacks(
+                    mode as u64,
+                    move |token| {
+                        let calls = Rc::new(Cell::new(0));
+                        let config = SolverPlan {
+                            limits: SolverLimits {
+                                cancellation: Some(&token),
+                                ..Default::default()
+                            },
+                            phases: vec![SolverPhase::LocalSearch(LocalSearchConfig {
+                                max_steps: 4,
+                                assert_scores: true,
+                                ..Default::default()
+                            })],
                             ..Default::default()
-                        },
-                        phases: vec![SolverPhase::LocalSearch(LocalSearchConfig {
-                            max_steps: 4,
-                            assert_scores: true,
-                            ..Default::default()
-                        })],
-                        ..Default::default()
-                    };
-                    let result = run_scored(
-                        (mode, false, MixedConstructionOrder::BasicThenLists),
-                        config,
-                        &Cell::new(0),
-                        None,
-                        || calls.set(calls.get() + 1),
-                        SimpleScore::new,
-                    );
-                    assert!(calls.get() > 0);
-                    result
-                })
+                        };
+                        let result = run_scored(
+                            (mode, false, MixedConstructionOrder::BasicThenLists),
+                            config,
+                            &Cell::new(0),
+                            None,
+                            || calls.set(calls.get() + 1),
+                            SimpleScore::new,
+                        );
+                        assert!(calls.get() > 0);
+                        result
+                    },
+                    SolverJobCallbacks::default().on_final(move |id, r: &Outcome| {
+                        assert_eq!(id, mode as u64);
+                        assert!(r.complete);
+                        seen.fetch_add(1, Ordering::SeqCst);
+                    }),
+                )
                 .unwrap(),
         );
     }
     for pair in jobs.chunks_exact(2) {
         let a = pair[0].wait_timeout(LIMIT).unwrap();
         let b = pair[1].wait_timeout(LIMIT).unwrap();
+        assert!(pair[0].callback_failures().is_empty());
+        assert!(pair[1].callback_failures().is_empty());
         let a = a.as_ref().as_ref().unwrap();
         let b = b.as_ref().as_ref().unwrap();
         assert_eq!(a.values, b.values);
@@ -59,6 +79,7 @@ fn manager_runs_all_models_and_backends_with_worker_local_non_send_scoring() {
         assert!(a.complete);
         assert_eq!(a.reason, SolverTermination::PlanCompleted);
     }
+    assert_eq!(delivered.load(Ordering::SeqCst), 6);
     manager.shutdown().unwrap();
 }
 #[test]

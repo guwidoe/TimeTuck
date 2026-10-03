@@ -244,3 +244,8 @@ mod solver_manager;
 pub use solver_manager::{
     SolverJob, SolverJobError, SolverJobResult, SolverManager, SolverStatus, SubmitError,
 };
+
+mod solver_manager_callbacks;
+pub use solver_manager_callbacks::{
+    SolverCallbackFailure, SolverCallbackStage, SolverJobCallbacks, SolverJobFailure,
+};

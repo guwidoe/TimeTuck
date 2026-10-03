@@ -109,3 +109,81 @@ fn run_same_id_processes_throws_illegal_state_exception() {
     check_initialized(&job);
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn exception_in_solver() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1).unwrap();
+    let count = Arc::new(AtomicUsize::new(0));
+    let seen = count.clone();
+    let job = manager
+        .submit_with_callbacks(
+            1,
+            |_| Err("exceptionInSolver".into()),
+            SolverJobCallbacks::default().on_error(move |_, _| {
+                seen.fetch_add(1, Ordering::SeqCst);
+            }),
+        )
+        .unwrap();
+    let result = job.wait_timeout(LIMIT).unwrap();
+    assert!(
+        matches!(result.as_ref(),Err(SolverJobError::Solve(message)) if message=="exceptionInSolver")
+    );
+    assert_eq!(count.load(Ordering::SeqCst), 1);
+    assert_eq!(manager.status(1), SolverStatus::NotSolving);
+    assert_eq!(job.status(), SolverStatus::NotSolving);
+    manager.shutdown().unwrap();
+}
+#[test]
+fn exception_in_consumer() {
+    use std::sync::Mutex;
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1).unwrap();
+    let error = Arc::new(Mutex::new(None));
+    let seen = error.clone();
+    let (tx, rx) = mpsc::channel();
+    let job = manager
+        .submit_with_callbacks(
+            1,
+            |_| initialized(),
+            SolverJobCallbacks::default()
+                .on_final(|_, _| panic!("exceptionInConsumer"))
+                .on_error(move |_, failure| {
+                    if let SolverJobFailure::Callback(f) = failure {
+                        *seen.lock().unwrap() = Some(f.clone());
+                    }
+                    tx.send(()).unwrap();
+                }),
+        )
+        .unwrap();
+    rx.recv_timeout(LIMIT).unwrap();
+    assert_eq!(
+        error.lock().unwrap().as_ref().unwrap(),
+        &SolverCallbackFailure {
+            stage: SolverCallbackStage::Final,
+            message: "exceptionInConsumer".into()
+        }
+    );
+    check_initialized(&job);
+    assert_eq!(manager.status(1), SolverStatus::NotSolving);
+    assert_eq!(job.status(), SolverStatus::NotSolving);
+    manager.shutdown().unwrap();
+}
+#[test]
+fn test_start_job_consumer() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1).unwrap();
+    let count = Arc::new(AtomicUsize::new(0));
+    let seen = count.clone();
+    let job = manager
+        .submit_with_callbacks(
+            1,
+            |_| initialized(),
+            SolverJobCallbacks::default().on_started(move |_| {
+                seen.fetch_add(1, Ordering::SeqCst);
+            }),
+        )
+        .unwrap();
+    check_initialized(&job);
+    assert_eq!(count.load(Ordering::SeqCst), 1);
+    manager.shutdown().unwrap();
+}

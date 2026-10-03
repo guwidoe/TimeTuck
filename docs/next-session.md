@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 579 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 3 manager), recorded in
+- 582 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 6 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 488 original integration regression methods, 62 original unit tests, and 46 public API documentation tests.
+- 497 original integration regression methods, 62 original unit tests, and 47 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3311,3 +3311,73 @@ score [-44,-484] in both. List two-opt16 0.348/11.152 and 32 0.892/11.795 retain
 quality differences [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070]. Construction32
 remains [0,-1080]/[0,-1062]. These existing workloads do not measure manager
 parallel throughput or establish significant changes between shared-machine runs.
+
+
+## Manager callbacks — latest increment
+
+Added SolverJobCallbacks<R,E> with on_started/on_final/on_error, submitted through
+submit_with_callbacks. Existing submit remains the no-callback path. Started runs
+once on the solver thread before the solve closure; a caught panic records its
+failure but does not skip solving. Final success callbacks and error handlers run
+on a separate consumer pool. new(solver_count) creates one consumer by default;
+with_consumer_count accepts explicit positive solver/consumer counts and rejects
+count overflow. Both pools are registered for shutdown and self-join protection.
+
+Started failures are delivered first, then the solve error or a final-callback
+failure. SolverJobFailure borrows the original typed error or callback stage/message;
+no Clone bound is added to results/errors. A failing error handler is recorded and
+disabled, without recursive notifications or reuse after panic. Callback failures
+never overwrite a solve's result. callback_failures() exposes diagnostics after
+completion. The job remains Active and its ID reserved until delivery and callback
+capture cleanup finish; wait/try_result publication includes these effects. Slow
+final/error delivery consumes a consumer slot while solver workers can take more
+jobs. Multiple consumers can overlap; cross-job delivery order is completion-queue
+order, not submission order.
+
+Queued cancellation skips every callback. Cancellation/shutdown of started jobs
+still drains delivery and preserves any computed result. Shared state tracks
+in-flight solve functions so consumer threads cannot exit before final dispatch.
+The last dispatch wakes every consumer, including those that must exit without
+receiving work. No user callback/destructor runs under manager locks. Common capture/
+dispose helpers preserve prior panic-payload and abandoned-result cleanup behavior.
+Callbacks must not await their own result or work needing a saturated consumer pool.
+Started callbacks remain part of the solver thread's cooperative work. No callback
+preemption, Java thread trace, live best event or throughput claim.
+
+Three more full SolverManagerTest methods are adapted in solver_manager_cases.rs:
+exceptionInSolver, exceptionInConsumer, testStartJobConsumer. Provenance/notices
+include DEFAULT_PROBLEM_FINDER delegation to the already-attributed two-variable
+fixture; the unused allocation is omitted in the immediate-error case. Native typed
+errors/caught callback panics replace JVM exception classes. errorThrowableInSolver
+remains pending because native allocation abort is not catchable OOM recovery.
+Nine original callback regressions verify ordering, execution threads, blocked
+callbacks freeing solver capacity, successful results despite failed callbacks,
+handler disablement, panic delivery once, queued cancellation, draining multi-consumer
+shutdown, concurrent consumers, reentrancy/self-join, constructor bounds and capture
+release before wait completion. Existing six-backend integration now verifies final
+callbacks, and batch_schedules checks eight final deliveries on consumer threads.
+
+Development gate passes 1,141 Rust tests: 582 adapted, 497 original integration and
+62 unit. All 47 doctests and 95 Python tests pass. Coverage is 582/4,855 (11.99%),
+pending 3,991, excluded 282, failed/unverified zero; lifecycle is 26/379 (6.86%).
+The batch example confirms all eight final callbacks. Logs use work/callbacks-*.log.
+The full rewrite remains active and incomplete, with intermediate best events,
+problem changes and other remaining semantics still to implement.
+
+Release verification also passes all 1,141 Rust tests; the release batch example
+confirms eight optimal results and eight final deliveries. All nine comparison
+and performance evidence groups were refreshed and are current. The generated
+report is verified, and its verification fingerprint matches the live server.
+Desktop (1280x900) and mobile (390x844) browser checks confirm 11.99% overall,
+6.86% lifecycle, all six credited SolverManager methods and 23 benchmark cards,
+with no stale warning, horizontal overflow or browser errors.
+
+Fresh illustrative medians (Rust/Java milliseconds): exact six-variable solve
+0.011/5.465; eight-variable solve 0.172/8.489; Great Deluge 32 variables
+2.945/14.309 and 96 variables 16.342/22.920; incremental-stream tabu 96 variables
+231.151/47.562. Heuristic validation remains 128 valid/equal-score cases. List
+validation remains 192 valid/189 equal-score cases, with the three existing
+quality differences visible. Great Deluge remains 275/276 Java agreements;
+the known ratio-rounding discrepancy is retained explicitly. These measurements
+are workload comparisons, not callback/manager throughput measurements, and do
+not establish a general performance advantage.

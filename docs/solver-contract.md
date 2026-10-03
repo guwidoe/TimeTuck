@@ -295,7 +295,8 @@ These add no upstream method credit and do not assert Java exact-phase trace par
 ## Asynchronous solver manager
 
 `SolverManager<R,E>` runs owned solve functions on an explicit fixed number of
-native worker threads. `submit(problem_id, |token| ...)` queues work and returns a
+solver threads, with a separate consumer pool for final/error callbacks. `new` uses
+one consumer; `with_consumer_count` accepts explicit positive solver/consumer counts. `submit(problem_id, |token| ...)` queues work and returns a
 `SolverJob` immediately. Jobs use u64 problem IDs; duplicate queued or active IDs
 are rejected, and completion releases an ID for reuse. The queue is FIFO and is
 not size-limited. Parallelism limits active functions, not threads that a caller
@@ -307,7 +308,8 @@ original `batch_schedules` example and six-backend orchestration regressions.
 
 Manager and job handles expose Scheduled, Active and NotSolving. Unknown IDs are
 NotSolving. Completion, registry removal, final status and result publication are
-synchronized; an observed result is final. Cloneable job handles share an immutable
+synchronized; an observed result is final and includes completed final/error callback
+delivery. Active includes jobs queued for or executing consumer delivery. Cloneable job handles share an immutable
 Arc<Result<R,SolverJobError<E>>> without requiring R/E to implement Clone. `wait`
 blocks for completion, `wait_timeout` bounds the caller's wait without cancelling,
 and `try_result` polls. Completed handles keep their original result when the same
@@ -341,13 +343,51 @@ receive results. Avoid waiting inside a worker for work queued to that same satu
 pool. On partial thread-start failure, construction closes and joins workers already
 started before returning the I/O error.
 
-Three complete pinned SolverManagerTest methods establish parallel initialization,
-manager/job status transitions and duplicate-ID rejection, with fixture attribution.
+Six complete pinned SolverManagerTest methods establish parallel initialization,
+manager/job status transitions, duplicate-ID rejection, started callbacks, solver
+error notification and consumer failure handling, with fixture attribution.
 Original tests additionally establish queue cancellation, ID reuse, exact-search
 best retention, typed failures/panics, multi-waiter ownership, FIFO/concurrency caps,
 shutdown/drop behavior, reentrancy and cancellation across all six real solver paths.
-Native u64 IDs/closures replace Java reflection/configuration; consumer callbacks,
-intermediate best events, problem changes, automatic CPU sizing and live statistics
-remain pending. No Java scheduling trace or manager throughput comparison is claimed.
+Native u64 IDs/closures replace Java reflection/configuration; intermediate best
+events, problem changes, automatic CPU sizing and live statistics remain pending. No Java scheduling trace or manager throughput comparison is claimed.
 The public Community lifecycle reference is
 [Timefold's library integration guide](https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/library/library-integration).
+
+
+### Job callbacks
+
+`submit_with_callbacks(id, run, SolverJobCallbacks::default()...)` configures
+`on_started`, `on_final` and `on_error` with owned Send closures. Started is invoked
+once on the solver worker before the solve function. If it panics, solving still
+runs; the failure is reported later on a consumer thread. A successful result is
+borrowed by the final callback; typed solver errors and captured solver panics skip
+that callback. Consumers receive started failures first, then final-callback or
+solver failures through the error handler. Each cause is delivered once. An error
+handler that panics is recorded and disabled, without recursive notification.
+
+`SolverJobFailure` distinguishes borrowed solver errors from callback failures.
+`job.callback_failures()` exposes owned stage/message diagnostics after completion.
+Final/error callback failure never replaces the solve's successful result or its
+original error. The job stays Active, and its ID stays reserved, until delivery and
+callback-capture cleanup finish. Waiters then see both the result and diagnostics.
+Callbacks and their destruction run outside manager locks, and callback captures
+are released before result publication. A slow final callback occupies a consumer
+thread; the solver thread can take another job. Cross-job consumer order follows
+completion queue insertion, not submission order; parallel consumers may overlap.
+
+Queued jobs cancelled before starting invoke none of these callbacks. Cancellation
+or shutdown after a solve starts still drains final/error delivery; late cancellation
+does not erase a computed result. Shutdown joins solver and consumer threads and
+rejects self-joins from either pool. Do not wait for the current job inside any of
+its callbacks, or wait on delivery that requires a saturated consumer pool. These
+are cooperative execution contexts and cannot preempt blocking user callbacks.
+
+Nine original callback regression methods cover order/thread identity, blocked
+callbacks freeing solver capacity, failure handling without result replacement,
+handler disablement, queued cancellation, shutdown draining/wakeup, two concurrent
+consumers, reentrancy/self-shutdown, count validation and capture release. The
+existing six-backend integration now checks final callbacks, and batch_schedules
+verifies eight deliveries. No Java consumer thread scheduling or throughput parity
+is claimed. Java's OutOfMemoryError recovery test remains pending: aborting native
+allocation failure is not represented as a catchable exception.

@@ -468,3 +468,13 @@ input-return or blocking termination remain pending. Original regressions exerci
 all six actual solver paths inside manager jobs, along with ownership, errors,
 panics and shutdown. Callbacks, live problem changes and manager performance are
 not established by these tests. See solver-contract.md.
+
+
+Started/final/error callbacks now add three complete SolverManagerTest adaptations:
+exceptionInSolver, exceptionInConsumer and testStartJobConsumer. Final/error delivery
+uses separate consumer threads, waits include delivery, and callback failures do not
+replace successful solve results. Native original regressions establish ordering,
+failure containment, cancellation, shutdown and concurrency; all six solver paths
+exercise final delivery. Intermediate best events, live changes, Java consumer
+scheduling and native allocation-failure recovery remain unverified. See
+solver-contract.md for the callback contract.
