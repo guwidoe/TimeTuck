@@ -119,3 +119,39 @@ estimates with exact stopping predicates; their contract and source-test mapping
 are documented in `incremental-search-contract.md`. Gradient differences widen
 integers before conversion to floating point; ordinary score arithmetic retains
 its existing wrapping semantics.
+
+## Owned score values
+
+The common `Score` bound is now `Clone + Ord + Debug`; it no longer requires Copy.
+`structural`, `hard_cmp` and `is_feasible` borrow their receivers, and `hard_cmp`
+also borrows its other score. Custom implementations must update those signatures.
+The four existing integer families remain Copy and retain their arithmetic and
+ordering contracts. `ordinary_levels()` still yields i64; decimal level support
+and the BigDecimal score families remain pending.
+
+Caches, saved candidates, result accessors, acceptor history and phase plans clone
+scores where an independent retained value is needed. Read-only comparisons borrow
+where possible. AdditiveScore still supplies an owned ZERO constant and consuming
+arithmetic. Custom clones must preserve immutable logical values; neither cloning,
+comparison nor arithmetic may mutate another retained score through shared interior
+state. Result accessors that return owned scores now require Clone instead of Copy.
+Acceptance validation/start borrow their configuration so a phase can retain it.
+
+Graph checkpoints capture an owned total before mutation. Rollback moves that
+saved total back with mem::replace rather than cloning during Drop. Ordinary clone
+failures while preparing/applying a trial therefore unwind through the existing
+journal. Scoped move caches remain unpublished until commit; a clone failure during
+candidate preparation drops the move guard and restores the assignment. This does
+not make arbitrary user destructors or shared interior mutations transactional.
+
+Six original regressions use an actual heap-owned two-level integer score with no
+Copy implementation. They compare 720 configurations against HardSoftScore across
+all six solve entry points, two construction orders, initial/empty assignments,
+five acceptance policies, count caps, saved candidates and two improvement phases.
+Exact search is checked across all three model types and budgets 0..130, including
+structural rejection and prefix optimality. Additional checks cover late-acceptance
+hard resets, annealing probabilities, target/feasibility progress, every injected
+score-clone failure through graph and scoped-move preparation, and rollback with
+the very next clone configured to fail. A public doctest shows a custom owned score
+used by exact search. These checks add no upstream test-method credit and do not
+claim arbitrary-precision or decimal compatibility yet.

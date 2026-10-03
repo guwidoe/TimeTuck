@@ -160,7 +160,7 @@ where
             return Ok(result);
         }
         if let Some(reason) = config.step_termination(
-            result.best.as_ref().expect("initial best").score,
+            result.best.as_ref().expect("initial best").score.clone(),
             result.accepted_moves,
             progress,
         ) {
@@ -202,7 +202,7 @@ where
                 } else {
                     vec![]
                 };
-                acceptor.accepts(current, score, &keys)
+                acceptor.accepts(current.clone(), score, &keys)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,

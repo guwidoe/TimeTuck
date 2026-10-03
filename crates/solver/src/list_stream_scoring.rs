@@ -218,7 +218,7 @@ impl<V, S: AdditiveScore> ListStreamScoredMove<'_, '_, V, S> {
         self.graph.graph().expect("successfully scored transaction")
     }
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     pub fn constraint_evaluations(&self) -> u128 {
         self.graph.score_evaluations()
@@ -290,7 +290,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
             {
                 best = Some(Saved {
                     accepted,

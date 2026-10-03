@@ -10,7 +10,7 @@ pub struct SimulatedAnnealing<S> {
 }
 
 impl<S: Score> SimulatedAnnealing<S> {
-    pub(crate) fn validate(temperature: S, cooling_steps: u64) -> Result<(), AcceptanceError> {
+    pub(crate) fn validate(temperature: &S, cooling_steps: u64) -> Result<(), AcceptanceError> {
         if temperature.structural() != 0
             || temperature.ordinary_levels().next().is_none()
             || temperature.ordinary_levels().any(|level| level < 0)
@@ -26,7 +26,7 @@ impl<S: Score> SimulatedAnnealing<S> {
     /// Zero-temperature levels reject deterioration in those levels. All-zero
     /// temperature is valid and behaves as hill climbing on sound scores.
     pub fn new(temperature: S, cooling_steps: u64, seed: u64) -> Result<Self, AcceptanceError> {
-        Self::validate(temperature, cooling_steps)?;
+        Self::validate(&temperature, cooling_steps)?;
         Ok(Self {
             starting_temperature: temperature,
             cooling_steps,

@@ -217,7 +217,7 @@ impl<B, L, S: AdditiveScore> MixedStreamScoredMove<'_, '_, B, L, S> {
         &self.assignment
     }
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     pub fn graph(&self) -> &StreamGraph<'_, S> {
         self.graph.graph().expect("successfully scored transaction")
@@ -292,7 +292,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
             {
                 best = Some(Saved {
                     accepted,

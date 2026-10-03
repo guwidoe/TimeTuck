@@ -6,8 +6,29 @@
 
 use std::{error::Error, fmt, ops, str::FromStr};
 
-/// Common behavior required by optimization algorithms.
-pub trait Score: Copy + Ord + fmt::Debug {
+/// Common behavior required by optimization algorithms. Scores may own storage;
+/// cloning must preserve an independent immutable logical value. Clone, comparison
+/// and arithmetic must not mutate other retained scores through shared interiors.
+/// Existing integer families remain Copy. Ordinary levels are still i64; this
+/// ownership contract alone does not add decimal score levels.
+///
+/// ```
+/// use timetuck::{Score, FiniteProblem, Variable, exhaustive_search};
+/// #[derive(Clone,Debug,Eq,PartialEq,Ord,PartialOrd)]
+/// struct HeapScore(Vec<i64>);
+/// impl Score for HeapScore {
+///     const HARD_LEVEL_COUNT: usize = 0;
+///     fn ordinary_levels(&self)->impl Iterator<Item=i64> {self.0.iter().copied()}
+///     fn structural(&self)->i64 {0}
+///     fn hard_cmp(&self,_:&Self)->std::cmp::Ordering {std::cmp::Ordering::Equal}
+///     fn is_feasible(&self)->bool {true}
+/// }
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1_i64,2])]).unwrap();
+/// let r = exhaustive_search(&p, |a| HeapScore(vec![a.values()[0].unwrap()]), 2);
+/// assert!(r.is_optimal());
+/// assert_eq!(r.best.unwrap().score, HeapScore(vec![2]));
+/// ```
+pub trait Score: Clone + Ord + fmt::Debug {
     /// Number of leading ordinary levels that represent hard constraints.
     /// Must not exceed the number of ordinary levels and is constant per type.
     const HARD_LEVEL_COUNT: usize;
@@ -17,13 +38,13 @@ pub trait Score: Copy + Ord + fmt::Debug {
     fn ordinary_levels(&self) -> impl Iterator<Item = i64>;
 
     /// Negative values identify a structurally flawed candidate.
-    fn structural(self) -> i64;
+    fn structural(&self) -> i64;
 
     /// Compare hard levels only, excluding structural and all soft levels.
-    fn hard_cmp(self, other: Self) -> std::cmp::Ordering;
+    fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering;
 
     /// Whether the structural and hard constraints are satisfied.
-    fn is_feasible(self) -> bool;
+    fn is_feasible(&self) -> bool;
 }
 
 /// Additive scores used by a scoped constraint network.
@@ -178,11 +199,11 @@ macro_rules! fixed_score {
         impl Score for $name {
             const HARD_LEVEL_COUNT: usize = $hard;
             fn ordinary_levels(&self) -> impl Iterator<Item = i64> { self.levels.iter().copied() }
-            fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
+            fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering {
                 self.levels[..$hard].cmp(&other.levels[..$hard])
             }
-            fn structural(self) -> i64 { self.structural() }
-            fn is_feasible(self) -> bool { self.is_feasible() }
+            fn structural(&self) -> i64 { (*self).structural() }
+            fn is_feasible(&self) -> bool { (*self).is_feasible() }
         }
         impl FromStr for $name {
             type Err = ParseScoreError;

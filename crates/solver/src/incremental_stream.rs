@@ -533,27 +533,29 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
 
     pub fn score(&self) -> S {
         healthy(self.poisoned);
-        self.score
+        self.score.clone()
     }
 
     pub fn contributions(&self) -> impl Iterator<Item = (&I, S)> {
         healthy(self.poisoned);
-        self.contributions.iter().map(|(id, &score)| (id, score))
+        self.contributions
+            .iter()
+            .map(|(id, score)| (id, score.clone()))
     }
 
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Result<(), StructuralStreamContribution> {
         healthy(self.poisoned);
         let new = change.value.as_ref().map(|row| (self.evaluate)(row));
-        if new.is_some_and(|score| score.structural() != 0) {
+        if new.as_ref().is_some_and(|score| score.structural() != 0) {
             return Err(StructuralStreamContribution);
         }
-        let score = self.score
+        let score = self.score.clone()
             - self
                 .contributions
                 .get(&change.id)
-                .copied()
+                .cloned()
                 .unwrap_or(S::ZERO)
-            + new.unwrap_or(S::ZERO);
+            + new.clone().unwrap_or(S::ZERO);
         self.poisoned = true;
         if let Some(new) = new {
             self.contributions.insert(change.id, new);

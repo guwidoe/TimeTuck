@@ -120,11 +120,11 @@ pub struct SolverResult<A, S> {
     pub phases: Vec<PhaseReport<S>>,
     pub termination: SolverTermination,
 }
-impl<A, S: Copy> SolverResult<A, S> {
+impl<A, S: Clone> SolverResult<A, S> {
     /// Complete, scored solution; completeness does not imply hard feasibility.
     pub fn solution(&self) -> Option<(&A, S)> {
         if self.complete {
-            self.score.map(|s| (&self.assignment, s))
+            self.score.clone().map(|s| (&self.assignment, s))
         } else {
             None
         }
@@ -313,7 +313,7 @@ where
             c.cancellation = c.cancellation.or(limits.cancellation);
             (PhaseRequest::Construction(c), owned.0, owned.1)
         } else {
-            let mut c = local[index - 1];
+            let mut c = local[index - 1].clone();
             let owned = (
                 remaining_scores <= c.max_evaluations,
                 remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
@@ -321,7 +321,7 @@ where
             c.max_evaluations = c.max_evaluations.min(remaining_scores);
             c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
             c.cancellation = c.cancellation.or(limits.cancellation);
-            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit) {
+            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
                 (Some(a), Some(b)) => Some(a.min(b)),
                 (a, b) => a.or(b),
             };
@@ -339,17 +339,17 @@ where
                 .assignment
                 .take()
                 .expect("construction always returns an assignment"),
-            score: out.score,
+            score: out.score.clone(),
             complete: out.complete,
             work: SolverWork::default(),
             phases: Vec::new(),
             termination: SolverTermination::PlanCompleted,
         });
-        if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score)
-            && r.score.is_none_or(|best| score > best)
+        if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score.as_ref())
+            && r.score.as_ref().is_none_or(|best| score > best)
         {
             r.assignment = assignment;
-            r.score = Some(score);
+            r.score = Some(score.clone());
             r.complete = out.complete;
         }
         r.work.add(out.work);
@@ -392,15 +392,16 @@ where
             }
             _ if time.expired() => Some(SolverTermination::TimeLimit),
             _ if !r.complete => Some(SolverTermination::IncompleteConstruction),
-            _ if r.score.is_some_and(|score| {
+            _ if r.score.as_ref().is_some_and(|score| {
                 limits
                     .best_score_limit
+                    .as_ref()
                     .is_some_and(|target| score >= target)
             }) =>
             {
                 Some(SolverTermination::BestScoreLimit)
             }
-            _ if limits.stop_when_feasible && r.score.is_some_and(Score::is_feasible) => {
+            _ if limits.stop_when_feasible && r.score.as_ref().is_some_and(Score::is_feasible) => {
                 Some(SolverTermination::FeasibleScore)
             }
             _ => None,
@@ -519,7 +520,7 @@ pub fn solve_mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: MixedSolverConfig<'_, S>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
-    let phases: Vec<_> = c.local_search.iter().map(|c| c.search).collect();
+    let phases: Vec<_> = c.local_search.iter().map(|c| c.search.clone()).collect();
     run(
         c.limits,
         c.construction.construction,
@@ -613,7 +614,7 @@ pub fn solve_mixed_stream<
     mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
     c: MixedSolverConfig<'_, S>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
-    let phases: Vec<_> = c.local_search.iter().map(|c| c.search).collect();
+    let phases: Vec<_> = c.local_search.iter().map(|c| c.search.clone()).collect();
     run(
         c.limits,
         c.construction.construction,

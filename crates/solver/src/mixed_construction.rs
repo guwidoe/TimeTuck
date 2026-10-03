@@ -37,13 +37,13 @@ impl<B, L, S> MixedConstructionResult<B, L, S> {
         self.evaluations.saturating_sub(1)
     }
 }
-impl<B: Clone, L: Clone, S: Copy> MixedConstructionResult<B, L, S> {
+impl<B: Clone, L: Clone, S: Clone> MixedConstructionResult<B, L, S> {
     /// Completeness and a calculated score are required; hard feasibility is not.
     pub fn solution(&self) -> Option<ScoredMixedAssignment<B, L, S>> {
         if !self.complete {
             return None;
         }
-        self.score.map(|score| ScoredMixedAssignment {
+        self.score.clone().map(|score| ScoredMixedAssignment {
             assignment: self.assignment.clone(),
             score,
         })
@@ -199,7 +199,7 @@ pub(crate) fn construction_impl_with_clock<
                         budget.remaining,
                         false,
                         |_, _| true,
-                        |score| config.pick_early.should_pick(previous, score),
+                        |score| config.pick_early.should_pick(previous.clone(), score),
                         config.assert_scores,
                     )?
                 }
@@ -226,7 +226,7 @@ pub(crate) fn construction_impl_with_clock<
                         budget.remaining,
                         false,
                         |_, _| true,
-                        |score| config.pick_early.should_pick(previous, score),
+                        |score| config.pick_early.should_pick(previous.clone(), score),
                         config.assert_scores,
                     )?
                 }

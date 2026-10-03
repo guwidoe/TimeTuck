@@ -373,3 +373,10 @@ doctest check candidate-prefix retention, competing controls, preparation costs
 and actual exhaustion. These original checks add no upstream-method coverage and
 do not establish Java timed phase traces or hard preemption. See the exact-search
 elapsed-time section of `planning-contract.md` for scope and precedence.
+
+Native score storage now supports Clone-only owned values throughout scoring,
+construction, local/exact search and orchestration. Six original integration
+regressions compare a heap-owned integer score with the established integer family,
+including clone-failure rollback, and one doctest demonstrates the contract. This
+is groundwork for arbitrary-precision scores; ordinary levels remain i64 and no
+BigDecimal score-method credit is claimed. See `score-contract.md`.

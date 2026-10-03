@@ -564,7 +564,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
                 .eq(old.iter().map(|(id, (_, s))| (id, s)))
     }
     fn checkpoint(&self) -> Box<dyn Any> {
-        Box::new((self.matches.clone(), self.total))
+        Box::new((self.matches.clone(), self.total.clone()))
     }
     fn restore(&mut self, c: Box<dyn Any>) {
         let (matches, total) = *c
@@ -577,16 +577,23 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         Some(&self.matches)
     }
     fn score(&self) -> S {
-        self.total
+        self.total.clone()
     }
     fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         let contribution = change.value.as_ref().map(|value| (self.evaluate)(value));
-        if contribution.is_some_and(|score| score.structural() != 0) {
+        if contribution
+            .as_ref()
+            .is_some_and(|score| score.structural() != 0)
+        {
             return Err(GraphError::StructuralContribution(self.name.clone()));
         }
-        let total = self.total - self.matches.get(&change.id).map_or(S::ZERO, |(_, s)| *s)
-            + contribution.unwrap_or(S::ZERO);
+        let total = self.total.clone()
+            - self
+                .matches
+                .get(&change.id)
+                .map_or(S::ZERO, |(_, s)| s.clone())
+            + contribution.clone().unwrap_or(S::ZERO);
         if let Some(value) = &change.value {
             self.matches.insert(
                 change.id.clone(),
@@ -1279,7 +1286,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
 }
 impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.constraints
@@ -1359,7 +1366,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         self.score = state.score;
     }
     pub fn transaction(&mut self) -> GraphTransaction<'_, 'a, S> {
-        let original_score = self.score;
+        let original_score = self.score.clone();
         let visited = vec![false; self.nodes.len()];
         GraphTransaction {
             graph: self,
@@ -1397,7 +1404,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     pub(crate) fn capture(&self) -> Result<GraphState<S>, GraphError> {
         self.valid()?;
         Ok(GraphState {
-            score: self.graph.score,
+            score: self.graph.score.clone(),
             nodes: self
                 .journal
                 .iter()
@@ -1428,7 +1435,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     }
     pub fn score(&self) -> Result<S, GraphError> {
         self.valid()?;
-        Ok(self.graph.score)
+        Ok(self.graph.score.clone())
     }
     pub fn graph(&self) -> Result<&StreamGraph<'_, S>, GraphError> {
         self.valid()?;
@@ -1464,7 +1471,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
             let outputs = self.graph.nodes[id].apply(edge.right, &event)?;
-            self.graph.score = self.graph.score - old + self.graph.nodes[id].score();
+            self.graph.score = self.graph.score.clone() - old + self.graph.nodes[id].score();
             for output in outputs {
                 for &next in &self.graph.edges[id] {
                     pending.push_back((next, output.clone()));
@@ -1485,7 +1492,7 @@ impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
             for (id, checkpoint) in self.journal.drain(..).rev() {
                 self.graph.nodes[id].restore(checkpoint);
             }
-            self.graph.score = self.original_score;
+            self.graph.score = std::mem::replace(&mut self.original_score, S::ZERO);
         }
     }
 }

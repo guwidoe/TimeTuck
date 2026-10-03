@@ -72,7 +72,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 408 original integration regression methods, forty-nine original unit tests, and thirty-seven public API documentation tests.
+- 414 original integration regression methods, forty-nine original unit tests, and thirty-eight public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -2602,3 +2602,70 @@ confirmed unchanged 9.91% overall / 22.37% streams, updated exact and stream tim
 text, six list/four stream cards and the explicit 8/18 membership boundary
 differences. No visible alerts, page errors or horizontal overflow. Browser closed;
 upstream pin and checkout remain unchanged.
+
+
+## Owned score storage — latest increment
+
+Score now requires Clone instead of Copy. Its structural/is_feasible/hard_cmp
+methods borrow self; hard_cmp borrows the other score as well. Existing integer
+families remain Copy, and ordinary_levels still returns i64. Owned arbitrary-
+precision decimal levels are not implemented yet. This removes the storage
+restriction needed for them without narrowing the ultimate score-family goal.
+
+Score caches, scoped/stream candidate results, acceptor history, construction
+results, phase plans and orchestration now retain explicit cloned values as needed.
+Read-only comparisons borrow values, acceptance validate/start borrow config, and
+result accessors accept Clone scores. Graph rollback moves the captured original
+total back using mem::replace and does not clone in Drop. Scoped moves still
+prepare candidate contributions before publishing any cache update. Custom score
+clones/comparisons/arithmetic must preserve independent immutable logical values;
+shared interior mutation and panicking destructors remain outside guarantees.
+
+Six original tests in owned_scores.rs use a heap-owned two-level integer score
+in support/owned_score.rs. The 720-configuration solver matrix compares all six
+model/backend entry points against HardSoftScore, including initialized/uninitialized
+starts, both mixed construction orders, five acceptance policies, score budgets,
+goals, two improvement phases, exact phase reports/work and retained assignments.
+All three exact model types are compared over budgets 0..130. Separate tests cover
+hard-reset history, annealing, progress, clone fault sweeps for graph/scoped move
+preparation and rollback with the next clone armed to fail. A doctest demonstrates
+custom owned scores in exact search. No upstream source credit or decimal behavior
+is claimed, and no upstream production implementation was inspected.
+
+Development gate passes 944 Rust tests (481 adapted, 414 original integration,
+49 unit), 38 doctests and 83 Python tests. Coverage remains 481/4,855 (9.91%),
+291/1,301 streams (22.37%), 4,092 pending, 282 excluded, with no failed/unverified
+methods. Logs use work/owned-score-*.log. The overall rewrite remains active.
+
+Next decimal work must generalize the i64 ordinary-level contract and the
+integer-specific widened fractions/annealing losses before adding actual decimal
+score families. Read the pinned *BigDecimalScoreTest methods and probe Community
+public APIs for ordering/equality, scale, parsing and rounding; do not infer those
+contracts from the existing Decimal collector. Preserve existing integer boundary
+behavior and add real solver integration plus independent decimal comparisons.
+
+Specification inspected while verification ran: the complete pinned
+core/src/test/java/ai/timefold/solver/core/api/score/SimpleBigDecimalScoreTest.java
+contains 19 methods. It explicitly preserves scale for nonzero of(1.0), normalizes
+zero text to "0", and requires numeric equality/hash equivalence between -10.0
+and -10.000. Its arithmetic examples include multiply/divide/power clamping
+negative scale. Do not directly reuse Decimal's scale-sensitive Eq/Hash/Ord for
+score equality. The higher-level decimal families and public boundary behavior
+still need inspection; no adaptations or method credit were added by reading this.
+
+Final release verification also passes all 944 Rust tests. Regenerated all nine
+comparison/benchmark sections after the final source edit; each is current and
+the live /api/freshness digest matches the report. Desktop 1280x900 and mobile
+390x844 browser checks show all 19 timing cards, 9.91% coverage, no visible alerts,
+no page errors and no horizontal overflow. Membership's 8/18 boundary differences
+remain visible. The existing dashboard server is still at 127.0.0.1:8765.
+
+Latest warmed Rust/Java median ms: exact 6-variable 0.010/3.612 and 8-variable
+0.181/5.551; incremental hill 32-variable 47.604/16.126 and 96-variable
+161.285/27.082; incremental tabu 32-variable 45.134/12.023 and 96-variable
+165.940/21.205. Both 96-variable stream results remain infeasible at [-44,-484]
+after 50 steps. List two-opt 16-customer 0.258/8.043 and 32-customer 0.886/9.422;
+respective scores remain Rust [0,-1250]/Java [0,-1254] and Rust [0,-1964]/Java
+[0,-2070]. Construction at 32 customers remains Rust [0,-1080]/Java [0,-1062].
+These are refreshed shared-machine observations, not a significance, general
+speedup, decimal-score performance, or equal-trace claim.

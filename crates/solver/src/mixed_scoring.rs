@@ -289,7 +289,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             .collect::<Result<Vec<_>, _>>()?;
         let total = contributions
             .iter()
-            .fold(S::ZERO, |total, &score| total + score);
+            .fold(S::ZERO, |total, score| total + score.clone());
         let score = with_structure(total, problem, &assignment)?;
         Ok(Self {
             problem,
@@ -339,7 +339,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
             {
                 best = Some(Selected {
                     movement: movement.clone(),
@@ -368,24 +368,24 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         &self.assignment
     }
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.network
             .constraints
             .iter()
             .zip(&self.contributions)
-            .map(|(c, &score)| (c.name.as_str(), score))
+            .map(|(c, score)| (c.name.as_str(), score.clone()))
     }
     /// Recompute every contribution to detect even mutually cancelling corruption.
     /// Diagnostics do not change cached contributions or move evaluation counts.
     pub fn assert_consistent(&self) -> Result<(), MixedScoringError> {
         let mut total = S::ZERO;
-        for (i, &cached) in self.contributions.iter().enumerate() {
+        for (i, cached) in self.contributions.iter().enumerate() {
             let actual = self
                 .network
                 .contribution(i, self.problem, &self.assignment)?;
-            if actual != cached {
+            if actual != *cached {
                 return Err(MixedScoringError::CorruptedConstraint { constraint: i });
             }
             total = total + actual;
@@ -426,11 +426,11 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         }
         affected.sort_unstable();
         affected.dedup();
-        let mut score = self.score;
+        let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let contribution = self.network.contribution(i, self.problem, &transaction)?;
-            score = score - self.contributions[i] + contribution;
+            score = score - self.contributions[i].clone() + contribution.clone();
             updates.push((i, contribution));
         }
         let candidate_score = with_structure(score, self.problem, &transaction)?;
@@ -455,12 +455,12 @@ pub struct ScoredMixedMove<'a, B, L, S> {
     cached_score: &'a mut S,
     contributions: &'a mut [S],
 }
-impl<B, L, S: Copy> ScoredMixedMove<'_, B, L, S> {
+impl<B, L, S: Clone> ScoredMixedMove<'_, B, L, S> {
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
         &self.transaction
     }
     pub fn score(&self) -> S {
-        self.candidate_score
+        self.candidate_score.clone()
     }
     pub fn constraint_evaluations(&self) -> usize {
         self.updates.len()

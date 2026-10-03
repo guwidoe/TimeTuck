@@ -81,6 +81,9 @@ For ordered lists, `greedy_list_construction` inserts missing required values an
 assignment, unassignment, swap and replacement moves. See
 `docs/list-planning-contract.md` for budgets, pinning and evidence.
 
+The common score interface accepts owned `Clone` values as well as the built-in
+`Copy` integer scores. Decimal score levels are still pending; see `docs/score-contract.md`.
+
 ## Upstream test reference
 
 Timefold Community **2.7.0** is pinned as a separate Git submodule. It is not a

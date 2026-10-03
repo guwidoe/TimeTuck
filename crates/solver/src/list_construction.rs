@@ -23,12 +23,12 @@ impl<V, S> ListConstructionResult<V, S> {
         self.evaluations.saturating_sub(1)
     }
 }
-impl<V: Clone, S: Copy> ListConstructionResult<V, S> {
+impl<V: Clone, S: Clone> ListConstructionResult<V, S> {
     pub fn solution(&self) -> Option<ScoredListAssignment<V, S>> {
         if !self.complete {
             return None;
         }
-        self.score.map(|score| ScoredListAssignment {
+        self.score.clone().map(|score| ScoredListAssignment {
             assignment: self.assignment.clone(),
             score,
         })
@@ -131,7 +131,7 @@ pub(crate) fn construction_impl_with_clock<
                 budget.remaining,
                 false,
                 |_, _| true,
-                |score| config.pick_early.should_pick(previous, score),
+                |score| config.pick_early.should_pick(previous.clone(), score),
                 config.assert_scores,
             )?;
             result.evaluations += selection.evaluations;

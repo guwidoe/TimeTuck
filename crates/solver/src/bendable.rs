@@ -203,14 +203,14 @@ impl<const H: usize, const S: usize> Score for BendableScore<H, S> {
     fn ordinary_levels(&self) -> impl Iterator<Item = i64> {
         self.hard.iter().chain(self.soft.iter()).copied()
     }
-    fn structural(self) -> i64 {
+    fn structural(&self) -> i64 {
         self.structural
     }
-    fn hard_cmp(self, other: Self) -> std::cmp::Ordering {
+    fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.hard.cmp(&other.hard)
     }
-    fn is_feasible(self) -> bool {
-        self.is_feasible()
+    fn is_feasible(&self) -> bool {
+        (*self).is_feasible()
     }
 }
 impl<const H: usize, const S: usize> AdditiveScore for BendableScore<H, S> {

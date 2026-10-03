@@ -107,13 +107,13 @@ fn medium_and_structural_components_are_not_hard_levels() {
     state.step_ended(hard);
     assert_eq!(state.history(), &[hard; 3]);
     assert_eq!(
-        SimpleScore::new(20).hard_cmp(SimpleScore::new(-20)),
+        SimpleScore::new(20).hard_cmp(&SimpleScore::new(-20)),
         Ordering::Equal
     );
     assert_eq!(
         HardSoftScore::new(0, 99)
             .with_structural(-1)
-            .hard_cmp(HardSoftScore::new(0, -99)),
+            .hard_cmp(&HardSoftScore::new(0, -99)),
         Ordering::Equal
     );
 }

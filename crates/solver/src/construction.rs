@@ -26,7 +26,7 @@ impl ConstructionPickEarly {
             Self::FirstNonDeterioratingScore => candidate >= previous,
             Self::FirstFeasibleScore => candidate.is_feasible(),
             Self::FirstFeasibleScoreOrNonDeterioratingHard => {
-                candidate.is_feasible() || !candidate.hard_cmp(previous).is_lt()
+                candidate.is_feasible() || !candidate.hard_cmp(&previous).is_lt()
             }
         }
     }
@@ -110,14 +110,14 @@ impl<V, S> ConstructionResult<V, S> {
         self.evaluations.saturating_sub(1)
     }
 }
-impl<V: Clone, S: Copy> ConstructionResult<V, S> {
+impl<V: Clone, S: Clone> ConstructionResult<V, S> {
     /// Return a scored solution only if all required variables are assigned.
     /// A complete solution can still violate hard constraints.
     pub fn solution(&self) -> Option<ScoredAssignment<V, S>> {
         if !self.complete {
             return None;
         }
-        self.score.map(|score| ScoredAssignment {
+        self.score.clone().map(|score| ScoredAssignment {
             assignment: self.assignment.clone(),
             score,
         })
@@ -220,7 +220,7 @@ pub(crate) fn construction_impl_with_clock<
             budget.remaining,
             false,
             |_, _| true,
-            |score| config.pick_early.should_pick(previous, score),
+            |score| config.pick_early.should_pick(previous.clone(), score),
             config.assert_scores,
         )?;
         result.evaluations += selection.evaluations;

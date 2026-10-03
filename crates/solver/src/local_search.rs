@@ -191,7 +191,11 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
         } else if crate::StepCountLimit::new(self.max_steps).is_reached(progress.completed_steps())
         {
             Some(StepLimit)
-        } else if self.best_score_limit.is_some_and(|target| best >= target) {
+        } else if self
+            .best_score_limit
+            .as_ref()
+            .is_some_and(|target| best >= *target)
+        {
             Some(BestScoreLimit)
         } else if self.stop_when_feasible && best.is_feasible() {
             Some(FeasibleScore)
@@ -395,7 +399,7 @@ where
             return Ok(result);
         }
         if let Some(reason) = config.step_termination(
-            result.best.as_ref().expect("initial best").score,
+            result.best.as_ref().expect("initial best").score.clone(),
             result.accepted_moves,
             progress,
         ) {
@@ -445,7 +449,7 @@ where
                 } else {
                     Vec::new()
                 };
-                acceptor.accepts(current, score, &variables)
+                acceptor.accepts(current.clone(), score, &variables)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,

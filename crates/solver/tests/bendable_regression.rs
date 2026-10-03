@@ -87,9 +87,12 @@ fn hard_priority_feasibility_and_annealing_see_all_levels_in_order() {
     let b = B::new([1, -1], [i64::MIN, i64::MIN]);
     assert!(b > a);
     assert!(!b.is_feasible());
-    assert_eq!(a.hard_cmp(a.with_structural(-2)), std::cmp::Ordering::Equal);
     assert_eq!(
-        a.hard_cmp(B::new([0, 1], [-100, -100])),
+        a.hard_cmp(&a.with_structural(-2)),
+        std::cmp::Ordering::Equal
+    );
+    assert_eq!(
+        a.hard_cmp(&B::new([0, 1], [-100, -100])),
         std::cmp::Ordering::Less
     );
     let cooling = SimulatedAnnealing::new(B::new([1, 2], [4, 8]), 2, 0).unwrap();

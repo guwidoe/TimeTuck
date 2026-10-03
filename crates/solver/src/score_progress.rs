@@ -121,7 +121,7 @@ impl<S: Score> ScoreTargetProgress<S> {
         if best.structural() < 0 {
             return 0.0;
         }
-        if self.is_reached(best) {
+        if best >= self.target {
             return 1.0;
         }
         if best < self.start {
@@ -163,7 +163,7 @@ impl<S: Score> FeasibilityProgress<S> {
         if best.structural() < 0 {
             return 0.0;
         }
-        if self.is_reached(best) {
+        if best.is_feasible() {
             return 1.0;
         }
         weighted(

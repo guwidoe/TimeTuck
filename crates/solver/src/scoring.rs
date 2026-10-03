@@ -229,7 +229,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             .collect::<Result<Vec<_>, _>>()?;
         let sum = contributions
             .iter()
-            .fold(S::ZERO, |sum, &score| sum + score);
+            .fold(S::ZERO, |sum, score| sum + score.clone());
         let score = with_structure(sum, problem, &assignment);
         Ok(Self {
             problem,
@@ -243,7 +243,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         &self.assignment
     }
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     /// Evaluate against one unchanged base, retaining the first highest-scoring
     /// accepted candidate. The saved assignment and sparse cache updates stay inside this
@@ -287,7 +287,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
             {
                 best = Some(SelectedCandidate {
                     accepted,
@@ -317,15 +317,15 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             .constraints
             .iter()
             .zip(&self.contributions)
-            .map(|(c, &s)| (c.name.as_str(), s))
+            .map(|(c, s)| (c.name.as_str(), s.clone()))
     }
     /// Compare every cached contribution and the total against fresh calculation.
     /// This is diagnostic work and is not included in search evaluation budgets.
     pub fn assert_consistent(&self) -> Result<(), ScoringError> {
         let mut sum = S::ZERO;
-        for (i, &cached) in self.contributions.iter().enumerate() {
+        for (i, cached) in self.contributions.iter().enumerate() {
             let actual = self.network.contribution(i, &self.assignment)?;
-            if cached != actual {
+            if *cached != actual {
                 return Err(ScoringError::CorruptedConstraint { constraint: i });
             }
             sum = sum + actual;
@@ -346,11 +346,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             .collect();
         affected.sort_unstable();
         affected.dedup();
-        let mut score = self.score;
+        let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let new_score = self.network.contribution(i, &transaction)?;
-            score = score - self.contributions[i] + new_score;
+            score = score - self.contributions[i].clone() + new_score.clone();
             updates.push((i, new_score));
         }
         let candidate_score = with_structure(score, self.problem, &transaction);
@@ -374,12 +374,12 @@ pub struct ScoredMove<'a, V, S> {
     cached_score: &'a mut S,
     contributions: &'a mut [S],
 }
-impl<V, S: Copy> ScoredMove<'_, V, S> {
+impl<V, S: Clone> ScoredMove<'_, V, S> {
     pub fn assignment(&self) -> &Assignment<V> {
         &self.transaction
     }
     pub fn score(&self) -> S {
-        self.candidate_score
+        self.candidate_score.clone()
     }
     pub fn constraint_evaluations(&self) -> usize {
         self.updates.len()

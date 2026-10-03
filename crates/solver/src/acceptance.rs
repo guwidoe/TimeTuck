@@ -51,14 +51,14 @@ impl fmt::Display for AcceptanceError {
 }
 impl Error for AcceptanceError {}
 impl<S: Score> Acceptance<S> {
-    pub fn validate(self) -> Result<(), AcceptanceError> {
+    pub fn validate(&self) -> Result<(), AcceptanceError> {
         if let Self::SimulatedAnnealing {
             starting_temperature,
             cooling_steps,
             ..
         } = self
         {
-            SimulatedAnnealing::validate(starting_temperature, cooling_steps)?;
+            SimulatedAnnealing::validate(starting_temperature, *cooling_steps)?;
         }
         if matches!(self, Self::VariableTabu { tenure: 0, .. }) {
             return Err(AcceptanceError::EmptyTabu);
@@ -76,9 +76,9 @@ impl<S: Score> Acceptance<S> {
         }
     }
     /// Start a fresh acceptance session. No state is shared between solver runs.
-    pub fn start(self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
+    pub fn start(&self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
         self.validate()?;
-        Ok(match self {
+        Ok(match self.clone() {
             Self::SimulatedAnnealing {
                 starting_temperature,
                 cooling_steps,
@@ -123,7 +123,9 @@ impl<S: Score> Acceptor<S> {
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::LateAcceptance(state) => state.accepts(current, candidate),
-            Self::VariableTabu { memory, best } => memory.accepts(variables, candidate, *best),
+            Self::VariableTabu { memory, best } => {
+                memory.accepts(variables, candidate, best.clone())
+            }
         }
     }
     /// Record a completed step, never an unselected trial move.
@@ -133,7 +135,9 @@ impl<S: Score> Acceptor<S> {
             Self::LateAcceptance(state) => state.step_ended(score),
             Self::VariableTabu { memory, best } => {
                 memory.step_ended(variables);
-                *best = (*best).max(score);
+                if score >= *best {
+                    *best = score;
+                }
             }
             _ => {}
         }
@@ -164,7 +168,7 @@ impl<S: Score> LateAcceptance<S> {
         history
             .try_reserve_exact(history_size)
             .map_err(|_| AcceptanceError::HistoryAllocation)?;
-        history.resize(history_size, initial_best);
+        history.resize(history_size, initial_best.clone());
         Ok(Self {
             history,
             cursor: 0,
@@ -176,17 +180,17 @@ impl<S: Score> LateAcceptance<S> {
         &self.history
     }
     pub fn threshold(&self) -> S {
-        self.history[self.cursor]
+        self.history[self.cursor].clone()
     }
     pub fn accepts(&self, current: S, candidate: S) -> bool {
-        candidate >= self.threshold() || (self.hill_climbing && candidate >= current)
+        candidate >= self.history[self.cursor] || (self.hill_climbing && candidate >= current)
     }
     pub fn step_ended(&mut self, score: S) {
         if score > self.best {
-            if score.hard_cmp(self.best) == Ordering::Greater {
-                self.history.fill(score);
+            if score.hard_cmp(&self.best) == Ordering::Greater {
+                self.history.fill(score.clone());
             }
-            self.best = score;
+            self.best = score.clone();
         }
         self.history[self.cursor] = score;
         self.cursor = if self.cursor + 1 == self.history.len() {

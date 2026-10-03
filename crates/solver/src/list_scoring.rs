@@ -255,7 +255,9 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         let contributions = (0..network.constraint_count())
             .map(|i| network.contribution(i, problem, &assignment))
             .collect::<Result<Vec<_>, _>>()?;
-        let total = contributions.iter().fold(S::ZERO, |total, &s| total + s);
+        let total = contributions
+            .iter()
+            .fold(S::ZERO, |total, s| total + s.clone());
         let score = with_structure(total, problem, &assignment);
         Ok(Self {
             problem,
@@ -305,7 +307,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             }
             if best
                 .as_ref()
-                .is_none_or(|saved| (accepted, candidate.score()) > (saved.accepted, saved.score))
+                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
             {
                 best = Some(Selected {
                     movement: movement.clone(),
@@ -334,24 +336,24 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         &self.assignment
     }
     pub fn score(&self) -> S {
-        self.score
+        self.score.clone()
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.network
             .constraints
             .iter()
             .zip(&self.contributions)
-            .map(|(c, &s)| (c.name.as_str(), s))
+            .map(|(c, s)| (c.name.as_str(), s.clone()))
     }
     /// Check individual contributions, detecting cancelling errors as well as
     /// total corruption. Diagnostic callback evaluations are not move statistics.
     pub fn assert_consistent(&self) -> Result<(), ListScoringError> {
         let mut total = S::ZERO;
-        for (i, &cached) in self.contributions.iter().enumerate() {
+        for (i, cached) in self.contributions.iter().enumerate() {
             let actual = self
                 .network
                 .contribution(i, self.problem, &self.assignment)?;
-            if actual != cached {
+            if actual != *cached {
                 return Err(ListScoringError::CorruptedConstraint { constraint: i });
             }
             total = total + actual;
@@ -387,11 +389,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }
         affected.sort_unstable();
         affected.dedup();
-        let mut score = self.score;
+        let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let contribution = self.network.contribution(i, self.problem, &transaction)?;
-            score = score - self.contributions[i] + contribution;
+            score = score - self.contributions[i].clone() + contribution.clone();
             updates.push((i, contribution));
         }
         let candidate_score = with_structure(score, self.problem, &transaction);
@@ -415,12 +417,12 @@ pub struct ScoredListMove<'a, V, S> {
     cached_score: &'a mut S,
     contributions: &'a mut [S],
 }
-impl<V, S: Copy> ScoredListMove<'_, V, S> {
+impl<V, S: Clone> ScoredListMove<'_, V, S> {
     pub fn assignment(&self) -> &ListAssignment<V> {
         &self.transaction
     }
     pub fn score(&self) -> S {
-        self.candidate_score
+        self.candidate_score.clone()
     }
     pub fn constraint_evaluations(&self) -> usize {
         self.updates.len()
