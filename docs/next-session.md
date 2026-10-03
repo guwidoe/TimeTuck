@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 367 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 121 stream), recorded in
+- 377 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 131 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 288 original integration regression methods, nine original unit tests, and twenty-three public API documentation tests.
+- 294 original integration regression methods, nine original unit tests, and twenty-four public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -68,7 +68,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 367 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 377 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1154,3 +1154,55 @@ List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
 Existing timings do not benchmark concat. Logs: work/concat-stream-evidence.log,
 concat-stream-performance.log, concat-list-refresh.log, concat-core-refresh.log
 and concat-heuristic-performance.log. Full goal remains active and unfinished.
+
+
+Persistent complement increment: StreamGraphBuilder.complement retains all input
+occurrences and pads each universe occurrence whose supplied key has no input
+match. It composes indexed NotExists, map and concat; input IDs are ConcatId::Left,
+padded universe IDs are Right. Both ports validate before topology is added.
+Duplicate input keys hide padding until their last occurrence disappears;
+duplicate universe keys remain independent missing occurrences. Input keys outside
+the universe remain in output. Fact discovery and assigned filtering are explicit.
+Shared-source delivery may transiently invoke padding even for a finally covered
+fact; padding must be valid for every universe payload and deterministic.
+Existence match-link caching can use quadratic memory in dense equal-key buckets;
+no specialized linear-memory counts implementation or Java event-trace claim.
+
+Four complement source methods preserve both score/match stages across four
+arities, numeric index extraction, entity identity and exact MAX_VALUE/-1/0
+padding. Six related expandTo methods preserve all initial/removal assertions,
+retained entity prefixes, group/value identity, sums and exact code strings using
+native map closures. Their random long properties are fixed to 17,311,90001 within
+the source range, with literal expected sums. Every test/fixture is in provenance.
+No upstream production implementation was used.
+
+Six original regressions cover nullable keys, duplicate input/universe keys,
+last-match removal, foreign ports, changing keys, independent/shared sources,
+transient padding, key/padding/score panics, structural errors, rebuild recovery,
+construction and local search. 3,000 seeded transactions (20261111), each with
+one to four writes, compare exact tagged complement multisets to full independent
+recomputation at every completed write, with both commit and undo.
+Full debug/release all-target checks pass: 680 Rust tests (377 adapted + 294 original integration + nine
+unit), 24 doctests, 52 Python regressions. Full rewrite remains unfinished.
+
+The new 377/4,855 total exposed double rounding in the dashboard: the report's
+three-decimal 7.765 passed through JavaScript toFixed(2) displayed 7.76, while the
+actual count ratio rounds to 7.77. Coverage labels/ARIA now format directly from
+passed/total, including zero totals, while preserving report schema and segments.
+
+All nine comparison/timing sections are current after refresh. Report/source/live
+fingerprints match. Existing dashboard server reused. Browser checks pass at
+1280px and 390px: 7.77% overall (377/4,855), 21.91% constraint streams (229/1,045),
+four complement and six expandTo methods found as passed. Every subsystem label
+and ARIA percentage agrees with its count ratio; zero-total formatting is 0.00%.
+No stale messages, console errors or horizontal overflow. Browser session closed.
+
+Current stream medians in ms (Rust / Java): hill32 71.301 / 26.065,
+hill96 281.240 / 52.472, tabu32 73.600 / 22.806, tabu96 256.684 / 38.504.
+Scores agree; both 96-variable workloads remain infeasible under the 50-step cap.
+List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+Existing timings do not benchmark complement. Logs: work/complement-check.log,
+complement-release.log, complement-stream-evidence.log,
+complement-stream-performance.log, complement-list-refresh.log,
+complement-core-refresh.log and complement-heuristic-performance.log.
+Upstream pin/checkout remain unmodified. The full goal remains unfinished.

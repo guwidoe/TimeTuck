@@ -5505,6 +5505,156 @@
       "local_path": "crates/solver/tests/concat_stream_cases.rs",
       "local_test": "quad_concat_after_group_by",
       "modifications": "Preserve all three score/match assertion stages, group keys/counts, exact concatenated value-code strings and weighted contributions. Stable value IDs replace references; native CountCollector with vector/compound keys replaces arity-specific groupBy. Equivalent per-source value filtering precedes Cartesian joins; preserve the source update order and group disappearance/reappearance. Typed branch IDs distinguish groups across concat. No Java descriptor or custom justification API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "complement",
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "local_test": "uni_complement",
+      "modifications": "Preserve both ordinary score and exact match assertion stages, entity identity, value-code index extraction, retained tuple fields and explicit Integer.MAX_VALUE/-1/0 padding. Native stable IDs replace Java references; explicit universe and key projections replace fact-class discovery. Map closures express expand and source update replaces descriptor notifications. Native ordered match equality is stricter than unordered source justification membership. No Java reflection or custom justification API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "complement",
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "local_test": "bi_complement",
+      "modifications": "Preserve both ordinary score and exact match assertion stages, entity identity, value-code index extraction, retained tuple fields and explicit Integer.MAX_VALUE/-1/0 padding. Native stable IDs replace Java references; explicit universe and key projections replace fact-class discovery. Map closures express expand and source update replaces descriptor notifications. Native ordered match equality is stricter than unordered source justification membership. No Java reflection or custom justification API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "complement",
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "local_test": "tri_complement",
+      "modifications": "Preserve both ordinary score and exact match assertion stages, entity identity, value-code index extraction, retained tuple fields and explicit Integer.MAX_VALUE/-1/0 padding. Native stable IDs replace Java references; explicit universe and key projections replace fact-class discovery. Map closures express expand and source update replaces descriptor notifications. Native ordered match equality is stricter than unordered source justification membership. No Java reflection or custom justification API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "complement",
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "local_test": "quad_complement",
+      "modifications": "Preserve both ordinary score and exact match assertion stages, entity identity, value-code index extraction, retained tuple fields and explicit Integer.MAX_VALUE/-1/0 padding. Native stable IDs replace Java references; explicit universe and key projections replace fact-class discovery. Map closures express expand and source update replaces descriptor notifications. Native ordered match equality is stricter than unordered source justification membership. No Java reflection or custom justification API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.expandToBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "expandToBi",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "uni_expand_to_bi",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.expandToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "expandToTri",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "uni_expand_to_tri",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.expandToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "expandToQuad",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "uni_expand_to_quad",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.expandToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "expandToTri",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "bi_expand_to_tri",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.expandToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "expandToQuad",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "bi_expand_to_quad",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.expandToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "expandToQuad",
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "local_test": "tri_expand_to_quad",
+      "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
     }
   ],
   "fixtures": [
@@ -5920,6 +6070,58 @@
       ],
       "local_path": "crates/solver/tests/concat_stream_cases.rs",
       "id": "AbstractConstraintStreamTest.concat_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Literal expected match multisets, per-match ordinary weights and named totals preserve all source assertions. Stable IDs and Option padding replace Java references/null. Native ordered equality is stricter than source unordered justification membership. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "id": "TestdataLavishSolution.complement_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Preserve initial first entity/value and both added entities sharing MyValue 2, exact Generated Value 0/MyValue 2 codes and entity2 update. Stable zero-based IDs replace references; unused generated values/groups/random fields omitted. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/complement_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.complement_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Literal expected match multisets, per-match ordinary weights and named totals preserve all source assertions. Stable IDs and Option padding replace Java references/null. Native ordered equality is stricter than source unordered justification membership. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "id": "TestdataLavishSolution.expand_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Preserve generated entity/group/value dimensions, modulo references and exact code strings. Native stable IDs replace references. Fix long properties to 17,311,90001 within the generated random range; explicit sums preserve the source numeric relationships deterministically. Unused fixture fields omitted. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/expand_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.expand_assertions",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
       "modifications": "Literal expected match multisets, per-match ordinary weights and named totals preserve all source assertions. Stable IDs and Option padding replace Java references/null. Native ordered equality is stricter than source unordered justification membership. Fixture only; no method credit."

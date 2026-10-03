@@ -17,6 +17,8 @@ let report,
     fresh = true;
 const n = (value) => format.format(value);
 const pct = (value) => (value == null ? "—" : `${value.toFixed(2)}%`);
+// Derive display precision from counts, avoiding double rounding of report.percent.
+const coveragePct = ({ passed, total }) => pct(total ? (100 * passed) / total : 0);
 function node(tag, cls, text) {
     const e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -46,7 +48,7 @@ function render() {
         `Rust / Timefold Community ${report.reference.tag.replace(/^v/, "")}`;
     $("upstream-link").href =
         `${report.reference.repository.replace(/\.git$/, "")}/tree/${report.reference.commit}`;
-    $("overall-percent").textContent = pct(s.percent);
+    $("overall-percent").textContent = coveragePct(s);
     $("overall-count").textContent = `${n(s.passed)} / ${n(s.total)} methods`;
     $("overall-bar").setAttribute(
         "aria-label",
@@ -73,7 +75,7 @@ function render() {
             b.setAttribute("aria-pressed", String(f.name === selected));
             b.setAttribute(
                 "aria-label",
-                `${f.name}: ${f.passed} of ${f.total} passed, ${pct(f.percent)}`,
+                `${f.name}: ${f.passed} of ${f.total} passed, ${coveragePct(f)}`,
             );
             const count = node("span", "family-count");
             count.append(
@@ -88,7 +90,7 @@ function render() {
                 node(
                     "span",
                     `family-percent${f.passed ? "" : " empty"}`,
-                    pct(f.percent),
+                    coveragePct(f),
                 ),
                 track,
             );

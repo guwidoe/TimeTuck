@@ -154,7 +154,7 @@ foreign ports and construction/search with independent objective checks.
 ## Typed graph transactions
 
 `StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
-filters, maps, one-to-many expansions, concatenations, equality/existence joins, distinct, integer groups and named score terminals.
+filters, maps, one-to-many expansions, concatenations, complement, equality/existence joins, distinct, integer groups and named score terminals.
 `concat(left, right)` returns `ConcatenatedStreamPort<L,R,T>`, whose occurrence
 identity is `ConcatId<L,R>` with Left and Right variants. Payload types must match;
 ID types may differ. Equal payloads remain independent occurrences, including when
@@ -176,6 +176,39 @@ nested concatenation, foreign ports, failed transactions/rebuilds, construction/
 search, and 3,000 seeded shared-source updates (20261110) against full tagged
 multisets and group summaries. Existing performance workloads do not benchmark
 concatenation, and no Java event trace or implicit node-sharing parity is claimed.
+
+`complement(input, universe, input_key, universe_key, padding)` retains every input
+occurrence and appends one padded row for each universe occurrence with no matching
+input key. It returns the same tagged port shape as concat: Left(input_id) and
+Right(universe_id). The first input for a key hides padding; only removal of the
+last restores it. Duplicate universe keys have independent occurrence IDs. Input
+keys absent from the universe remain unchanged. Coverage is determined before
+padding; the mapper is responsible for any desired relationship between padded
+payload fields and the universe key. All keys must have stable ordering.
+
+This builder composition uses indexed NotExists, map and concat. Cached match
+links inherit the existence operator's potentially quadratic memory in dense key
+buckets. It does not add a second transactional engine. Universe insert/update/
+removal and input changes participate in ordinary graph rollback, reconstruction
+and saved candidate installation. Both ports validate before topology registration.
+Universe facts are explicit and can come from a shared source or another graph
+pipeline. Assigned filtering is also explicit; there is no Java class discovery.
+Use maps to express one-to-one tuple expansion or custom padding values.
+
+Padding is called for emitted missing rows and must be valid for every universe
+payload. As in other graph compositions, differently routed branches can expose
+transient missing rows within one source update, even when the completed result
+is covered. Callbacks must therefore be deterministic and without external side
+effects; callback counts/order are not a Java compatibility guarantee.
+
+Four adapted complement methods preserve all scores/matches, appended numeric
+indexes and custom padding. Six adapted expandTo methods preserve all retained/
+appended facts, sums and code strings through removal; documented fixed fixture
+properties replace nondeterministic source values. Six original regressions check
+3,000 transactions (seed 20261111) with one to four writes against full independent
+complement multisets, nullable/duplicate/changing keys, shared-source transients,
+foreign ports, failures/rebuild recovery and construction/search. Existing timing
+workloads do not benchmark complement or establish Java event-trace equivalence.
 
 `flat_map(input, mapping)` returns `StreamPort<(I,usize),U>` for any finite
 `IntoIterator<Item=U>` mapping. Closures can retain a tuple prefix while expanding

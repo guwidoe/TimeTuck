@@ -172,6 +172,14 @@ strings. Original shared-source, rollback and search regressions provide separat
 native evidence. Node-sharing internals and general Java padding API parity remain
 outside this evidence.
 
+Four complement methods preserve both initial/update scores and exact retained/
+padded tuple matches across four arities, including index extraction and custom
+numeric padding. Explicit universes and stable identity keys replace class-based
+fact discovery. Six expandTo methods additionally preserve all appended identities,
+sums, exact code strings and removal assertions through native map closures; fixture
+random long properties use documented deterministic values in the original range.
+Original complement rollback/search regressions remain separate from method credit.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

@@ -593,6 +593,67 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(right.node, out.node, true);
         Ok(out)
     }
+    /// Retain every input occurrence and add a padded row for each universe
+    /// occurrence whose key has no input match. Equal input keys do not multiply
+    /// the padding: the first match hides it and the last retraction restores it.
+    /// Duplicate universe keys retain separate IDs when absent from the input.
+    /// Input keys outside the universe remain in the result.
+    ///
+    /// Input occurrences use `ConcatId::Left`; padded universe occurrences use
+    /// `ConcatId::Right`. Coverage compares the supplied keys before padding.
+    /// Fact discovery, assigned-value filtering and padding are explicit. Both
+    /// ports are validated before adding any topology. Internally this composes
+    /// indexed anti-existence, mapping and concatenation, including their cached
+    /// match-link memory cost and transactional rollback guarantees.
+    ///
+    /// Padding runs only on emitted missing rows, but shared-source updates can
+    /// expose transient missing rows before routing drains. It must therefore be
+    /// valid for every universe payload, deterministic and free of side effects.
+    ///
+    /// ```
+    /// use timetuck::{SimpleScore, StreamGraphBuilder, TupleChange};
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let matches = b.source::<usize, (u32, i64)>();
+    /// let facts = b.source::<usize, u32>();
+    /// let complete = b.complement(matches.port(), facts.port(),
+    ///     |row| row.0, |fact| *fact, |fact| (*fact, -10))?;
+    /// b.score("coverage", &complete, |row| SimpleScore::new(row.1))?;
+    /// let mut g = b.build();
+    /// let mut t = g.transaction();
+    /// t.apply(&facts, TupleChange::put(0, 7))?;
+    /// assert_eq!(t.score()?, SimpleScore::new(-10));
+    /// t.apply(&matches, TupleChange::put(3, (7, 2)))?;
+    /// assert_eq!(t.score()?, SimpleScore::new(2));
+    /// t.commit()?;
+    /// # Ok::<(), timetuck::GraphError>(())
+    /// ```
+    pub fn complement<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        T: Clone + 'static,
+        U: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        universe: &StreamPort<J, U>,
+        input_key: impl Fn(&T) -> K + 'a,
+        universe_key: impl Fn(&U) -> K + 'a,
+        padding: impl Fn(&U) -> T + 'a,
+    ) -> Result<ConcatenatedStreamPort<I, J, T>, GraphError> {
+        self.validate(input)?;
+        self.validate(universe)?;
+        let missing = self.existence(
+            universe,
+            input,
+            ExistenceMode::NotExists,
+            universe_key,
+            input_key,
+            |_, _| true,
+        )?;
+        let padded = self.map(&missing, padding)?;
+        self.concat(input, &padded)
+    }
     /// Expand one changed input into a finite ordered sequence. Duplicate payloads
     /// remain separate occurrences with `(input_id, position)` identities. An
     /// update replaces surviving positions and retracts the old tail. Retraction
