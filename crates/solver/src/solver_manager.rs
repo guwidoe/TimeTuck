@@ -1,6 +1,6 @@
 //! Asynchronous, independent solves on a fixed-size native worker pool.
 use crate::solver_manager_callbacks::{capture, dispose};
-use crate::{CancellationToken, SolverCallbackFailure, SolverJobCallbacks};
+use crate::{CancellationToken, SolverCallbackFailure, SolverJobCallbacks, SolverProgress};
 use std::{
     collections::{BTreeMap, VecDeque},
     error::Error,
@@ -69,20 +69,28 @@ struct JobCell<R, E> {
 struct Task<R, E> {
     id: u64,
     cell: Arc<JobCell<R, E>>,
-    run: Box<dyn FnOnce(CancellationToken) -> Result<R, E> + Send>,
+    run: Box<dyn FnOnce(CancellationToken, SolverProgress<R>) -> Result<R, E> + Send>,
     callbacks: SolverJobCallbacks<R, E>,
 }
-struct Completion<R, E> {
+struct Delivery<R, E> {
     id: u64,
     cell: Arc<JobCell<R, E>>,
-    result: Result<R, SolverJobError<E>>,
-    callbacks: SolverJobCallbacks<R, E>,
+    state: Mutex<DeliveryState<R, E>>,
+}
+struct DeliveryState<R, E> {
+    // Exactly one queue entry or consumer owns delivery while scheduled is true.
+    scheduled: bool,
+    closed: bool,
+    listening: bool,
+    latest: Option<R>,
+    result: Option<Result<R, SolverJobError<E>>>,
+    callbacks: Option<SolverJobCallbacks<R, E>>,
     failures: Vec<SolverCallbackFailure>,
 }
 struct Queue<R, E> {
     closed: bool,
     running: usize,
-    completions: VecDeque<Completion<R, E>>,
+    completions: VecDeque<Arc<Delivery<R, E>>>,
     tasks: VecDeque<Task<R, E>>,
     jobs: BTreeMap<u64, Arc<JobCell<R, E>>>,
 }
@@ -92,7 +100,7 @@ struct Shared<R, E> {
     completed: Condvar,
 }
 impl<R, E> Shared<R, E> {
-    // Lock order is always queue -> job. User code and captured input destruction
+    // Lock order is queue -> delivery or queue -> job. User code and captured input destruction
     // run outside both locks. Handles never acquire queue while holding job.
     fn finish_locked(
         queue: &mut Queue<R, E>,
@@ -213,7 +221,7 @@ impl<R, E> SolverJob<R, E> {
             .clone()
     }
     /// Scheduled jobs are removed immediately. Active jobs receive a cooperative
-    /// request and remain Active until their function returns. Returns true only
+    /// request and remain Active through solve and callback completion. Returns true only
     /// for the first request on a live run; stale handles cannot cancel a new run.
     pub fn cancel(&self) -> bool {
         self.manager
@@ -223,7 +231,7 @@ impl<R, E> SolverJob<R, E> {
 }
 
 /// A fixed number of solver threads execute owned solve functions. Separate
-/// consumer threads deliver final/error callbacks (one by default). Each job gets
+/// consumer threads deliver best/final/error callbacks (one by default). Each job gets
 /// an independent cancellation token; pass it into the existing solver config.
 /// Build thread-local score networks inside the function, so closures in those
 /// networks do not need Send. Only the captured input and returned result cross
@@ -334,6 +342,18 @@ impl<R: Send + Sync + 'static, E: Send + Sync + 'static> SolverManager<R, E> {
         run: impl FnOnce(CancellationToken) -> Result<R, E> + Send + 'static,
         callbacks: SolverJobCallbacks<R, E>,
     ) -> Result<SolverJob<R, E>, SubmitError> {
+        self.submit_with_progress(problem_id, move |token, _| run(token), callbacks)
+    }
+    /// Run a job with an explicit publisher for owned best-solution snapshots.
+    /// The producer selects improvements; the manager does not compare scores.
+    /// Updates coalesce while a consumer is busy. Delivery is serial per job,
+    /// before final/error completion, and never blocks solving on the callback.
+    pub fn submit_with_progress(
+        &self,
+        problem_id: u64,
+        run: impl FnOnce(CancellationToken, SolverProgress<R>) -> Result<R, E> + Send + 'static,
+        callbacks: SolverJobCallbacks<R, E>,
+    ) -> Result<SolverJob<R, E>, SubmitError> {
         let mut queue = self.shared.queue.lock().unwrap();
         if queue.closed {
             return Err(SubmitError::Closed);
@@ -438,32 +458,72 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
         } = task;
         let dispatch = !callbacks.is_empty();
         let failures = callbacks.start(id);
-        let result = match capture(|| run(cell.cancellation.clone())) {
+        let delivery = Arc::new(Delivery {
+            id,
+            cell: cell.clone(),
+            state: Mutex::new(DeliveryState {
+                scheduled: false,
+                closed: false,
+                listening: callbacks.has_best(),
+                latest: None,
+                result: None,
+                callbacks: Some(callbacks),
+                failures,
+            }),
+        });
+        let manager = Arc::downgrade(&shared);
+        let target = Arc::downgrade(&delivery);
+        let progress = SolverProgress::new(move |snapshot| {
+            let (Some(shared), Some(delivery)) = (manager.upgrade(), target.upgrade()) else {
+                dispose(snapshot);
+                return false;
+            };
+            let mut queue = shared.queue.lock().unwrap();
+            let mut state = delivery.state.lock().unwrap();
+            if state.closed || !state.listening {
+                drop(state);
+                drop(queue);
+                dispose(snapshot);
+                return false;
+            }
+            let old = state.latest.replace(snapshot);
+            if !state.scheduled {
+                state.scheduled = true;
+                queue.completions.push_back(delivery.clone());
+                shared.completed.notify_one();
+            }
+            drop(state);
+            drop(queue);
+            dispose(old);
+            true
+        });
+        let result = match capture(|| run(cell.cancellation.clone(), progress)) {
             Ok(result) => result.map_err(SolverJobError::Solve),
             Err(message) => Err(SolverJobError::Panicked(message)),
         };
         let mut queue = shared.queue.lock().unwrap();
         queue.running -= 1;
+        let mut state = delivery.state.lock().unwrap();
+        state.closed = true;
         if dispatch {
-            queue.completions.push_back(Completion {
-                id,
-                cell,
-                result,
-                callbacks,
-                failures,
-            });
-            shared.completed.notify_all();
+            state.result = Some(result);
+            if !state.scheduled {
+                state.scheduled = true;
+                queue.completions.push_back(delivery.clone());
+            }
         } else {
-            Shared::finish_locked(&mut queue, id, &cell, result, failures);
-            shared.completed.notify_all();
-            drop(queue);
-            dispose(cell);
+            Shared::finish_locked(&mut queue, id, &cell, result, Vec::new());
         }
+        shared.completed.notify_all();
+        drop(state);
+        drop(queue);
+        dispose(delivery);
+        dispose(cell);
     }
 }
 fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared<R, E>>) {
     loop {
-        let completion = {
+        let delivery = {
             let queue = shared.queue.lock().unwrap();
             let mut queue = shared
                 .completed
@@ -471,27 +531,49 @@ fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shar
                     q.completions.is_empty() && !(q.closed && q.running == 0)
                 })
                 .unwrap();
-            let Some(completion) = queue.completions.pop_front() else {
+            let Some(delivery) = queue.completions.pop_front() else {
                 return;
             };
-            completion
+            delivery
         };
-        let Completion {
-            id,
-            cell,
-            result,
-            mut callbacks,
-            mut failures,
-        } = completion;
-        callbacks.finish(id, &result, &mut failures);
-        dispose(callbacks);
-        Shared::finish_locked(
-            &mut shared.queue.lock().unwrap(),
-            id,
-            &cell,
-            result,
-            failures,
-        );
-        dispose(cell);
+        let (mut callbacks, mut failures, latest, result) = {
+            let mut state = delivery.state.lock().unwrap();
+            (
+                state.callbacks.take().unwrap(),
+                std::mem::take(&mut state.failures),
+                state.latest.take(),
+                state.result.take(),
+            )
+        };
+        if let Some(snapshot) = latest {
+            callbacks.best(delivery.id, &snapshot, &mut failures);
+            dispose(snapshot);
+        }
+        if let Some(result) = result {
+            callbacks.finish(delivery.id, &result, &mut failures);
+            dispose(callbacks);
+            Shared::finish_locked(
+                &mut shared.queue.lock().unwrap(),
+                delivery.id,
+                &delivery.cell,
+                result,
+                failures,
+            );
+        } else {
+            let mut queue = shared.queue.lock().unwrap();
+            let mut state = delivery.state.lock().unwrap();
+            state.listening = callbacks.has_best();
+            state.callbacks = Some(callbacks);
+            state.failures = failures;
+            // A producer may have published or finished while the callback ran.
+            // Requeue at the back for fairness, without concurrent job callbacks.
+            if state.latest.is_some() || state.result.is_some() {
+                queue.completions.push_back(delivery.clone());
+                shared.completed.notify_all();
+            } else {
+                state.scheduled = false;
+            }
+        }
+        dispose(delivery);
     }
 }

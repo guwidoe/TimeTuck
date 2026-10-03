@@ -248,4 +248,9 @@ pub use solver_manager::{
 mod solver_manager_callbacks;
 pub use solver_manager_callbacks::{
     SolverCallbackFailure, SolverCallbackStage, SolverJobCallbacks, SolverJobFailure,
+    SolverProgress,
 };
+
+pub use list_search::exhaustive_list_search_with_observer;
+pub use mixed_search::exhaustive_mixed_search_with_observer;
+pub use search::exhaustive_search_with_observer;

@@ -8730,6 +8730,21 @@
       "upstream_test": "testStartJobConsumer",
       "local_test": "test_start_job_consumer",
       "modifications": "Preserve exactly one started-event invocation after waiting for completion. Native AtomicUsize replaces MutableInt; owned job closure and the attributed two-variable construction fixture replace the Java finder and default phase configuration. No Java event-object/API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.skipAhead",
+      "status": "implemented",
+      "upstream_test": "skipAhead",
+      "local_test": "skip_ahead",
+      "modifications": "Preserve four ordered entity assignments, a slow best consumer that skips obsolete intermediate states, fewer than four best callbacks, exactly one final callback, initialized final solution and absence of callback errors. Native owned snapshots and model-validated Change transactions replace Java custom phase commands/event wrappers; indices and values 1..4 replace entity/value codes. Extra channels force first consumption before updates two/three and release it after the third publication, removing scheduling dependence while retaining the source assertions. No score assertion exists in this source method; Java score-director/custom-phase plumbing is omitted."
     }
   ],
   "fixtures": [
@@ -9381,7 +9396,7 @@
       ],
       "id": "PlannerTestUtils.manager_fixture",
       "upstream_test": "generateTestdataSolution(String), generateTestdataSolution(String,int)",
-      "modifications": "Map v1/v2 and e1/e2 to values 1/2 and variable indices 0/1; preserve initially unassigned required variables. Solution display codes omitted; no separate method credit."
+      "modifications": "Map v1/v2 and e1/e2 to values 1/2 and variable indices 0/1; preserve initially unassigned required variables. Solution display codes omitted; no separate method credit. The skipAhead adaptation additionally preserves the four-entity/four-value initially unassigned fixture with values 1..4."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",

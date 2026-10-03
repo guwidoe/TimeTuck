@@ -187,3 +187,63 @@ fn test_start_job_consumer() {
     assert_eq!(count.load(Ordering::SeqCst), 1);
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn skip_ahead() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let mut manager = SolverManager::<Vec<Option<i64>>, String>::new(1).unwrap();
+    let count = Arc::new(AtomicUsize::new(0));
+    let best_count = count.clone();
+    let finals = Arc::new(AtomicUsize::new(0));
+    let final_count = finals.clone();
+    let (first, first_received) = mpsc::channel();
+    let (third, third_published) = mpsc::channel();
+    let job = manager
+        .submit_with_progress(
+            1,
+            move |_, p| {
+                let problem = FiniteProblem::new(vec![Variable::new(vec![1, 2, 3, 4]); 4]).unwrap();
+                let mut working = problem.initial_assignment();
+                for variable in 0..4 {
+                    problem
+                        .apply(
+                            &mut working,
+                            &Move::Change {
+                                variable,
+                                value: Some(variable as i64 + 1),
+                            },
+                        )
+                        .unwrap()
+                        .commit();
+                    assert!(p.publish(working.values().to_vec()));
+                    // Force the source test's slow first consumer and skipped second update.
+                    if variable == 0 {
+                        first_received.recv_timeout(LIMIT).unwrap();
+                    }
+                    if variable == 2 {
+                        third.send(()).unwrap();
+                    }
+                }
+                Ok(working.values().to_vec())
+            },
+            SolverJobCallbacks::default()
+                .on_best(move |_, v: &Vec<Option<i64>>| {
+                    let first_event = best_count.fetch_add(1, Ordering::SeqCst) == 0;
+                    if v[1].is_none() {
+                        first.send(()).unwrap();
+                        third_published.recv_timeout(LIMIT).unwrap();
+                    } else if !first_event {
+                        assert!(v[2].is_some(), "no skip ahead occurred");
+                    }
+                })
+                .on_final(move |_, _| {
+                    final_count.fetch_add(1, Ordering::SeqCst);
+                }),
+        )
+        .unwrap();
+    check_initialized(&job);
+    assert!(count.load(Ordering::SeqCst) < 4);
+    assert_eq!(finals.load(Ordering::SeqCst), 1);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

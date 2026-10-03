@@ -343,14 +343,14 @@ receive results. Avoid waiting inside a worker for work queued to that same satu
 pool. On partial thread-start failure, construction closes and joins workers already
 started before returning the I/O error.
 
-Six complete pinned SolverManagerTest methods establish parallel initialization,
+Seven complete pinned SolverManagerTest methods establish parallel initialization,
 manager/job status transitions, duplicate-ID rejection, started callbacks, solver
-error notification and consumer failure handling, with fixture attribution.
+error notification, consumer failure handling and skip-ahead delivery, with fixture attribution.
 Original tests additionally establish queue cancellation, ID reuse, exact-search
 best retention, typed failures/panics, multi-waiter ownership, FIFO/concurrency caps,
 shutdown/drop behavior, reentrancy and cancellation across all six real solver paths.
-Native u64 IDs/closures replace Java reflection/configuration; intermediate best
-events, problem changes, automatic CPU sizing and live statistics remain pending. No Java scheduling trace or manager throughput comparison is claimed.
+Native u64 IDs/closures replace Java reflection/configuration; problem changes,
+automatic CPU sizing, first-initialized events and live statistics remain pending. No Java scheduling trace or manager throughput comparison is claimed.
 The public Community lifecycle reference is
 [Timefold's library integration guide](https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/library/library-integration).
 
@@ -391,3 +391,53 @@ existing six-backend integration now checks final callbacks, and batch_schedules
 verifies eight deliveries. No Java consumer thread scheduling or throughput parity
 is claimed. Java's OutOfMemoryError recovery test remains pending: aborting native
 allocation failure is not represented as a catchable exception.
+
+
+### Live best-solution delivery
+
+`submit_with_progress` passes `(CancellationToken, SolverProgress<R>)` to the solve
+function. Publish owned snapshots with `progress.publish(snapshot)` and register
+`on_best` on `SolverJobCallbacks`. The producer decides which states are best;
+the manager is generic over results and does not compare scores or automatically
+publish the final return value. Snapshots must not alias mutable working state.
+The publisher is cloneable without requiring R: Clone and is scoped to one run.
+Its weak references cannot keep a finished job alive or affect a reused problem ID.
+
+Publication retains only the newest pending snapshot while a callback is running.
+A true return means accepted; it does not promise consumption of that particular
+snapshot. Older pending snapshots are disposed outside locks on the publisher's
+thread, with unwinding destructor panics contained. A false return means no best
+listener, a disabled listener, or a solve that has already returned. A racing
+publication during failed-listener cleanup may still be accepted and skipped.
+Cancellation alone does not close an active producer. Returning or panicking from
+the solve closes it, even if publisher clones survive on other threads.
+
+Each job has at most one queued/running delivery. Consumer callbacks for a job
+never overlap, even with multiple consumers. After one delivery, any update that
+arrived during it goes to the queue's back, allowing other jobs to proceed. The
+latest accepted update is delivered before final/error completion if the listener
+remains healthy. Waits include that delivery. Shutdown drains it along with final
+callbacks. Intermediate delivery can run while solving is still active; started
+errors are reported before its first best event, or at final completion if there
+are no events. A panicking best listener is reported once and disabled; solving,
+final callbacks and error delivery continue. Errors never replace the solve result.
+
+`exhaustive_search_with_observer`, `exhaustive_list_search_with_observer` and
+`exhaustive_mixed_search_with_observer` expose synchronous retained-best updates.
+They notify for the first eligible complete candidate and strict improvements;
+ties and structural rejection emit nothing. Observers borrow retained snapshots,
+may clone them into the manager publisher, and do not add score evaluations.
+Observer work counts toward cooperative elapsed time; cancellation is polled at
+the next candidate. A synchronous observer panic propagates, becoming a managed
+solve panic if executed in a job. The `live_schedules` example connects actual
+exact optimization to live consumers and verifies eight optimal final results.
+Automatic intermediate observers for construction/local-search/ordered plans,
+first-initialized events and dynamic problem changes remain to implement.
+
+The complete adapted skipAhead method preserves the four assignments, blocked
+consumer, skipped obsolete update, initialized result, fewer than four best events,
+one final event and absence of consumer failures. Extra channels make the source
+race deterministic. Original tests exercise multi-consumer ordering/coalescing,
+shutdown, error chains, stale publishers, non-Clone results, destructor reentrancy,
+and exact-search observers across all three model types. No Java event-object ABI,
+custom phase API, exact callback schedule or manager performance parity is claimed.

@@ -91,11 +91,49 @@ where
     exhaustive_mixed_search_with_clock(problem, evaluate, config, clock)
 }
 
+/// Exact search with a synchronous notification for each strict retained-best
+/// improvement, including the first eligible candidate. Ties and structurally
+/// rejected candidates emit nothing. The observer borrows an owned snapshot;
+/// clone it to publish through a [`crate::SolverProgress`]. Observer work is
+/// included in elapsed time but not evaluation counts. Panics propagate to the
+/// caller (a managed job catches them). Existing cancellation polling applies.
+pub fn exhaustive_mixed_search_with_observer<B, L, S, F>(
+    problem: &MixedProblem<B, L>,
+    evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
+    observer: impl FnMut(&ScoredMixedAssignment<B, L, S>),
+) -> MixedSearchResult<B, L, S>
+where
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: Score,
+    F: FnMut(&MixedAssignment<B, L>) -> S,
+{
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    exhaustive_mixed_search_observed(problem, evaluate, config, clock, observer)
+}
+
 pub(crate) fn exhaustive_mixed_search_with_clock<B, L, S, F>(
+    problem: &MixedProblem<B, L>,
+    evaluate: F,
+    config: crate::ExactSearchConfig<'_>,
+    clock: impl FnMut() -> std::time::Duration,
+) -> MixedSearchResult<B, L, S>
+where
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: Score,
+    F: FnMut(&MixedAssignment<B, L>) -> S,
+{
+    exhaustive_mixed_search_observed(problem, evaluate, config, clock, |_| {})
+}
+
+fn exhaustive_mixed_search_observed<B, L, S, F>(
     problem: &MixedProblem<B, L>,
     mut evaluate: F,
     config: crate::ExactSearchConfig<'_>,
     clock: impl FnMut() -> std::time::Duration,
+    mut observer: impl FnMut(&ScoredMixedAssignment<B, L, S>),
 ) -> MixedSearchResult<B, L, S>
 where
     B: Eq + Clone,
@@ -129,6 +167,7 @@ where
             if score.structural() >= 0 && result.best.as_ref().is_none_or(|best| score > best.score)
             {
                 result.best = Some(ScoredMixedAssignment { assignment, score });
+                observer(result.best.as_ref().unwrap());
             }
             true
         })

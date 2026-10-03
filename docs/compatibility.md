@@ -478,3 +478,13 @@ failure containment, cancellation, shutdown and concurrency; all six solver path
 exercise final delivery. Intermediate best events, live changes, Java consumer
 scheduling and native allocation-failure recovery remain unverified. See
 solver-contract.md for the callback contract.
+
+
+The complete SolverManagerTest.skipAhead method now has an attributed adaptation:
+four model-validated assignments, a blocked consumer skipping obsolete snapshots,
+initialized final state, fewer than four best events, exactly one final event and
+no callback failure. Explicit producer/consumer channels make its race deterministic.
+Native publishers and closures replace Java custom-phase/event plumbing. The new
+exact-search observers are independently tested across basic, list and mixed models;
+those original tests add no source-method credit. Construction/local-search event
+automation, first-initialized events and problem changes remain pending.

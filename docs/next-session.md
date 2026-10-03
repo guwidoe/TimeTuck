@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 582 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 6 manager), recorded in
+- 583 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 4 construction + 106 collector + 185 stream + 20 termination + 7 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 497 original integration regression methods, 62 original unit tests, and 47 public API documentation tests.
+- 506 original integration regression methods, 62 original unit tests, and 48 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3381,3 +3381,83 @@ quality differences visible. Great Deluge remains 275/276 Java agreements;
 the known ratio-rounding discrepancy is retained explicitly. These measurements
 are workload comparisons, not callback/manager throughput measurements, and do
 not establish a general performance advantage.
+
+
+## Live best-solution delivery — latest increment
+
+SolverManager now accepts submit_with_progress with an owned SolverProgress<R>
+publisher, plus SolverJobCallbacks::on_best. Generic producers select their own
+best solutions and explicitly publish snapshots. One pending snapshot per job is
+replaced by newer publications; one more may be under consumption. Per-job delivery
+is serial even with multiple consumers, and pending work is requeued at the back
+after each callback. The latest accepted snapshot precedes final/error delivery.
+A failed best callback is recorded once and disabled without replacing the solve
+result. Started failure delivery is tracked so later updates/final completion do
+not repeat notifications. Callbacks, snapshot disposal and capture destruction run
+outside manager locks. Replaced-snapshot destructor panics are contained.
+
+Publisher clones use weak references to the particular delivery/run. They require
+no R: Clone, cannot keep a finished run alive, reject late publications and cannot
+touch reused problem IDs. Cancellation does not close a still-running producer;
+returning or panicking from the solve does. Accepted means eligible for delivery,
+not guaranteed delivery of an update superseded while the consumer is busy.
+Shutdown still drains the final pending update and completion. Empty-callback jobs
+retain direct publication so existing status/cancellation behavior is preserved.
+
+Added exhaustive_search_with_observer, exhaustive_list_search_with_observer and
+exhaustive_mixed_search_with_observer. Each emits the first eligible complete
+candidate and strict retained-best improvements, without rescoring. Ties and
+structural rejections emit nothing. Observers borrow retained snapshots; caller
+clones them for publication. Their execution is part of cooperative elapsed time
+but not evaluation counts. Panics propagate to the caller/managed solve boundary.
+The original live_schedules example combines exact optimization and asynchronous
+best delivery for eight jobs, checking monotonic consumed scores and optimal finals.
+
+The complete adapted SolverManagerTest.skipAhead now preserves four ordered
+assignments, a blocked consumer, skipped obsolete update, initialized result, fewer
+than four best callbacks, one final callback and no callback errors. Added channels
+make its race deterministic. Native validated moves and explicit snapshots replace
+Java custom-phase/score-director/event plumbing; the source contains no score
+assertions. Provenance includes the four-entity/four-value PlannerTestUtils fixture.
+Seven original progress regressions cover bounded coalescing/serialization across
+three consumers, shutdown draining, late publishers/ID reuse, non-Clone results,
+failure ordering, error-handler panic, destructor reentrancy and panic, actual
+three-model exact search, and callback reentrant cancellation/republication.
+Two original observer regressions preserve eligibility, tie retention, evaluation
+counts, snapshots and cooperative cancellation across all three models.
+
+Construction/local-search/ordered-plan automatic intermediate events,
+first-initialized callbacks and problem changes remain to implement. The full
+rewrite remains active; this is not completion or a manager-throughput claim.
+
+Development verification passes 1,151 Rust tests (583 adapted, 506 original
+integration, 62 unit), 48 doctests and 95 Python tests. Source coverage is
+583/4,855 (12.01%), pending 3,990, excluded 282 and failed/unverified zero.
+Solver lifecycle is 27/379 (7.12%). The development live_schedules example verifies
+eight optimal results with live updates. Logs for this increment use work/progress-*.
+
+Next-event specification caution: the pinned firstInitializedSolutionConsumer*
+methods are not simply 'emit on the first complete snapshot'. The single-CH and
+single-LS cases expect no event; CH-CH-LS attributes the event to CH index 1,
+and CH-custom-LS to custom index 1. Read those tests, including early-terminated
+construction cases, before adding this event. Keep them pending until native
+phase sequencing and producer metadata preserve their full assertions.
+
+Release verification passes all 1,151 Rust tests. Release live_schedules output
+was checked per ID: all eight jobs emitted best updates and an optimal 0hard/-3soft
+final result. All nine comparison/performance evidence groups were refreshed and
+report current, with successful verification and a matching live-server fingerprint.
+Browser verification at 1280x900 and 390x844 confirms overall 12.01%, lifecycle
+7.12%, all seven credited manager methods (including skipAhead) and 23 benchmark
+cards; no stale warning, horizontal overflow or browser errors.
+
+Fresh illustrative medians, Rust/Java milliseconds: exact six-variable solve
+0.012/4.509; eight-variable 0.149/6.254; Great Deluge32 2.502/8.259 and 96
+16.025/17.924. Incremental stream tabu96 remains slower at 245.850/47.061,
+with equal [-44,-484] scores. List two-opt16 0.349/10.676 and 32 1.102/15.471
+retain their existing quality differences. List validation is 192 valid/189 equal;
+heuristics 128 valid/128 equal; stream search 64 valid/64 equal. Great Deluge's
+known ratio boundary remains 275/276 Java agreements, explicitly not credited as
+full agreement. These workloads do not measure live-callback throughput or prove
+a general Rust advantage; timing changes between shared-machine runs are not
+established regressions or improvements.
