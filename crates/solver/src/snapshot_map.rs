@@ -21,7 +21,13 @@
 //! assert_eq!(graph.source_rows(&source)?[&0], "after");
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
-use std::{cmp::Ordering, collections::BTreeMap, fmt, ops::Index, sync::Arc};
+use std::{
+    cmp::Ordering,
+    collections::BTreeMap,
+    fmt,
+    ops::{Bound, Index},
+    sync::Arc,
+};
 
 type Link<K, V> = Option<Arc<Node<K, V>>>;
 struct Node<K, V> {
@@ -251,6 +257,29 @@ impl<K, V> SnapshotMap<K, V> {
     }
 }
 impl<K: Ord, V> SnapshotMap<K, V> {
+    /// Internal borrowed bounds. Reversed or empty bounds yield no rows.
+    /// Seeks the lower bound in O(log n), then visits only the requested range.
+    pub(crate) fn range<'a>(&'a self, lower: Bound<&'a K>, upper: Bound<&'a K>) -> Range<'a, K, V> {
+        let mut range = Range {
+            stack: Vec::new(),
+            upper,
+        };
+        let mut node = self.root.as_deref();
+        while let Some(n) = node {
+            let below = match lower {
+                Bound::Unbounded => false,
+                Bound::Included(key) => n.key.as_ref() < key,
+                Bound::Excluded(key) => n.key.as_ref() <= key,
+            };
+            if below {
+                node = n.right.as_deref();
+            } else {
+                range.stack.push(n);
+                node = n.left.as_deref();
+            }
+        }
+        range
+    }
     pub fn get(&self, key: &K) -> Option<&V> {
         let mut next = self.root.as_deref();
         while let Some(n) = next {
@@ -297,6 +326,33 @@ impl<K: PartialEq, V: PartialEq> PartialEq<BTreeMap<K, V>> for SnapshotMap<K, V>
         self.len() == r.len() && self.iter().eq(r.iter())
     }
 }
+pub(crate) struct Range<'a, K, V> {
+    stack: Vec<&'a Node<K, V>>,
+    upper: Bound<&'a K>,
+}
+impl<'a, K: Ord, V> Iterator for Range<'a, K, V> {
+    type Item = (&'a K, &'a V);
+    fn next(&mut self) -> Option<Self::Item> {
+        let n = self.stack.pop()?;
+        let above = match self.upper {
+            Bound::Unbounded => false,
+            Bound::Included(key) => n.key.as_ref() > key,
+            Bound::Excluded(key) => n.key.as_ref() >= key,
+        };
+        if above {
+            self.stack.clear();
+            return None;
+        }
+        let mut node = n.right.as_deref();
+        while let Some(next) = node {
+            self.stack.push(next);
+            node = next.left.as_deref();
+        }
+        Some((&n.key, &n.value))
+    }
+}
+impl<K: Ord, V> std::iter::FusedIterator for Range<'_, K, V> {}
+
 /// Ascending iterator over a borrowed snapshot; uses logarithmic traversal space.
 pub struct Iter<'a, K, V> {
     stack: Vec<&'a Node<K, V>>,
@@ -362,6 +418,54 @@ mod tests {
             lmin.or(Some(&n.key)),
             rmax.or(Some(&n.key)),
         )
+    }
+    #[test]
+    fn bounded_traversal_matches_direct_filtering_and_preserves_snapshots() {
+        use Bound::{Excluded, Included, Unbounded};
+        let mut map = SnapshotMap::new();
+        for key in -24..=24 {
+            if key % 3 != 0 {
+                map.insert(key, key * 2);
+            }
+        }
+        let saved = map.clone();
+        for key in -24..=24 {
+            if key % 2 == 0 {
+                map.remove(&key);
+            }
+        }
+        for snapshot in [&saved, &map] {
+            let keys = (-26..=26).collect::<Vec<_>>();
+            let bounds = std::iter::once(Unbounded)
+                .chain(keys.iter().flat_map(|key| [Included(key), Excluded(key)]))
+                .collect::<Vec<_>>();
+            for &lower in &bounds {
+                for &upper in &bounds {
+                    let expected = snapshot
+                        .iter()
+                        .filter(|(k, _)| {
+                            let low = match lower {
+                                Unbounded => true,
+                                Included(b) => *k >= b,
+                                Excluded(b) => *k > b,
+                            };
+                            let high = match upper {
+                                Unbounded => true,
+                                Included(b) => *k <= b,
+                                Excluded(b) => *k < b,
+                            };
+                            low && high
+                        })
+                        .collect::<Vec<_>>();
+                    let mut actual = snapshot.range(lower, upper);
+                    assert_eq!(actual.by_ref().collect::<Vec<_>>(), expected);
+                    assert!(actual.next().is_none());
+                    assert!(actual.next().is_none());
+                }
+            }
+        }
+        let empty = SnapshotMap::<i32, i32>::new();
+        assert!(empty.range(Unbounded, Unbounded).next().is_none());
     }
     #[test]
     fn sorted_reverse_and_generated_edits_match_standard_map_with_old_snapshots() {

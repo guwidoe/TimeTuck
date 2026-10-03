@@ -80,7 +80,19 @@ Read the pipeline's final result only after all outputs have been delivered.
   Pair identity is `(left_id, right_id)`. A constant key produces a Cartesian
   join; tuple keys express multiple equalities. Self-joins require delivering
   each source change to both sides; either order is valid. Inspection is ordered
-  by left ID then right ID, independently of insertion order.
+  by left ID, right key, then right ID, independently of insertion order.
+  `JoinNode::new` and graph `join_equal` retain exact equality bucket lookup.
+  `JoinNode::comparing` and graph `join_compare` support Equal, LessThan,
+  LessThanOrEqual, GreaterThan and GreaterThanOrEqual. Orientation is always
+  left key versus right key; right-side updates reverse the index relation.
+  Inequalities seek a bound in the persistent AVL index, then visit only matching
+  ordered buckets. Index traversal costs O(log K + B), for K opposite distinct
+  keys and B matching buckets; output still visits every matching occurrence and
+  looks up each payload by ID. Dense joins can have quadratic output size.
+  Keys use native Rust Ord; callers explicitly choose missing-value handling.
+  Tuple ordering is lexicographic, not a conjunction of separate inequalities.
+  Additional predicates use a downstream filter; no compound comparison index,
+  interval index, or Java event-order parity is claimed.
 - `ExistsNode` supports indexed equality plus a pair predicate, in Exists or
   NotExists mode. It preserves left IDs/payloads and never multiplies them by
   right-match count. Bidirectional cached match IDs make retractions callback-free;
@@ -795,3 +807,23 @@ Python recomputes exact totals from captures and historical scale rather than
 incrementally updating a cached sum. Outputs include decimal coefficients and
 scales; numeric equality alone cannot hide a representation mismatch. These checks
 add no upstream coverage credit and do not benchmark arbitrary-precision arithmetic.
+
+## Ordered comparison evidence
+
+Twenty-seven adapted methods preserve five scalar equality/comparison truth tables,
+20 mapped numeric joiner methods across bi/tri/quad/penta arities, and two index
+orientation methods with exact memberships and sizes. The mapped fixtures retain
+BigInt sums and scale-zero Decimal projections for the small source values; checked
+i64 conversion is sufficient for those inputs and does not claim general Java
+longValue overflow/truncation compatibility. Option replaces the two scalar null
+equality assertions. Internal index selection/treeification tests remain pending.
+
+Eight original regressions separately cover extreme keys, duplicate occurrences,
+same-key payload replacement, callback-free retraction, 6,000 bidirectional edits
+against full cross products, 3,000 shared-source transactions with commit/undo,
+rollback after callback panics and structural-score errors, failed rebuild recovery,
+foreign ports, group-sum rekeying and construction/local search. Sparse lookups in
+both orientations visit fewer than 512 key comparisons among 4,096 opposite keys.
+An internal bounded-map regression exhausts included/excluded/unbounded bound
+combinations on old/new snapshots. Existing Java/Rust timing workloads exercise
+equality joins; they do not measure ordered-join performance.

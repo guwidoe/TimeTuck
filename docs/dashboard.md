@@ -308,3 +308,8 @@ the parent stream report. The existing comparison section displays this suppleme
 without adding to upstream coverage or mixing it into benchmark counts. Full case
 inputs, both runtime outputs and Python-derived assignments remain downloadable.
 No mixed solver-search, Java match-analysis or mixed timing claim follows.
+
+Subsystem grouping includes the core `impl/bavet/` tests in Constraint streams,
+alongside `impl/score/stream/`. Earlier reports put the Bavet engine tests under
+Core utilities & configuration; the correction moves methods between subsystem
+denominators without changing overall coverage.

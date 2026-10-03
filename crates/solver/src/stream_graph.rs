@@ -31,8 +31,8 @@
 
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, FlatMapNode,
-    GroupNode, IntSummary, JoinNode, ListCollector, ListSnapshot, ReversibleCollector, SnapshotMap,
-    TupleChange,
+    GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector, ListSnapshot,
+    ReversibleCollector, SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -691,6 +691,52 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Indexed ordered-key join. Relation orientation is left key versus right
+    /// key; duplicate key occurrences remain separate `(left_id, right_id)` pairs.
+    /// Equality uses exact bucket lookup, while inequalities use bounded ordered
+    /// traversal. Filter the result for additional nonindexed pair predicates.
+    ///
+    /// ```
+    /// use timetuck::{JoinComparison, SimpleScore, StreamGraphBuilder, TupleChange};
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let demand = b.source::<usize, i32>();
+    /// let capacity = b.source::<usize, i32>();
+    /// let sufficient = b.join_compare(demand.port(), capacity.port(),
+    ///     JoinComparison::LessThanOrEqual, |d| *d, |c| *c)?;
+    /// let matches = b.score("sufficient", &sufficient, |_| SimpleScore::new(1))?;
+    /// let mut graph = b.build();
+    /// let mut tx = graph.transaction();
+    /// tx.apply(&demand, TupleChange::put(0, 5))?;
+    /// tx.apply(&capacity, TupleChange::put(0, 4))?;
+    /// tx.apply(&capacity, TupleChange::put(1, 5))?;
+    /// tx.commit()?;
+    /// assert_eq!(graph.score(), SimpleScore::new(1));
+    /// assert_eq!(graph.constraint_matches(&matches)?[&(0, 1)].0, (5, 5));
+    /// # Ok::<(), timetuck::GraphError>(())
+    /// ```
+    pub fn join_compare<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(Join(JoinNode::<I, J, L, R, K>::comparing(
+            comparison, left_key, right_key,
+        )));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)

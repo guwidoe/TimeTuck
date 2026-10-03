@@ -180,6 +180,13 @@ sums, exact code strings and removal assertions through native map closures; fix
 random long properties use documented deterministic values in the original range.
 Original complement rollback/search regressions remain separate from method credit.
 
+Twenty-seven comparison methods preserve five scalar truth tables, twenty mapped
+numeric bi/tri/quad/penta joiner cases, and two index-orientation match/size cases.
+Native persistent ordered joins replace Java internal joiner/index classes. Checked
+numeric projections cover only the small source inputs; no general longValue,
+null-ordering or internal index-selection parity is claimed. Original range,
+transaction and search regressions grant no additional upstream method credit.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 377 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 131 stream), recorded in
+- 404 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 158 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 294 original integration regression methods, nine original unit tests, and twenty-four public API documentation tests.
+- 302 original integration regression methods, ten original unit tests, and twenty-five public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -55,6 +55,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   32/96 variables, 50-step budgets, scores and callback counts. 64 original small
   heuristic cases are independently checked. These older sections do not measure
   incremental scoring or establish large-instance performance.
+- Persistent ordered joins support <, <=, > and >= through bounded AVL key
+  traversal, with explicit left/right orientation and transactional rollback.
+  Equality retains exact bucket lookup. Read docs/constraint-stream-contract.md.
 - Stream scoring has 128 original Java/Rust cases (2,899 states), checking
   partial assignments, signed/cancelling groups, duplicate/self edges, commits
   and undo. Python checks both ordinary scores and native exact match IDs/sums.
@@ -68,7 +71,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 377 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 404 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1205,4 +1208,62 @@ Existing timings do not benchmark complement. Logs: work/complement-check.log,
 complement-release.log, complement-stream-evidence.log,
 complement-stream-performance.log, complement-list-refresh.log,
 complement-core-refresh.log and complement-heuristic-performance.log.
+Upstream pin/checkout remain unmodified. The full goal remains unfinished.
+
+
+Ordered comparison join increment: JoinComparison adds Equal/LessThan/
+LessThanOrEqual/GreaterThan/GreaterThanOrEqual, used by JoinNode::comparing and
+StreamGraphBuilder::join_compare. Existing equality constructors retain exact
+bucket lookup. Inequality traversal seeks bounds in the persistent AVL key index,
+visiting matching buckets only; right-side updates reverse the relation. Pair
+identity, cached keys, same-key replacement and graph checkpoint rollback are
+preserved. SnapshotMap's borrowed bounded iterator is crate-private; included,
+excluded, unbounded, empty and reversed bounds are checked on old/new snapshots.
+Keys use native Ord; tuple order is lexicographic. No Java null ordering, compound
+comparison index, interval indexing or event-order parity is claimed. Inspection
+is left ID/right key/right ID; equality inspection retains its previous order.
+
+27 adapted methods preserve every assertion in five JoinerTypeTest methods,
+20 JoinersTest numeric projection methods across four arities, and two
+ComparisonIndexerTest orientation methods with exact duplicate match membership
+and sizes. BigInt sums and scale-zero Decimal projections preserve small source
+values. Checked i64 conversion does not implement general Java longValue behavior.
+Provenance includes source helpers. Internal routing/treeification/random-iterator
+methods remain pending. No upstream production implementation was used.
+
+Eight original regressions check extreme/duplicate keys, payload replacement,
+cached retraction, 6,000 bidirectional edits (seed 20261112), 3,000 shared-source
+transactions (seed 20261113) with one to three writes, commit/undo, full rebuild,
+score/key panics and invalid structural contributions, foreign ports, grouping,
+construction and local search. Sparse lookups in either orientation use fewer
+than 512 key comparisons over 4,096 opposite keys. These checks earn no upstream
+credit. Existing Java/Rust timing workloads exercise equality joins and do not
+benchmark the new comparison operators.
+
+Dashboard classification now places impl/bavet engine tests in Constraint streams,
+where they belong, instead of Core utilities & configuration. This moves 256
+source methods between subsystem denominators; the overall total stays 4,855.
+Coverage is 404/4,855=8.32%, constraint streams 256/1,301=19.68%, with 4,169 pending,
+282 excluded and zero failed/unverified methods. A Python regression protects
+subsystem classification including unchanged score/JVM/util categories.
+Full debug gate passes 716 Rust tests (404 adapted + 302 original integration + 10
+unit), 25 doctests and 53 Python regressions. Full rewrite remains unfinished.
+
+Release all-target tests also pass (716). All nine Java/Rust evidence sections are
+current after refresh. Report/source/live fingerprints match. Dashboard server
+restarted after the reporting-code update (exec session 17562); reuse it if alive.
+Browser verified at 1280px and 390px, with 20 JoinersTest, five JoinerTypeTest and
+two ComparisonIndexerTest methods listed as passed. Overall 8.32% and stream 19.68%
+labels agree with exact count ratios. No visible stale/error messages, console
+errors or horizontal overflow. Mobile screenshot: work/ordered-join-mobile.png.
+Browser session closed.
+
+Current stream medians in ms (Rust / Java): hill32 58.077 / 15.899,
+hill96 233.408 / 26.370, tabu32 60.435 / 20.742, tabu96 223.253 / 31.676.
+Scores agree; both 96-variable workloads remain infeasible under the 50-step cap.
+List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+Existing timings do not benchmark ordered comparisons. Logs: work/ordered-join-check.log,
+ordered-join-release.log, ordered-join-stream-evidence.log,
+ordered-join-stream-performance.log, ordered-join-list-refresh.log,
+ordered-join-core-refresh.log and ordered-join-heuristic-performance.log.
 Upstream pin/checkout remain unmodified. The full goal remains unfinished.

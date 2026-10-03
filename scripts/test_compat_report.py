@@ -4,9 +4,19 @@ import hashlib
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from compat_report import counts, declarations, read_test_run
+from compat_report import counts, declarations, family, read_test_run
 
 class InventoryTests(unittest.TestCase):
+    def test_constraint_engine_and_api_cases_share_a_subsystem(self):
+        root = 'core/src/test/java/ai/timefold/solver/core/'
+        for package in ['impl/bavet/common/joiner/JoinersTest.java',
+                        'impl/bavet/common/index/ComparisonIndexerTest.java',
+                        'impl/score/stream/uni/UniConstraintStreamTest.java']:
+            self.assertEqual(family(root + package), 'Constraint streams')
+        self.assertEqual(family(root + 'api/score/SimpleScoreTest.java'), 'Score APIs & types')
+        self.assertEqual(family(root + 'impl/util/ListTest.java'), 'Core utilities & configuration')
+        self.assertEqual(family('quarkus-integration/' + root), 'JVM integrations')
+
     def test_ignores_comments_and_literals(self):
         text = '''
 // @Test void imaginary() {}

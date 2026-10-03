@@ -146,6 +146,38 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
     }
 }
 
+/// Ordered key relation evaluated as `left_key comparison right_key`.
+/// Keys use native Rust `Ord`; callers explicitly filter missing keys or select
+/// an Option ordering. There is no implicit Java null ordering.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum JoinComparison {
+    Equal,
+    LessThan,
+    LessThanOrEqual,
+    GreaterThan,
+    GreaterThanOrEqual,
+}
+impl JoinComparison {
+    pub fn matches<K: Ord>(self, left: &K, right: &K) -> bool {
+        match self {
+            Self::Equal => left == right,
+            Self::LessThan => left < right,
+            Self::LessThanOrEqual => left <= right,
+            Self::GreaterThan => left > right,
+            Self::GreaterThanOrEqual => left >= right,
+        }
+    }
+    pub fn reversed(self) -> Self {
+        match self {
+            Self::Equal => Self::Equal,
+            Self::LessThan => Self::GreaterThan,
+            Self::LessThanOrEqual => Self::GreaterThanOrEqual,
+            Self::GreaterThan => Self::LessThan,
+            Self::GreaterThanOrEqual => Self::LessThanOrEqual,
+        }
+    }
+}
+
 #[derive(Clone)]
 struct JoinSide<I, T, K> {
     rows: SnapshotMap<I, (K, T)>,
@@ -166,11 +198,34 @@ impl<I, T, K> JoinSide<I, T, K> {
 type JoinChanges<I, J, T, U> = Vec<TupleChange<(I, J), (T, U)>>;
 
 impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
+    fn matching_ids<'b>(
+        &'b self,
+        key: &'b K,
+        comparison: JoinComparison,
+    ) -> impl Iterator<Item = &'b I> {
+        use std::ops::Bound::{Excluded, Included, Unbounded};
+        let (exact, range) = match comparison {
+            JoinComparison::Equal => (self.index.get(key), None),
+            JoinComparison::LessThan => (None, Some(self.index.range(Excluded(key), Unbounded))),
+            JoinComparison::LessThanOrEqual => {
+                (None, Some(self.index.range(Included(key), Unbounded)))
+            }
+            JoinComparison::GreaterThan => (None, Some(self.index.range(Unbounded, Excluded(key)))),
+            JoinComparison::GreaterThanOrEqual => {
+                (None, Some(self.index.range(Unbounded, Included(key))))
+            }
+        };
+        exact
+            .into_iter()
+            .flat_map(|ids| ids.keys())
+            .chain(range.into_iter().flatten().flat_map(|(_, ids)| ids.keys()))
+    }
     fn apply<J: Ord + Clone, U: Clone>(
         &mut self,
         other: &JoinSide<J, U, K>,
         change: TupleChange<I, T>,
         key: &dyn Fn(&T) -> K,
+        comparison: JoinComparison,
     ) -> JoinChanges<I, J, T, U> {
         healthy(self.poisoned || other.poisoned);
         let new = change.value.map(|row| (key(&row), row));
@@ -180,18 +235,13 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             .zip(new.as_ref())
             .is_some_and(|((old, _), (new, _))| old == new);
         let mut output = Vec::new();
-        if !same_key
-            && let Some((old_key, _)) = self.rows.get(&change.id)
-            && let Some(ids) = other.index.get(old_key)
-        {
-            for id in ids.keys() {
+        if !same_key && let Some((old_key, _)) = self.rows.get(&change.id) {
+            for id in other.matching_ids(old_key, comparison) {
                 output.push(TupleChange::retract((change.id.clone(), id.clone())));
             }
         }
-        if let Some((new_key, row)) = &new
-            && let Some(ids) = other.index.get(new_key)
-        {
-            for id in ids.keys() {
+        if let Some((new_key, row)) = &new {
+            for id in other.matching_ids(new_key, comparison) {
                 output.push(TupleChange::put(
                     (change.id.clone(), id.clone()),
                     (
@@ -232,13 +282,15 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
     }
 }
 
-/// Persistent equality join. Cached keys make retraction independent of callbacks.
+/// Persistent equality or ordered comparison join. Cached keys make retraction
+/// independent of callbacks. Range traversal skips nonmatching key buckets.
 /// Cartesian joins use a constant key. Output identity is `(left_id, right_id)`.
 /// Same-key updates replace surviving pairs once and retain index membership.
 /// Key changes retract old matches before inserting new matches. Feed both sides
 /// for self-joins, in either order, before reading
 /// the final score. Each side indexes all rows, even currently unmatched ones.
 pub struct JoinNode<'a, I, J, L, R, K> {
+    comparison: JoinComparison,
     left: JoinSide<I, L, K>,
     right: JoinSide<J, R, K>,
     left_key: Box<dyn Fn(&L) -> K + 'a>,
@@ -279,7 +331,17 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     }
 
     pub fn new(left_key: impl Fn(&L) -> K + 'a, right_key: impl Fn(&R) -> K + 'a) -> Self {
+        Self::comparing(JoinComparison::Equal, left_key, right_key)
+    }
+
+    /// Build an indexed ordered comparison join. All input keys are captured.
+    pub fn comparing(
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Self {
         Self {
+            comparison,
             left: JoinSide::new(),
             right: JoinSide::new(),
             left_key: Box::new(left_key),
@@ -292,12 +354,18 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     }
 
     pub fn apply_left(&mut self, change: TupleChange<I, L>) -> JoinChanges<I, J, L, R> {
-        self.left.apply(&self.right, change, &self.left_key)
+        self.left
+            .apply(&self.right, change, &self.left_key, self.comparison)
     }
 
     pub fn apply_right(&mut self, change: TupleChange<J, R>) -> JoinChanges<I, J, L, R> {
         self.right
-            .apply(&self.left, change, &self.right_key)
+            .apply(
+                &self.left,
+                change,
+                &self.right_key,
+                self.comparison.reversed(),
+            )
             .into_iter()
             .map(|change| TupleChange {
                 id: (change.id.1, change.id.0),
@@ -306,7 +374,8 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             .collect()
     }
 
-    /// Inspection walks the current join, ordered by left ID then right ID.
+    /// Inspection walks the current join, ordered by left ID, right key, then
+    /// right ID. For equality joins this is left ID then right ID.
     /// Updates themselves visit only old/new matching key buckets.
     pub fn matches(&self) -> impl Iterator<Item = ((&I, &J), (&L, &R))> {
         healthy(self.is_poisoned());
@@ -315,10 +384,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             .iter()
             .flat_map(move |(left_id, (key, left))| {
                 self.right
-                    .index
-                    .get(key)
-                    .into_iter()
-                    .flat_map(|ids| ids.keys())
+                    .matching_ids(key, self.comparison)
                     .map(move |right_id| {
                         (
                             (left_id, right_id),

@@ -5655,6 +5655,411 @@
       "local_path": "crates/solver/tests/expand_stream_cases.rs",
       "local_test": "tri_expand_to_quad",
       "modifications": "Preserve every initial/removal score and exact match assertion, retained entity tuple, expanded group/value identity, numeric sum and exact entity/group code strings. Native map closures append fields; typed Cartesian joins plus ID predicates express unique pairs/triples. Fix fixture long properties to distinct values 17,311,90001 within the source random range for reproducibility; literal expected sums preserve the same relations. No Java descriptor/reflection or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "equal",
+      "local_test": "equal",
+      "modifications": "Preserve all four scalar/null equality assertions using native Option<i32> and JoinComparison. No Java null ordering claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.lessThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "lessThan",
+      "local_test": "less_than",
+      "modifications": "Preserve all three scalar comparison assertions with native JoinComparison and i32 ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.lessThanOrEquals",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "lessThanOrEquals",
+      "local_test": "less_than_or_equal",
+      "modifications": "Preserve all three scalar comparison assertions with native JoinComparison and i32 ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.greaterThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "greaterThan",
+      "local_test": "greater_than",
+      "modifications": "Preserve all three scalar comparison assertions with native JoinComparison and i32 ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.greaterThanOrEquals",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "greaterThanOrEquals",
+      "local_test": "greater_than_or_equal",
+      "modifications": "Preserve all three scalar comparison assertions with native JoinComparison and i32 ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.equalBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "equalBi",
+      "local_test": "equal_bi",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.equalTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "equalTri",
+      "local_test": "equal_tri",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.equalQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "equalQuad",
+      "local_test": "equal_quad",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.equalPenta",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "equalPenta",
+      "local_test": "equal_penta",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanBi",
+      "local_test": "less_than_bi",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanTri",
+      "local_test": "less_than_tri",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanQuad",
+      "local_test": "less_than_quad",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanPenta",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanPenta",
+      "local_test": "less_than_penta",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanOrEqualBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanOrEqualBi",
+      "local_test": "less_than_or_equal_bi",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanOrEqualTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanOrEqualTri",
+      "local_test": "less_than_or_equal_tri",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanOrEqualQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanOrEqualQuad",
+      "local_test": "less_than_or_equal_quad",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.lessThanOrEqualPenta",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "lessThanOrEqualPenta",
+      "local_test": "less_than_or_equal_penta",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanBi",
+      "local_test": "greater_than_bi",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanTri",
+      "local_test": "greater_than_tri",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanQuad",
+      "local_test": "greater_than_quad",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanPenta",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanPenta",
+      "local_test": "greater_than_penta",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanOrEqualBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanOrEqualBi",
+      "local_test": "greater_than_or_equal_bi",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanOrEqualTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanOrEqualTri",
+      "local_test": "greater_than_or_equal_tri",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanOrEqualQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanOrEqualQuad",
+      "local_test": "greater_than_or_equal_quad",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinersTest.greaterThanOrEqualPenta",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinersTest.java",
+      "upstream_test": "greaterThanOrEqualPenta",
+      "local_test": "greater_than_or_equal_penta",
+      "modifications": "Preserve every matching/nonmatching assertion and source numeric projection. Native Vec<BigInt> holds one through four left arguments; sum then checked i64 conversion replaces the small source BigInteger.longValue inputs. Scale-zero Decimal coefficient conversion replaces the small BigDecimal.longValue inputs. Real persistent JoinNode outputs verify exact pair identities/payloads after replacements. Internal Java joiner casts replaced by generic Rust APIs; no overflow/truncation API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.leftBridgeLessThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "leftBridgeLessThan",
+      "local_test": "left_bridge_less_than",
+      "modifications": "Preserve all exact match membership and size assertions, including duplicate age40 tuples and left/right comparison orientation. Stable integer IDs and (age,label) rows replace UniTuple storage and index handles; query rows on the opposite JoinNode side replace direct internal index probes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.rightBridgeLessThanFlipsToGreaterThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "rightBridgeLessThanFlipsToGreaterThan",
+      "local_test": "right_bridge_less_than_flips_to_greater_than",
+      "modifications": "Preserve all exact match membership and size assertions, including duplicate age40 tuples and left/right comparison orientation. Stable integer IDs and (age,label) rows replace UniTuple storage and index handles; query rows on the opposite JoinNode side replace direct internal index probes."
     }
   ],
   "fixtures": [
@@ -6125,6 +6530,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
       "modifications": "Literal expected match multisets, per-match ordinary weights and named totals preserve all source assertions. Stable IDs and Option padding replace Java references/null. Native ordered equality is stricter than source unordered justification membership. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.ordered_join_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "newTuple",
+      "modifications": "Stable integer occurrence IDs and literal (age,label) rows replace UniTuple.of(factA,0); no tuple storage-index API claim. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/ordered_join_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.ordered_join_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "forEachToTuples",
+      "modifications": "Collect exact native join rows for a single opposite-side query instead of CompositeKey/internal callback plumbing; source membership assertions preserved. Fixture only; no method credit."
     }
   ]
 }

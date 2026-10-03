@@ -76,7 +76,8 @@ def family(path):
         return module.replace('/', ' / ').capitalize()
     package = path.split('/ai/timefold/solver/core/', 1)[-1]
     if package.startswith('api/score/') or package.startswith('impl/score/definition/'): return 'Score APIs & types'
-    if '/score/stream/' in '/' + package: return 'Constraint streams'
+    if '/score/stream/' in '/' + package or package.startswith('impl/bavet/'):
+        return 'Constraint streams'
     if '/score/' in '/' + package: return 'Score calculation'
     if '/heuristic/' in '/' + package or '/move/' in '/' + package: return 'Moves & selectors'
     if any('/' + x + '/' in '/' + package for x in ['localsearch', 'constructionheuristic', 'exhaustivesearch', 'phase']): return 'Search algorithms'
