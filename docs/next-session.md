@@ -16,11 +16,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 590 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 12 manager), recorded in
+- 593 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 18 acceptor + 6 construction + 106 collector + 185 stream + 20 termination + 15 manager), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
-- Ordered SolverPlan/MixedSolverPlan mix repeated construction, exact and local phases in all six solver entry points,
+- Ordered SolverPlan/MixedSolverPlan mix repeated construction, custom, exact and local phases in all six solver entry points,
   sharing budgets, cancellation, time/stagnation and goals. Exact phases can finish
   partial construction; Optimal requires full enumeration and a complete scored result.
   See docs/solver-contract.md and the latest increment below.
@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 566 original integration regression methods, 72 original unit tests, and 55 public API documentation tests.
+- 573 original integration regression methods, 74 original unit tests, and 56 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -153,7 +153,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 590 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 593 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -4065,3 +4065,98 @@ and 64 stream equal-score cases, with list 192 valid/189 equal. Great Deluge sti
 has 275/276 Java agreement and its explicit ratio boundary gap. These workloads
 do not benchmark custom-command throughput; shared-machine timing samples alone
 establish no performance improvement or regression. Keep the full goal active.
+
+
+## Ordered custom phases — latest increment
+
+SolverPhase/MixedSolverPhase now have Custom(CustomPhaseConfig). Twelve new public
+APIs (six model/backend families, plain and _and_events) bind a typed FnMut taking
+phase index and CustomPhaseContext. Dispatch remains explicit; plans remain generic
+only over scores, Clone/Eq and compatible with existing conversions. No callback
+means UnboundCustomPhase before any cloning/scoring/factory, even for unreachable
+phases. New SolverError::Custom retains phase index and mapped typed scoring or
+command errors; existing factory/ordinary failures stay Phase. The internal phase
+executor now returns already-located SolverError rather than losing custom identity.
+Legacy controlled-clock fixtures map their errors explicitly.
+
+All six branches validate custom initial assignment/network/source ownership, clip
+time after graph factories, instantiate the native director, invoke the shared
+custom engine, and convert results/reports. Shared score/candidate caps and tokens
+bind in the common runner. CustomPhaseTermination adds shared stagnation and goal
+reasons. Custom context polls the shared SearchControl and committed-best targets;
+strict improvements notify it before observer callbacks. Initial scoring starts
+stagnation afterward, preserving later phase elapsed time. Custom commits count no
+local steps; strict custom improvements reset existing shared stagnation. A private
+SharedControl forwarding wrapper reborrows mutable monitors at the context lifetime.
+Standalone APIs still pass no shared monitor or target. Commands remain cooperative.
+
+Custom handoffs accept partials, return retained bests, report actual indices and
+emit real initialization events when immediately before the first requested local
+search. Completed is non-early; failures emit none. Two custom phases without LS
+emit none and can both execute despite partial states. Native final partial result
+semantics remain IncompleteConstruction. Deferred-scoring APIs remain pending.
+
+Seven original methods in solver_custom.rs exercise all six bindings, plain/event
+parity, operation-prefix budgets, targets versus temporary trials, committed-best
+handoffs, partial construction, producer indices, phase-local limits, cancellation,
+validation/conflicts and command/scoring errors. Two real-stream controlled-clock
+methods extend solver_time_tests.rs for shared factory/time/candidate prefixes and
+cross-custom stagnation; four custom clock tests pass. The first attempted filter
+matched zero tests; corrected filter custom_ ran four, including both new methods.
+A public solve_with_commands doctest was added. Legacy owned-score/solver fixtures
+handle the new error/phase variants without claiming custom coverage there.
+
+Three source methods in solver_manager_cases.rs preserve the custom/CH/LS,
+CH/custom/LS and two-custom initialization assertions. Every actual command asserts
+false initialized state; managed consumers update the existing attributed helper.
+Final waits include delivery, producer kind/index and absent producer assertions
+are preserved, with extra actual-command counts and no-callback-failure checks.
+The source 1 ms stagnation timeout is explicitly replaced by one shared unimproved
+local-search step for deterministic ordering. Provenance adds three cases; existing
+attributed generator/scorer/event fixtures are reused and notices count fifteen
+manager methods. No production source was inspected. Only early-required-CH remains
+pending among source initialization methods; its Java exception contract is distinct.
+
+Work logs use work/ordered-custom-*. Full goal remains active; next substantive
+work includes deferred-score commands, live problem changes, the required-CH error
+contract and further remaining Community behavior. Run/record the full gate,
+release verification, comparison refresh and browser check before committing.
+
+Further test/public-doc evidence reviewed while release verification runs:
+SolverManagerTest.firstInitializedSolutionConsumerEarlyTerminatedCH catches an
+optional ExecutionException and checks its IllegalStateException root/message,
+then always checks called=true, non-early=false, producer CH0. Keep that conditional
+error assertion visible when deciding a future full adaptation; simply omitting
+it would establish only the native successful partial-return path. Public custom
+command docs distinguish uninitialized assignments from structural flaws and require
+special temporary-flaw handlers plus fail-fast ordinary commands; native partial
+assignment support alone establishes none of that Java structural contract. Multiple
+Java commands also carry best state between commands, unlike multiple operations
+inside one native callback. Read overview.adoc around 843–938 before that next work.
+
+Final verification: bash scripts/check.sh passes 1,240 Rust tests (593 adapted,
+573 original integration, 74 unit), 56 doctests and 95 Python tests. Release
+all-target tests pass the same 1,240 cases; live_initialization delivers all four
+callbacks and proves all four optima. All nine differential/performance datasets
+are refreshed/current. Report verification succeeds and matches the live freshness
+endpoint's digest. Coverage is 593/4,855 (12.21%), with 3,980 pending, 282 excluded
+and no failed/unverified methods. Lifecycle is 35/379 (9.23%). Upstream unchanged.
+
+The old dashboard server had stopped (no listener/process on 8765); the initial
+freshness client waited without a timeout and was terminated after that diagnosis.
+Started scripts/dashboard_server.py with output in work/ordered-custom-dashboard-server.log;
+server exec session 31915, PID 2305 at verification time. Reuse if still live. A
+bounded retry confirms the digest. Browser verification sees 200 responses for the
+page, report and freshness API. Desktop 1280x900 and mobile 390x844 show correct
+counts, 23 benchmark cards, no horizontal overflow, stale/error messages or browser
+errors. Screenshots in work/ordered-custom-{desktop,mobile}.png were inspected.
+Lifecycle filtering shows eight Passed and one Pending firstInitializedSolutionConsumer
+methods, including all three new custom cases. Browser closed; local server retained.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.009/3.382, exact 8
+0.143/5.312; Great Deluge 32 2.185/7.944, 96 13.783/15.053; stream tabu 96
+169.867/24.257 (equal [-44,-484]). List two-opt 16 0.255/8.350, 32 0.851/10.791
+retain known score differences. Validation remains 128 heuristic/64 stream equal
+scores, list 192 valid/189 equal; Great Deluge remains 275/276 Java agreement with
+its explicit ratio boundary gap. These workloads do not benchmark custom-command
+throughput. No broad speedup/regression claim from shared-machine samples.

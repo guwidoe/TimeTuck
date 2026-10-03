@@ -556,3 +556,11 @@ with committed-best observation, temporary rollback, limits and explicit failure
 This is execution infrastructure for future ordered custom phases. It adds no source
 method credit: custom producer IDs, ordered command/phase integration and the four
 remaining initialization-event methods are still pending. See solver-contract.md.
+
+Ordered custom phases now add the three complete SolverManagerTest custom-phase
+initialization adaptations. Actual typed commands run inside solver phases and
+assert initialization has not yet happened. Custom/CH/LS attributes the event to
+CH1; CH/custom/LS to Custom1; two custom phases emit none. The adapted tests replace
+a 1 ms timeout with one deterministic shared unimproved local-search step, explicitly
+recorded in provenance; timing/trace parity is not claimed. Early-required-CH remains
+pending because native incomplete handoff and Java exception contracts differ.

@@ -29,6 +29,10 @@ pub enum CustomPhaseTermination {
     MoveEvaluationLimit,
     TimeLimit,
     Cancelled,
+    UnimprovedTimeLimit,
+    UnimprovedStepLimit,
+    BestScoreLimit,
+    FeasibleScore,
 }
 #[derive(Debug)]
 pub enum CustomPhaseError<E> {
@@ -75,7 +79,7 @@ pub struct CustomPhaseResult<A, S> {
     pub termination: CustomPhaseTermination,
 }
 
-trait CommandDirector<A, M, S> {
+pub(crate) trait CommandDirector<A, M, S> {
     type Error;
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
@@ -160,6 +164,9 @@ pub struct CustomPhaseContext<'a, A, M, S, E> {
     work: CustomPhaseWork,
     stop: Option<CustomPhaseTermination>,
     failed: bool,
+    shared: Option<&'a mut dyn crate::time_limit::SearchControl>,
+    target: Option<S>,
+    stop_when_feasible: bool,
 }
 impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
     pub fn assignment(&self) -> &A {
@@ -201,6 +208,24 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
                     .is_some_and(|n| self.work.move_evaluations >= n)
             {
                 self.stop = Some(CustomPhaseTermination::MoveEvaluationLimit);
+            }
+        }
+        if self.stop.is_none() {
+            self.stop = self.shared.as_mut().and_then(|m| match m.stop() {
+                Some(LocalSearchTermination::UnimprovedTimeLimit) => {
+                    Some(CustomPhaseTermination::UnimprovedTimeLimit)
+                }
+                Some(LocalSearchTermination::UnimprovedStepLimit) => {
+                    Some(CustomPhaseTermination::UnimprovedStepLimit)
+                }
+                _ => None,
+            });
+        }
+        if self.stop.is_none() && self.best_complete {
+            if self.target.as_ref().is_some_and(|s| self.best_score >= *s) {
+                self.stop = Some(CustomPhaseTermination::BestScoreLimit);
+            } else if self.stop_when_feasible && self.best_score.is_feasible() {
+                self.stop = Some(CustomPhaseTermination::FeasibleScore);
             }
         }
         self.stop.is_some() || self.failed
@@ -245,6 +270,9 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             self.best_assignment = self.director.assignment().clone();
             self.best_score = score.clone();
             self.best_complete = complete;
+            if let Some(shared) = &mut self.shared {
+                shared.record_improvement();
+            }
             (self.observer)(SolutionUpdate {
                 assignment: &self.best_assignment,
                 score: score.clone(),
@@ -312,8 +340,55 @@ fn run_with_clock<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
     command: impl FnOnce(
         &mut CustomPhaseContext<'_, A, M, S, D::Error>,
     ) -> Result<(), CustomPhaseError<D::Error>>,
+    observer: impl FnMut(SolutionUpdate<'_, A, S>),
+    clock: impl FnMut() -> Duration,
+) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
+    run_monitored_with_clock(
+        initial, config, complete, create, command, observer, clock, None, None, false,
+    )
+}
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn run_monitored<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
+    initial: A,
+    config: CustomPhaseConfig<'_>,
+    complete: impl Fn(&A) -> bool,
+    create: impl FnOnce(A) -> Result<D, D::Error>,
+    command: impl FnOnce(
+        &mut CustomPhaseContext<'_, A, M, S, D::Error>,
+    ) -> Result<(), CustomPhaseError<D::Error>>,
+    observer: impl FnMut(SolutionUpdate<'_, A, S>),
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    target: Option<S>,
+    stop_when_feasible: bool,
+) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    run_monitored_with_clock(
+        initial,
+        config,
+        complete,
+        create,
+        command,
+        observer,
+        clock,
+        shared,
+        target,
+        stop_when_feasible,
+    )
+}
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
+    initial: A,
+    config: CustomPhaseConfig<'_>,
+    complete: impl Fn(&A) -> bool,
+    create: impl FnOnce(A) -> Result<D, D::Error>,
+    command: impl FnOnce(
+        &mut CustomPhaseContext<'_, A, M, S, D::Error>,
+    ) -> Result<(), CustomPhaseError<D::Error>>,
     mut observer: impl FnMut(SolutionUpdate<'_, A, S>),
     mut clock: impl FnMut() -> Duration,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    target: Option<S>,
+    stop_when_feasible: bool,
 ) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
     let early = if config.max_evaluations == 0 {
         Some(CustomPhaseTermination::EvaluationLimit)
@@ -348,6 +423,10 @@ fn run_with_clock<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
         score: best_score.clone(),
         complete: best_complete,
     });
+    if let Some(shared) = &mut shared {
+        shared.start_search();
+    }
+    let mut shared = SharedControl(shared);
     let mut context = CustomPhaseContext {
         director: &mut director,
         config,
@@ -361,6 +440,9 @@ fn run_with_clock<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
         work,
         stop: None,
         failed: false,
+        shared: Some(&mut shared),
+        target,
+        stop_when_feasible,
     };
     if !context.is_terminated() {
         command(&mut context)?;
@@ -669,6 +751,30 @@ pub fn mixed_stream_custom_phase_with_observer<
         command,
         observer,
     )
+}
+
+// Reborrow the optional outer monitor without tying the command context to the
+// lifetime of the solve's mutable trait-object reference.
+struct SharedControl<'a>(Option<&'a mut dyn crate::time_limit::SearchControl>);
+impl crate::time_limit::SearchControl for SharedControl<'_> {
+    fn start_search(&mut self) {
+        if let Some(m) = &mut self.0 {
+            m.start_search();
+        }
+    }
+    fn record_improvement(&mut self) {
+        if let Some(m) = &mut self.0 {
+            m.record_improvement();
+        }
+    }
+    fn complete_step(&mut self, improved: bool) {
+        if let Some(m) = &mut self.0 {
+            m.complete_step(improved);
+        }
+    }
+    fn stop(&mut self) -> Option<LocalSearchTermination> {
+        self.0.as_mut().and_then(|m| m.stop())
+    }
 }
 
 #[cfg(test)]

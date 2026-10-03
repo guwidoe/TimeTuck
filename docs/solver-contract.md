@@ -704,10 +704,9 @@ The custom_phase module provides a shared command engine for basic, list and mix
 models, with scoped and stream scoring. Public entry points are custom_phase,
 list_custom_phase, mixed_custom_phase and their stream equivalents, each with a
 _with_observer variant. They take an explicit initial assignment, CustomPhaseConfig
-and one closure receiving a typed CustomPhaseContext. They are standalone phase
-building blocks; SolverPhase/MixedSolverPhase do not yet contain a custom variant,
-and these functions do not emit a SolverInitialization boundary event. Wiring
-commands into ordered phases and managed initialization remains pending.
+and one closure receiving a typed CustomPhaseContext. These standalone functions
+do not emit SolverInitialization boundary events. Ordered custom phases bind the
+same engine into solver sequences and managed initialization as described below.
 
 Context assignment()/score() expose the current working state read-only.
 execute(move) validates, scores and commits a move through the existing transaction
@@ -763,5 +762,64 @@ zero-time behavior and validation before zero work. Two controlled-clock unit
 methods cover initialization, observers, command bodies, candidate scoring, latched
 timeouts and count-limit precedence. A public doctest demonstrates temporary trials
 and retained bests. These are independent native contracts and add no upstream
-method credit. Deferred scoring, custom-phase ordering/producer IDs, and full Java
-structural-error/command API parity remain unimplemented.
+method credit. Deferred scoring and full Java structural-error/command API parity
+remain unimplemented. Ordered integration and its source adaptations follow below.
+
+## Ordered custom phases
+
+SolverPhase::Custom and MixedSolverPhase::Custom now hold CustomPhaseConfig.
+The six solve families each add _with_commands and _with_commands_and_events
+entrypoints. A typed FnMut receives the actual phase index and command context;
+use the index to dispatch different commands. Configurations remain model-independent
+and cloneable. A callback is invoked once for each entered custom phase, unless
+initial scoring already reaches a limit. Ordinary solve/observer/event entrypoints
+reject any unbound custom phase before model cloning, scoring or graph creation,
+including phases that a previous exact proof or limit would otherwise skip.
+
+Commands execute through the same transactional engine as standalone custom phases.
+Each phase starts from the retained best of its predecessor, charges one initial
+score, and returns its retained committed best. Temporary improvements and worsening
+working states never replace that handoff. A custom phase can accept or produce
+partial native assignments; following custom/construction/exact phases can continue
+initialization. An incomplete handoff to local search returns IncompleteConstruction.
+Custom phases never prove optimality. Separate custom phases provide separate
+retained-best handoffs; a single callback owns its own internal operation sequence.
+The Java deferred-scoring command methods remain unimplemented.
+
+Shared score/candidate limits clip phase-local limits. Cancellation token conflicts
+are validated throughout the sequence before work. Shared elapsed time includes
+stream factory preparation and clips custom time immediately afterward. Initial
+scoring remains allowed at zero time; zero score/pre-cancel still skip it after
+validation. The existing custom clock includes scoring, command and observer work.
+Global score/feasibility goals inspect the retained committed best, including the
+initial state, before allowing another operation; temporary trials do not meet goals.
+
+Custom phases start the shared stagnation monitor after their initial score and
+notification, as improvement/exact phases do. Initial scoring in later phases does
+not reset it. Strict committed improvements reset it only before expiry; late bests
+are retained without reviving an expired solve. Custom commits do not count as
+local-search completed steps or accepted moves. Existing local-search step counts
+remain shared across custom phases, and a strict custom improvement can reset their
+stagnation baseline. Phase reports expose Custom(CustomPhaseTermination); the four
+new goal/stagnation reasons are used only by ordered execution. Standalone controls
+remain unchanged. Cooperative polling cannot preempt command code or callbacks.
+
+The phase immediately before the first requested local search remains the sole
+initialization producer. Custom produces SolverPhaseKind::Custom with its actual
+index; only Completed is non-early. Events can carry partial or unscored retained
+state and occur before boundary stopping, as with construction. Custom phases with
+no later local search emit no initialization. Errors are located SolverError::Custom
+with typed underlying scoring errors or explicit/ignored-operation command failures.
+Factory errors retain SolverError::Phase. A failing producer emits no initialization.
+
+Seven original integration methods cover all six paths, plain/event variants,
+retained handoffs, partial initialization, phase indices, every small shared score/
+candidate budget, goals, phase-local limits, cancellation/conflicts and failures.
+Two controlled-clock methods use real stream scoring to check graph preparation,
+initialization, candidate prefixes and stagnation across repeated custom phases.
+A public doctest demonstrates the typed callback. Three SolverManagerTest methods
+are fully adapted: custom/CH/LS, CH/custom/LS, and two custom phases without LS.
+They preserve each command's pre-initialization assertion, final wait and producer
+assertions. A deterministic one-step stagnation limit replaces the source's 1 ms
+limit; no time/trace parity is claimed. Notices/provenance record that substitution.
+The early-required-CH initialization source method remains pending.

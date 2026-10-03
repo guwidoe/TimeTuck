@@ -55,6 +55,8 @@ pub enum SolverPhase<'a, S = SimpleScore> {
     Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
+    /// Run the typed command callback bound to this phase index.
+    Custom(CustomPhaseConfig<'a>),
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum MixedSolverPhase<'a, S = SimpleScore> {
@@ -62,6 +64,8 @@ pub enum MixedSolverPhase<'a, S = SimpleScore> {
     Construction(MixedConstructionConfig<'a>),
     LocalSearch(MixedLocalSearchConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
+    /// Run the typed command callback bound to this phase index.
+    Custom(CustomPhaseConfig<'a>),
 }
 impl<'a, S: Clone> MixedSolverPhase<'a, S> {
     pub(crate) fn common(&self) -> SolverPhase<'a, S> {
@@ -69,6 +73,7 @@ impl<'a, S: Clone> MixedSolverPhase<'a, S> {
             Self::Construction(c) => SolverPhase::Construction(c.construction),
             Self::LocalSearch(c) => SolverPhase::LocalSearch(c.search.clone()),
             Self::Exact(c) => SolverPhase::Exact(c.clone()),
+            Self::Custom(c) => SolverPhase::Custom(*c),
         }
     }
     pub(crate) fn construction(&self) -> MixedConstructionConfig<'a> {
@@ -80,7 +85,7 @@ impl<'a, S: Clone> MixedSolverPhase<'a, S> {
     pub(crate) fn local(&self) -> &MixedLocalSearchConfig<'a, S> {
         match self {
             Self::LocalSearch(c) => c,
-            Self::Construction(_) | Self::Exact(_) => {
+            Self::Construction(_) | Self::Exact(_) | Self::Custom(_) => {
                 unreachable!("local-search request uses a local-search phase")
             }
         }

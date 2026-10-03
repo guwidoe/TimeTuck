@@ -170,6 +170,9 @@ fn run_scored_events<'a>(
                 }
                 Err(SolverError::ConflictingCancellation { phase }) => Err(Failure::Token(phase)),
                 Err(SolverError::Phase { phase, .. }) => Err(Failure::Phase(phase)),
+                Err(SolverError::Custom { .. } | SolverError::UnboundCustomPhase { .. }) => {
+                    panic!("fixture has no bound custom phases")
+                }
             }
         }};
     }
@@ -271,6 +274,7 @@ fn run_scored_events<'a>(
                     })
                 }
                 SolverPhase::Exact(c) => MixedSolverPhase::Exact(c),
+                SolverPhase::Custom(c) => MixedSolverPhase::Custom(c),
             })
             .collect(),
     };

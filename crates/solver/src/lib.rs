@@ -277,3 +277,11 @@ pub use solver::{
 
 pub mod custom_phase;
 pub use custom_phase::*;
+
+pub use solver::{
+    solve_list_stream_with_commands, solve_list_stream_with_commands_and_events,
+    solve_list_with_commands, solve_list_with_commands_and_events,
+    solve_mixed_stream_with_commands, solve_mixed_stream_with_commands_and_events,
+    solve_mixed_with_commands, solve_mixed_with_commands_and_events, solve_stream_with_commands,
+    solve_stream_with_commands_and_events, solve_with_commands, solve_with_commands_and_events,
+};

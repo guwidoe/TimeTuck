@@ -19,7 +19,7 @@ The following test files adapt the pinned Community tests:
   methods from `DefaultConstructionHeuristicPhaseTest.java`, with model and scoring
   fixtures from `testdomain/unassignedvar` and `testdomain/list/unassignedvar`.
 
-- `crates/solver/tests/solver_manager_cases.rs` adapts twelve parallel-solving,
+- `crates/solver/tests/solver_manager_cases.rs` adapts fifteen parallel-solving,
   job-status, duplicate-ID, callback, initialization-event, skip-ahead and error-handler methods from `SolverManagerTest.java`, with fixtures
   from that test, `PlannerTestUtils.java`, `PlannerAssert.java` and
   `DummySimpleScoreEasyScoreCalculator.java`, and the optional-list model/scorer

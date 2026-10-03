@@ -65,6 +65,9 @@ fn run<S: AdditiveScore + 'static>(
                 }
                 Err(SolverError::ConflictingCancellation { phase }) => Err(Failure::Token(phase)),
                 Err(SolverError::Phase { phase, .. }) => Err(Failure::Phase(phase)),
+                Err(SolverError::Custom { .. } | SolverError::UnboundCustomPhase { .. }) => {
+                    panic!("fixture has no custom phases")
+                }
             }
         }};
     }

@@ -52,6 +52,7 @@ fn observer_time_preserves_shared_stagnation_in_local_and_exact_phases() {
                     observation.notify(index, kind, u)
                 };
                 Ok(match request {
+                    PhaseRequest::Custom(..) => unreachable!("fixture has no custom phase"),
                     PhaseRequest::Construction(c) => {
                         constructed!(greedy_construction_with_observer(&p, &n, c, &mut notify)?)
                     }
@@ -136,6 +137,7 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
                 observation.notify(index, kind, u)
             };
             Ok(match request {
+                PhaseRequest::Custom(..) => unreachable!("fixture has no custom phase"),
                 PhaseRequest::Construction(c) => {
                     constructed!(greedy_construction_with_observer(&p, &n, c, &mut notify)?)
                 }
@@ -189,12 +191,17 @@ fn initialization_callback_time_stops_the_solve_before_local_search() {
             complete: p.is_complete(&p.initial_assignment()),
         },
         &mut observation,
-        |index, _, request, time, _| -> Result<_, ScoringError> {
+        |index, _, request, time, _| -> Result<_, SolverError<ScoringError>> {
             assert_eq!(index, 0);
             let PhaseRequest::Construction(c) = request.with_time(time) else {
                 panic!("only construction can run");
             };
-            Ok(constructed!(greedy_construction(&p, &n, c)?))
+            Ok(constructed!(greedy_construction(&p, &n, c).map_err(
+                |error| SolverError::Phase {
+                    phase: index,
+                    error
+                }
+            )?))
         },
         &mut || ms(elapsed.get()),
     )

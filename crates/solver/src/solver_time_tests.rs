@@ -29,49 +29,82 @@ fn exercise_scored<'a>(
             complete: p.is_complete(&p.initial_assignment()),
         },
         &mut PlanObservation::new(None),
-        |_, a, request, time, _| -> Result<_, LocalSearchError> {
-            elapsed.set(elapsed.get() + factory_cost);
-            let mut b = StreamGraphBuilder::new();
-            let s = b.source::<usize, (usize, Option<usize>)>();
-            b.score("value", s.port(), |(_, v)| {
-                elapsed.set(elapsed.get() + 1);
-                SimpleScore::new(score(v.unwrap()))
-            })
-            .unwrap();
-            let request = request.with_time(time);
-            let start = elapsed.get();
-            let clock = || ms(elapsed.get() - start);
-            Ok(match request {
-                PhaseRequest::Exact(c, prior) => {
-                    let mut g = b.build();
-                    exact::run_with_clock(
-                        c,
-                        prior,
-                        time,
-                        |visit| crate::search::visit_assignments(&p, visit),
-                        |a| exact::score_basic(&p, &mut g, &s, a),
-                        clock,
-                    )?
-                }
-                PhaseRequest::Construction(c) => {
-                    constructed!(crate::construction::construction_impl_with_clock(
-                        &p,
-                        a.unwrap_or_else(|| p.initial_assignment()),
-                        c,
-                        |a| StreamScoreDirector::new(&p, b.build(), s, a),
-                        clock
-                    )?)
-                }
-                PhaseRequest::LocalSearch(c) => {
-                    improved!(crate::local_search::search_impl_with_clock_monitored(
-                        time.monitor(),
-                        &p,
-                        a,
-                        c,
-                        |a| StreamScoreDirector::new(&p, b.build(), s, a),
-                        clock
-                    )?)
-                }
+        |index, a, request, time, _| {
+            let result: Result<_, LocalSearchError> = (|| {
+                elapsed.set(elapsed.get() + factory_cost);
+                let mut b = StreamGraphBuilder::new();
+                let s = b.source::<usize, (usize, Option<usize>)>();
+                b.score("value", s.port(), |(_, v)| {
+                    elapsed.set(elapsed.get() + 1);
+                    SimpleScore::new(score(v.unwrap()))
+                })
+                .unwrap();
+                let request = request.with_time(time);
+                let start = elapsed.get();
+                let clock = || ms(elapsed.get() - start);
+                Ok(match request {
+                    PhaseRequest::Custom(config, target, feasible) => {
+                        let r = crate::custom_phase::run_monitored_with_clock(
+                            a.unwrap(),
+                            config,
+                            |a| p.is_complete(a),
+                            |a| StreamScoreDirector::new(&p, b.build(), s, a),
+                            |c| {
+                                for value in [1, 0, 2] {
+                                    c.execute(&Move::Change {
+                                        variable: 0,
+                                        value: Some(value),
+                                    })?;
+                                }
+                                Ok(())
+                            },
+                            |_| {},
+                            clock,
+                            time.monitor(),
+                            target,
+                            feasible,
+                        )
+                        .map_err(|e| match e {
+                            CustomPhaseError::Scoring(e) => LocalSearchError::from(e),
+                            _ => panic!("unexpected command failure"),
+                        })?;
+                        custom_output(r)
+                    }
+                    PhaseRequest::Exact(c, prior) => {
+                        let mut g = b.build();
+                        exact::run_with_clock(
+                            c,
+                            prior,
+                            time,
+                            |visit| crate::search::visit_assignments(&p, visit),
+                            |a| exact::score_basic(&p, &mut g, &s, a),
+                            clock,
+                        )?
+                    }
+                    PhaseRequest::Construction(c) => {
+                        constructed!(crate::construction::construction_impl_with_clock(
+                            &p,
+                            a.unwrap_or_else(|| p.initial_assignment()),
+                            c,
+                            |a| StreamScoreDirector::new(&p, b.build(), s, a),
+                            clock
+                        )?)
+                    }
+                    PhaseRequest::LocalSearch(c) => {
+                        improved!(crate::local_search::search_impl_with_clock_monitored(
+                            time.monitor(),
+                            &p,
+                            a,
+                            c,
+                            |a| StreamScoreDirector::new(&p, b.build(), s, a),
+                            clock
+                        )?)
+                    }
+                })
+            })();
+            result.map_err(|error| SolverError::Phase {
+                phase: index,
+                error,
             })
         },
         &mut || ms(elapsed.get()),
@@ -704,5 +737,83 @@ fn direct_search_deadlines_include_first_factory_but_exclude_initial_score_from_
         assert_eq!(r.work.evaluations, if exact { 1 } else { 2 });
         assert_eq!(r.work.move_evaluations, 1);
         assert!(r.complete);
+    }
+}
+
+#[test]
+fn custom_shared_deadlines_include_factory_initialization_and_candidate_prefixes() {
+    for factory in [0, 2] {
+        for limit in 0..=12 {
+            let phases = vec![SolverPhase::Custom(CustomPhaseConfig::default()); 2];
+            let r = exercise_scored(
+                SolverSequence {
+                    phases,
+                    limits: SolverLimits {
+                        max_time: Some(ms(limit)),
+                        ..Default::default()
+                    },
+                },
+                factory,
+                |v| v as i64,
+            );
+            // Each scored callback costs 1 ms; each entered phase adds factory cost.
+            // Initial scoring is permitted even after its factory exhausts the cap.
+            let first_scores = limit.saturating_sub(factory).clamp(1, 4);
+            let mut expected = first_scores;
+            let first_elapsed = factory + first_scores;
+            if first_scores == 4 && first_elapsed < limit {
+                expected += (limit - first_elapsed).saturating_sub(factory).clamp(1, 4);
+            }
+            assert_eq!(
+                r.work.evaluations, expected,
+                "factory={factory} limit={limit}"
+            );
+            assert!(r.work.evaluations <= 8);
+            assert_eq!(
+                r.work.move_evaluations,
+                r.work.evaluations - r.phases.len() as u64
+            );
+            assert_eq!(
+                r.termination,
+                if factory * r.phases.len() as u64 + expected >= limit {
+                    SolverTermination::TimeLimit
+                } else {
+                    SolverTermination::PlanCompleted
+                }
+            );
+        }
+    }
+}
+#[test]
+fn custom_stagnation_spans_phases_and_initial_scoring_does_not_reset_it() {
+    for limit in 0..=8 {
+        let r = exercise_scored(
+            SolverSequence {
+                phases: vec![SolverPhase::Custom(CustomPhaseConfig::default()); 2],
+                limits: SolverLimits {
+                    max_unimproved_time: Some(ms(limit)),
+                    ..Default::default()
+                },
+            },
+            0,
+            |_| 0,
+        );
+        // First initialization starts the timer at t=1. Later initial scoring is
+        // included in the elapsed interval and cannot restart it.
+        let expected = if limit <= 3 {
+            1 + limit
+        } else {
+            (1 + limit).min(8)
+        };
+        assert_eq!(r.work.evaluations, expected, "limit={limit}");
+        assert_eq!(r.score, Some(SimpleScore::ZERO));
+        assert_eq!(
+            r.termination,
+            if limit <= 7 {
+                SolverTermination::UnimprovedTimeLimit
+            } else {
+                SolverTermination::PlanCompleted
+            }
+        );
     }
 }

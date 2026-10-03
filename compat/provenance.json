@@ -8850,6 +8850,51 @@
       "local_path": "crates/solver/tests/solver_manager_cases.rs",
       "local_test": "first_initialized_solution_consumer_early_terminated_ch_list_var",
       "modifications": "Preserve two optional values/two empty lists, entity-size and unassigned-value penalties, construction step limit one, local-search step limit zero, successful final wait, called consumer, false non-early marker and construction producer index zero. Native explicit NonWorsening policy considers optional insertions; owned snapshots and Mutex/AtomicBool adapt event delivery. Extra assertions require an actual assigned value, two executed phases, score -2 and no callback failure. No scheduling/trace or default-policy parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "firstInitializedSolutionConsumerWithCustomAndCHAndLS",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "local_test": "first_initialized_solution_consumer_with_custom_and_ch_and_ls",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWithCustomAndCHAndLS",
+      "status": "implemented",
+      "modifications": "Preserve source phase order, problem ID 1, generated two-entity/two-value problem, constant-zero scoring, registered first-initialized consumer, successful final wait and the false initialization assertion inside every real custom command. Custom/CH/LS emits a non-early initialization from construction phase 1. Replace the source 1 ms stagnation timeout with one shared unimproved local-search step to make event-order assertions deterministic; no timing/trace parity claim. Native typed commands and managed owned snapshots reuse the already-attributed generator, scorer and InitialSolutionEvent fixtures. Extra assertions require actual command calls and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "firstInitializedSolutionConsumerWithCHAndCustomAndLS",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "local_test": "first_initialized_solution_consumer_with_ch_and_custom_and_ls",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWithCHAndCustomAndLS",
+      "status": "implemented",
+      "modifications": "Preserve source phase order, problem ID 1, generated two-entity/two-value problem, constant-zero scoring, registered first-initialized consumer, successful final wait and the false initialization assertion inside every real custom command. CH/custom/LS emits a non-early initialization from custom phase 1. Replace the source 1 ms stagnation timeout with one shared unimproved local-search step to make event-order assertions deterministic; no timing/trace parity claim. Native typed commands and managed owned snapshots reuse the already-attributed generator, scorer and InitialSolutionEvent fixtures. Extra assertions require actual command calls and no callback failures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "firstInitializedSolutionConsumerWith2Custom",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "local_test": "first_initialized_solution_consumer_with_two_custom",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.firstInitializedSolutionConsumerWith2Custom",
+      "status": "implemented",
+      "modifications": "Preserve source phase order, problem ID 1, generated two-entity/two-value problem, constant-zero scoring, registered first-initialized consumer, successful final wait and the false initialization assertion inside every real custom command. Two custom phases both execute and emit no initialization event; initialized stays false and producer stays absent. Replace the source 1 ms stagnation timeout with one shared unimproved local-search step to make event-order assertions deterministic; no timing/trace parity claim. Native typed commands and managed owned snapshots reuse the already-attributed generator, scorer and InitialSolutionEvent fixtures. Extra assertions require actual command calls and no callback failures."
     }
   ],
   "fixtures": [

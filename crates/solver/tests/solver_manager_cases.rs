@@ -496,3 +496,133 @@ fn first_initialized_solution_consumer_early_terminated_ch_list_var() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+fn custom_initialized_event_job(
+    manager: &SolverManager<Vec<Option<i64>>, String>,
+    phases: Vec<SolverPhase<'static>>,
+    event: Arc<std::sync::Mutex<InitialSolutionEvent>>,
+    calls: Arc<std::sync::atomic::AtomicUsize>,
+) -> SolverJob<Vec<Option<i64>>, String> {
+    let command_event = event.clone();
+    manager
+        .submit_with_progress(
+            1,
+            move |_, progress| {
+                let problem = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 2]).unwrap();
+                let mut network = ConstraintNetwork::new(2);
+                network
+                    .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+                    .unwrap();
+                // Deterministic replacement for the source's 1 ms stagnation timeout.
+                let plan = SolverSequence {
+                    phases,
+                    limits: SolverLimits {
+                        max_unimproved_steps: Some(1),
+                        ..Default::default()
+                    },
+                };
+                let result = solve_with_commands_and_events(
+                    &problem,
+                    &network,
+                    plan,
+                    move |_, _| {
+                        assert!(!command_event.lock().unwrap().is_initialized);
+                        calls.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+                        Ok(())
+                    },
+                    |event| {
+                        if let SolverEvent::FirstInitialized {
+                            initialization,
+                            assignment,
+                            ..
+                        } = event
+                        {
+                            assert!(progress.publish_first_initialized(
+                                assignment.values().to_vec(),
+                                initialization
+                            ));
+                        }
+                    },
+                )
+                .map_err(|e| e.to_string())?;
+                Ok(result.assignment.values().to_vec())
+            },
+            SolverJobCallbacks::default()
+                .on_first_initialized(move |_, _, info| event.lock().unwrap().read(info)),
+        )
+        .unwrap()
+}
+
+#[test]
+fn first_initialized_solution_consumer_with_custom_and_ch_and_ls() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let calls = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = custom_initialized_event_job(
+        &manager,
+        vec![
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig::default()),
+        ],
+        event.clone(),
+        calls.clone(),
+    );
+    check_initialized(&job);
+    assert!(event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Construction, 1))
+    );
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 1);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+
+#[test]
+fn first_initialized_solution_consumer_with_ch_and_custom_and_ls() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let calls = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = custom_initialized_event_job(
+        &manager,
+        vec![
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig::default()),
+        ],
+        event.clone(),
+        calls.clone(),
+    );
+    check_initialized(&job);
+    assert!(event.lock().unwrap().is_initialized);
+    assert_eq!(
+        event.lock().unwrap().producer_id,
+        Some((SolverPhaseKind::Custom, 1))
+    );
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 1);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+
+#[test]
+fn first_initialized_solution_consumer_with_two_custom() {
+    let event = Arc::new(std::sync::Mutex::new(InitialSolutionEvent::default()));
+    let calls = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let mut manager = SolverManager::new(1).unwrap();
+    let job = custom_initialized_event_job(
+        &manager,
+        vec![
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+        ],
+        event.clone(),
+        calls.clone(),
+    );
+    assert!(job.wait_timeout(LIMIT).unwrap().as_ref().is_ok());
+    assert!(!event.lock().unwrap().is_initialized);
+    assert_eq!(event.lock().unwrap().producer_id, None);
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 2);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
