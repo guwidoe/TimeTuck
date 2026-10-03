@@ -251,10 +251,13 @@ pub use solver_manager::{
     SolverThreadSpec, SolverThreadTask, SubmitError,
 };
 
+mod solver_job_builder;
+pub use solver_job_builder::{SolverJobBuildError, SolverJobBuilder};
+
 mod solver_manager_callbacks;
 pub use solver_manager_callbacks::{
-    SolverCallbackFailure, SolverCallbackStage, SolverJobCallbacks, SolverJobFailure,
-    SolverProgress,
+    SolverBestEvent, SolverCallbackFailure, SolverCallbackStage, SolverEventProducer,
+    SolverJobCallbacks, SolverJobFailure, SolverProgress,
 };
 
 pub use list_search::exhaustive_list_search_with_observer;

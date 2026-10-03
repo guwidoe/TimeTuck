@@ -1034,3 +1034,42 @@ asserting the worker's configured name, followed by construction for four entiti
 and four values. Six original regressions cover dispatch across both pools, invalid
 counts, partial failure/panic cleanup, default names, wait guards and live restarts.
 These native tests add no upstream method credit or Java reflection/API claim.
+
+
+## Deferred job builders and best-event origins
+
+`SolverManager::job_builder(id, solve)` configures one submission without enqueueing
+it. `with_problem` supplies an owned input; `with_problem_finder` supplies a fallible
+lookup taking the ID. The last source setter wins. `with_callbacks` and
+`with_problem_size` configure delivery and optional caller-computed queued metadata.
+`run` consumes the builder. Missing input/finder returns MissingProblem before any
+queue reservation; duplicate IDs and closed managers preserve existing SubmitError
+categories through SolverJobBuildError::Submission. Dropping an unused builder
+releases its captures without executing them.
+
+Lookup runs exactly once on the solver worker after the started callback, as part
+of measured solving time. Its error/panic uses normal solve-failure delivery and
+prevents the solve closure from running. Rejected or queued-cancelled jobs never
+look up the problem. Input and result types may differ; inputs need only Send and
+neither input nor output requires Clone. Builder inputs are captured task state:
+queued cancellation drops them and returns CancelledBeforeStart. The separate
+submit_owned API retains its original-input result contract. Source/callback setters
+use ordinary Rust drop semantics; arbitrary destructor panics are not a builder
+configuration guarantee.
+
+`SolverEventProducer` copies the native phase kind/index from a SolverUpdate.
+`SolverProgress::publish_from` carries this origin with its owned snapshot, and
+`on_best_event` receives both through SolverBestEvent. They are coalesced as one
+record, so origin cannot come from a discarded snapshot. Legacy publish has no
+origin (None); legacy on_best consumes the same snapshot while ignoring metadata.
+Both best callback setters replace the previous best callback, rather than installing
+two consumers. Panic disables this callback only; final/error delivery retains the
+existing behavior. Stale publishers cannot update a later job reusing the same ID.
+Phase metadata is explicit native information, not automatic attribution of arbitrary
+closures or Java event-producer identity; scores/revisions can live in the result.
+
+Two complete source builder methods preserve deferred lookup, callback/error routing,
+non-null final/best solutions and best producer presence through real solving. Native
+regressions additionally verify ownership, no eager lookup, rejection/cancellation,
+lookup failures, ID reuse, metadata coalescing, legacy publication and callback panic.
+Java callback variance and mocked convenience-overload delegation remain uncredited.

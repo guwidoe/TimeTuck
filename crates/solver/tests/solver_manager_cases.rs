@@ -1378,3 +1378,98 @@ fn thread_factory_is_used() {
     assert!(job.callback_failures().is_empty());
     manager.shutdown().unwrap();
 }
+
+// DEFAULT_PROBLEM_FINDER and PlannerTestUtils config use two entities/values,
+// a constant-zero scorer, construction and local search bounded by ten steps.
+fn builder_problem_finder(id: u64) -> Result<FiniteProblem<i64>, String> {
+    assert_eq!(id, 1);
+    Ok(statistics_problem(2, vec![1, 2]))
+}
+fn builder_solve(
+    problem: FiniteProblem<i64>,
+    token: CancellationToken,
+    progress: SolverProgress<Vec<Option<i64>>>,
+) -> Result<Vec<Option<i64>>, String> {
+    let mut network = ConstraintNetwork::new(2);
+    network
+        .add_constraint("dummy", vec![0, 1], |_| SimpleScore::ZERO)
+        .unwrap();
+    let result = solve_with_observer(
+        &problem,
+        &network,
+        SolverConfig {
+            limits: SolverLimits {
+                cancellation: Some(&token),
+                ..Default::default()
+            },
+            local_search: vec![LocalSearchConfig {
+                max_steps: 10,
+                ..Default::default()
+            }],
+            ..Default::default()
+        },
+        |update| {
+            progress.publish_from(
+                update.assignment.values().to_vec(),
+                SolverEventProducer::from(&update),
+            );
+        },
+    )
+    .map_err(|e| e.to_string())?;
+    Ok(result.assignment.values().to_vec())
+}
+#[test]
+fn solve_with_builder() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let (sent, received) = mpsc::channel();
+    let job = manager
+        .job_builder(1, builder_solve)
+        .with_problem_finder(builder_problem_finder)
+        .with_callbacks(
+            SolverJobCallbacks::default()
+                .on_final(move |_, solution: &Vec<Option<i64>>| {
+                    sent.send(solution.clone()).unwrap()
+                })
+                .on_error(|_, _| panic!("Solving failed.")),
+        )
+        .run()
+        .unwrap();
+    let final_best = received.recv_timeout(LIMIT).unwrap();
+    assert!(!final_best.is_empty());
+    check_initialized(&job);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}
+#[test]
+fn solve_and_listen_with_builder() {
+    let mut manager = SolverManager::new(1).unwrap();
+    let (sent, received) = mpsc::channel();
+    let best = Arc::new(std::sync::Mutex::new(None));
+    let seen = best.clone();
+    let job = manager
+        .job_builder(1, builder_solve)
+        .with_problem_finder(builder_problem_finder)
+        .with_callbacks(
+            SolverJobCallbacks::default()
+                .on_best_event(move |_, event: SolverBestEvent<'_, Vec<Option<i64>>>| {
+                    *seen.lock().unwrap() = Some((event.solution.clone(), event.producer));
+                })
+                .on_final(move |_, solution: &Vec<Option<i64>>| {
+                    sent.send(solution.clone()).unwrap()
+                })
+                .on_error(|_, _| panic!("Solving failed.")),
+        )
+        .run()
+        .unwrap();
+    let final_best = received.recv_timeout(LIMIT).unwrap();
+    assert!(!final_best.is_empty());
+    let best = best.lock().unwrap();
+    let (solution, producer) = best.as_ref().expect("best solution must be consumed");
+    assert!(!solution.is_empty());
+    assert!(producer.is_some());
+    assert_eq!(producer.unwrap().kind, SolverPhaseKind::Construction);
+    assert_eq!(producer.unwrap().phase, 0);
+    check_initialized(&job);
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

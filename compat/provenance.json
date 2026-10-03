@@ -9075,6 +9075,36 @@
       "upstream_test": "threadFactoryIsUsed",
       "local_test": "thread_factory_is_used",
       "modifications": "Preserve custom factory creating threads named CustomThread, a real custom phase checking its current thread name, construction afterward, job ID 1, four initially unassigned entities/four values, and a successful non-null final result. Native with_thread_factory receives an owned runnable and returns a std::thread JoinHandle; Builder replaces the Java ThreadFactory class/reflection. Extra assertions verify initialized output and no callback failures. Reuse attributed PlannerTestUtils generator and constant-zero scoring. No Java threading/reflection API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveWithBuilder",
+      "status": "implemented",
+      "upstream_test": "solveWithBuilder",
+      "local_test": "solve_with_builder",
+      "modifications": "Preserve job ID 1, deferred DEFAULT_PROBLEM_FINDER with two entities/two values, real constant-zero scoring with construction then local search bounded by ten steps, and an exception handler that fails the test. Preserve final callback delivery and successful non-null final solution. Native job_builder takes an explicit solve function and with_callbacks bundle; native phase metadata replaces Java producer identity without API parity. Timed channel receipt replaces the final-consumer CyclicBarrier; completed-job wait and callback-failure assertions additionally prove no silent error. Reuse attributed PlannerTestUtils/DummySimpleScore fixtures."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveAndListenWithBuilder",
+      "status": "implemented",
+      "upstream_test": "solveAndListenWithBuilder",
+      "local_test": "solve_and_listen_with_builder",
+      "modifications": "Preserve job ID 1, deferred DEFAULT_PROBLEM_FINDER with two entities/two values, real constant-zero scoring with construction then local search bounded by ten steps, and an exception handler that fails the test. Preserve both final and best callback delivery and non-null final solution, best solution and best-event producer. Copy native phase kind/index from actual synchronous solver updates; additional assertions verify construction phase zero. Native job_builder takes an explicit solve function and with_callbacks bundle; native phase metadata replaces Java producer identity without API parity. Timed channel receipt replaces the final-consumer CyclicBarrier; completed-job wait and callback-failure assertions additionally prove no silent error. Reuse attributed PlannerTestUtils/DummySimpleScore fixtures."
     }
   ],
   "fixtures": [
@@ -10013,6 +10043,19 @@
       "id": "SolverManagerTest.custom_thread_factory_fixture",
       "upstream_test": "CustomThreadFactory.newThread, CUSTOM_THREAD_NAME",
       "modifications": "Native Builder creates and names the supplied runnable thread CustomThread; the public native spawn hook supplies it to both managed worker roles. Adapted factory helper only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "local_path": "crates/solver/tests/solver_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.builder_fixtures",
+      "upstream_test": "DEFAULT_PROBLEM_FINDER",
+      "modifications": "builder_problem_finder maps supplied ID to the attributed PlannerTestUtils two-entity/two-value fixture. builder_solve reuses its constant-zero scorer, construction and ten-step local-search configuration and forwards actual solver-update snapshots with native phase provenance. Native integer IDs replace generated solution-code strings. Helper-only attribution; no additional method credit."
     }
   ]
 }

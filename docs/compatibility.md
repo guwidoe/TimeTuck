@@ -616,3 +616,15 @@ four-value fixture. The successful final result assertion is preserved. Native
 Builder/JoinHandle replace Java ThreadFactory and reflective configuration. Factory
 helper attribution is recorded separately. Additional native pool dispatch, cleanup,
 wait-protection and live-restart tests do not earn source-method credit.
+
+
+SolverManagerTest.solveWithBuilder and solveAndListenWithBuilder now have complete
+adaptations using native deferred lookup and explicit solve/callback configuration.
+Both run the attributed two-entity/two-value fixture with constant-zero scoring,
+construction and ten-step local search. Final-consumer synchronization and non-null
+result assertions are retained; the listening case also checks its best solution
+and origin, copied from actual native solver updates. Timed channels replace the
+source final-callback barrier; extra completed-job/failure checks prevent swallowed
+callback errors from receiving credit. Native phase kind/index replaces Java producer
+identity, with no Java API or ABI claim. Six original infrastructure tests receive
+no source-method credit. solveGenerics and mocked overload delegation remain pending.

@@ -102,7 +102,7 @@ struct DeliveryState<R, E> {
     scheduled: bool,
     closed: bool,
     listening: bool,
-    latest: Option<R>,
+    latest: Option<(R, Option<crate::SolverEventProducer>)>,
     initialized: Option<(R, crate::SolverInitialization)>,
     initialized_available: bool,
     initialized_before_latest: bool,
@@ -731,7 +731,7 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
             let mut queue = shared.queue.lock().unwrap();
             let mut state = delivery.state.lock().unwrap();
             let listening = match &message {
-                ProgressMessage::Best(_) => state.listening,
+                ProgressMessage::Best(..) => state.listening,
                 ProgressMessage::Initialized(..) => state.initialized_available,
                 ProgressMessage::Statistics(_) => unreachable!("handled before delivery"),
             };
@@ -743,9 +743,9 @@ fn worker<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shared
             }
             let old = match message {
                 ProgressMessage::Statistics(_) => unreachable!("handled before delivery"),
-                ProgressMessage::Best(snapshot) => {
+                ProgressMessage::Best(snapshot, producer) => {
                     state.initialized_before_latest = true;
-                    state.latest.replace(snapshot)
+                    state.latest.replace((snapshot, producer))
                 }
                 ProgressMessage::Initialized(snapshot, initialization) => {
                     state.initialized_available = false;
@@ -821,8 +821,8 @@ fn consumer<R: Send + Sync + 'static, E: Send + Sync + 'static>(shared: Arc<Shar
             callbacks.initialized(delivery.id, &snapshot, initialization, &mut failures);
             dispose(snapshot);
         }
-        if let Some(snapshot) = latest {
-            callbacks.best(delivery.id, &snapshot, &mut failures);
+        if let Some((snapshot, producer)) = latest {
+            callbacks.best(delivery.id, &snapshot, producer, &mut failures);
             dispose(snapshot);
         }
         if let Some((snapshot, initialization)) = initialized {

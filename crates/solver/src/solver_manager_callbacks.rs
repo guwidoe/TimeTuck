@@ -22,9 +22,32 @@ pub enum SolverJobFailure<'a, E> {
 }
 type Started = Box<dyn FnOnce(u64) + Send>;
 type Initialized<R> = Box<dyn FnOnce(u64, &R, SolverInitialization) + Send>;
-type Best<R> = Box<dyn FnMut(u64, &R) + Send>;
+type Best<R> = Box<dyn FnMut(u64, SolverBestEvent<'_, R>) + Send>;
 type Final<R> = Box<dyn FnOnce(u64, &R) + Send>;
 type Handler<E> = Box<dyn for<'a> FnMut(u64, SolverJobFailure<'a, E>) + Send>;
+
+/// Native phase origin copied from a synchronous solver update. The phase index
+/// refers to the explicit sequence; this is not a Java producer identity.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct SolverEventProducer {
+    pub phase: usize,
+    pub kind: crate::SolverPhaseKind,
+}
+impl<A, S> From<&crate::SolverUpdate<'_, A, S>> for SolverEventProducer {
+    fn from(update: &crate::SolverUpdate<'_, A, S>) -> Self {
+        Self {
+            phase: update.phase,
+            kind: update.kind,
+        }
+    }
+}
+/// The snapshot and its origin are coalesced together. Legacy `publish` calls have
+/// no origin; consumers must handle None. Scores/revisions may be part of R.
+#[derive(Debug)]
+pub struct SolverBestEvent<'a, R> {
+    pub solution: &'a R,
+    pub producer: Option<SolverEventProducer>,
+}
 
 /// Per-job callbacks. Started runs once on the solver thread before the solve
 /// function; a panic is recorded and solving continues. Initialization, best, final (success only)
@@ -77,7 +100,15 @@ impl<R, E> SolverJobCallbacks<R, E> {
     /// Receive explicitly published best snapshots on a consumer thread. Older
     /// waiting snapshots may be skipped. A panic disables this callback and is
     /// reported once; final/error delivery and solving continue.
-    pub fn on_best(mut self, callback: impl FnMut(u64, &R) + Send + 'static) -> Self {
+    pub fn on_best(self, mut callback: impl FnMut(u64, &R) + Send + 'static) -> Self {
+        self.on_best_event(move |id, event| callback(id, event.solution))
+    }
+    /// Receive the same coalesced best snapshots with optional native phase origin.
+    /// Replaces the previous best callback, including one installed by on_best.
+    pub fn on_best_event(
+        mut self,
+        callback: impl FnMut(u64, SolverBestEvent<'_, R>) + Send + 'static,
+    ) -> Self {
         self.best = Some(Box::new(callback));
         self
     }
@@ -176,11 +207,20 @@ impl<R, E> SolverJobCallbacks<R, E> {
         &mut self,
         id: u64,
         snapshot: &R,
+        producer: Option<SolverEventProducer>,
         failures: &mut Vec<SolverCallbackFailure>,
     ) {
         self.report_started(id, failures);
         if let Some(callback) = self.best.as_mut()
-            && let Err(message) = capture(|| callback(id, snapshot))
+            && let Err(message) = capture(|| {
+                callback(
+                    id,
+                    SolverBestEvent {
+                        solution: snapshot,
+                        producer,
+                    },
+                )
+            })
         {
             let failure = SolverCallbackFailure {
                 stage: SolverCallbackStage::Best,
@@ -235,7 +275,7 @@ pub(crate) fn dispose<T>(value: T) {
 }
 
 pub(crate) enum ProgressMessage<R> {
-    Best(R),
+    Best(R, Option<SolverEventProducer>),
     Initialized(R, SolverInitialization),
     Statistics(crate::statistics::StatisticsUpdate),
 }
@@ -306,7 +346,13 @@ impl<R> SolverProgress<R> {
         ))
     }
     pub fn publish(&self, snapshot: R) -> bool {
-        (self.send)(ProgressMessage::Best(snapshot))
+        (self.send)(ProgressMessage::Best(snapshot, None))
+    }
+    /// Publish an owned best snapshot together with its native phase origin.
+    /// Obtain the origin from an actual SolverUpdate rather than guessing a phase.
+    /// Acceptance, coalescing and callback-failure behavior match publish.
+    pub fn publish_from(&self, snapshot: R, producer: SolverEventProducer) -> bool {
+        (self.send)(ProgressMessage::Best(snapshot, Some(producer)))
     }
     /// Publish one initialization snapshot for this job. Returns false without
     /// a listener, after a previous accepted initialization, or after the solve

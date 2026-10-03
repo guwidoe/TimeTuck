@@ -4522,3 +4522,74 @@ equal, streams 64/64 and lists 192 valid/189 equal. Great Deluge remains 275/276
 its documented ratio-boundary difference. Existing benchmarks do not isolate thread
 factory overhead; shared-machine results support no blanket speedup/regression claim.
 This increment is verified; the overall independent solver goal remains active.
+
+
+## Deferred job builder and best-event origin increment
+
+Added SolverJobBuilder through manager.job_builder(id, solve), with owned or deferred
+fallible problem source, callback bundle, optional queued model size and consuming
+run. Missing source fails before reservation; rejected/unused/queued-cancelled jobs
+never look up or solve. Finder executes once on worker after started callback and
+inside solving telemetry. Lookup errors/panics follow existing failure delivery.
+P and R may differ and need no Clone; P requires Send only. Builder-owned problems
+are task captures, dropped on queued cancellation with CancelledBeforeStart; existing
+submit_owned retains its separate return-input semantics. Setters replace prior
+settings with ordinary Rust drop behavior.
+
+Managed best updates now retain (snapshot, optional SolverEventProducer) together.
+publish_from carries native kind/index copied from actual SolverUpdate; on_best_event
+receives borrowed SolverBestEvent. Legacy publish sends None; on_best ignores origin.
+The two callback setters replace one another. Coalescing, callback-panic containment,
+initialization ordering and final delivery otherwise use existing machinery. No
+Java producer identity or automatic origin for arbitrary closures is claimed.
+
+Six original job_builder tests cover non-Clone distinct input/result types including
+Send-but-not-Sync input, worker/order/one-lookup execution, metadata/work reporting,
+missing/duplicate/closed/unused builder behavior, queued cancellation/source disposal,
+lookup error/panic recovery and ID reuse, coalesced origin pairing/legacy None/stale
+publishers, and attributed-callback panic with final delivery. Two source adaptations
+use real CH/LS10, attributed constant scorer and DEFAULT_PROBLEM_FINDER fixture.
+Both verify final callback delivery; listening additionally verifies best/origin.
+Provenance records both methods and the helper; notices now count 29 manager methods.
+Public builder doctest demonstrates distinct input/output and deferred finder.
+Logs use work/job-builder-*. Upstream production not read; goal remains active.
+
+Seven manager methods remain pending: create, errorThrowableInSolver, solveGenerics,
+solveWithOverride, solveWithTerminationSpentLimit, solveWithTerminationUnimprovedSpentLimit
+and testSolveBuilderForExistingSolvingMethods. Java generics and mock overload wiring
+are not established by native builder syntax. No claim of actual OOM recovery.
+Next substantial capability is managed solver defaults/per-job termination overrides:
+existing native max_time/max_unimproved_time limits lack owned job config/introspection.
+Pinned test evidence and gradient assertions were recorded in the prior increment.
+
+
+Additional test-only configuration evidence: core/config/solver/termination/
+TerminationConfigTest.java checks overwrite clearing alternative unit fields,
+inheritance when a child is unset, child precedence across both matching and different
+time units, plus move-count inheritance/isConfigured. Rust durations normalize units;
+any future adaptation must preserve these semantics explicitly rather than claim
+Java-field parity. SolverFactoryTest also contains XML/resource/class-loader contracts;
+ordinary native constructors do not establish those methods. No credit added.
+
+
+Full verification: bash scripts/check.sh passes 1,296 Rust tests (607 adapted,
+614 original integration, 75 unit), 62 doctests and 95 Python tests. Release all-target
+checks pass the same 1,296 tests. The live_initialization example delivers all four
+initialization events and proves four optima. Coverage is 607/4,855 (12.50%),
+3,966 pending, 282 excluded and zero failed/unverified. Lifecycle is 49/379 (12.93%).
+The upstream submodule remains unchanged at the recorded pin.
+
+
+All nine differential/performance datasets were refreshed and report current.
+Verification succeeds and the live /api/freshness digest matches the report. Reused
+the running dashboard server; browser checks at 1280x900 and 390x844 show 607/4,855,
+23 benchmark cards, no overflow, stale/error messages or browser errors. Lifecycle
+search finds solveWithBuilder and solveAndListenWithBuilder Passed. Browser closed;
+server retained. No frontend edits or design skills used.
+
+Illustrative refreshed Rust/Java median milliseconds: exact 6 0.012/3.955 and exact 8
+0.170/5.164; Great Deluge 32 2.368/8.890 and 96 13.746/16.273; stream tabu 96
+179.827/27.463 with equal [-44,-484]. List two-opt 16 0.331/9.548 and 32 1.066/10.539
+retain documented score differences. Existing workloads do not isolate builder or
+origin-publication overhead. Shared-machine timings support no general speedup or
+regression claim. This increment is verified; the overall solver goal remains active.
