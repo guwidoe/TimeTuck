@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/pillar_schema_cases.rs` adapts eight complete whole-pillar
+  swap provider methods and three multivariable subpillar swap provider methods,
+  from `PillarSwapMoveProviderTest` and `SubPillarSwapMoveProviderTest`, with their
+  basic, multivariable, per-entity-range, optional and pinned testdomain fixtures.
+
 - `crates/solver/tests/subpillar_cases.rs` adapts thirteen membership, diversity,
   pinning, null-target and selection-size methods from `SubPillarChangeMoveProviderTest`,
   `SubPillarUnassignMoveProviderTest` and `SubPillarSwapMoveProviderTest`, with

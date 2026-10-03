@@ -990,3 +990,38 @@ swap partners before expanding large combination spaces. The existing mixed join
 also exercises subpillar neighborhoods. Thirteen complete source methods preserve
 provider membership, diversity, pinning, null-target and independent-size assertions
 through finite enumeration; source random draw sequences remain outside that evidence.
+
+## Schema-aware pillar search
+
+An optional PillarSchema on FiniteProblem makes both Pillar and SubPillar neighborhoods
+operate on aligned selected entity rows. No new search entry point is required;
+scoped/stream basic and mixed search obtain the same metadata from their basic model.
+Grouping and selected row values are rebuilt from each search snapshot, so earlier
+moves can split or merge groups. Without a schema the earlier single-slot provider
+ordering and behavior are unchanged.
+
+Rows follow the first selected slot encountered in the configured variable order.
+Within groups, subset selection follows that row order; consecutive selection is a
+window over member rows. Changes iterate groups, subsets, columns, then the first
+selected member's domain, optionally followed by None. They change one column at a
+time, rather than enumerating a Cartesian product of column targets. Swaps iterate
+both directed full-group pairs, then each side's selected subsets, and write all
+selected columns using original values. This schema path preserves both orientations
+even for equal side policies; budget/tie outcomes can therefore differ from the
+single-slot unordered provider. Selected pins exclude entire rows. Unselected slots
+remain available to other neighborhood types and construction/exact phases.
+
+Grouping retains O(variable count + row count) indices and may compare O(rows² ×
+columns) values. Subsets, pair products and move value cloning remain lazy. Both
+partner sizes are checked before expanding combinations. The schema itself is shared
+through Arc on model clones. No bound guarantees prompt interruption of grouping or
+long rejected-subset scans. Existing evaluation/seed/acceptance/cancellation rules
+apply when candidates reach scoring.
+
+Six original integration methods cover schema shape/bounds/clones/removal/selected
+pin rules, exhaustive binary assignment/mask successor sets with excluded columns,
+restricted domains and pins, per-column changes/optional targets, both basic scoring
+backends escaping a tuple-group trap under seeded orders with score rollback, both
+mixed backends requiring a joint tuple/list move, lazy value cloning and early
+undersized-pair rejection. Eleven source methods preserve whole/subpillar swap
+membership, directed orientations, range and selected-column key behavior.

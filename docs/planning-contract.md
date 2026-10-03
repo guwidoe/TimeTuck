@@ -209,3 +209,29 @@ supported as a maximum bound without computing binomial counts or bit masks.
 retaining selected-column order. It does not read assignment values; the resulting
 pillar validates uniformity when building a change/swap. This permits explicit
 multicolumn subsets without inferring an entity schema or storing user comparators.
+
+## Explicit entity schemas for pillar neighborhoods
+
+`PillarSchema::new(rows)` validates a nonempty rectangular set of disjoint selected
+slot rows, retaining column order and canonicalizing row order. Empty/ragged rows
+and duplicate slots are rejected. `FiniteProblem::with_pillar_schema` also checks
+slot bounds before attaching immutable metadata. Clones retain the schema;
+`without_pillar_schema` removes it. Newly rebuilt models need their desired schema
+attached explicitly. Construction, exact search, ordinary changes/swaps and raw
+model validation continue to treat all basic slots independently.
+
+Pillar providers use selected rows as members. Keys compare all selected column
+values, including None. Unselected slots participate in neither key nor writes.
+Any pin among selected slots excludes the entire row; a pin in an unselected slot
+does not. This conservative row-level rule is explicit native metadata, not Java
+annotation or descriptor inference. Different column value families may use stable
+native IDs or a user enum; target domains enforce allowed cross-values.
+
+`pillar_swap_moves` enumerates pure whole-pillar swaps in both directed orientations.
+With no schema, basic slots are single-column rows. Attached schemas also drive the
+existing pillar_moves and subpillar_moves providers: a change modifies one selected
+column across the chosen members, while a swap exchanges the complete selected tuple.
+Every target must be legal for every selected member in every column; a single
+invalid cross-value rejects the entire pair. No-ops in unchanged columns can remain
+inside a valid Composite swap. Domain/pin validation and scored rollback retain
+existing atomic semantics. Neither moves nor provider grouping mutates the schema.

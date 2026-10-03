@@ -102,6 +102,7 @@ impl From<MoveError> for ModelError {
 #[derive(Clone, Debug)]
 pub struct FiniteProblem<V> {
     variables: Vec<Variable<V>>,
+    pillar_schema: Option<crate::PillarSchema>,
 }
 impl<V: Eq> FiniteProblem<V> {
     pub fn new(variables: Vec<Variable<V>>) -> Result<Self, ModelError> {
@@ -122,7 +123,27 @@ impl<V: Eq> FiniteProblem<V> {
                 return Err(ModelError::PinnedUnassigned { variable: index });
             }
         }
-        Ok(Self { variables })
+        Ok(Self {
+            variables,
+            pillar_schema: None,
+        })
+    }
+    /// Attach validated selected entity rows for pillar/subpillar neighborhoods.
+    /// Ordinary construction, exact search and non-pillar moves are unaffected.
+    pub fn with_pillar_schema(
+        mut self,
+        schema: crate::PillarSchema,
+    ) -> Result<Self, crate::PillarError> {
+        schema.validate(self.variables.len())?;
+        self.pillar_schema = Some(schema);
+        Ok(self)
+    }
+    pub fn without_pillar_schema(mut self) -> Self {
+        self.pillar_schema = None;
+        self
+    }
+    pub fn pillar_schema(&self) -> Option<&crate::PillarSchema> {
+        self.pillar_schema.as_ref()
     }
     pub fn variables(&self) -> &[Variable<V>] {
         &self.variables

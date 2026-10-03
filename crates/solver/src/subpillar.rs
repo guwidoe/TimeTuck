@@ -54,7 +54,7 @@ impl SubPillarSelection {
     pub fn is_consecutive(self) -> bool {
         self.consecutive
     }
-    fn indices(self, n: usize) -> Subsets {
+    pub(crate) fn indices(self, n: usize) -> Subsets {
         Subsets {
             n,
             max: self.max.min(n),
@@ -63,7 +63,7 @@ impl SubPillarSelection {
         }
     }
 }
-struct Subsets {
+pub(crate) struct Subsets {
     n: usize,
     max: usize,
     consecutive: bool,
@@ -148,6 +148,8 @@ impl SubPillarConfig {
 /// basic slots. Every target must fit every selected member's domain; None requires
 /// optional members. Pins and no-ops are excluded. Consecutive selection follows
 /// variable index order here, or the configured variable order during search.
+/// An attached PillarSchema selects whole entity rows: keys use all selected
+/// columns, changes update one column at a time, and swaps emit both orientations.
 ///
 /// ```
 /// use timetuck::*;
@@ -174,7 +176,7 @@ fn write<'a, V: Clone>(
         value: value.cloned(),
     })
 }
-pub(crate) fn ordered<'a, V: Eq + Clone>(
+fn flat_ordered<'a, V: Eq + Clone>(
     p: &'a FiniteProblem<V>,
     a: &'a Assignment<V>,
     config: SubPillarConfig,
@@ -271,4 +273,27 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
             })
         });
     changes.chain(swaps)
+}
+
+pub(crate) fn ordered<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    config: SubPillarConfig,
+    order: impl Iterator<Item = usize>,
+) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    if p.pillar_schema().is_some() {
+        Box::new(crate::pillar_schema::ordered(
+            p,
+            a,
+            crate::pillar_schema::Settings {
+                left: Some(config.selection),
+                right: config.swap_selection,
+                changes: config.changes,
+                swaps: config.swap_selection.is_some(),
+            },
+            order,
+        ))
+    } else {
+        Box::new(flat_ordered(p, a, config, order))
+    }
 }

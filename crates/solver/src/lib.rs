@@ -29,6 +29,8 @@ pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search}
 pub mod scoring;
 pub use scoring::{ConstraintNetwork, ScoreDirector, ScoredMove, ScoringError};
 
+mod pillar_schema;
+pub use pillar_schema::{PillarSchema, pillar_swap_moves};
 mod subpillar;
 pub use subpillar::{
     PillarChangeMode, SubPillarConfig, SubPillarSelection, SubPillarSizeError, subpillar_moves,

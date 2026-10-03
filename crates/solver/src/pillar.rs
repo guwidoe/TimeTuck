@@ -183,7 +183,9 @@ pub(crate) fn accepts<V: Eq>(p: &FiniteProblem<V>, members: &[usize], value: Opt
 /// Targets must fit every member's domain; unassignment requires all members to
 /// allow it. Groups follow first-member encounter order; target values follow the
 /// first member's domain, with None last. Pins never join a movable group.
-/// This single-column provider does not enumerate subpillars or entity schemas.
+/// With an attached PillarSchema, grouping uses selected value tuples, changes
+/// update one selected column at a time, and swaps emit both group orientations.
+/// Without a schema, each basic slot is its own single-column member.
 pub fn pillar_moves<'a, V: Eq + Clone>(
     p: &'a FiniteProblem<V>,
     a: &'a Assignment<V>,
@@ -192,7 +194,7 @@ pub fn pillar_moves<'a, V: Eq + Clone>(
     p.validate(a)?;
     Ok(ordered(p, a, swaps, 0..p.variables().len()))
 }
-pub(crate) fn ordered<'a, V: Eq + Clone>(
+fn flat_ordered<'a, V: Eq + Clone>(
     p: &'a FiniteProblem<V>,
     a: &'a Assignment<V>,
     swaps: bool,
@@ -269,4 +271,27 @@ pub(crate) fn groups<V: Eq>(
         }
     }
     Arc::new(groups)
+}
+
+pub(crate) fn ordered<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    swaps: bool,
+    order: impl Iterator<Item = usize>,
+) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    if p.pillar_schema().is_some() {
+        Box::new(crate::pillar_schema::ordered(
+            p,
+            a,
+            crate::pillar_schema::Settings {
+                left: None,
+                right: None,
+                changes: crate::PillarChangeMode::All,
+                swaps,
+            },
+            order,
+        ))
+    } else {
+        Box::new(flat_ordered(p, a, swaps, order))
+    }
 }

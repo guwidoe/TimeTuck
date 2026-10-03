@@ -690,3 +690,26 @@ native functionality, not evidence for those methods. Six new original tests and
 an expanded mixed regression grant no additional source credit.
 
 Current default-workload benchmarks do not isolate subpillar selection/search cost.
+
+## Multivariable pillar schema increment
+
+PillarSchema attaches explicit selected entity rows to a finite basic model. Whole
+and subpillar providers group on complete selected tuples, respect selected row pins
+and reject a swap if any column/member cannot receive its cross-value. Changes are
+one selected column at a time. Both basic scoring backends and mixed joint search
+use the schema. Pure pillar_swap_moves enumerates both directed whole-group pairs;
+existing no-schema provider behavior remains unchanged.
+
+Eleven complete source methods are newly adapted: eight PillarSwapMoveProviderTest
+methods (equal-values exhaustion, at-least-one differing column, cross-range and
+mixed-column rejection, pins, three-versus-five members, singleton groups and
+excluded-column grouping), plus SubPillarSwapMoveProviderTest's
+multivariateSwapUsesEveryListedVariable, excludedVariableIsIgnoredForKeyAndSwap and
+mixedLegalityAcrossVariablesRejectsWholePair. Directed expected moves are independently
+constructed and both orientations asserted where required. Fixture provenance covers
+basic generators, multivar/optional/entity-range/pinned fields and selection helpers.
+Finite enumeration supplies the observed behavior without random-stream equivalence.
+Java single-variable/list constructor overload assertions, empty-list constructor
+message assertions and shared stateful sampler identity/reset remain pending. Native
+schema validation alone grants no credit for them. Six original tests grant no extra
+upstream credit. Current default benchmarks do not isolate schema/pillar performance.

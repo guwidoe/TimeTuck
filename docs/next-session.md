@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 628 fully adapted source test methods, recorded individually in
+- 639 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -4805,3 +4805,75 @@ List two-opt 16 0.336/9.121 and 32 1.081/13.573 retain their documented score
 differences. Default-workload timings do not isolate the new subpillar provider,
 and shared-machine measurements support no general speedup/regression claim.
 This increment is verified; the full rewrite remains unfinished and active.
+
+## Multivariable pillar schema increment
+
+New pillar_schema.rs provides PillarSchema with Arc-shared canonical rows of aligned
+selected slots. Reuse Pillar validation for nonempty/rectangular/disjoint shape;
+FiniteProblem::with_pillar_schema validates bounds before attachment. Cloning retains
+metadata; without_pillar_schema removes it, while rebuilding a new model requires
+reattaching desired metadata. Ordinary construction/exact/non-pillar behavior stays
+slot-based. No Java annotation/metamodel inference is introduced.
+
+Attached schemas drive existing Pillar and SubPillar neighborhoods in both basic
+scoring backends and mixed basic/joint search. Group keys compare all selected
+columns, including None; unselected columns affect neither keys nor writes. A selected
+pin excludes its whole row, while an unselected pin does not. Row order follows first
+selected-slot encounter in variable order, including shuffles. Changes update one
+selected column at a time. Swaps exchange every selected column and reject the whole
+pair if any cross-value fails a domain/optionality check. A pure pillar_swap_moves
+entry point emits only whole-group swaps; without metadata it uses single-slot rows.
+
+Schema swaps retain both directed orientations even for equal subset policies. Old
+no-schema pillar/subpillar paths retain prior unordered/asymmetric behavior. Bounds
+and group pairing remain lazy; reject undersized partners before expanding subsets.
+O(variable count + row count) grouping indices and worst-case O(rows² × columns)
+comparison work precede candidates. Only emitted candidate values are cloned. No
+hard responsiveness guarantee for long grouping/rejected-subset scans is claimed.
+
+Eleven source adaptations: eight whole PillarSwapMoveProviderTest methods and three
+multivariable SubPillarSwapMoveProviderTest methods. Both expected directed movements
+are independently built/asserted where required; other checks preserve memberships,
+pins, mixed-column illegality, singleton/unequal groups and excluded-column merging.
+Six helper/testdomain fixture sources are attributed alongside all methods/notices.
+Source constructor overload/empty-list message and shared sampler lifecycle assertions
+remain pending. No production upstream source was read. Native explicit schemas do
+not claim Java ABI, reflection or random-stream compatibility.
+
+Six original tests cover schema validation/bounds/clone/removal/selected pins,
+exhaustive 256 binary assignments under whole/subset masks, domain restriction,
+selected columns and pin policies; per-column changes/optional targets; both basic
+backends escaping a tuple-group trap under seeded orders with score rollback; both
+mixed backends needing joint tuple/list moves; lazy clone counts and huge undersized
+swap partner pruning. One public doctest shows schema attachment and pure swaps.
+Focused tests and Clippy passed before freezing sources for the full gate. Logs use
+work/pillar-schema-*. Next useful work: dedicated Java/Rust pillar and subpillar
+workloads and broader domain/shadow-variable support. The full solver goal remains
+active and unfinished.
+
+Full debug gate passes 1,353 Rust tests (639 adapted, 639 original integration,
+75 unit), 66 doctests and 95 Python tests. Coverage: 639/4,855 (13.16%), 3,934 pending,
+282 excluded, no failed/unverified methods. Moves/selectors: 113/874 (12.93%).
+The upstream pin and checkout are unchanged.
+
+Release all-target checks pass the same 1,353 tests. The live_initialization example
+delivers all four initialization events and proves four optima. Sources were frozen
+before the full gate, release run and comparison refresh.
+
+All nine differential/performance datasets were refreshed and report current, with
+successful verification and a matching live /api/freshness digest. Browser checks
+at 1280x900 and 390x844 show 639/4,855 (13.16%), 23 benchmark cards, no overflow,
+stale/error messages or browser errors. Whole pillar swap provider shows eight
+methods Passed, two constructor methods Pending; subpillar swap provider shows
+seven Passed, three constructor/sampler methods Pending. Reused the dashboard
+server and closed the verification browser. No frontend edits or design skills.
+
+Existing comparison outcomes persist: 512/512 list-move cases, 192 valid/189 equal-
+score list solves, 64 valid/64 equal-score stream solves and 128 valid/128 equal-
+score heuristic solves; Great Deluge retains the known 275/276 Java agreement.
+Illustrative Rust/Java median milliseconds: exact 6 0.012/4.119, exact 8 0.166/5.659;
+Great Deluge 32 2.533/9.431, 96 13.949/16.505; stream tabu 96 174.402/23.887 with
+equal [-44,-484]. Two-opt 16 0.336/9.587 and 32 0.904/12.433 retain known score
+differences. These default-workload timings do not isolate pillar schema overhead
+or establish a general speedup/regression. This increment is verified; the whole
+rewrite remains unfinished and the goal stays active.

@@ -9420,6 +9420,171 @@
       "upstream_test": "pinnedEntityNeverParticipatesInSubpillarSwap",
       "local_test": "swap_pinned_entity_never_participates_in_subpillar_swap",
       "modifications": "Preserve all assertions and inline model sizes/ranges/pins. Stable native slot/value identities replace Java objects; native finite lexicographic combinations replace random draws, capped at the same source sample limit. No random-sequence, sampling-distribution or Java metamodel parity is claimed. Retain one pinned member sharing value with two free members, two other free members on the second value and nonempty/pin-exclusion assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.equalValuesProduceNoMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "equalValuesProduceNoMove",
+      "local_test": "whole_equal_values_produce_no_move",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.atLeastOneDifferingVariableProducesMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "atLeastOneDifferingVariableProducesMove",
+      "local_test": "whole_at_least_one_differing_variable_produces_move",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.outOfRangeCrossValueRejectsWholePair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "outOfRangeCrossValueRejectsWholePair",
+      "local_test": "whole_out_of_range_cross_value_rejects_whole_pair",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.mixedLegalityAcrossVariablesRejectsWholePair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "mixedLegalityAcrossVariablesRejectsWholePair",
+      "local_test": "whole_mixed_legality_across_variables_rejects_whole_pair",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Retain both entity-local ranges plus the third optional solution-range column initially None; any illegal cross-column target rejects the complete swap."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.pinnedEntityNeverParticipatesInSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "pinnedEntityNeverParticipatesInSwap",
+      "local_test": "whole_pinned_entity_never_participates_in_swap",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.threeAgainstFiveSwapsEveryMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "threeAgainstFiveSwapsEveryMember",
+      "local_test": "whole_three_against_five_swaps_every_member",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.sizeOnePillarsAreGenerated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "sizeOnePillarsAreGenerated",
+      "local_test": "whole_size_one_pillars_are_generated",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Whole-pillar pure swap enumeration preserves singleton, unequal group and no-op/range/pin behavior through native transactions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.excludedVariableIsIgnoredForKeyAndSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "excludedVariableIsIgnoredForKeyAndSwap",
+      "local_test": "whole_excluded_variable_is_ignored_for_key_and_swap",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Exclude secondary from the schema key and writes; the four entities merge into one primary/tertiary pillar and produce no swaps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.multivariateSwapUsesEveryListedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "multivariateSwapUsesEveryListedVariable",
+      "local_test": "sub_multivariate_swap_uses_every_listed_variable",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Independent exact-size-two subpillar selections draw complete two-member tuple groups."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.excludedVariableIsIgnoredForKeyAndSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "excludedVariableIsIgnoredForKeyAndSwap",
+      "local_test": "sub_excluded_variable_is_ignored_for_key_and_swap",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Exclude secondary from the schema key and writes; the four entities merge into one primary/tertiary pillar and produce no swaps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarSwapMoveProviderTest.mixedLegalityAcrossVariablesRejectsWholePair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "mixedLegalityAcrossVariablesRejectsWholePair",
+      "local_test": "sub_mixed_legality_across_variables_rejects_whole_pair",
+      "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Retain both entity-local ranges plus the third optional solution-range column initially None; any illegal cross-column target rejects the complete swap."
     }
   ],
   "fixtures": [
@@ -10488,6 +10653,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedEntity.java",
       "upstream_test": "constructor, getValue, isPinned",
       "modifications": "Native optional variables and immutable pins preserve source optional pinned/unpinned members in the dedicated unassignment fixture. Fixture-only attribution; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.pillar_schema_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve generated entity/value counts and explicit source assignments as native basic slots; integer values replace named test objects. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiVarEntity.pillar_schema_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarEntity.java",
+      "upstream_test": "constructor, primaryValue, secondaryValue, tertiaryValueAllowedUnassigned",
+      "modifications": "Flatten selected primary/secondary/optional-tertiary columns into aligned rows; native ranges [0,1] and [100] preserve distinct source value families and optionality. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntityProvidingEntity.pillar_schema_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingEntity.java",
+      "upstream_test": "constructor, getValue, getValueRange",
+      "modifications": "Preserve source per-entity required ranges [1,2] and [2] on native basic slots. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedMultiVarEntityProvidingEntity.pillar_schema_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/multivar/TestdataAllowsUnassignedMultiVarEntityProvidingEntity.java",
+      "upstream_test": "constructor, value, secondValue, solutionValue",
+      "modifications": "Preserve both entity-local optional ranges and the optional solution-scoped [1] range with None initialization; explicit row columns replace descriptors. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedEntity.pillar_schema_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedEntity.java",
+      "upstream_test": "constructor, getValue, isPinned",
+      "modifications": "Preserve source value/pin fields with immutable native slot metadata. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/pillar_schema_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveProviderTest.schema_helpers",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "allVariables",
+      "modifications": "Explicit schema column lists replace the test helper selecting every variable metamodel; native expect_both checks both directed source moves via separately built Pillar snapshots. Helper/fixture attribution only; no additional method credit."
     }
   ]
 }
