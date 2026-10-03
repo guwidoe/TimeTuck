@@ -278,7 +278,7 @@ impl<K: Ord + Clone> DependencyGraph<K> {
 }
 
 // Iterative two-pass SCC discovery avoids call-stack limits on large chains.
-fn cycle_members(edges: &[Vec<usize>]) -> Vec<usize> {
+pub(crate) fn strong_components(edges: &[Vec<usize>]) -> Vec<Vec<usize>> {
     let mut visited = vec![false; edges.len()];
     let mut finish = Vec::with_capacity(edges.len());
     for start in 0..edges.len() {
@@ -308,7 +308,7 @@ fn cycle_members(edges: &[Vec<usize>]) -> Vec<usize> {
         }
     }
     visited.fill(false);
-    let mut cycles = vec![];
+    let mut components = vec![];
     for start in finish.into_iter().rev() {
         if visited[start] {
             continue;
@@ -325,10 +325,17 @@ fn cycle_members(edges: &[Vec<usize>]) -> Vec<usize> {
                 }
             }
         }
-        if component.len() > 1 || edges[start].contains(&start) {
-            cycles.extend(component);
-        }
+        components.push(component);
     }
+    components
+}
+
+fn cycle_members(edges: &[Vec<usize>]) -> Vec<usize> {
+    let mut cycles: Vec<_> = strong_components(edges)
+        .into_iter()
+        .filter(|c| c.len() > 1 || edges[c[0]].contains(&c[0]))
+        .flatten()
+        .collect();
     cycles.sort_unstable();
     cycles
 }

@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
+from differential_scores import source_digest
 from compat_report import counts, declarations, family, read_test_run
 
 class InventoryTests(unittest.TestCase):
@@ -74,5 +76,31 @@ test unrelated ... ok
             with self.assertRaisesRegex(ValueError, 'stale'): read_test_run(path, 'b')
             path.write_text(path.read_text().replace('FAILED', 'ok'))
             with self.assertRaisesRegex(ValueError, 'checksum'): read_test_run(path, 'a')
+
+class SourceFingerprintTests(unittest.TestCase):
+    def test_fixture_content_names_and_removal_invalidate_evidence(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ['Cargo.lock', 'Cargo.toml', 'crates/solver/Cargo.toml',
+                         'compat/oracle/pom.xml']:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('placeholder')
+            fixture = root / 'crates/solver/tests/fixtures/nested/data.txt'
+            fixture.parent.mkdir(parents=True)
+            with patch('differential_scores.ROOT', root):
+                empty = source_digest()
+                fixture.write_text('expected A')
+                before = source_digest()
+                self.assertNotEqual(empty, before)
+                self.assertEqual(before, source_digest())
+                fixture.write_text('expected B')
+                self.assertNotEqual(before, source_digest())
+                fixture.write_text('expected A')
+                renamed = fixture.with_name('renamed.txt')
+                fixture.rename(renamed)
+                self.assertNotEqual(before, source_digest())
+                renamed.unlink()
+                self.assertEqual(empty, source_digest())
 
 if __name__ == '__main__': unittest.main()

@@ -940,3 +940,31 @@ the maximum available ready time, including with unassigned members. This known
 reference-runtime boundary remains a reported discrepancy, not a compatibility
 pass or justification to remove cases. Mutating groups, general date/time APIs,
 Java structural scores, search quality and performance remain outside this evidence.
+
+## Persistent dependency topology
+
+Seven AbstractTopologicalGraphTest methods preserve every ordering, SCC membership
+and cycle-status change assertion. The concrete DefaultTopologicalGraphTest has an
+empty consistency hook and explicitly does not require incremental maintenance.
+Native DependencyTopology keeps a fixed key set and persistent edges; an atomic
+update validates all endpoints, applies removals before additions and returns only
+keys whose cycle membership changed. Edges point node-to-dependency (reversed from
+the source tests). Sorted SCC members and shared component ranks are queryable.
+Ranks order dependencies before their consumers, including condensed cycles.
+Downstream dependencies of cycles do not themselves become cycle members.
+
+All node and edge permutations are retained: 14,400 each for the two acyclic
+methods, 86,400 each for the two five-node cycle methods, 518,400 each for the first
+two six-node methods, and 362,880 for the last. Test-only Java-sequence shuffling
+and the original recursive limit preserve the larger source families. A standalone
+Java helper emits complete endpoint-stream checksums; Rust verifies all seven
+counts and hashes. This validates test-input fidelity, not Java topology behavior.
+The reference contracts are [Java Random](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Random.html)
+and [Collections.shuffle](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#shuffle(java.util.List,java.util.Random)).
+
+Three original regressions compare all 512 three-node graphs and their 4,608
+single-edge toggles against independent transitive closure, verify atomic failure,
+idempotent/conflicting batches and snapshot isolation, and exercise a 20,000-node
+chain/cycle/recovery without recursion. The existing fixed-cycle validator shares
+native SCC discovery. Topology currently rebuilds components/ranks after actual
+edge changes; it has no incremental value cache or performance comparison.

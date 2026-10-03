@@ -5435,3 +5435,94 @@ the existing dashboard server remains running on localhost:8765.
 Current timing examples (Rust/Java): exact 8-value search 0.188/5.371 ms;
 96-value stream tabu 173.031/30.907 ms. These are bounded measured workloads,
 not an overall solver speed claim. Concurrent scheduling has no timing comparison.
+
+## Persistent dependency topology (next checkpoint)
+
+DependencyTopology<K> maintains a fixed sorted key set and persistent directed
+node-to-dependency edges. Atomic update validates ALL removals/additions before
+mutation, removes then adds, deduplicates and treats absent removals as no-ops.
+Components are sorted SCC memberships; every component shares a deterministic
+rank ordered after its prerequisite components. Return only cycle-membership
+status toggles, excluding downstream nodes and SCC repartitions that stay cyclic.
+Clone supports native trial snapshots. Existing DependencyGraph fixed-cycle
+validation shares the original independent iterative SCC routine, now extracted
+as strong_components. No Timefold production code was read or used.
+
+All seven AbstractTopologicalGraphTest methods are adapted, with provenance for
+that declaration file and DefaultTopologicalGraphTest's constructor/accessors
+(empty consistency hook). Full source node/edge permutations retained: 14,400,
+14,400, 86,400, 86,400, 518,400, 518,400, 362,880 = 1,601,280 total. Larger cases
+preserve count-seeded Java Collections.shuffle and the recursive 1,000-limit
+helper, including original node permutation order. Test-only Rust Java PRNG uses
+the public Random contract. TopologyPermutationOracle.java adapts test helpers
+only and uses actual JDK shuffle to output counts/FNV64 endpoint-stream checksums.
+Rust verifies every generated stream against tests/fixtures/topology-permutations.txt.
+This is test-input fidelity, NOT a public Java topology behavior comparison.
+
+Three original tests compare all 512 three-node graphs and 4,608 single-edge
+toggles against independent Floyd reachability; check atomic errors, no-op/conflicting
+batches, clone isolation and downstream-not-cyclic; and exercise a 20,000-node
+chain, one giant cycle and recovery without recursive stack use. All focused
+checks pass, including the seven adapted methods (~20 seconds in debug).
+
+Review found the evidence digest omitted non-Rust test fixture files. Add recursive
+fixture contents/paths to source_digest and a Python regression for add/change/
+rename/remove. The initial full gate started before this correction; allow it to
+finish then rerun on frozen final sources, never credit its stale capture.
+
+Edges persist, but SCC/rank calculation rebuilds after actual changes. This is a
+foundation for an incremental derived-value cache, NOT such a cache or a new
+speed claim. Next substantial work: use dependency edges to propagate changed
+values through only affected nodes, preserve unavailable vs inconsistent states,
+handle edge-rewiring/cycle recovery and transactional undo, and integrate with
+actual score-director derived fields. Do not conflate cycle-member changed keys
+with all invalidated values; downstream inconsistency still needs propagation.
+
+Additional read-only preparation: NodeTopologicalOrderQueueTest read fully (8
+methods: empty, ranked order, offered-only, deduplication, reinsertion after poll,
+64-node capacity, arbitrary ties, 50x1000 randomized workload). It only requires
+fixed supplied ranks. DynamicFollowerValuesShadowVariableTest read fully (3 methods)
+but its fixture files not read this turn; existing dynamic-follower work already
+covers this family. Avoid duplicate provenance or coverage.
+
+Native integration preparation: ReferenceNode already owns persistent SnapshotMap
+roots and exposes clear/checkpoint/restore for StreamGraph transactions. Plain
+StreamGraphBuilder.map is deliberately stateless (checkpoint is unit); do NOT hide
+a mutable dependency cache in a captured RefCell there, because trial rollback
+would not restore it. A dependency-aware stream node must own and checkpoint its
+cache. Begin with an independently checked native cache with explicit dirty keys,
+then integrate via the stateful Node interface. Changed incoming edges dirty the
+consumer even when cycle membership is unchanged; unavailable None is not a cycle.
+
+Final-source debug gate passes 1,420 Rust tests (671 adapted, 674 original integration,
+75 unit), 71 doctests and 131 Python tests. Report coverage is 671/4,855 (13.82%),
+3,902 pending, 282 excluded, no failed/unverified cases. Domain model 32/455 (7.03%).
+The stale first capture was correctly rejected after the fingerprint fix; only
+work/topology-check-final.log is the successful final-source gate. Full release
+and all ten benchmark/comparison refreshes run sequentially under one process;
+logs are work/topology-*. Do not restart based on quiet compilation output.
+
+Release all-target tests pass all 1,420 cases after a 6m33s optimized build. The
+live initialization example delivers all four events before completion and reaches
+all four proven optima. No source edits occurred during this final pipeline.
+GraphStructureTest was also read completely during verification; its 12 methods
+classify descriptor/entity arrangements (empty, previous-only, arbitrary) rather
+than specify incremental value propagation. Supporting fixtures were not read this
+turn; do not treat this inspection as adaptation or implementation evidence.
+
+Final evidence: all ten comparison/performance datasets are current and report
+verification.successful=true. Native concurrent checks remain 128/128; Java
+agreement 107/128 with 21 runtime errors and zero divergent successful cases.
+Stream search remains 64/64 equal-score; heuristic search 128/128; list search
+192 valid / 189 equal-score. Existing Great Deluge 275/276 discrepancy remains
+explicit. Current scoped timings Rust/Java: exact 8-value solve 0.174/5.971 ms;
+96-variable stream tabu 173.071/25.483 ms. No topology speed comparison is claimed.
+
+Restarted the existing task dashboard server to load the new source_digest logic
+(the prior process had imported the old function). The first background launch
+was not retained; a confirmed foreground managed session now serves localhost:8765
+(session 95911), and its live verification digest matches the final report.
+The completed validation/refresh process was session 8363, exit 0. Desktop
+1280x900 and mobile 390x844 show 13.82%, 671/4,855 methods, domain 32/455, all seven
+topology methods Passed and 29 benchmark cards; no overflow, page errors or stale
+messages. Browser verification closed; dashboard server stays running.

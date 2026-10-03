@@ -1262,3 +1262,21 @@ error cases, while all 128 native cases match independent Python. Errors are sho
 separately and not counted as passes; an unchanged-fixture probe reproduces the
 partial-group null-finish/scoring boundary. Java scores come from detached full
 updates, leaving observed move-driven shadows untouched. No Java timing claim.
+
+## Persistent dependency topology
+
+`DependencyTopology<K>` keeps a fixed set of domain-variable keys and supports
+atomic batches of edge removals/additions in the same node-to-dependency direction
+as `DependencyGraph`. Query each node's sorted strongly connected component,
+component rank, dependencies and cycle membership. Dependencies have lower ranks
+than their consumers unless both are in one component. Rank numbers for unrelated
+components are only a deterministic implementation choice.
+
+Updates return the sorted keys whose cycle membership toggled. A downstream node
+can have an inconsistent derived value without being cyclic; splitting one cyclic
+component into two cyclic components can therefore return no changed keys. This
+return value alone is not a dirty-value set. Every changed incoming dependency
+also requires reevaluating the consumer. Batches validate every endpoint first;
+removals apply before additions. Duplicate additions and absent removals are no-ops.
+Clone snapshots may be retained for trials. Components and ranks currently rebuild
+after actual edge changes; there is no incremental derived-value cache yet.

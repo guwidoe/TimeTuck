@@ -29,6 +29,7 @@ def prepare_java():
 
 def source_digest():
     paths = sorted((ROOT / 'crates/solver').rglob('*.rs'))
+    paths += sorted(p for p in (ROOT / 'crates/solver/tests/fixtures').rglob('*') if p.is_file())
     paths += sorted((ROOT / 'compat/oracle').glob('*.java'))
     paths += sorted((ROOT / 'scripts').glob('*.py'))
     paths += [ROOT / 'compat/oracle/pom.xml']

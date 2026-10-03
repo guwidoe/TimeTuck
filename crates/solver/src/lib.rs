@@ -321,3 +321,6 @@ pub use reference_stream::ReferenceNode;
 
 mod dependency_graph;
 pub use dependency_graph::{DependencyError, DependencyGraph, DerivedValue};
+
+mod dependency_topology;
+pub use dependency_topology::DependencyTopology;

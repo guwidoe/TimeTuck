@@ -263,3 +263,14 @@ versions and registry checksums are recorded in Cargo.lock. Their sources are
 resolved by Cargo rather than copied into this repository. Native decimal and
 collector logic remains independently implemented; no Timefold production code
 is used. See the dependency packages for their full licenses and copyright notices.
+
+## Dependency topology test adaptations
+
+`crates/solver/tests/topology_cases.rs`, its permutation checksum fixture, and
+`compat/oracle/TopologyPermutationOracle.java` adapt the seven methods, graph
+fixtures and permutation helpers in Timefold Community
+`AbstractTopologicalGraphTest`; `DefaultTopologicalGraphTest` supplies the concrete
+adapter specification. These upstream tests are Apache-2.0; the pinned commit,
+paths and modifications are recorded in `compat/provenance.json`. No upstream
+production topology implementation is used. The test-only shuffle follows the
+public Java Random/Collections API contract; it is not native solver randomness.

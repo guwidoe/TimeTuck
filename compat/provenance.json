@@ -9960,6 +9960,111 @@
       "local_path": "crates/solver/tests/concurrent_cases.rs",
       "local_test": "solve_with_concurrent_values",
       "modifications": "Preserve the 3-owner/6-visit fixture, groups A=[0,1] and B=[2,3,4], empty initial lists, 1000-move limit, full-score verification and final feasibility. Independent closure/relaxation scoring replaces the source assertion easy calculator. Native deterministic search replaces Java search; no trace/quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testNoLoops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testNoLoops",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "no_loops",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testNoLoopsRemoveEdge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testNoLoopsRemoveEdge",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "no_loops_remove_edge",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testLoops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testLoops",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "loops",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testLoopRemoveEdgeInLoop",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testLoopRemoveEdgeInLoop",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "loop_remove_edge_in_loop",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testConnectingTwoLoops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testConnectingTwoLoops",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "connecting_two_loops",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testConnectingTwoLoopsRemoveJoiningEdge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testConnectingTwoLoopsRemoveJoiningEdge",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "connecting_two_loops_remove_joining_edge",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.testConnectingTwoLoopsRemoveNonJoiningEdge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "testConnectingTwoLoopsRemoveNonJoiningEdge",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "local_test": "connecting_two_loops_remove_non_joining_edge",
+      "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
     }
   ],
   "fixtures": [
@@ -12120,6 +12225,58 @@
       "upstream_test": "solution lists and scoring fields",
       "local_path": "crates/solver/tests/concurrent_cases.rs",
       "modifications": "Preserve source owner/value counts, stable identities, initial empty lists, alignment groups and feasibility assertion with a native 1000-move cap. Native solver result replaces mutable Java solution fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.native_helpers",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "permutations, assertAllPermutations, assertSomePermutations and graph fixtures",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "modifications": "Adapt both recursive permutation helpers, renamed node/edge enumeration and all graph fixtures. Reproduce documented Java Random and Collections.shuffle in test-only Rust to preserve source inputs, verified by complete stream hashes. Source assertions use native accessors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.java_permutation_oracle",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "permutations, assertAllPermutations, assertSomePermutations and graph fixtures",
+      "local_path": "compat/oracle/TopologyPermutationOracle.java",
+      "modifications": "Adapt both permutation helpers and all source graph fixtures into a standalone test-input checksum generator. JDK Collections.shuffle and Random retain original count-seeded ordering; emit count and FNV64 checksum of every endpoint. Does not instantiate or inspect upstream production topology."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTopologicalGraphTest.permutation_checksums",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AbstractTopologicalGraphTest.java",
+      "upstream_test": "permutations, assertAllPermutations, assertSomePermutations and graph fixtures",
+      "local_path": "crates/solver/tests/fixtures/topology-permutations.txt",
+      "modifications": "Generated counts/checksums from the attributed Java permutation helper; retains all seven source case input streams, 1601280 permutations total."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultTopologicalGraphTest.native_adapter",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DefaultTopologicalGraphTest.java",
+      "upstream_test": "createTopologicalGraph, verifyConsistent, getComponentMembers",
+      "local_path": "crates/solver/tests/topology_cases.rs",
+      "modifications": "Native constructor/component accessor replace concrete Java graph; source verifyConsistent hook is empty. All inherited methods are credited only to their declarations in AbstractTopologicalGraphTest."
     }
   ]
 }
