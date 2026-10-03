@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 323 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 77 stream), recorded in
+- 367 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 121 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 282 original integration regression methods, nine original unit tests, and twenty-two public API documentation tests.
+- 288 original integration regression methods, nine original unit tests, and twenty-three public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -68,7 +68,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 323 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 367 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1108,3 +1108,49 @@ construction remains Rust 0hard/-1080soft versus Java 0hard/-1062soft. Logs:
 work/flat-map-stream-evidence.log, flat-map-stream-performance.log,
 flat-map-list-refresh.log, flat-map-core-refresh.log and
 flat-map-heuristic-performance.log. Upstream pin/checkout remain unmodified.
+
+
+Persistent concat increment: StreamGraphBuilder.concat accepts different left/right
+ID types with one common payload type and returns ConcatId::Left/Right identities.
+The routing node is stateless; downstream caches participate in ordinary graph
+transactions/checkpoints and saved candidate installation. Same-port concatenation
+preserves two occurrences. Ordering is branch then ID, not event arrival. Explicit
+map/Option fields pad tuple arities; no implicit Java null/padding API is claimed.
+
+Forty-four adapted methods in concat_stream_cases preserve every score and exact
+match assertion across all uni/bi/tri/quad operand combinations, duplicates,
+distinct and group-by. Expected multisets are literal source assertions; source
+fixture references and variable-update order are retained. Group cases preserve
+counts, weighted contributions and exact concatenated value-code strings, including
+group disappearance/reappearance. Native typed filters/joins, branch IDs and
+Option padding replace descriptors/object references. Provenance records every
+method and fixture. No upstream production implementation was used.
+
+Six original regressions cover heterogeneous IDs, nullable values, nested/self
+concatenation, foreign-port rejection, group summaries, graph errors/panics after
+one branch propagates, rebuild recovery and construction/local search. 3,000
+seeded shared-source updates (20261110) compare exact tagged multisets and group
+results against independent full recomputation through commit/undo.
+Full debug/release all-target checks pass: 664 Rust tests (367 adapted + 288 original integration + nine
+unit), 23 doctests, 52 Python regressions. Full rewrite remains unfinished.
+
+Logs: work/concat-check.log and work/concat-release.log. Forty-four source methods
+now earn credit; original randomized cases remain separate. Stream complement,
+more operators, custom shadows, arbitrary-precision score families and mixed Java
+solver-search comparisons remain substantive follow-ups. Read the current stream
+contract before composing further persistent operators.
+
+All nine comparison/timing sections were refreshed after the final source edit.
+Report/source/live fingerprints match. The existing dashboard server was reused.
+Browser checks pass at 1280px and 390px: overall 7.56% (367/4,855), constraint
+streams 20.96% (219/1,045), all 44 concat methods shown as passed after search,
+result filtering and Show more. No stale messages, console errors or horizontal
+overflow. The verification browser was closed. Upstream pin/checkout are unchanged.
+
+Current stream medians in ms (Rust / Java): hill32 61.835 / 19.251,
+hill96 276.557 / 47.431, tabu32 67.314 / 18.531, tabu96 267.876 / 41.927.
+Scores agree; both 96-variable workloads remain infeasible under the 50-step cap.
+List32 construction retains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
+Existing timings do not benchmark concat. Logs: work/concat-stream-evidence.log,
+concat-stream-performance.log, concat-list-refresh.log, concat-core-refresh.log
+and concat-heuristic-performance.log. Full goal remains active and unfinished.

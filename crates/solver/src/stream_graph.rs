@@ -49,6 +49,18 @@ pub type JoinedStreamPort<I, J, L, R> = StreamPort<(I, J), (L, R)>;
 /// A keyed list result, with its group key in both identity and payload.
 pub type GroupedListStreamPort<K, I, V> = StreamPort<K, (K, ListSnapshot<I, V>)>;
 
+/// Identity of an occurrence in a concatenated multiset. Left and right IDs never
+/// collide, even if both inputs are the same port. Ordering puts the left branch
+/// first, then uses the original ID ordering within each branch. Payload equality
+/// does not affect identity; apply `distinct` explicitly for set semantics.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum ConcatId<L, R> {
+    Left(L),
+    Right(R),
+}
+/// Concatenated inputs share a payload type but can have different ID types.
+pub type ConcatenatedStreamPort<L, R, T> = StreamPort<ConcatId<L, R>, T>;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GraphError {
     ForeignPort,
@@ -212,6 +224,33 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         }]))
+    }
+}
+
+struct Concat<L, R, T>(PhantomData<(L, R, T)>);
+impl<L: Clone + 'static, R: Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
+    for Concat<L, R, T>
+{
+    fn clear(&mut self) {}
+    fn checkpoint(&self) -> Box<dyn Any> {
+        Box::new(())
+    }
+    fn restore(&mut self, _: Box<dyn Any>) {}
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = if right {
+            let change = typed::<R, T>(event);
+            TupleChange {
+                id: ConcatId::Right(change.id.clone()),
+                value: change.value.clone(),
+            }
+        } else {
+            let change = typed::<L, T>(event);
+            TupleChange {
+                id: ConcatId::Left(change.id.clone()),
+                value: change.value.clone(),
+            }
+        };
+        Ok(erase([change]))
     }
 }
 
@@ -516,6 +555,42 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             marker: PhantomData,
         });
         self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    /// Concatenate two multisets without collapsing duplicates. Branch tags keep
+    /// IDs separate, including when `left` and `right` are the same port. The
+    /// routing node stores no rows; downstream nodes retain their normal caches
+    /// and participate in graph transactions and saved candidate installation.
+    ///
+    /// Both inputs must have the same payload type. Use `map` with explicit
+    /// `Option` fields to pad different tuple arities, or supply custom padding.
+    /// Terminal inspection is ordered by branch and ID, not event arrival order.
+    ///
+    /// ```
+    /// use timetuck::{ConcatId, SimpleScore, StreamGraphBuilder, TupleChange};
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let source = b.source::<usize, i64>();
+    /// let twice = b.concat(source.port(), source.port())?;
+    /// let c = b.score("twice", &twice, |v| SimpleScore::new(*v))?;
+    /// let mut graph = b.build();
+    /// let mut t = graph.transaction();
+    /// t.apply(&source, TupleChange::put(7, 3))?;
+    /// t.commit()?;
+    /// assert_eq!(graph.score(), SimpleScore::new(6));
+    /// assert_eq!(graph.constraint_matches(&c)?.len(), 2);
+    /// assert_eq!(graph.constraint_matches(&c)?[&ConcatId::Right(7)].0, 3);
+    /// # Ok::<(), timetuck::GraphError>(())
+    /// ```
+    pub fn concat<L: Ord + Clone + 'static, R: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        left: &StreamPort<L, T>,
+        right: &StreamPort<R, T>,
+    ) -> Result<ConcatenatedStreamPort<L, R, T>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(Concat::<L, R, T>(PhantomData));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
         Ok(out)
     }
     /// Expand one changed input into a finite ordered sequence. Duplicate payloads

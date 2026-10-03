@@ -117,8 +117,8 @@ pub use incremental_stream::{
 
 pub mod stream_graph;
 pub use stream_graph::{
-    GraphError, GraphTransaction, GroupedListStreamPort, JoinedStreamPort, StreamConstraint,
-    StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
+    ConcatId, ConcatenatedStreamPort, GraphError, GraphTransaction, GroupedListStreamPort,
+    JoinedStreamPort, StreamConstraint, StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
 };
 
 pub mod stream_scoring;

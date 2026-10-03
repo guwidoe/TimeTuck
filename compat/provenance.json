@@ -4845,6 +4845,666 @@
       "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
       "local_test": "quad_flatten_last_and_distinct_without_duplicates",
       "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatUniWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatUniWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_uni_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAndDistinctUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_and_distinct_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAndDistinctUniWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctUniWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_and_distinct_uni_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAndDistinctBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_and_distinct_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAndDistinctTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_and_distinct_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAndDistinctQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_and_distinct_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAndDistinctUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_and_distinct_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatBiWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatBiWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_bi_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAndDistinctBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_and_distinct_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAndDistinctBiWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctBiWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_and_distinct_bi_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAndDistinctTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_and_distinct_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAndDistinctQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_and_distinct_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAndDistinctUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_and_distinct_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAndDistinctBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_and_distinct_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatTriWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatTriWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_tri_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAndDistinctTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_and_distinct_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAndDistinctTriWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctTriWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_and_distinct_tri_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAndDistinctQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_and_distinct_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAndDistinctUniWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctUniWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_and_distinct_uni_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAndDistinctBiWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctBiWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_and_distinct_bi_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAndDistinctTriWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctTriWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_and_distinct_tri_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatQuadWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatQuadWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_quad_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAndDistinctQuadWithoutValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctQuadWithoutValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_and_distinct_quad_without_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAndDistinctQuadWithValueDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAndDistinctQuadWithValueDuplicates",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_and_distinct_quad_with_value_duplicates",
+      "modifications": "Adapt every initial/update score and match assertion as literal multisets, including duplicates, null padding, self-tuples and distinct. Stable entity IDs replace Java references; native typed filters/Cartesian joins and explicit Option padding build each branch. Preserve entity3 then entity2 value-update order; named ordinary totals and per-match weights are checked. Native concat tags branch identities. No Java descriptor or object identity API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.concatAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "concatAfterGroupBy",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "uni_concat_after_group_by",
+      "modifications": "Preserve all three score/match assertion stages, group keys/counts, exact concatenated value-code strings and weighted contributions. Stable value IDs replace references; native CountCollector with vector/compound keys replaces arity-specific groupBy. Equivalent per-source value filtering precedes Cartesian joins; preserve the source update order and group disappearance/reappearance. Typed branch IDs distinguish groups across concat. No Java descriptor or custom justification API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.concatAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "concatAfterGroupBy",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "bi_concat_after_group_by",
+      "modifications": "Preserve all three score/match assertion stages, group keys/counts, exact concatenated value-code strings and weighted contributions. Stable value IDs replace references; native CountCollector with vector/compound keys replaces arity-specific groupBy. Equivalent per-source value filtering precedes Cartesian joins; preserve the source update order and group disappearance/reappearance. Typed branch IDs distinguish groups across concat. No Java descriptor or custom justification API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.concatAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "concatAfterGroupBy",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "tri_concat_after_group_by",
+      "modifications": "Preserve all three score/match assertion stages, group keys/counts, exact concatenated value-code strings and weighted contributions. Stable value IDs replace references; native CountCollector with vector/compound keys replaces arity-specific groupBy. Equivalent per-source value filtering precedes Cartesian joins; preserve the source update order and group disappearance/reappearance. Typed branch IDs distinguish groups across concat. No Java descriptor or custom justification API claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.concatAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "concatAfterGroupBy",
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "local_test": "quad_concat_after_group_by",
+      "modifications": "Preserve all three score/match assertion stages, group keys/counts, exact concatenated value-code strings and weighted contributions. Stable value IDs replace references; native CountCollector with vector/compound keys replaces arity-specific groupBy. Equivalent per-source value filtering precedes Cartesian joins; preserve the source update order and group disappearance/reappearance. Typed branch IDs distinguish groups across concat. No Java descriptor or custom justification API claim."
     }
   ],
   "fixtures": [
@@ -5237,6 +5897,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
       "modifications": "Preserve exact named ordinary scores and match tuples/multiplicities at every source assertion. Stable tagged IDs replace object references and typed terminal handles replace namespace lookup. Native ordered tuple equality is stricter than source unordered justification membership. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "id": "TestdataLavishSolution.concat_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Preserve first generated entity/value and explicitly added entity2/value2 and entity3/value3 with stable zero-based IDs. Unused generated values/groups/random properties are omitted. Preserve explicit initial references and update order. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/concat_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.concat_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Literal expected match multisets, per-match ordinary weights and named totals preserve all source assertions. Stable IDs and Option padding replace Java references/null. Native ordered equality is stricter than source unordered justification membership. Fixture only; no method credit."
     }
   ]
 }

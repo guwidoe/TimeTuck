@@ -164,6 +164,14 @@ closures preserve the source tuple prefixes. Uni/bi flattenLastWithDuplicates
 remain pending; no Java equal-object representative choice is claimed. Six
 original regressions cover updates, rollback, composition and search separately.
 
+Forty-four concatenation methods preserve all score/match assertions across every
+pairing of one- through four-element tuples, duplicate/distinct variants and
+concatenated group counts. Explicit Option padding replaces nulls; branch-tagged
+IDs retain independent occurrences. Compound group keys retain exact value-code
+strings. Original shared-source, rollback and search regressions provide separate
+native evidence. Node-sharing internals and general Java padding API parity remain
+outside this evidence.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

@@ -154,7 +154,29 @@ foreign ports and construction/search with independent objective checks.
 ## Typed graph transactions
 
 `StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
-filters, maps, one-to-many expansions, equality/existence joins, distinct, integer groups and named score terminals.
+filters, maps, one-to-many expansions, concatenations, equality/existence joins, distinct, integer groups and named score terminals.
+`concat(left, right)` returns `ConcatenatedStreamPort<L,R,T>`, whose occurrence
+identity is `ConcatId<L,R>` with Left and Right variants. Payload types must match;
+ID types may differ. Equal payloads remain independent occurrences, including when
+both operands are the same port. Inspection orders left IDs before right IDs;
+this does not imply event-delivery or callback order. Concatenation is a stateless
+routing node: each input change becomes one branch-tagged output change with its
+captured payload. It clones that ID/payload but stores no additional row cache.
+Downstream caches and all affected input paths participate in normal transactions,
+rebuild and saved-candidate installation. Each input is validated before registering
+any node/edge. Native map closures explicitly pad or transform different tuple
+arities into a common type; Option::None is a payload field, not a retraction.
+Use distinct after concatenation when equal tuples should collapse. Nested
+concatenations retain nested branch tags, so no global occurrence counter is needed.
+
+Forty-four adapted concatenation methods preserve all initial/update match tuples,
+multiplicities, padding, weighted group counts and totals across four arities.
+Six original regressions check heterogeneous IDs, nullable payloads, same-port and
+nested concatenation, foreign ports, failed transactions/rebuilds, construction/
+search, and 3,000 seeded shared-source updates (20261110) against full tagged
+multisets and group summaries. Existing performance workloads do not benchmark
+concatenation, and no Java event trace or implicit node-sharing parity is claimed.
+
 `flat_map(input, mapping)` returns `StreamPort<(I,usize),U>` for any finite
 `IntoIterator<Item=U>` mapping. Closures can retain a tuple prefix while expanding
 its last element, or append new elements to the original tuple. Payloads are
