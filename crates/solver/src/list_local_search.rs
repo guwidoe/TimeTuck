@@ -58,6 +58,8 @@ pub struct ListLocalSearchResult<V, S> {
     pub evaluations: u64,
     pub accepted_moves: u64,
     pub completed_steps: u64,
+    /// Completed steps since the last strict improvement of the retained best.
+    pub unimproved_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: LocalSearchTermination,
 }
@@ -103,6 +105,7 @@ where
         evaluations: 0,
         accepted_moves: 0,
         completed_steps: 0,
+        unimproved_steps: 0,
         constraint_evaluations: 0,
         termination: LocalSearchTermination::EvaluationLimit,
     };
@@ -124,13 +127,14 @@ where
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    let mut progress = crate::StepProgress::default();
     loop {
-        if result.accepted_moves == config.max_accepted_moves {
-            result.termination = LocalSearchTermination::AcceptedMoveLimit;
-            return Ok(result);
-        }
-        if result.completed_steps == config.max_steps {
-            result.termination = LocalSearchTermination::StepLimit;
+        if let Some(reason) = config.step_termination(
+            result.best.as_ref().expect("initial best").score,
+            result.accepted_moves,
+            progress,
+        ) {
+            result.termination = reason;
             return Ok(result);
         }
         let snapshot = director.assignment().clone();
@@ -164,7 +168,8 @@ where
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
         if let Some(movement) = &selection.selected {
-            if director.score() > result.best.as_ref().expect("initial best").score {
+            let improved = director.score() > result.best.as_ref().expect("initial best").score;
+            if improved {
                 result.best = Some(ScoredListAssignment {
                     assignment: director.assignment().clone(),
                     score: director.score(),
@@ -177,7 +182,9 @@ where
             };
             acceptor.step_ended(director.score(), &keys);
             result.accepted_moves += u64::from(selection.selected_accepted);
-            result.completed_steps += 1;
+            progress.complete_step(improved);
+            result.completed_steps = progress.completed_steps();
+            result.unimproved_steps = progress.unimproved_steps();
         }
         if config.assert_scores {
             director.assert_consistent()?;

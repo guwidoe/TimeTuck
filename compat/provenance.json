@@ -6345,6 +6345,36 @@
       "upstream_test": "ifNotExists_1Join0Filter",
       "local_test": "if_not_exists_1_join_0_filter",
       "modifications": "Preserve every initial and post-removal named score and match assertion. Native indexed ID less-than self-joins produce unique pairs; equality-only existence uses right-key counts. Stable entity/group IDs replace Java identity and planning IDs; all relevant generated/custom facts and assigned value references retained. Native exact ordered IDs/payloads strengthen source unordered justification checks. No descriptor or Java notification-trace parity."
+    },
+    {
+      "id": "StepCountTerminationTest.phaseTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/StepCountTerminationTest.java",
+      "upstream_test": "phaseTermination",
+      "local_path": "crates/solver/tests/step_termination_cases.rs",
+      "local_test": "step_count_phase_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six termination and six exact progress assertions. Native completed counts replace mock next-step indices; StepCountLimit is also used by search termination."
+    },
+    {
+      "id": "UnimprovedStepCountTerminationTest.phaseTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedStepCountTerminationTest.java",
+      "upstream_test": "phaseTermination",
+      "local_path": "crates/solver/tests/step_termination_cases.rs",
+      "local_test": "unimproved_step_count_phase_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all six termination and six exact progress assertions. Native StepProgress replays eleven steps with a best at source index 10, then five non-improvements; completed counts replace zero-based mock scope indices. No time-based or Java lifecycle parity claimed."
     }
   ],
   "fixtures": [

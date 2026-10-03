@@ -7,6 +7,12 @@ Initial reference: Timefold Solver Community 2.7.0, exact commit recorded in
 behavior implemented in native Rust. Java API, binary compatibility, reflection,
 framework integration, and all Enterprise functionality are outside the initial scope.
 
+Two adapted termination methods additionally preserve all step-count and
+unimproved-step-count threshold/progress assertions. Native search uses these
+counters across basic, list and mixed models with both scoring backends. Optional
+score-target and feasibility stops have original integration checks; their upstream
+gradient methods and direct Java search comparisons remain pending.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

@@ -174,3 +174,6 @@ pub use overlap_join::OverlapJoinNode;
 
 mod equality_existence;
 pub use equality_existence::ExistsEqualNode;
+
+mod step_progress;
+pub use step_progress::{StepCountLimit, StepProgress};

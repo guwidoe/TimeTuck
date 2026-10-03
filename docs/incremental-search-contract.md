@@ -81,10 +81,47 @@ iterator checks for a next move before applying the evaluation cap: exhausting t
 last rejected move exactly at the budget reports `NoAcceptedMove`.
 
 Results retain the earliest best complete assignment. A hard-infeasible best is
-still returned honestly. Termination distinguishes evaluation limit, accepted-move
-limit, empty complete space, and a neighborhood with no accepted move. None is a
-proof of global optimality. Tests include a local trap with a strictly better global
-optimum to enforce that distinction.
+still returned honestly. Termination distinguishes evaluation, accepted-move and
+completed-step limits, the optional criteria below, empty complete space, and a
+neighborhood with no accepted move. None is a proof of global optimality. Tests
+include a local trap with a strictly better global optimum to enforce that distinction.
+
+## Optional deterministic termination
+
+All three local-search models, with scoped or stream scoring, accept optional
+`max_unimproved_steps`, `best_score_limit` and `stop_when_feasible` fields. They are
+disabled by default. The retained best is updated only by a selected step with a
+strictly greater score; ties preserve the earliest best assignment. A stagnation
+limit measures completed steps since that improvement, or since initial scoring
+if no improvement has occurred. Accepted worsening, recovery to an earlier best,
+ties and selected rejected fallback steps all count without resetting it.
+An exhausted neighborhood completes no step. Results expose `unimproved_steps`.
+
+The score target compares the complete score using its ordinary ordering; reaching
+it need not establish hard feasibility. Feasibility uses `Score::is_feasible`,
+including every hard level and structural state. Negative soft scores do not
+prevent feasibility. A complete SimpleScore assignment has no hard levels and
+already satisfies feasibility. These are stopping criteria, not optimality proofs.
+
+Criteria are checked after initial scoring and at completed-step boundaries.
+Precedence there is accepted moves, completed steps, score target, feasibility,
+then unimproved steps. A zero evaluation budget ends before initial scoring.
+Candidate selection that detects exhausted evaluation budget installs any saved
+winner and returns `EvaluationLimit` before another boundary check. Detection
+requires a next candidate: consuming the final evaluation on the last candidate
+alone does not mark selection exhausted. A first-accepted choice can therefore
+reach a score target at its next boundary where a best-accepted scan of a truncated
+neighborhood reports the evaluation limit instead. Existing behavior is preserved.
+
+`StepProgress` records completed counts and the last strict best step;
+`StepCountLimit` supplies the threshold and capped fraction. Zero is reached
+immediately with fraction 1. Large counts use f64 precision for the fraction,
+while threshold decisions remain exact integer comparisons. Two adapted upstream
+methods preserve all twelve threshold and twelve gradient assertions for step and
+unimproved-step limits. Eleven original integration regressions cover native
+boundaries, resets, fallback steps and both backends across all model types.
+Score-target and feasibility gradient methods remain pending, as do time-based
+termination and direct Java search comparisons using these optional criteria.
 
 ## Evidence and limits
 

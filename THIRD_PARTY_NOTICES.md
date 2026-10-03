@@ -15,6 +15,9 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/step_termination_cases.rs` from
+  `StepCountTerminationTest.java` and `UnimprovedStepCountTerminationTest.java`.
+
 - `crates/solver/tests/simple_score.rs` from `SimpleScoreTest.java`.
 - `crates/solver/tests/hard_soft_score.rs` from `HardSoftScoreTest.java`.
 - `crates/solver/tests/hard_medium_soft_score.rs` from `HardMediumSoftScoreTest.java`.

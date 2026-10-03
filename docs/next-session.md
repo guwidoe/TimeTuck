@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 423 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream), recorded in
+- 425 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 2 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -36,10 +36,11 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   neighbor invalidation and deferred cache updates.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
-  evaluation/step limits, first/best accepted candidate selection and original or
+  evaluation/step limits and optional stagnation, score-target and feasibility stops;
+  first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 324 original integration regression methods, thirteen original unit tests, and twenty-eight public API documentation tests.
+- 335 original integration regression methods, thirteen original unit tests, and twenty-nine public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -85,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 423 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 425 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -132,6 +133,8 @@ initialization-score assumptions. No production implementation has been ported.
 3. Extend construction, tabu (fading and entity grouping) and extend annealing with
    deterministic seeds, limits, quality checks and applicable
    upstream acceptance tests. Keep exact Java trace tests pending when not preserved.
+   Extend the new deterministic termination criteria with direct Community search
+   comparisons and complete applicable score-target/feasibility gradient methods.
 4. Extend matched Java heuristic evidence to more workloads and randomized
    search. Separate stream benchmarks now use incremental scoring; older basic/list
    sections retain full scoring. Current measured searches are deterministic.
@@ -1532,3 +1535,45 @@ unchanged honest coverage, refreshed stream medians/quality/callback counts,
 no stale warnings, no page errors and no horizontal overflow. Existing server
 reused; browser session closed. This remains a performance increment, not new
 upstream test-method coverage or completion of the full solver rewrite.
+
+## Deterministic search termination increment
+
+LocalSearchConfig now supports optional max_unimproved_steps, best_score_limit
+and stop_when_feasible. All default to disabled. Basic, list and mixed search use
+the same boundary criteria with both scoped and stream scoring. StepProgress
+tracks completed steps and the last strict retained-best improvement; result
+unimproved_steps includes ties, worsening/recovery and selected rejected fallback
+steps. A neighborhood with no selection does not complete a step. StepCountLimit
+provides exact integer threshold decisions and capped f64 progress, including
+zero-budget behavior. The contract and public enum document precedence, including
+evaluation exhaustion while selecting a move versus reaching a step boundary.
+
+Two complete source methods (StepCountTerminationTest.phaseTermination and
+UnimprovedStepCountTerminationTest.phaseTermination) preserve all twelve threshold
+and twelve gradient assertions, with provenance and attribution. Mock Java step
+indices are represented by native completed counts. Eleven original regressions
+cover all six model/backend combinations, strict-improvement resets, ties, rejected
+fallbacks, initial criteria, overlapping limits, unreachable targets, neighborhood
+exhaustion and multi-hard feasibility. Score-target/feasibility gradient methods,
+time-based termination and direct Java search comparisons of these optional
+criteria remain pending. Existing benchmark configurations leave them disabled.
+
+Development and release all-target suites: 773 Rust tests (425 adapted, 335
+original integration, 13 original unit), 29 doctests and 62 Python checks pass.
+Coverage is 425 / 4,855 = 8.75%; Solver lifecycle 2 / 379 = 0.53%; streams remain
+275 / 1,301 = 21.14%. Pending 4,148, excluded 282, failed/unverified zero.
+Logs use work/termination-{check,release,stream-evidence,stream-performance,
+list-refresh,core-refresh,heuristic-performance}.log. The full goal is unfinished.
+
+Refreshed stream medians ms Rust/Java: hill32 65.067/21.534,
+hill96 264.286/58.380, tabu32 66.146/29.414, tabu96 295.032/44.287.
+Both 96-variable scores remain [-44,-484], infeasible at the 50-step cap.
+List32 construction remains Rust [0,-1080] versus Java [0,-1062]. These refreshed
+wall times are not a controlled before/after comparison on the shared machine;
+no performance improvement is claimed for this termination increment.
+
+All nine comparison/performance report sections are current. Live server
+verification fingerprint matches. Desktop 1280px and mobile 390px browser checks
+show 8.75% overall, Solver lifecycle 0.53%, both adapted termination methods under
+the Passed filter, no stale alert, page errors or horizontal overflow. Existing
+server reused; browser session closed. Upstream remains unmodified.

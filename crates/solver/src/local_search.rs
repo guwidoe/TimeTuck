@@ -98,6 +98,12 @@ pub struct LocalSearchConfig<S = crate::SimpleScore> {
     pub max_evaluations: u64,
     pub max_accepted_moves: u64,
     pub max_steps: u64,
+    /// Completed steps since the last strict global-best improvement. None disables.
+    pub max_unimproved_steps: Option<u64>,
+    /// Stop at a step boundary when the retained best score is at least this value.
+    pub best_score_limit: Option<S>,
+    /// Stop at a step boundary when the retained best satisfies Score::is_feasible.
+    pub stop_when_feasible: bool,
     pub neighborhood: Neighborhood,
     pub acceptance: Acceptance<S>,
     pub move_order: MoveOrder,
@@ -111,6 +117,9 @@ impl<S> Default for LocalSearchConfig<S> {
             max_evaluations: 10_000,
             max_accepted_moves: 1_000,
             max_steps: 1_000,
+            max_unimproved_steps: None,
+            best_score_limit: None,
+            stop_when_feasible: false,
             neighborhood: Neighborhood::ChangeAndSwap,
             acceptance: Acceptance::StrictImprovement,
             move_order: MoveOrder::Original,
@@ -120,11 +129,50 @@ impl<S> Default for LocalSearchConfig<S> {
         }
     }
 }
+impl<S: crate::Score> LocalSearchConfig<S> {
+    // Preserve existing count-limit precedence; new optional criteria are checked
+    // only at step boundaries, never midway through candidate evaluation.
+    pub(crate) fn step_termination(
+        &self,
+        best: S,
+        accepted: u64,
+        progress: crate::StepProgress,
+    ) -> Option<LocalSearchTermination> {
+        use LocalSearchTermination::*;
+        if accepted >= self.max_accepted_moves {
+            Some(AcceptedMoveLimit)
+        } else if crate::StepCountLimit::new(self.max_steps).is_reached(progress.completed_steps())
+        {
+            Some(StepLimit)
+        } else if self.best_score_limit.is_some_and(|target| best >= target) {
+            Some(BestScoreLimit)
+        } else if self.stop_when_feasible && best.is_feasible() {
+            Some(FeasibleScore)
+        } else if self.max_unimproved_steps.is_some_and(|limit| {
+            crate::StepCountLimit::new(limit).is_reached(progress.unimproved_steps())
+        }) {
+            Some(UnimprovedStepLimit)
+        } else {
+            None
+        }
+    }
+}
+/// Reason a local-search phase ended. None of these reasons proves optimality.
+///
+/// At step boundaries, limits are checked in this order: accepted moves, completed
+/// steps, best score, feasibility, unimproved steps. Zero evaluation budget ends
+/// before initial scoring. If candidate selection exhausts its budget, it installs
+/// any selected move and reports `EvaluationLimit` before checking a new boundary.
+/// Exhaustion is detected when attempting another candidate: consuming the last
+/// evaluation on the final candidate alone does not mark that selection exhausted.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
     EvaluationLimit,
     AcceptedMoveLimit,
     StepLimit,
+    UnimprovedStepLimit,
+    BestScoreLimit,
+    FeasibleScore,
     /// No move in the configured neighborhood satisfied the acceptance rule.
     /// This is not proof of global optimality or hard feasibility.
     NoAcceptedMove,
@@ -138,6 +186,8 @@ pub struct LocalSearchResult<V, S> {
     pub accepted_moves: u64,
     /// Includes selected rejected fallback moves.
     pub completed_steps: u64,
+    /// Completed steps since the last strict improvement of the retained best.
+    pub unimproved_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: LocalSearchTermination,
 }
@@ -213,6 +263,7 @@ where
         evaluations: 0,
         accepted_moves: 0,
         completed_steps: 0,
+        unimproved_steps: 0,
         constraint_evaluations: 0,
         termination: LocalSearchTermination::EvaluationLimit,
     };
@@ -247,13 +298,14 @@ where
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    let mut progress = crate::StepProgress::default();
     loop {
-        if result.accepted_moves == config.max_accepted_moves {
-            result.termination = LocalSearchTermination::AcceptedMoveLimit;
-            return Ok(result);
-        }
-        if result.completed_steps == config.max_steps {
-            result.termination = LocalSearchTermination::StepLimit;
+        if let Some(reason) = config.step_termination(
+            result.best.as_ref().expect("initial best").score,
+            result.accepted_moves,
+            progress,
+        ) {
+            result.termination = reason;
             return Ok(result);
         }
         // Snapshot decouples lazy enumeration from the director's transaction.
@@ -288,7 +340,9 @@ where
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
         if let Some(movement) = &selection.selected {
-            if director.score() > result.best.as_ref().expect("initial best exists").score {
+            let improved =
+                director.score() > result.best.as_ref().expect("initial best exists").score;
+            if improved {
                 result.best = Some(ScoredAssignment {
                     assignment: director.assignment().clone(),
                     score: director.score(),
@@ -301,7 +355,9 @@ where
             };
             acceptor.step_ended(director.score(), &variables);
             result.accepted_moves += u64::from(selection.selected_accepted);
-            result.completed_steps += 1;
+            progress.complete_step(improved);
+            result.completed_steps = progress.completed_steps();
+            result.unimproved_steps = progress.unimproved_steps();
         }
         if config.assert_scores {
             director.assert_consistent()?;
