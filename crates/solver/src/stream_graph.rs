@@ -32,8 +32,8 @@
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsEqualNode, ExistsNode,
     FilterNode, FlatMapNode, GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector,
-    ListSnapshot, OverlapJoinNode, PartitionedJoinNode, ReversibleCollector, SnapshotMap,
-    TupleChange,
+    ListSnapshot, OverlapJoinNode, PartitionedJoinNode, ReferenceNode, ReversibleCollector,
+    SnapshotMap, TupleChange,
 };
 use std::{
     any::Any,
@@ -469,6 +469,36 @@ impl<
     }
 }
 
+struct Reference<'a, I, J, L, R>(ReferenceNode<'a, I, J, L, R>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for Reference<'_, I, J, L, R>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, saved: Box<dyn Any>) {
+        self.0.restore(saved);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0
+                .apply_left(typed::<I, L>(event).clone())
+                .into_iter()
+                .collect()
+        }))
+    }
+}
+
 struct Group<'a, I, T, K> {
     node: GroupNode<I, K>,
     mapping: Box<GroupMapping<'a, T, K>>,
@@ -800,6 +830,48 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(input.node, out.node, false);
         Ok(out)
     }
+    /// Follow a single optional reference to a right row's stable identity.
+    /// Every left row survives, including absent references and missing targets.
+    /// The output preserves its ID and contains `(left, Option<right>)`. Chains
+    /// update when either a reference or a target changes; inverse indexes only
+    /// visit current dependents. All indexes join ordinary graph rollback and
+    /// saved-candidate installation. Graph topology must remain acyclic; cycles
+    /// in payload references are allowed but are not recursively evaluated.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let jobs = b.source::<usize, Option<usize>>();
+    /// let groups = b.source::<usize, i64>();
+    /// let owner = b.follow_reference(jobs.port(), groups.port(), |v| *v)?;
+    /// b.score("owner", &owner, |(_, v)| SimpleScore::new(v.unwrap_or(0)))?;
+    /// let mut g = b.build();
+    /// let mut t = g.transaction();
+    /// t.apply(&jobs, TupleChange::put(0, Some(7)))?;
+    /// t.apply(&groups, TupleChange::put(7, 42))?;
+    /// t.commit()?;
+    /// assert_eq!(g.score(), SimpleScore::new(42));
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn follow_reference<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        reference: impl Fn(&L) -> Option<J> + 'a,
+    ) -> Result<StreamPort<I, (L, Option<R>)>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(Reference(ReferenceNode::<I, J, L, R>::new(reference)));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+
     pub fn join_equal<
         I: Ord + Clone + 'static,
         J: Ord + Clone + 'static,

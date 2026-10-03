@@ -15,6 +15,10 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/basic_reference_cases.rs` adapts the complete basic inverse
+  shadow propagation method from `BasicInverseShadowVariableTest`, with the
+  entity, group, owner and solution fixtures in `testdomain/shadow/declarative/basicinverse`.
+
 - `crates/solver/tests/pillar_schema_cases.rs` adapts eight complete whole-pillar
   swap provider methods and three multivariable subpillar swap provider methods,
   from `PillarSwapMoveProviderTest` and `SubPillarSwapMoveProviderTest`, with their

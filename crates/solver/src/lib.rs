@@ -315,3 +315,6 @@ pub use statistics::{
     AssignmentSpace, ProblemSizeStatistics, ProblemStatistics, RevisionProblemSize,
     SolverJobStatistics,
 };
+
+mod reference_stream;
+pub use reference_stream::ReferenceNode;

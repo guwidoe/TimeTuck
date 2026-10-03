@@ -1087,3 +1087,31 @@ keys. These public-join differences do not invalidate the eight narrower adapted
 indexer methods, but do rule out blanket membership-join compatibility. The
 report and dashboard expose the distinction; no upstream production implementation
 was inspected to explain or reproduce the Java behavior.
+
+
+## Indexed single-valued references
+
+`StreamGraphBuilder::follow_reference(left, right, reference)` follows an optional
+right-row ID from each left payload. Its output preserves the left identity and
+contains `(left, Option<right>)`. Every left row remains present: an absent reference
+or missing target produces `None`; a present target whose payload is optional can
+produce `Some(None)`. Inserting/removing a target updates existing dependents.
+Changing a reference removes the old inverse membership before installing the new
+one. Target events visit only current dependents, in left-ID order. Repeated target
+puts refresh their dependents; retracting an absent target emits nothing.
+
+Compose references and maps to express derived fields such as `entity.group.owner`.
+This is an explicit native graph, not reflection or an annotation processor.
+Topology is acyclic even if payload IDs refer to themselves or each other; each
+operator follows exactly one edge, with no recursive cycle/fixed-point evaluation.
+Downstream callbacks may observe intermediate updates during composite moves, as
+with other stream operators; completed candidates and commits are consistent.
+
+Persistent left rows, targets and reverse memberships participate in graph
+checkpoints and saved-candidate installation. Drop/unwind restores them without
+replaying callbacks. The standalone `ReferenceNode` stages each update before
+installation, including mapping/clone failures. Stable immutable identity and pure
+callbacks follow the existing graph contract. Bound basic/list/mixed sources can
+feed these operators; verified integrations include basic construction/local search,
+composite basic moves and list previous-element snapshots. This adds no dedicated
+reference performance or general declarative-shadow compatibility claim.

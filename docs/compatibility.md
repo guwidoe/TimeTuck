@@ -735,3 +735,23 @@ Raw observations, inputs, checksums, artifact hashes and environments are retain
 in the downloadable report. The dashboard labels these transaction measurements
 separately: they do not measure automatic grouping/schema providers, random
 sampling, scoring, solver search, memory or overall solver performance.
+
+
+## Derived basic reference values
+
+One complete method from `BasicInverseShadowVariableTest` now checks the initial
+owner code, entity-to-group reassignment, referenced-group owner changes, and
+changes to an unreferenced group's owner. Stable IDs replace Java object identity;
+`follow_reference` streams replace annotated shadow fields and their hidden inverse
+supply. All source assertions and four fixture attributions are recorded. This
+establishes the observed derived-value behavior, not annotation/reflection or Java
+internal state equivalence.
+
+Nine original regressions cover scan equivalence across 2,000 generated changes,
+selective ordered dependent updates, optional payloads and missing targets,
+callback/clone panic safety, chained references, self/cyclic payload references
+with finite one-hop semantics, composite basic moves, list previous-element views,
+foreign ports, construction and saved local-search candidates. These add no
+upstream credit. Graph dependencies remain explicitly constructed and acyclic;
+recursive shadow fixed points, automatic field dependency discovery, Java shadow
+inconsistency rules and full declarative shadow compatibility remain unimplemented.

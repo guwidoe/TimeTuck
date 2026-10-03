@@ -4924,3 +4924,51 @@ browser closed. No Impeccable or design delegation.
 Next: broader domain/shadow-variable support or remaining pillar provider behavior
 with full test assertions, without treating these explicit-group transaction
 measurements as automatic schema-provider evidence. Full rewrite goal active.
+
+## Derived reference streams (2026-10-03)
+
+Added independent `ReferenceNode` and `StreamGraphBuilder::follow_reference`.
+An optional right-row identity follows each left payload. Outputs preserve left
+identity and `(left, Option<right>)`, including missing targets. Optional target
+payloads distinguish Some(None) from no target. Persistent left/target/reverse
+membership maps stage changes atomically and join graph checkpoints, rollback and
+saved-candidate installation. Right changes emit only current dependents in ID
+order. Chains derive fields such as entity.group.owner; graph topology remains
+acyclic, and self/cyclic payload references have finite one-hop semantics.
+
+Adapted the complete BasicInverseShadowVariableTest method with all five source
+assertions and four fixture attributions. Native stable IDs and stream-derived
+owner codes replace Java object identity, annotations and hidden inverse supply.
+No reflection/internal-implementation equivalence claim. Nine original regressions
+cover 2,000 generated changes against a scan, selective dependents, mapping/clone
+panic safety, chained and same-source references, composite basic move undo/commit,
+list previous-element views, foreign ports, construction and saved local-search
+candidates compared with independent full scoring. One public doctest added.
+Automatic shadow dependency discovery, recursive fixed points, Java inconsistency
+rules and full declarative shadow compatibility remain unimplemented.
+
+Full debug gate passes 1,363 Rust tests (640 adapted, 648 original integration,
+75 unit), 67 doctests and 102 Python tests. Release all-target run passes the same
+1,363 tests; live_initialization delivers all four events and proves four optima.
+The large release solver test target took several minutes to compile; its live
+compiler was observed and allowed to finish without restarting. Logs use
+work/reference-stream-*. Upstream pin and checkout unchanged.
+
+All ten differential/performance datasets refreshed and current, successful report
+verification and matching live freshness digest. Coverage 640/4,855 (13.18%),
+3,933 pending, 282 excluded, zero failed/unverified. Domain model is now 1/455
+(0.22%). Browser at 1280x900 and 390x844 shows the new method Passed, 29 benchmark
+cards, no overflow, stale messages or errors. Existing server reused; verification
+browser closed. No frontend edits, design skill or delegation.
+
+Existing comparison outcomes persist: 512/512 list moves; 192 valid/189 equal-score
+list solves; 64 valid/equal-score stream solves; 128 valid/equal-score heuristic
+solves; 128/128 pillar transactions; known Great Deluge agreement 275/276. Stream
+tabu96 remains slower at Rust 171.985 vs Java 27.091 ms with equal [-44,-484].
+These refreshes do not benchmark the new reference operator. No new Java generated
+reference oracle is claimed: the new evidence is the pinned adapted source method,
+native scan/transaction/search regressions and doctest.
+
+Next: extend native derived-domain/shadow behavior using the pinned declarative
+shadow tests and public APIs, including a direct Java/native generated reference
+comparison where useful. Full rewrite goal remains active and unfinished.

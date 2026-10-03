@@ -9585,6 +9585,21 @@
       "upstream_test": "mixedLegalityAcrossVariablesRejectsWholePair",
       "local_test": "sub_mixed_legality_across_variables_rejects_whole_pair",
       "modifications": "Preserve every source assertion and fixture dimension/domain/pin. Native selected slot rows replace entity metamodel variables, with stable integer identities for entities/values and a separate 100 identity for the other-value type. Both directed move orientations are tested explicitly where the source requires them. Finite native iteration replaces random draws; source caps are retained where present and no sampler-sequence parity is claimed. Retain both entity-local ranges plus the third optional solution-range column initially None; any illegal cross-column target rejects the complete swap."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/basic_reference_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BasicInverseShadowVariableTest.declarativeShadowTracksBasicVariableChangeThroughNonExternalizedInverseSupply",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/BasicInverseShadowVariableTest.java",
+      "upstream_test": "declarativeShadowTracksBasicVariableChangeThroughNonExternalizedInverseSupply",
+      "local_test": "declarative_shadow_tracks_basic_variable_change_through_non_externalized_inverse_supply",
+      "modifications": "Preserve every initial, reassignment, referenced-owner and unreferenced-owner assertion using stable entity/group/owner IDs. Native stream reference dependencies and terminal-derived ownerCode snapshots replace Java annotated shadow fields and MoveTester; no annotation, reflection or Java internal inverse-supply parity claimed."
     }
   ],
   "fixtures": [
@@ -10731,6 +10746,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
       "upstream_test": "allVariables",
       "modifications": "Explicit schema column lists replace the test helper selecting every variable metamodel; native expect_both checks both directed source moves via separately built Pillar snapshots. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/basic_reference_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataBasicInverseEntity.basic_reference_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/declarative/basicinverse/TestdataBasicInverseEntity.java",
+      "upstream_test": "constructor, planning fields/ranges and ownerCode supplier",
+      "modifications": "Flatten entities and groups into three native basic-variable slots, use stable owner IDs and ownerX/ownerY string codes, and derive optional ownerCode using reference propagation. Fixture attribution only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/basic_reference_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataBasicInverseGroup.basic_reference_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/declarative/basicinverse/TestdataBasicInverseGroup.java",
+      "upstream_test": "constructor and planning/fact fields",
+      "modifications": "Flatten entities and groups into three native basic-variable slots, use stable owner IDs and ownerX/ownerY string codes, and derive optional ownerCode using reference propagation. Fixture attribution only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/basic_reference_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataBasicInverseOwner.basic_reference_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/declarative/basicinverse/TestdataBasicInverseOwner.java",
+      "upstream_test": "constructor and planning/fact fields",
+      "modifications": "Flatten entities and groups into three native basic-variable slots, use stable owner IDs and ownerX/ownerY string codes, and derive optional ownerCode using reference propagation. Fixture attribution only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/basic_reference_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataBasicInverseSolution.basic_reference_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/declarative/basicinverse/TestdataBasicInverseSolution.java",
+      "upstream_test": "constructor and planning/fact fields",
+      "modifications": "Flatten entities and groups into three native basic-variable slots, use stable owner IDs and ownerX/ownerY string codes, and derive optional ownerCode using reference propagation. Fixture attribution only; no method credit."
     }
   ]
 }

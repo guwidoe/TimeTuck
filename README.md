@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle and constraint streams cover 639 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle and constraint streams cover 640 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -38,7 +38,9 @@ automatically routes these changes and rolls back candidate transactions. Compos
 collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
 and immutable result snapshots. Stream
-score directors bind it to basic, ordered-list and combined mixed moves. List streams
+score directors bind it to basic, ordered-list and combined mixed moves. Indexed
+`follow_reference` streams derive values through changing entity references, retain
+missing targets explicitly, and restore their inverse dependencies on rollback. List streams
 expose entity lists and value owner/index/neighbor snapshots. Persistent ordered storage shares
 unchanged tree branches across checkpoints and saved candidates. Stream construction
 and local search share the existing search algorithms, including seeded acceptance
