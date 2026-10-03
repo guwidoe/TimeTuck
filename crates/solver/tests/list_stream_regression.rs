@@ -390,6 +390,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
     ] {
         for max_evaluations in [0, 1, 2, 9, 50, 1000] {
             let config = ConstructionConfig {
+                max_steps: None,
                 cancellation: None,
                 max_move_evaluations: None,
                 max_time: None,

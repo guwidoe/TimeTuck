@@ -39,6 +39,27 @@ impl ConstructionPickEarly {
 /// precede cancellation; already-observed evaluation exhaustion also takes
 /// precedence. A zero move budget permits initialization, then no candidates.
 /// The default token is None. Configurations borrow tokens and remain Copy.
+///
+/// A construction step installs one previously missing required value. A step
+/// limit preserves the winner of its entire scan, unlike a candidate limit:
+///
+/// ```
+/// use timetuck::{ConstructionConfig, ConstructionTermination, ConstraintNetwork,
+///     FiniteProblem, SimpleScore, Variable, greedy_construction,
+///     greedy_construction_from};
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1, 2]); 2])?;
+/// let n = ConstraintNetwork::<_, SimpleScore>::new(2);
+/// let config = ConstructionConfig { max_steps: Some(1), ..Default::default() };
+/// let first = greedy_construction(&p, &n, config)?;
+/// assert_eq!(first.termination, ConstructionTermination::StepLimit);
+/// assert_eq!(first.evaluations, 3); // Initial score and both values of the first variable.
+/// assert_eq!(first.assignment.values(), &[Some(1), None]);
+/// let next = greedy_construction_from(&p, &n, first.assignment, config)?;
+/// assert_eq!(next.assigned_variables, 1); // Fresh per-call step budget.
+/// assert_eq!(next.termination, ConstructionTermination::Completed);
+/// assert!(next.complete);
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConstructionConfig<'a> {
     /// Cooperative cancellation shared with other phases; validation runs first.
@@ -47,6 +68,10 @@ pub struct ConstructionConfig<'a> {
     pub max_evaluations: u64,
     /// Candidate evaluations only; initialization is excluded. None disables it.
     pub max_move_evaluations: Option<u64>,
+    /// Newly assigned required variables or list values per call. None disables
+    /// this limit. Initial scoring, existing assignments and optional None values
+    /// do not consume steps. A step finishes its candidate scan before stopping.
+    pub max_steps: Option<u64>,
     /// Cooperative elapsed time, including initialization and diagnostics. Zero
     /// permits initial scoring only; active callbacks cannot be interrupted.
     pub max_time: Option<std::time::Duration>,
@@ -60,6 +85,7 @@ impl Default for ConstructionConfig<'_> {
             cancellation: None,
             max_evaluations: 10_000,
             max_move_evaluations: None,
+            max_steps: None,
             max_time: None,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
@@ -68,6 +94,11 @@ impl Default for ConstructionConfig<'_> {
 }
 
 impl ConstructionConfig<'_> {
+    pub(crate) fn step_limit_reached(&self, assigned: usize) -> bool {
+        self.max_steps
+            .is_some_and(|limit| assigned as u128 >= u128::from(limit))
+    }
+
     pub(crate) fn cancelled(&self) -> bool {
         self.cancellation
             .is_some_and(crate::CancellationToken::is_cancelled)
@@ -76,6 +107,9 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
+    /// Another required assignment remains after the step budget is spent.
+    /// The preceding scan's winner is retained without truncating that scan.
+    StepLimit,
     /// Elapsed time expired; retain the best scored prefix, possibly incomplete.
     TimeLimit,
     /// An unevaluated candidate remains after the candidate-only budget is spent.
@@ -219,6 +253,10 @@ pub(crate) fn construction_impl_with_clock<
         }
         if director.assignment().values()[index].is_some() || variable.allows_unassigned() {
             continue;
+        }
+        if config.step_limit_reached(result.assigned_variables) {
+            result.termination = ConstructionTermination::StepLimit;
+            break;
         }
         let previous = director.score();
         let moves = variable.domain().iter().map(|value| Move::Change {

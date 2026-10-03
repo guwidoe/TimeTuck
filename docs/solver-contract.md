@@ -673,3 +673,14 @@ a public sequence doctest demonstrates direct local search.
 Custom phases, both source early-construction initialization tests and live
 problem changes remain pending. This increment adds one upstream method, not a
 claim of general phase or lifecycle parity.
+
+Construction phases now also accept ConstructionConfig::max_steps. The per-phase
+budget counts new required assignments (across both components for mixed models),
+not candidate trials. A next required item after the cap produces a phase StepLimit;
+completing the last item exactly at the cap produces Completed. A later construction
+phase gets a fresh count and preserves the earlier assignments; exact search may
+finish partial state. Initialization events retain the producer's early-stop flag.
+The existing native IncompleteConstruction result for incomplete local-search
+handoffs remains unchanged, and these native regressions do not earn credit for
+Timefold's early-CH event methods. See incremental-search-contract.md for boundaries
+and precedence. Local-search work/stagnation counters exclude construction steps.

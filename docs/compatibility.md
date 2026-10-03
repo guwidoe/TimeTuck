@@ -533,3 +533,9 @@ absent after waiting. Existing plans/configurations convert without changing the
 construction-first behavior. Native direct-exact boundaries and zero-work handling
 have original regression coverage only. Five source initialization-event methods
 remain pending, including custom phases and early-construction behavior.
+
+Native construction now has an optional per-phase assignment-step limit across
+basic/list/mixed models and both scoring backends. Original tests cover partial
+initialization events and resumable phase handoffs. No source-method credit is
+added: the Java early-CH exception path and optional-list construction behavior
+remain pending, as do the custom-phase initialization cases.

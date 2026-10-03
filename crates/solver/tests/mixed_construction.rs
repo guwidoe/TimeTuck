@@ -17,6 +17,7 @@ fn problem() -> MixedProblem<i32, i32> {
 fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConfig<'static> {
     MixedConstructionConfig {
         construction: ConstructionConfig {
+            max_steps: None,
             cancellation: None,
             max_move_evaluations: None,
             max_time: None,

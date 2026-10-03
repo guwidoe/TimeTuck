@@ -255,6 +255,7 @@ fn construction_matches_scoped_selection_for_both_orders_policies_and_budget_pre
                 let config = MixedConstructionConfig {
                     order,
                     construction: ConstructionConfig {
+                        max_steps: None,
                         cancellation: None,
                         max_move_evaluations: None,
                         max_time: None,

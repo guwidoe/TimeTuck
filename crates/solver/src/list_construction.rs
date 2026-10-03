@@ -125,6 +125,10 @@ pub(crate) fn construction_impl_with_clock<
             if director.assignment().location(value).is_some() {
                 continue;
             }
+            if config.step_limit_reached(result.assigned_values) {
+                result.termination = ConstructionTermination::StepLimit;
+                break;
+            }
             let snapshot = director.assignment().clone();
             let previous = director.score();
             let moves = insertions(problem, &snapshot, 0..problem.entities().len())

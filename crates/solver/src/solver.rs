@@ -80,7 +80,7 @@ pub struct SolverWork {
     /// Candidates, including exact assignments; initialization and diagnostics are excluded.
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
-    /// Local-search statistics only; construction placements are not steps.
+    /// Local-search statistics only; excludes construction's assignment steps.
     pub completed_steps: u64,
     pub accepted_moves: u64,
 }

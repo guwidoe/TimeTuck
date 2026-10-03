@@ -486,3 +486,43 @@ fn empty_and_optional_only_models_still_observe_expiry_after_initial_scoring() {
         check!(greedy_mixed_stream_construction(&p, b.build(), s, c));
     }
 }
+
+#[test]
+fn elapsed_time_precedes_construction_step_limits_at_a_shared_boundary() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            for (steps, elapsed_at) in [(0, 1), (1, 3)] {
+                for expires in [false, true] {
+                    let calls = Cell::new(0);
+                    let r = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            max_steps: Some(steps),
+                            max_time: Some(Duration::from_millis(1)),
+                            ..Default::default()
+                        },
+                        || calls.set(calls.get() + 1),
+                        || {
+                            if expires && calls.get() >= elapsed_at {
+                                Duration::from_millis(1)
+                            } else {
+                                Duration::ZERO
+                            }
+                        },
+                    );
+                    assert_eq!(r.assigned as u64, steps);
+                    assert_eq!(r.evaluations, elapsed_at);
+                    assert_eq!(
+                        r.reason,
+                        if expires {
+                            ConstructionTermination::TimeLimit
+                        } else {
+                            ConstructionTermination::StepLimit
+                        }
+                    );
+                }
+            }
+        }
+    }
+}

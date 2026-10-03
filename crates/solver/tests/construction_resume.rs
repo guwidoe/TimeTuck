@@ -368,3 +368,189 @@ fn resumed_validation_precedes_zero_budget_and_cancellation_without_observer_cal
         }
     }
 }
+
+#[test]
+fn construction_steps_count_only_new_assignments_and_reset_on_resume() {
+    let zero = ConstructionConfig {
+        max_steps: Some(0),
+        ..c_for_resume()
+    };
+    let one = ConstructionConfig {
+        max_steps: Some(1),
+        ..c_for_resume()
+    };
+    for stream in [false, true] {
+        let p = basic_problem();
+        let r = basic(stream, &p, basic_initial(), zero, None).unwrap();
+        assert_eq!(r.assignment, basic_initial());
+        assert_eq!(r.termination, ConstructionTermination::StepLimit);
+        assert_eq!(r.evaluations, 1);
+        let mut events = Vec::new();
+        let r = basic(stream, &p, r.assignment, one, Some(&mut events)).unwrap();
+        assert_eq!(r.assigned_variables, 1);
+        assert_eq!(r.termination, ConstructionTermination::Completed);
+        assert_eq!(r.assignment.values(), &[Some(1), Some(2), None, Some(1)]);
+        assert_eq!(events.len(), 2);
+        assert_eq!(events.last().unwrap().0, r.assignment);
+        let r = basic(stream, &p, r.assignment, zero, None).unwrap();
+        assert_eq!(r.termination, ConstructionTermination::Completed);
+        assert_eq!(r.assigned_variables, 0);
+        assert_eq!(r.evaluations, 1);
+
+        let p = list_problem();
+        let r = lists(stream, &p, list_initial(), zero, None).unwrap();
+        assert_eq!(r.assignment, list_initial());
+        assert_eq!(r.termination, ConstructionTermination::StepLimit);
+        assert_eq!(r.evaluations, 1);
+        let mut events = Vec::new();
+        let r = lists(stream, &p, r.assignment, one, Some(&mut events)).unwrap();
+        assert_eq!(r.assigned_values, 1);
+        assert_eq!(r.termination, ConstructionTermination::Completed);
+        assert_eq!(
+            r.assignment,
+            ListAssignment::new(vec![vec![7], vec![8, 10, 9]])
+        );
+        assert_eq!(events.len(), 2);
+        let r = lists(stream, &p, r.assignment, zero, None).unwrap();
+        assert_eq!(r.termination, ConstructionTermination::Completed);
+        assert_eq!(r.assigned_values, 0);
+        assert_eq!(r.evaluations, 1);
+
+        let p = MixedProblem::new(basic_problem(), list_problem());
+        let initial = MixedAssignment::new(basic_initial(), list_initial());
+        for order in [
+            MixedConstructionOrder::BasicThenLists,
+            MixedConstructionOrder::ListsThenBasic,
+        ] {
+            let config = MixedConstructionConfig {
+                construction: one,
+                order,
+            };
+            let mut events = Vec::new();
+            let r = mixed(stream, &p, initial.clone(), config, Some(&mut events)).unwrap();
+            assert_eq!(r.termination, ConstructionTermination::StepLimit);
+            assert_eq!(
+                r.assigned_basic_variables,
+                usize::from(order == MixedConstructionOrder::BasicThenLists)
+            );
+            assert_eq!(
+                r.assigned_list_values,
+                usize::from(order == MixedConstructionOrder::ListsThenBasic)
+            );
+            assert_eq!(events.len(), 2);
+            let r = mixed(stream, &p, r.assignment, config, None).unwrap();
+            assert_eq!(r.assigned_basic_variables + r.assigned_list_values, 1);
+            assert!(r.complete);
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+            let r = mixed(
+                stream,
+                &p,
+                r.assignment,
+                MixedConstructionConfig {
+                    construction: zero,
+                    order,
+                },
+                None,
+            )
+            .unwrap();
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+            assert_eq!(r.evaluations, 1);
+        }
+    }
+}
+
+#[test]
+fn zero_construction_steps_keep_validation_impossibility_and_optional_semantics() {
+    let c = ConstructionConfig {
+        max_steps: Some(0),
+        ..Default::default()
+    };
+    for stream in [false, true] {
+        let p = basic_problem();
+        assert!(basic(stream, &p, Assignment::new(vec![]), c, None).is_err());
+        let p = list_problem();
+        assert!(
+            lists(
+                stream,
+                &p,
+                ListAssignment::new(vec![vec![7], vec![9, 8]]),
+                c,
+                None
+            )
+            .is_err()
+        );
+        let p = MixedProblem::new(basic_problem(), list_problem());
+        assert!(
+            mixed(
+                stream,
+                &p,
+                MixedAssignment::new(Assignment::new(vec![]), list_initial()),
+                MixedConstructionConfig {
+                    construction: c,
+                    ..Default::default()
+                },
+                None
+            )
+            .is_err()
+        );
+        let p = FiniteProblem::new(vec![Variable::new(Vec::<i32>::new())]).unwrap();
+        let r = basic(stream, &p, p.initial_assignment(), c, None).unwrap();
+        assert_eq!(r.termination, ConstructionTermination::NoCompleteAssignment);
+        assert_eq!(r.evaluations, 0);
+        let p = ListProblem::new(vec![7], vec![]).unwrap();
+        let r = lists(stream, &p, p.initial_assignment(), c, None).unwrap();
+        assert_eq!(r.termination, ConstructionTermination::NoCompleteAssignment);
+        assert_eq!(r.evaluations, 0);
+        let p = MixedProblem::new(FiniteProblem::new(vec![]).unwrap(), p);
+        let r = mixed(
+            stream,
+            &p,
+            p.initial_assignment(),
+            MixedConstructionConfig {
+                construction: c,
+                ..Default::default()
+            },
+            None,
+        )
+        .unwrap();
+        assert_eq!(r.termination, ConstructionTermination::NoCompleteAssignment);
+        assert_eq!(r.evaluations, 0);
+        for empty in [false, true] {
+            let p = FiniteProblem::new(if empty {
+                vec![]
+            } else {
+                vec![Variable::new(vec![1]).allowing_unassigned()]
+            })
+            .unwrap();
+            let r = basic(stream, &p, p.initial_assignment(), c, None).unwrap();
+            assert!(r.complete);
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+            assert_eq!(r.evaluations, 1);
+            assert_eq!(r.assigned_variables, 0);
+            let l = ListProblem::new(if empty { vec![] } else { vec![7] }, vec![])
+                .unwrap()
+                .allowing_unassigned();
+            let r = lists(stream, &l, l.initial_assignment(), c, None).unwrap();
+            assert!(r.complete);
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+            assert_eq!(r.evaluations, 1);
+            assert_eq!(r.assigned_values, 0);
+            let p = MixedProblem::new(p, l);
+            let r = mixed(
+                stream,
+                &p,
+                p.initial_assignment(),
+                MixedConstructionConfig {
+                    construction: c,
+                    ..Default::default()
+                },
+                None,
+            )
+            .unwrap();
+            assert!(r.complete);
+            assert_eq!(r.termination, ConstructionTermination::Completed);
+            assert_eq!(r.evaluations, 1);
+            assert_eq!(r.assigned_basic_variables + r.assigned_list_values, 0);
+        }
+    }
+}

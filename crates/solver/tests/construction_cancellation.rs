@@ -604,3 +604,6 @@ fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observat
         }
     }
 }
+
+#[path = "support/construction_step_cases.rs"]
+mod step_cases;

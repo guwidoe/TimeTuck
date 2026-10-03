@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 547 original integration regression methods, 69 original unit tests, and 53 public API documentation tests.
+- 554 original integration regression methods, 70 original unit tests, and 54 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -3821,3 +3821,70 @@ and 32 0.908/11.194 retain the known score differences. List validation remains
 Great Deluge retains 275/276 Java agreements and its recorded ratio boundary gap.
 These workloads do not measure explicit-sequence or manager throughput, and these
 shared-machine samples alone do not establish an improvement or regression.
+
+
+## Construction assignment steps — latest increment
+
+Added ConstructionConfig::max_steps: Option<u64> (default None), applied to all six
+model/backend paths. One step installs a newly assigned required variable/list
+value; it finishes the full candidate scan or an early pick. Existing assignment
+counters expose the count. Mixed uses one shared count across component order.
+The check runs after skipping supplied/optional assignments and before the next
+required scan. Reaching the cap with another required item returns new
+ConstructionTermination::StepLimit; completing exactly at the cap returns Completed.
+Zero permits initial scoring; complete/empty/optional-only models still complete.
+Each resume and each phase has a fresh count. Existing candidate/score truncation,
+time/cancellation polling and validation/impossibility precedence are unchanged.
+Cancellation/time precede step checks, which precede candidate-budget observation.
+SolverWork remains local-search-only for completed_steps/accepted_moves and shared
+stagnation. Four existing explicit test config literals now include max_steps: None (basic,
+list and mixed stream comparisons plus mixed construction). No default behavioral change or new adaptation credit.
+
+Seven original integration methods were added: three in support/construction_step_cases.rs
+(included by construction_cancellation.rs) cover all six paths/both orders/early picks,
+diagnostics, every small step/score/candidate cap combination, cancellation and zero
+score precedence; two in construction_resume.rs cover preserved inputs/pins, optional
+skips, reset counts, validation, impossible/empty/optional models and observers;
+two in support/solver_construction_cases.rs cover repeated construction and local/exact
+handoffs, event producers and early flags. One controlled-clock unit in
+timed_construction_tests.rs checks time precedence. One ConstructionConfig doctest
+shows a two-call resume. Focused checks passed before the full gate.
+
+The full source methods for early-CH initialization stay pending: native incomplete
+local-search handoff returns IncompleteConstruction rather than Java's exception,
+and optional list construction still skips unassigned values. Custom phases/live
+problem changes also remain pending. No source implementation was inspected.
+Work logs use work/construction-step-*.
+
+Next-step evidence: inspected only the pinned test fixtures
+core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/
+TestdataAllowsUnassignedValuesListConstraintProvider.java and ...ListEntity.java.
+The optional-list manager source test has two initially empty lists and two values,
+CH step limit one then LS step limit zero. The fixture penalizes list sizes and
+each unassigned value, giving total ordinary score -2 for every ownership state.
+Its event still needs to report early construction termination. Native construction
+currently skips optional values entirely, so step limiting alone cannot satisfy it.
+A future optional-value construction policy must handle ties, unavailable insertions,
+existing placements/pins, initial completeness and retained-best publication honestly;
+do not award source-method credit by simulating the event. Any adapted fixtures need
+new provenance records. The two inspected fixtures have not been copied or adapted.
+
+Final verification: bash scripts/check.sh passes 1,211 Rust tests (587 adapted,
+554 original integration, 70 unit), 54 doctests and 95 Python tests. Release
+all-target tests pass the same 1,211 cases. live_initialization passes in release
+with four callbacks and four proven optima. All nine differential/performance
+datasets are current; report verification succeeds and matches the live endpoint's
+verification digest. Coverage remains 587/4,855 (12.09%), 3,986 pending and 282
+excluded. Native regressions add no source credit. Upstream submodule unchanged.
+
+Browser checks at 1280x900 and 390x844 show 23 benchmark cards, correct counts,
+no stale/error messages or horizontal overflow, and no browser errors. Browser
+session closed. Fresh illustrative Rust/Java median milliseconds: exact 6
+0.010/4.316, exact 8 0.146/5.496; Great Deluge 32 2.198/9.124, 96 13.742/15.088;
+stream tabu 96 171.049/26.060 (equal [-44,-484]). List two-opt 16 0.270/7.405,
+32 0.897/12.397 keep the recorded score differences. All 128 heuristic and 64
+stream validation cases retain equal scores; list validation remains 192 valid,
+189 equal. Great Deluge still has 275/276 Java agreement cases. These workloads
+use default unlimited construction steps and do not measure the new step-limited
+phase/event throughput; shared-machine timing changes alone prove no regression
+or improvement. Keep the full goal active.

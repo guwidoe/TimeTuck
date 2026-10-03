@@ -199,6 +199,14 @@ pub(crate) fn construction_impl_with_clock<
                     {
                         continue;
                     }
+                    if config.step_limit_reached(
+                        result
+                            .assigned_basic_variables
+                            .saturating_add(result.assigned_list_values),
+                    ) {
+                        result.termination = ConstructionTermination::StepLimit;
+                        break 'phases;
+                    }
                     let moves = variable.domain().iter().map(|value| MixedMove {
                         basic: Move::Change {
                             variable: index,
@@ -222,6 +230,14 @@ pub(crate) fn construction_impl_with_clock<
                         || director.assignment().lists().location(value).is_some()
                     {
                         continue;
+                    }
+                    if config.step_limit_reached(
+                        result
+                            .assigned_basic_variables
+                            .saturating_add(result.assigned_list_values),
+                    ) {
+                        result.termination = ConstructionTermination::StepLimit;
+                        break 'phases;
                     }
                     let snapshot = director.assignment().clone();
                     let moves = insertions(lists, snapshot.lists(), 0..lists.entities().len())

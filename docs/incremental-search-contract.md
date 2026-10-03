@@ -821,3 +821,44 @@ The public configuration and default initial-water concept are described in
 [Timefold's local-search documentation](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/local-search).
 The original fixed-rain performance workload uses (0hard/1soft) and 50 steps;
 it does not measure ratio rain, incremental Great Deluge scoring or decimal scores.
+
+## Construction assignment-step limits
+
+`ConstructionConfig::max_steps: Option<u64>` bounds newly assigned required basic
+variables or list values. None (the default) leaves existing behavior unchanged.
+One step finishes a variable's domain scan or a list value's insertion scan,
+including an early pick; scanning several candidates still consumes one step.
+The assignment counters on construction results expose this work. Mixed construction
+uses a single limit across both components, in its configured component order.
+Each call or phase starts a fresh count, including resumptions.
+
+The limit is tested before scanning the next missing required item. Initial scoring,
+diagnostics, preserved assignments, pins and skipped optional unassignment consume
+no steps. A zero limit permits initialization, then no assignment. If no missing
+required item remains, completion wins, including exactly reaching the limit on
+the final assignment. Optional-only and empty models still complete with one
+initial score. Optional values continue to be left unassigned by native construction;
+this change does not establish Java optional-list construction semantics.
+
+`ConstructionTermination::StepLimit` means a further required assignment was stopped.
+It does not truncate the preceding scan. An evaluation/candidate cap can truncate
+that scan, retaining its best prefix and its own stop reason; cancellation and time
+also retain their existing cooperative polling behavior. Validation, impossibility,
+zero score budget and pre-cancellation keep their earlier precedence. At an item
+boundary cancellation and time are checked before the step limit, while the step
+limit is checked before candidate/score budget exhaustion. A completed-step cap of
+one therefore evaluates the whole first scan if no other limit stops it.
+
+Ordered solves preserve the phase stop reason and can resume construction or enter
+exact search. An incomplete handoff to local search still returns the native
+IncompleteConstruction termination; its initialization event precedes this check
+and records early termination. SolverWork.completed_steps/accepted_moves and shared
+stagnation remain local-search statistics; construction assignment steps are excluded.
+
+Seven original integration methods cover all six model/backend paths, both mixed
+orders, early picks, diagnostic scoring, every small score/candidate/step budget
+combination, cancellation, prior assignments/pins/optional values, validation,
+impossibility, resumptions and phase/event handoffs. A controlled-clock unit method
+checks elapsed-time precedence. A public doctest demonstrates a two-call resume.
+These cases add no upstream-method credit: Java's early-CH exception path and
+optional-list construction behavior still need their own full implementations.
