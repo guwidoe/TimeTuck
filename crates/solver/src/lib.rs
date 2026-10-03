@@ -168,3 +168,6 @@ pub use mixed_stream_scoring::{
 
 mod flat_map_stream;
 pub use flat_map_stream::FlatMapNode;
+
+mod overlap_join;
+pub use overlap_join::OverlapJoinNode;

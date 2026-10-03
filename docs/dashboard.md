@@ -314,9 +314,10 @@ alongside `impl/score/stream/`. Earlier reports put the Bavet engine tests under
 Core utilities & configuration; the correction moves methods between subsystem
 denominators without changing overall coverage.
 
-Ordered-join comparison evidence is included under `ordered_join_checks` in the
+Ordered/overlap join comparison evidence is included under `ordered_join_checks` in the
 stream differential report and displayed alongside the other original checks.
-It retains all inputs and runtime outputs for 135 cases / 8,976 states, seed
-20261116. Independent Python pairs check Java/Rust match counts and weighted
+It retains all inputs and runtime outputs for 153 cases / 10,155 states, seed
+20261116. This includes strict overlap joins with and without equality partitions,
+and touching, zero-length, reversed and extreme endpoints. Independent Python pairs check Java/Rust match counts and weighted
 scores plus native exact IDs/payloads. Existing benchmark cards do not measure
 these operators. This evidence does not add upstream test-method coverage.

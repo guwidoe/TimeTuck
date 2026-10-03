@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 414 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 168 stream), recorded in
+- 419 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 173 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 309 original integration regression methods, eleven original unit tests, and twenty-six public API documentation tests.
+- 315 original integration regression methods, twelve original unit tests, and twenty-seven public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -59,14 +59,17 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   traversal, with explicit left/right orientation and transactional rollback.
   Equality retains exact bucket lookup. Partitioned joins additionally index one
   ordered relation inside equality groups, including tuple equality keys.
+  Interval overlap joins now index both strict endpoint comparisons, optionally
+  within equality partitions, with persistent subtree maximum-end pruning.
   Read docs/constraint-stream-contract.md.
 - Stream scoring has 128 original Java/Rust cases (2,899 states), checking
   partial assignments, signed/cancelling groups, duplicate/self edges, commits
   and undo. Python checks both ordinary scores and native exact match IDs/sums.
   Community `SolutionManager.update()` is used; `analyze()` requires Enterprise
   in this release and must not be used. No Java match-analysis claim.
-- Direct ordered/partitioned Joiners comparisons now pass 135 original cases /
-  8,976 states for five relations and zero/one/two equality keys. Community score
+- Direct ordered/partitioned/overlap Joiners comparisons now pass 153 original cases /
+  10,155 states for five relations and zero/one/two equality keys, plus plain and
+  equality-partitioned strict overlaps (including degenerate/reversed endpoints). Community score
   recalculation agrees with Rust incremental edits and independent Python pairs.
   Native exact match IDs/payloads are checked separately; no method-credit or
   Java incremental notification/timing claim.
@@ -78,7 +81,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 414 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 419 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1366,3 +1369,52 @@ ordered-evidence-stream.log, ordered-evidence-stream-performance.log,
 ordered-evidence-list-refresh.log, ordered-evidence-core-refresh.log and
 ordered-evidence-heuristic-performance.log. Upstream pin/checkout remain unmodified.
 The full goal remains unfinished.
+
+## Interval-overlap index increment
+
+Added OverlapJoinNode plus graph join_overlapping and
+join_overlapping_partitioned. Projections capture equality/start/end keys. Each
+partition has a persistent AVL interval index ordered by (start, ID), with subtree
+maximum-end metadata for pruning. Candidate roots and output clones are prepared
+before installation; graph checkpoints share roots. Same-key replacements update
+pairs once; endpoint/partition changes retract old pairs before new puts.
+Touching endpoints do not match. Endpoints are not normalized: zero-length and
+reversed intervals follow the raw strict cross-endpoint predicate, confirmed
+against Community public Joiners. No general multi-inequality index is claimed.
+
+Five JoinersTest overlap methods preserve all 65 literal endpoint assertions,
+BigInt/scale-zero Decimal projections, and ignored higher-arity strings. Fixture
+and method provenance are recorded. Six original integration regressions cover
+bidirectional randomized edits, shared-source transactions, exact replacement
+events, foreign ports/downstream errors/projection panics, exhaustive key clone/
+comparison fault injection, and counted sparse pruning. An original private unit
+test checks AVL ordering, balance, size, maximum-end caches, snapshots and queries
+against an independent map across 4,000 updates/removals.
+
+The original Java/Rust/Python comparison matrix adds 18 overlap cases / 1,179
+states, bringing ordered/partitioned/overlap checks to 153 cases / 10,155 states.
+The new modes reuse the row protocol with first=start, key=end, second=equality;
+other modes retain their original meaning and generated inputs. All comparisons
+pass, including touching, zero-length, reversed and extreme boundaries. These
+checks earn no additional method credit and compare Java score recalculation with
+native incremental edits, not Java incremental notifications or overlap timing.
+
+Development gate passed: 746 Rust tests (419 adapted, 315 original integration,
+12 original unit), 27 doctests and 58 Python regressions. Release tests pass.
+Coverage: 419 / 4,855 = 8.63%; Constraint streams 271 / 1,301 = 20.83%.
+Pending 4,154; excluded 282; failed/unverified zero. Upstream remains unmodified.
+
+Latest stream medians ms Rust/Java: hill32 78.306/22.688,
+hill96 252.859/34.892, tabu32 61.493/16.906, tabu96 246.491/36.858.
+The 96-variable scores remain [-44,-484], infeasible at the 50-step cap.
+List32 construction remains Rust [0,-1080] versus Java [0,-1062]. Existing timing
+workloads do not benchmark the new interval operator. Logs:
+work/overlap-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log.
+
+All nine evidence sections were refreshed and verified current against source and
+verification digests. The running dashboard's freshness digest matches. Browser
+checks at 1280px and 390px confirmed coverage, the 153/153 and 10,155-state summary,
+and all five overlap methods under the Passed filter, with no page errors,
+staleness messages or horizontal overflow. Existing server was reused; browser
+verification session closed. The full solver rewrite remains active and incomplete.

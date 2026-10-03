@@ -31,7 +31,7 @@
 
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, FlatMapNode,
-    GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector, ListSnapshot,
+    GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector, ListSnapshot, OverlapJoinNode,
     PartitionedJoinNode, ReversibleCollector, SnapshotMap, TupleChange,
 };
 use std::{
@@ -311,6 +311,35 @@ impl<
     K: Ord + Clone + 'static,
     S: AdditiveScore,
 > Node<S> for PartitionedJoin<'_, I, J, L, R, E, K>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+        Ok(erase(if right {
+            self.0.apply_right(typed::<J, R>(event).clone())
+        } else {
+            self.0.apply_left(typed::<I, L>(event).clone())
+        }))
+    }
+}
+
+struct OverlapJoin<'a, I, J, L, R, K, E>(OverlapJoinNode<'a, I, J, L, R, K, E>);
+impl<
+    I: Ord + Clone + 'static,
+    J: Ord + Clone + 'static,
+    L: Clone + 'static,
+    R: Clone + 'static,
+    E: Ord + Clone + 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+> Node<S> for OverlapJoin<'_, I, J, L, R, K, E>
 {
     fn clear(&mut self) {
         self.0.clear();
@@ -794,6 +823,57 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(right)?;
         let out = self.push(PartitionedJoin(
             PartitionedJoinNode::<I, J, L, R, E, K>::new(comparison, left_key, right_key),
+        ));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Indexed strict overlap: `left_start < right_end && right_start < left_end`.
+    /// Endpoints are captured without normalization; touching endpoints do not
+    /// match. See OverlapJoinNode for degenerate endpoints and pruning behavior.
+    pub fn join_overlapping<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_interval: impl Fn(&L) -> (K, K) + 'a,
+        right_interval: impl Fn(&R) -> (K, K) + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(OverlapJoin(OverlapJoinNode::<I, J, L, R, K>::new(
+            left_interval,
+            right_interval,
+        )));
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
+    /// Indexed overlap within equal partitions. Projections return
+    /// `(equality_key,start,end)`; tuple equality keys support multiple equalities.
+    pub fn join_overlapping_partitioned<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+        E: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        left_interval: impl Fn(&L) -> (E, K, K) + 'a,
+        right_interval: impl Fn(&R) -> (E, K, K) + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(OverlapJoin(
+            OverlapJoinNode::<I, J, L, R, K, E>::partitioned(left_interval, right_interval),
         ));
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);

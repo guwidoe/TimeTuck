@@ -29,9 +29,9 @@ public final class OrderedJoinOracle {
     public static class Provider implements ConstraintProvider {
         @Override public Constraint[] defineConstraints(ConstraintFactory factory) {
             var constraints=new ArrayList<Constraint>();
-            for(int mode=0;mode<15;mode++) {
+            for(int mode=0;mode<17;mode++) {
                 final int selected=mode;
-                BiJoiner<Left,Right> relation=switch(mode%5) {
+                BiJoiner<Left,Right> relation=mode>=15 ? Joiners.overlapping(Left::first,Left::key,Right::first,Right::key) : switch(mode%5) {
                     case 0 -> Joiners.equal(Left::key,Right::key);
                     case 1 -> Joiners.lessThan(Left::key,Right::key);
                     case 2 -> Joiners.lessThanOrEqual(Left::key,Right::key);
@@ -39,7 +39,7 @@ public final class OrderedJoinOracle {
                     default -> Joiners.greaterThanOrEqual(Left::key,Right::key);
                 };
                 var left=factory.forEach(Left.class).filter(l->l.mode()==selected);
-                var joined=switch(mode/5) {
+                var joined=mode==15 ? left.join(Right.class,relation) : mode==16 ? left.join(Right.class,Joiners.equal(Left::second,Right::second),relation) : switch(mode/5) {
                     case 0 -> left.join(Right.class,relation);
                     case 1 -> left.join(Right.class,Joiners.equal(Left::first,Right::first),relation);
                     default -> left.join(Right.class,Joiners.equal(Left::first,Right::first),Joiners.equal(Left::second,Right::second),relation);
@@ -65,7 +65,7 @@ public final class OrderedJoinOracle {
         try(var input=new BufferedReader(new InputStreamReader(System.in))) {
             for(String line;(line=input.readLine())!=null;) {
                 var fields=line.split("\t",-1);if(fields.length!=3)throw new IllegalArgumentException("expected case,mode,operations");
-                int mode=Integer.parseInt(fields[1]);if(mode<0||mode>=15)throw new IllegalArgumentException("mode");
+                int mode=Integer.parseInt(fields[1]);if(mode<0||mode>=17)throw new IllegalArgumentException("mode");
                 var p=new Problem();var left=new TreeMap<Integer,Left>();var right=new TreeMap<Integer,Right>();int state=0;
                 emit(fields[0],state++,p,manager);
                 if(fields[2].isEmpty())continue;

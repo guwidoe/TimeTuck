@@ -108,6 +108,22 @@ Read the pipeline's final result only after all outputs have been delivered.
   Graph checkpoints share these roots. Same-key replacements retain membership;
   retraction uses captured keys without invoking projections. No additional
   overhead is added to the existing equality-only or ordered-only join indexes.
+- `OverlapJoinNode` and graph `join_overlapping` index the strict cross-endpoint
+  predicate `left_start < right_end && right_start < left_end`. Touching endpoints
+  never match. Endpoints are captured without normalization or validation: a
+  zero-length or reversed interval can match a containing interval under these
+  two comparisons. This is not mathematical intersection of empty sets.
+  `join_overlapping_partitioned` and `OverlapJoinNode::partitioned` add equality
+  partitions; projections return `(equality_key, start, end)` and tuple equality
+  keys support multiple equalities. Each partition uses a persistent AVL tree
+  ordered by `(start, ID)` with cached subtree maximum endpoints. Queries skip
+  starts beyond the query end and subtrees whose maximum end is at/before the
+  query start. Updates rebuild logarithmic paths; memory is linear in rows, and
+  dense matching still produces quadratic pairs. No general multidimensional
+  inequality index or output-sensitive query complexity guarantee is claimed.
+  Pair identities, captured-key retractions, same-key replacement and candidate
+  root installation follow the partitioned join contract. Inspection is ordered
+  by left ID, right start, right ID. Graph transactions share persistent roots.
 - `ExistsNode` supports indexed equality plus a pair predicate, in Exists or
   NotExists mode. It preserves left IDs/payloads and never multiplies them by
   right-match count. Bidirectional cached match IDs make retractions callback-free;
@@ -860,12 +876,13 @@ grouped tuple equality keys and construction/local search. An internal churn tes
 checks partition and membership cleanup. Current Java/Rust timing workloads do
 not exercise this partitioned operator; no new performance parity claim follows.
 
-## Direct ordered-join Community comparisons
+## Direct ordered and overlap join Community comparisons
 
 Original public-API comparisons now exercise all five relations (equal, less than,
 less than or equal, greater than, greater than or equal) without equality
-partitions, with one equality key, and with two equality keys. Across 135 seeded
-cases and 8,976 states, Java Community SolutionManager.update and native
+partitions, with one equality key, and with two equality keys. Overlap comparisons
+add unpartitioned and equality-partitioned intervals, including touching, zero-length,
+reversed and extreme endpoints. Across 153 seeded cases and 10,155 states, Java Community SolutionManager.update and native
 incremental graphs agree with independent Python pair enumeration on match counts
 and weighted scores. Exact native pair IDs and both captured row payloads are
 checked separately. Cases include duplicate/extreme ordered keys, payload-only and

@@ -194,8 +194,15 @@ indexed inside each equality partition. Random neighborhood iterator and repeate
 removal exception methods remain pending. Native failure/rollback/search evidence
 is separate from these source-method credits.
 
-Original public-API ordered-join comparisons additionally check 135 cases / 8,976
-states across five relations and zero/one/two equality keys. Independent Python
+Five overlap-join methods preserve all 65 literal endpoint assertions, including
+containment, equal endpoints and nonmatching touches, through native interval
+indexes. Different BigInt/Decimal projections and higher-arity ignored arguments
+are retained. Independent randomized index invariants and transaction regressions
+provide additional evidence without upstream credit.
+
+Original public-API ordered/overlap join comparisons additionally check 153 cases /
+10,155 states across five relations and zero/one/two equality keys, plus overlap
+joins with and without equality partitions. Independent Python
 pairs verify both runtime scores and exact native match IDs/payloads through edits
 and undo. These are separate from upstream method coverage and timing; Java
 recalculates each score via Community SolutionManager.update.

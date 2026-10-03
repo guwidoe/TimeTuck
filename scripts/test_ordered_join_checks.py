@@ -21,6 +21,19 @@ class OrderedJoinChecksTest(unittest.TestCase):
         self.assertEqual(expected(1, boundary)[0], (1, -6))
         self.assertEqual(expected(3, boundary)[0], (0, 0))
 
+    def test_overlap_endpoints_are_strict_and_not_normalized(self):
+        left = (1, 7, 5, 3)
+        for right, overlap in [((5, 7, 8, 2), False), ((0, 7, 1, 2), False),
+                               ((1, 7, 5, 2), True), ((3, 7, 3, 2), True),
+                               ((4, 7, 2, 2), True), ((6, 7, 2, 2), False)]:
+            state = {'L': {0: left}, 'R': {1: right}}
+            for mode in (15, 16):
+                self.assertEqual(expected(mode, state)[0], (1, 6) if overlap else (0, 0))
+        state = {'L': {0: left}, 'R': {1: (2, 8, 4, -2)}}
+        self.assertEqual(expected(15, state)[0], (1, -6))
+        self.assertEqual(expected(16, state)[0], (0, 0))
+        self.assertEqual(expected(15, state)[1], '0,1,1,7,5,3,2,8,4,-2')
+
     def test_trial_updates_and_removals_restore_exact_captured_rows(self):
         case = {'id': 'undo', 'mode': 0, 'operations': [
             ('c', 'L', 0, [1, 2, 3, 4]), ('t', 'L', 0, [9, 8, 7, 6]),
@@ -59,15 +72,15 @@ class OrderedJoinChecksTest(unittest.TestCase):
     def test_generated_matrix_is_deterministic_complete_and_finishes_empty(self):
         cases = generate()
         self.assertEqual(cases, generate())
-        self.assertEqual(len(cases), 135)
-        self.assertEqual(len({c['id'] for c in cases}), 135)
-        self.assertEqual({c['mode'] for c in cases}, set(range(15)))
+        self.assertEqual(len(cases), 153)
+        self.assertEqual(len({c['id'] for c in cases}), 153)
+        self.assertEqual({c['mode'] for c in cases}, set(range(17)))
         for case in cases:
             self.assertEqual(len(encode(case).split('\t')), 3)
             observed = list(states(case))
             self.assertEqual(len(observed), 1 + sum(2 if op[0] == 't' else 1 for op in case['operations']))
             self.assertEqual(observed[-1], {'L': {}, 'R': {}})
-        self.assertEqual(sum(len(list(states(c))) for c in cases), 8976)
+        self.assertEqual(sum(len(list(states(c))) for c in cases), 10155)
 
 
 if __name__ == '__main__':

@@ -38,7 +38,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             return Err("expected case,mode,operations".into());
         }
         let mode: usize = fields[1].parse()?;
-        if mode >= 15 {
+        if mode >= 17 {
             return Err("mode".into());
         }
         let relation = [
@@ -51,7 +51,16 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut b = StreamGraphBuilder::<HardSoftScore>::new();
         let l = b.source::<usize, Row>();
         let r = b.source::<usize, Row>();
-        let joined = if mode < 5 {
+        let joined = if mode == 15 {
+            b.join_overlapping(l.port(), r.port(), |r| (r.0, r.2), |r| (r.0, r.2))?
+        } else if mode == 16 {
+            b.join_overlapping_partitioned(
+                l.port(),
+                r.port(),
+                |r| (r.1, r.0, r.2),
+                |r| (r.1, r.0, r.2),
+            )?
+        } else if mode < 5 {
             b.join_compare(l.port(), r.port(), relation, |r| r.2, |r| r.2)?
         } else {
             b.join_partitioned(

@@ -32,6 +32,24 @@ def generate():
                 ops.append(('t' if rng.random() < .35 else 'c', rng.choice(['L', 'R']), rng.randrange(8), row))
             ops += [('c', side, i, None) for side in ['L', 'R'] for i in range(8)]
             cases.append({'id': f'ordered-{mode:02}-{sample:02}', 'mode': mode, 'operations': ops})
+    # Preserve the existing ordered matrix and RNG sequence. Overlap endpoints
+    # deliberately include zero-length and reversed intervals as raw predicates.
+    for mode in (15, 16):
+        intervals = [(MIN, MAX), (-3, 0), (0, 3), (0, 0), (2, 1), (MAX, MIN)]
+        ops = [('c', side, i, [a, i % 2, b, i - 2])
+               for side in ('L', 'R') for i, (a, b) in enumerate(intervals)]
+        ops += [('t', 'L', 0, [0, 1, 0, 9]), ('c', 'R', 2, [0, 0, 3, -11]),
+                ('c', 'L', 2, [0, 1, 3, 7]), ('t', 'R', 3, None), ('c', 'L', 15, None)]
+        ops += [('c', side, i, None) for side in ('R', 'L') for i in range(6)]
+        cases.append({'id': f'overlap-{mode}-boundary', 'mode': mode, 'operations': ops})
+        for sample in range(8):
+            ops = []
+            for _ in range(40):
+                a, b = rng.choice(intervals) if sample % 2 else (rng.randrange(-9, 10), rng.randrange(-9, 10))
+                row = None if rng.random() < .25 else [a, rng.randrange(-2, 3), b, rng.randrange(-20, 21)]
+                ops.append(('t' if rng.random() < .35 else 'c', rng.choice(['L', 'R']), rng.randrange(8), row))
+            ops += [('c', side, i, None) for side in ('L', 'R') for i in range(8)]
+            cases.append({'id': f'overlap-{mode}-{sample:02}', 'mode': mode, 'operations': ops})
     return cases
 
 
@@ -64,11 +82,15 @@ def states(case):
 
 
 def expected(mode, state):
-    if not 0 <= mode < 15:
+    if not 0 <= mode < 17:
         raise ValueError('Invalid mode')
-    equalities = mode // 5
+    def matches(a, b):
+        if mode >= 15:
+            return (mode == 15 or a[1] == b[1]) and a[0] < b[2] and b[0] < a[2]
+        equalities = mode // 5
+        return a[:equalities] == b[:equalities] and RELATIONS[mode % 5](a[2], b[2])
     pairs = [(i, j, *a, *b) for i, a in sorted(state['L'].items()) for j, b in sorted(state['R'].items())
-             if a[:equalities] == b[:equalities] and RELATIONS[mode % 5](a[2], b[2])]
+             if matches(a, b)]
     return (len(pairs), sum(row[5] * row[9] for row in pairs)), ';'.join(','.join(map(str, row)) for row in pairs)
 
 
@@ -103,4 +125,4 @@ def run_checks(classpath):
         observations = validate(cases, outputs[runtime], runtime)
     return {'seed': SEED, 'total': len(cases), 'passed': len(cases), 'observations': observations,
             'cases': cases, 'outputs': outputs,
-            'scope': 'Original five-relation checks for no equality partition, one equality key and two equality keys. Duplicate/extreme ordered keys, signed/zero weights, payload and key replacements, independent left/right insertion/removal, trials and undo. Community SolutionManager.update recalculates each score using public Joiners; Rust updates persistent ordered/partitioned graphs. Independent Python pairs validate counts, weighted scores and exact native match IDs/payloads. Java exposes scores only; no Java match-analysis or incremental-update timing claim. No additional upstream method credit.'}
+            'scope': 'Original five-relation checks for no equality partition, one equality key and two equality keys, plus strict interval-overlap joins with and without equality partitions. Overlap boundaries include touching, zero-length, reversed and extreme endpoints. Duplicate/extreme ordered keys, signed/zero weights, payload and key replacements, independent left/right insertion/removal, trials and undo. Community SolutionManager.update recalculates each score using public Joiners; Rust updates persistent ordered/partitioned graphs. Independent Python pairs validate counts, weighted scores and exact native match IDs/payloads. Java exposes scores only; no Java match-analysis or incremental-update timing claim. No additional upstream method credit.'}
