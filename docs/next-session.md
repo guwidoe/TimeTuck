@@ -5027,3 +5027,68 @@ supplier call for A1 and none for A2/A3/B1/B2 after changing leader A, so matchi
 follower values alone is insufficient: shared supplier computation must be
 preserved. AlwaysLoopedShadowVariableTest also remains pending; read its fixtures
 before adapting its odd/even fixed-loop diagnostic assertions.
+
+## Shared follower suppliers (2026-10-03)
+
+Added `StreamGraphBuilder::follow_shared_reference`, independently composed from
+native persistent keyed collections and reference indexes. One supplier result is
+broadcast to all followers sharing an explicit target ID. The smallest native tuple
+ID represents the group; a target update invokes that supplier once, and an
+unreferenced target invokes none. Membership changes recompute affected groups.
+Missing targets pass None to the supplier. Group equality is a caller promise;
+Java's null alignment-key exception is not inferred (ordinary Rust None keys would
+share a group). Intermediate routing can retract/reinsert outputs; callbacks must
+be pure. Transaction checkpoints and saved candidates restore all caches without
+supplier replay. No annotation discovery or recursive dependency inference added.
+
+All three FollowerValuesShadowVariableTest methods and five follower fixtures are
+attributed. Preserve all fifteen change/null assertions and exact A1-once,
+A2/A3/B1/B2-never supplier observations after initialization. The solve fixture is
+THREE leaders, EIGHT followers, TWO values, not three values/eight leaders. Verified
+Random(0).nextInt(3) sequence with local JDK 21: [0,1,1,2,2,2,2,0]. Native stream
+construction/search uses a shared 1,000-move limit and full score checks. Retained
+assignment reconstruction verifies every source follower/leader equality; no
+Java search trace or optimality claim. Null shadow followers count in scoring,
+while null genuine leader variables are excluded, per pinned public forEach docs.
+Additional scores are -25, -20, -25, -34 with native structural deficits -3,-2,-1,0.
+An initial added score assertion omitted that structural component; it failed and
+was corrected before the successful full gate.
+
+Six original regressions check 1,500 generated membership/target changes against
+full scans, representative replacement, empty groups, missing targets, exact
+supplier counts, rollback without replay, panic recovery, finite same-source
+cycles, foreign ports, and construction/saved local-search candidates against
+independent direct scoring. These earn no method credit. Debug gate passes 1,381
+Rust tests (646 adapted, 660 original integration, 75 unit), 69 doctests and 102
+Python tests. Report coverage is 646/4,855 (13.31%), 3,927 pending, 282 excluded,
+zero failed/unverified. Domain model is 7/455 (1.54%). Logs use
+work/shared-reference-*. Source/provenance frozen before the successful gate.
+
+Next: DynamicFollowerValuesShadowVariableTest and all five dynamic_follower
+fixtures were read. Three pending methods: solve 3 leaders/8 initially unassigned
+followers/2 values under 1,000 moves; leader-value changes with nine assertions;
+follower leader reassignment with nine assertions including unassignment to null.
+Unlike static followers, each dynamic follower has a genuine leader variable:
+forEach filters an unassigned leader reference, but retains an assigned follower
+whose leader's value is null. The fixture has no alignmentKey, so do not substitute
+shared supplier semantics for per-follower evaluation. Native follow_reference
+plus map is the relevant starting point. Consider a durable public-API Java/native
+generated follower/dependency comparison, beyond the current native scans. Existing
+benchmarks do not isolate this operator. Full rewrite goal remains unfinished.
+
+Release all-target verification passes all 1,381 tests; live_initialization delivers
+all four events before completion and proves four optima. The large solver release
+target took several minutes to compile; its live compiler was observed and allowed
+to finish. All ten comparison datasets refreshed and current, report verification
+successful and live freshness digest matching. Existing outcomes persist: 512/512
+list moves, 192 valid/189 equal-score list solves, 64 valid/equal-score stream solves,
+128 valid/equal-score heuristic solves, 128/128 pillar transactions and the known
+275/276 Great Deluge agreement. Stream tabu96 Rust/Java 168.371/25.034 ms with equal
+[-44,-484]; exact8 0.175/5.756 ms. These are existing workload measurements, not a
+shared-supplier benchmark or a general performance claim.
+
+Dashboard checked at 1280x900 and 390x844: 13.31%, 646/4,855 methods, domain 7/455,
+all three static follower methods Passed and the three dynamic follower methods
+still Pending. All 29 benchmark cards render; no overflow, stale messages or
+browser errors. Existing server retained, verification browser closed. No frontend
+edits, Impeccable use or delegation. Full rewrite goal remains active.

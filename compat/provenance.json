@@ -9645,6 +9645,51 @@
       "upstream_test": "failsIfTwoValuesDependOnEachOther",
       "local_test": "fails_if_two_values_depend_on_each_other",
       "modifications": "Preserve all three values/durations and the B/C mutual dependency. Native static plan construction rejects the fixed cycle before solving; assert the native FixedCycle error, all required diagnostic fragments and absence of Value A. Earlier configuration validation replaces the Java solve-time IllegalArgumentException; no lifecycle-stage or Java exception-type parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerValuesShadowVariableTest.testSolve",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerValuesShadowVariableTest.java",
+      "upstream_test": "testSolve",
+      "local_test": "test_solve",
+      "modifications": "Preserve generateSolution(3 leaders, 8 followers, 2 values), exact Random(0) follower-to-leader sequence verified with JDK 21, 1000-move budget, full score checks and all follower/leader equality assertions. Native stream-derived snapshots replace mutable annotated fields; reconstruction from the retained assignment uses the same graph as search. Preserve leader-plus-follower count-squared objective. No Java search trace or optimality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerValuesShadowVariableTest.testMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerValuesShadowVariableTest.java",
+      "upstream_test": "testMove",
+      "local_test": "test_move",
+      "modifications": "Preserve all fifteen follower value/null assertions after changing leaders A, B and C. Stable numeric identities, native basic move transactions and shared-reference stream snapshots replace Java entities, annotations and MoveTester. Additional full-score consistency checks grant no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FollowerValuesShadowVariableTest.testUpdateOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/FollowerValuesShadowVariableTest.java",
+      "upstream_test": "testUpdateOnce",
+      "local_test": "test_update_once",
+      "modifications": "Preserve initialization, clear supplier observations, change leader A, then assert A1 supplier once and A2/A3/B1/B2 never. Native per-follower identity observations replace Mockito spies. Shared supplier uses the smallest native tuple ID as representative; no general Java representative-choice or annotation-discovery equivalence claimed."
     }
   ],
   "fixtures": [
@@ -10908,6 +10953,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DependencyValuesShadowVariableTest.java",
       "upstream_test": "failsIfTwoValuesDependOnEachOther diagnostic prefix",
       "modifications": "Retain only the diagnostic prefix specified by the test as public native error text. Graph representation, iterative SCC detection and evaluation are independently implemented. No production Timefold implementation used; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerEntity.follower_shadow_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerEntity.java",
+      "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeaderEntity.follower_shadow_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
+      "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerSolution.follower_shadow_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerSolution.java",
+      "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFollowerConstraintProvider.follower_shadow_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerConstraintProvider.java",
+      "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/follower_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHasValue.follower_shadow_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataHasValue.java",
+      "upstream_test": "fields, supplier alignment, solution generator and scoring contract",
+      "modifications": "Stable numeric follower/leader/value IDs replace Java objects and annotations. Preserve optional leader values, follower leader alignment, 3/8/2 generation with exact seed-0 leader choices, and squared counts over assigned leaders and all followers (including null shadow values). Shared stream supplier and terminal snapshots replace annotated stored values; no additional method credit."
     }
   ]
 }

@@ -1142,3 +1142,33 @@ dependencies and current list predecessors. Existing score directors cache and
 restore resulting contributions on trial/undo; they do not store these projections
 as mutable fields on user entities. Incremental recomputation and dependency-specific
 performance claims are outside this implementation.
+
+## Shared reference suppliers
+
+`follow_shared_reference(left, right, reference, supplier)` derives one value per
+occupied reference group, using its smallest left tuple ID as representative.
+A target update invokes the supplier once per occupied target; an unreferenced
+target invokes none. Every left tuple receives `(left, supplied_value)` under its
+original identity. A missing target is passed to the supplier as `None`; nullable
+supplier outputs can themselves be `Option` values. Alignment is a caller promise
+that all members intend the same derived value. Membership changes recompute the
+affected groups, even when their supplied values compare equal.
+
+This composes persistent ordered group collections and reference indexes. During
+routing, outputs may retract/reinsert or temporarily reflect intermediate paths;
+the full derived state is available after each source update completes. Scoring
+callbacks must be pure. Graph rollback and saved-candidate installation restore
+all caches without re-invoking suppliers, but do not undo external callback side
+effects. Key/payload identity must remain stable. Graph topology stays acyclic;
+cyclic payload references are finite one-hop lookups, not recursive evaluation.
+There is no automatic discovery of alignment keys, no guarantee of Java's general
+representative choice, and no coalescing across separate source updates.
+Keys are ordinary Rust values: using `Option` as a key would group `None` values
+together. Java's special rule that null alignment keys each compute separately is
+not inferred; callers must supply distinct keys for such unaligned rows.
+
+Three attributed follower methods cover solving, value changes and exact shared
+supplier counts. Six original regressions additionally compare generated updates
+with full scans and construction/local search with direct scoring, including
+rollback, unwind, representative replacement, missing targets and same-source
+references. No dedicated performance or generated Java comparison is claimed.

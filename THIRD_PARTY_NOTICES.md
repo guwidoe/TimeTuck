@@ -15,6 +15,10 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/follower_shadow_cases.rs` adapts all three methods in
+  `FollowerValuesShadowVariableTest` and the five `testdomain/shadow/follower`
+  fixtures, including aligned supplier counts and the seeded solution generator.
+
 - `crates/solver/tests/dependency_schedule_cases.rs` adapts all three methods in
   `DependencyValuesShadowVariableTest` and its four `testdomain/shadow/dependency`
   fixtures. The fixed-cycle diagnostic prefix in `crates/solver/src/dependency_graph.rs`

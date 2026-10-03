@@ -872,6 +872,66 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         Ok(out)
     }
 
+    /// Derive one shared value for all left rows referencing the same right ID.
+    /// The supplier receives the left row with the smallest tuple ID and the
+    /// optional target payload. It runs once for each target change in an occupied
+    /// group; targets without followers do not invoke it. Membership changes also
+    /// recompute the affected groups. The supplier must return the same intended
+    /// result for every member of a group; alignment is an explicit caller promise.
+    ///
+    /// After each source update finishes routing, every left row has `(left, value)`
+    /// under its original ID, including groups with missing targets. Intermediate
+    /// routing may retract/reinsert output rows; downstream callbacks must be pure.
+    /// Rollback and saved candidates restore caches without rerunning the supplier.
+    /// This composes keyed collection and reference indexes; it does not discover
+    /// annotation dependencies or cache supplier results across separate updates.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let followers = b.source::<usize, usize>();
+    /// let leaders = b.source::<usize, i64>();
+    /// let derived = b.follow_shared_reference(followers.port(), leaders.port(),
+    ///     |leader| *leader, |_, value| value.copied().unwrap_or(0))?;
+    /// b.score("derived", &derived, |(_, value)| SimpleScore::new(*value))?;
+    /// let mut graph = b.build();
+    /// let mut t = graph.transaction();
+    /// t.apply(&followers, TupleChange::put(0, 7))?;
+    /// t.apply(&followers, TupleChange::put(1, 7))?;
+    /// t.apply(&leaders, TupleChange::put(7, 21))?;
+    /// t.commit()?;
+    /// assert_eq!(graph.score(), SimpleScore::new(42));
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn follow_shared_reference<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        U: Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        reference: impl Fn(&L) -> J + 'a,
+        supplier: impl Fn(&L, Option<&R>) -> U + 'a,
+    ) -> Result<StreamPort<I, (L, U)>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let reference = Rc::new(reference);
+        let group_key = reference.clone();
+        let groups = self.group_list(left, move |row| (group_key(row), row.clone()))?;
+        let targets = self.follow_reference(&groups, right, |(key, _)| Some(key.clone()))?;
+        let supplied = self.map(&targets, move |((_, members), target)| {
+            supplier(&members[0], target.as_ref())
+        })?;
+        let shared = self.follow_reference(left, &supplied, move |row| Some(reference(row)))?;
+        let available = self.filter(&shared, |(_, value)| value.is_some())?;
+        self.map(&available, |(row, value)| {
+            (row.clone(), value.as_ref().expect("filtered value").clone())
+        })
+    }
+
     pub fn join_equal<
         I: Ord + Clone + 'static,
         J: Ord + Clone + 'static,

@@ -787,3 +787,27 @@ Automatic field discovery, arbitrary annotation semantics, recursive fixed point
 general Java inconsistency parity and dedicated dependency performance comparisons
 remain unimplemented or unverified. Existing refreshed timings do not measure this
 new evaluator.
+
+## Shared follower suppliers
+
+All three FollowerValuesShadowVariableTest methods are adapted with five source
+fixtures. The solve fixture has three leaders, eight followers and two values;
+its exact Random(0) follower-to-leader sequence was checked using JDK 21. A native
+1,000-move cap and full-score checks accompany every source follower/leader equality
+assertion. All fifteen move assertions preserve null followers and unchanged
+followers after changing an unrelated leader. Supplier observations are reset after
+initialization: changing leader A invokes A1 exactly once and A2/A3/B1/B2 never.
+Stable IDs and stream snapshots replace objects, Mockito and annotated fields.
+
+`follow_shared_reference` groups explicit references and evaluates a supplier using
+the smallest native tuple ID, broadcasting its result to every group member.
+The caller promises that members share the same intended result. General Java
+representative choice, automatic alignment/dependency discovery and annotation
+semantics are not claimed. Native membership changes recompute affected groups;
+updates are not coalesced across separate source changes. Six original regressions
+cover 1,500 generated changes against a scan, exact target-update supplier counts,
+representative changes, empty/missing groups, rollback, supplier panic, finite
+same-source cycles, foreign ports and construction/saved search candidates against
+independent full scoring. They add no upstream method credit. Existing benchmarks
+do not isolate this operator and no direct Java generated follower comparison is
+claimed by this increment.
