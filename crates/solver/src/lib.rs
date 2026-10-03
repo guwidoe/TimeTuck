@@ -233,3 +233,6 @@ pub use solver_plan::{
     ExactPhaseConfig, ExactPhaseTermination, MixedSolverPhase, MixedSolverPlan, SolverPhase,
     SolverPlan,
 };
+
+mod step_counting;
+pub use step_counting::{StepCountingHillClimbing, StepCountingMode};

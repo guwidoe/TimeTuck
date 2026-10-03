@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination and constraint streams cover 569 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination and constraint streams cover 573 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -43,7 +43,8 @@ See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 Use `solve`, `solve_list` or `solve_mixed` to construct and improve a model with
-shared evaluation budgets and cancellation. SolverPlan and MixedSolverPlan can mix
+shared evaluation budgets and cancellation. Local search also supports all five
+step-counting hill-climbing modes, with 600 original Java/Rust/Python comparisons. SolverPlan and MixedSolverPlan can mix
 local search with exact phases; only fully exhausted enumeration proves optimality.
 Stream counterparts use a fresh graph
 factory for each phase. Results include partial progress, retained solutions and

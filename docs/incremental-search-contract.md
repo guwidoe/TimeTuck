@@ -723,3 +723,52 @@ Six original unit methods check actual scoped and stream algorithms with control
 clocks, both mixed construction orders, early picks, independent assignment/score
 validation, partial and complete prefixes, diagnostics, competing limits and empty
 or optional-only models. These regressions add no adapted upstream method credit.
+
+
+## Step-counting hill climbing
+
+Acceptance::StepCountingHillClimbing { period, mode } starts a fresh threshold
+session for each local-search phase. StepCountingHillClimbing exposes the same
+policy independently. The initial threshold is the starting score. A trial is
+accepted when its score is at least the current score OR at least the threshold.
+This permits deterioration within the threshold while still allowing recovery after
+a selected rejected fallback. A threshold is independent of the retained global best.
+
+Five StepCountingMode values define the reset counter:
+
+- Step counts every completed step, including a selected rejected fallback.
+- EqualOrImprovingStep counts steps scoring at least the previous completed step.
+- ImprovingStep counts strict improvements over the previous step, including
+  recovery that remains below an earlier global best.
+- SelectedMove counts every scored candidate passed to the acceptor, even rejected
+  or unselected trials. It does not count unscored neighborhood prefetch.
+- AcceptedMove counts every trial the policy accepts, including unselected trials.
+
+The threshold stays fixed throughout a scan. At a completed step reaching the
+period, it becomes that step's score and the counter resets to zero. Excess trial
+counts do not carry to the next interval. Native count() is capped at the period,
+which avoids overflow even at u64::MAX. No history buffer is allocated. Trial
+modes count repeated accepts calls; other modes do not mutate their counter during
+trial checks. Diagnostic rescoring bypasses acceptance and cannot advance a counter.
+
+All six local-search model/backend paths and ordered solver plans share this policy.
+FirstAccepted may count one accepted trial per step; BestAccepted can count several.
+Zero periods fail validation before scoring or factory calls, including skipped
+future phases. Native periods are u64, so negative signed configuration is not an
+exposed input. This does not earn credit for the upstream negative-size test.
+Owned decimal, fixed/bendable and multi-level scores use their native ordering.
+
+The pinned Community StepCountingHillClimbingAcceptorTest supplies four full adapted
+methods: all 109 acceptance assertions in its three step-mode sequences, their six
+completed scores per sequence, and zero-size rejection. Provenance and notices record
+the adaptations. The two trial-counting modes additionally have original regression
+coverage and are checked through public Java configuration APIs. Algorithm background:
+[Timefold step-counting hill climbing](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/local-search#step-counting-hill-climbing).
+
+scripts/step_counting_checks.py compares 600 original cases (seed 20261218): all five
+modes, periods 1/2/7 and first/best accepted selection on required-variable graph
+problems, including plateaus, fallback/recovery, pins and zero steps. Java and both
+Rust backends agree on final assignments and scores. Independent Python enumeration
+also checks native completed/accepted/unimproved counts and stop reasons, over 6,180
+reference steps. Java internal traces and list/mixed differential equivalence are
+not asserted. These generated checks add no source-method credit.

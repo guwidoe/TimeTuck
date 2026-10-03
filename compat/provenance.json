@@ -8535,6 +8535,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every assertion, decimal literal/constant and shape. Const-generic arrays replace Java score definitions; dimension-checked FromStr replaces definition parsing. Exact Decimal factors and u32 powers replace tested double literals. Native Result/Option/borrowed lookup, ZERO and Rust Eq/Ord/Hash helpers replace Java plumbing. No JVM ABI or mutable-array parity claimed."
+    },
+    {
+      "id": "StepCountingHillClimbingAcceptorTest.typeStep",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/stepcountinghillclimbing/StepCountingHillClimbingAcceptorTest.java",
+      "upstream_test": "typeStep",
+      "local_path": "crates/solver/tests/step_counting_hill_climbing.rs",
+      "local_test": "type_step",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve period 2, initial score -1000, every acceptance assertion (including repeated calls and ties) and all six completed-step scores. Native threshold sessions replace Java solver/phase/step scopes; earlier step-scope references read the same phase current score. Global-best updates are irrelevant to the threshold policy. Drop ends the phase; zero period yields a native configuration error. Signed negative size remains pending because the native period is u64. No Java lifecycle or trace parity claimed."
+    },
+    {
+      "id": "StepCountingHillClimbingAcceptorTest.typeEqualOrImprovingStep",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/stepcountinghillclimbing/StepCountingHillClimbingAcceptorTest.java",
+      "upstream_test": "typeEqualOrImprovingStep",
+      "local_path": "crates/solver/tests/step_counting_hill_climbing.rs",
+      "local_test": "type_equal_or_improving_step",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve period 2, initial score -1000, every acceptance assertion (including repeated calls and ties) and all six completed-step scores. Native threshold sessions replace Java solver/phase/step scopes; earlier step-scope references read the same phase current score. Global-best updates are irrelevant to the threshold policy. Drop ends the phase; zero period yields a native configuration error. Signed negative size remains pending because the native period is u64. No Java lifecycle or trace parity claimed."
+    },
+    {
+      "id": "StepCountingHillClimbingAcceptorTest.typeImprovingStep",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/stepcountinghillclimbing/StepCountingHillClimbingAcceptorTest.java",
+      "upstream_test": "typeImprovingStep",
+      "local_path": "crates/solver/tests/step_counting_hill_climbing.rs",
+      "local_test": "type_improving_step",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve period 2, initial score -1000, every acceptance assertion (including repeated calls and ties) and all six completed-step scores. Native threshold sessions replace Java solver/phase/step scopes; earlier step-scope references read the same phase current score. Global-best updates are irrelevant to the threshold policy. Drop ends the phase; zero period yields a native configuration error. Signed negative size remains pending because the native period is u64. No Java lifecycle or trace parity claimed."
+    },
+    {
+      "id": "StepCountingHillClimbingAcceptorTest.zeroStepCountingHillClimbingSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/stepcountinghillclimbing/StepCountingHillClimbingAcceptorTest.java",
+      "upstream_test": "zeroStepCountingHillClimbingSize",
+      "local_path": "crates/solver/tests/step_counting_hill_climbing.rs",
+      "local_test": "zero_step_counting_hill_climbing_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve zero-period constructor rejection in STEP mode. Native AcceptanceError replaces IllegalArgumentException; SimpleScore::ZERO supplies the native session initial score absent from the Java constructor. Signed negative-size method remains pending because native periods use u64."
     }
   ],
   "fixtures": [
@@ -9148,6 +9208,19 @@
       ],
       "modifications": "Map v1/v2/v3 to 1/2/3, preserving ranges [1,2] and [1,3], then apply the two provider tests assigned lists. Fixture only; no extra method credit.",
       "id": "TestdataListEntityProvidingSolution.two_opt_fixture"
+    },
+    {
+      "id": "AbstractAcceptorTest.step_counting_score_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/AbstractAcceptorTest.java",
+      "upstream_test": "buildMoveScope",
+      "local_path": "crates/solver/tests/step_counting_hill_climbing.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Map initialized SimpleScore move wrappers to native structurally-zero scores; move mocks and unrelated scope metadata omitted. Fixture only, no separate method credit."
     }
   ]
 }

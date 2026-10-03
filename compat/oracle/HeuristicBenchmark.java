@@ -34,12 +34,14 @@ public final class HeuristicBenchmark {
         return copy;
     }
     public static void main(String[] args) throws Exception {
-        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu steps warmup samples");
+        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu|step steps warmup samples");
         String algorithm = args[0];
         int steps = Integer.parseInt(args[1]), warmup = Integer.parseInt(args[2]), samples = Integer.parseInt(args[3]);
         if (steps < 1 || warmup < 0 || samples < 1) throw new IllegalArgumentException("invalid counts");
         var acceptor = switch (algorithm) {
             case "hill" -> new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING));
+            case "step" -> new LocalSearchAcceptorConfig().withStepCountingHillClimbingSize(7)
+                .withStepCountingHillClimbingType(ai.timefold.solver.core.config.localsearch.decider.acceptor.stepcountinghillclimbing.StepCountingHillClimbingType.STEP);
             case "tabu" -> new LocalSearchAcceptorConfig().withEntityTabuSize(2);
             default -> throw new IllegalArgumentException("unknown algorithm");
         };

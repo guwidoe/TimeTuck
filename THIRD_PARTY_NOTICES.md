@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/step_counting_hill_climbing.rs` preserves three step-mode
+  methods and the zero-size check from `StepCountingHillClimbingAcceptorTest.java`,
+  with initialized score fixtures from `AbstractAcceptorTest.java`. The signed
+  negative-size method remains pending; native periods use u64.
+
 - `crates/solver/tests/membership_join_cases.rs` from eight complete deterministic
   size, membership and key-reuse methods (and their inline fixtures) in
   `ContainingIndexerTest.java`, `ContainingAnyOfIndexerTest.java` and

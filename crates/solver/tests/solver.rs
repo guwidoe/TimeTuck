@@ -1321,3 +1321,6 @@ fn shared_steps_keep_cancellation_validation_and_time_precedence() {
 
 #[path = "support/solver_exact_cases.rs"]
 mod exact_cases;
+
+#[path = "support/solver_step_counting_cases.rs"]
+mod step_counting_cases;

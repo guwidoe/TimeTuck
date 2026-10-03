@@ -13,10 +13,14 @@ use timetuck::{
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if args.len() != 5 {
-        return Err("expected hill|tabu steps warmup samples".into());
+        return Err("expected hill|tabu|step steps warmup samples".into());
     }
     let acceptance = match args[1].as_str() {
         "hill" => Acceptance::HillClimbing,
+        "step" => Acceptance::StepCountingHillClimbing {
+            period: 7,
+            mode: timetuck::StepCountingMode::Step,
+        },
         "tabu" => Acceptance::VariableTabu {
             tenure: 2,
             aspiration: true,

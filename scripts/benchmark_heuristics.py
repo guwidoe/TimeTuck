@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify and measure full-scoring hill-climbing and tabu workloads in both engines."""
+"""Verify and measure full-scoring hill-climbing, tabu and step-counting workloads in both engines."""
 import argparse
 import json
 import platform
@@ -65,7 +65,7 @@ def main():
         case['initial']=[0 if value is None else value for value in case['initial']]
     optima={case['id']:optimum(case) for case in cases}
     checks=[]
-    for algorithm in ['hill','tabu']:
+    for algorithm in ['hill','tabu','step']:
         runs={runtime:run(runtime,algorithm,cases,0,1) for runtime in bases}
         for i,case in enumerate(cases):
             entry={'case':case, 'algorithm':algorithm, 'optimal_score':list(optima[case['id']]),
@@ -73,7 +73,7 @@ def main():
             entry['equal_scores']=entry['java']['score']==entry['rust']['score']
             checks.append(entry)
     results=[]
-    for algorithm in ['hill','tabu']:
+    for algorithm in ['hill','tabu','step']:
         for index,count in enumerate([32,96]):
             case=workload(count)
             measurements={'java':[],'rust':[]}
@@ -81,7 +81,7 @@ def main():
                 order=['java','rust'] if (fork+index)%2==0 else ['rust','java']
                 for runtime in order:
                     measurements[runtime].extend(run(runtime,algorithm,[case],args.warmup,args.samples)[0])
-            entry={'name':f'{"Hill climbing" if algorithm=="hill" else "Tabu"} · {count} variables',
+            entry={'name':f'{dict(hill="Hill climbing",tabu="Tabu",step="Step counting")[algorithm]} · {count} variables',
                    'algorithm':algorithm,'case':case,'unit':'ms / solve','optimal_score':[0,0],
                    'samples':measurements}
             for runtime,rows in measurements.items():
@@ -100,13 +100,13 @@ def main():
         raise RuntimeError('Sources changed during heuristic comparison')
     cpu=next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
-            'reference':REF,'artifacts':artifacts,'config':{**vars(args),'seed':20261001,'iterations':1},
+            'reference':REF,'artifacts':artifacts,'config':{**vars(args),'seed':20261001,'iterations':1, 'step_counting_period':7},
             'validation':{'total':len(checks),'passed':len(checks),'equal_scores':sum(c['equal_scores'] for c in checks),
                           'optimal':{runtime:sum(c[runtime]['score']==c['optimal_score'] for c in checks) for runtime in bases},
                           'cases':checks},
             'workloads':results,
             'environment':{'cpu':cpu,'platform':platform.platform(),'rust':version(['rustc','--version']),'java':version(['java','-version'])},
-            'methodology':'Original complete graph-assignment inputs. Deterministic original-order change moves, best-accepted selection, first tie, best-rejected fallback, fixed completed-step limit. Hill climbing accepts ties; tabu uses tenure 2 and global-best aspiration. Full score recalculation in both engines (Java EasyScoreCalculator; one global Rust constraint); no incremental-scoring speed claim. All input assignments retained, including pins. Timed: per-solve setup, search, and complete assignment/score validation. Excluded: process/JVM startup, input parsing, one-time model/network/factory setup, output encoding. Warmups precede samples in each fresh process; runtime order alternates. Every sample is independently rescored in Python and must retain at least the initial quality. Scores and score-call counts accompany timings; quality agreement is reported separately from validity. Small validation cases also have independently enumerated optima. These workloads do not establish general solver, random-search, memory or production-scale performance.'}
+            'methodology':'Original complete graph-assignment inputs. Deterministic original-order change moves, best-accepted selection, first tie, best-rejected fallback, fixed completed-step limit. Hill climbing accepts ties; tabu uses tenure 2 and global-best aspiration; step counting uses STEP mode with period 7 and replaces the threshold at completed-step boundaries. Full score recalculation in both engines (Java EasyScoreCalculator; one global Rust constraint); no incremental-scoring speed claim. All input assignments retained, including pins. Timed: per-solve setup, search, and complete assignment/score validation. Excluded: process/JVM startup, input parsing, one-time model/network/factory setup, output encoding. Warmups precede samples in each fresh process; runtime order alternates. Every sample is independently rescored in Python and must retain at least the initial quality. Scores and score-call counts accompany timings; quality agreement is reported separately from validity. Small validation cases also have independently enumerated optima. These workloads do not establish general solver, random-search, memory or production-scale performance.'}
     (ROOT/'work/heuristic-performance.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'Heuristic validation: {len(checks)} valid; {report["validation"]["equal_scores"]} equal-score cases',flush=True)
 

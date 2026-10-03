@@ -146,3 +146,12 @@ for a half-open span, post-removal insertion and 0/1 reversal. The original 256
 cases are retained and 128 span cases are added (seed 20261124). All 384 cases /
 1,348 operations compare candidate/undo/commit states and four derived shadows.
 This does not add Java sublist-search timing or pin-validation evidence.
+
+
+StepCountingOracle.java is an original adapter using the pinned Community public
+solver configuration and easy scoring APIs. Input is the six-field SolverOracle
+model followed by counting-mode enum name, positive period, step cap and first/best
+selection. scripts/step_counting_checks.py checks it against both native scoring
+backends and an independent Python neighbor enumerator. It exposes no Java internal
+acceptor state, counters or traces. HeuristicBenchmark also accepts `step`, selecting
+STEP mode with period 7 for matched full-scoring measurements.

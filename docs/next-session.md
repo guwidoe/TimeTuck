@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 569 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 11 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
+- 573 fully adapted source test methods (160 score + 10 basic move + 34 list move + 39 provider + 15 acceptor + 4 construction + 106 collector + 185 stream + 20 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -51,6 +51,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Scoped incremental basic/list/mixed score networks and atomic scored-move transactions.
   List scopes cover entity lists and value identities/shadows, with conservative
   neighbor invalidation and deferred cache updates.
+- StepCountingHillClimbing supports all five counting modes with a positive u64 period,
+  fixed per-scan thresholds and phase-local state. Four pinned methods are adapted;
+  600 original public-Java/native/Python cases check final assignments and scores.
 - Lazy change/swap neighborhoods and bounded deterministic local search,
   strict-improvement, hill-climbing, late acceptance, variable tabu or seeded simulated annealing; explicit
   evaluation/step limits and optional stagnation, score-target and feasibility stops;
@@ -3075,3 +3078,78 @@ infeasible under their fixed cap. List two-opt16 0.388/15.487, two-opt32 1.426/2
 Rust/Java scores remain [0,-1250]/[0,-1254] and [0,-1964]/[0,-2070].
 Construction32 remains [0,-1080]/[0,-1062]. These fixed-workload observations do
 not measure the new exact-phase orchestration or establish significant speed changes.
+
+
+## Step-counting hill climbing — latest increment
+
+Added step_counting.rs with StepCountingMode (Step, EqualOrImprovingStep,
+ImprovingStep, SelectedMove, AcceptedMove) and StepCountingHillClimbing<S>.
+Acceptance::StepCountingHillClimbing { period, mode } integrates through the shared
+Acceptor, so all basic/list/mixed scoped/stream searches and solver plans support it.
+Candidate acceptance is candidate >= current OR candidate >= threshold. Thresholds
+start at the phase initial score. At a completed step reaching the period, install
+that step's score and reset the count; excess trials never carry into the next
+interval. No threshold changes mid-scan. Qualifying steps compare with the previous
+step rather than global best; trial modes count every check or every accepted check,
+including unselected/repeated trials. count() saturates at the period, so u64::MAX
+needs no special allocation or arithmetic. Zero period validates before any work.
+Owned decimal and multi-level scores retain native ordering and cloned state.
+
+Pinned StepCountingHillClimbingAcceptorTest was read in full; four full methods are
+adapted in step_counting_hill_climbing.rs, preserving all 109 acceptance assertions
+and three six-step sequences, plus zero-size rejection. Provenance and notices include
+AbstractAcceptorTest's initialized score fixture. negativeStepCountingHillClimbingSize
+remains pending because native periods use u64. No production implementation source
+was inspected/copied. Public 2.7.0 javap signatures verified all five config modes.
+Timefold's public local-search documentation supplies the non-worsening acceptance
+path and threshold description; see incremental-search-contract.md.
+
+Six original standalone regressions cover trial counters/deferred threshold changes,
+no excess carry, rejected fallback recovery, previous-step counting, maximum periods,
+owned decimal ordering, independent cloned/fresh sessions and invalid configuration.
+Two original solver regressions exercise all six model/backend paths, both selection
+policies, periods 1/2/7 and two-phase handoffs, including validation of a phase that an
+exact proof would otherwise skip. Existing search engines need no new per-model logic.
+
+Original StepCountingOracle.java uses only public Community solver configuration
+APIs. step_counting_oracle.rs runs scoped and stream backends. step_counting_checks.py
+uses seed 20261218 and independent Python neighbor enumeration for 600 cases covering
+five modes, periods 1/2/7, first/best accepted selection, fallback, plateaus, pins and
+zero steps. All final Java/Rust assignments and scores match; native step/acceptance/
+stagnation counters and reasons match Python across 6,180 reference steps. Java
+internal counters/traces and list/mixed differential equivalence are not claimed.
+Four Python tests check the reference, counter boundaries, reproducibility and
+corrupted response rejection. New checks are nested under solver_differential as
+step_counting_checks and surfaced in the dashboard. Failures fail the parent command.
+
+HeuristicBenchmark and heuristic_benchmark now accept the internal `step` algorithm,
+using STEP mode and period 7. benchmark_heuristics.py adds 32/96-variable full-scoring
+workloads with the existing 50-step cap and sample protocol, expanding its small
+validation to 96 cases and the dashboard from 19 to 21 timing cards. Only this counting
+mode is timed; no incremental step-counting or general scalability claim.
+
+Development gate passes 1,099 Rust tests: 573 adapted, 464 original integration and
+62 unit. All 44 doctests and 91 Python tests pass. Coverage is 573/4,855 (11.80%),
+pending 4,000, excluded 282, failed/unverified zero. Search algorithms reach 19/158
+(12.03%). Java/Rust/Python comparisons add no additional source-method credit.
+Logs use work/step-counting-*.log. The full rewrite remains active and incomplete.
+Next gaps include lifecycle/problem-change support and the remaining search/stream
+semantics; do not treat this acceptance increment as completion of the rewrite.
+
+Release tests also pass all 1,099 cases. All nine correctness/performance sections
+were refreshed and are current; /api/freshness matches the report verification_digest.
+The 600-case step-counting check passes again within the parent solver comparison.
+Heuristic validation reports 96/96 valid and equal-score cases. Browser confirms
+11.80% overall, search 12.03%, all 21 timing cards, the 600/600 evidence row, no stale
+messages or page errors, and no horizontal overflow at desktop or 390px width.
+Browser closed; existing dashboard server remains running.
+
+New STEP/period-7 warmed full-scoring median Rust/Java ms: 32 variables 2.100/8.246,
+96 variables 13.807/15.312. Both return [0,0] at 32 and [-44,-22] at 96; the latter
+is infeasible under the fixed 50-step cap. Existing warmed medians: exact6
+0.011/4.329, exact8 0.137/5.665; incremental stream hill32 46.566/12.815,
+hill96 176.633/26.188, tabu32 48.724/15.190, tabu96 179.627/25.831. Both 96-variable
+stream outcomes remain [-44,-484]. List two-opt16 0.333/9.382 and two-opt32
+0.906/12.497 retain Rust/Java quality differences [0,-1250]/[0,-1254] and
+[0,-1964]/[0,-2070]; construction32 remains [0,-1080]/[0,-1062]. These warmed
+fixed-workload observations do not prove general speedups or significant changes.

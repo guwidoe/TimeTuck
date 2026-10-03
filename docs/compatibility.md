@@ -435,3 +435,13 @@ original regression coverage, including partial construction and owned decimals.
 These original orchestration tests earn no upstream method credit. They do not
 establish Java phase/trace equivalence or benchmark the new exact orchestration;
 existing timed workloads retain their standalone algorithms and integer scores.
+
+
+Step-counting hill climbing adds four full adapted methods from the pinned
+StepCountingHillClimbingAcceptorTest (109 acceptance assertions across three
+step-counting sequences, plus zero-size rejection). Its negative-size method remains
+pending because native periods are u64. All five modes integrate with basic/list/
+mixed local search in scoped and stream scoring. Six hundred additional original
+public-Java/native/Python cases verify deterministic final assignments and scores;
+native counters/reasons are checked separately. These add no further source-method
+credit or Java internal trace claim. See incremental-search-contract.md.

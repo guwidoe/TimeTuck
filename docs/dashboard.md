@@ -377,3 +377,21 @@ Java public Moves.change(Range, ElementPosition, reverse), native cached list-st
 views and Python slicing agree on candidate/undo/commit states and all four derived
 shadows. The report records sublist_seed separately. This is move evidence; existing
 list/mixed search timings retain their original neighborhoods.
+
+
+## Step-counting search evidence
+
+The solver comparison also records solver_differential.step_counting_checks:
+600 original cases with seed 20261218, five counting modes, three periods and
+first/best accepted selection. Java and Rust final assignments/scores are compared
+to independent Python enumeration; Python also verifies Rust scoped/stream counters
+and termination reasons. This record inherits the enclosing source fingerprint and
+adds no adapted-method credit. Its failures make differential_solver.py fail.
+
+The full-scoring heuristic benchmark now includes STEP mode, period 7, at 32 and
+96 variables. It uses the same 50-step cap, first-tie best-accepted selection and
+best-rejected fallback as its existing workloads. Every returned assignment is
+independently rescored. Six workloads now occupy this section (21 across the full
+dashboard), with quality beside each timing. Small validation expands to 96 runs,
+including 32 step-counting cases; validity, equal scores and optimality are separate.
+Other counting modes and incremental step-counting timings are not benchmarked.
