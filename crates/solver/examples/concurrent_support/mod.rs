@@ -1,6 +1,7 @@
 //! Adapted Community concurrent domain/supplier/scoring fixtures, Apache-2.0.
 //! See compat/provenance.json. Times are minute offsets from 2025-01-01 09:00.
 use timetuck::*;
+pub mod cache;
 type Key = (usize, u8); // ready, shared start, finish
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Visit {
@@ -186,6 +187,23 @@ impl Schedule {
         ListStreamSources<usize>,
         StreamConstraint<(), Vec<Visit>>,
     ) {
+        self.graph_observed(owners, |_| {})
+    }
+    pub fn graph_observed(
+        &self,
+        owners: usize,
+        observe: impl Fn(usize) + 'static,
+    ) -> (
+        StreamGraph<'static, HardSoftScore>,
+        ListStreamSources<usize>,
+        StreamConstraint<(), Vec<Visit>>,
+    ) {
+        let mut groups = std::collections::BTreeMap::<usize, Vec<usize>>::new();
+        for (v, &root) in self.groups.iter().enumerate() {
+            groups.entry(root).or_default().push(v);
+        }
+        let initial =
+            cache::CachedSchedule::new(&groups.into_values().collect::<Vec<_>>(), self.count);
         let mut b = StreamGraphBuilder::new();
         let s = ListStreamSources::new(&mut b);
         let lists = b
@@ -193,7 +211,7 @@ impl Schedule {
             .unwrap();
         let fixture = self.clone();
         let projected = b
-            .map(&lists, move |rows| {
+            .map_cached(&lists, initial, move |cache, rows| {
                 let mut lists = vec![vec![]; owners];
                 for (e, list) in rows.iter() {
                     lists[*e] = list.clone();
@@ -205,7 +223,8 @@ impl Schedule {
                 for list in &mut lists {
                     list.retain(|v| seen.insert(*v));
                 }
-                let visits = fixture.project(&lists).0;
+                let (visits, calls) = cache.project(&lists);
+                observe(calls);
                 let score = HardSoftScore::new(
                     -(visits.iter().filter(|v| v.inconsistent).count() as i64),
                     -visits

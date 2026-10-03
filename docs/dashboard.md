@@ -13,6 +13,7 @@ python3 scripts/differential_lists.py
 python3 scripts/benchmark_lists.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
+python3 scripts/benchmark_pillars.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
 python3 scripts/dashboard_server.py
 ```
@@ -27,8 +28,8 @@ The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
 ## Reading the numbers
 
 The percentage is **passing adapted upstream methods / statically discovered
-annotated Java test methods**. The current implemented slice has 215 / 4,855
-(4.428%). This includes 282 explicit JVM integration exclusions in the denominator;
+annotated Java test methods**. Read the current verified count and percentage from
+the generated report. Its denominator includes explicit JVM integration exclusions;
 removing work from scope cannot increase the displayed percentage.
 
 The scanner recognizes `@Test`, `@ParameterizedTest`, `@RepeatedTest`, `@TestFactory`,

@@ -9944,7 +9944,7 @@
       "upstream_test": "solveNoConcurrentValues",
       "local_path": "crates/solver/tests/concurrent_cases.rs",
       "local_test": "solve_no_concurrent_values",
-      "modifications": "Preserve the 3-owner/6-visit empty initial fixture, 1000-move limit, full-score verification and final feasibility. Add native completeness and independent closure-scoring checks. Native deterministic construction/local search replaces Java search, with no trace/quality parity claim."
+      "modifications": "Preserve the 3-owner/6-visit empty initial fixture, 1000-move limit, full-score verification and final feasibility. Add native completeness and independent closure-scoring checks. Native deterministic construction/local search replaces Java search, with no trace/quality parity claim. Scoring now uses owned per-input CachedSchedule state through map_cached; full independent closure scoring is checked for every complete normalized list snapshot, with warm-cache rollback and saved candidates tested separately."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -9959,7 +9959,7 @@
       "upstream_test": "solveWithConcurrentValues",
       "local_path": "crates/solver/tests/concurrent_cases.rs",
       "local_test": "solve_with_concurrent_values",
-      "modifications": "Preserve the 3-owner/6-visit fixture, groups A=[0,1] and B=[2,3,4], empty initial lists, 1000-move limit, full-score verification and final feasibility. Independent closure/relaxation scoring replaces the source assertion easy calculator. Native deterministic search replaces Java search; no trace/quality parity claim."
+      "modifications": "Preserve the 3-owner/6-visit fixture, groups A=[0,1] and B=[2,3,4], empty initial lists, 1000-move limit, full-score verification and final feasibility. Independent closure/relaxation scoring replaces the source assertion easy calculator. Native deterministic search replaces Java search; no trace/quality parity claim. Scoring now uses owned per-input CachedSchedule state through map_cached; full independent closure scoring is checked for every complete normalized list snapshot, with warm-cache rollback and saved candidates tested separately."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12042,7 +12042,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
       "upstream_test": "required list and owner identity",
       "local_path": "crates/solver/examples/concurrent_support/mod.rs",
-      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture projects complete list snapshots through an owned cache and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12081,7 +12081,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
       "upstream_test": "neighbor/index/cascading fields, ready/start/finish suppliers, group alignment, inconsistency and expected values",
       "local_path": "crates/solver/examples/concurrent_support/mod.rs",
-      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture projects complete list snapshots through an owned cache and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12120,7 +12120,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
       "upstream_test": "inconsistent hard penalty and assigned consistent finish-time soft penalty",
       "local_path": "crates/solver/examples/concurrent_support/mod.rs",
-      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture projects complete list snapshots through an owned cache and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12159,7 +12159,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentAssertionEasyScoreCalculator.java",
       "upstream_test": "independent inconsistency and finish-time score",
       "local_path": "crates/solver/examples/concurrent_support/mod.rs",
-      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture projects complete list snapshots through an owned cache and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12185,7 +12185,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
       "upstream_test": "solution lists and scoring fields",
       "local_path": "crates/solver/examples/concurrent_support/mod.rs",
-      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture recomputes the full projection and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit."
+      "modifications": "Explicit dependency keys, shared evaluation and minute offsets from 2025-01-01 09:00 replace annotations and LocalDateTime. Disjoint fixed groups align start nodes; dynamic previous-finish edges drive cycles and recovery. Independent transitive closure and longest-path relaxation implement expected-score checks. Graph fixture projects complete list snapshots through an owned cache and normalizes private transient duplicate ownership while owner sources arrive; final validated assignments are unchanged. No new method credit. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12289,7 +12289,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12302,7 +12302,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -12315,7 +12315,7 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
-      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence."
+      "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference."
     }
   ]
 }

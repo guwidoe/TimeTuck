@@ -1,7 +1,7 @@
 //! Cached adaptation of Community concurrent test fixtures; Apache-2.0.
-//! See compat/provenance.json. This is a second native evaluator for the public
-//! comparison, independent of the full projection used by the scoring fixture.
-use super::concurrent_support::Visit;
+//! See compat/provenance.json. Owned cache for concurrent stream scoring and
+//! the public comparison; full projection remains a separate reference.
+use super::Visit;
 use timetuck::*;
 type Key = (usize, u8);
 #[derive(Clone)]

@@ -5617,3 +5617,62 @@ domain model 32/455, all seven concurrent methods Passed, new full/cached evalua
 evidence with 128/128 native cases / 2,385 states and 21 Java error cases, and 29
 benchmark cards. No overflow, page errors or stale messages. Browser verification
 closed; the existing localhost:8765 server remains running (no restart needed).
+
+
+## Owned cached projections in concurrent construction and search
+
+StreamGraphBuilder::map_cached now owns a cloneable cache per input identity.
+Snapshots share the persistent state-map root; an update clones only that identity's
+cache and stages the callback result before installation. Retraction discards the
+identity's cache; reinsertion starts fresh. Diagnostic rebuild clears caches and
+replays current rows. Undo and saved candidates restore snapshots without callback
+replay. Clone must isolate mutable state, and cache history must never affect the
+output for a given current input and immutable facts. Stateless map is unchanged.
+
+The concurrent scoring fixture now uses map_cached with CachedSchedule. It still
+normalizes transient duplicate ownership, projects complete owner-list snapshots,
+and independently asserts reference_score after each projection. The public oracle
+retains its second cache evaluator and full projection: all fields must agree.
+This completes the concrete integration proposed above; actual construction and
+local search now use the owned cache, not merely the second comparison evaluator.
+
+Five original operator tests cover per-identity state, warm rollback/rebuild,
+retraction/reinsertion, callback panic and downstream failure, sparse cache clones,
+history-dependent contract violations, and foreign ports. Two domain regressions
+verify full concurrent fields/score and zero supplier calls on republishing restored
+lists; construction and ten bounded hill-climbing/tabu searches match independent
+scoring, including saved candidates. No new upstream method credit is claimed.
+
+Final-source debug gate passes 1,437 Rust tests (671 adapted, 691 original
+integration, 75 unit), 74 doctests, and 131 Python tests. Clippy is warning-free.
+Release/comparison refresh is session 79441, logs work/cached-projection-*. Do not
+restart quiet compilation without evidence that it has terminated.
+
+Remaining limits: the concurrent fixture still builds complete normalized lists,
+clones its previous-visit metadata, and rebuilds topology on edge changes. Alias
+supplier counts are not Java parity. Existing benchmark cards do not isolate this
+cache change; make no new speed claim. A next useful step is a scoped concurrent
+scoring benchmark with equal fixed operations and fully checked output fields,
+retaining the 21 known Java partial-group runtime errors in correctness reporting.
+
+Optimized all-target verification passes all 1,437 tests after a 6m51s build.
+The live initialization example delivers all four initialization events before
+completion and reaches all four proven optima. A provenance wording correction
+was followed by another complete captured debug run, exit 0, with matching before/
+after/current verification fingerprints. No Rust sources changed after the full gate.
+The public concurrent refresh validates 128 native cases / 2,385 states / 3,574
+operations. Java agreement remains 107/128, with 21 explicit runtime errors and
+zero divergent successful cases; all native fields match full projection/Python.
+
+Final refresh process 79441 completed exit 0. All ten comparison/performance
+datasets are current, report verification succeeds, and localhost's live digest
+matches the final source/provenance fingerprint. Stream search remains 64/64
+equal-score; heuristics 128/128; list search 192 valid / 189 equal-score; pillar
+transactions 128/128. Known Great Deluge 275/276 and concurrent Java 21-error
+boundaries remain explicit. Scoped Rust/Java timings: exact 8-value solve
+0.154/4.934 ms, stream tabu96 170.489/25.910 ms. These do not isolate the new cache.
+
+Desktop 1280x900 and mobile 390x844 verification shows 13.82%, 671/4,855,
+domain model 32/455, all seven concurrent methods Passed, owned-cache evidence,
+and 29 benchmark cards. No overflow, browser errors or stale messages. The browser
+verification session is closed; the existing localhost:8765 server stays running.

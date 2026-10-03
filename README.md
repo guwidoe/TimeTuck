@@ -47,8 +47,9 @@ shares it across followers, with a deterministic representative.
 rejects fixed cycles and marks temporary cycles and downstream values inconsistent.
 `DependencyCache` propagates changed derived values through persistent snapshots;
 `derive_dependencies` integrates its state with stream transactions, undo and saved
-search candidates. Equal values stop propagation. Dynamic edge changes still rebuild
-topology, and no whole-solver speed improvement is claimed. List streams
+search candidates. `map_cached` owns per-input projection caches; concurrent schedule
+scoring uses it with independent full-score checks. Equal values stop propagation.
+Dynamic edge changes still rebuild topology, and no whole-solver speed improvement is claimed. List streams
 expose entity lists and value owner/index/neighbor snapshots. Persistent ordered storage shares
 unchanged tree branches across checkpoints and saved candidates. Stream construction
 and local search share the existing search algorithms, including seeded acceptance

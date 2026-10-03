@@ -1251,7 +1251,8 @@ A concurrent-schedule fixture aligns start variables while ready/finish variable
 remain distinct. An inconsistent activity can retain an independent ready time;
 only cycle-dependent fields become absent. Shared group starts can reach unassigned
 members when other members are assigned. The stream fixture projects a complete
-list snapshot and rescans dependencies on each source event. Temporary duplicate
+list snapshot through an owned dependency cache. Its separate full projection
+remains a reference evaluator. Temporary duplicate
 ownership while owner rows arrive is normalized privately; the validated final
 assignment has unique ownership and receives the complete projection. Candidate
 installation and undo preserve every final cached derived field and score.
@@ -1279,7 +1280,8 @@ return value alone is not a dirty-value set. Every changed incoming dependency
 also requires reevaluating the consumer. Batches validate every endpoint first;
 removals apply before additions. Duplicate additions and absent removals are no-ops.
 Clone snapshots may be retained for trials. Components and ranks currently rebuild
-after actual edge changes; there is no incremental derived-value cache yet.
+after actual edge changes. Derived values are maintained separately by
+`DependencyCache`, described below.
 
 ## Incremental derived values
 
@@ -1306,3 +1308,26 @@ are equal, while dependent rows only emit when their derived value changes. The
 node owns/checkpoints both rows and cache, so trial undo and saved candidates restore
 state without replaying suppliers. A plain stateless map cannot provide this cache
 rollback guarantee.
+
+## Owned projection caches
+
+`map_cached(input, initial, project)` preserves input identities and stores one
+owned cache per identity. The callback may update that cache to avoid recomputation,
+but its result must equal projecting the current input into a fresh initial cache.
+State must not give outputs history-dependent meaning. Cache Clone must produce
+independent snapshots; sharing immutable storage is allowed, shared interior
+mutation is not. Only the affected cache is cloned on update; transaction checkpoints
+share the persistent state-map root. Cloning a user cache may itself be expensive.
+
+Retraction discards that identity's cache without callbacks, and reinsertion starts
+fresh. Undo, downstream failures and saved candidates restore caches and outputs.
+Diagnostic rebuilds clear cache state before replaying current source rows. The
+existing stateless map retains its original behavior.
+
+Concurrent scheduling now projects complete normalized list snapshots through
+map_cached and CachedSchedule. Dirty ready keys and predecessor edge changes are
+applied together, then every complete projected schedule is scored against the
+independent group-closure reference. Complete snapshots avoid asserting schedules
+assembled from partially updated phase rows. List snapshot construction and
+edge-change topology rebuilding still visit the full relevant structure; cached
+suppliers do not imply constant-time moves or measured speed parity with Java.

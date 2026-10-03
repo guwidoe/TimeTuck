@@ -255,6 +255,44 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
     }
 }
 
+type CachedMapping<'a, C, T, U> = dyn Fn(&mut C, &T) -> U + 'a;
+struct CachedMap<'a, I, C, T, U> {
+    initial: C,
+    states: SnapshotMap<I, C>,
+    mapping: Box<CachedMapping<'a, C, T, U>>,
+}
+impl<I: Ord + Clone + 'static, C: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S>
+    for CachedMap<'_, I, C, T, U>
+{
+    fn clear(&mut self) {
+        self.states.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        Box::new(self.states.clone())
+    }
+    fn restore(&mut self, checkpoint: Box<dyn Any>) {
+        self.states = *checkpoint.downcast().expect("cached map checkpoint type");
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        let mut states = self.states.clone();
+        let output = if let Some(value) = &change.value {
+            let mut state = states.get(&change.id).unwrap_or(&self.initial).clone();
+            let output = (self.mapping)(&mut state, value);
+            states.insert(change.id.clone(), state);
+            TupleChange::put(change.id.clone(), output)
+        } else if states.contains_key(&change.id) {
+            states.remove(&change.id);
+            TupleChange::retract(change.id.clone())
+        } else {
+            return Ok(vec![]);
+        };
+        let output = erase([output]);
+        self.states = states;
+        Ok(output)
+    }
+}
+
 struct Concat<L, R, T>(PhantomData<(L, R, T)>);
 impl<L: Clone + 'static, R: Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
     for Concat<L, R, T>
@@ -783,6 +821,59 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(input.node, out.node, false);
         Ok(out)
     }
+    /// Project a complete input snapshot using an owned cache per input identity.
+    /// The output must be determined solely by the current input and immutable
+    /// captured facts. Cached history may reduce work but must not alter results;
+    /// applying the input to a fresh initial cache must produce the same output.
+    /// Diagnostic rebuilds clear all caches and replay current source rows.
+    ///
+    /// Cache Clone must produce an independent snapshot (sharing immutable roots
+    /// is fine; shared interior mutation is not). Updates clone only the affected
+    /// identity's cache; checkpoints share the state-map root. Retraction removes
+    /// that identity's cache without invoking the projection. Reinsertion starts
+    /// from initial state. Trial undo and saved candidates restore owned caches
+    /// without callbacks. External callback side effects cannot be rolled back.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let source = b.source::<usize, i64>();
+    /// let squares = b.map_cached(source.port(), None::<(i64, i64)>, |cache, value| {
+    ///     if cache.as_ref().map(|x| x.0) != Some(*value) {
+    ///         *cache = Some((*value, value * value));
+    ///     }
+    ///     cache.unwrap().1
+    /// })?;
+    /// b.score("square", &squares, |value| SimpleScore::new(*value))?;
+    /// let mut graph = b.build();
+    /// let mut t = graph.transaction();
+    /// t.apply(&source, TupleChange::put(0, 3))?;
+    /// t.commit()?;
+    /// assert_eq!(graph.score(), SimpleScore::new(9));
+    /// graph.assert_consistent()?;
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn map_cached<
+        I: Ord + Clone + 'static,
+        C: Clone + 'static,
+        T: Clone + 'static,
+        U: Clone + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        initial: C,
+        mapping: impl Fn(&mut C, &T) -> U + 'a,
+    ) -> Result<StreamPort<I, U>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(CachedMap::<I, C, T, U> {
+            initial,
+            states: SnapshotMap::new(),
+            mapping: Box::new(mapping),
+        });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+
     /// Concatenate two multisets without collapsing duplicates. Branch tags keep
     /// IDs separate, including when `left` and `right` are the same port. The
     /// routing node stores no rows; downstream nodes retain their normal caches

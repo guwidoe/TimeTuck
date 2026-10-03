@@ -1002,5 +1002,20 @@ calls. Fixed representative starts and aliases express the fixture's shared grou
 Every field must agree with the existing full native projection and independent
 Python. Java runtime errors remain explicit discrepancies, not native failures or
 agreement credit. Native alias supplier counts are not Java supplier-count parity.
-The original concurrent stream fixture still uses full snapshot projection; no
-incremental whole-solver or new timing claim follows from this extra evaluator.
+The concurrent stream fixture now uses the same cache through an owned projection
+operator, with a separate full projection and independent score reference retained.
+This does not establish a new timing or whole-solver speed claim.
+
+## Cached concurrent scoring in actual search
+
+The concurrent fixture now uses map_cached during construction, local search,
+saved-candidate installation and trial undo. Every projection still checks its
+ordinary score against independent group-closure scoring; full native projection
+is retained for field comparisons. Five original operator tests cover per-identity
+isolation, retraction/reinsertion, cold diagnostic rebuilds, warm undo, callback
+unwind and downstream score failure, foreign ports, cloning only one of 1,000
+per-identity caches, and rejection of deliberately history-dependent output by
+score rebuilding. Two original domain regressions compare cached construction and
+ten bounded local searches (hill climbing and variable tabu) with independent
+ListConstraintNetwork scoring, and prove warm cached state survives a cyclic trial.
+These extend implementation evidence without adding upstream method credit.

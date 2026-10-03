@@ -1,8 +1,6 @@
 //! Public comparison using attributed concurrent_support; original inputs.
-#[path = "concurrent_support/cache.rs"]
-mod cache_support;
 mod concurrent_support;
-use cache_support::CachedSchedule;
+use concurrent_support::cache::CachedSchedule;
 use concurrent_support::{Schedule, Visit};
 use std::{
     error::Error,

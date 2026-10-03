@@ -1,8 +1,10 @@
 # Compatibility assets
 
 `upstream.json` records the exact Community reference; the submodule pins the same
-commit. `provenance.json` records 70 adapted methods: 47 score methods, ten basic
-move cases, eight neighborhood-provider cases, and five acceptance cases. `exclusions.json` documents JVM integration boundaries. The original
+commit. `provenance.json` records adapted test methods and fixtures, including
+their source paths, licenses and modifications. The generated dashboard reports
+current verified counts by subsystem; `exclusions.json` documents JVM integration
+boundaries. The original
 Java adapters under `oracle/` call public Community APIs; no Java implementation
 is translated into the production Rust library. See `docs/score-contract.md` and
 `docs/dashboard.md` for the verified scope and measurements.
