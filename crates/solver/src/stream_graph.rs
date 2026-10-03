@@ -68,11 +68,13 @@ pub enum GraphError {
     DuplicateConstraint(String),
     StructuralContribution(String),
     FailedTransaction,
+    Dependency(String),
     CorruptedScore,
 }
 impl fmt::Display for GraphError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Dependency(reason) => write!(f, "invalid derived dependency: {reason}"),
             Self::ForeignPort => f.write_str("stream port belongs to another graph"),
             Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
             Self::StructuralContribution(name) => {
@@ -206,6 +208,31 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     }
     fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
         Ok(erase(self.0.apply(typed::<I, T>(event).clone())))
+    }
+}
+
+struct Derived<'a, K, T, V>(crate::DependencyNode<'a, K, T, V>);
+impl<
+    K: Ord + Clone + fmt::Debug + 'static,
+    T: Clone + 'static,
+    V: Clone + Eq + 'static,
+    S: AdditiveScore,
+> Node<S> for Derived<'_, K, T, V>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        self.0
+            .apply(typed::<K, T>(event).clone())
+            .map(erase)
+            .map_err(|e| GraphError::Dependency(e.to_string()))
     }
 }
 
@@ -700,6 +727,49 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(input.node, out.node, false);
         Ok(out)
     }
+    /// Derive values along dynamic dependencies within a declared key universe.
+    /// Every present input row produces `(row, DerivedValue)` under the same key.
+    /// Absent targets supply consistent None; cycles and downstream rows are
+    /// inconsistent. Equal derived results stop propagation to dependent suppliers.
+    /// All cache state participates in trial, undo, saved candidates and rebuilds.
+    /// Input dependencies and suppliers must read immutable snapshots only.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let source = b.source::<usize, (Option<usize>, i64)>();
+    /// let derived = b.derive_dependencies(source.port(), 0..2,
+    ///     |row| row.0.into_iter().collect(),
+    ///     |_, row, inputs| Some(row.1 + inputs.first().and_then(|(_, v)| v.value).unwrap_or(0)))?;
+    /// let c = b.score("derived", &derived, |(_, v)| SimpleScore::new(v.value.unwrap_or(0)))?;
+    /// let mut graph = b.build();
+    /// let mut t = graph.transaction();
+    /// t.apply(&source, TupleChange::put(0, (None, 3)))?;
+    /// t.apply(&source, TupleChange::put(1, (Some(0), 5)))?;
+    /// t.commit()?;
+    /// assert_eq!(graph.score(), SimpleScore::new(11));
+    /// assert_eq!(graph.constraint_matches(&c)?[&1].0.1.value, Some(8));
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn derive_dependencies<
+        K: Ord + Clone + fmt::Debug + 'static,
+        T: Clone + 'static,
+        V: Clone + Eq + 'static,
+    >(
+        &mut self,
+        input: &StreamPort<K, T>,
+        keys: impl IntoIterator<Item = K>,
+        dependencies: impl Fn(&T) -> Vec<K> + 'a,
+        supplier: impl Fn(&K, &T, &[(&K, &crate::DerivedValue<V>)]) -> Option<V> + 'a,
+    ) -> Result<StreamPort<K, (T, crate::DerivedValue<V>)>, GraphError> {
+        self.validate(input)?;
+        let node = crate::DependencyNode::new(keys, dependencies, supplier)
+            .map_err(|e| GraphError::Dependency(e.to_string()))?;
+        let out = self.push(Derived(node));
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+
     pub fn map<I: Ord + Clone + 'static, T: Clone + 'static, U: Clone + 'static>(
         &mut self,
         input: &StreamPort<I, T>,

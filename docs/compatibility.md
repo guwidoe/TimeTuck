@@ -968,3 +968,39 @@ idempotent/conflicting batches and snapshot isolation, and exercise a 20,000-nod
 chain/cycle/recovery without recursion. The existing fixed-cycle validator shares
 native SCC discovery. Topology currently rebuilds components/ranks after actual
 edge changes; it has no incremental value cache or performance comparison.
+
+## Incremental derived-value cache
+
+`DependencyCache<K,V>` now uses persistent topology and value snapshots to evaluate
+explicitly dirty keys and propagate changed derived values to their dependents.
+Equality includes both optional value and inconsistency; consistent None and a
+cycle are distinct. Changed incoming edges invalidate the consumer even if input
+values are equal. Cycle-membership changes are propagated through values, including
+downstream recovery. No-op edges trigger no suppliers. Value-only updates do not
+scan the universe. Edge changes still rebuild topology and reverse indexes.
+
+`StreamGraphBuilder::derive_dependencies` owns this cache in a stateful graph node.
+Rows and derived fields participate in normal rollback, saved-candidate installation
+and diagnostic rebuilds. Absent rows supply consistent unavailable values; unknown
+keys/dependencies fail the transaction. Payloads include original row metadata, so
+metadata changes are emitted even if the derived value remains equal. Closures
+must read immutable captures; external side effects cannot be rolled back.
+
+Five original cache tests cover every three-node graph with all single-edge changes
+and external-value invalidations, equality cutoffs, changed input identities,
+metadata, callback and equality failure atomicity, cycle/recovery, and shared snapshots of
+non-Clone values. A 10,000-key sparse update is checked to invoke one supplier and
+fewer than 500 key comparisons. Five stream/solver regressions check 1,296 partial
+parent assignments, composite commit/undo, cache recovery, retraction, changed
+metadata, downstream score failure and supplier unwind, foreign/duplicate keys,
+construction and saved local-search candidates against independent reference
+scoring. This work earns no additional upstream method credit.
+
+The public concurrent comparison additionally drives a second persistent native
+cache through every state and restores its snapshot for trial undo without supplier
+calls. Fixed representative starts and aliases express the fixture's shared groups.
+Every field must agree with the existing full native projection and independent
+Python. Java runtime errors remain explicit discrepancies, not native failures or
+agreement credit. Native alias supplier counts are not Java supplier-count parity.
+The original concurrent stream fixture still uses full snapshot projection; no
+incremental whole-solver or new timing claim follows from this extra evaluator.

@@ -324,3 +324,8 @@ pub use dependency_graph::{DependencyError, DependencyGraph, DerivedValue};
 
 mod dependency_topology;
 pub use dependency_topology::DependencyTopology;
+
+mod dependency_cache;
+pub use dependency_cache::DependencyCache;
+mod dependency_node;
+pub use dependency_node::{DependencyNode, DerivedChange};

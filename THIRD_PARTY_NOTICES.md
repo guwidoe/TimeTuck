@@ -274,3 +274,9 @@ adapter specification. These upstream tests are Apache-2.0; the pinned commit,
 paths and modifications are recorded in `compat/provenance.json`. No upstream
 production topology implementation is used. The test-only shuffle follows the
 public Java Random/Collections API contract; it is not native solver randomness.
+
+`crates/solver/examples/concurrent_support/cache.rs` additionally adapts the
+concurrent Value, Entity and Solution test fixtures to an incremental native cache.
+The original Community test-fixture license and provenance apply. Its representative
+start nodes and aliases are independently implemented from those fixture semantics;
+no Timefold production implementation was used.

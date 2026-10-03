@@ -5526,3 +5526,94 @@ The completed validation/refresh process was session 8363, exit 0. Desktop
 1280x900 and mobile 390x844 show 13.82%, 671/4,855 methods, domain 32/455, all seven
 topology methods Passed and 29 benchmark cards; no overflow, page errors or stale
 messages. Browser verification closed; dashboard server stays running.
+
+## Incremental derived values and transactional stream integration
+
+DependencyCache<K,V> now owns Arc-shared topology/reverse indexes and persistent
+SnapshotMap values. Initial evaluation runs in component rank order, skips cycles
+and downstream inconsistency, and preserves consistent unavailable None. Updates
+validate all dirty keys and edge endpoints before callbacks, apply removals then
+additions, dirty changed incoming-edge consumers and cycle-status toggles, then
+schedule changed values' direct consumers. Equality covers optional value AND
+inconsistency; equal results stop propagation. Changed input identity still forces
+its consumer even when input values match. Value-only updates do not scan all
+nodes; edge changes still rebuild topology/reverse indexes. Callers explicitly
+invalidate keys reading changed external facts/formulas. Cache Clone needs no
+V:Clone and shares immutable roots. Stage all new values/metadata before installing;
+ordinary callback or equality unwind preserves the old cache (external side effects
+and panicking destructors retain ordinary Rust limitations).
+
+DependencyNode / StreamGraphBuilder.derive_dependencies owns and checkpoints both
+source rows and cache. Fixed declared key universe; dependencies may refer to absent
+rows, which supply consistent None. Present rows emit (row,DerivedValue); source
+metadata changes emit even if derived equality stops dependent propagation. Source
+retraction removes incoming edges and output. Unknown keys/dependencies produce
+GraphError::Dependency(String) and poison the graph transaction as usual. Clear
+restores an empty-row, empty-edge initial cache; saved candidates restore snapshots
+without invoking suppliers. It is NOT hidden in a stateless map closure.
+
+Five original cache tests: all 512 three-node graphs, 4,608 single-edge toggles,
+1,536 external-value invalidations vs independent Floyd/relaxation; equality cutoffs
+and changed input identity; invalid metadata and supplier panic; non-Clone snapshots
+and 10,000-key sparse update with one supplier / <500 comparisons; equality panic
+after staged value/edge changes. Five stream tests: cycles/recovery, metadata and
+retraction, callback counts and no-call undo; unknown metadata, supplier unwind
+and downstream structural-score rejection restore caches; all 1,296 partial parent
+assignments through composite score-director commit/undo vs independent recursive
+reference; greedy construction and saved local-search candidates match a separate
+ConstraintNetwork at five evaluation limits; foreign port / duplicate key rejection.
+No additional upstream method credit (coverage remains 671/4,855).
+
+Public concurrent_oracle now also maintains CachedSchedule from the attributed
+concurrent_support/cache.rs fixture. Fixed representative starts plus alias nodes
+express shared groups. Dynamic previous-finish edges and dirty ready keys update
+DependencyCache between observations. Every field must equal the existing full
+native graph/projection and Python. Cached snapshots restore on trial undo and
+an unchanged projection asserts zero supplier calls. Initial debug comparison
+passes all 128 inputs / 2,385 states. Native alias counts are NOT Java supplier-count
+parity. Three new fixture provenance entries cover ConcurrentValue/Entity/Solution.
+The original concurrent stream scoring fixture still uses full list snapshot
+projection; the extra cache evaluator does not establish faster whole-solver behavior.
+
+Full gate running on final sources; logs work/cache-*. Initial focused core/stream
+checks pass; clippy issues and one test score integer-type mismatch were corrected
+before final verification. Sources frozen before full release/comparison refresh.
+
+Final-source debug gate passes all 1,430 Rust tests (671 adapted, 684 original
+integration, 75 unit), 73 doctests and 131 Python tests. Coverage remains 13.82%,
+671/4,855, with 3,902 pending and 282 excluded; verification.successful=true.
+Release/all-comparison refresh runs sequentially as session 90466, logs work/cache-*.
+Do not restart quiet compilation without authoritative termination evidence.
+
+Next concrete integration: move the concurrent scoring fixture's full list projection
+onto owned/checkpointed cached state, while preserving its independent reference-score
+assertion after each complete projection. CacheSchedule already batches all dirty
+keys/edge changes against one final list snapshot; do not feed phase facts through
+ordinary flat_map one-by-one and assert a complete schedule on intermediate mixed
+states. Consider a narrowly specified cached projection operator with owned cloneable
+state, per-input identity, retraction cleanup, reset for assert_consistent and saved
+candidate checkpoints. Its output must depend on the current input, with state used
+only to cache work; history-dependent semantics would fail fresh rebuilds. Existing
+stateless map must remain stateless. Then exercise actual cached concurrent solving,
+not just the second public-comparison evaluator, before making speed claims.
+
+Release all-target verification passes all 1,430 tests after a 6m46s build. The
+live initialization example again delivers all four events before completion and
+reaches all four proven optima. Final-source concurrent comparisons retain all
+128 native cases / 2,385 states, including both full and cached native evaluators;
+Java agreement remains 107/128 with 21 explicit runtime errors. Source fixtures
+reproduce the known partial-group null-finish error unchanged.
+
+Final refresh process 90466 completed exit 0. All ten comparison/performance
+datasets are current, report verification succeeds and localhost's live digest
+matches. Stream search remains 64/64 equal-score; heuristics 128/128; list search
+192 valid / 189 equal-score. Known Great Deluge 275/276 and concurrent Java 21-error
+boundaries remain explicit. Current scoped Rust/Java timings: exact 8-value solve
+0.161/5.358 ms, stream tabu96 184.638/23.272 ms. These workloads do not benchmark
+the new cache and support no cache or whole-solver speed claim.
+
+Desktop 1280x900 and mobile 390x844 browser verification shows 13.82%, 671/4,855,
+domain model 32/455, all seven concurrent methods Passed, new full/cached evaluator
+evidence with 128/128 native cases / 2,385 states and 21 Java error cases, and 29
+benchmark cards. No overflow, page errors or stale messages. Browser verification
+closed; the existing localhost:8765 server remains running (no restart needed).

@@ -1,5 +1,8 @@
 //! Public comparison using attributed concurrent_support; original inputs.
+#[path = "concurrent_support/cache.rs"]
+mod cache_support;
 mod concurrent_support;
+use cache_support::CachedSchedule;
 use concurrent_support::{Schedule, Visit};
 use std::{
     error::Error,
@@ -60,10 +63,12 @@ fn emit(
     g: &StreamGraph<'_, HardSoftScore>,
     handle: &StreamConstraint<(), Vec<Visit>>,
     s: &Schedule,
+    cached: &mut CachedSchedule,
 ) {
     let matches = g.constraint_matches(handle).unwrap();
     let visits = &matches[&()].0;
     assert_eq!(visits, &s.project(a.lists()).0);
+    assert_eq!(visits, &cached.project(a.lists()).0);
     assert_eq!(g.score(), s.score(a.lists()));
     assert_eq!(g.score(), s.reference_score(a.lists()));
     let lists = a
@@ -113,6 +118,7 @@ fn main() -> Result<()> {
             return Err("owner count".into());
         }
         let s = Schedule::new(&groups, n);
+        let mut cached = CachedSchedule::new(&groups, n);
         let (g, sources, handle) = s.graph(lists.len());
         let p = ListProblem::new(
             (0..n).collect(),
@@ -120,21 +126,52 @@ fn main() -> Result<()> {
         )?;
         let mut d = ListStreamScoreDirector::new(&p, g, sources, p.initial_assignment())?;
         let mut state = 0;
-        emit(f[0], state, d.assignment(), d.graph(), &handle, &s);
+        emit(
+            f[0],
+            state,
+            d.assignment(),
+            d.graph(),
+            &handle,
+            &s,
+            &mut cached,
+        );
         state += 1;
         for batch in f[4].split('|').filter(|s| !s.is_empty()) {
             let (mode, ops) = batch.split_once('@').ok_or("mode")?;
             if !matches!(mode, "c" | "t") {
                 return Err("mode".into());
             }
+            let saved = cached.clone();
             let t = d.apply(&movement(ops)?)?;
-            emit(f[0], state, t.assignment(), t.graph(), &handle, &s);
+            emit(
+                f[0],
+                state,
+                t.assignment(),
+                t.graph(),
+                &handle,
+                &s,
+                &mut cached,
+            );
             state += 1;
             if mode == "c" {
                 t.commit()
             } else {
                 drop(t);
-                emit(f[0], state, d.assignment(), d.graph(), &handle, &s);
+                cached = saved;
+                assert_eq!(
+                    cached.project(d.assignment().lists()).1,
+                    0,
+                    "undo invokes no cached suppliers"
+                );
+                emit(
+                    f[0],
+                    state,
+                    d.assignment(),
+                    d.graph(),
+                    &handle,
+                    &s,
+                    &mut cached,
+                );
                 state += 1;
             }
             d.assert_consistent()?;

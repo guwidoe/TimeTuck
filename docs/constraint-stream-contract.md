@@ -1280,3 +1280,29 @@ also requires reevaluating the consumer. Batches validate every endpoint first;
 removals apply before additions. Duplicate additions and absent removals are no-ops.
 Clone snapshots may be retained for trials. Components and ranks currently rebuild
 after actual edge changes; there is no incremental derived-value cache yet.
+
+## Incremental derived values
+
+`DependencyCache` builds initial values from a `DependencyTopology`, then accepts
+atomic removals/additions and explicit dirty keys. Suppliers receive sorted
+node-to-dependency inputs. Changed values schedule direct consumers in topological
+order; equal results stop propagation. Cycle members and downstream inconsistent
+values skip suppliers. A consistent unavailable value may still be consumed by a
+supplier. Dirty every key reading a changed external fact or changed formula.
+The cache cannot infer changes to captured data.
+
+Snapshots share topology and persistent value roots, even for non-Clone values.
+Value-only updates avoid scanning all keys; changed edges rebuild components and
+reverse indexes. Metadata failure or ordinary supplier/equality unwinding leaves
+the cache untouched. External side effects and panicking destructors retain normal
+Rust limitations.
+
+For stream scoring, `derive_dependencies` accepts a fixed key universe, a row-to-
+dependency mapping and a supplier. Output rows retain `(source_row, DerivedValue)`.
+Missing targets are consistent None; source retraction removes its incoming edges
+and output, then propagates any value change. Cyclic rows remain in the output with
+an inconsistent absent value. Source metadata updates emit even when derived values
+are equal, while dependent rows only emit when their derived value changes. The
+node owns/checkpoints both rows and cache, so trial undo and saved candidates restore
+state without replaying suppliers. A plain stateless map cannot provide this cache
+rollback guarantee.
