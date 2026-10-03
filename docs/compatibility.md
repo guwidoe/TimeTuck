@@ -549,3 +549,10 @@ not a Java default-policy or internal evaluation-trace claim. The optional-list
 fixture preserves both entity-size and unassigned-value penalties. Four source
 initialization-event methods remain pending (early required construction and three
 custom-phase cases); original optional regressions add no further method credit.
+
+
+Standalone custom commands now use the six native transactional scoring backends,
+with committed-best observation, temporary rollback, limits and explicit failures.
+This is execution infrastructure for future ordered custom phases. It adds no source
+method credit: custom producer IDs, ordered command/phase integration and the four
+remaining initialization-event methods are still pending. See solver-contract.md.

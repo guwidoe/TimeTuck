@@ -697,3 +697,71 @@ ends construction at StepLimit, executes zero local-search steps and delivers th
 event from construction phase zero. Its manager wait includes callback delivery.
 Four source initialization cases remain pending. See incremental-search-contract.md
 for the optional policy, budget and resume details.
+
+## Native custom-command execution
+
+The custom_phase module provides a shared command engine for basic, list and mixed
+models, with scoped and stream scoring. Public entry points are custom_phase,
+list_custom_phase, mixed_custom_phase and their stream equivalents, each with a
+_with_observer variant. They take an explicit initial assignment, CustomPhaseConfig
+and one closure receiving a typed CustomPhaseContext. They are standalone phase
+building blocks; SolverPhase/MixedSolverPhase do not yet contain a custom variant,
+and these functions do not emit a SolverInitialization boundary event. Wiring
+commands into ordered phases and managed initialization remains pending.
+
+Context assignment()/score() expose the current working state read-only.
+execute(move) validates, scores and commits a move through the existing transaction
+cache; it may intentionally worsen the working score. best_assignment()/best_score()
+retain the earliest strict committed best, with completion preferred over partial
+state. The returned CustomPhaseResult contains that retained best, not necessarily
+the last working state. Native partial assignments are permitted for initialization;
+completeness, hard feasibility and command completion are separate concepts. No
+custom command establishes an optimality proof.
+
+evaluate(move, visitor) runs a visitor with a freshly scored candidate applied and
+then rolls back both assignment and scoring cache. Its return value cannot borrow
+the temporary state. Temporary improvements never replace the retained best or
+publish progress. RAII rollback also occurs on visitor unwind. A caught visitor
+panic can resume the command; the attempted evaluation and its known constraint
+work remain charged. Observer variants publish the initial scored state and subsequent
+strict committed bests through synchronous SolutionUpdate observers. Tied/worsening
+commits and temporary trials publish no best update. As elsewhere, model facts and
+captured scoring data must stay immutable during a session.
+
+CustomPhaseConfig independently bounds score slots (including one initialization),
+move-evaluation slots and elapsed time, and accepts a borrowed cancellation token.
+Input shape, assignment validity, and stream ownership/empty-source checks happen
+before zero-budget or cancellation returns. A zero score limit invokes no scoring,
+command or observer; pre-cancellation also skips scoring. Zero move/time limits allow
+initial scoring and its observer but prevent command execution. Time starts before
+director initialization, includes callbacks and command code, and excludes graph
+preparation before entry. A command must return or poll is_terminated(); no user
+code or scoring callback is preempted. execute/evaluate also poll before acting.
+
+Termination is checked before the command, before each operation and after return.
+The first observed reason is latched. At a poll, cancellation wins over time,
+then score exhaustion, then candidate exhaustion; the pre-initialization zero-score
+check precedes cancellation. Exactly consuming the last allowed operation can thus
+report a limit after a normally returning command. Operation APIs return Ok(None)
+when a limit prevents work, retaining any earlier committed best. Work reports
+score/evaluation slots, successful constraint callbacks and committed moves; it
+includes successfully scored temporary trials and caught visitor panics. Diagnostic
+assert_consistent() recomputes caches outside work counters/budgets.
+
+Scoring and validation operation errors return CustomPhaseError::Scoring with the
+underlying typed error and invalidate the invocation. If a command catches such an
+error and returns success, the phase returns IgnoredOperationError. Caught scoring
+or commit panics also invalidate the phase, because their callback work may be
+unknown. Successful diagnostics cannot revive a failed context. Command(String)
+reports explicit user-command failure. Uncaught command, observer and scorer panics
+propagate normally. Progress already delivered before an error is not retracted.
+
+Eight original integration methods cover all six paths: temporary rollback,
+worsening/tied commits, earliest bests, partial initialization, every small budget
+prefix, visitor/scorer panics, ignored errors, explicit errors, cancellation,
+zero-time behavior and validation before zero work. Two controlled-clock unit
+methods cover initialization, observers, command bodies, candidate scoring, latched
+timeouts and count-limit precedence. A public doctest demonstrates temporary trials
+and retained bests. These are independent native contracts and add no upstream
+method credit. Deferred scoring, custom-phase ordering/producer IDs, and full Java
+structural-error/command API parity remain unimplemented.

@@ -86,7 +86,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 558 original integration regression methods, 70 original unit tests, and 54 public API documentation tests.
+- 566 original integration regression methods, 72 original unit tests, and 55 public API documentation tests.
 - Native solve/solve_list/solve_mixed and stream counterparts compose construction
   and ordered local-search phases under shared score/candidate budgets, cancellation
   and score/feasibility goals. Results retain complete best or partial initialization
@@ -153,7 +153,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 481 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 590 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -3974,3 +3974,94 @@ scores, list 192 valid/189 equal. Great Deluge remains 275/276 Java agreement wi
 its recorded ratio boundary difference. These default-policy workloads do not
 benchmark optional-construction throughput; shared-machine samples alone establish
 no performance improvement/regression. Keep the full goal active.
+
+
+## Native custom commands — latest increment
+
+New custom_phase.rs exposes CustomPhaseConfig/Termination/Work/Result/Error and
+CustomPhaseContext<A,M,S,E>, plus plain and _with_observer entrypoints for all six
+model/backend combinations. CommandDirector is a private object-safe transactional
+adapter implemented by a macro over the six existing concrete directors. It calls
+apply(), invokes a visitor with assignment/score/constraint work, then commits or
+lets the existing guard roll back. Existing production scoring was reused unchanged.
+
+Context execute commits validated moves (including worsening); evaluate visits and
+rolls back scored candidates. Temporary improvements do not enter the best. Context
+tracks current and retained-best state independently; completion or strict score
+improvement replaces the best, ties retain the earliest best. Observers receive the
+initial scored state and strict committed bests only. Explicit native partial input
+is supported; commands can initialize it. Results include best assignment/optional
+score/completeness, work counters and honest termination, with no optimality claim.
+
+Config limits evaluations (initial score included), candidate slots, time and a
+borrowed cancellation token. Wrappers validate input/network/source ownership and
+emptiness before early zero/cancel returns. Runtime includes director initialization,
+initial observer and command work. Commands cooperate by returning or polling;
+operations check before acting, and a final poll catches elapsed time during the
+last operation. Termination latches, with cancellation/time/score/move precedence;
+zero score precedes pre-cancellation. Zero time/move allows initial scoring but no
+command. Diagnostic assert_consistent excludes its callbacks from work counts.
+
+Failures: operations charge a slot before touching the director. A successful
+candidate supplies its callback count before executing a temporary visitor, so a
+caught visitor panic rolls back and remains accounted. Before scoring/commit the
+context latches failure; caught scoring/commit panics cannot yield success with
+unknown callback work. Operation errors also latch failure; if swallowed by a
+command, run returns IgnoredOperationError. Propagated errors retain typed Scoring(E),
+explicit Command(String) is supported, and uncaught panics propagate. Diagnostics
+cannot clear an existing failure. execute's best observer runs after commit.
+
+Eight original methods in tests/custom_commands.rs cover all six paths, every
+small score/move cap, optional observer streams, cache/candidate rollback, temporary
+visitor panic recovery, scoring panic invalidation, ignored and propagated errors,
+explicit command errors, partial initialization, zero/cancel/time controls and
+input/stream validation. A normalized fixture maps values to list owner indices;
+moves derive their source from the live assignment. Two private clock tests use
+actual ScoreDirector caches and injected clocks to cover initialization/observer/
+command/scoring elapsed time, backwards clock/latching and count precedence.
+One public doctest demonstrates temporary scoring and retaining a committed best.
+Focused tests and clock cases passed before the full gate.
+
+This increment is the real execution foundation, NOT ordered custom-phase support.
+SolverPhase still has construction/local/exact only; no new source methods are
+credited. Next wire typed commands into the ordered runner so real Custom producer
+indices, phase reports/shared limits, callbacks and custom-to-CH/LS handoffs can
+satisfy the three source manager methods. Do not simulate producer metadata or
+credit these standalone regressions as upstream passes. Four initialization-event
+source methods remain pending. Deferred score APIs and Java structural error
+semantics are not implemented. Read the latest solver-contract.md section.
+Work logs use work/custom-command-*; full goal stays active.
+
+Integration points inspected for the next increment: solver_plan.rs keeps phases
+model-independent and derives Clone/Eq, whereas command closures depend on assignment,
+move and backend-error types. Choose typed command binding without erasing those
+errors or breaking existing concrete config conversions. solver.rs PhaseRequest,
+PlanObservation::initialize, report/error conversion, cancellation prevalidation,
+shared budget ownership, graph-factory time clipping and partial-state handoffs all
+need a real Custom branch. MixedSolverPhase::common must preserve phase indices.
+Shared stagnation currently uses SearchControl through local/exact execution; custom
+commands need deliberate semantics and tests there, rather than just boundary polls.
+Global score/feasibility stops also need to prevent later command operations after
+a retained committed best reaches the target. Keep command failures and successful
+zero-work phases distinct. Existing standalone APIs remain useful independently.
+
+Final verification: bash scripts/check.sh passes 1,228 Rust tests (590 adapted,
+566 original integration, 72 unit), 55 doctests and 95 Python tests. Release
+all-target tests pass the same 1,228 cases; live_initialization delivers four
+callbacks and proves four optima. All nine differential/performance datasets were
+refreshed successfully and are current. Report verification succeeds and its digest
+matches the live freshness endpoint. Coverage stays 590/4,855 (12.15%), with 3,983
+pending and 282 excluded. Original command regressions add no source-method credit.
+
+Browser checks at 1280x900 and 390x844 show the correct counts and 23 benchmark
+cards, no horizontal overflow, stale/error messages or browser errors. Browser
+session closed. Pinned upstream remains unchanged.
+
+Fresh illustrative Rust/Java median milliseconds: exact 6 0.012/4.039, exact 8
+0.144/4.664; Great Deluge 32 2.210/9.010, 96 13.406/15.209; stream tabu 96 remains
+slower at 173.333/22.097 (equal [-44,-484]). List two-opt 16 0.312/10.136 and
+32 1.006/10.819 retain known score differences. Validation remains 128 heuristic
+and 64 stream equal-score cases, with list 192 valid/189 equal. Great Deluge still
+has 275/276 Java agreement and its explicit ratio boundary gap. These workloads
+do not benchmark custom-command throughput; shared-machine timing samples alone
+establish no performance improvement or regression. Keep the full goal active.
