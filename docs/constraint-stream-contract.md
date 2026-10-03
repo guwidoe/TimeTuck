@@ -90,6 +90,17 @@ Read the pipeline's final result only after all outputs have been delivered.
   ordinary callback/key/clone panics leave this standalone node unchanged.
   Memory is proportional to facts plus matching pairs; dense relations can require
   quadratic space. Empty right input retains every left row only in NotExists mode.
+- `FlatMapNode<I,T,U>` expands a changed input to a finite ordered sequence of
+  payloads. Child IDs are `(input_id, zero_based_position)`, so duplicate payloads
+  remain separate occurrences. Replacing an input first retracts positions past
+  the new length, then replaces/inserts every new position. Reorder changes the
+  payload at each position; IDs are not stable value identities. Empty expansion
+  emits no rows. An absent input removal is a no-op; removal uses cached lengths
+  without invoking the mapping. Mapping and iterator collection, output creation
+  and persistent map preparation all precede installation, so ordinary panics
+  preserve this standalone node. Only lengths are cached here; downstream nodes
+  capture payloads. Memory is linear in input count, plus output events for the
+  changed row. A mapping must be deterministic and return a finite iterator.
 - `DistinctNode<I,T>` keeps one output per `T::cmp` equivalence class, identified
   by that class. Only equality/ordering of that ID is meaningful; current
   representative data comes from the payload. Equality and ordering must agree.
@@ -132,10 +143,25 @@ interior mutability: current solver move undo cannot restore that external state
 Use snapshot pipelines in those callbacks, or the separate transactional
 `StreamScoreDirector` for persistent graph state.
 
+Fifteen adapted flatten/flattenLast methods across four arities preserve exact
+ordinary scores and match multisets through removal. Uni and bi
+flattenLastWithDuplicates remain pending; Java equal-object representative choice
+is not claimed. Six original regressions check 2,000 graph edits (seed 20261109),
+nested expansions, duplicate/nullable outputs, changing lengths/order, failed
+mapping/iterator/scoring callbacks, structural-score errors, rollback/rebuild,
+foreign ports and construction/search with independent objective checks.
+
 ## Typed graph transactions
 
 `StreamGraphBuilder<S>` builds a fixed directed acyclic graph of typed sources,
-filters, maps, equality/existence joins, distinct, integer groups and named score terminals.
+filters, maps, one-to-many expansions, equality/existence joins, distinct, integer groups and named score terminals.
+`flat_map(input, mapping)` returns `StreamPort<(I,usize),U>` for any finite
+`IntoIterator<Item=U>` mapping. Closures can retain a tuple prefix while expanding
+its last element, or append new elements to the original tuple. Payloads are
+emitted as supplied; equal objects are not replaced with a canonical instance.
+Use explicit `distinct` for set semantics. Checkpoints share expansion-length
+roots, including saved search candidates. Full rebuild replays source rows and
+reconstructs lengths; no mapping is needed for rollback or candidate installation.
 `distinct(input)` returns `StreamPort<T,T>`: value-class identity and representative
 payload. Include a stable fact ID in the value to distinguish facts with identical
 attributes. Representative priority is native input-ID order, not a claim about

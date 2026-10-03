@@ -30,8 +30,8 @@
 //! ```
 
 use crate::{
-    AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, GroupNode,
-    IntSummary, JoinNode, ListCollector, ListSnapshot, ReversibleCollector, SnapshotMap,
+    AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsNode, FilterNode, FlatMapNode,
+    GroupNode, IntSummary, JoinNode, ListCollector, ListSnapshot, ReversibleCollector, SnapshotMap,
     TupleChange,
 };
 use std::{
@@ -212,6 +212,25 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         }]))
+    }
+}
+
+struct FlatMap<'a, I, T, U>(FlatMapNode<'a, I, T, U>);
+impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore> Node<S>
+    for FlatMap<'_, I, T, U>
+{
+    fn clear(&mut self) {
+        self.0.clear();
+    }
+    fn checkpoint(&self) -> Box<dyn Any> {
+        self.0.checkpoint()
+    }
+    fn restore(&mut self, c: Box<dyn Any>) {
+        self.0.restore(c);
+    }
+    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+        let change = typed::<I, T>(event);
+        Ok(erase(self.0.apply(change.clone())))
     }
 }
 
@@ -496,6 +515,27 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             mapping: Box::new(mapping),
             marker: PhantomData,
         });
+        self.connect(input.node, out.node, false);
+        Ok(out)
+    }
+    /// Expand one changed input into a finite ordered sequence. Duplicate payloads
+    /// remain separate occurrences with `(input_id, position)` identities. An
+    /// update replaces surviving positions and retracts the old tail. Retraction
+    /// uses cached lengths without invoking the mapping. Use `distinct` explicitly
+    /// when duplicate values should collapse. Tuple closures can retain a prefix
+    /// while expanding the last element, or append new elements to the input.
+    pub fn flat_map<
+        I: Ord + Clone + 'static,
+        T: Clone + 'static,
+        U: Clone + 'static,
+        R: IntoIterator<Item = U>,
+    >(
+        &mut self,
+        input: &StreamPort<I, T>,
+        mapping: impl Fn(&T) -> R + 'a,
+    ) -> Result<StreamPort<(I, usize), U>, GraphError> {
+        self.validate(input)?;
+        let out = self.push(FlatMap(FlatMapNode::<I, T, U>::new(mapping)));
         self.connect(input.node, out.node, false);
         Ok(out)
     }

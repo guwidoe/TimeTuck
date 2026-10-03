@@ -157,6 +157,13 @@ scores/assignments/shadows. Java phase-trace tests and mixed Java solver-search
 comparisons remain pending.
 See `docs/mixed-planning-contract.md`.
 
+Fifteen additional flatten/flattenLast methods preserve every initial/removal score
+and exact match multiset across four tuple arities. Native positional occurrence
+IDs retain duplicates; explicit distinct collapses equal tuples. Generic expansion
+closures preserve the source tuple prefixes. Uni/bi flattenLastWithDuplicates
+remain pending; no Java equal-object representative choice is claimed. Six
+original regressions cover updates, rollback, composition and search separately.
+
 ## Case records and coverage
 
 Every adapted/copied case belongs in `compat/provenance.json`. Include a stable ID,

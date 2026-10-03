@@ -4620,6 +4620,231 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every exact sum/average value and decimal scale assertion, including empty state, duplicates, replacement, repeated replacement and removal. Native BigInt and Decimal replace Java BigInteger/BigDecimal; nullable outputs become Option. Arrays preserve integer tuple mappings and first-value mappings with unused nullable fields across four arities. Captured immutable values and reversible collectors replace Java retractors/slots; no object-identity or general Java API parity. Original large-number, rounding, scale-history and public-API comparisons grant no additional upstream-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.flattenLastWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "uni_flatten_last_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.flattenLastAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "uni_flatten_last_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.flattenLastAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "uni_flatten_last_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "flatten",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "uni_flatten",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.flattenLastWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "bi_flatten_last_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.flattenLastAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "bi_flatten_last_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.flattenLastAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "bi_flatten_last_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.flattenLastWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "tri_flatten_last_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.flattenLastWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "tri_flatten_last_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.flattenLastAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "tri_flatten_last_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.flattenLastAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "tri_flatten_last_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.flattenLastWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "quad_flatten_last_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.flattenLastWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "quad_flatten_last_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.flattenLastAndDistinctWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "quad_flatten_last_and_distinct_with_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.flattenLastAndDistinctWithoutDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "flattenLastAndDistinctWithoutDuplicates",
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "local_test": "quad_flatten_last_and_distinct_without_duplicates",
+      "modifications": "Preserve every initial/removal ordinary score and exact match multiset, including duplicate contributions and named totals. Native stable entity/group IDs replace Java objects, explicit graph joins/predicates replace unique-pair discovery, and transactional source retraction replaces descriptor notifications. Generic flat_map retains tuple prefixes or appends the flattened element; distinct uses native tuple equality. No Java representative object-identity or custom justification claim."
     }
   ],
   "fixtures": [
@@ -4986,6 +5211,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertScore, assertMatch, assertMatchWithScore, AssertableMatch.isEqualTo",
       "modifications": "Compare exact identity/contribution vectors and named ordinary totals at every source assertion. Native typed terminals replace constraint namespace lookup. Structural scores are excluded just as upstream raw score comparison excludes them. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "id": "TestdataLavishSolution.flat_map_initial_states",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution overloads",
+      "modifications": "Preserve two or three generated entity identities and modulo-two group references. All entities are assigned; unused values and random properties are omitted. Fixture only; no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/flat_map_stream_cases.rs",
+      "id": "AbstractConstraintStreamTest.flat_map_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore, assertMatchWithScore, AssertableMatch.isEqualTo, asSet",
+      "modifications": "Preserve exact named ordinary scores and match tuples/multiplicities at every source assertion. Stable tagged IDs replace object references and typed terminal handles replace namespace lookup. Native ordered tuple equality is stricter than source unordered justification membership. Fixture only; no method credit."
     }
   ]
 }

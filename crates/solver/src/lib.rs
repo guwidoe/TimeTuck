@@ -164,3 +164,6 @@ pub use mixed_stream_scoring::{
     MixedStreamScoreDirector, MixedStreamScoredMove, MixedStreamScoringError, MixedStreamSources,
     greedy_mixed_stream_construction, mixed_stream_local_search_from,
 };
+
+mod flat_map_stream;
+pub use flat_map_stream::FlatMapNode;

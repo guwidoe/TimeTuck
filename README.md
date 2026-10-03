@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction and local search.**
-The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 308 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction and constraint streams cover 323 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Exact search solves small finite problems with explicit evaluation
 budgets and domain/pinning validation; 128 original complete-planning cases agree
@@ -24,7 +24,7 @@ benchmarks show Java/Rust timings together with final scores.
 Native snapshot constraint streams now support typed filtering, joins, existence checks,
 grouping and weighted scoring, with retractable integer collectors. Streams are
 rebuilt inside affected score callbacks. Separate persistent operators now propagate
-filter, equality/existence-join, distinct, keyed/global collection and score updates by stable tuple ID. A typed graph
+filter, one-to-many expansion, equality/existence-join, distinct, keyed/global collection and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. Composable
 collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking

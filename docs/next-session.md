@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 308 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 62 stream), recorded in
+- 323 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 77 stream), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -39,7 +39,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   evaluation/step limits, first/best accepted candidate selection and original or
   seeded shuffled-variable ordering.
   Read `docs/incremental-search-contract.md` before modifying this layer.
-- 276 original integration regression methods, nine original unit tests, and twenty-one public API documentation tests.
+- 282 original integration regression methods, nine original unit tests, and twenty-two public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -68,7 +68,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 308 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 323 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1065,3 +1065,46 @@ List32 construction remains Rust 0hard/-1080soft versus Java 0hard/-1062soft.
 These timings do not benchmark mixed models. Logs: work/mixed-java-stream-evidence.log,
 mixed-java-stream-performance.log, mixed-java-list-refresh.log,
 mixed-java-core-refresh.log and mixed-java-heuristic-performance.log.
+
+
+Persistent flat-map increment: FlatMapNode and StreamGraphBuilder.flat_map expand
+one input to a finite ordered sequence, preserving duplicate payloads under
+(input_id, position) identities. Replacements update surviving positions and
+retract the old tail. Cached persistent lengths make retraction callback-free;
+prepared output/roots preserve standalone state after ordinary panics. Generic
+closures retain tuple prefixes or append an expanded element. Distinct remains
+explicit. There is no Java representative object-identity claim.
+
+Fifteen adapted upstream methods in flat_map_stream_cases preserve every initial/
+removal score and exact match multiset: uni flatten plus three flattenLast methods,
+three bi methods, and four each for tri/quad. All provenance and fixture records
+are added. Uni flattenLastWithDuplicates remains pending because it observes
+which equal Pair instance a downstream identity filter receives. Bi
+flattenLastWithDuplicates also remains pending: its asserted duplicate distribution
+needs further examination; do not replace its assertions with the native result.
+
+Six original regressions cover empty/nullable/duplicate outputs, reorder/shrink,
+callback-free removal, mapping/iterator panics, graph errors/panics and failed
+rebuild rollback, foreign ports, nested expansion/distinct, construction/search,
+and 2,000 seeded graph edits (20261109) against independent full multisets.
+Full debug/release all-target checks pass: 614 Rust tests (323 adapted + 282 original integration + nine
+unit), 22 doctests, 52 Python regressions. The full goal remains unfinished.
+
+Logs: work/flat-map-check.log and work/flat-map-release.log. Existing Java
+comparisons and timing workloads have all been refreshed for this source; they do
+not exercise the new flat-map operator and grant no further coverage credit.
+
+All nine sections are current and report/source/live fingerprints match. The
+existing dashboard server was reused. Browser checks pass at 1280px and 390px:
+6.65% overall (323/4,855), streams 16.75% (175/1,045), no stale messages, console
+errors or horizontal overflow. Search shows 14 flattenLast methods passed while
+the uni/bi duplicate methods remain pending; uni flatten is the fifteenth new case.
+Wait for loaded test items before checking filtered results. Browser session closed.
+
+Current stream medians in ms (Rust / Java): hill32 71.260 / 22.441,
+hill96 283.125 / 44.214, tabu32 62.536 / 24.318, tabu96 269.880 / 50.183.
+Both 96-variable workloads remain infeasible under the 50-step cap. List32
+construction remains Rust 0hard/-1080soft versus Java 0hard/-1062soft. Logs:
+work/flat-map-stream-evidence.log, flat-map-stream-performance.log,
+flat-map-list-refresh.log, flat-map-core-refresh.log and
+flat-map-heuristic-performance.log. Upstream pin/checkout remain unmodified.
