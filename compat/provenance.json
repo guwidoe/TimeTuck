@@ -6540,6 +6540,111 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all six threshold and six exact gradient assertions using native Duration values. Each solver/phase adaptation executes the full source sequence. Mock elapsed-time scopes and unused mock random source are replaced by explicit durations; ElapsedTimeLimit is used by actual local-search clocks. No JVM lifecycle, whole-solve time scope or unimproved-time compatibility claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.moveSpanForward",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanForward",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "move_span_forward",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.moveSpanBackwardReversing",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanBackwardReversing",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "move_span_backward_reversing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.moveSpanToOtherEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanToOtherEntity",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "move_span_to_other_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.moveSpanToUnassignedIsSubListUnassignMove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanToUnassignedIsSubListUnassignMove",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "move_span_to_unassigned_is_sublist_unassign_move",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.executeTemporarilyThenUndo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "executeTemporarilyThenUndo",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "execute_temporarily_then_undo",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.getPlanningEntitiesForSameEntityMove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "getPlanningEntitiesForSameEntityMove",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "get_planning_entities_for_same_entity_move",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
+    },
+    {
+      "id": "SubListChangeMoveTest.getPlanningEntitiesForDifferentEntitiesMove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "getPlanningEntitiesForDifferentEntitiesMove",
+      "local_path": "crates/solver/tests/sublist_change_cases.rs",
+      "local_test": "get_planning_entities_for_different_entities_move",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every ordered-list, undo or entity-membership assertion in the named method. Character values and stable entity indices replace inline Java fixture objects and metamodels; A1..A4/B1..B3 map to A..D/E..G. Native SubListChange and RAII transactions replace Moves/MoveTester; touched_entities returns the tested stable entity identities, including metadata-only moves that need not be executable. No source fixture implementation, Java object identity, listener, getPlanningValues, equality/hash/toString or rebase parity claim."
     }
   ],
   "fixtures": [
@@ -7101,6 +7206,32 @@
       "id": "AbstractConstraintStreamTest.equality_existence_assertions",
       "upstream_test": "assertScore, assertMatch, AssertableMatch.isEqualTo",
       "modifications": "Exact native pair IDs/payloads, per-match -1 weights, named total and global score preserve source unordered match assertions. Fixture only; no method credit."
+    },
+    {
+      "id": "SubListChangeMoveTest.span_oracle_inputs",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanForward, moveSpanBackwardReversing",
+      "local_path": "scripts/differential_lists.py",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reuse the five-element source fixture with zero-based integer identities and the specified span/insertion/reversal in supporting oracle/reference checks. Independent Python slicing and Java/Rust public execution add no source-method credit; the full methods are credited only in sublist_change_cases.rs. Other generated inputs are original."
+    },
+    {
+      "id": "SubListChangeMoveTest.span_reference_input",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "moveSpanForward",
+      "local_path": "scripts/test_differential_lists.py",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reuse the five-element source fixture with zero-based integer identities and the specified span/insertion/reversal in supporting oracle/reference checks. Independent Python slicing and Java/Rust public execution add no source-method credit; the full methods are credited only in sublist_change_cases.rs. Other generated inputs are original."
     }
   ]
 }

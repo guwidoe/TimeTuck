@@ -296,6 +296,39 @@ impl<V: Eq + Clone> ListProblem<V> {
                     transaction.assignment.lists[destination.entity]
                         .insert(destination.index, value);
                 }
+                ListMove::SubListChange {
+                    entity,
+                    start,
+                    end,
+                    destination,
+                    reverse,
+                } => {
+                    let length = transaction.entity(*entity)?.len();
+                    if start > end || *end > length {
+                        return Err(ListError::InvalidRange {
+                            entity: *entity,
+                            start: *start,
+                            end: *end,
+                        });
+                    }
+                    let destination_length = transaction.entity(destination.entity)?.len()
+                        - if *entity == destination.entity {
+                            end - start
+                        } else {
+                            0
+                        };
+                    if destination.index > destination_length {
+                        return Err(ListError::InsertionIndex(*destination));
+                    }
+                    let mut span: Vec<_> = transaction.assignment.lists[*entity]
+                        .drain(*start..*end)
+                        .collect();
+                    if *reverse {
+                        span.reverse();
+                    }
+                    transaction.assignment.lists[destination.entity]
+                        .splice(destination.index..destination.index, span);
+                }
                 ListMove::Swap { left, right } => {
                     transaction.element_index(*left)?;
                     transaction.element_index(*right)?;
@@ -353,6 +386,15 @@ pub enum ListMove<V> {
         source: ListPosition,
         destination: ListPosition,
     },
+    /// Move [start, end), optionally reversed. Destination is post-removal.
+    /// Empty spans are valid native no-ops after validating both positions.
+    SubListChange {
+        entity: usize,
+        start: usize,
+        end: usize,
+        destination: ListPosition,
+        reverse: bool,
+    },
     Swap {
         left: ListPosition,
         right: ListPosition,
@@ -376,6 +418,11 @@ impl<V> ListMove<V> {
                     destination,
                 } => entities.extend([source.entity, destination.entity]),
                 Self::Swap { left, right } => entities.extend([left.entity, right.entity]),
+                Self::SubListChange {
+                    entity,
+                    destination,
+                    ..
+                } => entities.extend([*entity, destination.entity]),
                 Self::Unassign { entity, .. } => entities.push(*entity),
                 Self::Composite(steps) => pending.extend(steps),
             }

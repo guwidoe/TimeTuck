@@ -12,7 +12,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 436 fully adapted source test methods (74 score + 10 basic move + 22 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
+- 443 fully adapted source test methods (74 score + 10 basic move + 29 list move + 27 provider + 11 acceptor + 4 construction + 98 collector + 177 stream + 13 termination), recorded in
   `compat/provenance.json`.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -29,8 +29,12 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   unassign/composite transactions, plus iterative bounded exact list enumeration.
   Read `docs/list-planning-contract.md`. `tiny_routes` proves `0hard/-12soft`
   after 5,040 complete states.
-- 256 original Java/Rust/Python list-move cases (907 operations) check candidates,
-  undo, commit and all four built-in shadow relationships; seed 20261003.
+- Atomic SubListChange relocates/reverses contiguous spans with post-removal
+  indices. An opt-in bounded span neighborhood feeds list and mixed search in
+  both backends, including joint moves; defaults retain single-value neighborhoods.
+- 384 Java/Rust/Python list-move cases (1,348 operations) check candidates,
+  undo, commit and all four built-in shadow relationships; original seed 20261003,
+  additional span relocation/reversal seed 20261124.
 - Scoped incremental basic/list/mixed score networks and atomic scored-move transactions.
   List scopes cover entity lists and value identities/shadows, with conservative
   neighbor invalidation and deferred cache updates.
@@ -52,7 +56,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   and separate exact stop predicates. Score now requires HARD_LEVEL_COUNT metadata.
   Native full-width differences are widened before conversion to f64. Automatic
   step-based cooling and local-search stopping behavior remain unchanged.
-- 342 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
+- 347 original integration regression methods, twenty-seven original unit tests, and thirty public API documentation tests.
 - Greedy construction with four early-pick policies, explicit partial results and
   bounded scoring. `local_search_from` accepts a complete constructed assignment.
 - `graph_coloring` constructs and improves 100 variables using 400 scoped constraints;
@@ -107,7 +111,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
   Server was restarted after the reporting-code update and may still be running.
   Reuse it; restart after changing imported fingerprint/reporting Python code.
 - Coverage denominator: 4,855 statically discovered annotated Java methods, not
-  expanded runtime JUnit invocations. 436 passed; 282 JVM integration exclusions.
+  expanded runtime JUnit invocations. 443 passed; 282 JVM integration exclusions.
   Everything else is pending. `docs/dashboard.md` explains caveats and commands.
 - Pinned upstream remains unmodified at 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 
@@ -1829,3 +1833,54 @@ manual reload works. Existing server reused; browser session closed. Upstream
 unchanged and full goal remains active. Next useful work includes matched mixed
 Java local-search evidence, broader neighborhoods/acceptance for the retained
 local trap, and remaining upstream cases without relaxing their assertions.
+
+## Sublist relocation/reversal and neighborhoods
+
+ListMove::SubListChange now atomically removes a half-open span, optionally reverses
+it and inserts at a post-removal destination. All bounds are checked before draining;
+final pins/ranges and rollback follow existing list transactions. Empty spans and
+singletons are supported. Touched owners feed existing scoped and stream cache
+invalidation, including combined mixed moves.
+
+list_sublist_change_moves lazily enumerates legal spans of length 2..=max_length,
+respecting pinned prefixes, full pins and destination ranges. Forward same-position
+no-ops are omitted; aliases are allowed. Neighborhood::ChangeSwapAndSubList adds
+these after existing list moves, including inside mixed joint products. Basic-only
+search still includes changes/swaps. Bounds below two add no spans and usize::MAX
+is clipped safely. Default neighborhood order/count remains the same.
+
+Seven fully adapted SubListChangeMoveTest methods preserve all ordered-state,
+undo and touched-entity assertions. Provenance and notices are recorded; other
+metadata/rebase methods remain pending. Five original regressions check errors,
+pins/ranges, panic rollback, independent successor sets, 120 scoped/stream shadow-
+sensitive trial/commit rounds, list and joint-mixed plateau escape in both backends,
+and basic swap retention. This does not claim Java span-search trace equivalence.
+
+The list move protocol adds r,entity,start,end,destination,index,reverse. The
+original 256 cases are preserved; the 128-case supplement includes two attributed
+source fixtures, two original boundaries and 124 generated cases (seed 20261124). All
+384 cases / 1,348 operations compare Java public MoveTester and native cached
+stream candidate/undo/commit states plus four derived shadows to independent
+Python slicing. One added Python regression validates span indexing/reversal and
+rejects malformed metadata. Generated cases add no extra upstream method credit.
+
+Development and release all-target suites pass: 817 Rust tests (443 adapted,
+347 original integration, 27 unit), 30 doctests and 73 Python checks. Overall
+coverage is 443/4,855 = 9.12% on the dashboard; report.percent rounds separately
+to 9.125, and the UI correctly derives its display from counts. Moves & selectors
+is 66/874 = 7.55%. Pending 4,130; exclusions 282; failed/unverified zero. Logs use
+work/sublist-change-{check,release,stream-evidence,stream-performance,list-refresh,
+core-refresh,heuristic-performance}.log. Full goal remains active and unfinished.
+
+All nine reports are refreshed/current and the live fingerprint matches. Existing
+stream medians ms Rust/Java: hill32 46.951/15.840, hill96 181.182/29.181,
+tabu32 47.153/12.410, tabu96 177.225/24.777; equal scores remain, including
+infeasible [-44,-484] at 96 variables. These timings do not measure the opt-in
+span neighborhood. Mixed quality checks retain 64/39/63 optimum counts under their
+existing configurations; no claim that the new neighborhood fixes that local trap.
+
+Browser checks at 1280px and 390px verify 9.12% coverage, moves/selectors 7.55%,
+all seven passed SubListChangeMoveTest adaptations and 384/384 list cases, with
+no stale alerts, errors or horizontal overflow. Existing server reused; browser
+closed; upstream unmodified. Remaining work includes sublist swapping and provider
+assertions, broader search quality/performance evidence and pending solver features.

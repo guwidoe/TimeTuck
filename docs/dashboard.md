@@ -169,10 +169,10 @@ included in the downloadable JSON and the measurement-notes disclosure.
 
 ## List-move comparison
 
-Run `python3 scripts/differential_lists.py` for 256 original valid cases comparing
+Run `python3 scripts/differential_lists.py` for 384 valid cases comparing
 Java public `MoveTester` candidate/undo/commit states to native transactions and
 an independent Python reference. Owner, index and previous/next shadows are
-checked at each observed state. Seed 20261003; source digests, artifact hashes,
+checked at each observed state. Seeds 20261003 and 20261124; source digests, artifact hashes,
 inputs, outputs and failures are retained. The dashboard renders this as a
 separate evidence row and marks it stale when measured sources change.
 It uses one optional list variable; pins and exact list solver results are covered
@@ -358,3 +358,11 @@ backend. Python independently enumerates 32,116 assignments. This is a quality
 comparison of different starts/strategies, without mixed timing or Java trace
 claims. It earns no upstream method credit. Raw evidence is saved in
 work/oracle/mixed-solver-cases.json.
+
+
+List-move evidence now totals 384 cases / 1,348 operations. The original 256 cases
+(seed 20261003) are preserved; 128 span-relocation/reversal cases use seed 20261124.
+Java public Moves.change(Range, ElementPosition, reverse), native cached list-stream
+views and Python slicing agree on candidate/undo/commit states and all four derived
+shadows. The report records sublist_seed separately. This is move evidence; existing
+list/mixed search timings retain their original neighborhoods.

@@ -15,6 +15,12 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/sublist_change_cases.rs` from seven state, undo and entity-
+  membership methods in `SubListChangeMoveTest.java`. The forward/backward fixture
+  is also reused in `scripts/differential_lists.py`; the forward fixture is reused
+  in `scripts/test_differential_lists.py`. These supporting uses are recorded as
+  fixtures and grant no additional source-method credit.
+
 - `crates/solver/tests/elapsed_time_cases.rs` from
   `TimeMillisSpentTerminationTest.java`.
 
@@ -111,7 +117,7 @@ The following test files adapt the pinned Community tests:
 ordering assertion behavior of the upstream test utility `PlannerAssert.java`;
 its provenance is recorded separately as a fixture, not an executable test.
 
-All 308 source methods are recorded individually in `compat/provenance.json`.
+All adapted source methods are recorded individually in `compat/provenance.json`.
 Changes include Rust constructors, operators, assertions, and equality/hash checks.
 Adaptations use test sources only; move tests replace Java descriptors with stable
 indices and MoveTester with native transactions, preserving state assertions.

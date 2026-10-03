@@ -8,7 +8,8 @@ fn basics<'a, B: Eq + Clone, L: Eq + Clone, I: Iterator<Item = usize> + Clone + 
     neighborhood: Neighborhood,
     order: I,
 ) -> impl Iterator<Item = Move<B>> + 'a {
-    let swaps = (neighborhood == Neighborhood::ChangeAndSwap)
+    let swaps = neighborhood
+        .includes_swaps()
         .then(|| swap_moves_ordered(problem.basic(), assignment.basic(), order.clone()))
         .into_iter()
         .flatten();

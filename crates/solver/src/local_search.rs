@@ -70,6 +70,16 @@ impl From<AcceptanceError> for LocalSearchError {
 pub enum Neighborhood {
     Change,
     ChangeAndSwap,
+    /// Add list-span relocations/reversals of length 2..=max_length after swaps.
+    /// Values below two add no spans. Basic-variable search retains changes/swaps.
+    ChangeSwapAndSubList {
+        max_length: usize,
+    },
+}
+impl Neighborhood {
+    pub(crate) fn includes_swaps(self) -> bool {
+        !matches!(self, Self::Change)
+    }
 }
 
 /// Choose the first accepted candidate, or the first highest-scoring accepted
@@ -356,7 +366,9 @@ where
             random.shuffle(&mut order);
         }
         let changes = change_moves_ordered(problem, &snapshot, order.iter().copied());
-        let swaps = (config.neighborhood == Neighborhood::ChangeAndSwap)
+        let swaps = config
+            .neighborhood
+            .includes_swaps()
             .then(|| swap_moves_ordered(problem, &snapshot, order.iter().copied()))
             .into_iter()
             .flatten();

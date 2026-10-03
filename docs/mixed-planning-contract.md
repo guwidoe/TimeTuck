@@ -127,6 +127,8 @@ add no upstream method credit or Java incremental mixed-scoring comparison.
 
 `mixed_moves` lazily emits basic changes (and optional swaps), followed by native
 list relocations/optional assignment/unassignment (and optional swaps/replacements).
+The opt-in `ChangeSwapAndSubList { max_length }` neighborhood adds contiguous
+list-span relocations/reversals after existing list moves.
 With `joint_moves` enabled, it then emits every pair of one basic and one list
 move from the same starting assignment. Component domains are independent, so
 valid component moves remain valid in combination. Complete states stay complete;

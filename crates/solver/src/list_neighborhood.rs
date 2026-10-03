@@ -172,12 +172,77 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         .into_iter()
         .flatten();
     let removed = unassigns(p, a, order.clone());
-    let swapped = (neighborhood == Neighborhood::ChangeAndSwap)
+    let swapped = neighborhood
+        .includes_swaps()
         .then(|| swaps(p, a, order.clone()))
         .into_iter()
         .flatten();
+    let max_length = match neighborhood {
+        Neighborhood::ChangeSwapAndSubList { max_length } => max_length,
+        _ => 0,
+    };
+    let spans = sublist_changes(p, a, max_length, order.clone());
     changes(p, a, order)
         .chain(assigned)
         .chain(removed)
         .chain(swapped)
+        .chain(spans)
+}
+
+fn sublist_changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    max_length: usize,
+    order: I,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    // Avoid visiting every position when span generation is disabled.
+    (max_length >= 2)
+        .then(|| positions(p, a, order.clone()))
+        .into_iter()
+        .flatten()
+        .flat_map(move |source| {
+            let last = a.lists()[source.entity]
+                .len()
+                .min(source.index.saturating_add(max_length));
+            let order = order.clone();
+            (source.index.saturating_add(2)..=last).flat_map(move |end| {
+                let span = &a.lists()[source.entity][source.index..end];
+                order
+                    .clone()
+                    .filter(move |&e| {
+                        !p.entities()[e].is_pinned() && span.iter().all(|v| p.accepts(e, v))
+                    })
+                    .flat_map(move |e| {
+                        let length =
+                            a.lists()[e].len() - if e == source.entity { span.len() } else { 0 };
+                        (p.entities()[e].pinned_prefix()..=length).flat_map(move |index| {
+                            [false, true].into_iter().filter_map(move |reverse| {
+                                (reverse || e != source.entity || index != source.index).then_some(
+                                    ListMove::SubListChange {
+                                        entity: source.entity,
+                                        start: source.index,
+                                        end,
+                                        destination: ListPosition { entity: e, index },
+                                        reverse,
+                                    },
+                                )
+                            })
+                        })
+                    })
+            })
+        })
+}
+
+/// All legal contiguous-span relocations, then their reversed variants at each
+/// destination. Lengths start at two (singletons are ordinary changes) and are
+/// capped by max_length. Source and destination pins/ranges are respected.
+/// Destination indices are post-removal. Forward same-position no-ops are omitted;
+/// distinct moves may still produce the same successor. Generation is lazy.
+pub fn list_sublist_change_moves<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    max_length: usize,
+) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
+    p.validate(a)?;
+    Ok(sublist_changes(p, a, max_length, 0..p.entities().len()))
 }

@@ -114,6 +114,15 @@ fn main() {
                         source: position(*e, *i),
                         destination: position(*d, *j),
                     },
+                    ("r", [e, start, end, d, j, reverse]) if matches!(reverse, 0 | 1) => {
+                        ListMove::SubListChange {
+                            entity: usize::try_from(*e).unwrap(),
+                            start: usize::try_from(*start).unwrap(),
+                            end: usize::try_from(*end).unwrap(),
+                            destination: position(*d, *j),
+                            reverse: *reverse == 1,
+                        }
+                    }
                     ("s", [e, i, d, j]) => ListMove::Swap {
                         left: position(*e, *i),
                         right: position(*d, *j),

@@ -139,3 +139,10 @@ joint optima; differences in returned quality are retained. The current corpus
 has 64 valid cases, with 39 Java, 64 native exact and 63 native local optima.
 No production source or upstream tests were copied. No trace equality, Java
 local-search comparison, mixed timing or extra upstream method credit is claimed.
+
+
+The list move protocol additionally accepts `r,entity,start,end,destination,index,reverse`
+for a half-open span, post-removal insertion and 0/1 reversal. The original 256
+cases are retained and 128 span cases are added (seed 20261124). All 384 cases /
+1,348 operations compare candidate/undo/commit states and four derived shadows.
+This does not add Java sublist-search timing or pin-validation evidence.

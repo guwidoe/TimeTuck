@@ -10,6 +10,7 @@ from differential_scores import ROOT, REF, WORK, source_digest
 from prepare_solver_oracle import prepare_solver_java
 
 SEED = 20261003
+SUBLIST_SEED = 20261124
 
 
 def apply(lists, op):
@@ -25,6 +26,18 @@ def apply(lists, op):
         value = lists[e][i]
         lists[e] = lists[e][:i] + lists[e][i+1:]
         lists[d] = lists[d][:j] + [value] + lists[d][j:]
+    elif kind == 'r':
+        e, start, end, d, j, reverse = v
+        if not 0 <= e < len(lists) or not 0 <= d < len(lists) or reverse not in (0,1):
+            raise ValueError('Invalid span metadata')
+        if not 0 <= start <= end <= len(lists[e]):
+            raise ValueError('Invalid span bounds')
+        if not 0 <= j <= len(lists[d])-(end-start if d==e else 0):
+            raise ValueError('Invalid post-removal insertion')
+        block = lists[e][start:end]
+        lists[e] = lists[e][:start] + lists[e][end:]
+        if reverse: block = block[::-1]
+        lists[d] = lists[d][:j] + block + lists[d][j:]
     elif kind == 's':
         e, i, d, j = v
         a, b = lists[e][i], lists[d][j]
@@ -111,6 +124,25 @@ def generate():
             op = rng.choice(options)
             moves.append(op); current = apply(current,op)
         add(count,initial,moves)
+    # Preserve the original 256 cases; append a separately seeded span corpus.
+    add(5,[[0,1,2,3,4]],[['r',0,1,3,0,3,0]])
+    add(5,[[0,1,2,3,4]],[['r',0,3,5,0,0,1]])
+    add(5,[[0,1,2],[3,4]],[['r',0,0,3,1,1,1]])
+    add(4,[[0,1],[2,3]],[['r',0,0,2,1,0,0],['r',1,0,3,0,0,1]])
+    rng = random.Random(SUBLIST_SEED)
+    for _ in range(124):
+        count, entities = rng.randint(2,7), rng.randint(1,3)
+        initial = [[] for _ in range(entities)]
+        initial[rng.randrange(entities)] = rng.sample(range(count),count)
+        current, moves = deepcopy(initial), []
+        for _ in range(rng.randint(1,6)):
+            options = [['r',e,start,end,d,j,reverse]
+                       for e,row in enumerate(current) for start in range(len(row)) for end in range(start+1,len(row)+1)
+                       for d,other in enumerate(current) for j in range(len(other)+1-(end-start if d==e else 0))
+                       for reverse in (0,1) if not (e==d and j==start and (reverse==0 or end-start==1))]
+            op = rng.choice(options)
+            moves.append(op); current = apply(current,op)
+        add(count,initial,moves)
     return cases
 
 
@@ -137,11 +169,11 @@ def main():
     if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     failed = {f['case'] for f in failures}
     report = {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
-              'revision':REF['commit'],'seed':SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
+              'revision':REF['commit'],'seed':SEED,'sublist_seed':SUBLIST_SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
               'moves':sum(len(c['moves']) for c in cases),'artifacts':artifacts,'environment':platform.platform(),
-              'scope':'Original valid assign/change/swap/span-unassign composites. Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
+              'scope':'Original valid assign/change/swap/span-unassign composites, plus 128 span-relocation/reversal cases (seed 20261124). Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
     (ROOT/'work/list-differential.json').write_text(json.dumps(report,indent=2)+'\n')
-    (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
+    (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'sublist_seed':SUBLIST_SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
     print(f'Differential list cases: {report["passed"]}/{report["total"]} passed ({report["moves"]} moves)')
     for failure in failures[:8]: print(json.dumps(failure))
     return bool(failures)

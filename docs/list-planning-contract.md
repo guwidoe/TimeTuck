@@ -27,7 +27,8 @@ Unchecked assignments can be constructed, but model operations validate them.
 ## Atomic moves
 
 `ListMove` supports assignment of an unassigned value, single-value relocation,
-position swap, half-open span unassignment, and ordered composition. Within-list
+position swap, contiguous-span relocation/reversal, half-open span unassignment,
+and ordered composition. Within-list
 relocation removes the source first, then inserts at the destination index in the
 shortened list. Cross-list relocation uses the destination's current index.
 Composites use current indices after each preceding operation. Assigning an
@@ -51,10 +52,11 @@ explicit stack; dropping deeply nested move enums has ordinary recursive destruc
 behavior. Full-state cloning remains the list transaction strategy. Incremental contribution
 scoring is described below; move application itself still clones the lists.
 
-Twenty-two adapted upstream methods preserve all state assertions in five assign,
-six swap, nine change and two span-unassign methods. See `compat/provenance.json`.
-The shared modulo-distribution fixture is attributed separately. Java move
-metadata, rebase, score-director notification and custom listener assertions
+Twenty-nine adapted upstream methods preserve assertions in five assign,
+six swap, nine change, two span-unassign and seven sublist-change methods. See `compat/provenance.json`.
+The shared modulo-distribution fixture is attributed separately. Two sublist-change
+methods check touched entity identities; other Java move metadata, rebase,
+score-director notification and custom listener assertions
 remain pending and receive no credit from these tests.
 
 ## Exact solving
@@ -304,3 +306,45 @@ See docs/constraint-stream-contract.md for propagation, rollback, diagnostics,
 callback accounting and regression scope. Custom shadows and mixed stream scoring
 remain pending. Existing list-move comparisons now read the cached native stream shadows;
 list-solving timing workloads continue to use their full-scoring adapters.
+
+
+## Contiguous sublist relocation and reversal
+
+`ListMove::SubListChange` removes a half-open `[start,end)` span, optionally reverses
+it and inserts it at a destination. Destination indices are measured after removal,
+including within the same list. Entire-list moves, insertion at either boundary,
+singletons and empty spans are valid; empty spans still validate source/destination
+positions. Range errors are returned before draining. Final pin and per-entity
+range checks share the existing transaction guard, so a failing later composite
+step or ordinary caller unwinding restores the complete original state.
+
+Touched entity metadata includes both owners, deduplicated. Existing scoped/list
+stream directors refresh contributions and derived views for these owners and their
+values; mixed transactions and scoring accept the same move. Seven complete source
+methods preserve forward/backward/reversed/cross-owner states, unassignment, undo
+and touched entity identities. Other methods in that source class remain pending.
+
+`list_sublist_change_moves(problem, assignment, max_length)` lazily enumerates
+legal lengths two through the bound, source owner/start/end, destination owner and
+post-removal insertion index, then forward/reversed orientation. Singletons already
+belong to ordinary changes. Forward same-position no-ops are omitted. Sources begin
+after pinned prefixes; pinned owners are excluded and every moved value must fit
+the destination range. Different moves may yield the same successor. Bounds below
+two yield no span moves; `usize::MAX` is safely capped by available list length.
+
+`Neighborhood::ChangeSwapAndSubList { max_length }` appends these moves after the
+existing change/optional assign/unassign/swap families. It enables list and mixed
+local search with both scoring backends. Joint mixed moves also combine basics
+with spans. Basic-only search uses changes/swaps for this option. Default
+neighborhoods retain their prior move order and size; the larger neighborhood is
+opt-in and can be expensive even though generation remains lazy.
+
+Five original regressions check invalid boundaries/pins/ranges and panic rollback,
+independent successor sets, 120 scored trial/commit/undo rounds with shadow-sensitive
+scores, list/joint-mixed plateau escape in both backends, and basic swap retention.
+The list oracle adds two reused upstream fixtures, two original boundary cases and
+124 generated span cases (seed 20261124), for
+384 cases / 1,348 operations total. All Java public MoveTester and native cached
+stream candidate/undo/commit states and owner/index/previous/next views agree with
+Python slicing. This move evidence adds no extra source-method credit, Java pin
+or sublist-search trace claim, or new performance workload.

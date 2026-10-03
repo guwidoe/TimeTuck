@@ -45,8 +45,9 @@ not this Rust implementation. Its cases must be classified and adapted.
 6. Expand to incremental scoring, move application/undo, small planning problems,
    then heuristic solving. Check incremental scores against full recomputation.
 
-Twenty-two list-move methods additionally preserve ordered assignment, relocation,
-swap and span-unassignment states and undo. Native derived owner/index/neighbor
+Twenty-nine list-move methods additionally preserve ordered assignment, relocation,
+swap, sublist relocation/reversal and span-unassignment states/undo, plus two
+sublist touched-entity membership assertions. Native derived owner/index/neighbor
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
 Nineteen list-provider methods additionally preserve move membership and
 exclusion assertions, including per-entity ranges. Native greedy list construction and bounded local search
@@ -262,3 +263,13 @@ optimality counts differ: Java 39/64, native exact 64/64, both native local back
 63/64. The dashboard reports this quality gap explicitly; 64 valid cases do not
 mean 64 equal-score results. These original cases add no upstream coverage. See
 `docs/mixed-planning-contract.md` for configurations, starts and limitations.
+
+
+Seven SubListChangeMoveTest methods additionally preserve all ordered-list,
+rollback and touched-entity membership assertions through native span moves. The
+provenance ledger records each adaptation and notices. Five original native
+regressions and 128 additional Community span-move cases verify neighborhoods,
+score-cache updates, pins/ranges and candidate/undo/commit shadows separately.
+Java span-search configuration, other move metadata, rebase and listener-event
+parity remain pending. Supporting fixtures are separately attributed; these
+checks do not add upstream method credit.

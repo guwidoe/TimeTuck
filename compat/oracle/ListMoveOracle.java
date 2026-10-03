@@ -13,6 +13,7 @@ import ai.timefold.solver.core.api.domain.variable.*;
 import ai.timefold.solver.core.api.score.SimpleScore;
 import ai.timefold.solver.core.api.solver.SolutionManager;
 import ai.timefold.solver.core.preview.api.domain.metamodel.PlanningSolutionMetaModel;
+import ai.timefold.solver.core.preview.api.domain.metamodel.ElementPosition;
 import ai.timefold.solver.core.preview.api.move.Move;
 import ai.timefold.solver.core.preview.api.move.builtin.Moves;
 import ai.timefold.solver.core.preview.api.move.test.MoveTester;
@@ -72,6 +73,7 @@ public final class ListMoveOracle {
                     moves.add(switch(parts[0]) {
                         case "a" -> Moves.assign(variable,p.values.get(v[0]),p.entities.get(v[1]),v[2]);
                         case "c" -> Moves.change(variable,p.entities.get(v[0]),v[1],p.entities.get(v[2]),v[3]);
+                        case "r" -> Moves.change(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]),ElementPosition.of(p.entities.get(v[3]),v[4]),v[5]==1);
                         case "s" -> Moves.swap(variable,p.entities.get(v[0]),v[1],p.entities.get(v[2]),v[3]);
                         case "u" -> Moves.unassign(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]));
                         default -> throw new IllegalArgumentException("Unknown move");
