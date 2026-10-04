@@ -411,3 +411,9 @@ pub use significant_improvement::{
 };
 
 mod value_construction_queue;
+
+mod ruin_recreate;
+pub use ruin_recreate::{
+    RuinRecreateConfig, RuinRecreateError, RuinRecreateResult, RuinRecreateTermination,
+    ruin_recreate_search_from, ruin_recreate_stream_search_from,
+};

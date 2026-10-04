@@ -1522,3 +1522,14 @@ these phase-local expressions. AndCompositeTerminationTest and
 OrCompositeTerminationTest were inspected as behavioral context; their scope and
 gradient assertions remain pending. No new upstream methods or fixtures were adapted,
 and no Java trace or progress-gradient equivalence is claimed for this option.
+
+One RuinRecreateMoveSelectorTest method, testRuiningNoAssignedValues, now preserves
+all final-null and successful-solve assertions using native seeded basic repair in
+both scoring backends. Three optional entities, three shared values, distinct initial
+assignments, a group of all three and one accepted reconstruction retain the source
+fixture. The assigned-entity penalty and solution-generator fixture are attributed
+in provenance/notices. Native APIs replace Java configuration/descriptor plumbing;
+no random trace, move equality, rebase, meter or lifecycle equivalence is claimed.
+Original reference/budget/pin/cancellation/decimal regressions support the broader
+native search contract without additional method credit. List/mixed repair, integrated
+plan phases and dedicated Java performance comparisons remain pending.

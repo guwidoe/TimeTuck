@@ -79,7 +79,9 @@ See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 
 Use `solve`, `solve_list` or `solve_mixed` to construct and improve a model with
-shared evaluation budgets and cancellation. Local search accepts nested `StepTermination::All`
+shared evaluation budgets and cancellation. `ruin_recreate_search_from` and its stream
+counterpart explore seeded groups of basic variables through bounded greedy
+reconstruction, retaining the best complete solution. Local search accepts nested `StepTermination::All`
 and `Any` conditions over step counts, stagnation, accepted moves, score targets and
 feasibility; see the [search contract](docs/incremental-search-contract.md). Local search also supports all five
 step-counting hill-climbing modes, with 600 original Java/Rust/Python comparisons. SolverPlan and MixedSolverPlan can mix

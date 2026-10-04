@@ -1684,3 +1684,58 @@ non-latching stagnation and repeated phase handoffs. The pinned AND/OR composite
 termination tests were inspected, but their mocked solver/phase applicability and
 gradient contracts are not fully represented by this native boundary API. They
 remain pending; these original checks earn no adapted-method credit.
+
+## Seeded basic ruin-and-recreate search
+
+`ruin_recreate_search_from` and `ruin_recreate_stream_search_from` accept a complete
+basic assignment and repeatedly clear a sampled group before greedy reconstruction.
+The implementation follows the pinned public ruin/recreate behavior independently.
+The caller supplies explicit seed, attempt/evaluation budgets, positive minimum and
+maximum ruined counts, optional time/cancellation, native acceptance, construction
+placement and early-pick policy. Counts clamp to the movable population; each group
+uses uniform count selection and sampling without replacement through the native
+PRNG. No Java random trace or default-strategy parity is implied.
+
+Each repair freezes all unsampled values, including optional None, and preserves
+original pins. Reconstruction visits selected variables in model/domain order,
+using Sequential, Pooled or ValueQueue placement; sample order does not reorder
+construction. Optional assignments use NonWorsening and may remain unassigned.
+Scoped constraints must support partial assignments. Each stream factory supplies
+fresh empty planning sources and the same deterministic objective; factories run
+for initialization and each attempted repair, not when initial scoring is skipped.
+Per-repair model/cache/graph rebuilding is intentional; this is not an in-place
+incremental repair optimization. List/mixed repair and SolverPlan integration are
+not yet implemented.
+
+The initial score, each repair's initial score and all candidate scores share the
+exact evaluation cap. `repair_move_evaluations` counts only construction candidate
+scores; `attempts` counts started repair calls, including unscored, partial, unchanged
+or rejected ones. `complete_reconstructions` counts complete scored repair results.
+`accepted_moves` counts changed complete successors accepted by the configured
+policy; only these advance acceptance history. Rejected/no-op attempts resample
+until a budget ends the search. Move identities are final model-index-ordered
+Composite(Change) edits; value tabu receives their destination planning values.
+These are native identities, not Java ruin/recreate descriptor equality.
+
+Every complete scored repair may improve the retained best independently of whether
+acceptance changes the current state. Partial interrupted repairs are discarded;
+complete interrupted repairs may be retained. Returned best never loses quality,
+need not be feasible and never proves optimality. Zero evaluations skips scoring;
+zero attempts or zero time permits only the initial score. Validation precedes
+skipped work. At attempt boundaries precedence is cancellation, elapsed time,
+evaluation cap, attempt cap, then no movable variables. Time includes validation,
+model/cache preparation, callbacks, diagnostics and stream factories. Checks are
+cooperative; active work cannot be preempted, and factory time is deducted from the
+repair's remaining time before construction begins. Caller data is immutable;
+errors propagate without returning a partial search result.
+
+One full pinned test adaptation preserves all three final unassignment assertions
+under the assigned-entity penalty, with both backends. Original regressions include
+1,600 backend solves against independent full-score reconstruction over 32 varied
+models and 25 budgets, local-optimum escape, exact work counts, pins/null preservation,
+repeatable sampling, multiple acceptance families/placements, cancellation at every
+score boundary, delayed/cancelling factories and sub-float decimal differences.
+The crafted local-optimum case is escaped by Sequential/Pooled but not ValueQueue;
+quality is not assumed equal across strategies. Dedicated Java trace/timing evidence
+for this new search is not claimed, and the other selector/lifecycle tests remain
+pending.

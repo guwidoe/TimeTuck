@@ -8193,3 +8193,58 @@ This increment adds useful native phase-local composition with original correctn
 regressions. The full Community solver goal remains active, incomplete and unblocked;
 shared/time composition, scope applicability and gradient adaptations remain future
 work. The unchanged upstream coverage percentage is intentional and truthful.
+
+## 2026-10-04: Seeded basic ruin-and-recreate search
+
+Previous turn made verified progress in bc75328. New ruin_recreate_search_from and
+ruin_recreate_stream_search_from implement actual repeated group clearing/greedy
+reconstruction, native acceptance, strict best retention, seeded count/subset sampling,
+pin/null freezing and global evaluation/attempt/time/cancellation controls. Read
+ruin_recreate.rs and the new search-contract section. Model/graph/cache rebuilding
+is deliberate; list/mixed support and SolverPlan integration remain future work.
+No dedicated Java random-trace/timing claim. Only tests/public docs were inspected.
+
+One complete pinned testRuiningNoAssignedValues adaptation preserves all three null
+assertions through both backends. Its optional solution-generator and assigned-value
+penalty fixtures are recorded in provenance and notices. Other selector, rebase,
+equality and metric tests remain pending. Ten original regressions include 1,600
+scoped/stream solves against full-score reconstruction (32 models x 25 budgets x two
+backends), local-optimum escape, exact counters, seeded subset/pin behavior, multiple
+placements/acceptors, cancellation at each score call, delayed/cancelling factories
+and exact owned decimals. Sequential/Pooled escape the crafted valley; ValueQueue
+correctly retains the old best. Do not assume equal strategy quality.
+
+Focused 11-test suite passed. Initial fixture fixes: one aggregate scoped penalty
+avoids duplicate constraint names; stream aggregate callbacks fill not-yet-inserted
+rows with None; decimal network receives explicit value type. Clippy rejected a
+test-only clone on Copy, corrected. Full gate now runs as handle 34758 with output
+work/ruin-check.log. Expected totals: 1,878 Rust tests, 100 doctests, 223 Python
+checks, 886/4,855 methods (18.249%), pending 3,687, excluded 282, failed/unverified 0.
+Until the gate exits these are estimates. Sources/provenance are frozen for capture.
+Prepared work/ruin-refresh.sh (14 sequential jobs) and work/ruin-audit.py. Re-poll
+live handles on observation timeouts. Full goal remains active/incomplete/unblocked.
+
+Full gate 34758 completed exit 0: 1,878 Rust tests, 100 doctests and 223 Python
+checks passed; formatting/Clippy clean. Coverage is 886/4,855=18.249%, pending
+3,687 / excluded 282 / failed 0 / unverified 0. Moves & selectors becomes 125/874.
+Sources/provenance remain frozen for focused release and the 14-dataset refresh.
+
+Release/refresh/audit handle 33922 completed exit 0. All 11 focused release tests
+passed, all 14 existing measurement datasets were refreshed, and work/ruin-audit.log
+confirms current source/verification fingerprints and live freshness. There remain
+71 existing timing workloads; no dedicated ruin/recreate Java timing was added.
+Existing quality/counter invariants pass, including baseline 128/128, heuristic
+352/352 and construction 201/201 agreement; optimum counts stay separate.
+
+Browser DOM verification passed at desktop and 390x844: 18.25% overall coverage,
+Moves & selectors 125/874, all 71 timing cards, and the filtered
+RuinRecreateMoveSelectorTest.testRuiningNoAssignedValues explicitly Passed. No page
+errors, undefined/stale-result text or horizontal overflow. No UI layout changed.
+Browser closed; localhost:8765 server remains running. No test/measurement process
+remains live; upstream is unchanged at the pinned commit. Implementation, tests,
+provenance/notices and documentation were staged and reviewed.
+
+This turn made verified progress toward the full independent solver rewrite. The
+full goal remains active, incomplete and unblocked. Next work should integrate this
+search into native plans, support list/mixed repair and build matched public-Java
+quality/performance evidence without inflating method coverage.

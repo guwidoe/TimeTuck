@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/ruin_recreate_cases.rs` adapts
+  `RuinRecreateMoveSelectorTest.testRuiningNoAssignedValues`, its embedded
+  assigned-value penalty, and the three-entity optional solution-generator fixture.
+  See provenance for native search and integer-identity substitutions.
+
 - `crates/solver/tests/concurrent_cases.rs` adapts all seven methods in
   `ConcurrentValuesShadowVariableTest`. Its reusable `concurrent_support` example
   module adapts the concurrent domain, suppliers and expected-score fixtures.
