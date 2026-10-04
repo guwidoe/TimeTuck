@@ -27,6 +27,26 @@ Enterprise code, artifacts, and features are not an authorized source.
 - Run `bash scripts/check.sh` after Rust changes. Run the inventory after pin changes.
 - All crates remain `publish = false` until release preparation.
 
+## Verification workflow
+
+- Batch related behavior changes. Use focused tests while developing, then run
+  `bash scripts/check.sh` once on the final Rust state of each coherent batch.
+- Reuse successful verification when its relevant inputs are unchanged. Repeat
+  checks for changed inputs, failures, unresolved concerns, or an explicit user
+  request; a new commit, turn, or context reset alone is not a reason to repeat.
+  Shared solver changes require broad regression coverage; file paths alone do
+  not establish that behavior is independent.
+- Run benchmarks when needed to assess a performance change or support a claim.
+  Do not refresh every benchmark after every increment. Keep older measurements
+  visibly stale until a deliberate refresh; never relabel old evidence as current.
+- Verify the browser after UI or rendering/data-contract changes. For backend-only
+  report refreshes, inspect report data and freshness without repeating UI checks.
+- Repeat correctness tests in release mode only for a release-specific concern.
+  Documentation-only edits need diff review, not a Rust suite or benchmark rerun.
+- Record completed checks, their source state, and remaining gaps concisely in the
+  handoff. Evidence reuse must respect the reporting tools' freshness checks;
+  changing hashes on old results is not verification.
+
 ## Commits
 
 Inspect staged changes and use Conventional Commits: `<type>(<scope>): <summary>`.
