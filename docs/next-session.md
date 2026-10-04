@@ -6596,3 +6596,69 @@ isAccepted Passed / phaseLifecycle Pending. No page errors or horizontal overflo
 at 1440px and 390px. Browser closed; localhost:8765 remains running. Documentation
 and source/provenance were inspected before the Conventional Commit. The rewrite
 is still incomplete; this increment is concrete progress, not goal completion.
+
+## In progress: typed move tabu (2026-10-04)
+
+Previous goal turn made concrete progress and committed 21b629d. Tree was clean.
+This increment adds hard and fading move tabu, using pinned MoveTabuAcceptorTest
+and the public local-search documentation (reject moves equal to recent steps).
+Only the public withMoveTabuSize API signature was searched; no production logic
+was copied or translated. Native moves already have Eq/Clone, including list and
+mixed descriptors. Identity is structural, with order, positions and swap orientation
+significant; inverse/successor-state equivalence and Java equality are not claimed.
+
+New MoveAcceptor<S,M> stores ordinary Acceptor state, hard/fading move memory or
+ordered children. accepts/step_ended require both descriptor and variable keys.
+Acceptance::start_with_moves constructs it; legacy scalar start reports
+MoveContextRequired for move policies. LocalSearchConfig starts typed state in all
+six paths, with any extra policies; existing variable-key tracking remains separate.
+No hashing or generic Hash bound. Trials never clone descriptors into memory;
+selected steps clone only when move memory needs the key. All policies validate
+before construction, and every child sees completed rejected-fallback steps.
+
+Three complete source methods are adapted with stable IDs, fixed draws and all
+assertions; provenance/notices updated. Seven original regressions cover structural
+identity, chronological expiry/refresh/aspiration, independent memories, skipped
+random draws, clone counts, invalid configs and all six search paths against an
+independently retained selected-move history. Paired-backend and owned-score matrices
+include both policies. All focused/integration suites passed. No scoped Java
+lifecycle, general move-equality, PRNG or fading timing parity claimed.
+
+Public Java/native heuristic drivers add move-tabu tenure 2. Three-step/no-warmup
+smoke passed 192/192 valid and equal-score cases (32 per six configurations) plus
+12 timing workloads. These smoke timings are not performance evidence. Full gate
+session 74212 is running in work/move-tabu-check.log; source frozen. Expected
+1,661 Rust tests (829 adapted, 756 original integration, 76 unit), 86 doctests and
+193 Python tests. After success run focused release and all 13 sequential dataset
+refreshes, final report, fingerprint/status audit and browser QA for 47 cards.
+
+Full gate session 74212 completed exit 0: 1,661 Rust tests, 86 doctests and
+193 Python tests. Coverage 829/4,855 = 17.075%, search 35/158 = 22.152%, pending
+3,744, excluded 282, failed/unverified zero. All ten new tests pass release.
+Thirteen sequential refreshes run in session 83711, logs work/move-tabu-refresh-*.log.
+Final report generation follows in that same process. Audit work/move-tabu-audit.py
+expects 13 current datasets, 47 cards and MoveTabuAcceptorTest 3/3.
+
+Next candidates: value tabu, ratio sizing, diversified late acceptance. ValueTabu
+source tests expose planning-value lists through mock moves, but actual native
+search needs a clear value extraction contract (basic change/swap/composite, list
+spans/positions, optional None and mixed B/L namespaces) before adopting the method
+credit. Do not treat descriptor identity as value identity. Diversified source
+history mutation and injected-state tests still require the earlier noted trial/
+step specification. None of those features is implemented in this increment.
+
+Refresh session 83711 completed exit 0. Fingerprint/live-server audit passes with
+13 current datasets, 47 cards and MoveTabuAcceptorTest 3/3. Full default heuristic
+run (50 steps, 5 warmups, 7 samples, 3 forks) validates 192/192 small cases with
+equal final scores; 158 optimal per engine. Move-tabu medians: 32 variables Rust
+2.212 ms / Java 10.019 ms, both optimal 0/0; 96 variables Rust 14.462 ms / Java
+17.325 ms, both infeasible -44/-22. Each workload retains 21 samples per engine,
+full score-call counts and ranges. These workload ratios are not general speed
+claims, and the infeasible case must remain visible. Existing discrepancies persist.
+
+Browser confirms overall 17.08%, search 22.15%, all three move-tabu methods Passed,
+47 cards and 12 heuristic cards. Both new cards show quality/feasibility, known
+optimum, score calls and timing ranges. No page errors or horizontal overflow at
+1440px/390px. Browser closed and localhost:8765 remains running. Source/tests,
+provenance and staged diff were reviewed before the Conventional Commit. The
+full rewrite remains incomplete; this increment is progress, not goal completion.

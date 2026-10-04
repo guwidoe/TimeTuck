@@ -235,7 +235,7 @@ where
                 } else {
                     vec![]
                 };
-                acceptor.accepts(current.clone(), score, &keys)
+                acceptor.accepts(current.clone(), score, &keys, movement)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,
@@ -258,7 +258,7 @@ where
             } else {
                 vec![]
             };
-            acceptor.step_ended(director.score(), &keys);
+            acceptor.step_ended(director.score(), &keys, movement);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
             time_budget.complete_step(improved);

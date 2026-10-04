@@ -199,14 +199,14 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
         }
         Ok(())
     }
-    pub(crate) fn start_acceptance(
+    pub(crate) fn start_acceptance<M: Eq + Clone>(
         &self,
         initial: S,
-    ) -> Result<crate::Acceptor<S>, AcceptanceError> {
+    ) -> Result<crate::MoveAcceptor<S, M>, AcceptanceError> {
         if self.additional_acceptance.is_empty() {
-            self.acceptance.start(initial)
+            self.acceptance.start_with_moves(initial)
         } else {
-            crate::Acceptor::start_composite(self.policies(), initial)
+            crate::MoveAcceptor::start_composite(self.policies(), initial)
         }
     }
     pub(crate) fn tracks_variables(&self) -> bool {
@@ -535,7 +535,7 @@ where
                 } else {
                     Vec::new()
                 };
-                acceptor.accepts(current.clone(), score, &variables)
+                acceptor.accepts(current.clone(), score, &variables, movement)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,
@@ -559,7 +559,7 @@ where
             } else {
                 Vec::new()
             };
-            acceptor.step_ended(director.score(), &variables);
+            acceptor.step_ended(director.score(), &variables, movement);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
             time_budget.complete_step(improved);

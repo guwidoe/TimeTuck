@@ -13,7 +13,9 @@ use timetuck::{
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if args.len() != 5 {
-        return Err("expected hill|tabu|late_tabu|step|deluge steps warmup samples".into());
+        return Err(
+            "expected hill|tabu|move_tabu|late_tabu|step|deluge steps warmup samples".into(),
+        );
     }
     let acceptance = match args[1].as_str() {
         "hill" => Acceptance::HillClimbing,
@@ -28,6 +30,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         "deluge" => Acceptance::GreatDeluge {
             initial_water_level: None,
             rise: timetuck::GreatDelugeRise::Score(timetuck::HardSoftScore::new(0, 1)),
+        },
+        "move_tabu" => Acceptance::MoveTabu {
+            tenure: 2,
+            aspiration: true,
         },
         "tabu" => Acceptance::VariableTabu {
             tenure: 2,

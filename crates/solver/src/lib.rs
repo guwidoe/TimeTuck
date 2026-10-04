@@ -56,6 +56,8 @@ pub use construction::{
     OptionalConstruction, greedy_construction, greedy_construction_from,
 };
 
+pub mod move_acceptance;
+pub use move_acceptance::MoveAcceptor;
 pub mod tabu;
 pub use tabu::TabuMemory;
 mod fading_tabu;

@@ -442,6 +442,16 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::MoveTabu {
+            tenure: 2,
+            aspiration: true,
+        },
+        Acceptance::FadingMoveTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 77,
+        },
         Acceptance::FadingVariableTabu {
             hard_tenure: 1,
             fading_tenure: 4,

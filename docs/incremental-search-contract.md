@@ -1116,3 +1116,44 @@ score calculation, deterministic change moves and the same fixed step budget.
 All assignments are independently rescored, scores/score-call counts accompany
 samples, and quality equality is reported separately. This establishes bounded
 workload validity and measurements, not identical internal traces or general speed.
+
+## Move-based tabu
+
+`Acceptance::MoveTabu` and `FadingMoveTabu` retain complete selected descriptors
+instead of touched-variable keys. Public Community documentation defines move tabu
+as rejecting a move equal to a recent selected step. Native equality is the existing
+structural Eq of Move, ListMove and MixedMove: values, positions, swap orientation
+and ordered composite children remain significant. Equality must stay stable while
+retained. There is no hash, pointer identity, debug-string encoding, automatic
+inverse retention, or equivalence by successor state. Java descriptor equality is
+not claimed, particularly for reversed swaps or entity-based list representations.
+
+`Acceptance::start_with_moves` produces typed `MoveAcceptor<S, M>`; its accepts and
+step_ended calls require the actual move alongside variable/entity keys. Scalar
+`Acceptance::start` returns MoveContextRequired for move policies. This avoids
+silently interpreting variable keys as move identities. Typed from_policies retains
+ordered conjunction/short-circuit behavior, independent variable/move memories and
+completed-step updates to all children, including rejected fallback. Ordinary
+policies use existing Acceptor state, without cloning ignored descriptors. Trials
+never retain a move; only selected steps clone descriptors into move memory.
+
+Both policies work in all six solver paths, as primary or additional policies.
+Tenures, fading probabilities, deterministic native draws and strict global-best
+aspiration follow the already documented native tabu contracts. Zero fading gives
+hard tabu; hard+fading must be positive and fit usize. Each phase creates fresh
+memory. Configuration validation precedes scoring and state construction.
+
+All three MoveTabuAcceptorTest methods are adapted with every acceptance and supplied
+random-consumption assertion. Integer IDs replace source mocks; source fading draws
+are supplied explicitly, not reproduced by the native PRNG. Original regressions
+cover structural distinctions, chronological expiry/refresh/best-score references,
+trial clone avoidance, validation, skipped random draws and all six search paths
+against independently retained selected histories. Existing paired-backend and
+owned-score matrices include hard and fading move policies, combined with other
+acceptors, budgets, pins, fallbacks, shuffled order and phase transitions.
+
+The public Java/native full-scoring benchmark adds move tabu size 2 with global-best
+aspiration, original-order change descriptors, fixed steps and best-rejected
+fallback. Every sample is independently rescored and final quality is shown with
+timings. This bounded change-only comparison does not establish general Java move
+equality, fading random-trace parity, memory scaling or production performance.

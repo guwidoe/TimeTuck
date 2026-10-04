@@ -359,3 +359,9 @@ CompositeAcceptorTest.isAccepted method at the pinned Community revision. All fi
 truth configurations retain source attribution in compat/provenance.json. Native
 policy composition, its state regressions and combined heuristic benchmark are
 independent implementations; Java lifecycle callback equivalence is not claimed.
+
+`crates/solver/tests/move_tabu_cases.rs` adapts all three Apache-2.0
+MoveTabuAcceptorTest methods at the pinned Community revision. Identity/score/step
+fixtures and supplied draws retain attribution in compat/provenance.json. Typed
+MoveAcceptor, structural-identity search integration, original regressions and
+public Java/native benchmark extension are independently implemented.

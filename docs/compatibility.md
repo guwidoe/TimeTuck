@@ -1310,3 +1310,14 @@ tracking have original regressions, without extra upstream-method credit.
 Two combined late-acceptance/tabu timing workloads and thirty-two small quality cases
 extend the existing public Community comparison. Validity, equal final scores and
 performance remain distinct; Java lifecycle and internal trace parity are not claimed.
+
+## Typed move tabu
+
+All three MoveTabuAcceptorTest methods preserve complete hard-tenure, aspiration
+and supplied-draw fading fixtures with native stable IDs. The new typed acceptance
+state integrates hard and fading move tabu across six native search paths using
+full structural descriptors. Native Eq (including order and positions), Java
+mock-identity adaptations and random-generator boundaries are documented separately;
+no Java move-equality or lifecycle parity is inferred. Original chronological and
+search regressions, plus two move-tabu benchmark workloads and 32 small quality
+cases, earn no extra upstream-method credit.
