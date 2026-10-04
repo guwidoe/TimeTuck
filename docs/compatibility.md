@@ -1576,3 +1576,11 @@ through shared native weighted search. Its 100 completed-step cap is represented
 100 selected native attempts, including rejected/unchanged attempts; random traces
 and acceptance histories are not claimed equivalent. Provenance records all fixture
 and API substitutions. UnionMoveSelectorTest lifecycle assertions remain pending.
+
+Original required/optional list-repair benchmarks now independently check validity,
+quality and actual work against the pinned public Java API. Group ranges begin at
+one for eight-repair timing comparisons. Separate fixed-minimum probes expose early
+Java termination after optional omissions, while native repair can include missing
+values and finish the requested work. Equality is not presumed, and timing cases
+with differing quality remain labelled. These original cases add no upstream-method
+credit; methodology, scope and exclusions are documented in docs/dashboard.md.

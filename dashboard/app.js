@@ -111,6 +111,7 @@ function render() {
     renderBenchmarks("solver");
     renderBenchmarks("construction");
     renderBenchmarks("repair");
+    renderBenchmarks("list_repair");
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
     renderBenchmarks("stream");
@@ -223,7 +224,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction" || kind === "repair";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction" || kind === "repair" || kind === "list_repair";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -294,6 +295,9 @@ function renderBenchmarks(kind = "score") {
         if (kind === "repair") {
             b.append(node("p", "range", `Ruined group: ${n(w.ruined_count)} variables. Repairs · Rust ${n(w.rust.repairs.min)}–${n(w.rust.repairs.max)} · Java ${n(w.java.repairs.min)}–${n(w.java.repairs.max)}. Sampling and scoring work differ.`));
         }
+        if (kind === "list_repair") {
+            b.append(node("p", "range", `Requested group range: ${n(w.minimum_ruined)}–${n(w.maximum_ruined)} values. Repairs · Rust ${n(w.rust.repairs.min)}–${n(w.rust.repairs.max)} · Java ${n(w.java.repairs.min)}–${n(w.java.repairs.max)}. Unassigned · Rust ${n(w.rust.unassigned)}, Java ${n(w.java.unassigned)}. Sampling and scoring work differ.`));
+        }
         box.append(b);
     });
     target("benchmark-caption").textContent = missing
@@ -304,6 +308,9 @@ function renderBenchmarks(kind = "score") {
     }
     if (kind === "repair" && !missing) {
         target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Independent assignment, score and quality checks; different PRNGs and reconstruction orders.`;
+    }
+    if (kind === "list_repair" && !missing) {
+        target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Required and optional lists; group ranges start at one. Independent score and optimum checks.`;
     }
     if (kind === "construction" && !missing) {
         target("benchmark-caption").textContent = `Complete construction · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every output independently checked; native assignments also match greedy reconstruction.`;
@@ -407,6 +414,7 @@ function renderDifferential() {
     }
     for (const [key, label] of [
         ["repair_performance", " original repair cases return valid, non-regressing solutions."],
+        ["list_repair_performance", " original list-repair cases return valid, non-regressing solutions."],
         ["construction_performance", " original construction cases return valid complete assignments and scores."],
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
         ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
@@ -417,6 +425,14 @@ function renderDifferential() {
             const v = h.validation, p = node("p");
             p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(label));
             box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
+            if (key === "list_repair_performance") {
+                for (const [mode, detail] of Object.entries(v.by_algorithm || {})) {
+                    box.append(node("p", "note", `${mode}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}.`));
+                }
+                for (const probe of h.boundary_probes || []) {
+                    box.append(node("p", "note", `Group boundary · ${probe.case.optional ? "optional" : "required"} lists, requested group ${n(probe.minimum)}–${n(probe.maximum)}: Java completed ${n(probe.java.repairs)}, Rust ${n(probe.rust.repairs)} of ${n(probe.requested_repairs)} requested repairs. Scores: Java ${probe.java.score.join("/")}, Rust ${probe.rust.score.join("/")}. Separate behavior probe; excluded from timing comparisons.`));
+                }
+            }
             if (key === "construction_performance") {
                 box.append(node("p", "note", `${n(v.native_reference_passed)} native assignments match independent greedy reconstruction; ${n(v.equal_assignments)} assignments match Community. No new upstream-method credit.`));
                 const names = {sequential: "Sequential", pooled: "Pooled cheapest insertion", "value-queue": "Cycling value queue"};
@@ -476,6 +492,7 @@ async function reload() {
             renderBenchmarks("solver");
             renderBenchmarks("construction");
             renderBenchmarks("repair");
+            renderBenchmarks("list_repair");
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
             renderBenchmarks("stream");

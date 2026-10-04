@@ -539,3 +539,45 @@ samples in each of three fresh processes, alternating runtime order. Raw assignm
 scores, score-call counts, repair counts and time ranges remain downloadable.
 Ratios describe these bounded configurations, not equal scoring work or general
 solver speed. Shared-host allocation, JIT and GC effects may affect the ranges.
+
+## Required and optional list-repair comparisons
+
+`python3 scripts/benchmark_list_repair.py` writes `work/list-repair-performance.json`.
+The separate dashboard section compares required/optional homogeneous lists using
+full scoring, no pins or receiver restrictions, eight repairs and seed20261225.
+Requested ruined-count ranges are 1..ceil(n/2) or 1..n. Actual sampled counts and
+eligibility differ; optional missing values are eligible in native repair. No PRNG,
+trace, weighted union, mixed-model or incremental-stream equivalence is claimed.
+
+Original fixtures penalize owner costs, squared capacity excess, ascending adjacent
+IDs and optional missing values, all in the soft level with hard zero. Owner zero
+has capacity zero and worst unary costs; all values start there in ascending order.
+This realizes the worst score over valid assignments: total squared excess is at
+most n², adjacency penalties at most 2(n-1), and each value's owner/missing cost is
+at most its owner-zero cost. A step-counting threshold period longer than the run
+therefore accepts every completed proposal. Java public move counts and native
+started/complete reconstructions must equal the requested repairs for measured runs.
+Counts, initial non-regression, unique in-range IDs, required completeness, optional
+omissions and scores are independently checked. The adapters also validate returned
+assigned owner/index metadata. All raw measurements and assignments remain available.
+
+Thirty-two small fixtures run under both group limits. An independent owner/omission
+and permutation enumeration establishes each optimum; validity, equality and optimum
+attainment are separate counts. Larger24/48-value fixtures have planted zero optima
+(all costs nonnegative), including real optional omissions. Quality differences
+remain visible beside timing ratios. Native full constraint callbacks and Java easy
+score calls are reported; work per repair is not assumed equal.
+
+Fixed-minimum probes remain separate from the timings. In the three-value optional
+probe, Java completes one of eight requested repairs after retaining two assigned
+values when minimum=maximum=3; native repair completes eight by including eligible
+missing values. With minimum1, both finish eight. Required controls also finish
+eight. These are observed public-API results, not an inference about Java internals
+or additional test-method credit. The dashboard displays requested and actual counts.
+
+Timing includes per-solve solver/state setup, initialization, search and validation;
+excludes process startup, parsing, model/network/factory creation, registry setup,
+final meter reads and formatting. Java metric collection runs during measurement.
+Three fresh processes per runtime, five warmups and seven samples per process,
+with alternating runtime order and all raw samples. Shared-host ranges include
+allocation and GC effects. Original benchmark fixtures add no adapted-method credit.

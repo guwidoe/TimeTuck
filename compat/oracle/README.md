@@ -163,3 +163,11 @@ checks all nine fields with independent Python, times fully assigned temporary
 moves/undo, and validates a separate committed move. Model setup, output encoding,
 scoring and search are outside timing. Any runtime error or differing field aborts
 the benchmark; existing partial-group errors remain in the broader oracle report.
+
+`ListRepairBenchmark.java` is an original public-API adapter for required/optional
+list repair. Input: ID, optional0/1, capacities, semicolon-separated per-value owner
+costs, missing costs (tab-separated). Initial state is ascending IDs at owner zero.
+Arguments: maximum ruined count, steps, warmups, samples, optional minimum (default1).
+Output retains score, lists, elapsed time, actual easy-score calls and public repair
+move counts. The Python runner requires exact work for timings and separately
+records fixed-minimum boundary probes with early termination. No source-method credit.

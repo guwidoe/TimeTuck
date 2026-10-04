@@ -13,7 +13,7 @@
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
         <link rel="stylesheet" href="styles.css?v=17ec84240fbe" />
-        <script src="app.js?v=366a39b277e5" defer></script>
+        <script src="app.js?v=d48c20ca7d1e" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -353,6 +353,46 @@
                 </section>
                 <section
                     class="performance"
+                    aria-labelledby="list_repair-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="list_repair-performance-heading">
+                                List repair vs. the original
+                            </h2>
+                            <p>
+                                Required and optional lists with bounded ruin-and-recreate,
+                                with quality beside every timing.
+                            </p>
+                        </div>
+                        <span class="tag">4 list repair configurations</span>
+                    </div>
+                    <div id="list_repair-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Compare times together with feasibility and score; differences near 1× may be noise.
+                    </p>
+                    <div id="list_repair-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="list_repair-benchmark-caption"></p>
+                        <p>
+                            Requested groups range from one value to half or all values. Both engines recalculate the full score. Java completed steps
+                            and Rust attempts are checked for the requested repair count.
+                            Sampling, reconstruction order and scoring work differ; these
+                            ratios describe the measured configurations. Compare quality too.
+                        </p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
                     aria-labelledby="heuristic-performance-heading"
                 >
                     <div class="section-heading">
@@ -571,6 +611,9 @@
                         <h3>Repair benchmark conditions</h3>
                         <p id="repair-benchmark-method"></p>
                         <pre id="repair-environment"></pre>
+                        <h3>List repair benchmark conditions</h3>
+                        <p id="list_repair-benchmark-method"></p>
+                        <pre id="list_repair-environment"></pre>
                         <h3>Heuristic benchmark conditions</h3>
                         <p id="heuristic-benchmark-method"></p>
                         <pre id="heuristic-environment"></pre>

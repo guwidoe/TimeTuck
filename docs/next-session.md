@@ -8673,3 +8673,51 @@ Next work: independent list/mixed/optional and weighted public-Java quality/timi
 comparisons, or remaining fully preservable selector/lifecycle behavior. Any fine
 scoring optimization must preserve budgets, errors/cancellation and actual work.
 Full independent solver rewrite remains active, incomplete and unblocked.
+
+## Required/optional list repair comparison (verified)
+
+Original public Java adapter ListRepairBenchmark, native example
+list_repair_benchmark, Python runner benchmark_list_repair.py and six evidence
+regressions. Homogeneous required/optional lists, no pins/ranges, full scoring;
+penalties for owner cost, squared capacity excess, ascending neighboring IDs and
+missing values. Initial ascending owner-zero list is provably worst, so long STEP
+threshold accepts completed proposals. Requested groups 1..ceil(n/2) or 1..n;
+eight repairs verified in both runtimes for every quality/timing sample. Native
+actual constraint callbacks and Java easy-score calls are retained separately.
+
+64 valid/56 equal; Java 64 optima/Rust 56. Both all-maximum groups 16/16 equal/optimal;
+both half-maximum groups 12/16 equal/Rust optimal, Java 16/16 optimal. Larger fixtures
+with 24/48 values have independent planted zero optima; optional results omit 4/9
+values. Half-maximum timings differ in quality (24: Rust0/Java-2006; 48: Rust-3013/
+Java-1001), all-maximum timing scores zero in both. Preserve quality beside ratios.
+Fixed-minimum probes: required min1 or3 and optional min1 finish 8/8. Optional
+min=max3: Java finishes one repair after retaining two assigned values; native
+finishes eight including eligible missing values. This observed boundary remains
+separate from matched-work measurements; no Java internals or random trace claim.
+No source-method credit from these original fixtures. Assigned owner/index metadata
+is validated in both adapters. Python independently enumerates owners/omissions/
+permutations for small optima and checks every returned assignment and score.
+
+Full gate passed: 1,947 Rust,101 doctests,235 Python; formatting/Clippy clean.
+Two focused release example tests passed. Coverage unchanged 893/4,855 (18.39%),
+pending3680/excluded282, failed/unverified0. Node syntax check clean. All 16 datasets
+are current, 83 timing workloads. List repair has 336 measured runtime samples
+(3 forks × 7 samples × 8 workloads × 2 runtimes), five warmups per process.
+Audit validates all prior invariants, fingerprints, 64 new quality cases, four
+boundary probes and every sample against independent score/work/optimum checks.
+Logs: work/list-repair-check.log, -release.log, -verify.log, -refresh-*.log,
+-audit.log. Handle20388 completed exit0; no verification process remains live.
+
+Dashboard adds a separate list-repair section, eight cards, method/environment and
+quality/boundary details using existing layouts. Browser verified 1440x900 and
+390x844: 18.39%,83 cards/eight new cards, four quality-difference flags, 8/8 work
+counts, four boundary paragraphs, no overflow/stale/undefined/NaN text or page
+errors. Screenshots inspected at work/list-repair-desktop.png and -mobile.png.
+Use IIFEs for repeated agent-browser evals (top-level const names persist) and
+instant scrollIntoView before screenshots (default smooth scrolling can capture
+the old viewport). Browser closed; localhost:8765 stays running. Upstream unchanged.
+
+Next substantive work: mixed/weighted public-Java search comparisons and remaining
+fully preservable selector/lifecycle behavior, or native search improvements with
+broad quality evidence. Half-group quality gaps are retained, not evidence of
+identical random sampling. Full solver rewrite remains active/incomplete/unblocked.
