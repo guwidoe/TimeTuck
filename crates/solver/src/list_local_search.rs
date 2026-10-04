@@ -66,6 +66,9 @@ pub struct ListLocalSearchResult<V, S> {
 /// Improve a complete assignment, for example the output of greedy construction.
 /// Uses the shared search configuration: Change includes relocations plus optional
 /// assign/unassign moves; ChangeAndSwap adds ordered swaps and optional replacements.
+/// Gather enumerates bounded identity groups at original insertion boundaries,
+/// followed by optional subset unassignments. ShuffledVariables changes gather
+/// destination order; member permutations remain in registry order.
 /// ShuffledMoves reorders generated candidates within a bounded rolling window.
 /// ShuffledVariables shuffles entity lists; insertion positions and value order
 /// remain fixed. VariableTabu uses touched entity-list indices as stable keys.

@@ -152,8 +152,9 @@ pub fn list_swap_moves<'a, V: Eq + Clone>(
     p.validate(a)?;
     Ok(swaps(p, a, 0..p.entities().len()))
 }
-/// Enumerate the selected neighborhood. TwoOpt yields only reversals/tail swaps;
-/// other modes include relocations and optional assignments/unassignments.
+/// Enumerate the selected neighborhood. Gather yields bounded selected groups;
+/// TwoOpt yields only reversals/tail swaps. Other modes include relocations and
+/// optional assignments/unassignments.
 /// Complete inputs remain complete and all pins remain unchanged.
 pub fn list_moves<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
@@ -171,6 +172,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
 ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
+    if let Neighborhood::Gather { max_size } = neighborhood {
+        return crate::list_gather_neighborhood::ordered(p, a, max_size, order);
+    }
     if let Neighborhood::TwoOpt { cross_entity } = neighborhood {
         return Box::new(two_opt_moves(p, a, cross_entity, order));
     }

@@ -76,6 +76,8 @@ pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
     ListProblem, ListRange,
 };
+mod list_gather_neighborhood;
+pub use list_gather_neighborhood::list_gather_moves;
 mod list_gather;
 pub use list_gather::ListGatherError;
 pub mod list_search;

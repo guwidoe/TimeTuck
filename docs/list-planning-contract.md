@@ -502,3 +502,42 @@ validation, payload identity and clone panic behavior. A separate seeded public
 Java comparison checks nonempty single gathers and all candidate/undo/commit lists
 and built-in shadows. It does not compare move metadata, pins, custom listeners,
 search quality or timing and earns no upstream method credit.
+
+### Bounded gather neighborhoods
+
+`list_gather_moves` and `Neighborhood::Gather { max_size }` enumerate nonempty
+ordered groups lazily. Destinations come first, in entity/insertion-boundary order;
+for each destination, group length increases from one through the clipped bound,
+then permutations follow registry order. Pinned values are excluded, destinations
+respect pinned prefixes, and destination value ranges prune the eligible identities
+before permutation enumeration. The identity immediately preceding a boundary is
+also excluded before enumeration, avoiding entire duplicate permutation groups.
+Consecutive original boundaries with the same
+result for a sample use the earliest boundary; unchanged results are omitted.
+Different samples may still reach the same successor.
+
+Optional unassignments follow all insertion candidates, once per assigned identity
+subset in increasing size and registry order. Required complete inputs remain
+complete; partial inputs may receive missing values. Zero disables the list
+neighborhood after input validation. Oversized bounds are clipped. Enumeration
+allocates no factorial list, but consuming a large neighborhood still has factorial
+work. Each yielded gather currently clones a private assignment during construction.
+
+List local search and both mixed search backends select this neighborhood through
+the shared configuration. Basic-variable search retains changes/swaps, including
+when max_size is zero; mixed joint products combine those basic moves with gathers.
+Entity shuffling changes destination order; registry member order stays fixed.
+Rolling move shuffling, evaluation/step limits and typed move/value tabu use the
+ordinary shared search paths. No Java neighborhood ordering or search-trace
+compatibility is claimed, and these original checks add no upstream method credit.
+
+Original evidence covers successor-set equality over 108 small required/optional
+models with pins and ranges, deterministic order, zero/oversized bounds, frozen
+models, and an 80-value clone guard proving lazy construction. Independent small
+permutation counts, uniqueness, ordering and exhaustion are checked separately.
+List and joint mixed scoring backends agree on results, evaluation counts, completed
+steps and termination over three neighborhoods, three seeded/order modes, four
+acceptance policies and five evaluation budgets. A target permutation demonstrates
+an improvement unavailable to strict single changes/swaps. Basic backends retain
+the ordinary neighborhood behavior. Gather-search performance and Java search
+comparison remain unmeasured; the existing gather transaction comparison is separate.

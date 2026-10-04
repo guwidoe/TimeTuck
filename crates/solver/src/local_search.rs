@@ -79,6 +79,12 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// List-only gather permutations of at most max_size movable identities, with
+    /// optional subset unassignments. Zero disables list moves. Basic variables
+    /// retain changes/swaps; mixed joint moves combine these component sets.
+    Gather {
+        max_size: usize,
+    },
     Change,
     ChangeAndSwap,
     /// Move whole equal-value groups of unpinned basic slots. Lists retain

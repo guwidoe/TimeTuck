@@ -7026,3 +7026,54 @@ this increment normally; fullgoal remains active/incomplete. Next useful work:
 matched gather transaction benchmarks, or native gather search neighborhood and
 mixed-backend integration with explicit selection/termination semantics. Do not
 credit remaining equality/hash/rebase methods from structural Composite equality.
+
+## Bounded gather search neighborhood (2026-10-04)
+
+Previous turn was progress, committed 7befd0b; the worktree was clean at start.
+Added list_gather_moves and Neighborhood::Gather { max_size }. Lazy permutations
+follow destination, group size, then registry order. Pins, destination ranges and
+the identity immediately preceding each boundary are pruned before enumeration.
+This avoids scanning factorial groups that only duplicate earlier boundaries.
+Unchanged results are skipped. Optional unassignments come last as canonical
+assigned subsets. Zero disables list moves; oversized bounds are clipped.
+Basic search retains changes/swaps, and mixed joint search combines both families.
+Entity shuffling changes destinations while member permutations keep registry order.
+Each yielded gather still uses the existing private-snapshot composite builder.
+
+Five original integration tests cover 108 small models against an independent
+successor-set reference, order/bounds/frozen models, 80-value clone laziness,
+180 paired list/mixed search configurations, and both basic backends. A private
+unit test checks permutation counts, uniqueness, ordering and fused exhaustion.
+No upstream method credit or Java search-order/trace equivalence is claimed.
+
+Focused checks passed. The initial gate found a test-only Clippy useless_vec;
+that was fixed. After the earlier-boundary pruning improvement, final gate 53379
+passed 1,713 Rust tests (850 adapted, 786 original integration, 77 original unit),
+89 doctests and 203 Python tests. Logs: work/gather-search-final-check.log and
+work/gather-search-focused.log. Focused release tests also passed.
+
+Sequential refresh and audit 84718 completed successfully. All 13 datasets match
+current source, verification and live fingerprints. Coverage remains 850/4,855
+(17.51% UI), with 3,723 pending, 282 excluded and zero failed/unverified. Moves
+remain 124/874 (14.19%). Existing 256 gather comparisons, 512 list cases and the
+425/514 Java planning-value agreements remain unchanged. There are 53 timing
+cards, including 18 heuristic cards; 288 small heuristic cases are valid and
+have equal final scores, with 238 optimal per runtime. Gather search itself has
+no Java search or timing comparison yet.
+
+Concurrent host CPU activity was observed during the later heuristic/pillar runs.
+work/gather-search-host-load.json records UTC 2026-10-04T06:50:59.334102+00:00,
+load averages 39.58/24.33/15.65, and process names/CPU usage. Added this observation
+and a methodology note to the two work measurement files without altering samples.
+They explicitly disclaim an isolated-host baseline or controlled before/after
+comparison. Regenerated report and audit 43249 passed; source code was unchanged.
+Future measurements replace this one-run annotation. Automatic host-load recording
+would improve the benchmark tools, but requires its own verification.
+
+Browser checks at 1440 and 390 pixels confirm current coverage, 53 cards, 18
+heuristic cards, no stale indicator, no errors and no horizontal overflow.
+Expanding #methodology displays both host-load notes. Screenshots were reviewed.
+Browser closed; server 8765 remains alive. Final staged review precedes commit.
+The full goal remains active and incomplete. Useful next work: matched gather
+transaction/search benchmarks, or profiling incremental-stream workloads against
+Java. Do not interpret the contended-host timings as feature performance changes.
