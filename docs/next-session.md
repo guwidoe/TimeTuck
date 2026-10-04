@@ -8248,3 +8248,78 @@ This turn made verified progress toward the full independent solver rewrite. The
 full goal remains active, incomplete and unblocked. Next work should integrate this
 search into native plans, support list/mixed repair and build matched public-Java
 quality/performance evidence without inflating method coverage.
+
+## 2026-10-04: List ruin-and-recreate with a shared search engine
+
+Previous verified progress is c101056. Added ruin_recreate_list_search_from and
+ruin_recreate_list_stream_search_from. List samples exclude full/prefix pins and
+include missing optional values with legal receivers. Selected values are removed;
+unsampled owners/order and missing values remain fixed. Original registry identity
+indices are preserved while temporary entity ranges restrict missing candidates.
+Both native backends use existing list construction for sequential/pooled placement;
+ValueQueue retains sequential list semantics. Read the new search-contract section.
+
+Shared ruin_engine.rs owns work limits, seeded selection, acceptance and best
+retention for both basic/list models. RuinRecreateOutcome is the generic public
+container; existing basic result and new list result names are scored-type aliases.
+The basic shuffled permutation is retained while eligibility stays unchanged.
+List metadata uses changed owner indices, their final lists, and registry identities
+whose owner/index changed. These are documented native identities, not Java equality.
+Model/graph/cache rebuild cost remains deliberate; mixed repair/plan integration
+and dedicated Java repair quality/performance evidence remain pending.
+
+One complete ListRuinRecreateMoveSelectorTest.testRuiningOnlyOneAssignedValues
+adaptation preserves the one-entity/three-value fixture, list-size penalty and final
+size-one assertion in both backends. Method/fixture provenance and notices added.
+Eight original regressions cover 1,584 list solves against independent insertion
+(24 models x 33 budgets x two backends), sampled subsets/pins/ranges/nulls, stable
+value-scoped constraints and stream shadows, multiple placements/acceptance families,
+complete optional vs partial required cancellation, factories and owned decimals.
+All 20 focused tests (9 list, 11 basic) passed. Test-only fixes included a closure
+lifetime and redundant integer cast; no source assertions were weakened.
+
+Full gate runs under handle 38768, work/list-ruin-check.log. Expected until exit:
+1,887 Rust tests, 101 doctests, 223 Python checks; 887/4,855 methods=18.270%, pending
+3,686/excluded 282/failed 0/unverified 0; Moves & selectors 126/874. Sources and
+provenance are frozen. Prepared work/list-ruin-refresh.sh (14 sequential jobs) and
+work/list-ruin-audit.py. Re-poll live handles after observation timeouts. Full goal
+remains active, incomplete and unblocked.
+
+Full gate 38768 completed exit 0: 1,887 Rust tests, 101 doctests and 223 Python
+checks passed, formatting/Clippy clean. Coverage is 887/4,855=18.270%, pending
+3,686 / excluded 282 / failed 0 / unverified 0; Moves & selectors 126/874.
+Sources/provenance remain frozen for focused release and the 14-job refresh.
+
+Release/refresh/final-audit runs as handle 91258. All 20 focused release tests passed.
+Attribution review identified that the new rustdoc example also reuses the adapted
+size-one list fixture. Added its own fixture ledger entry and notice, limited to
+the example; no Rust implementation changed. This updates verification provenance,
+not measured-source fingerprints. work/list-ruin-audit.py now runs a final full gate
+into work/list-ruin-final-check.log after all 14 timed jobs finish, then checks data
+freshness and invariants. This avoids competing CPU work during measurements and
+recaptures the updated attribution ledger. Re-poll the same live handle.
+
+All 14 measurement jobs in 91258 finished. Its final report command rejected the
+old verification capture after the attribution ledger update, so set -e stopped
+before invoking the planned final audit (exit 1). No measurement failed or needs
+restart: measured-source files are unchanged. Launched work/list-ruin-audit.py
+explicitly as handle 14823; it runs the final full gate/capture first, then audits
+all datasets. Follow work/list-ruin-final-check.log and work/list-ruin-audit.log.
+
+Final gate/audit handle 14823 completed exit 0. Updated attribution is captured;
+1,887 Rust tests, 101 doctests and 223 Python checks pass. All 14 datasets have
+current measured-source/verification fingerprints and live freshness; 71 existing
+timing workloads and prior quality/counter invariants pass. No dedicated repair
+Java timing was added. All 20 focused basic/list release tests also passed.
+
+Browser DOM checks passed at desktop and 390x844: 18.27%, Moves & selectors 126/874,
+71 timing cards, and filtered testRuiningOnlyOneAssignedValues explicitly Passed.
+No page errors, undefined/stale-result text or horizontal overflow. No layout changed.
+Browser closed; localhost:8765 server remains running. No test/measurement process
+remains live. Pinned upstream is unchanged. Implementation, shared-loop refactor,
+regressions, provenance (including the rustdoc fixture) and notices were reviewed.
+
+This increment makes verified progress on list repair and shared search control.
+The full Community goal remains active, incomplete and unblocked. Mixed repair,
+SolverPlan integration and dedicated public-Java repair quality/performance evidence
+remain substantive next work; other selector/lifecycle methods stay pending.

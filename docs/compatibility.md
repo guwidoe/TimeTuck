@@ -1533,3 +1533,13 @@ no random trace, move equality, rebase, meter or lifecycle equivalence is claime
 Original reference/budget/pin/cancellation/decimal regressions support the broader
 native search contract without additional method credit. List/mixed repair, integrated
 plan phases and dedicated Java performance comparisons remain pending.
+
+ListRuinRecreateMoveSelectorTest.testRuiningOnlyOneAssignedValues now has a complete
+native adaptation: one entity initially owns three optional values, one repair
+samples all three, and the list-size penalty yields the asserted final size one.
+The same assertions run in scoped and stream backends. Method, embedded scoring
+and optional list solution-generator fixtures are attributed in provenance/notices.
+The other list selector methods remain pending because their union selection,
+metrics, timed lifecycle and fixtures are not fully adapted. Original list-repair
+references and boundary tests earn no extra method credit. Mixed/plan integration
+and dedicated public-Java quality/performance evidence remain future work.

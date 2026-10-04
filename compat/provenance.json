@@ -13290,6 +13290,21 @@
       "local_path": "crates/solver/tests/ruin_recreate_cases.rs",
       "local_test": "ruining_no_assigned_values",
       "modifications": "Retain all three final-null assertions and successful solve, three optional entities, three shared values, distinct initial assignments, minimum ruined count three and one reconstruction step. Native standalone seeded reconstruction with one attempt replaces the single Java local phase; this fixture accepts its sole reconstruction. No Assigned is one penalty per assigned entity. Repeat with scoped and stream scoring; integer value identities replace named Java objects. No lifecycle, random-trace or metric parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListRuinRecreateMoveSelectorTest.testRuiningOnlyOneAssignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListRuinRecreateMoveSelectorTest.java",
+      "upstream_test": "testRuiningOnlyOneAssignedValues",
+      "local_path": "crates/solver/tests/list_ruin_recreate_cases.rs",
+      "local_test": "ruining_only_one_assigned_value",
+      "modifications": "Preserve successful solve and final list size one with three optional values initially assigned to one entity, minimum ruined count three and one accepted reconstruction. Native one-attempt seeded list search replaces the Java local phase. Preserve embedded Only One Assigned penalty for list size != 1. Run both scoped and stream scoring; integer identities replace named Java fixture objects. No Java trace, meter or lifecycle claim."
     }
   ],
   "fixtures": [
@@ -15671,6 +15686,32 @@
       "upstream_test": "generateSolution(int valueListSize, int entityListSize)",
       "local_path": "crates/solver/tests/ruin_recreate_cases.rs",
       "modifications": "Adapt only the three-value/three-entity shared optional domain used by testRuiningNoAssignedValues, after its explicit assignment loop. Integer IDs preserve identity and order; unused names, annotations and descriptor helpers are omitted. Embedded No Assigned scoring fixture attribution is included with the source test method."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.ruin_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "generateUninitializedSolution and generateSolution",
+      "local_path": "crates/solver/tests/list_ruin_recreate_cases.rs",
+      "modifications": "Retain three ordered value identities, one initially empty optional list entity and the source test assignment of all three values before solving. Integer identities replace unused generated names; native list metadata replaces annotations and descriptor plumbing. Embedded penalty attribution is recorded with the test method."
+    },
+    {
+      "id": "ListRuinRecreateMoveSelectorTest.rustdoc_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListRuinRecreateMoveSelectorTest.java",
+      "upstream_test": "testRuiningOnlyOneAssignedValues and TestdataOnlyOneAssignedValuesListMixedConstraintProvider",
+      "local_path": "crates/solver/src/list_ruin_recreate.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Only the rustdoc example on ruin_recreate_list_search_from reuses the adapted one-list/three-optional-values fixture, list-size penalty and size-one assertion. Native model/configuration and integer identities replace Java plumbing. The surrounding Rust implementation is independently written and not adapted from upstream implementation. No additional method credit."
     }
   ]
 }

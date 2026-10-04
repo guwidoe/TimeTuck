@@ -1704,8 +1704,8 @@ Scoped constraints must support partial assignments. Each stream factory supplie
 fresh empty planning sources and the same deterministic objective; factories run
 for initialization and each attempted repair, not when initial scoring is skipped.
 Per-repair model/cache/graph rebuilding is intentional; this is not an in-place
-incremental repair optimization. List/mixed repair and SolverPlan integration are
-not yet implemented.
+incremental repair optimization. Mixed repair and SolverPlan integration are
+not yet implemented. List repair is described below.
 
 The initial score, each repair's initial score and all candidate scores share the
 exact evaluation cap. `repair_move_evaluations` counts only construction candidate
@@ -1739,3 +1739,41 @@ The crafted local-optimum case is escaped by Sequential/Pooled but not ValueQueu
 quality is not assumed equal across strategies. Dedicated Java trace/timing evidence
 for this new search is not claimed, and the other selector/lifecycle tests remain
 pending.
+
+## List ruin-and-recreate search
+
+`ruin_recreate_list_search_from` and `ruin_recreate_list_stream_search_from` share
+the bounded search engine with basic repair. `RuinRecreateConfig`, termination
+precedence, all work counters, native acceptance and strict complete-best retention
+keep the same meanings. `RuinRecreateResult` and `ListRuinRecreateResult` alias the
+shared `RuinRecreateOutcome` container with their existing scored-assignment types.
+The basic sampling permutation is retained when the eligible population is unchanged,
+preserving its established seeded trace.
+
+List samples use registry identities. Values inside full pins or pinned prefixes
+are excluded. Missing optional values with a legal unpinned receiver are eligible,
+allowing a later attempt to reconsider earlier unassignment. Missing values without
+legal receivers are excluded. Counts clamp to the eligible population. The sampled
+values are removed; all other assigned values keep their owners and relative order.
+Insertion may change their indices/neighbors but cannot change a pinned prefix.
+Entity-specific ranges still constrain every insertion. Existing missing values
+outside the sample stay missing: temporary ranges exclude them during repair.
+The registry and its order never change, preserving scoped and stream value IDs.
+
+Sequential and ValueQueue placements use registry-order greedy insertion; Pooled
+compares every missing sampled value and legal insertion. Optional placement uses
+NonWorsening. Full/prefix pinning, required completeness and caller data remain
+protected across incomplete/cancelled repairs. List acceptors receive changed owner
+indices, final lists for those owners in entity order as move descriptors, and
+registry-ordered values whose owner/index changes (including unassignment and
+shifted unsampled values). Sized tabu uses entity count. These conservative native
+identities do not claim Java move equality or traces.
+
+One full pinned method preserves the one-entity/three-value optional fixture,
+list-size penalty and final size-one assertion through both backends. Eight original
+regressions include 1,584 scoped/stream solves against independent full-score insertion
+(24 models x 33 budgets x two backends), sampled subset preservation, pin/range/null
+boundaries, stable value scopes/shadows, multiple placements and acceptance policies,
+factory timing/cancellation/errors, complete-vs-partial cancellation retention and
+exact decimal ranking. All earlier basic repair checks continue to pass. Mixed repair,
+SolverPlan integration and dedicated Java list-repair performance remain pending.

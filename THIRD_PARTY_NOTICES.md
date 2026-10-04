@@ -15,6 +15,13 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/list_ruin_recreate_cases.rs` adapts the complete
+  `ListRuinRecreateMoveSelectorTest.testRuiningOnlyOneAssignedValues` method,
+  its list-size penalty and the optional list solution-generator fixture. The
+  rustdoc example on `ruin_recreate_list_search_from` in
+  `crates/solver/src/list_ruin_recreate.rs` reuses this attributed test fixture;
+  the surrounding implementation is independently written.
+
 - `crates/solver/tests/ruin_recreate_cases.rs` adapts
   `RuinRecreateMoveSelectorTest.testRuiningNoAssignedValues`, its embedded
   assigned-value penalty, and the three-entity optional solution-generator fixture.

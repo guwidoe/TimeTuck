@@ -1,4 +1,4 @@
-//! Seeded ruin-and-recreate search for complete basic-variable assignments.
+//! Seeded ruin-and-recreate configuration, results and basic-variable support.
 use crate::*;
 use std::{
     error::Error,
@@ -7,8 +7,9 @@ use std::{
 };
 
 /// Limits include initialization and every reconstruction. Each attempt samples
-/// unpinned variables without replacement, clears them, then reconstructs them in
-/// model order. Unselected values are frozen, including optional None values.
+/// movable basic slots or list values without replacement, then reconstructs in
+/// model order. Basic unsampled values are frozen; list semantics are documented
+/// on `ruin_recreate_list_search_from`.
 /// The range is clamped to the movable population. No Java random trace is implied.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct RuinRecreateConfig<'a, S = SimpleScore> {
@@ -20,7 +21,7 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub max_evaluations: u64,
     pub max_time: Option<Duration>,
     pub cancellation: Option<&'a CancellationToken>,
-    /// Receives only changed variables and final composite move/value identities.
+    /// Receives changed variables/entities and native move/value identities.
     /// Rejected and unchanged attempts do not advance completed-step history.
     pub acceptance: Acceptance<S>,
     pub placement: ConstructionPlacement,
@@ -56,8 +57,8 @@ pub enum RuinRecreateTermination {
 /// discarded. A complete interrupted repair may still improve the retained best.
 /// None is returned when initialization was prevented by cancellation/zero budget.
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct RuinRecreateResult<V, S> {
-    pub best: Option<ScoredAssignment<V, S>>,
+pub struct RuinRecreateOutcome<T> {
+    pub best: Option<T>,
     pub evaluations: u64,
     /// Candidate scores inside construction, excluding each fresh initial score.
     pub repair_move_evaluations: u64,
@@ -68,11 +69,15 @@ pub struct RuinRecreateResult<V, S> {
     pub accepted_moves: u64,
     pub termination: RuinRecreateTermination,
 }
+pub type RuinRecreateResult<V, S> = RuinRecreateOutcome<ScoredAssignment<V, S>>;
+pub type ListRuinRecreateResult<V, S> = RuinRecreateOutcome<ScoredListAssignment<V, S>>;
+
 #[derive(Debug)]
 pub enum RuinRecreateError {
     InvalidRuinRange,
     IncompleteInitialAssignment,
     Search(LocalSearchError),
+    ListSearch(ListLocalSearchError),
 }
 impl fmt::Display for RuinRecreateError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -84,6 +89,7 @@ impl fmt::Display for RuinRecreateError {
                 f.write_str("ruin-and-recreate requires a complete initial assignment")
             }
             Self::Search(e) => e.fmt(f),
+            Self::ListSearch(e) => e.fmt(f),
         }
     }
 }
@@ -91,6 +97,7 @@ impl Error for RuinRecreateError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::Search(e) => Some(e),
+            Self::ListSearch(e) => Some(e),
             _ => None,
         }
     }
@@ -165,103 +172,48 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
         ConstructionConfig,
     ) -> Result<ConstructionResult<V, S>, LocalSearchError>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
-    let start = config.max_time.map(|_| Instant::now());
-    problem.validate(&initial).map_err(LocalSearchError::from)?;
-    if !problem.is_complete(&initial) {
-        return Err(RuinRecreateError::IncompleteInitialAssignment);
-    }
-    if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
-        return Err(RuinRecreateError::InvalidRuinRange);
-    }
-    let policy = config.acceptance.for_population(problem.variables().len());
-    policy.validate().map_err(LocalSearchError::from)?;
-    let cancelled = || {
-        config
-            .cancellation
-            .is_some_and(CancellationToken::is_cancelled)
-    };
-    let remaining = || {
-        config
-            .max_time
-            .map(|limit| limit.saturating_sub(start.expect("timed").elapsed()))
-    };
-    let mut result = RuinRecreateResult {
-        best: None,
-        evaluations: 0,
-        repair_move_evaluations: 0,
-        constraint_evaluations: 0,
-        attempts: 0,
-        complete_reconstructions: 0,
-        accepted_moves: 0,
-        termination: RuinRecreateTermination::EvaluationLimit,
-    };
-    if config.max_evaluations == 0 {
-        return Ok(result);
-    }
-    if cancelled() {
-        result.termination = RuinRecreateTermination::Cancelled;
-        return Ok(result);
-    }
-    let construction = ConstructionConfig {
-        placement: config.placement,
-        cancellation: config.cancellation,
-        max_evaluations: config.max_evaluations,
-        max_steps: Some(0),
-        optional: OptionalConstruction::NonWorsening,
-        max_time: remaining(),
-        pick_early: config.pick_early,
-        assert_scores: config.assert_scores,
-        ..Default::default()
-    };
-    let initial = rebuild(problem, initial, construction)?;
-    result.evaluations = initial.evaluations;
-    result.constraint_evaluations = initial.constraint_evaluations;
-    let Some(mut current) = initial.solution() else {
-        result.termination = if cancelled() {
-            RuinRecreateTermination::Cancelled
-        } else {
-            RuinRecreateTermination::EvaluationLimit
-        };
-        return Ok(result);
-    };
-    result.best = Some(current.clone());
-    let mut acceptor = policy
-        .start_with_values(current.score.clone())
-        .map_err(LocalSearchError::from)?;
-    let mut movable: Vec<_> = problem
-        .variables()
-        .iter()
-        .enumerate()
-        .filter_map(|(i, v)| (!v.is_pinned()).then_some(i))
-        .collect();
-    let mut random = crate::random::SplitMix64::new(config.seed);
-    loop {
-        let reason = if cancelled() {
-            Some(RuinRecreateTermination::Cancelled)
-        } else if remaining().is_some_and(|d| d.is_zero()) {
-            Some(RuinRecreateTermination::TimeLimit)
-        } else if result.evaluations >= config.max_evaluations {
-            Some(RuinRecreateTermination::EvaluationLimit)
-        } else if result.attempts >= config.max_attempts {
-            Some(RuinRecreateTermination::AttemptLimit)
-        } else if movable.is_empty() {
-            Some(RuinRecreateTermination::NoMovableVariables)
-        } else {
-            None
-        };
-        if let Some(reason) = reason {
-            result.termination = reason;
-            return Ok(result);
+    crate::ruin_engine::run(problem, initial, config, |p, a, c| {
+        let r = rebuild(p, a, c)?;
+        Ok(crate::ruin_engine::Repair {
+            assignment: r.assignment,
+            score: r.score,
+            complete: r.complete,
+            evaluations: r.evaluations,
+            constraint_evaluations: r.constraint_evaluations,
+        })
+    })
+    .map(|r| r.map(|(assignment, score)| ScoredAssignment { assignment, score }))
+}
+impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
+    type Assignment = Assignment<V>;
+    type Movement = Move<V>;
+    type Value = Option<V>;
+    fn validate_complete(&self, a: &Assignment<V>) -> Result<(), RuinRecreateError> {
+        self.validate(a).map_err(LocalSearchError::from)?;
+        if !self.is_complete(a) {
+            return Err(RuinRecreateError::IncompleteInitialAssignment);
         }
-        let low = config.minimum_ruined.min(movable.len());
-        let high = config.maximum_ruined.min(movable.len());
-        let count = low + random.below((high - low + 1) as u64) as usize;
-        random.shuffle(&mut movable);
-        let mut ruined = vec![false; problem.variables().len()];
-        for &i in &movable[..count] {
+        Ok(())
+    }
+    fn initial(&self) -> Assignment<V> {
+        self.initial_assignment()
+    }
+    fn population(&self) -> usize {
+        self.variables().len()
+    }
+    fn movable(&self, _: &Assignment<V>) -> Vec<usize> {
+        self.variables()
+            .iter()
+            .enumerate()
+            .filter_map(|(i, v)| (!v.is_pinned()).then_some(i))
+            .collect()
+    }
+    fn repair(&self, a: &Assignment<V>, selected: &[usize]) -> Result<Self, RuinRecreateError> {
+        let mut ruined = vec![false; self.variables().len()];
+        for &i in selected {
             ruined[i] = true;
         }
-        let variables = problem
+        let variables = self
             .variables()
             .iter()
             .enumerate()
@@ -271,7 +223,7 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
                     copy = copy.allowing_unassigned();
                 }
                 if !ruined[i] {
-                    if let Some(value) = current.assignment.get(i).expect("validated") {
+                    if let Some(value) = a.get(i).expect("validated") {
                         copy = copy.with_initial(value.clone());
                     }
                     copy = copy.with_pinned(true);
@@ -279,57 +231,27 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
                 copy
             })
             .collect();
-        let repair = FiniteProblem::new(variables).map_err(LocalSearchError::from)?;
-        result.attempts += 1;
-        let candidate = rebuild(
-            &repair,
-            repair.initial_assignment(),
-            ConstructionConfig {
-                max_evaluations: config.max_evaluations - result.evaluations,
-                max_steps: None,
-                max_time: remaining(),
-                ..construction
-            },
-        )?;
-        result.evaluations += candidate.evaluations;
-        result.repair_move_evaluations += candidate.move_evaluations();
-        result.constraint_evaluations += candidate.constraint_evaluations;
-        if let Some(candidate) = candidate.solution() {
-            result.complete_reconstructions += 1;
-            if candidate.score > result.best.as_ref().expect("initial best").score {
-                result.best = Some(candidate.clone());
-            }
-            let changes: Vec<_> = current
-                .assignment
-                .values()
+        Self::new(variables).map_err(|e| LocalSearchError::from(e).into())
+    }
+    fn metadata(
+        &self,
+        old: &Assignment<V>,
+        new: &Assignment<V>,
+    ) -> (Vec<usize>, Move<V>, Vec<Option<V>>) {
+        let movement = Move::Composite(
+            old.values()
                 .iter()
-                .zip(candidate.assignment.values())
+                .zip(new.values())
                 .enumerate()
                 .filter(|(_, (a, b))| a != b)
                 .map(|(i, (_, b))| Move::Change {
                     variable: i,
                     value: b.clone(),
                 })
-                .collect();
-            if !changes.is_empty() {
-                let movement = Move::Composite(changes);
-                let variables = movement.touched_variables();
-                let values = current
-                    .assignment
-                    .planning_values(&movement)
-                    .expect("valid move");
-                if acceptor.accepts(
-                    current.score.clone(),
-                    candidate.score.clone(),
-                    &variables,
-                    &movement,
-                    &values,
-                ) {
-                    acceptor.step_ended(candidate.score.clone(), &variables, &movement, &values);
-                    current = candidate;
-                    result.accepted_moves += 1;
-                }
-            }
-        }
+                .collect(),
+        );
+        let variables = movement.touched_variables();
+        let values = old.planning_values(&movement).expect("valid move");
+        (variables, movement, values)
     }
 }
