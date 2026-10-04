@@ -1443,3 +1443,47 @@ mod incomplete_handoff_cases;
 
 #[path = "support/solver_bounded_cases.rs"]
 mod bounded_cases;
+
+#[test]
+fn borrowed_step_conditions_restart_in_each_local_phase_in_all_backends() {
+    let children = [
+        StepTermination::Steps(2),
+        StepTermination::UnimprovedSteps(1),
+    ];
+    let condition = StepTermination::All(&children);
+    for mode in 0..6 {
+        let factories = Cell::new(0);
+        let c = SolverConfig {
+            local_search: vec![
+                LocalSearchConfig {
+                    step_termination: Some(&condition),
+                    acceptance: Acceptance::HillClimbing,
+                    assert_scores: true,
+                    ..Default::default()
+                };
+                2
+            ],
+            ..Default::default()
+        };
+        let r = run_scored(
+            (mode, true, MixedConstructionOrder::BasicThenLists),
+            c,
+            &factories,
+            None,
+            || {},
+            |_| SimpleScore::ZERO,
+        )
+        .unwrap();
+        assert_eq!(r.reason, SolverTermination::PlanCompleted);
+        assert_eq!(r.phases.len(), 3);
+        for phase in &r.phases[1..] {
+            assert_eq!(
+                phase.termination,
+                PhaseTermination::LocalSearch(LocalSearchTermination::StepCondition)
+            );
+            assert_eq!(phase.work.completed_steps, 2);
+            assert_eq!(phase.work.accepted_moves, 2);
+        }
+        assert_eq!(r.work.completed_steps, 4);
+    }
+}

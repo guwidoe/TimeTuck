@@ -1514,3 +1514,11 @@ from equality. Larger timing cases have independently justified planted optima. 
 scope is full-scoring homogeneous required basic variables with pins; it does not
 extend the earlier comparisons to Java list/mixed/optional or incremental-stream
 construction. Original benchmark cases confer no adapted-method credit.
+
+Native local search now supports borrowed nested All/Any expressions over completed
+steps, stagnation steps, accepted moves, exact best scores and feasibility, across
+all six model/backend paths. Original reference and integration regressions cover
+these phase-local expressions. AndCompositeTerminationTest and
+OrCompositeTerminationTest were inspected as behavioral context; their scope and
+gradient assertions remain pending. No new upstream methods or fixtures were adapted,
+and no Java trace or progress-gradient equivalence is claimed for this option.

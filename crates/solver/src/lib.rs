@@ -41,10 +41,12 @@ pub use pillar::{Pillar, PillarError, pillar_moves};
 pub mod neighborhood;
 pub use neighborhood::{change_moves, swap_moves};
 pub mod local_search;
+mod step_termination;
 pub use local_search::{
     Acceptance, LocalSearchConfig, LocalSearchError, LocalSearchResult, LocalSearchTermination,
     MoveOrder, MoveSelection, Neighborhood, RejectedMovePolicy, local_search, local_search_from,
 };
+pub use step_termination::StepTermination;
 
 pub mod acceptance;
 pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance};

@@ -1649,3 +1649,38 @@ not return an optimal or even hard-feasible result. No upstream-method credit co
 from these original comparisons. Run the script with default warmup/sample/fork
 settings for the full comparison; pilot runs with smaller counts are not equivalent
 measurement evidence.
+
+## Nested step-boundary stopping conditions
+
+`LocalSearchConfig::step_termination` borrows a `StepTermination` expression for
+basic, list and mixed local search with either scoring backend. `All` requires
+every child and `Any` requires at least one; they can nest. Leaves test completed
+steps, steps since a strict retained-best improvement, accepted installed moves,
+an exact best-score target, or feasibility. For example, `All([Steps(20),
+UnimprovedSteps(5)])` continues until both the minimum work and stagnation threshold
+are satisfied. Existing mandatory budgets can still stop it earlier.
+
+The expression is checked after initial scoring and at each completed-step boundary,
+after the existing accepted-move, step, score, feasibility and unimproved-step
+limits. It reports `LocalSearchTermination::StepCondition`. Evaluation/candidate/time
+limits, cancellation and exhausted neighborhoods keep their existing checks and
+precedence. Selected rejected fallback moves count as steps, but not accepted moves.
+Score targets retain exact ordinary ordering, including owned decimal scores and
+structural state. Feasibility still checks every hard level.
+
+Children do not latch independently. A stagnation threshold reached while another
+`All` child is false can become false again after a strict improvement. Empty `All`
+is true and empty `Any` is false. Evaluation is read-only, short-circuited and uses
+borrowed expression slices without per-query allocation. Deep expressions use the
+call stack. Each phase uses its own counts and best score; reusing an expression
+across phases does not carry state or prevent subsequent phases from executing.
+Construction, exact search, elapsed-time expressions, progress gradients and shared
+solve-wide composition are outside this option's scope.
+
+Original regressions exercise 98 generated rule/acceptance configurations in all
+six paths, initial/empty conditions, retained scores, rejected fallback counts,
+resource precedence, neighborhood exhaustion, exact decimal/multilevel comparisons,
+non-latching stagnation and repeated phase handoffs. The pinned AND/OR composite
+termination tests were inspected, but their mocked solver/phase applicability and
+gradient contracts are not fully represented by this native boundary API. They
+remain pending; these original checks earn no adapted-method credit.

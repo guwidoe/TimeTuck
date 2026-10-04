@@ -171,6 +171,9 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub significant_improvement: Option<&'a crate::SignificantImprovementConfig<S>>,
     /// Completed steps since the last strict global-best improvement. None disables.
     pub max_unimproved_steps: Option<u64>,
+    /// Additional nested stopping expression, checked after existing boundary
+    /// limits. Phase-local; counts start fresh for each local-search invocation.
+    pub step_termination: Option<&'a crate::StepTermination<'a, S>>,
     /// Stop at a step boundary when the retained best score is at least this value.
     pub best_score_limit: Option<S>,
     /// Stop at a step boundary when the retained best satisfies Score::is_feasible.
@@ -205,6 +208,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             diminished_returns: None,
             significant_improvement: None,
             max_unimproved_steps: None,
+            step_termination: None,
             best_score_limit: None,
             stop_when_feasible: false,
             neighborhood: Neighborhood::ChangeAndSwap,
@@ -324,6 +328,11 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
             crate::StepCountLimit::new(limit).is_reached(progress.unimproved_steps())
         }) {
             Some(UnimprovedStepLimit)
+        } else if self
+            .step_termination
+            .is_some_and(|condition| condition.is_reached(&best, accepted, progress))
+        {
+            Some(StepCondition)
         } else {
             None
         }
@@ -332,7 +341,8 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 /// Reason a local-search phase ended. None of these reasons proves optimality.
 ///
 /// At step boundaries, limits are checked in this order: accepted moves, completed
-/// steps, best score, feasibility, unimproved steps. Zero evaluation budget ends
+/// steps, best score, feasibility, unimproved steps, then the optional nested
+/// step condition. Zero evaluation budget ends
 /// before initial scoring. If candidate selection exhausts an evaluation budget,
 /// it installs any selected move and reports `EvaluationLimit` or
 /// `MoveEvaluationLimit` before checking a new boundary. Score evaluations include
@@ -349,6 +359,8 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 /// best improvement resets it. Expiry latches; total time wins simultaneous expiry.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
+    /// The configured phase-local stopping expression was satisfied.
+    StepCondition,
     DiminishedReturns,
     SignificantImprovementTimeLimit,
     /// An unevaluated candidate remains after the candidate-only budget is spent.

@@ -120,6 +120,10 @@ pub enum ExactPhaseTermination {
     FeasibleScore,
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[expect(
+    clippy::large_enum_variant,
+    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
+)]
 pub enum SolverPhase<'a, S = SimpleScore> {
     /// Fill remaining required values, preserving the preceding phase's assignment.
     Construction(ConstructionConfig<'a>),
@@ -129,6 +133,10 @@ pub enum SolverPhase<'a, S = SimpleScore> {
     Custom(CustomPhaseConfig<'a>),
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[expect(
+    clippy::large_enum_variant,
+    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
+)]
 pub enum MixedSolverPhase<'a, S = SimpleScore> {
     /// Resume construction in the configured component order.
     Construction(MixedConstructionConfig<'a>),

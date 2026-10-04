@@ -280,6 +280,10 @@ impl<E: Error + 'static> Error for SolverError<E> {
 }
 
 #[derive(Clone)]
+#[expect(
+    clippy::large_enum_variant,
+    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
+)]
 enum PhaseRequest<'a, S> {
     Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),

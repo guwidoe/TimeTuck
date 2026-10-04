@@ -8138,3 +8138,58 @@ This turn made verified progress on the explicitly requested performance dashboa
 The full solver rewrite remains active, incomplete and unblocked. No adapted-method
 credit was added. Remaining Community behavior and Java lifecycle/copy semantics still
 need implementation and verification; do not mark the goal complete at this milestone.
+
+## 2026-10-04: Nested local-search stopping conditions
+
+Previous verified increment is d24db2a. Added independently implemented borrowed
+StepTermination expressions: All/Any over completed steps, stagnation steps,
+accepted moves, exact score targets and feasibility. Shared boundary evaluation
+integrates all six search paths without changing existing resource/cancellation
+checks. Conditions do not latch; borrowed expression reuse has phase-local counters.
+Empty All is true, empty Any false. No time expressions, progress gradients or
+solve-wide composition. Read the new incremental-search contract section.
+
+Inspected only pinned AndCompositeTerminationTest, OrCompositeTerminationTest and
+their abstract test helper. Full mock scope/applicability/gradient assertions are
+not represented by this native feature; all remain pending. No production source
+or adapted fixtures were used, and no provenance credit was added.
+
+Five new original search tests cover 98 rule/acceptance combinations across six
+paths (588 solves), empty/initial conditions, resource precedence, exact decimal and
+multi-level scores, accepted-vs-fallback counts and non-latching stagnation. Focused
+18-test search suite passed. One additional six-path orchestrator test verifies
+fresh counters and continued phases. First compile found a test-only misspelled
+PlanCompleted variant, corrected. Clippy then detected phase enum size difference
+crossing its 200-byte threshold after one new borrowed field. Three targeted expect
+annotations explain retaining inline infrequent phase configs and the current public
+API rather than adding boxing/allocation. No broad lint suppression.
+
+Full gate runs under handle 97276, work/step-condition-check.log. Expected counts
+are 1,867 Rust tests, 99 doctests, 223 Python tests until verified at exit. Prepared
+work/step-condition-refresh.sh (14 sequential jobs) and work/step-condition-audit.py.
+Sources are frozen for capture and subsequent measurements. Full goal remains active,
+incomplete and unblocked. Re-poll the same handle after observation timeouts.
+
+Full gate 97276 completed exit 0: 1,867 Rust tests, 99 doctests and 223 Python
+checks passed, formatting/Clippy clean. Coverage remains 885/4,855=18.229%, pending
+3,688 / excluded 282 / failed 0 / unverified 0. Sources remain frozen for focused
+release checks and all 14 sequential comparison/performance jobs.
+
+Release/refresh/audit handle 60539 completed exit 0. All 18 focused release tests
+passed. All 14 datasets and 71 timing workloads were refreshed; audit verifies
+current source and verification fingerprints, live API freshness, coverage, all
+six new regression methods and existing comparison invariants. Exact baseline
+128/128, queue 67/67, pooled 66/66, construction 201/201 and heuristic 352/352
+comparisons remain valid and equal-score; optimum counts remain separate.
+
+Browser DOM checks passed on the existing dashboard at desktop and 390x844:
+18.23% coverage and 71 timing cards, no page errors, undefined/stale-result text
+or horizontal overflow. No UI layout changes were made, so no new screenshot
+review was needed. Browser closed; localhost:8765 server remains running. Upstream
+is unchanged at the pinned commit. No test or measurement process remains live.
+Staged changes were reviewed, including the targeted enum-size lint expectations.
+
+This increment adds useful native phase-local composition with original correctness
+regressions. The full Community solver goal remains active, incomplete and unblocked;
+shared/time composition, scope applicability and gradient adaptations remain future
+work. The unchanged upstream coverage percentage is intentional and truthful.

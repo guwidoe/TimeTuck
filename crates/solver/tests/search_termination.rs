@@ -475,3 +475,254 @@ fn count_limits_keep_full_width_decisions_separate_from_rounded_progress() {
         assert_eq!(r.reason, Stop::StepLimit);
     }
 }
+
+#[test]
+fn nested_conditions_follow_independent_boundary_reference_in_every_backend() {
+    for minimum_steps in 0..=6 {
+        for stagnant in 0..=6 {
+            for fallback in [false, true] {
+                let alternatives = [
+                    StepTermination::UnimprovedSteps(stagnant),
+                    StepTermination::AcceptedMoves(4),
+                ];
+                let requirements = [
+                    StepTermination::Steps(minimum_steps),
+                    StepTermination::Any(&alternatives),
+                ];
+                let condition = StepTermination::All(&requirements);
+                let expected = (0..10).find(|&steps| {
+                    let accepted = if fallback { steps.min(1) } else { steps };
+                    steps >= minimum_steps && (steps.saturating_sub(1) >= stagnant || accepted >= 4)
+                });
+                for r in run_all(
+                    LocalSearchConfig {
+                        step_termination: Some(&condition),
+                        acceptance: if fallback {
+                            Acceptance::StrictImprovement
+                        } else {
+                            Acceptance::HillClimbing
+                        },
+                        rejected_moves: RejectedMovePolicy::BestScore,
+                        ..config()
+                    },
+                    improved,
+                ) {
+                    let steps = expected.unwrap_or(10);
+                    assert_eq!(r.steps, steps);
+                    assert_eq!(r.unimproved, steps.saturating_sub(1));
+                    assert_eq!(r.accepted, if fallback { steps.min(1) } else { steps });
+                    assert_eq!(
+                        r.best,
+                        Some(if steps == 0 { plateau(0) } else { improved(1) })
+                    );
+                    assert_eq!(
+                        r.reason,
+                        if expected.is_some() {
+                            Stop::StepCondition
+                        } else {
+                            Stop::StepLimit
+                        }
+                    );
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn composite_score_targets_and_empty_expressions_check_initial_boundaries() {
+    let requirements = [
+        StepTermination::Feasible,
+        StepTermination::BestScore(improved(1)),
+    ];
+    let condition = StepTermination::All(&requirements);
+    for initial in [false, true] {
+        for r in run_all(
+            LocalSearchConfig {
+                step_termination: Some(&condition),
+                ..config()
+            },
+            if initial { |_| improved(1) } else { improved },
+        ) {
+            assert_eq!(r.reason, Stop::StepCondition);
+            assert_eq!(r.steps, u64::from(!initial));
+            assert_eq!(r.best, Some(improved(1)));
+        }
+    }
+    for (condition, reason, steps) in [
+        (StepTermination::All(&[]), Stop::StepCondition, 0),
+        (StepTermination::Any(&[]), Stop::StepLimit, 10),
+    ] {
+        for r in run_all(
+            LocalSearchConfig {
+                step_termination: Some(&condition),
+                ..config()
+            },
+            plateau,
+        ) {
+            assert_eq!(r.reason, reason);
+            assert_eq!(r.steps, steps);
+        }
+    }
+}
+
+#[test]
+fn composite_conditions_preserve_existing_resource_and_boundary_precedence() {
+    let condition = StepTermination::All(&[]);
+    let token = CancellationToken::new();
+    token.cancel();
+    for (c, reason) in [
+        (
+            LocalSearchConfig {
+                max_evaluations: 0,
+                ..config()
+            },
+            Stop::EvaluationLimit,
+        ),
+        (
+            LocalSearchConfig {
+                cancellation: Some(&token),
+                ..config()
+            },
+            Stop::Cancelled,
+        ),
+        (
+            LocalSearchConfig {
+                max_accepted_moves: 0,
+                ..config()
+            },
+            Stop::AcceptedMoveLimit,
+        ),
+        (
+            LocalSearchConfig {
+                max_steps: 0,
+                ..config()
+            },
+            Stop::StepLimit,
+        ),
+        (
+            LocalSearchConfig {
+                max_unimproved_steps: Some(0),
+                ..config()
+            },
+            Stop::UnimprovedStepLimit,
+        ),
+    ] {
+        for r in run_all(
+            LocalSearchConfig {
+                step_termination: Some(&condition),
+                ..c
+            },
+            plateau,
+        ) {
+            assert_eq!(r.reason, reason);
+            assert_eq!(r.steps, 0);
+        }
+    }
+    let never = StepTermination::Any(&[]);
+    for r in run_all(
+        LocalSearchConfig {
+            step_termination: Some(&never),
+            max_move_evaluations: Some(1),
+            ..config()
+        },
+        improved,
+    ) {
+        assert_eq!(r.reason, Stop::MoveEvaluationLimit);
+        assert_eq!(r.steps, 1);
+        assert_eq!(r.best, Some(improved(1)));
+    }
+    for r in run_all(
+        LocalSearchConfig {
+            step_termination: Some(&never),
+            acceptance: Acceptance::StrictImprovement,
+            ..config()
+        },
+        plateau,
+    ) {
+        assert_eq!(r.reason, Stop::NoAcceptedMove);
+        assert_eq!(r.steps, 0);
+    }
+}
+
+#[test]
+fn reached_stagnation_child_resets_before_all_children_are_satisfied() {
+    let children = [
+        StepTermination::Steps(4),
+        StepTermination::UnimprovedSteps(2),
+    ];
+    let condition = StepTermination::All(&children);
+    let mut progress = StepProgress::default();
+    for (improved, expected) in [
+        (false, false),
+        (false, false),
+        (true, false),
+        (false, false),
+        (false, true),
+    ] {
+        progress.complete_step(improved);
+        assert_eq!(
+            condition.is_reached(&SimpleScore::ZERO, 0, progress),
+            expected
+        );
+    }
+    assert!(!StepTermination::AcceptedMoves(u64::MAX).is_reached(
+        &SimpleScore::ZERO,
+        u64::MAX - 1,
+        progress
+    ));
+    assert!(StepTermination::AcceptedMoves(u64::MAX).is_reached(
+        &SimpleScore::ZERO,
+        u64::MAX,
+        progress
+    ));
+}
+
+#[test]
+fn composite_targets_preserve_owned_decimal_and_multilevel_score_ordering() {
+    let target: SimpleDecimalScore = "9007199254740992.000000000000000002".parse().unwrap();
+    let less: SimpleDecimalScore = "9007199254740992.000000000000000001".parse().unwrap();
+    let children = [
+        StepTermination::BestScore(target.clone()),
+        StepTermination::Steps(0),
+    ];
+    let condition = StepTermination::All(&children);
+    let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)]).unwrap();
+    let mut n = ConstraintNetwork::new(1);
+    let expected = target.clone();
+    n.add_constraint("decimal", vec![0], move |v| {
+        if *v[0].unwrap() == 0 {
+            less.clone()
+        } else {
+            target.clone()
+        }
+    })
+    .unwrap();
+    let r = local_search(
+        &p,
+        &n,
+        LocalSearchConfig {
+            step_termination: Some(&condition),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    assert_eq!(r.termination, Stop::StepCondition);
+    assert_eq!(r.completed_steps, 1);
+    assert_eq!(r.best.unwrap().score, expected);
+
+    let score = BendableScore::new([0, -1], [-100]);
+    let children = [StepTermination::BestScore(score), StepTermination::Feasible];
+    let condition = StepTermination::All(&children);
+    assert!(!condition.is_reached(&score, 0, StepProgress::default()));
+    assert!(condition.is_reached(
+        &BendableScore::new([0, 0], [-1000]),
+        0,
+        StepProgress::default()
+    ));
+    assert!(!condition.is_reached(
+        &BendableScore::new([0, 0], [0]).with_structural(-1),
+        0,
+        StepProgress::default()
+    ));
+}
