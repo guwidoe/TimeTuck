@@ -116,6 +116,15 @@ fn main() {
                     .map(|s| s.parse().expect("move integer"))
                     .collect();
                 moves.push(match (parts[0], v.as_slice()) {
+                    ("g", [e, i, members @ ..]) if !members.is_empty() => {
+                        assert!(!f[3].contains(';'), "gather protocol requires one move");
+                        p.gather_move(
+                            &a,
+                            members,
+                            if *e < 0 { None } else { Some(position(*e, *i)) },
+                        )
+                        .expect("valid gather")
+                    }
                     ("a", [value, e, i]) => ListMove::Assign {
                         value: *value,
                         destination: position(*e, *i),

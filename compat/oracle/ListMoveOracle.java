@@ -2,6 +2,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import ai.timefold.solver.core.api.domain.entity.PlanningEntity;
@@ -18,6 +19,7 @@ import ai.timefold.solver.core.preview.api.move.Move;
 import ai.timefold.solver.core.preview.api.move.builtin.Moves;
 import ai.timefold.solver.core.preview.api.move.test.MoveTester;
 import ai.timefold.solver.core.preview.api.neighborhood.stream.dataset.sample.Range;
+import ai.timefold.solver.core.preview.api.neighborhood.stream.dataset.sample.Sample;
 
 public final class ListMoveOracle {
     @PlanningEntity
@@ -77,6 +79,11 @@ public final class ListMoveOracle {
                     String[] parts=op.split(",");
                     int[] v=new int[parts.length-1];for(int i=1;i<parts.length;i++) v[i-1]=Integer.parseInt(parts[i]);
                     moves.add(switch(parts[0]) {
+                        case "g" -> {
+                            if(f[3].contains(";") || v.length<3) throw new IllegalArgumentException("Gather protocol requires one nonempty selection");
+                            var sample=Sample.of(Arrays.stream(v).skip(2).mapToObj(p.values::get).toList());
+                            yield Moves.massChange(variable,sample,v[0]<0 ? null : ElementPosition.of(p.entities.get(v[0]),v[1]));
+                        }
                         case "a" -> Moves.assign(variable,p.values.get(v[0]),p.entities.get(v[1]),v[2]);
                         case "c" -> Moves.change(variable,p.entities.get(v[0]),v[1],p.entities.get(v[2]),v[3]);
                         case "r" -> Moves.change(variable,new Range<>(p.entities.get(v[0]),v[1],v[2]),ElementPosition.of(p.entities.get(v[3]),v[4]),v[5]==1);

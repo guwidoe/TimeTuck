@@ -54,6 +54,10 @@ exclusion assertions, including per-entity ranges. Native greedy list constructi
 are verified separately with original regressions. Complete Java move metadata coverage, rebase,
 custom listeners, optional-list solving and matched mixed Java local-search
 comparisons remain pending.
+Five additional mass-list-change methods preserve ordered gathering, original
+destination adjustment, assignment of missing members, unassignment and undo.
+Native composite equality is separate from Java mass-move equality/hash/rebase.
+The generated public-API gather comparison earns no method credit.
 Six planning-value methods additionally preserve complete mass/pillar/list/sublist
 metadata assertions, with native pre-state capture retained across execution.
 The public Java getter lifecycle remains distinct from the native API.

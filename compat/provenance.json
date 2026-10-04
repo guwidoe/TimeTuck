@@ -12675,6 +12675,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
+    },
+    {
+      "id": "MassListChangeMoveTest.executeGathersEveryMemberConsecutivelyAtDestination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "executeGathersEveryMemberConsecutivelyAtDestination",
+      "local_path": "crates/solver/tests/list_gather_cases.rs",
+      "local_test": "execute_gathers_every_member_consecutively_at_destination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source list contents, member draw order, original destination boundaries, optionality and complete candidate/undo assertions. Stable integer identities replace domain objects; native gather_move produces a validated Composite and native transaction drop replaces executeTemporarily. No equality/hash/rebase or Java lifecycle parity is claimed."
+    },
+    {
+      "id": "MassListChangeMoveTest.destinationIndexIsAdjustedOnlyByMembersOriginallyBeforeIt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "destinationIndexIsAdjustedOnlyByMembersOriginallyBeforeIt",
+      "local_path": "crates/solver/tests/list_gather_cases.rs",
+      "local_test": "destination_index_is_adjusted_only_by_members_originally_before_it",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source list contents, member draw order, original destination boundaries, optionality and complete candidate/undo assertions. Stable integer identities replace domain objects; native gather_move produces a validated Composite and native transaction drop replaces executeTemporarily. No equality/hash/rebase or Java lifecycle parity is claimed."
+    },
+    {
+      "id": "MassListChangeMoveTest.executeAssignsCurrentlyUnassignedMembersToo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "executeAssignsCurrentlyUnassignedMembersToo",
+      "local_path": "crates/solver/tests/list_gather_cases.rs",
+      "local_test": "execute_assigns_currently_unassigned_members_too",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source list contents, member draw order, original destination boundaries, optionality and complete candidate/undo assertions. Stable integer identities replace domain objects; native gather_move produces a validated Composite and native transaction drop replaces executeTemporarily. No equality/hash/rebase or Java lifecycle parity is claimed."
+    },
+    {
+      "id": "MassListChangeMoveTest.executeToNullDestinationUnassignsEveryMember",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "executeToNullDestinationUnassignsEveryMember",
+      "local_path": "crates/solver/tests/list_gather_cases.rs",
+      "local_test": "execute_to_null_destination_unassigns_every_member",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source list contents, member draw order, original destination boundaries, optionality and complete candidate/undo assertions. Stable integer identities replace domain objects; native gather_move produces a validated Composite and native transaction drop replaces executeTemporarily. No equality/hash/rebase or Java lifecycle parity is claimed."
+    },
+    {
+      "id": "MassListChangeMoveTest.undoRestoresEveryMembersOriginalPosition",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "undoRestoresEveryMembersOriginalPosition",
+      "local_path": "crates/solver/tests/list_gather_cases.rs",
+      "local_test": "undo_restores_every_members_original_position",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source list contents, member draw order, original destination boundaries, optionality and complete candidate/undo assertions. Stable integer identities replace domain objects; native gather_move produces a validated Composite and native transaction drop replaces executeTemporarily. No equality/hash/rebase or Java lifecycle parity is claimed."
     }
   ],
   "fixtures": [

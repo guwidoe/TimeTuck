@@ -474,3 +474,31 @@ multiplicity are retained in `work/oracle/list-values-cases.json`; membership
 comparison normalizes to sets, while native checks require exact first-touch
 order without duplicates. The report exposes all differences and errors. These
 checks establish neither identical value-tabu search traces nor new timing results.
+
+### Gathering selected identities
+
+`ListProblem::gather_move` builds a validated ordinary composite from a distinct
+ordered sample and an optional original-state insertion boundary. It removes
+selected assigned values, then inserts all selected identities consecutively in
+sample order. Only selected values originally before the boundary reduce its
+index. Other identities retain their order. A missing destination unassigns the
+selected assigned values; already unassigned values have no effect in that case.
+Assigned identities retain their existing payload, newly assigned identities use
+the supplied payload. Empty selections are validated no-ops. Unknown identities,
+duplicate members and invalid boundaries are rejected. Final pins/ranges are
+validated; intermediate removal of a pin is permitted if the final state preserves
+it. Required models may become partial, consistently with native Unassign.
+
+Construction works on a private snapshot and leaves input unchanged on errors or
+ordinary panic unwinding. Returned positions are bound to that starting state and
+must be regenerated after it changes. Applying the composite uses ordinary list
+transactions and existing scoring rollback. Structural composite equality does
+not claim the Java mass-move equality/hash/rebase contracts.
+
+Five pinned execution/undo methods have complete adaptations. Original checks
+cover 29,835 small layouts/ordered selections/destinations, independently assembled
+at original boundaries, plus 260 commit/reject steps in both list scoring backends,
+validation, payload identity and clone panic behavior. A separate seeded public
+Java comparison checks nonempty single gathers and all candidate/undo/commit lists
+and built-in shadows. It does not compare move metadata, pins, custom listeners,
+search quality or timing and earns no upstream method credit.

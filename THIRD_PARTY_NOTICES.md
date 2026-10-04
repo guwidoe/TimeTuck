@@ -390,3 +390,9 @@ SubListChangeMoveTest, SubListSwapMoveTest and SubListUnassignMoveTest at the
 pinned Community revision. Fixture identities, lifecycle mapping and assertions
 are recorded in compat/provenance.json. Sparse native capture and its clone-cost,
 reference and panic-safety regressions are independent implementations.
+
+crates/solver/tests/list_gather_cases.rs adapts five Apache-2.0 execution and undo
+methods from pinned Community MassListChangeMoveTest. Full identities and native
+API substitutions are recorded in compat/provenance.json. The gather builder,
+original exhaustive/scoring regressions and generated public-API comparisons are
+independently implemented; equality/hash/rebase methods remain unadapted.

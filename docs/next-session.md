@@ -6969,3 +6969,60 @@ Browser1440px/390px confirms six new methods,17.40%coverage,13.62%moves,
 No browser errors or horizontaloverflow. Screenshots visually inspected; browser
 closed,server8765remainsalive. Staged implementation/test/provenance review before
 commit; full rewrite goal remains active/incomplete. Next gather candidate above.
+
+## In progress: selected list gathering (2026-10-04)
+
+Previous turn was progress, committed28bcf8d; clean at start. Added independent
+ListProblem::gather_move in list_gather.rs and ListGatherError. Validates before,
+duplicate/unknownmembers, originalboundary; removes selected identities into a
+private snapshot, inserts in sampleorder at the surviving-prefix boundary,
+validates finalpins/ranges, returns ordinaryComposite bound to originalstate.
+Assignedpayloadsretained;newassignedusesinputpayload. Empty validatednoops;
+Noneunassigns assignedmembers (requiredmodels maybepartial as withUnassign).
+No new enumvariant or solverpathdispatch needed. No Java productionread.
+
+Five complete MassListChangeMoveTest execution/undo adaptations withprovenance.
+Four original tests:29835exhaustiveorderedcases/candidate/undo/commit/metadata,
+260steps pairedlist-scoringbackendsmatchingindependentfullformula, invalidinput/
+pins/ranges/noops, payloadandclonepanic. Focuseddebug15601passed9tests.
+New original gather comparison256cases,seed20261212 viapublic Moves.massChange.
+Java/Rust adaptersacceptg onlyasnonemptysingleoperation, existing512cases intact.
+Python reference emits at original boundaries; bothfullstatesandfourshadows checked.
+Smoke62897exit0:256/256gather,512/512ordinary, existingmetadata425/514withunchanged
+16differences/40Javaerrors/33unsupported. ThreePythonreference/generatorchecks pass.
+Dashboard adds separate evidence row; no newtimingcardorupstreamcreditforgenerated.
+
+Source now frozen. Required gate thenfocusedrelease,all13sequentialrefreshes,
+finalreport/audit/browser/stagedreview/commit remain. Expected1707Rust
+(850adapted,781originalintegration,76originalunit),88doctests,203Python;
+850/4855=17.508%report (17.51%UI),moves124/874=14.19%,pending3723,excluded282.
+Goalactive/incomplete. No subagents. Server8765alive;browserclosed.
+
+Required gate85392 completed exit0. Full850method report generated;1707Rust,
+88doctests,203Python expected/green. Focusedrelease plus13sequentialrefreshes now
+running session37877, work/gather-release.log and gather-refresh-*.
+Audit prepared work/gather-audit.py for850coverage,5methods,256gathercomparisons,
+13currentdatasets,53cards/18heuristics andunchangedlistmetadata. Sourcefrozen.
+
+Focusedrelease9tests passed. Refreshed list comparison again256/256gather and
+512/512existing states; unchangedmetadata425/514withnative514/514. All benchmark
+refreshes remain sequential; no browser/test workload overlaps timed runs.
+Staged implementation/reference tests and provenance reviewed while measurements
+run; finalbrowser and actualcommit await successfulrefresh/audit.
+
+Refresh/audit37877 completed exit0. All13datasetscurrent with matching source,
+verification and livefreshness digests. Summary850/4855(17.508%;17.51%UI),
+3723pending,282excluded,zero failures/unverified. Moves124/874(14.19%UI).
+MassListChangeMoveTest precisely5passed/3pending;256/256gathercomparison added
+separately.53timingcards/18heuristics;288/288smallheuristiccasesvalid/equal-score,
+238optimal/runtime atdefault50steps/5warmups/7samples/3forks. Gather itself has
+no timing comparison yet; do not attribute unrelated refreshed timings to it.
+Native builder currently uses private full snapshots and composite operations.
+
+Browser1440px/390px verifies17.51%,14.19%,5gatherpasses/3pending, separate
+256/256evidencerow and53cards. No pageerrors/overflow; screenshots reviewed.
+Browserclosed,server8765alive. Allstagedsource/tests/provenance reviewed. Commit
+this increment normally; fullgoal remains active/incomplete. Next useful work:
+matched gather transaction benchmarks, or native gather search neighborhood and
+mixed-backend integration with explicit selection/termination semantics. Do not
+credit remaining equality/hash/rebase methods from structural Composite equality.

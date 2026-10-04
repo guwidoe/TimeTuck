@@ -76,6 +76,8 @@ pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
     ListProblem, ListRange,
 };
+mod list_gather;
+pub use list_gather::ListGatherError;
 pub mod list_search;
 pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};
 
