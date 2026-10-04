@@ -1602,3 +1602,13 @@ and common destination. Finite subsets and legal targets replace sampled streams
 no probability or Java metamodel/lifecycle equivalence is claimed. Independent
 bitmask checks cover 20,146 model/configuration combinations; these, lazy subset
 checks and search/early-validation integrations add no upstream-method credit.
+
+All three MassAssignMoveProviderTest and four MassUnassignMoveProviderTest methods
+now have native adaptations. Group assignment selects only missing unpinned slots;
+unassignment selects only assigned unpinned slots and accepts singleton groups.
+The singleton method retains its exact fifty-move assertion through bounded seeded
+sampling with replacement. Its generated fixture keeps the first entity missing.
+Other methods use finite enumeration, with original stream limits and assertions.
+No Java sampling distribution or lifecycle claim. Independent checks cover 10,829
+model/size/mode successor and metadata comparisons, sampled reproducibility,
+large lazy groups, required partial inputs, search and validation before factories.

@@ -8823,3 +8823,55 @@ Browser verified at 1440x900 and390x844:18.81%,913/4855,83 timing cards,
 Moves152/874(17.39%), allten new methods passed, no overflow/stale/undefined/NaN
 words or page errors. Screenshots inspected: work/mass-basic-desktop.png and
 -mobile.png. Browser closed; localhost:8765 stays running. Upstream unchanged.
+
+## Basic group assignment/unassignment (verified)
+
+MassAssignmentSize supplies exact/ranged/all source sizes. Group assignment selects
+missing unpinned slots (including required partial inputs), needs at least two
+members and one non-null destination admitted by every member. All uses global
+missing source count before destination filtering. Unassignment selects assigned
+unpinned slots, permits singleton groups, and validates that every model slot is
+optional even if pinned or requested work is zero. Empty models are valid. Finite
+subsets follow size/member order and assignment targets first-member domain order.
+Immutable MassChange metadata and ordinary composites reuse model/scoring rollback.
+
+sample_mass_unassign_moves adds explicitly bounded, seeded sampling with replacement
+between draws, without replacement within each group. It samples a size uniformly
+from clipped positive bounds, shuffles eligible indices, truncates and sorts IDs.
+No Java PRNG/distribution parity. Empty/insufficient populations yield no samples;
+otherwise every requested draw is returned. Allocations remain linear per poll.
+Neighborhood::MassAssign and MassUnassign integrate finite groups into basic/mixed
+search including joint moves; lists retain changes/swaps. Existing validation hooks
+reject bad unassignment configurations before any basic/mixed phase/factory work.
+
+All three MassAssignMoveProviderTest and four MassUnassignMoveProviderTest methods
+adapted with full fixtures, original limits/assertions and provenance. The singleton
+unassignment method retains exactly fifty draws through the real seeded sampler
+(seed29, fifty requested draws), not finite-list cycling. TestdataAllowsUnassigned-
+Solution.generateSolution(3,5) starts with entity0 missing and indices1..4 assigned
+index modulo three; this fixture source is attributed. No production code inspected.
+Six original regressions include10,829 independent bitmask successor/metadata
+comparisons across states, pins, optionality, sizes/modes; sampler repeatability and
+prefix consistency over32seeds/six size modes; large lazy128-slot/64-member groups;
+partial required assignment/all-population/empty-range boundaries; basic and mixed
+joint/nonjoint scoped+stream search with three orders/three acceptors/four budgets;
+and early validation across zero/nonzero plans and standalone paths.
+
+All13 focused debug tests passed. Initial full gate65722 stopped at Clippy's
+filter_map_bool_then lint; fixed with explicit conditional, no behavior change.
+Full gate42747 passed. Handle89825 completed exit0:13 focused release tests,
+16 current datasets,83 timings and audit all passed with source/verification
+fingerprints and prior quality invariants intact.
+Verified gate totals:1990 Rust,104 doctests,235 Python;920/4855(raw18.95/UI18.95%), Moves159/874,
+pending3653/excluded282. Logs: work/mass-assign-focused.log,-check.log,-release.log,
+-verify.log,-refresh-*.log,-audit.log. No new provider performance benchmark yet.
+
+Next substantive candidates: list mass assign/unassign providers, general k-opt,
+mixed/weighted public-Java search comparisons, and profiling sparse-domain group
+enumeration before making practical performance claims. Full goal remains active,
+incomplete and unblocked.
+
+Browser verified1440x900 and390x844:18.95%,920/4855,83 cards, Moves159/874(18.19%),
+allthree assignment and allfour unassignment methods passed. No errors, overflow,
+stale/undefined/NaN words. Screenshots inspected: work/mass-assign-desktop.png and
+-mobile.png. Browser closed; localhost:8765 stays running. Upstream unchanged.

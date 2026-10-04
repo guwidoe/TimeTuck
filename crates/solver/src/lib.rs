@@ -440,3 +440,8 @@ pub use mixed_ruin_recreate::{
 
 mod mass_change;
 pub use mass_change::{MassChange, MassChangeConfig, mass_change_moves};
+
+mod mass_assignment;
+pub use mass_assignment::{
+    MassAssignmentSize, mass_assign_moves, mass_unassign_moves, sample_mass_unassign_moves,
+};

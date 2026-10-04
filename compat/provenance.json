@@ -13695,6 +13695,111 @@
       "local_path": "crates/solver/tests/mass_change_cases.rs",
       "local_test": "pinned_entity_sharing_a_value_with_free_entities_never_joins_a_sample",
       "modifications": "Retain pinned plus two free required entities sharing the first of two values, exact size two, limit fifty, nonempty output and pinned-member exclusion. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassAssignMoveProviderTest.sampleMembersAreAlwaysASubsetOfTheUnassignedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassAssignMoveProviderTest.java",
+      "upstream_test": "sampleMembersAreAlwaysASubsetOfTheUnassignedEntities",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "assign::sample_members_are_always_a_subset_of_the_unassigned_entities",
+      "modifications": "Retain five missing optional entities over one value, exact size two, limit two hundred, nonempty output, sample size at most two, missing-entity subset and target assertions. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassAssignMoveProviderTest.differentDrawsProduceDifferentSamples",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassAssignMoveProviderTest.java",
+      "upstream_test": "differentDrawsProduceDifferentSamples",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "assign::different_draws_produce_different_samples",
+      "modifications": "Retain five missing optional entities over one value, exact size two, limit two hundred and more than one distinct unordered member set. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassAssignMoveProviderTest.pinnedUnassignedEntityNeverJoinsASample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassAssignMoveProviderTest.java",
+      "upstream_test": "pinnedUnassignedEntityNeverJoinsASample",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "assign::pinned_unassigned_entity_never_joins_a_sample",
+      "modifications": "Retain one pinned missing and two free missing optional entities over one value, exact size two, limit fifty, nonempty output and pinned-member exclusion. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassUnassignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassUnassignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "unassign::constructor_rejects_non_unassigned_variable",
+      "modifications": "Retain rejection of unassignment for a required variable. Native provider creation over a required slot returns typed NullCrossingRequired instead of a metamodel constructor exception. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassUnassignMoveProviderTest.mixedValueSampleYieldsOneMoveNullingEveryMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassUnassignMoveProviderTest.java",
+      "upstream_test": "mixedValueSampleYieldsOneMoveNullingEveryMember",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "unassign::mixed_value_sample_yields_one_move_nulling_every_member",
+      "modifications": "Retain two differently assigned and one missing optional entity over two values, exact size two, limit fifty, nonempty output, source subset/exclusion and null-target assertions. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassUnassignMoveProviderTest.sizeOneSampleStillYieldsAMoveAndTheProviderIsNotCutOffEarly",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassUnassignMoveProviderTest.java",
+      "upstream_test": "sizeOneSampleStillYieldsAMoveAndTheProviderIsNotCutOffEarly",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "unassign::size_one_sample_still_yields_a_move_and_the_provider_is_not_cut_off_early",
+      "modifications": "Retain five optional entities over three values, first entity missing and others initialized by index modulo three, singleton samples, exactly fifty resulting moves, singleton membership and null destination. Native bounded seeded sampling with replacement uses seed29 and fifty requested draws; no finite-list cycling or weakened count assertion. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassUnassignMoveProviderTest.pinnedEntityNeverJoinsASample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassUnassignMoveProviderTest.java",
+      "upstream_test": "pinnedEntityNeverJoinsASample",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "local_test": "unassign::pinned_entity_never_joins_a_sample",
+      "modifications": "Retain pinned plus two free optional entities all assigned the sole value, exact size two, limit fifty, nonempty output and pinned-member exclusion. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
     }
   ],
   "fixtures": [
@@ -16232,6 +16337,45 @@
       "upstream_test": "generateSolution(valueListSize, entityListSize), initialized branch",
       "local_path": "crates/solver/tests/mass_change_cases.rs",
       "modifications": "Preserve generated fixture counts, ordered domains and initial value at entity index modulo domain length. Integer IDs replace generated names; unrelated fields/helpers omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassAssignMoveProviderTest.group_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassAssignMoveProviderTest.java",
+      "upstream_test": "In-method missing, assigned, optional and pinned fixtures",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "modifications": "Preserve initial assignment, value counts, optionality, pins and source group cardinality; native slots/IDs replace Java entity plumbing. No production implementation adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassUnassignMoveProviderTest.group_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassUnassignMoveProviderTest.java",
+      "upstream_test": "In-method missing, assigned, optional and pinned fixtures",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "modifications": "Preserve initial assignment, value counts, optionality, pins and source group cardinality; native slots/IDs replace Java entity plumbing. No production implementation adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSolution.singleton_mass_unassignment",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution(3,5)",
+      "local_path": "crates/solver/tests/mass_assignment_cases.rs",
+      "modifications": "Retain five optional entities over three values: entity zero is missing; entities one through four use their index modulo three. Integer identities replace generated names and Java model annotations."
     }
   ]
 }

@@ -1899,3 +1899,33 @@ tabu identity, score checking and observations apply. Basic/mixed sequences vali
 all local-phase null policies before any scoring or graph factory, with phase-indexed
 errors even for a zero global budget. Mass-change search performance and public
 Java search quality remain unmeasured; existing pillar benchmarks are separate.
+
+## Group assignment and unassignment
+
+`MassAssignmentSize` supplies exact, ranged or all source cardinalities. Zero is
+empty; exact sizes larger than population are empty; range maximums clip and
+reversed bounds are errors. `mass_assign_moves` selects only unpinned missing
+basic slots, including required slots in partial inputs. Groups need at least two
+members and one non-null destination legal for every member. `all` uses the full
+missing source population, not a smaller destination-specific set. This primitive
+can complete partial assignments; local search still requires a complete input.
+
+`mass_unassign_moves` selects assigned unpinned slots and permits singleton groups.
+Every model slot must be optional, including pins; invalid models are rejected
+even with empty sizes or budgets. Finite enumeration emits each subset once by
+size and member order. Missing values never join unassignment groups. Both providers
+return immutable MassChange metadata and ordinary atomic composite moves.
+
+`sample_mass_unassign_moves` draws with replacement between groups and without
+replacement within a group, bounded by an explicit draw count and seed. It chooses
+a size uniformly from clipped allowed bounds, then a uniform subset in sorted ID
+order. Empty/insufficient populations produce no draws; otherwise every requested
+draw is produced, including repeated singletons. No Java PRNG/distribution parity.
+It holds a linear-size source index pool and only constructs requested candidates.
+All candidates refer to one immutable snapshot; regenerate after changing state.
+
+`Neighborhood::MassAssign` and `MassUnassign` use finite enumeration in basic/mixed
+local search and joint moves. List-only search retains changes/swaps. Existing
+shared controls, scoring rollback and observation apply. Invalid unassignment
+models are rejected before any basic/mixed phase scores or graph factory runs.
+These providers have no dedicated Java/Rust performance comparison yet.

@@ -98,10 +98,31 @@ impl<V> MassChange<V> {
         self.movement
     }
 }
+impl<V: Clone> MassChange<V> {
+    pub(crate) fn new(members: Vec<usize>, destination: Option<V>) -> Self {
+        let movement = Move::Composite(
+            members
+                .iter()
+                .map(|&variable| Move::Change {
+                    variable,
+                    value: destination.clone(),
+                })
+                .collect(),
+        );
+        Self {
+            members,
+            destination,
+            movement,
+        }
+    }
+}
 impl Neighborhood {
     pub(crate) fn validate_basic<V: Eq>(self, p: &FiniteProblem<V>) -> Result<(), ModelError> {
         if let Self::MassChange(c) = self {
             c.validate(p)?;
+        }
+        if let Self::MassUnassign(_) = self {
+            crate::mass_assignment::validate_unassignment(p)?;
         }
         Ok(())
     }

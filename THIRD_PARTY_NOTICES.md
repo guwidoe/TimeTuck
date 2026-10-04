@@ -483,3 +483,10 @@ initialized fixture generator, under Apache-2.0. Provenance records the pin,
 paths, native metadata/error substitutions and finite enumeration in place of
 sampled streams. Independent subset references, search integration and the native
 group generator are original work; no production implementation was adapted.
+
+`crates/solver/tests/mass_assignment_cases.rs` adapts all three methods in Community
+`MassAssignMoveProviderTest` and all four in `MassUnassignMoveProviderTest`, their
+in-method fixtures, and `TestdataAllowsUnassignedSolution.generateSolution(3,5)`.
+They remain Apache-2.0 material. Provenance records the exact revision, paths and
+native substitutions, including bounded seeded sampling preserving the fifty-draw
+singleton assertion. Native generators and independent regressions are original.

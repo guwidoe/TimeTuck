@@ -82,6 +82,10 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Common-target assignments of missing basic slots; lists keep changes/swaps.
+    MassAssign(crate::MassAssignmentSize),
+    /// Unassign assigned basic groups, including singletons. Requires optional slots.
+    MassUnassign(crate::MassAssignmentSize),
     /// Common-target groups of arbitrary basic slots. Lists retain changes/swaps.
     MassChange(crate::MassChangeConfig),
     /// Assigned-only list groups with explicit cardinality and null policy.
