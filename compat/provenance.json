@@ -14145,6 +14145,351 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweighted",
+      "local_test": "penalize_unweighted",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeUnweightedBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedBigDecimal",
+      "local_test": "penalize_unweighted_big_decimal",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalize",
+      "local_test": "penalize",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimal",
+      "local_test": "penalize_big_decimal",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.rewardUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "rewardUnweighted",
+      "local_test": "reward_unweighted",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.reward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "reward",
+      "local_test": "reward",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.rewardBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimal",
+      "local_test": "reward_big_decimal",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositiveUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweighted",
+      "local_test": "impact_positive_unweighted",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositive",
+      "local_test": "impact_positive",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositiveBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimal",
+      "local_test": "impact_positive_big_decimal",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactNegative",
+      "local_test": "impact_negative",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactNegativeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimal",
+      "local_test": "impact_negative_big_decimal",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedCustomJustifications",
+      "local_test": "penalize_unweighted_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeCustomJustifications",
+      "local_test": "penalize_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.penalizeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimalCustomJustifications",
+      "local_test": "penalize_big_decimal_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.rewardUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "rewardUnweightedCustomJustifications",
+      "local_test": "reward_unweighted_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.rewardCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "rewardCustomJustifications",
+      "local_test": "reward_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.rewardBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimalCustomJustifications",
+      "local_test": "reward_big_decimal_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositiveUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweightedCustomJustifications",
+      "local_test": "impact_positive_unweighted_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositiveCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositiveCustomJustifications",
+      "local_test": "impact_positive_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactPositiveBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimalCustomJustifications",
+      "local_test": "impact_positive_big_decimal_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactNegativeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactNegativeCustomJustifications",
+      "local_test": "impact_negative_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.impactNegativeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimalCustomJustifications",
+      "local_test": "impact_negative_big_decimal_custom_justifications",
+      "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
     }
   ],
   "fixtures": [
@@ -16903,6 +17248,58 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Replace the default-true and explicit-boolean applicability mock helpers with the native phase evaluator applicability flag; preserve the ignored-child behavior. No method credit for the helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.assertDefaultJustifications.explanation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "assertDefaultJustifications",
+      "modifications": "Preserve sole constraint key, seven matches and typed ordered singleton facts. Native owned snapshots always include explanations; no disabled match-policy variant."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "AbstractUniConstraintStreamTest.assertCustomJustifications.explanation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "assertCustomJustifications",
+      "modifications": "Preserve sole constraint key, seven matches and typed ordered singleton facts. Native owned snapshots always include explanations; no disabled match-policy variant."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "TestdataLavishSolution.generateSolution.explanation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain seven distinct Generated Entity identities, five assigned value identities and three entity groups where applicable. Unused value-group objects, solution metadata and random longProperty are omitted; none affect the adapted constant scoring or explanation assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_explanation_cases.rs",
+      "id": "TestdataSimpleBigDecimalScoreSolution.generateSolution.explanation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/TestdataSimpleBigDecimalScoreSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain seven distinct Generated Entity identities, five assigned value identities and three entity groups where applicable. Unused value-group objects, solution metadata and random longProperty are omitted; none affect the adapted constant scoring or explanation assertions."
     }
   ]
 }

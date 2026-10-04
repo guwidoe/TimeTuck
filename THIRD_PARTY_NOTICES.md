@@ -518,3 +518,10 @@ Timefold Community revision (Apache-2.0). Every truth-table and gradient asserti
 is retained; native evaluators replace Java mocks and scope objects. Exact source
 identities and substitutions appear in `compat/provenance.json`. Native expression
 and solve-control implementations and additional integration tests are original.
+
+`crates/solver/tests/score_explanation_cases.rs` adapts 23 scoring/justification
+methods and two shared assertion helpers from Community
+`AbstractUniConstraintStreamTest`, with the seven-entity fixtures from
+`TestdataLavishSolution` and `TestdataSimpleBigDecimalScoreSolution` (Apache-2.0).
+Exact paths, revision and native substitutions are in `compat/provenance.json`.
+The explanation implementation and separate incremental regressions are original.

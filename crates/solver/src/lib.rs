@@ -464,3 +464,9 @@ mod composite_termination;
 pub use composite_termination::{
     SearchLimit, SearchProgress, SearchTermination, TerminationExpression, TerminationState,
 };
+
+mod score_explanation;
+pub use score_explanation::{
+    ConstraintExplanation, ConstraintMatchRef, DefaultJustification, ExplainedMatch, Indictment,
+    ScoreExplanation,
+};

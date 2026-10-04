@@ -1597,6 +1597,22 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             .downcast_ref()
             .expect("source row type"))
     }
+    /// Registered name of a typed constraint, rejecting handles from other graphs.
+    pub fn constraint_name<I, T>(
+        &self,
+        constraint: &StreamConstraint<I, T>,
+    ) -> Result<&str, GraphError> {
+        if !Rc::ptr_eq(&self.owner, &constraint.0.owner) {
+            return Err(GraphError::ForeignPort);
+        }
+        Ok(self
+            .constraints
+            .iter()
+            .find(|(_, node)| **node == constraint.0.node)
+            .expect("registered constraint handle")
+            .0
+            .as_str())
+    }
     pub fn constraint_matches<I: Ord + 'static, T: 'static>(
         &self,
         constraint: &StreamConstraint<I, T>,

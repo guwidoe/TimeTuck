@@ -9249,3 +9249,31 @@ check.sh passed:2051 Rust tests,109 doctests,fmt/Clippy; all46 Python
 file jobs reused their successful results (252 tests). Rust reused73 targets.
 Coverage remains943/4855(19.423%),failed/unverified0; live dashboard freshness
 matched. Benchmarks remain stale. Full rewrite goal remains active.
+
+## Stream match justifications and score explanations
+
+Added on-demand typed graph explanations with default ordered fact justifications,
+custom justifications and separately selected blamed facts. Exact retained scores
+are read without rescoring. Per-fact contributions deduplicate repeated blame
+within a match while preserving equal tuple occurrences. Cross-constraint totals
+qualify match identities by constraint name. into_indexed supports mixing scalar,
+joined and other tuple IDs without dropping the original identity mapping.
+Snapshots remain independent across commits/rollback; empty and zero-score matches
+are retained. Basic/list/mixed stream directors expose these through graph().
+Standalone scoped scoring explanations and automatic heterogeneous graph-wide
+justification registration remain unimplemented; aggregates cover supplied reports.
+Twenty-three uni-stream scoring/justification methods and four fixture/helper
+records were adapted with exact provenance. Four original regression tests cover
+cross-constraint blame, duplicate rejection, decimal precision, rollback, callback
+panic, foreign handles, empty results and heterogeneous-ID aggregation.
+The gate exposed a pre-existing live cancellation race: waking the live worker can
+let it leave the pool before the pool-level cancel call, causing a successful live
+request to report false. Live cancellation now retains the first accepted request's
+success independently of that pool race. Two deterministic unit regressions cover
+worker completion before pool cancellation and competing callers; stale completed
+handles still return false.
+Final check.sh passed:2080 Rust tests,110 doctests,fmt/Clippy; Python
+checks reused. The cancellation follow-up rebuilt/reran only5 affected targets;
+283 other Rust targets reused matching successful results. Coverage966/4855
+(19.897%),failed/unverified0. Live dashboard data and freshness matched.
+Benchmarks remain stale; no timing sweep. Full rewrite goal remains active.

@@ -1387,3 +1387,29 @@ are independent of exact boolean decisions. AND reports minimum supported progre
 (default 1), OR maximum (default 0). Empty composites use logical identities. Native
 `SearchLimit` snapshots before search starts mark stagnation as unreached with no
 estimate. Rounded progress never decides whether an integer threshold is reached.
+
+## Retained stream score explanations
+
+`StreamGraph::explain_constraint_default` returns an owned snapshot with ordered
+fact justifications, exact match scores and deduplicated per-fact indictments.
+`explain_constraint` accepts a custom justification and independently selected
+blame facts. Both read retained terminal matches without evaluating score callbacks;
+explanation callbacks run only on request. Basic/list/mixed stream directors expose
+the graph, including transactional candidate views. Standalone scoped networks do
+not yet expose match justifications.
+
+Equal payloads at distinct tuple IDs remain distinct matches. Repeated blame facts
+within one match count once; matches blaming multiple facts contribute their full
+score to each, so indictment totals need not sum to the graph score. Zero-score and
+empty-blame matches remain visible. Snapshots survive later commits and rollbacks.
+`ScoreExplanation::add_constraint` aggregates selected reports, qualifies match IDs
+by constraint name, and rejects duplicate names. `into_indexed` allows aggregation
+of different tuple-ID types while returning every original ID in index order.
+Take component snapshots from one graph state; the aggregate covers only supplied
+constraints and excludes structural penalties maintained outside the graph.
+
+Twenty-three upstream uni-stream scoring/default/custom-justification methods
+preserve total scores, constraint keys, match counts and ordered fact assertions.
+Native signed terminal closures replace Java scoring-builder syntax, and on-demand
+typed snapshots replace Java justification-policy/director retrieval. No Java
+reflection, API, or disabled-justification lifecycle parity is claimed.
