@@ -145,3 +145,40 @@ impl<B, L> Drop for AppliedMixedMove<'_, B, L> {
         }
     }
 }
+
+/// Distinct planning-value namespaces in a mixed model, even when B and L have
+/// the same Rust type. Basic None is a real unassigned key; lists have no null key.
+#[derive(Clone, Debug, Eq, PartialEq, Hash)]
+pub enum MixedPlanningValue<B, L> {
+    Basic(Option<B>),
+    List(L),
+}
+impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
+    /// Capture both components with full move validation. No partial model state
+    /// escapes, and equal basic/list values never share a tabu identity.
+    pub fn planning_values(
+        &self,
+        before: &MixedAssignment<B, L>,
+        movement: &MixedMove<B, L>,
+    ) -> Result<Vec<MixedPlanningValue<B, L>>, MixedError> {
+        {
+            let mut copy = before.clone();
+            let _transaction = self.apply(&mut copy, movement)?;
+        }
+        let mut values: Vec<_> = before
+            .basic
+            .planning_values(&movement.basic)
+            .map_err(|error| MixedError::Basic(error.into()))?
+            .into_iter()
+            .map(MixedPlanningValue::Basic)
+            .collect();
+        values.extend(
+            self.lists
+                .planning_values(&before.lists, &movement.lists)
+                .map_err(MixedError::Lists)?
+                .into_iter()
+                .map(MixedPlanningValue::List),
+        );
+        Ok(values)
+    }
+}

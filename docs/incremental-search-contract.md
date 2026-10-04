@@ -1157,3 +1157,54 @@ aspiration, original-order change descriptors, fixed steps and best-rejected
 fallback. Every sample is independently rescored and final quality is shown with
 timings. This bounded change-only comparison does not establish general Java move
 equality, fading random-trace parity, memory scaling or production performance.
+
+## Value tabu and planning-value capture
+
+`Acceptance::ValueTabu` and `FadingValueTabu` retain the planning values of selected
+steps. Native `ValueAcceptor<S,M,K>` receives explicit variable/entity, move and value
+identities; children retain independent memories. `start_with_values` supports every
+policy. Scalar and move-only constructors report ValueContextRequired instead of
+silently ignoring missing value context. Ordered conjunction, skipped trial draws,
+completed fallback updates, fresh phases and strict global-best aspiration follow
+the existing acceptance contracts. Zero fading reproduces hard value tabu.
+
+The public Community Move API describes values assigned by a move and permits null.
+Native `Assignment::planning_values` captures each basic write target, including
+None, swaps at their execution point and intermediate composite writes. Values are
+deduplicated in first-write order. Raw assignment helpers validate indices; model
+pins/ranges remain the FiniteProblem responsibility. The input is never modified.
+
+`ListProblem::planning_values` captures assigned, relocated, exchanged, reversed
+span and removed items in first-touch order. Neighbors shifted by insertion/removal
+do not become keys merely because their indices change. Each composite child sees
+the preceding children's state; full domain/pin validation happens at the same final
+boundary as ordinary apply. Capturing reuses native move execution with an optional
+recording callback, keeping one implementation of composite indexing and validation.
+None is only a basic unassigned key; list removal tracks the actual removed values.
+
+Mixed capture validates the full move, then wraps basic Option<B> and list L keys
+in distinct MixedPlanningValue variants. Equal primitive representations in the two
+components never collide. Equality must remain stable while values are retained;
+no hashing or mutable Java identity equivalence is implied. Duplicate values refresh
+one key and an empty selected-value list still ages existing tabu memory.
+
+All six solver paths derive trial and selected-step metadata from the same pre-step
+snapshot, only when a configured child needs value keys. Current capture deliberately
+replays on a private snapshot, so its allocation/copy cost is included in native
+value-tabu timings. These replays do not invoke scoring or observers. Ordinary
+policies retain no value keys. Future optimization must preserve intermediate writes,
+final validation, input immutability and selected-step identity.
+
+All five ValueTabuAcceptorTest methods preserve every source acceptance assertion,
+repeated query, multi-key selection, null expiry and supplied fading draw. Source
+mock step scores become explicit observations of the source global-best baseline.
+Original tests cover native extraction, chronological multi-key/null references,
+context/config errors, skipped randomness, combined independent memories and all
+six search paths against independently extracted primitive values and histories.
+Paired-backend and owned-score matrices include hard and fading value policies.
+
+Public Java/native benchmarks add value tabu tenure 2 with global-best aspiration,
+complete change-only assignments, fixed steps and best-rejected fallback. Every
+sample has independent Python validity/rescoring and retained quality/score-call
+counts. Native capture replay cost is timed. This does not establish Java metadata
+parity for arbitrary composites/lists, fading PRNG traces or general performance.

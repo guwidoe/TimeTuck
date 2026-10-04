@@ -38,6 +38,17 @@ pub enum Acceptance<S = SimpleScore> {
         aspiration: bool,
         seed: u64,
     },
+    /// Reject planning values assigned by recent selected moves, including None.
+    ValueTabu {
+        tenure: usize,
+        aspiration: bool,
+    },
+    FadingValueTabu {
+        hard_tenure: usize,
+        fading_tenure: usize,
+        aspiration: bool,
+        seed: u64,
+    },
     /// Reject equal recent selected move descriptors. Use start_with_moves for
     /// standalone state; solver entry points supply typed moves automatically.
     MoveTabu {
@@ -65,6 +76,7 @@ pub enum AcceptanceError {
     EmptyHistory,
     EmptyTabu,
     MoveContextRequired,
+    ValueContextRequired,
     TabuTenureOverflow,
     HistoryAllocation,
     AcceptorAllocation,
@@ -91,6 +103,9 @@ impl fmt::Display for AcceptanceError {
             Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
             Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
             Self::TabuTenureOverflow => "combined tabu tenure exceeds usize",
+            Self::ValueContextRequired => {
+                "value-based acceptance requires typed value context (start_with_values)"
+            }
             Self::MoveContextRequired => {
                 "move-based acceptance requires typed move context (start_with_moves)"
             }
@@ -105,6 +120,11 @@ impl Error for AcceptanceError {}
 impl<S: Score> Acceptance<S> {
     pub fn validate(&self) -> Result<(), AcceptanceError> {
         if let Self::FadingVariableTabu {
+            hard_tenure,
+            fading_tenure,
+            ..
+        }
+        | Self::FadingValueTabu {
             hard_tenure,
             fading_tenure,
             ..
@@ -137,7 +157,9 @@ impl<S: Score> Acceptance<S> {
         }
         if matches!(
             self,
-            Self::VariableTabu { tenure: 0, .. } | Self::MoveTabu { tenure: 0, .. }
+            Self::VariableTabu { tenure: 0, .. }
+                | Self::MoveTabu { tenure: 0, .. }
+                | Self::ValueTabu { tenure: 0, .. }
         ) {
             return Err(AcceptanceError::EmptyTabu);
         }
@@ -161,11 +183,22 @@ impl<S: Score> Acceptance<S> {
     ) -> Result<crate::MoveAcceptor<S, M>, AcceptanceError> {
         crate::MoveAcceptor::new(self, initial_best)
     }
+    /// Start a session with independent typed move and planning-value identities.
+    pub fn start_with_values<M: Eq + Clone, K: Eq + Clone>(
+        &self,
+        initial_best: S,
+    ) -> Result<crate::ValueAcceptor<S, M, K>, AcceptanceError> {
+        crate::ValueAcceptor::new(self, initial_best)
+    }
     /// Start a fresh acceptance session. No state is shared between solver runs.
-    /// Move policies return MoveContextRequired; use start_with_moves instead.
+    /// Move/value policies require their context; use start_with_moves or
+    /// start_with_values instead.
     pub fn start(&self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
         self.validate()?;
         Ok(match self.clone() {
+            Self::ValueTabu { .. } | Self::FadingValueTabu { .. } => {
+                return Err(AcceptanceError::ValueContextRequired);
+            }
             Self::MoveTabu { .. } | Self::FadingMoveTabu { .. } => {
                 return Err(AcceptanceError::MoveContextRequired);
             }
@@ -235,7 +268,8 @@ impl<S: Score> Acceptor<S> {
     /// Create independent state for an ordered conjunction of policies. Empty
     /// conjunctions accept every candidate. All configurations are validated
     /// before state construction. Each call starts a fresh session. For move-based
-    /// policies use [`crate::MoveAcceptor::from_policies`] instead.
+    /// policies use [`crate::MoveAcceptor::from_policies`] instead; value policies
+    /// require [`crate::ValueAcceptor::from_policies`].
     ///
     /// ```
     /// use timetuck::{Acceptance, Acceptor, SimpleScore};

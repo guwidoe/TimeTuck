@@ -133,6 +133,13 @@ impl<V: Clone> Assignment<V> {
     /// Indices are checked; no domain or pinning rules are assumed here. Use a
     /// finite problem's `apply` method to enforce those rules as well.
     pub fn apply(&mut self, movement: &Move<V>) -> Result<AppliedMove<'_, V>, MoveError> {
+        self.apply_recording(movement, |_| {})
+    }
+    fn apply_recording(
+        &mut self,
+        movement: &Move<V>,
+        mut record: impl FnMut(&Option<V>),
+    ) -> Result<AppliedMove<'_, V>, MoveError> {
         let mut transaction = AppliedMove {
             assignment: self,
             journal: Vec::new(),
@@ -140,7 +147,10 @@ impl<V: Clone> Assignment<V> {
         let mut pending = vec![movement];
         while let Some(step) = pending.pop() {
             match step {
-                Move::Change { variable, value } => transaction.write(*variable, value.clone())?,
+                Move::Change { variable, value } => {
+                    record(value);
+                    transaction.write(*variable, value.clone())?;
+                }
                 Move::Swap { left, right } => {
                     let read = |index| {
                         transaction
@@ -155,6 +165,8 @@ impl<V: Clone> Assignment<V> {
                     };
                     let a = read(*left)?;
                     let b = read(*right)?;
+                    record(&b);
+                    record(&a);
                     transaction.write(*left, b)?;
                     transaction.write(*right, a)?;
                 }
@@ -162,5 +174,24 @@ impl<V: Clone> Assignment<V> {
             }
         }
         Ok(transaction)
+    }
+}
+
+impl<V: Eq + Clone> Assignment<V> {
+    /// Values written by this move, in first-write order without duplicates.
+    /// Includes None and intermediate composite writes. Reads each swap at that
+    /// child's execution point. Checks indices; model pins/domains are outside
+    /// this raw-assignment helper. The original assignment is never modified.
+    pub fn planning_values(&self, movement: &Move<V>) -> Result<Vec<Option<V>>, MoveError> {
+        let mut copy = self.clone();
+        let mut values = Vec::new();
+        {
+            let _transaction = copy.apply_recording(movement, |v| {
+                if !values.contains(v) {
+                    values.push(v.clone());
+                }
+            })?;
+        }
+        Ok(values)
     }
 }

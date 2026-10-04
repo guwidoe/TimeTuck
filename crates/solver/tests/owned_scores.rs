@@ -210,6 +210,16 @@ fn policies<S: AdditiveScore>(make: impl Fn(i64, i64) -> S) -> Vec<Acceptance<S>
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::ValueTabu {
+            tenure: 2,
+            aspiration: true,
+        },
+        Acceptance::FadingValueTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 77,
+        },
         Acceptance::MoveTabu {
             tenure: 2,
             aspiration: true,

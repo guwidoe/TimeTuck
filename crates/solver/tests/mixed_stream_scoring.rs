@@ -322,6 +322,16 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::ValueTabu {
+            tenure: 2,
+            aspiration: true,
+        },
+        Acceptance::FadingValueTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 77,
+        },
         Acceptance::MoveTabu {
             tenure: 2,
             aspiration: true,

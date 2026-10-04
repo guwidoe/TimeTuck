@@ -1321,3 +1321,15 @@ mock-identity adaptations and random-generator boundaries are documented separat
 no Java move-equality or lifecycle parity is inferred. Original chronological and
 search regressions, plus two move-tabu benchmark workloads and 32 small quality
 cases, earn no extra upstream-method credit.
+
+## Value tabu
+
+Five ValueTabuAcceptorTest methods are adapted in full, including multi-value steps,
+repeated queries, unassigned/null identity and supplied fading draws. Typed value
+acceptance integrates with basic/list/mixed search in both scoring backends. Native
+capture observes actual write targets and moved list items through sequential
+composites, with distinct mixed value types; its semantics and replay cost are in
+the search contract. These helpers, independent chronology/search checks and two
+new timing workloads plus 32 small Java/native quality cases earn no additional
+source-method credit. Java mutable identity/lifecycle and fading PRNG parity remain
+unclaimed; input validation, score quality and timing stay separate measurements.

@@ -193,6 +193,16 @@ fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::ValueTabu {
+            tenure: 2,
+            aspiration: true,
+        },
+        Acceptance::FadingValueTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 77,
+        },
         Acceptance::MoveTabu {
             tenure: 2,
             aspiration: true,

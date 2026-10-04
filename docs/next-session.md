@@ -6662,3 +6662,78 @@ optimum, score calls and timing ranges. No page errors or horizontal overflow at
 1440px/390px. Browser closed and localhost:8765 remains running. Source/tests,
 provenance and staged diff were reviewed before the Conventional Commit. The
 full rewrite remains incomplete; this increment is progress, not goal completion.
+
+## In progress: value tabu (2026-10-04)
+
+Previous turn made concrete progress and committed da122fc; worktree was clean.
+This increment adds ValueTabu/FadingValueTabu and ValueAcceptor<S,M,K>. Existing
+MoveAcceptor facade and the new value facade share a private generic context state;
+scalar/move-only entry points reject missing value context. Independent variable,
+move and value memories compose in order with existing trial/step semantics.
+
+Public Move.getPlanningValues Javadoc specifies assigned values, permits null,
+and says it is observed after execution. Pinned tests retain null in value tabu.
+Native basic metadata records actual target writes, including None and intermediate
+composite writes. List metadata records moved/assigned/removed items, not shifted
+neighbors. Both use private recording callbacks in existing native apply paths,
+replaying snapshots only when requested. Composite children observe prior writes;
+final model validation remains at the original boundary. Mixed metadata validates
+the whole move and uses distinct Basic(Option<B>)/List(L) identities. This replay
+cost is explicit and included in value-tabu timing; it invokes no scoring callbacks.
+
+All six search paths capture trial and selected metadata from the same original
+step snapshot, only for configured value policies. Paired-backend and owned-score
+matrices now include hard/fading value policies. Seven original regressions cover
+write/intermediate/null capture, ranges, list spans, shifted-neighbor exclusion,
+input immutability, mixed namespaces, chronology, contexts/configs, skipped draws,
+independent memories and six-backend search against independent primitive-value
+extraction and selected-key histories. A composite range regression confirms that
+transient cross-range values are allowed when the final lists restore valid ranges.
+
+Five ValueTabuAcceptorTest methods are completely adapted, preserving 96 hard/
+multiple/aspiration assertions, seven null assertions and eight fading decisions
+plus draw-consumption checks. Stable identities and explicit global-best baseline
+replace mocks; provenance/notices updated. Ephemeral work/adapt-value-tests.py
+checks that every source assertion in the first three methods is represented.
+The initially generated literal bool assert_eq assertions triggered Clippy; they
+were converted to assert! without suppressing the lint. Full gate rerun session
+56691 is now active, log work/value-tabu-check.log. Source is frozen.
+
+Three-step/no-warmup benchmark smoke passed 224/224 valid and equal-score cases
+(32 per seven configurations), including new value_tabu with Java public
+withValueTabuSize(2). These are not timing evidence. Expected full gate totals:
+1,673 Rust tests (834 adapted, 763 original integration, 76 unit), 87 doctests,
+193 Python tests. After success run focused release and all thirteen sequential
+refreshes, then final report/audit/browser checks for 49 cards and ValueTabu 5/5.
+
+Full gate session 56691 completed exit 0 with the expected 1,673 Rust tests,
+87 doctests and 193 Python tests. Coverage 834/4,855 = 17.178%, search 40/158 =
+25.316%, pending 3,739, excluded 282, failed/unverified zero. Focused release passes
+all 12 new cases plus seven existing move-tabu regressions. Source remains frozen.
+Thirteen sequential refreshes and final report run in session 37437, logs
+work/value-tabu-refresh-*.log. Audit work/value-tabu-audit.py expects 13 current
+statuses, matching fingerprints, 49 cards and ValueTabuAcceptorTest five passed.
+
+Next useful work includes public Java value-metadata comparisons for richer list/
+composite operations, optimizing capture replay only with preserved invariants,
+ratio-based tabu sizing and diversified late acceptance. Current Java timing/quality
+checks cover complete basic change moves; they do not establish general Java list/
+composite planning-value identity. Public fixed-draw fading adaptations do not
+establish cross-engine seeded stochastic traces or dedicated fading performance.
+
+Refresh session 37437 completed exit 0. Audit confirms 13 current datasets,
+matching source/report/verification/live-server fingerprints, 49 timing cards and
+ValueTabuAcceptorTest 5/5. Default heuristic run uses 50 steps, 5 warmups, 7 samples,
+3 forks and retains 21 samples per runtime/workload. All 224 small cases validate
+with equal final scores, 185 optimal per runtime. Value-tabu medians: 32 variables
+Rust 2.650 ms / Java 9.508 ms, both optimal 0/0; 96 variables Rust 14.403 ms / Java
+17.414 ms, both infeasible -44/-22. Capture replay is inside the native timing.
+These are bounded workload results, not general speed or quality claims. Existing
+cross-runtime discrepancies remain retained in the other refreshed datasets.
+
+Browser QA confirms 17.18% overall, 25.32% search, all five source methods Passed,
+49 cards and fourteen heuristic cards. New cards expose quality, feasibility,
+known optimum, ranges and score calls. No page errors or horizontal overflow at
+1440px/390px. Browser closed; localhost:8765 remains running. Staged implementation,
+adaptations, provenance, notices and contracts were reviewed. The full solver
+rewrite remains incomplete; this increment is concrete progress toward it.

@@ -199,15 +199,23 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
         }
         Ok(())
     }
-    pub(crate) fn start_acceptance<M: Eq + Clone>(
+    pub(crate) fn start_acceptance<M: Eq + Clone, K: Eq + Clone>(
         &self,
         initial: S,
-    ) -> Result<crate::MoveAcceptor<S, M>, AcceptanceError> {
+    ) -> Result<crate::ValueAcceptor<S, M, K>, AcceptanceError> {
         if self.additional_acceptance.is_empty() {
-            self.acceptance.start_with_moves(initial)
+            self.acceptance.start_with_values(initial)
         } else {
-            crate::MoveAcceptor::start_composite(self.policies(), initial)
+            crate::ValueAcceptor::start_composite(self.policies(), initial)
         }
+    }
+    pub(crate) fn tracks_values(&self) -> bool {
+        self.policies().any(|p| {
+            matches!(
+                p,
+                Acceptance::ValueTabu { .. } | Acceptance::FadingValueTabu { .. }
+            )
+        })
     }
     pub(crate) fn tracks_variables(&self) -> bool {
         self.policies().any(|p| {
@@ -514,6 +522,7 @@ where
         );
         let current = director.score();
         let tracks_variables = config.tracks_variables();
+        let tracks_values = config.tracks_values();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,
@@ -535,7 +544,14 @@ where
                 } else {
                     Vec::new()
                 };
-                acceptor.accepts(current.clone(), score, &variables, movement)
+                let values = if tracks_values {
+                    snapshot
+                        .planning_values(movement)
+                        .expect("scored move has valid value metadata")
+                } else {
+                    Vec::new()
+                };
+                acceptor.accepts(current.clone(), score, &variables, movement, &values)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,
@@ -559,7 +575,14 @@ where
             } else {
                 Vec::new()
             };
-            acceptor.step_ended(director.score(), &variables, movement);
+            let values = if tracks_values {
+                snapshot
+                    .planning_values(movement)
+                    .expect("scored move has valid value metadata")
+            } else {
+                Vec::new()
+            };
+            acceptor.step_ended(director.score(), &variables, movement, &values);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
             time_budget.complete_step(improved);

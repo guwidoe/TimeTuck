@@ -278,6 +278,14 @@ impl<V: Eq + Clone> ListProblem<V> {
         assignment: &'a mut ListAssignment<V>,
         movement: &ListMove<V>,
     ) -> Result<AppliedListMove<'a, V>, ListError> {
+        self.apply_recording(assignment, movement, |_| {})
+    }
+    fn apply_recording<'a>(
+        &self,
+        assignment: &'a mut ListAssignment<V>,
+        movement: &ListMove<V>,
+        mut record: impl FnMut(&V),
+    ) -> Result<AppliedListMove<'a, V>, ListError> {
         self.validate(assignment)?;
         let original = assignment.clone();
         let transaction = AppliedListMove {
@@ -295,6 +303,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     if !self.values.contains(value) {
                         return Err(ListError::ValueOutsideDomain);
                     }
+                    record(value);
                     transaction.assignment.lists[destination.entity]
                         .insert(destination.index, value.clone());
                 }
@@ -305,6 +314,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     transaction.element_index(*source)?;
                     transaction.insertion(*destination, source.entity == destination.entity)?;
                     let value = transaction.assignment.lists[source.entity].remove(source.index);
+                    record(&value);
                     transaction.assignment.lists[destination.entity]
                         .insert(destination.index, value);
                 }
@@ -335,6 +345,9 @@ impl<V: Eq + Clone> ListProblem<V> {
                     let mut span: Vec<_> = transaction.assignment.lists[*entity]
                         .drain(*start..*end)
                         .collect();
+                    for value in &span {
+                        record(value);
+                    }
                     if *reverse {
                         span.reverse();
                     }
@@ -368,6 +381,9 @@ impl<V: Eq + Clone> ListProblem<V> {
                     }
                     let mut a = transaction.entity(left.entity)?[left.start..left.end].to_vec();
                     let mut b = transaction.entity(right.entity)?[right.start..right.end].to_vec();
+                    for value in a.iter().chain(&b) {
+                        record(value);
+                    }
                     if *reverse {
                         a.reverse();
                         b.reverse();
@@ -386,6 +402,8 @@ impl<V: Eq + Clone> ListProblem<V> {
                 ListMove::Swap { left, right } => {
                     transaction.element_index(*left)?;
                     transaction.element_index(*right)?;
+                    record(&transaction.assignment.lists[left.entity][left.index]);
+                    record(&transaction.assignment.lists[right.entity][right.index]);
                     if left.entity == right.entity {
                         transaction.assignment.lists[left.entity].swap(left.index, right.index);
                     } else {
@@ -417,6 +435,9 @@ impl<V: Eq + Clone> ListProblem<V> {
                             start: *start,
                             end: *end,
                         });
+                    }
+                    for value in &list[*start..*end] {
+                        record(value);
                     }
                     list.drain(*start..*end);
                 }
@@ -541,5 +562,28 @@ impl<V> Drop for AppliedListMove<'_, V> {
         if let Some(mut original) = self.original.take() {
             std::mem::swap(&mut self.assignment.lists, &mut original.lists);
         }
+    }
+}
+
+impl<V: Eq + Clone> ListProblem<V> {
+    /// Capture moved list values, including assigned and removed values, once in
+    /// first-touch order. Composite children use their current indices. Shifted
+    /// neighbors are not captured merely because their indices change. Full model
+    /// validation is identical to apply; the input remains unchanged on all paths.
+    pub fn planning_values(
+        &self,
+        before: &ListAssignment<V>,
+        movement: &ListMove<V>,
+    ) -> Result<Vec<V>, ListError> {
+        let mut copy = before.clone();
+        let mut values = Vec::new();
+        {
+            let _transaction = self.apply_recording(&mut copy, movement, |v| {
+                if !values.contains(v) {
+                    values.push(v.clone());
+                }
+            })?;
+        }
+        Ok(values)
     }
 }

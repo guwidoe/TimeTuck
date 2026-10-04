@@ -219,6 +219,7 @@ where
         );
         let current = director.score();
         let tracks_entities = config.tracks_variables();
+        let tracks_values = config.tracks_values();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,
@@ -235,7 +236,14 @@ where
                 } else {
                     vec![]
                 };
-                acceptor.accepts(current.clone(), score, &keys, movement)
+                let values = if tracks_values {
+                    problem
+                        .planning_values(&snapshot, movement)
+                        .expect("scored move has valid value metadata")
+                } else {
+                    Vec::new()
+                };
+                acceptor.accepts(current.clone(), score, &keys, movement, &values)
             },
             |_| config.selection == MoveSelection::FirstAccepted,
             config.assert_scores,
@@ -258,7 +266,14 @@ where
             } else {
                 vec![]
             };
-            acceptor.step_ended(director.score(), &keys, movement);
+            let values = if tracks_values {
+                problem
+                    .planning_values(&snapshot, movement)
+                    .expect("scored move has valid value metadata")
+            } else {
+                Vec::new()
+            };
+            acceptor.step_ended(director.score(), &keys, movement, &values);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
             time_budget.complete_step(improved);

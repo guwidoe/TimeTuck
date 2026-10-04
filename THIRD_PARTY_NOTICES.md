@@ -365,3 +365,9 @@ MoveTabuAcceptorTest methods at the pinned Community revision. Identity/score/st
 fixtures and supplied draws retain attribution in compat/provenance.json. Typed
 MoveAcceptor, structural-identity search integration, original regressions and
 public Java/native benchmark extension are independently implemented.
+
+`crates/solver/tests/value_tabu_cases.rs` adapts all five Apache-2.0
+ValueTabuAcceptorTest methods at the pinned Community revision. Repeated queries,
+multi-value steps, null identity and fixed fading draws retain attribution in
+compat/provenance.json. Typed value acceptance, metadata capture, search integration,
+original regressions and public Java/native comparisons are independent implementations.
