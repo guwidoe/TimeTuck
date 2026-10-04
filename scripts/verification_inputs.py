@@ -45,12 +45,54 @@ def files(pattern, root=ROOT):
     return {p.relative_to(root).as_posix() for p in root.glob(pattern) if p.is_file()}
 
 
+FACADE_INPUT = '@rust-facade:'
+
+
+def facade_content(source, symbols):
+    """Project a crate facade onto used names; retain other root code/attributes.
+
+    This is the same deliberately selective development heuristic as the module
+    scan, not Rust name resolution. Unknown export syntax remains conservative.
+    """
+    source = re.sub(r'"(?:\\.|[^"\\])*"|/\*[\s\S]*?\*/|//[^\n]*',
+                    lambda m: ' ' if m[0].startswith('/') else m[0], source)
+    def declaration(match):
+        attributes, module, exports = match.group(1, 2, 3)
+        if module:
+            return match[0] if module in symbols else ''
+        if '*' in exports or exports.count('{') > 1:
+            return match[0]
+        prefix, _, members = exports.partition('{')
+        if members:
+            items = [v.strip() for v in members.rstrip().removesuffix('}').split(',') if v.strip()]
+        else:
+            prefix, _, member = exports.rpartition('::')
+            prefix += '::'
+            items = [member]
+        kept = []
+        for item in items:
+            name = re.split(r'\s+as\s+', item)[-1].strip()
+            if name == 'self': name = prefix.rstrip(':').split('::')[-1]
+            if name in symbols: kept.append(item)
+        return f'{attributes}pub use {prefix}{{{",".join(sorted(kept))}}};' if kept else ''
+    # Attributes belong to the declaration; crate-level #![...] is retained.
+    source = re.sub(r'((?:#\[[^\]]*\]\s*)*)(?:(?:pub(?:\([^)]*\))?\s+)?mod\s+(\w+)\s*;|pub\s+use\s+([^;]+);)',
+                    declaration, source)
+    # Preserve whitespace inside ordinary strings when normalizing formatting.
+    return re.sub(r'"(?:\\.|[^"\\])*"|\s+', lambda m: m[0] if m[0].startswith('"') else ' ', source).strip()
+
+
 def digest(paths, root=ROOT, extra=None):
     h = hashlib.sha256(json.dumps(extra, sort_keys=True).encode())
     for name in sorted(set(paths)):
-        path = root / name
         h.update(name.encode() + b'\0')
-        h.update(hashlib.sha256(path.read_bytes()).digest() if path.is_file() else b'missing')
+        if name.startswith(FACADE_INPUT):
+            path = root / 'crates/solver/src/lib.rs'
+            data = facade_content(path.read_text(), set(json.loads(name[len(FACADE_INPUT):]))).encode() if path.is_file() else b'missing'
+            h.update(hashlib.sha256(data).digest())
+        else:
+            path = root / name
+            h.update(hashlib.sha256(path.read_bytes()).digest() if path.is_file() else b'missing')
     return h.hexdigest()
 
 
@@ -83,8 +125,8 @@ def selected_library_inputs(entries, root=ROOT):
     """Development dependency scan, at module granularity (not a Rust compiler).
 
     Follow named types/functions/modules and out-of-line implementations. Glob
-    imports resolve against identifiers used in the target. The facade is hashed but its
-    reexports do not drag every unrelated module into every target.
+    imports resolve against identifiers used in the target. Facade inputs include
+    referenced declarations/reexports and other root code, excluding unrelated exports.
     """
     sources = {p for p in files('crates/solver/src/**/*.rs', root) if not p.endswith('_tests.rs')}
     facade = 'crates/solver/src/lib.rs'
@@ -120,7 +162,7 @@ def selected_library_inputs(entries, root=ROOT):
             symbol = re.match(r'(?:&\s*)?(\w+)', target)
             if symbol and symbol[1] in owners:
                 owners[symbol[1]].add(name)
-    selected, pending = set(), list(entries)
+    selected, pending, referenced = set(), list(entries), set()
     while pending:
         name = pending.pop()
         if name in selected or not (root / name).is_file(): continue
@@ -135,9 +177,13 @@ def selected_library_inputs(entries, root=ROOT):
             calls = set(re.findall(r'(?<![.\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', source))
             local = set(re.findall(r'\bfn\s+(\w+)', source))
             words.update(calls - local)
+        referenced.update(words)
         for word in words:
             pending.extend(owners.get(word, set()) - selected)
-    return cargo_inputs(root) | {facade} | {p for p in selected if p.startswith('crates/solver/src/')}
+    modules = {p for p in selected if p.startswith('crates/solver/src/')}
+    referenced.update(Path(p).stem for p in modules)
+    projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
+    return cargo_inputs(root) | {projected} | modules
 
 
 def rust_entry_inputs(entry, root=ROOT):

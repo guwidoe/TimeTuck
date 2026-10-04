@@ -90,6 +90,46 @@ class InputTests(unittest.TestCase):
         (self.root / 'crates/solver/src/score.rs').write_text('changed')
         self.assertNotEqual(score, measurement_digest('performance', self.root))
 
+    def test_unrelated_facade_exports_spare_existing_tests_and_benchmarks(self):
+        facade = self.root / 'crates/solver/src/lib.rs'
+        facade.write_text('pub mod score; pub mod search; pub use score::{Score};')
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::*; fn probe(_: Score) {}')
+        before = self.key(entry), measurement_digest('performance', self.root)
+        library = self.key('crates/solver/src/lib.rs')
+        (self.root / 'crates/solver/src/extra.rs').write_text('pub struct Extra;')
+        facade.write_text('pub mod score; pub mod search; mod extra; pub use extra::Extra; pub use score::{Score, Score as Unused};')
+        self.assertEqual(before, (self.key(entry), measurement_digest('performance', self.root)))
+        self.assertNotEqual(library, self.key('crates/solver/src/lib.rs'))
+
+    def test_used_export_retargeting_invalidates_only_its_consumers(self):
+        facade = self.root / 'crates/solver/src/lib.rs'
+        facade.write_text('pub mod score; pub mod search; pub use score::Score as Chosen;')
+        a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
+        (self.root / a).write_text('use timetuck::Chosen;')
+        (self.root / b).write_text('use timetuck::search::Search;')
+        before = self.key(a), self.key(b)
+        facade.write_text('pub mod score; pub mod search; pub use search::Search as Chosen;')
+        self.assertNotEqual(before[0], self.key(a))
+        self.assertEqual(before[1], self.key(b))
+
+    def test_facade_keeps_crate_attributes_and_root_code_but_ignores_docs(self):
+        facade = self.root / 'crates/solver/src/lib.rs'
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        original = facade.read_text()
+        before = self.key(entry)
+        facade.write_text('//! Added documentation.\n' + original)
+        self.assertEqual(before, self.key(entry))
+        facade.write_text('#![forbid(unsafe_code)]\n' + original)
+        self.assertNotEqual(before, self.key(entry))
+        facade.write_text(original + ' pub const LABEL: &str = "a  b";')
+        code = self.key(entry)
+        self.assertNotEqual(before, code)
+        facade.write_text(original + ' pub const LABEL: &str = "a b";')
+        self.assertNotEqual(code, self.key(entry))
+
+
 
 class CacheTests(unittest.TestCase):
     def test_actual_command_runs_once_until_inputs_force_log_or_environment_change(self):

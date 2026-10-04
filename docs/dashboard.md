@@ -622,7 +622,10 @@ allocation and GC effects. Original benchmark fixtures add no adapted-method cre
 are cached per target, Python checks per test file, and each of the 17 comparison
 runners has its own key. Native dependencies are selected by a module-level source
 scan of imports, referenced public symbols and out-of-line implementations; local
-modules and literal include fixtures are tracked. This is a development heuristic,
+modules and literal include fixtures are tracked. A target hashes only the crate
+facade declarations/reexports it references, plus remaining root code and crate
+attributes. Adding an unrelated public export no longer invalidates every target;
+unit tests, linting and doctests still include the complete facade. This is a development heuristic,
 not compiler-proven dependency analysis. Shared types can still select many modules.
 Python imports and Java adapter references are followed separately. Dashboard,
 provenance, unrelated tests and unrelated adapters do not invalidate Rust execution.
