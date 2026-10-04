@@ -1267,7 +1267,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     || crate::branch_tree::BasicTree::new(p),
                     |a| {
                         n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
+                            .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
                 )
@@ -1287,7 +1287,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                             |visit| crate::search::visit_assignments(p, visit),
                             |a| {
                                 n.calculate(p, a)
-                                    .map(|score| (score, n.constraint_count() as u128))
+                                    .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
                         )?
@@ -1501,7 +1501,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     || crate::branch_tree::ListTree::new(p),
                     |a| {
                         n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
+                            .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
                 )
@@ -1521,7 +1521,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                             |visit| crate::list_search::visit_list_assignments(p, visit),
                             |a| {
                                 n.calculate(p, a)
-                                    .map(|score| (score, n.constraint_count() as u128))
+                                    .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
                         )?
@@ -1706,7 +1706,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                     || crate::branch_tree::MixedTree::new(p),
                     |a| {
                         n.calculate(p, a)
-                            .map(|score| (score, n.constraint_count() as u128))
+                            .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
                 )
@@ -1726,7 +1726,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                             |visit| exact::visit_mixed(p, visit),
                             |a| {
                                 n.calculate(p, a)
-                                    .map(|score| (score, n.constraint_count() as u128))
+                                    .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
                         )?

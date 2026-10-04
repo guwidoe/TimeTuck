@@ -1437,7 +1437,7 @@ rows remain available, and disabled handles report zero score and empty matches.
 Ordinary `score` closures returning zero are still evaluated. Weighted matches
 participate in existing transactions, score consistency checks, candidate caching
 and the explanation API. Basic/list/mixed stream solves use the same graph logic.
-Standalone scoped networks do not yet provide named weight overrides.
+Scoped network weight configuration is described below.
 
 Three weight-override source methods plus uni-stream zero-weight and duplicate-name
 methods are adapted. Java solution reflection and resetting an existing director
@@ -1469,3 +1469,36 @@ undo states. Native source occurrences and retractions replace Java impact handl
 no Java object/match-policy lifecycle equivalence is claimed. Separate regressions
 cover genuinely fractional products, long coefficients, scale boundaries, rollback,
 overrides, pruning and exact optimum selection in all three stream solve paths.
+
+
+## Configurable weights in scoped networks
+
+Basic, list and mixed scoped networks expose `add_weighted_constraint` for signed
+integer factors and `add_decimal_weighted_constraint` for exact decimal factors.
+They share arithmetic with stream weighting. `apply_weight_overrides` validates
+all supplied names and structural components before applying any changes. Missing
+names retain their current weights; ordinary direct-score constraints cannot be
+reweighted. Invalid registration does not alter the network. `constraint_weights`
+returns configured weights, including zero, in registration order.
+
+Weights may change between scoring sessions. A director borrows its network,
+preventing weight changes while its contribution cache exists. Explicit zero skips
+fact assembly and factor callbacks during initialization, full calculation,
+diagnostics and moves. Disabled constraints stay visible as zero contributions but
+are excluded from candidate callback counts and exact-solver callback work totals.
+A later nonzero override reactivates the declared dependencies. Structural missing
+assignment penalties remain active even when all weighted constraints are disabled.
+
+Decimal scale errors identify the constraint index and expose their underlying
+cause. Errors and ordinary panic unwinding restore candidate model values and
+leave every contribution cache unchanged. Constants, repeated scopes, deterministic
+callbacks and model validation retain their existing scoped semantics.
+
+Sixteen integer ScoreInliner methods are adapted, preserving empty scores and all
+impact/undo score assertions. Optional native variable slots represent independent
+impacts. Eight upstream integer overflow methods remain pending: native integer
+score arithmetic currently wraps instead of reporting the asserted Java exceptions.
+Original regressions cover all three networks, atomic invalid overrides, disabling
+and reactivation, callback counts, decimal failure/panic rollback and fractional
+optima under both exact solving and construction/local search. These original
+regressions add no upstream method credit.

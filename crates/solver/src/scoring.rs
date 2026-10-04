@@ -5,10 +5,12 @@
 use crate::{AdditiveScore, AppliedMove, Assignment, FiniteProblem, ModelError, Move};
 use std::{error::Error, fmt};
 
-type Evaluator<'a, V, S> = dyn Fn(&[Option<&V>]) -> S + 'a;
+type Evaluator<'a, V, S> =
+    dyn Fn(&[Option<&V>], &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
 struct Constraint<'a, V, S> {
     name: String,
     scope: Vec<usize>,
+    weight: Option<S>,
     evaluate: Box<Evaluator<'a, V, S>>,
 }
 
@@ -24,6 +26,11 @@ pub enum ScoringError {
         variable_count: usize,
     },
     DuplicateName(String),
+    InvalidWeight(crate::ConstraintWeightError),
+    DecimalWeightArithmetic {
+        constraint: usize,
+        error: crate::DecimalArithmeticError,
+    },
     StructuralContribution {
         constraint: usize,
     },
@@ -47,6 +54,10 @@ impl fmt::Display for ScoringError {
                 f,
                 "constraint scope index {variable} is outside {variable_count} variables"
             ),
+            Self::InvalidWeight(error) => error.fmt(f),
+            Self::DecimalWeightArithmetic { constraint, error } => {
+                write!(f, "constraint {constraint} decimal impact failed: {error}")
+            }
             Self::DuplicateName(name) => write!(f, "duplicate constraint name: {name}"),
             Self::StructuralContribution { constraint } => write!(
                 f,
@@ -64,10 +75,11 @@ impl fmt::Display for ScoringError {
 }
 impl Error for ScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
-        if let Self::Model(e) = self {
-            Some(e)
-        } else {
-            None
+        match self {
+            Self::Model(error) => Some(error),
+            Self::InvalidWeight(error) => Some(error),
+            Self::DecimalWeightArithmetic { error, .. } => Some(error),
+            _ => None,
         }
     }
 }
@@ -102,13 +114,106 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     pub fn constraint_count(&self) -> usize {
         self.constraints.len()
     }
+    /// Number of callbacks used by full scoring (direct callbacks always count).
+    pub fn active_constraint_count(&self) -> usize {
+        self.constraints
+            .iter()
+            .filter(|c| c.weight.as_ref().is_none_or(|w| *w != S::ZERO))
+            .count()
+    }
     pub fn add_constraint(
         &mut self,
         name: impl Into<String>,
         scope: Vec<usize>,
         evaluate: impl Fn(&[Option<&V>]) -> S + 'a,
     ) -> Result<usize, ScoringError> {
-        let name = name.into();
+        self.register(
+            name.into(),
+            scope,
+            None,
+            Box::new(move |facts, _| Ok(evaluate(facts))),
+        )
+    }
+    /// Register an integer match factor with a configurable ordinary score weight.
+    /// A zero weight skips the callback, including during initialization/diagnostics.
+    pub fn add_weighted_constraint(
+        &mut self,
+        name: impl Into<String>,
+        scope: Vec<usize>,
+        weight: S,
+        factor: impl Fn(&[Option<&V>]) -> i64 + 'a,
+    ) -> Result<usize, ScoringError> {
+        self.register(
+            name.into(),
+            scope,
+            Some(weight),
+            Box::new(move |facts, weight| {
+                Ok(crate::constraint_weights::scale(weight, factor(facts)))
+            }),
+        )
+    }
+    /// Register an exact decimal match factor. Arithmetic errors roll back moves.
+    pub fn add_decimal_weighted_constraint(
+        &mut self,
+        name: impl Into<String>,
+        scope: Vec<usize>,
+        weight: S,
+        factor: impl Fn(&[Option<&V>]) -> crate::Decimal + 'a,
+    ) -> Result<usize, ScoringError>
+    where
+        S: crate::DecimalWeightedScore,
+    {
+        self.register(
+            name.into(),
+            scope,
+            Some(weight),
+            Box::new(move |facts, weight| weight.multiply_exact(&factor(facts))),
+        )
+    }
+    /// Apply a validated batch atomically; omitted names retain their current weights.
+    /// Directors borrow the network, so weights cannot change during a scoring session.
+    /// Zero disables a weighted constraint; a later nonzero override reactivates it.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let problem = FiniteProblem::new(vec![Variable::new(vec![2]).with_initial(2)])?;
+    /// let mut network = ConstraintNetwork::new(1);
+    /// network.add_weighted_constraint("cost", vec![0], SimpleScore::new(-3),
+    ///     |values| values[0].copied().unwrap_or(0))?;
+    /// let overrides = [("cost".to_owned(), SimpleScore::new(-5))].into_iter().collect();
+    /// network.apply_weight_overrides(&overrides)?;
+    /// let director = ScoreDirector::new(&problem, &network, problem.initial_assignment())?;
+    /// assert_eq!(director.score(), SimpleScore::new(-10));
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn apply_weight_overrides(
+        &mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<(), crate::ConstraintWeightError> {
+        let updates = crate::scoped_weights::resolve_overrides(
+            self.constraints
+                .iter()
+                .map(|c| (c.name.as_str(), c.weight.as_ref())),
+            overrides,
+        )?;
+        for (index, weight) in updates {
+            self.constraints[index].weight = Some(weight);
+        }
+        Ok(())
+    }
+    /// Configured weighted constraints, in registration order (including zero).
+    pub fn constraint_weights(&self) -> impl Iterator<Item = (&str, &S)> {
+        self.constraints
+            .iter()
+            .filter_map(|c| c.weight.as_ref().map(|w| (c.name.as_str(), w)))
+    }
+    fn register(
+        &mut self,
+        name: String,
+        scope: Vec<usize>,
+        weight: Option<S>,
+        evaluate: Box<Evaluator<'a, V, S>>,
+    ) -> Result<usize, ScoringError> {
         if self.constraints.iter().any(|c| c.name == name) {
             return Err(ScoringError::DuplicateName(name));
         }
@@ -120,6 +225,11 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
                 });
             }
         }
+        if weight.as_ref().is_some_and(|w| w.structural() != 0) {
+            return Err(ScoringError::InvalidWeight(
+                crate::ConstraintWeightError::StructuralWeight(name),
+            ));
+        }
         let index = self.constraints.len();
         let mut unique = scope.clone();
         unique.sort_unstable();
@@ -130,18 +240,27 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
         self.constraints.push(Constraint {
             name,
             scope,
-            evaluate: Box::new(evaluate),
+            weight,
+            evaluate,
         });
         Ok(index)
     }
     fn contribution(&self, index: usize, assignment: &Assignment<V>) -> Result<S, ScoringError> {
         let constraint = &self.constraints[index];
+        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+            return Ok(S::ZERO);
+        }
         let arguments: Vec<_> = constraint
             .scope
             .iter()
             .map(|&i| assignment.values()[i].as_ref())
             .collect();
-        let score = (constraint.evaluate)(&arguments);
+        let score =
+            (constraint.evaluate)(&arguments, constraint.weight.as_ref().unwrap_or(&S::ZERO))
+                .map_err(|error| ScoringError::DecimalWeightArithmetic {
+                    constraint: index,
+                    error,
+                })?;
         if score.structural() != 0 {
             return Err(ScoringError::StructuralContribution { constraint: index });
         }
@@ -344,6 +463,12 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             .collect();
         affected.sort_unstable();
         affected.dedup();
+        affected.retain(|&i| {
+            self.network.constraints[i]
+                .weight
+                .as_ref()
+                .is_none_or(|w| *w != S::ZERO)
+        });
         let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {

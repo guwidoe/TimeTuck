@@ -9317,3 +9317,23 @@ The dashboard server was restarted with the updated Python input logic.
 check.sh passed:2113 Rust tests,112 doctests,255 Python checks,fmt/Clippy.
 Coverage987/4855(20.33%),pending3586,excluded282,failed/unverified0.
 Benchmark datasets remain stale; no timing sweep. Full rewrite goal remains active.
+
+
+## Configurable scoped weights
+
+All three scoped networks now support signed integer/exact decimal factor callbacks
+and atomic named overrides. Missing override names retain current weights; unknown
+names, direct-score overrides and structural weights are rejected before mutation.
+Directors borrow their network, preventing in-session changes. Zero weights skip
+callbacks and fact assembly and are removed from candidate/exact callback work counts.
+Declared dependencies survive disabling, supporting reactivation between sessions.
+Typed decimal errors and panic unwinding preserve model/cache rollback.
+Sixteen non-overflow integer ScoreInliner methods adapted with helper provenance;
+eight integer overflow methods remain pending because native arithmetic wraps.
+Four original regressions exercise basic/list/mixed registration/configuration,
+pruning/reactivation, errors/panics, exact and construction/local-search optima.
+Full rewrite goal remains active.
+check.sh passed:2133 Rust tests,113 doctests,fmt/Clippy;255 Python checks
+reused.217 Rust targets ran and77 reused matching successful evidence.
+Coverage1003/4855(20.659%),pending3570,excluded282,failed/unverified0.
+Benchmark datasets remain stale; no timing sweep.

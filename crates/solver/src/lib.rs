@@ -473,3 +473,6 @@ pub use score_explanation::{
 
 mod constraint_weights;
 pub use constraint_weights::{ConstraintWeightOverrides, DecimalWeightedScore};
+
+mod scoped_weights;
+pub use scoped_weights::ConstraintWeightError;

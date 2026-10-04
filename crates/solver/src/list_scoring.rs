@@ -41,10 +41,12 @@ pub enum ListFact<'a, V> {
     },
 }
 
-type Evaluator<'a, V, S> = dyn Fn(&[ListFact<'_, V>]) -> S + 'a;
+type Evaluator<'a, V, S> =
+    dyn Fn(&[ListFact<'_, V>], &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
 struct Constraint<'a, V, S> {
     name: String,
     scope: Vec<ListScope>,
+    weight: Option<S>,
     evaluate: Box<Evaluator<'a, V, S>>,
 }
 
@@ -59,6 +61,11 @@ pub enum ListScoringError {
     },
     InvalidScope(ListScope),
     DuplicateName(String),
+    InvalidWeight(crate::ConstraintWeightError),
+    DecimalWeightArithmetic {
+        constraint: usize,
+        error: crate::DecimalArithmeticError,
+    },
     StructuralContribution {
         constraint: usize,
     },
@@ -74,10 +81,11 @@ impl fmt::Display for ListScoringError {
 }
 impl Error for ListScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
-        if let Self::Model(e) = self {
-            Some(e)
-        } else {
-            None
+        match self {
+            Self::Model(error) => Some(error),
+            Self::InvalidWeight(error) => Some(error),
+            Self::DecimalWeightArithmetic { error, .. } => Some(error),
+            _ => None,
         }
     }
 }
@@ -113,13 +121,93 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
     pub fn constraint_count(&self) -> usize {
         self.constraints.len()
     }
+    /// Number of callbacks used by full scoring (direct callbacks always count).
+    pub fn active_constraint_count(&self) -> usize {
+        self.constraints
+            .iter()
+            .filter(|c| c.weight.as_ref().is_none_or(|w| *w != S::ZERO))
+            .count()
+    }
     pub fn add_constraint(
         &mut self,
         name: impl Into<String>,
         scope: Vec<ListScope>,
         evaluate: impl Fn(&[ListFact<'_, V>]) -> S + 'a,
     ) -> Result<usize, ListScoringError> {
-        let name = name.into();
+        self.register(
+            name.into(),
+            scope,
+            None,
+            Box::new(move |facts, _| Ok(evaluate(facts))),
+        )
+    }
+    /// Register an integer match factor with a configurable ordinary score weight.
+    /// A zero weight skips the callback, including during initialization/diagnostics.
+    pub fn add_weighted_constraint(
+        &mut self,
+        name: impl Into<String>,
+        scope: Vec<ListScope>,
+        weight: S,
+        factor: impl Fn(&[ListFact<'_, V>]) -> i64 + 'a,
+    ) -> Result<usize, ListScoringError> {
+        self.register(
+            name.into(),
+            scope,
+            Some(weight),
+            Box::new(move |facts, weight| {
+                Ok(crate::constraint_weights::scale(weight, factor(facts)))
+            }),
+        )
+    }
+    /// Register an exact decimal match factor. Arithmetic errors roll back moves.
+    pub fn add_decimal_weighted_constraint(
+        &mut self,
+        name: impl Into<String>,
+        scope: Vec<ListScope>,
+        weight: S,
+        factor: impl Fn(&[ListFact<'_, V>]) -> crate::Decimal + 'a,
+    ) -> Result<usize, ListScoringError>
+    where
+        S: crate::DecimalWeightedScore,
+    {
+        self.register(
+            name.into(),
+            scope,
+            Some(weight),
+            Box::new(move |facts, weight| weight.multiply_exact(&factor(facts))),
+        )
+    }
+    /// Apply a validated batch atomically; omitted names retain their current weights.
+    /// Directors borrow the network, so weights cannot change during a scoring session.
+    /// Zero disables a weighted constraint; a later nonzero override reactivates it.
+    pub fn apply_weight_overrides(
+        &mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<(), crate::ConstraintWeightError> {
+        let updates = crate::scoped_weights::resolve_overrides(
+            self.constraints
+                .iter()
+                .map(|c| (c.name.as_str(), c.weight.as_ref())),
+            overrides,
+        )?;
+        for (index, weight) in updates {
+            self.constraints[index].weight = Some(weight);
+        }
+        Ok(())
+    }
+    /// Configured weighted constraints, in registration order (including zero).
+    pub fn constraint_weights(&self) -> impl Iterator<Item = (&str, &S)> {
+        self.constraints
+            .iter()
+            .filter_map(|c| c.weight.as_ref().map(|w| (c.name.as_str(), w)))
+    }
+    fn register(
+        &mut self,
+        name: String,
+        scope: Vec<ListScope>,
+        weight: Option<S>,
+        evaluate: Box<Evaluator<'a, V, S>>,
+    ) -> Result<usize, ListScoringError> {
         if self.constraints.iter().any(|c| c.name == name) {
             return Err(ListScoringError::DuplicateName(name));
         }
@@ -131,6 +219,11 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             if !valid {
                 return Err(ListScoringError::InvalidScope(item));
             }
+        }
+        if weight.as_ref().is_some_and(|w| w.structural() != 0) {
+            return Err(ListScoringError::InvalidWeight(
+                crate::ConstraintWeightError::StructuralWeight(name),
+            ));
         }
         let index = self.constraints.len();
         for &item in &scope {
@@ -145,7 +238,8 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         self.constraints.push(Constraint {
             name,
             scope,
-            evaluate: Box::new(evaluate),
+            weight,
+            evaluate,
         });
         Ok(index)
     }
@@ -174,6 +268,9 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         assignment: &ListAssignment<V>,
     ) -> Result<S, ListScoringError> {
         let constraint = &self.constraints[index];
+        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+            return Ok(S::ZERO);
+        }
         let facts: Vec<_> = constraint
             .scope
             .iter()
@@ -188,7 +285,11 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
                 }
             })
             .collect();
-        let score = (constraint.evaluate)(&facts);
+        let score = (constraint.evaluate)(&facts, constraint.weight.as_ref().unwrap_or(&S::ZERO))
+            .map_err(|error| ListScoringError::DecimalWeightArithmetic {
+            constraint: index,
+            error,
+        })?;
         if score.structural() != 0 {
             return Err(ListScoringError::StructuralContribution { constraint: index });
         }
@@ -387,6 +488,12 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }
         affected.sort_unstable();
         affected.dedup();
+        affected.retain(|&i| {
+            self.network.constraints[i]
+                .weight
+                .as_ref()
+                .is_none_or(|w| *w != S::ZERO)
+        });
         let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {

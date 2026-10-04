@@ -538,3 +538,9 @@ Simple, HardSoft, HardMediumSoft and Bendable BigDecimal `ScoreInlinerTest` clas
 from pinned Timefold Community, with their singleton-constraint and bendable-score
 helpers (Apache-2.0). Exact paths and substitutions are in provenance. The exact
 weighting implementation and fractional-impact regressions are original.
+
+`crates/solver/tests/scoped_weight_cases.rs` adapts sixteen non-overflow methods
+from the pinned Simple, HardSoft, HardMediumSoft and Bendable `ScoreInlinerTest`
+classes and their singleton-constraint/bendable-score helpers (Apache-2.0).
+Exact paths, revision and native substitutions appear in `compat/provenance.json`.
+The scoped weighting implementation and separate regression tests are original.

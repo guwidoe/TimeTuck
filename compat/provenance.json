@@ -14805,6 +14805,246 @@
       "upstream_test": "impactAll",
       "local_test": "bendable_impact_all",
       "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SimpleScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "simple_default_score",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SimpleScoreInlinerTest.impact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleScoreInlinerTest.java",
+      "upstream_test": "impact",
+      "local_test": "simple_impact",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "hard_soft_default_score",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "hard_soft_impact_hard",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftScoreInlinerTest.impactSoft",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "impactSoft",
+      "local_test": "hard_soft_impact_soft",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "hard_soft_impact_all",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "hard_medium_soft_default_score",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "hard_medium_soft_impact_hard",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftScoreInlinerTest.impactMedium",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactMedium",
+      "local_test": "hard_medium_soft_impact_medium",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftScoreInlinerTest.impactSoft",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactSoft",
+      "local_test": "hard_medium_soft_impact_soft",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "hard_medium_soft_impact_all",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "bendable_default_score",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "bendable_impact_hard",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.impactSoft1",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactSoft1",
+      "local_test": "bendable_impact_soft1",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.impactSoft2",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactSoft2",
+      "local_test": "bendable_impact_soft2",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "bendable_impact_all",
+      "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
     }
   ],
   "fixtures": [
@@ -17693,6 +17933,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
       "upstream_test": "buildScore",
       "modifications": "Preserve the ordered one-hard/two-soft dimension mapping and all explicitly supplied integer-to-decimal values using native score strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractScoreInlinerTest.buildScoreImpacter.scoped_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/AbstractScoreInlinerTest.java",
+      "upstream_test": "buildScoreImpacter",
+      "modifications": "Retain singleton Test Constraint and supplied score weight using native scoped registration instead of the Java test factory/inliner/context."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/scoped_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableScoreInlinerTest.buildScore.scoped_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "buildScore",
+      "modifications": "Preserve ordered 1-hard/2-soft score components with native const generic dimensions and parsed score literals."
     }
   ]
 }
