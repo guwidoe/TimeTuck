@@ -7077,3 +7077,64 @@ Browser closed; server 8765 remains alive. Final staged review precedes commit.
 The full goal remains active and incomplete. Useful next work: matched gather
 transaction/search benchmarks, or profiling incremental-stream workloads against
 Java. Do not interpret the contended-host timings as feature performance changes.
+
+## 2026-10-04: Value-only snapshot replacement
+
+Continued the active independent Community solver goal with native stream-search
+profiling. No Timefold production implementation was read or translated. Before
+binary is from 6934f43; profiler is locally extracted Valgrind 3.22.0.
+
+SnapshotMap existing-key replacement now walks its prepared path iteratively,
+copying shared nodes but skipping height/size refresh and balance checks. The tree
+shape cannot change. Equal-key representatives, unchanged payload sharing and
+Send/Sync remain intact. Insert/remove paths are unchanged. The existing exact-root
+comparison-panic regression additionally tests replacement in shared and unique
+maps. No method credit or test-count increase is claimed.
+
+Focused five map tests passed. Full gate 35343 passed 1,713 Rust tests, 89 doctests
+and 203 Python tests; work/value-replacement-check.log retains output.
+The four original stream workloads (hill/tabu, 32/96 variables, 50 steps) reduced
+Callgrind instruction references by 6.65%, 6.89%, 6.63% and 6.86%. Each output was
+independently rescored; assignments, scores and terminal callback counts stayed
+identical to the retained before binary. These are instruction counts, not elapsed
+speedup, allocation improvement, Java parity or a general performance guarantee.
+See docs/constraint-stream-contract.md and work/profiling/value-replacement/.
+
+That new profiling directory includes binaries, inputs, runner, profiles and hashed
+manifest. Its README notes an artifact-handling error: the first command reused
+the older experiment's work/profiling/before.callgrind name before its existence
+was noticed. The new file was moved into the new directory; the older raw file is
+unavailable. Old logs, outputs, before binary, DHAT and original manifest remain.
+Do not attribute the new profile to that old manifest.
+
+Useful next functional increment: AcceptedLocalSearchForagerTest has seven pending
+methods. Only this test source and existing native code were inspected while the
+refresh ran. It checks accepted-vs-rejected priority, best-score/last-step early
+picks, random/first ties, per-step accepted-candidate limit and structurally flawed
+rejection. Native MoveSelection currently supports FirstAccepted/BestAccepted only;
+max_accepted_moves is a phase budget, not that per-step candidate limit. Preserve
+all fixture scores, intermediate isQuitEarly assertions and supplied-draw semantics
+when adapting; record provenance and integrate behavior across all six backends.
+StrategicOscillationByLevelFinalistPodiumTest has four further pending methods.
+Only method names in that file were inspected. Full goal remains active/incomplete.
+
+Sequential profile/refresh/audit session 93021 completed successfully. All 13
+measurement datasets and report/source/verification/live fingerprints are current.
+Coverage remains 850/4,855 (17.51% UI), 3,723 pending, 282 excluded, zero failed or
+unverified. All 53 timing cards remain, including 18 heuristic cards. Heuristic
+validation: 288 valid/equal-score cases, 238 optimal per runtime. The 256 gather
+comparisons and recorded planning-value/concurrent limitations are unchanged.
+Logs: work/value-replacement-refresh-*.log; audit: work/value-replacement-audit.py.
+
+Refreshed stream medians (Rust/Java milliseconds): hill32 70.260/27.925,
+hill96 256.389/40.826, tabu32 105.008/35.266, tabu96 260.767/40.294. Final scores
+agree: 0/0 at32 and -44/-484 at96 (both infeasible at96 under the fixed budget).
+The host is shared; these are not isolated before/after elapsed-time measurements.
+Profiler metadata retains load observations; an additional observation is saved
+in work/value-replacement-host-load.json. No manual timing samples were modified.
+
+Browser verification at 1440 and 390 pixels confirmed 17.51%, 53 timing cards,
+18 heuristic cards, current stream figures, no errors and no horizontal overflow.
+Search algorithms drilldown/filter lists all seven forager methods as pending.
+Browser is closed; server 8765 remains running. Final staged diff reviewed before
+commit. No processes from this increment remain active.

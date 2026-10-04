@@ -1597,3 +1597,38 @@ work/aggregate-performance.json. Ratios compare median batch-average pair times.
 No latency percentiles, statistical significance, isolated CPU, JMH, memory, generic
 merger, graph rollback or overall solver-speed claim is made. All 96 original
 validation cases and every timed observation must pass or the run aborts.
+
+## Value-only snapshot replacement
+
+An instruction profile of the original incremental-stream search workload at
+commit 6934f43 identified persistent-map update work alongside allocation costs.
+Existing-key updates now follow the prevalidated search path iteratively, copying
+only shared nodes and replacing the value. Tree shape, height and subtree size
+cannot change in this operation, so it requires no balance checks or metadata
+recalculation on the return path. Insertions and removals retain AVL maintenance.
+Original equal-key representatives, payload sharing, Send/Sync and snapshot
+isolation remain unchanged. No unsafe code or dependency was added.
+
+The exact-root panic regression now injects comparison failures during existing-key
+replacement in both shared and uniquely owned maps, as well as insertion and
+removal. Existing tests check 20,000 edits against BTreeMap, every AVL invariant,
+retained snapshots, non-Clone payload sharing, bounded ranges and node reuse.
+This optimization adds no upstream method coverage.
+
+Callgrind 3.22.0 compared ordinary release binaries on four original stream-search
+workloads, each with 50 steps, no warmup and one solve per process. Whole-process
+instruction references were:
+
+| Workload | Before | After | Reduction |
+| --- | ---: | ---: | ---: |
+| Hill climbing, 32 variables | 343,027,178 | 320,222,926 | 6.65% |
+| Hill climbing, 96 variables | 1,274,376,313 | 1,186,628,115 | 6.89% |
+| Tabu, 32 variables | 345,614,190 | 322,710,362 | 6.63% |
+| Tabu, 96 variables | 1,279,191,407 | 1,191,443,209 | 6.86% |
+
+Every output was independently rescored, and final assignments, scores and terminal
+callback counts were identical before/after. These instruction counts are separate
+from the Java/Rust dashboard timings; they do not establish elapsed-time speedup,
+allocation reduction or general solver performance. Raw inputs, binaries, profiles,
+checksums and runner are in work/profiling/value-replacement/. The dashboard uses
+fresh uninstrumented comparisons, with shared-host timing limitations unchanged.

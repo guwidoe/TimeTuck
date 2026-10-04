@@ -152,6 +152,21 @@ fn locate<K: Ord, V>(root: &Link<K, V>, key: &K) -> (Path, bool) {
     }
     (path, false)
 }
+// Replacing a value cannot change the tree shape, heights or subtree sizes.
+// Follow the prevalidated path once, copying only shared nodes; no unwind pass
+// or balancing is needed. Retain the original representative of an equal key.
+fn replace<K, V>(root: &mut Link<K, V>, path: &[Ordering], value: Arc<V>) {
+    let mut node = Arc::make_mut(root.as_mut().expect("prepared replacement"));
+    for direction in path {
+        let child = if *direction == Ordering::Less {
+            &mut node.left
+        } else {
+            &mut node.right
+        };
+        node = Arc::make_mut(child.as_mut().expect("prepared replacement path"));
+    }
+    node.value = value;
+}
 fn put<K, V>(root: &mut Link<K, V>, path: &[Ordering], key: Option<Arc<K>>, value: Arc<V>) {
     if let Some((&direction, tail)) = path.split_first() {
         let n = Arc::make_mut(root.as_mut().expect("prepared path"));
@@ -318,13 +333,17 @@ impl<K: Ord, V> SnapshotMap<K, V> {
     }
     pub(crate) fn insert(&mut self, key: K, value: V) {
         let (path, found) = locate(&self.root, &key);
-        let key = if found {
+        if found {
             drop(key);
-            None
+            replace(&mut self.root, path.as_slice(), Arc::new(value));
         } else {
-            Some(Arc::new(key))
-        };
-        put(&mut self.root, path.as_slice(), key, Arc::new(value));
+            put(
+                &mut self.root,
+                path.as_slice(),
+                Some(Arc::new(key)),
+                Arc::new(value),
+            );
+        }
     }
     pub(crate) fn remove(&mut self, key: &K) -> bool {
         let (path, found) = locate(&self.root, key);
@@ -657,6 +676,12 @@ mod tests {
                 count.set(fail);
                 assert!(
                     catch_unwind(AssertUnwindSafe(|| map.insert(Key(128, count.clone()), 128)))
+                        .is_err()
+                );
+                assert_eq!(Arc::as_ptr(map.root.as_ref().unwrap()) as usize, address);
+                count.set(fail);
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| map.insert(Key(0, count.clone()), 999)))
                         .is_err()
                 );
                 assert_eq!(Arc::as_ptr(map.root.as_ref().unwrap()) as usize, address);
