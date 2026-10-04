@@ -470,6 +470,27 @@
                         </p>
                     </div>
                 </section>
+                <section class="performance" aria-labelledby="kopt-performance-heading">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="kopt-performance-heading">Cyclic k-opt vs. the original</h2>
+                            <p>One complete route, with quality and score calculations beside timing.</p>
+                        </div>
+                        <span class="tag">K-opt 2–3 &amp; 2–4</span>
+                    </div>
+                    <div id="kopt-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span><i class="dot rust"></i>TimeTuck · Rust release</span>
+                        <span><i class="dot java"></i>Timefold · warmed JVM</span>
+                        <span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">Ratios compare median times (Java ÷ Rust). Compare final quality first; sampling and work differ.</p>
+                    <div id="kopt-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="kopt-benchmark-caption"></p>
+                        <p>Full scoring with step and evaluation limits. Exact-3 and exact-4 probes are listed separately: Java returned without candidate scoring in those probes. Large workload optima are unknown.</p>
+                    </div>
+                </section>
                 <section
                     class="performance"
                     aria-labelledby="solver-performance-heading"
@@ -580,6 +601,7 @@
                             ><code>python3 scripts/differential_lists.py</code
                             ><code>python3 scripts/benchmark_solver.py</code
                             ><code>python3 scripts/benchmark_lists.py</code
+                            ><code>python3 scripts/benchmark_kopt.py</code
                             ><code>python3 scripts/differential_streams.py</code
                             ><code>python3 scripts/benchmark_streams.py</code
                             ><code>python3 scripts/benchmark_construction.py</code
@@ -620,6 +642,9 @@
                         <h3>List-solving benchmark conditions</h3>
                         <p id="list-benchmark-method"></p>
                         <pre id="list-environment"></pre>
+                        <h3>Cyclic k-opt benchmark conditions</h3>
+                        <p id="kopt-benchmark-method"></p>
+                        <pre id="kopt-environment"></pre>
                         <h3>Exact-search benchmark conditions</h3>
                         <p id="solver-benchmark-method"></p>
                         <pre id="solver-environment"></pre>

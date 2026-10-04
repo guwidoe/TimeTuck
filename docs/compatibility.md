@@ -1632,3 +1632,16 @@ remain pending, along with multi-entity k-opt, rebase and implicit orientation.
 Original exhaustive permutation checks cover 2,586 successor states, repeated with
 pin/range models and independently checked edge-based construction. See the list
 planning contract for scope, ordering and combinatorial cost.
+
+The cyclic k-opt benchmark adds original single-route Manhattan-cycle cases and
+separate public Java/Rust adapters. Both configure k ranges 2–3 or 2–4, seeded
+first-accepted hill climbing, 30 steps and 10,000 score evaluations. Native exact
+edge-difference enumeration uses a rolling shuffle window of 4,096 candidates;
+Java uses its public random KOptListMoveSelectorConfig. Tests establish that the
+first native window reaches every configured k at the measured sizes. Search work,
+PRNGs, anchor conventions and equivalent-move handling differ. Every result is
+independently validated; 64 small cases have exhaustive cyclic optima. Four larger
+workloads report final quality and score calls alongside times. Exact-3/exact-4
+probes are kept separate because pinned Java returned after only its initial score
+calculation. No elapsed-time ratio is reported for those probes. These original
+comparisons add no adapted-method credit and establish no multi-entity k-opt parity.

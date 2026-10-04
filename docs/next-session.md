@@ -8985,3 +8985,64 @@ localhost:8765 remains running. Upstream unchanged.
 Next substantive candidates: multi-entity k-opt behavior and public-Java quality/time
 comparisons for k-opt or mixed/weighted groups. No k-opt runtime claim has been made.
 The full rewrite remains active and incomplete.
+
+## Cyclic k-opt quality/performance comparison (verified)
+
+Added KOptBenchmark.java and native k_opt_benchmark example using existing routing
+wire fixtures, one complete unpinned entity and cyclic Manhattan scoring (no depot).
+Public Java KOptListMoveSelectorConfig min=max3/4 returned initial assignments with
+one score call on8/16 values. Global versus entity-provided range probe had the same
+result. Ignored diagnostic SLF4J jar/logs confirm no doable selected move and zero
+steps; no production implementation inspected. Public min2/max3 or4 performs real
+search including higher-k moves in diagnostic logs. Exact-bound observations remain
+four separate probes without timing ratios; do not claim an upstream root cause.
+ListSolverBenchmark.validate now delegates to an overload accepting an independent
+score, retaining all previous structural/shadow checks for cyclic scoring reuse.
+
+Both adapters configure30steps,10000score evaluations,seed20261008,first-accepted
+hill climbing. Native rolling shuffle window4096 with exact-edge enumeration; test
+proves first window reaches every configured k at8/12/16 values. Native anchors its
+cycle and excludes retained removed edges/equivalent edge sets; Java sampling and
+orientation differ. No identical work, trace or distribution claim. Full scoring,
+per-solve setup and result/shadow validation timed; parsing/model/network/factory
+creation, process startup and output encoding excluded. Three warmups,5samples,
+3forks by default, alternating runtime order. Every output independently checked.
+
+benchmark_kopt.py generates32 original8-value cases per k range (64total), including
+coincident and collinear points, with exhaustive anchored-permutation optima. Four
+larger workloads use12/16 values × ranges2–3/2–4. Six Python evidence tests check
+cyclic metrics, IDs, score/quality/range validation, reproducibility and summaries.
+New kopt_performance report dataset and dashboard section reuse existing cards;
+quality differences and four exact-k probes remain visible. No coverage credit.
+
+Pilot0warmups/1sample/1fork passed:64valid57equal,Java57/Rust64 optima;
+2–3:27/32equal,2–4:30/32equal. Boundary callsJava1each,Rust2805/10000/8771/10000
+(k3n8,k3n16,k4n8,k4n16). Cold timings are not final evidence.
+Full gate31699 completed exit0:fmt/Clippy and all tests passed.
+Handle51766 completed work/kopt-bench-verify.sh with exit0:release window test,
+17 current datasets/87 timings and all audit invariants passed.
+Verified2013Rust,106doctests,241Python;
+coverage unchanged931/4855(19.18%). Full goal remains active and incomplete.
+
+Final warmed measurements reproduce64valid57equal cases and Java57/Rust64 optima.
+Four boundary probes again record Java1call each with unchanged initial routes;
+native calls2805/10000/8771/10000. No speed ratios for these probes.
+Four timing workloads,15measured samples per runtime each (120total):
+- 2–3/12values: Rust28.134ms score-180 calls2145; Java9.737ms score-182 calls80.
+- 2–3/16values: Rust79.179ms score-202 calls325; Java13.119ms score-272 calls124.
+- 2–4/12values: Rust102.448ms score-180 calls3439; Java11.816ms score-194 calls130.
+- 2–4/16values: Rust95.602ms score-190 calls1720; Java9.691ms score-238 calls115.
+All hard scores0; Rust slower with better returned scores on these four cases.
+Optima unknown for those sizes. Independent audit replays every saved assignment,
+checks all small-case optima and recomputes counts, medians, ranges and ratio labels.
+
+Browser verified1440x900 and390x844:931/4855(19.18%),87timing cards,4k-opt cards
+all labeled quality differs,4separate exact-k probes. Methodology/environment present;
+no errors, overflow (including expanded notes), stale/undefined/NaN words.
+Screenshots inspected: work/kopt-bench-desktop.png and -mobile.png. Browser closed;
+localhost:8765 remains running. Upstream unchanged. Logs work/kopt-bench-*.log.
+
+Next substantive candidates: profile native k-opt generation/window costs and add
+bounded seeded sampling if justified, then multi-entity k-opt repartitioning and
+its public-API evidence. Preserve the current exact-k Java boundary evidence.
+The full rewrite remains active and incomplete.

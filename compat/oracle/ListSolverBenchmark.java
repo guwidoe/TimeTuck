@@ -113,8 +113,9 @@ public final class ListSolverBenchmark {
             for(var v:e.stops)d.stops.add(c.stops.get(v.id));for(var v:e.eligible)d.eligible.add(c.stops.get(v.id));c.vehicles.add(d);}
         return c;
     }
-    static void validate(Problem p,Problem original) {
-        if(!score(p).equals(p.score)) throw new IllegalStateException("score mismatch");
+    static void validate(Problem p,Problem original) { validate(p, original, score(p)); }
+    static void validate(Problem p,Problem original,HardSoftScore independentlyCalculated) {
+        if(!independentlyCalculated.equals(p.score)) throw new IllegalStateException("score mismatch");
         var seen=new HashSet<Integer>();
         for(int e=0;e<p.vehicles.size();e++) {
             var vehicle=p.vehicles.get(e);var before=original.vehicles.get(e);

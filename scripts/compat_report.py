@@ -223,6 +223,7 @@ def build_report(execute=True, test_output=None):
             'list_repair_performance': load_measurement('list-repair-performance', digest),
             'construction_performance': load_measurement('construction-performance', digest),
             'list_performance': load_measurement('list-performance', digest),
+            'kopt_performance': load_measurement('kopt-performance', digest),
             'stream_differential': load_measurement('stream-differential', digest),
             'stream_performance': load_measurement('stream-performance', digest),
             'concurrent_performance': load_measurement('concurrent-performance', digest),

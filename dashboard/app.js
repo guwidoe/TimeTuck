@@ -114,6 +114,7 @@ function render() {
     renderBenchmarks("list_repair");
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
+    renderBenchmarks("kopt");
     renderBenchmarks("stream");
     renderBenchmarks("pillar");
     renderBenchmarks("concurrent");
@@ -224,7 +225,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction" || kind === "repair" || kind === "list_repair";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "kopt" || kind === "stream" || kind === "construction" || kind === "repair" || kind === "list_repair";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -317,6 +318,9 @@ function renderBenchmarks(kind = "score") {
     }
     if (kind === "list" && !missing) {
         target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
+    if (kind === "kopt" && !missing) {
+        target("benchmark-caption").textContent = `At most ${p.config.steps} steps and ${n(p.config.evaluations)} score evaluations · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Rust shuffles a window of ${n(p.config.native_window)} candidates; Java uses random selection. Work and sampling differ.`;
     }
     if ((kind === "pillar" || kind === "concurrent") && !missing) {
         target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
@@ -419,6 +423,7 @@ function renderDifferential() {
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
         ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
         ["list_performance", " original list-solving cases return valid complete solutions; local search retains at least its initial quality."],
+        ["kopt_performance", " original cyclic k-opt cases return valid, non-regressing solutions."],
     ]) {
         const h = report[key] || {};
         if (h.validation) {
@@ -431,6 +436,14 @@ function renderDifferential() {
                 }
                 for (const probe of h.boundary_probes || []) {
                     box.append(node("p", "note", `Group boundary · ${probe.case.optional ? "optional" : "required"} lists, requested group ${n(probe.minimum)}–${n(probe.maximum)}: Java completed ${n(probe.java.repairs)}, Rust ${n(probe.rust.repairs)} of ${n(probe.requested_repairs)} requested repairs. Scores: Java ${probe.java.score.join("/")}, Rust ${probe.rust.score.join("/")}. Separate behavior probe; excluded from timing comparisons.`));
+                }
+            }
+            if (key === "kopt_performance") {
+                for (const [maximum, detail] of Object.entries(v.by_maximum || {})) {
+                    box.append(node("p", "note", `K-opt 2–${maximum}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}.`));
+                }
+                for (const probe of h.boundary_probes || []) {
+                    box.append(node("p", "note", `Exact k=${probe.minimum} · ${n(probe.case.points.length)} values: Java made ${n(probe.java.score_calls)} score calculations, Rust ${n(probe.rust.score_calls)}. Scores: Java ${probe.java.score.join("/")}, Rust ${probe.rust.score.join("/")}. Separate behavior probe; excluded from timing comparisons.`));
                 }
             }
             if (key === "construction_performance") {
@@ -495,6 +508,7 @@ async function reload() {
             renderBenchmarks("list_repair");
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
+            renderBenchmarks("kopt");
             renderBenchmarks("stream");
             renderBenchmarks("pillar");
             renderBenchmarks("concurrent");
