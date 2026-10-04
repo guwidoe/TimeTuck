@@ -290,3 +290,12 @@ and `tests/fixtures/sequence-traces.txt` preserve both source Random(1) operatio
 streams. The source commit, identities, license and native semantic adjustments
 are recorded in `compat/provenance.json`. Production sequence collection and the
 separate public-API differential drivers were independently implemented.
+
+Connected-range test adaptations (`range_tree_cases.rs`, `range_collector_cases.rs`)
+derive from the pinned Apache-2.0 Community ConnectedRangeTrackerTest,
+Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest and AbstractConstraintCollectorsTest.
+RangeTraceFixture.java adapts the original randomized input-selection scaffolding
+and TestRange equality/hash fixture; tests/fixtures/range-traces.txt contains its
+10,000 generated operations. Source identities, revision, license and adjustments
+are recorded in compat/provenance.json. Native production range collection,
+independent references and public-API comparison drivers are original work.

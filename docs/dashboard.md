@@ -454,3 +454,10 @@ Defaults: 200 update/restore pairs per batch, 5 warmup batches, 7 measured batch
 all samples, environment and source fingerprint. Ranges are batch averages, not
 latency percentiles; no CPU isolation, JMH or statistical significance claim.
 This adds four timing cards and no upstream method credit.
+
+Connected-range correctness is a separate generated-comparison entry. It shows
+native reference passes alongside Java agreement, differing cases and errors;
+shared-object removal, empty-range flags and integer overflow are explicit boundaries.
+No failing case is removed from the report. The distinct-positive cohort is identified
+separately. Full cases and per-state differences are retained in the downloadable
+report, and these generated cases add no upstream-method coverage or timing card.

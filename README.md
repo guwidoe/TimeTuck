@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 691 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 711 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -35,7 +35,7 @@ grouping and weighted scoring, with retractable integer collectors. Streams are
 rebuilt inside affected score callbacks. Separate persistent operators now propagate
 filter, one-to-many expansion, concatenation, complement, equality/ordered/partitioned/existence-join, distinct, keyed/global collection and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. Composable
-collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, consecutive sequences with custom distance metrics, nested maps and lists ordered by stable
+collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, consecutive sequences and connected ranges with custom distance metrics, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
 and immutable result snapshots. Stream
 score directors bind it to basic, ordered-list and combined mixed moves. Indexed
@@ -71,6 +71,9 @@ with a separate explicit Java integer-overflow discrepancy and stable native tie
 Four dedicated sequence benchmarks compare replacement/inverse updates plus complete
 result observations on dense/fragmented 64/512-item workloads; all generated and timed
 observations must match independent Python before a timing is reported.
+Connected-range checks retain 197 cases: all native results match independent Python;
+65 cases agree with Java and 132 differ, including shared-object removal, empty-range
+overlap flags and integer overflow. All 64 distinct-identity positive-length cases agree.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 

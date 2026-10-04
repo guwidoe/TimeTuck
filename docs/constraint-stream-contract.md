@@ -1387,3 +1387,42 @@ is explicitly divergent: Java's break from int MIN to MAX has length -1, while
 Rust returns exact 4,294,967,295. It earns no ordinary agreement credit. Native
 regressions additionally exercise i64 endpoints, transaction undo/rebuild, failure
 recovery and actual construction/search against independent full scoring.
+
+## Connected ranges
+
+`ConnectedRangeCollector<I,P,V,M>` consumes captured `(id,start,end,value)`
+occurrences. Endpoints must satisfy start <= end. Repeated IDs require equal
+captured fields until all occurrences have been removed; independently changing
+occurrences can use separate IDs. Retraction uses only captured identity, even
+if the caller now supplies changed endpoints. Every occurrence remains in the
+result, including duplicates, and contributes to overlap on nonempty segments.
+All generic global/keyed, conditional and composed aggregation APIs are available.
+
+Touching and overlapping closed endpoint spans form components. Overlap counts
+measure their half-open interiors: touching endpoints do not double-count, and
+zero-length intervals contribute no overlap. Empty-only components have
+`None` minimum and maximum overlap; otherwise each bound is `Some(usize)`.
+`has_overlap` means maximum overlap exceeds one. Component length and gap length
+come from a pure `RangeMetric`; `IntegerRangeMetric` subtracts i64 endpoints
+exactly into i128. Custom metrics can use SignedDuration. Reversed ranges are
+rejected atomically. No Java int-overflow behavior is reproduced.
+
+ConnectedRangeChain owns immutable components and gaps. Component items sort by
+start/end/ID, repeating each occurrence; complete native values, including IDs,
+participate in equality/hashing. Saved snapshots and hashes remain unchanged.
+Java live views, identity tie order, mutable object aliases and live-object hash
+mutation are not reproduced. Standalone empty collection yields an empty chain;
+empty stream groups have no aggregate row. Clones share persistent captured maps;
+finish sorts distinct ranges, expands occurrences and sweeps endpoint events.
+It rebuilds components/overlap metadata rather than maintaining boundaries
+incrementally. No dedicated connected-range performance claim exists yet.
+
+Public Java/native/Python comparisons retain all 197 original cases and 11,583
+states. Native fields match independent connectivity/midpoint counts everywhere.
+Java agrees on all 64 distinct-identity positive-length cases, and 65/197 cases
+overall after mapping its empty-component MAX/MIN sentinels to native absence.
+The other 132 cases differ; none gets agreement credit. Shared-object duplicate
+removal can leave a Java occurrence behind, empty-range overlap flags can disagree
+with maximum counts, and integer lengths can overflow. Inputs and full differences
+are retained. All original shared-identity cases were kept after adding the distinct
+cohort to isolate the cause. There are no Java runtime-error cases in this run.

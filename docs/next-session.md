@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 691 fully adapted source test methods, recorded individually in
+- 711 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -5958,3 +5958,95 @@ and the single sequence overflow discrepancy). Browser verification confirms all
 observation caption, and no stale messages, page errors or horizontal overflow at
 1440px and 390px. Screenshot work/sequence-benchmark-dashboard.png. Browser closed;
 existing localhost:8765 server remains running. All source changes are verified.
+
+## Connected-range collection — current increment
+
+Independent `range_collector.rs` provides ConnectedRangeCollector, owned immutable
+ConnectedRangeChain/ConnectedRange/RangeGap snapshots, RangeItem, RangeMetric and
+exact IntegerRangeMetric. Captured `(ID,start,end,value)` entries retain occurrence
+counts in persistent storage. Repeated IDs require identical captured fields;
+remove all occurrences before changing identity or use separate occurrence IDs.
+Retraction ignores supplied endpoints/value and uses captured ID. Start>end rejects
+atomically. Finish sorts start/end/ID, expands occurrences, forms touching components
+and sweeps endpoint events. It rebuilds boundaries; no incremental boundary or
+connected-range timing claim. All generic collection operators can use this type.
+
+All occurrences appear in output, unlike sequence deduplication. Touching spans
+connect, but overlap counts measure half-open interiors. Zero-length ranges add no
+overlap; empty-only components return None for both bounds. has_overlap means
+maximum >1. i64 endpoints subtract exactly into i128; pure custom metrics can return
+SignedDuration. Complete captured native values/IDs define equality/hash; saved
+snapshots and hashes do not mutate. Java live views and mutable object aliases are
+not reproduced.
+
+Twenty source methods are adapted: eight ConnectedRangeTrackerTest methods and
+consecutiveUsage, consecutiveUsageDynamic, consecutiveUsageUpdate in all four
+collector arities. Full item/endpoint/count/overlap-bound/gap assertions use an
+original pairwise-connectivity and midpoint-count reference. Source empty-component
+MAX/MIN bounds map explicitly to native None. HashCodeConsistentWithEquals preserves
+native value equality/hash consistency; HashCodeReflectsMutation remains pending,
+because the source specifically requires the same live object's hash to change.
+No Java numerical-hash or general equality implementation parity is claimed.
+
+The attributed `RangeTraceFixture.java` runs the original randomized test's
+split-point input-selection scaffolding against the pinned Community jar (test-only
+internal types, no implementation source read or copied). Its TestRange equality/
+hash semantics are retained. A logical-value approximation was caught and discarded
+before credit: fresh selection identities produce all additions in the actual
+source test. The final fixture has exactly 100x100 Random(1) operations and zero
+removals. Native expected results are independent, not Java production outputs.
+Compile with `javac -cp work/oracle/timefold-solver-core-2.7.0.jar -d work
+compat/oracle/RangeTraceFixture.java` and run class
+`ai.timefold.solver.core.impl.score.stream.collector.connected_ranges.RangeTraceFixture`
+with that jar and work on the classpath. Provenance and notices cover fixtures/helpers.
+
+Five original Rust regressions check multiplicities, captured endpoint removal,
+failed replacement atomicity, immutable hashes, exact i64 endpoint length, empty
+ranges, custom duration metrics, 3,000 generated grouped edits through commit/undo/
+rebuild, mapping/metric/downstream failure restoration, construction and 32 capped
+saved-candidate searches against independent full scoring. Seven Python regressions
+check independent semantics, complete response identity/shape/fields, error/difference
+accounting and preservation of every original comparison case.
+
+Original public comparisons retain 197 cases / 11,583 states. Every native case
+matches Python. Java fully agrees in 65 cases and differs in 132, with no errors.
+All 64 distinct-identity positive-length cases agree. The initial 128 shared-identity
+cases (64 positive, 64 allowing empty ranges) remain unchanged; all differ. Four of
+five fixed boundaries also differ. Java's zero-only MAX/MIN bounds normalize to
+native None, but other discrepancies are retained verbatim. Java iterator order is
+not compared across runtimes; native stable ordering is separately checked.
+
+Minimal duplicate-object failure: one Item [0,2), handles A.add(item), B.add(item),
+B.remove(), A.remove(); Java counts 1,2,2,1, native counts 1,2,1,0. A separate pair
+of equal-endpoint objects removes correctly. Native multiplicity behavior is kept;
+this is a reported reference discrepancy, not hidden compatibility credit. Empty
+interior/junction ranges can make Java hasOverlap true with maximumOverlap=1.
+Java int MIN/MAX length overflows to -1; native length is 4,294,967,295. All inputs,
+raw runtime outputs and full differing observations are in range_collector_checks,
+integrated into differential_streams.py and its dashboard comparison entry.
+
+Final `bash scripts/check.sh` passes 1,488 Rust tests (711 adapted, 702 original
+integration, 75 unit), 76 doctests and 155 Python tests. All 25 range tests pass
+release mode. Coverage 711/4,855 = 14.64% (report's three-decimal value 14.645),
+constraint streams 331/1,301 = 25.44%, pending 3,862, excluded 282, failed/unverified
+zero. Source frozen before refresh session 52390, per-dataset work/range-refresh-*.log.
+Read work/range-check.log and work/range-release.log for final-source gates.
+No full rewrite completion claim: goal remains active.
+
+Refresh session 52390 completed exit 0. All twelve datasets are current, final
+report verification succeeds, and report/source/live-server fingerprints match.
+The stream dataset retains 65/197 connected-range agreements and all 132 differing
+cases. Existing stream/solver/list/heuristic comparisons retain their explicit
+boundaries. All 37 timing cards were refreshed; connected ranges add correctness
+only, not a timing card. Browser checks confirm 14.64% overall, 25.44% stream coverage,
+eight passed tracker methods plus the one pending live-hash method, the full range
+comparison/caveats, and no stale text, page errors or desktop/mobile overflow.
+Screenshot work/range-dashboard.png. Browser closed; localhost:8765 server remains.
+
+Next useful feature: load-balance collection. Only its test location was found,
+not yet implemented: InnerUniConstraintCollectorsTest.loadBalance around line 949
+and assertUnfairness helper around line 1047. Read full pinned tests, companion
+arities and public LoadBalance docs before implementation. Exact unfairness rounding,
+load/group multiplicities, initial loads, undo and solver scoring need evidence.
+A dedicated connected-range performance comparison is also still pending. Do not
+claim unsupported mutable hash or Java duplicate-object bug parity.

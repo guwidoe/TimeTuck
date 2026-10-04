@@ -335,3 +335,9 @@ pub use sequence_collector::{
     ConsecutiveSequence, IntegerSequenceMetric, SequenceBreak, SequenceChain, SequenceCollector,
     SequenceItem, SequenceMetric,
 };
+
+mod range_collector;
+pub use range_collector::{
+    ConnectedRange, ConnectedRangeChain, ConnectedRangeCollector, IntegerRangeMetric, RangeGap,
+    RangeItem, RangeMetric,
+};

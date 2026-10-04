@@ -10365,6 +10365,306 @@
       "local_path": "crates/solver/tests/sequence_collector_cases.rs",
       "local_test": "quad_to_consecutive_sequences_update",
       "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testNonConsecutiveRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testNonConsecutiveRanges",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "non_consecutive_ranges",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testConsecutiveRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testConsecutiveRanges",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "consecutive_ranges",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testDuplicateRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testDuplicateRanges",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "duplicate_ranges",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testRangeRemoval",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testRangeRemoval",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "range_removal",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testRangeAddUpdatingOldGap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testRangeAddUpdatingOldGap",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "range_add_updating_old_gap",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testOverlappingRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testOverlappingRange",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "overlapping_range",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testHashCodeConsistentWithEquals",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testHashCodeConsistentWithEquals",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "hash_code_consistent_with_equals",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Compare/hash independent immutable native components with equal logical IDs and values. The separate live-object hash-mutation method stays pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.testRandomRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testRandomRanges",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "local_test": "random_ranges",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Replay the exact 100 trials of 100 Random(1) operations emitted by source selection scaffolding. Its fresh range identities produce additions only in the pinned runtime; do not invent removal branches. Preserve every start/end/min/max and gap assertion with independent calculations, plus extra native membership/count checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerUniConstraintCollectorsTest.consecutiveUsage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsage",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "uni_consecutive_usage",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerUniConstraintCollectorsTest.consecutiveUsageDynamic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageDynamic",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "uni_consecutive_usage_dynamic",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerUniConstraintCollectorsTest.consecutiveUsageUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageUpdate",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "uni_consecutive_usage_update",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerBiConstraintCollectorsTest.consecutiveUsage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsage",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "bi_consecutive_usage",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerBiConstraintCollectorsTest.consecutiveUsageDynamic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageDynamic",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "bi_consecutive_usage_dynamic",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerBiConstraintCollectorsTest.consecutiveUsageUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageUpdate",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "bi_consecutive_usage_update",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerTriConstraintCollectorsTest.consecutiveUsage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsage",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "tri_consecutive_usage",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerTriConstraintCollectorsTest.consecutiveUsageDynamic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageDynamic",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "tri_consecutive_usage_dynamic",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerTriConstraintCollectorsTest.consecutiveUsageUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageUpdate",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "tri_consecutive_usage_update",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerQuadConstraintCollectorsTest.consecutiveUsage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsage",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "quad_consecutive_usage",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerQuadConstraintCollectorsTest.consecutiveUsageDynamic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageDynamic",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "quad_consecutive_usage_dynamic",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerQuadConstraintCollectorsTest.consecutiveUsageUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "consecutiveUsageUpdate",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "local_test": "quad_consecutive_usage_update",
+      "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
     }
   ],
   "fixtures": [
@@ -12668,6 +12968,58 @@
       "upstream_test": "buildSequenceChain and assertResultRecursive",
       "local_path": "crates/solver/tests/sequence_collector_cases.rs",
       "modifications": "Replace source expected-chain construction and recursive comparison with explicit independent expected items/runs and full native metadata checks. No upstream production implementation is used for native expected results."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.operation_generator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testRandomRanges input selection and TestRange equality/hash helper",
+      "local_path": "compat/oracle/RangeTraceFixture.java",
+      "modifications": "Adapt exact source split-point selection scaffolding and range equality/hash fixture; run it against the pinned Community jar solely to emit input operations. No native expected result uses production collector output. Cache/formatting/recompute assertions omitted from generator; preserved by independent native expectations. Fresh test range identity makes containsRangeStarting false, so emitted trace has 10000 additions and no removals."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.operation_trace",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testRandomRanges",
+      "local_path": "crates/solver/tests/fixtures/range-traces.txt",
+      "modifications": "Generated exact Random(1) 100x100 input operations using the attributed generator and pinned Community jar. Retain empty endpoints and duplicate-value multiplicities."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConnectedRangeTrackerTest.native_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "TestRange, verifyGaps, rangeClusterCompare, rangeGapCompare",
+      "local_path": "crates/solver/tests/range_tree_cases.rs",
+      "modifications": "Captured ID/start/end/value rows replace mutable TestRange and range wrappers. Independent original helper verifies all source endpoint/min/max/gap assertions, plus native membership/count/overlap semantics. No production tree/cluster recompute copied into Rust."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintCollectorsTest.range_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/AbstractConstraintCollectorsTest.java",
+      "upstream_test": "Interval, DynamicInterval, buildConsecutiveUsage, buildDynamicConsecutiveUsage",
+      "local_path": "crates/solver/tests/range_collector_cases.rs",
+      "modifications": "Adapt interval endpoints and dynamic end=start+10; explicit rows and independently computed expectations replace production tracker-built expected results. Explicit capture/removal models mutation before retraction."
     }
   ]
 }

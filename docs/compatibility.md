@@ -1073,3 +1073,38 @@ into per-ID membership/index/component arrays; sequence and break numeric fields
 remain complete. Exact endpoint identity/tie-order correctness remains covered by
 the earlier differential driver. These measurements are not solver performance
 or additional upstream test-method coverage.
+
+## Connected-range collection and reference discrepancies
+
+Twenty additional methods have adaptations: eight ConnectedRangeTrackerTest methods
+and consecutiveUsage, consecutiveUsageDynamic and consecutiveUsageUpdate in each
+of the four collector arities. Source items, endpoint changes, counts, overlap
+bounds and gaps are preserved through idiomatic captured native values. Independent
+pairwise connectivity and midpoint counts replace self-derived expected trees.
+Java's empty-only MAX/MIN overlap sentinels map explicitly to absent native bounds.
+The source hash-equality method checks equal native snapshots/hashes; the separate
+live-object hash-mutation method remains pending because native snapshots are
+immutable. Java API/ABI, object-alias and numerical hash parity are not claimed.
+
+The exact Random(1) fixture runs 100 trials of 100 operations. A first logical-value
+approximation was rejected when checked against source input-selection scaffolding.
+The final attributed generator executes that scaffolding with the pinned Community
+jar. Fresh range identities make its containsRangeStarting branch false: the exact
+trace has 10,000 additions and no removals. This limitation is not hidden. Original
+native regressions separately cover 3,000 grouped edits with removals/replacements,
+undo/rebuild, invalid inputs/callback unwind, immutable hashes, custom metrics,
+empty/full-width boundaries, construction and 32 bounded saved-candidate searches.
+
+Public collector comparison retains 197 original cases/11,583 states: 197 native
+reference passes, 65 Java agreements, 132 differing cases, no Java errors. All 64
+distinct-identity positive-length cases agree. The initially generated 128 cases
+with shared identities remain intact after adding that separate cohort. The minimal
+shared-object discrepancy inserts one [0,2) object through two handles, then removes
+both: Java reports counts 1,2,2,1; native multiplicity semantics report 1,2,1,0.
+Distinct equal-endpoint objects remove correctly in Java. Zero-length flags and
+int-overflow lengths also differ. Raw inputs/outputs and every differing state are
+retained; these cases do not receive agreement credit. Empty-only Java sentinels
+normalize to None; item ordering is not compared across runtimes, while native
+stable order is checked. Seven Python regressions enforce reference behavior,
+response identity/shape, complete observations and truthful discrepancy accounting.
+No new generated-case method credit or connected-range timing claim follows.
