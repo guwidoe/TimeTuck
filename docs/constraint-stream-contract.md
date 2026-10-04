@@ -1347,3 +1347,41 @@ A 1,024-consumer regression uses shuffled string keys and checks full callback
 order, equality cutoffs, negligible key cloning during scheduling, and atomic
 rollback when cloning a final changed key panics. Existing exhaustive graph,
 stream transaction, saved-candidate and public concurrent checks remain required.
+
+## Consecutive sequences
+
+`SequenceCollector<I,P,V,M>` consumes captured `(logical_id,index,value)` triples
+and implements `ReversibleCollector`, so it works with global/keyed, conditional
+and composed aggregation. Repeated IDs retain occurrence counts but appear once
+in the result; distinct IDs at the same index remain distinct. Repeated IDs must
+have equal captured index and value. Remove all occurrences before changing that
+identity; a slot can instead replace its old identity with a different one.
+Removal looks up the captured ID and ignores the passed index/value. Conflicting
+duplicates panic atomically; graph transactions restore their checkpoint on drop.
+
+`SequenceMetric<P>` defines zero, positive maximum gap, endpoint distance and
+addition. Adjacent ordered points connect when their distance is in
+`[zero,maximum_gap]`. Sequence length is endpoint distance plus maximum gap;
+break length is endpoint distance alone. Metrics must be deterministic with
+immutable state and arithmetic consistent with index ordering. Integer metrics
+use i64 positions and exact i128 distances, with a const u64 step (default 1).
+Custom metrics can return SignedDuration, as the adapted one-day UTC fixture does.
+
+`SequenceChain` owns an immutable snapshot of ordered items and full sequence and
+break metadata, including endpoint items, counts, lengths, first/last flags and
+neighbor break indices. Equal-index items use ascending native logical IDs. Java
+identity-hash ties, live views and mutable object-field aliasing are not reproduced.
+Values and callback captures must remain immutable, as with other stream rows.
+A standalone empty collector finishes to an empty chain; an empty global stream
+has no aggregate row. Clone shares persistent state; mutations stage both indexes.
+Finish currently visits all distinct items and looks up each captured value; it
+does not maintain chain boundaries incrementally and has no dedicated speed claim.
+
+The separate public comparison checks 64 original cases/4,689 states through
+add, replacement, removal and temporary changes restored by inverse slot updates.
+Independent Python checks every item and metadata field; Java tie order may vary
+but endpoint identities must match its observed items. One additional boundary
+is explicitly divergent: Java's break from int MIN to MAX has length -1, while
+Rust returns exact 4,294,967,295. It earns no ordinary agreement credit. Native
+regressions additionally exercise i64 endpoints, transaction undo/rebuild, failure
+recovery and actual construction/search against independent full scoring.

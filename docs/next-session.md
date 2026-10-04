@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 671 fully adapted source test methods, recorded individually in
+- 691 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -5811,3 +5811,76 @@ remains 671/4,855 (13.82%), pending 3,902, excluded 282, failed/unverified zero.
 Dashboard browser verification shows all 33 cards, final concurrent timings,
 no overflow, stale messages or page errors. Browser closed; existing localhost:8765
 server stays running. UI code did not change in this backend-only increment.
+
+## Consecutive-sequence collector — current increment
+
+Independent `sequence_collector.rs` now provides SequenceCollector, immutable
+SequenceChain/ConsecutiveSequence/SequenceBreak snapshots, SequenceItem, generic
+SequenceMetric and exact IntegerSequenceMetric<const STEP:u64=1>. Persistent maps
+track captured ID/index/value plus occurrence counts and `(index,ID)` order.
+Distinct IDs at equal indices remain distinct; repeated IDs appear once. Conflicting
+captured values for an outstanding identity panic atomically. Remove by captured
+ID; remove all occurrences before changing that identity. Generic global/keyed,
+conditional and composed aggregation uses the existing ReversibleCollector API.
+Finish scans all distinct items (with captured-value lookup); chain boundaries are
+not incrementally maintained. No dedicated sequence timing exists yet.
+
+Twenty source methods now have full native adaptations: all twelve
+ConsecutiveSetTreeTest methods and toConsecutiveSequences/toConsecutiveSequencesUpdate
+in each of the four Inner*ConstraintCollectorsTest classes. Source fixed inputs,
+all source assertions and both exact 1,000-operation Random(1) streams are retained.
+`SequenceTraceFixture.java` regenerates the trace byte-for-byte; fixture/helper
+attributions are recorded. Independent pairwise connectivity supplies expected
+randomized results. UTC Timeslot fixtures use exact epoch seconds and SignedDuration.
+
+Five original Rust regressions check duplicate/captured identities, failed replacement
+atomicity and retained snapshots, exact i64 endpoint distances and invalid zero gap,
+3,000 grouped edits through commit/undo/rebuild, mapper/metric/downstream failure
+recovery, and construction plus 32 bounded searches against independent full scoring.
+Six original Python tests validate independent component/multiplicity/trial semantics
+and reject missing/reordered/corrupt response metadata and invalid tie ordering.
+
+The original public Java/native/Python comparison uses public collector value handles
+and native CollectNode slots. All 64 ordinary cases and 4,689 states agree, checking
+items, counts, lengths, endpoints, flags and neighboring breaks after add/replace/
+remove/trial/inverse update. Java chain endpoint and neighboring-break object references
+are checked directly in the driver. Different tie ordering is accepted only within
+same-index items; each endpoint must match its runtime's observed item order. Native
+stable logical-ID order is additionally checked. A separate int MIN/MAX break
+explicitly diverges: Java -1, Rust exact 4,294,967,295. Neither that boundary nor
+native immutable snapshots/Java mutable aliases receive Java compatibility credit.
+Generated checks earn no extra upstream method coverage.
+
+`differential_streams.py` now includes `sequence_collector_checks`; its existing
+measurement fingerprint covers the new Rust/Java/Python files and fixture. The
+dashboard has a separate generated comparison card with the divergence and no-timing
+scope visible. App asset hash updated; no frontend design skill was needed.
+
+Final-source `scripts/check.sh` passes 1,463 Rust tests (691 adapted, 697 original
+integration, 75 unit), 75 doctests and 142 Python tests. All 25 sequence tests also
+pass release mode. Coverage 691/4,855 (14.233%); constraint streams 311/1,301
+(23.905%); pending 3,882; excluded 282; failed/unverified zero. Logs:
+work/sequence-final-check.log, work/sequence-release.log. Source freeze precedes
+measurement refresh session 63644, with per-dataset work/sequence-refresh-*.log.
+
+Next substantive choices: add a matched sequence-collector benchmark before
+optimizing finish, or implement connected-range collectors from pinned tests and
+public APIs. Connected ranges are distinct from consecutive sequences; their
+consecutiveUsage/toConnectedRanges tests remain pending. Continue honoring no
+production-source translation and Community-only boundaries. Goal remains active.
+
+Refresh session 63644 completed exit 0. All eleven datasets are current, report
+verification succeeds, and report/source/live-server fingerprints match. Existing
+correctness totals remain: streams 128/128; stream search 64/64 equal scores;
+heuristics 128/128 equal; lists 512 move cases; concurrent full-field comparison
+107/128 Java agreement with 21 explicit Java errors. The new sequence comparison
+is present in the stream dataset. All 33 timing cards were refreshed; sequence
+collection itself has no timing card. Concurrent transaction Rust/Java milliseconds:
+swap16 .032160/.113872, swap64 .158197/.135790, relocate16 .029223/.068754,
+relocate64 .105561/.137646. These are noisy workload-specific timings.
+
+Browser verification confirms 14.23% overall coverage, the 64/64 sequence result
+with all 4,689 states and the explicit overflow caveat, all 33 benchmark cards,
+no stale results or page errors, and no overflow at desktop or 390px width.
+Screenshot work/sequence-dashboard.png. Browser closed; localhost:8765 remains
+served by the existing dashboard process. No source changes after verification.

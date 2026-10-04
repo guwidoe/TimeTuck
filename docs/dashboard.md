@@ -418,3 +418,12 @@ unchanged. Default measurements use 200 transactions per batch, five warmup batc
 seven measured batches and three fresh processes in alternating runtime order.
 The four workloads cover swap and relocate with 16 or 64 visits. Observed ranges
 are batch averages, not latency percentiles; there is no whole-solver speed claim.
+
+Consecutive-sequence correctness appears as a separate card in the generated
+comparison section: 64 ordinary public Java/native/Python cases, 4,689 observed
+states, and one explicitly divergent int-overflow boundary outside agreement
+credit. Tie ordering may vary only within equal-index items; all endpoint identities
+must agree with each runtime's observed items. Native stable ID ordering is checked
+separately. These checks add no upstream-method credit and no timing workload.
+The adapted source-method rows separately credit the twenty full native test
+adaptations, whose immutable snapshot and identity adjustments are in provenance.

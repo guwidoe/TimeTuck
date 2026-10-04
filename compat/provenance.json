@@ -10065,6 +10065,306 @@
       "local_path": "crates/solver/tests/topology_cases.rs",
       "local_test": "connecting_two_loops_remove_non_joining_edge",
       "modifications": "Retain every source order, component-membership and changed-cycle-bit assertion and complete node/edge permutation family, including count-seeded Java shuffles and the recursive 1000-limit helper for larger cases. Native DependencyTopology atomic edge batches replace add/remove/commit and return sorted changed keys; reverse source prerequisite-to-dependent edges to native node-to-dependency orientation. Default concrete test consistency hook is empty. Native permutation-stream count/hash agrees with Java helper output. No Java internal API or incremental performance equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testNonconsecutiveNumbers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testNonconsecutiveNumbers",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "nonconsecutive_numbers",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testConsecutiveNumbers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testConsecutiveNumbers",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "consecutive_numbers",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testDuplicateNumbers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testDuplicateNumbers",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "duplicate_numbers",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testDuplicateIndexes",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testDuplicateIndexes",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "duplicate_indexes",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testConsecutiveReverseNumbers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testConsecutiveReverseNumbers",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "consecutive_reverse_numbers",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testJoinOfTwoChains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testJoinOfTwoChains",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "join_of_two_chains",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testBreakOfChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testBreakOfChain",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "break_of_chain",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testChainRemoval",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testChainRemoval",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "chain_removal",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testShorteningOfChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testShorteningOfChain",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "shortening_of_chain",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testRandomSequences",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testRandomSequences",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "random_sequences",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Replay all 1000 original Random(1) operations from the attributed Java-generated trace. Replace rebuilding the implementation under test with independent pairwise graph connectivity and full metadata assertions. STEP=2, absolute indices for duplicate-index mode; stable logical-ID tie ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testRandomSequencesWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testRandomSequencesWithDuplicates",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "random_sequences_with_duplicates",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Replay all 1000 original Random(1) operations from the attributed Java-generated trace. Replace rebuilding the implementation under test with independent pairwise graph connectivity and full metadata assertions. STEP=2, absolute indices for duplicate-index mode; stable logical-ID tie ordering."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.testTimeslotConsecutive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testTimeslotConsecutive",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "local_test": "timeslot_consecutive",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Represent fixed UTC January 2000 timestamps as exact epoch seconds; use native SignedDuration with a one-day metric and preserve every interval/item assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerUniConstraintCollectorsTest.toConsecutiveSequences",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequences",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "uni_to_consecutive_sequences",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerUniConstraintCollectorsTest.toConsecutiveSequencesUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequencesUpdate",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "uni_to_consecutive_sequences_update",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerBiConstraintCollectorsTest.toConsecutiveSequences",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequences",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "bi_to_consecutive_sequences",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerBiConstraintCollectorsTest.toConsecutiveSequencesUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequencesUpdate",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "bi_to_consecutive_sequences_update",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerTriConstraintCollectorsTest.toConsecutiveSequences",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequences",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "tri_to_consecutive_sequences",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerTriConstraintCollectorsTest.toConsecutiveSequencesUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequencesUpdate",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "tri_to_consecutive_sequences_update",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerQuadConstraintCollectorsTest.toConsecutiveSequences",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequences",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "quad_to_consecutive_sequences",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "InnerQuadConstraintCollectorsTest.toConsecutiveSequencesUpdate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toConsecutiveSequencesUpdate",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "local_test": "quad_to_consecutive_sequences_update",
+      "modifications": "Adapt complete assertions to native logical IDs, captured values and immutable snapshots. Refresh snapshots after mutation instead of Java live views; no Java object-alias or identity-hash tie-order claim. Verify all sequence and break metadata with independently specified expectations. Integer distances widen to i128; Java int overflow is not reproduced. Preserve all sum-mapped tuple inputs, duplicate occurrences, replacements, repeated writes and removals. Native CollectNode slots replace Java handles; expected chains are explicit full-field values, not a native implementation invocation."
     }
   ],
   "fixtures": [
@@ -12316,6 +12616,58 @@
       "upstream_test": "concurrent groups, ordered ownership and derived time suppliers",
       "local_path": "crates/solver/examples/concurrent_support/cache.rs",
       "modifications": "Adapt fixed group membership, owner/index/neighbor/cascading metadata and ready/start/finish supplier semantics to a second native evaluator using DependencyCache. Fixed representative start nodes plus aliases replace shared annotations; dynamic predecessor edges and explicit dirty ready keys drive incremental updates. Use minute offsets from the source base time. Clone and restore cached trial state without rerunning suppliers. No Java supplier-count, reflection or timing equivalence. Concurrent stream scoring now owns this cache through map_cached, retaining per-snapshot independent reference-score assertions and native transaction/reset semantics; direct full projection remains a reference. The original concurrent_benchmark.rs / ConcurrentBenchmark.java drivers reuse this attributed fixture for fully assigned temporary move, undo and commit measurements; no new upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.operation_generator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testRandomSequences, testRandomSequencesWithDuplicates",
+      "local_path": "compat/oracle/SequenceTraceFixture.java",
+      "modifications": "Adapt the Random(1), nextInt64, conditional nextDouble<0.75 and multiplicity update algorithms from both source random methods. Emit all 1000 operations per mode; key iteration ordering affects no random choices. No production tree used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.operation_trace",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testRandomSequences, testRandomSequencesWithDuplicates",
+      "local_path": "crates/solver/tests/fixtures/sequence-traces.txt",
+      "modifications": "Generated exact 2000-operation fixture from SequenceTraceFixture.java, retaining seed, insertion/removal choice, logical values and plain/absolute index mapping."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConsecutiveSetTreeTest.native_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/consecutive/ConsecutiveSetTreeTest.java",
+      "upstream_test": "testRandomSequences, testRandomSequencesWithDuplicates and test helpers/Timeslot",
+      "local_path": "crates/solver/tests/sequence_tree_cases.rs",
+      "modifications": "Adapt mutable numeric identity fixtures to explicit IDs/captured values, Timeslot day endpoints to exact UTC epoch seconds, and source helper gap/zero constants. Native tests replace live views and self-derived break expectations with fresh snapshots and independent full-field assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintCollectorsTest.sequence_expectations",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/AbstractConstraintCollectorsTest.java",
+      "upstream_test": "buildSequenceChain and assertResultRecursive",
+      "local_path": "crates/solver/tests/sequence_collector_cases.rs",
+      "modifications": "Replace source expected-chain construction and recursive comparison with explicit independent expected items/runs and full native metadata checks. No upstream production implementation is used for native expected results."
     }
   ]
 }

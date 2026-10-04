@@ -329,3 +329,9 @@ mod dependency_cache;
 pub use dependency_cache::DependencyCache;
 mod dependency_node;
 pub use dependency_node::{DependencyNode, DerivedChange};
+
+mod sequence_collector;
+pub use sequence_collector::{
+    ConsecutiveSequence, IntegerSequenceMetric, SequenceBreak, SequenceChain, SequenceCollector,
+    SequenceItem, SequenceMetric,
+};

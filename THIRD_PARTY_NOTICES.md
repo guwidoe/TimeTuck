@@ -281,3 +281,12 @@ concurrent Value, Entity and Solution test fixtures to an incremental native cac
 The original Community test-fixture license and provenance apply. Its representative
 start nodes and aliases are independently implemented from those fixture semantics;
 no Timefold production implementation was used.
+
+The consecutive-sequence test adaptations in `sequence_tree_cases.rs` and
+`sequence_collector_cases.rs` derive from the pinned Apache-2.0 Community
+`ConsecutiveSetTreeTest`, `Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest` and
+`AbstractConstraintCollectorsTest` tests/fixtures. `SequenceTraceFixture.java`
+and `tests/fixtures/sequence-traces.txt` preserve both source Random(1) operation
+streams. The source commit, identities, license and native semantic adjustments
+are recorded in `compat/provenance.json`. Production sequence collection and the
+separate public-API differential drivers were independently implemented.

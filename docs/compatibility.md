@@ -1039,3 +1039,28 @@ reverse links and queue entries. Public keys, callback inputs and changed-key
 ordering remain key-based. The new string-key fanout/late-clone-panic regression
 is original and earns no additional upstream method credit. Value storage still
 uses persistent snapshots, and changed edges still rebuild the topology.
+
+## Consecutive-sequence collection
+
+Twenty methods are adapted: all twelve ConsecutiveSetTreeTest methods and the
+add/remove plus update methods in all four Inner*ConstraintCollectorsTest arities.
+Both seeded random tests replay their exact 1,000-operation inputs, verified by a
+standalone attributed JDK fixture generator. Independent pairwise connectivity
+replaces expected results rebuilt with the implementation under test. Source item,
+count, endpoint, break and chain assertions are preserved with explicit native
+snapshots; the UTC Timeslot fixture uses exact seconds and SignedDuration.
+
+Native logical IDs replace Java object identity, stable ID order replaces identity
+hash ties, and fresh immutable snapshots replace live views. Captured triples must
+stay equal while an identity has outstanding occurrences. Java mutable-object
+aliasing is not claimed. Integer distances widen exactly instead of reproducing
+int overflow. All of these adjustments are recorded in provenance; connected-range
+collectors and Java API/ABI compatibility remain outside this increment.
+
+The public Java/native/Python comparison validates 64 original cases and 4,689
+states, including duplicate identities, duplicate indices, slot replacement,
+removal and trial/undo. It checks all item membership and observable metadata;
+Java tie ordering is allowed only within equal indices, with its endpoint identity
+checked against its own items. A separate MIN/MAX int break differs (-1 in Java,
+4,294,967,295 in Rust) and receives no agreement credit. These generated checks
+and five original native regression methods add no upstream-method credit.
