@@ -7844,3 +7844,77 @@ This goal turn made verified progress. The Community rewrite remains active,
 incomplete and unblocked. Continue substantive solver behavior from remaining
 pinned Community tests/public docs; do not infer coverage from internal storage
 checks, generated diagnostics or benchmark success.
+
+## 2026-10-04: Pooled cheapest-insertion construction
+
+Previous goal turn made verified progress in b803fda. This increment adds substantive
+pooled construction across all six native model/scoring paths, independently from
+pinned Community public documentation. No upstream production code was inspected.
+Unimproved-score-threshold and composite termination tests were inspected as other
+possible gaps, but no implementation or coverage claim was made for those features.
+
+ConstructionPlacement::Pooled competes all eligible missing variables/list values
+in each scan, including both components of mixed models. Existing assignments/pins
+remain fixed; deterministic order handles ties and optional early-picking. Optional
+non-worsening candidates are reconsidered after another item is placed; an entirely
+rejected pool terminates. Saved candidate scores/caches avoid replay. Configuration
+is still Copy and defaults to Sequential. See the incremental-search contract.
+
+Seven original integration tests cover every generated basic budget prefix, coupled
+quality/order changes, optional reconsideration, independent list insertion with
+prefix pins/ranges, cross-component competition/ties and exact owned decimals.
+Three existing backend matrices now run both strategies. Controlled clock checks
+also run both, plus two new all-six-path cancellation/candidate-budget checks.
+Public Java SolverOracle and native solver_oracle add an internal pooled mode.
+pooled_construction_checks.py validates 66 required homogeneous graph cases; all
+Java/native assignments and scores agree with Python greedy reconstruction, 48
+are exhaustive optima per runtime. Four Python reference/protocol tests pass.
+This diagnostic appears separately in the dashboard. No adapted-method credit: the
+PooledEntityPlacerTest lifecycle/copy assertions remain pending. No new timing claim.
+
+Initial all-target check required adding the new default field to explicit existing
+config literals. Two syntax/type issues in original test drafting were corrected
+before passing focused run 78946. Clock run 7044 and Java probe 34750 completed
+exit 0. First full gate 15837 passed 1,839 Rust tests, 97 doctests, 215 Python tests.
+Review then found empty optional pools could report StepLimit at zero steps. New
+regression failed before the fix (95351, work/pooled-empty-before.log), then passed
+all six paths after filtering impossible placements (39203, work/pooled-empty-after.log).
+
+Sources are now frozen for final gate, focused release and sequential 13-dataset
+refresh. Final expected count is 1,840 Rust tests, 97 doctests, 215 Python tests;
+coverage remains 883/4,855=18.187%. Work/pooled-audit.py checks all fingerprints,
+existing diagnostics, 65 timing records and the 66 new pooled comparisons. The
+full Community goal remains active, incomplete and unblocked.
+
+Final sequence handle is 61476 (set -e): scripts/check.sh into
+work/pooled-final-check.log, focused release into work/pooled-release.log, then
+work/pooled-refresh.sh into work/pooled-refresh.log. Re-poll this same handle after
+an observation timeout. Do not restart from an incomplete log or infer termination.
+No Rust/Python/provenance changes after the final capture began.
+
+Final full gate completed successfully: 1,840 Rust tests, 97 doctests and 215 Python
+tests, with formatting/clippy clean. Coverage remains 883/4,855=18.187%, pending
+3,690 / excluded 282 / failed 0 / unverified 0. The same live handle continues
+focused release and the sequential refresh; no competing own CPU work is running.
+
+Final sequence 61476 completed exit 0. Focused release passed all seven pooled
+integration tests and all nine controlled-clock construction tests. Final audit
+work/pooled-audit.log passed: all 13 measurement datasets and live freshness match
+current source/verification fingerprints; 65 timing cards (10 exact, 22 heuristic).
+All 66 new pooled cases agree in final assignments/scores with native Python
+reconstruction, 48 optima per runtime. Existing diagnostics remain unchanged,
+including 512 trend optima, 352 valid/equal-score heuristic cases (300 optima),
+325 oscillation differences and 24/24 forced-GC metric checks. No source edits
+were made after final capture. Upstream remains clean and pinned.
+
+Browser verification passed at 1440x1000 and 390x844: unchanged 18.19% coverage,
+all 65 timing cards and the new 66/66 pooled diagnostic with 48/66 optimum count
+and scope explanation. No page errors, stale warnings or horizontal overflow.
+Visually inspected work/pooled-{desktop,phone,phone-diagnostic}.png. Browser closed;
+localhost:8765 server remains running. No test/measurement process remains live.
+The staged implementation, adapters, original tests and docs were reviewed.
+
+This turn made verified progress toward the full rewrite. The goal remains active,
+incomplete and unblocked. Pooled construction is now available; Java lifecycle/copy
+method adaptations, broader construction strategies and remaining Community
+behavior remain pending. Do not turn generated-case agreement into method credit.

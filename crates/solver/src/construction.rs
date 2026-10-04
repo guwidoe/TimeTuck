@@ -44,6 +44,30 @@ pub enum OptionalConstruction {
     NonWorsening,
 }
 
+/// Which unassigned items compete within a construction step.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ConstructionPlacement {
+    /// Finish one item in model order before considering the next.
+    #[default]
+    Sequential,
+    /// Reconsider all eligible missing items each step, installing the first best
+    /// placement. With Never early-picking this is cheapest insertion. Optional
+    /// candidates must be non-worsening; a pool with no accepted move ends the phase.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![1]), Variable::new(vec![9])])?;
+    /// let mut n = ConstraintNetwork::new(2);
+    /// n.add_constraint("sum", vec![0,1], |v| SimpleScore::new(v.iter().filter_map(|v| v.copied()).sum()))?;
+    /// let r = greedy_construction(&p, &n, ConstructionConfig {
+    ///     placement: ConstructionPlacement::Pooled, max_steps: Some(1), ..Default::default()
+    /// })?;
+    /// assert_eq!(r.assignment.values(), &[None, Some(9)]);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    Pooled,
+}
+
 /// Shared controls for basic, list and mixed construction in both scoring
 /// backends. A cancellation request retains the best evaluated candidate of the
 /// current scan, including incomplete progress. Initialization and diagnostics
@@ -52,7 +76,8 @@ pub enum OptionalConstruction {
 /// precedence. A zero move budget permits initialization, then no candidates.
 /// The default token is None. Configurations borrow tokens and remain Copy.
 ///
-/// A step evaluates one missing item. Required items are assigned; optional scans
+/// A sequential step evaluates one missing item; a pooled step compares all
+/// remaining eligible items. Required items are assigned; optional scans
 /// may reject all candidates. A step limit preserves an entire scan, unlike a
 /// candidate limit (unless another control interrupts the scan):
 ///
@@ -75,13 +100,16 @@ pub enum OptionalConstruction {
 /// ```
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConstructionConfig<'a> {
+    /// Sequential by default; pooled placement compares all missing items.
+    pub placement: ConstructionPlacement,
     /// Cooperative cancellation shared with other phases; validation runs first.
     pub cancellation: Option<&'a crate::CancellationToken>,
     /// Includes the initial score and each candidate; zero invokes no callbacks.
     pub max_evaluations: u64,
     /// Candidate evaluations only; initialization is excluded. None disables it.
     pub max_move_evaluations: Option<u64>,
-    /// Evaluated variable/value scans per call. None disables this limit.
+    /// Evaluated item scans (Sequential) or whole-pool scans (Pooled) per call.
+    /// None disables this limit.
     /// Scans of optional values count even if every candidate is rejected.
     /// Initialization, existing assignments and scans with no candidates do not
     /// consume steps. A step finishes its scan unless another limit interrupts it.
@@ -98,6 +126,7 @@ pub struct ConstructionConfig<'a> {
 impl Default for ConstructionConfig<'_> {
     fn default() -> Self {
         Self {
+            placement: ConstructionPlacement::Sequential,
             cancellation: None,
             max_evaluations: 10_000,
             max_move_evaluations: None,
@@ -183,7 +212,9 @@ impl<V: Clone, S: Clone> ConstructionResult<V, S> {
 /// by default, or considered under [`OptionalConstruction::NonWorsening`].
 /// Constraints must support partial assignments (None in scoped arguments).
 /// Each variable's candidates use the same prior assignment; ties retain the
-/// first candidate. Cached contributions install without rescoring the winner.
+/// first candidate. Pooled placement instead compares all eligible missing items
+/// each step, retaining the same model/domain tie order. Cached contributions
+/// install without rescoring the winner.
 /// This greedy initializer neither backtracks nor proves optimality.
 pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
@@ -265,7 +296,7 @@ pub(crate) fn construction_impl_with_clock<
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
-    for (index, variable) in problem.variables().iter().enumerate() {
+    for index in 0..problem.variables().len() {
         if config.cancelled() {
             result.termination = ConstructionTermination::Cancelled;
             break;
@@ -274,20 +305,38 @@ pub(crate) fn construction_impl_with_clock<
             result.termination = ConstructionTermination::TimeLimit;
             break;
         }
-        if director.assignment().values()[index].is_some()
-            || variable.is_pinned()
-            || (variable.allows_unassigned() && config.optional == OptionalConstruction::Preserve)
-        {
+        let eligible = |i: usize| {
+            let variable = &problem.variables()[i];
+            director.assignment().values()[i].is_none()
+                && !variable.is_pinned()
+                && (!variable.allows_unassigned()
+                    || config.optional == OptionalConstruction::NonWorsening)
+        };
+        let indices: Vec<_> = if config.placement == ConstructionPlacement::Pooled {
+            (0..problem.variables().len())
+                .filter(|&i| eligible(i) && !problem.variables()[i].domain().is_empty())
+                .collect()
+        } else if eligible(index) {
+            vec![index]
+        } else {
             continue;
+        };
+        if indices.is_empty() {
+            break;
         }
         if config.step_limit_reached(result.completed_steps) {
             result.termination = ConstructionTermination::StepLimit;
             break;
         }
         let previous = director.score();
-        let moves = variable.domain().iter().map(|value| Move::Change {
-            variable: index,
-            value: Some(value.clone()),
+        let moves = indices.into_iter().flat_map(|index| {
+            problem.variables()[index]
+                .domain()
+                .iter()
+                .map(move |value| Move::Change {
+                    variable: index,
+                    value: Some(value.clone()),
+                })
         });
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
@@ -298,7 +347,12 @@ pub(crate) fn construction_impl_with_clock<
             moves.take_while(|_| !config.cancelled() && !time.expired()),
             budget.remaining,
             false,
-            |_, score| !variable.allows_unassigned() || score >= previous,
+            |movement, score| {
+                let Move::Change { variable, .. } = movement else {
+                    unreachable!("construction change")
+                };
+                !problem.variables()[*variable].allows_unassigned() || score >= previous
+            },
             |score| config.pick_early.should_pick(previous.clone(), score),
             config.assert_scores,
         )?;
@@ -314,6 +368,9 @@ pub(crate) fn construction_impl_with_clock<
         }
         if selection.evaluation_limit {
             result.termination = budget.construction_reason();
+            break;
+        }
+        if config.placement == ConstructionPlacement::Pooled && selection.selected.is_none() {
             break;
         }
     }

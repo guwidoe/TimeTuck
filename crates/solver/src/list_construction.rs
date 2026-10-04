@@ -38,7 +38,9 @@ impl<V: Clone, S: Clone> ListConstructionResult<V, S> {
 }
 /// Preserve initial lists and pins. Insert missing required values in range order,
 /// scanning entities and insertion indices in order. Ties retain the first best
-/// candidate; the shared early-pick policy compares ordinary levels. Optional
+/// candidate; the shared early-pick policy compares ordinary levels.
+/// Pooled placement compares all missing values and legal insertion positions
+/// each step, preserving registry/entity/index order for ties. Optional
 /// missing values remain unassigned by default; NonWorsening also considers them
 /// and preserves unassignment when every evaluated insertion is worse.
 /// Initial scoring and every trial count toward the budget; installing a winner
@@ -128,8 +130,27 @@ pub(crate) fn construction_impl_with_clock<
                 result.termination = ConstructionTermination::TimeLimit;
                 break;
             }
-            if director.assignment().location(value).is_some() {
+            let values: Vec<_> = if config.placement == crate::ConstructionPlacement::Pooled {
+                problem
+                    .values()
+                    .iter()
+                    .filter(|v| {
+                        director.assignment().location(v).is_none()
+                            && insertions(
+                                problem,
+                                director.assignment(),
+                                0..problem.entities().len(),
+                            )
+                            .any(|position| problem.accepts(position.entity, v))
+                    })
+                    .collect()
+            } else if director.assignment().location(value).is_none() {
+                vec![value]
+            } else {
                 continue;
+            };
+            if values.is_empty() {
+                break;
             }
             if config.step_limit_reached(result.completed_steps) {
                 result.termination = ConstructionTermination::StepLimit;
@@ -137,12 +158,14 @@ pub(crate) fn construction_impl_with_clock<
             }
             let snapshot = director.assignment().clone();
             let previous = director.score();
-            let moves = insertions(problem, &snapshot, 0..problem.entities().len())
-                .filter(|position| problem.accepts(position.entity, value))
-                .map(|destination| ListMove::Assign {
-                    value: value.clone(),
-                    destination,
-                });
+            let moves = values.into_iter().flat_map(|value| {
+                insertions(problem, &snapshot, 0..problem.entities().len())
+                    .filter(move |position| problem.accepts(position.entity, value))
+                    .map(move |destination| ListMove::Assign {
+                        value: value.clone(),
+                        destination,
+                    })
+            });
             let budget = crate::count_limit::CandidateBudget::new(
                 config.max_evaluations,
                 config.max_move_evaluations,
@@ -168,6 +191,11 @@ pub(crate) fn construction_impl_with_clock<
             }
             if selection.evaluation_limit {
                 result.termination = budget.construction_reason();
+                break;
+            }
+            if config.placement == crate::ConstructionPlacement::Pooled
+                && selection.selected.is_none()
+            {
                 break;
             }
         }

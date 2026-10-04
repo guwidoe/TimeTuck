@@ -1223,3 +1223,13 @@ DiminishedReturns reason, and later phases may run or prove optimality. Stream
 factory preparation is excluded from this grace period while remaining part of
 any shared elapsed-time budget. Existing shared stop reasons retain precedence.
 See the incremental-search contract for the exact rational-rate and reset rules.
+
+## Pooled construction phases
+
+Construction phases preserve ConstructionConfig::placement, including through
+stream factories and per-job plan cloning. Pooled placement makes all eligible
+missing items compete for a step; mixed phases combine both model components.
+Shared score/candidate/time/cancellation controls still constrain these phases,
+and subsequent phases receive the selected assignment and accumulated work.
+A completed greedy phase is not an optimality proof. See the construction section
+of the incremental-search contract for candidate order and optional-value rules.

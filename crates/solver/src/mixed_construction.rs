@@ -60,7 +60,9 @@ enum Phase {
 /// Preserve every supplied value, pin and initial list order. Fill missing required
 /// basics in model/domain order and required list values in registry/entity/index
 /// order, following the explicit component order. Optional unassignment follows
-/// ConstructionConfig::optional. Constraints must handle partial combined states.
+/// ConstructionConfig::optional. Pooled placement compares eligible assignments
+/// across both components; component order then determines only encounter order
+/// for ties and early picks. Constraints must handle partial combined states.
 ///
 /// One budget includes the initial score and every candidate in both phases.
 /// Winners reuse saved caches without callback replay. A truncated scan retains
@@ -195,76 +197,105 @@ pub(crate) fn construction_impl_with_clock<
                 config.max_move_evaluations,
                 result.evaluations,
             );
-            let selection = match phase {
-                Phase::Basic => {
-                    let variable = &problem.basic().variables()[index];
-                    if (variable.allows_unassigned()
-                        && config.optional == crate::OptionalConstruction::Preserve)
-                        || variable.is_pinned()
-                        || director.assignment().basic().values()[index].is_some()
-                    {
-                        continue;
-                    }
-                    if config.step_limit_reached(result.completed_steps) {
-                        result.termination = ConstructionTermination::StepLimit;
-                        break 'phases;
-                    }
-                    let moves = variable.domain().iter().map(|value| MixedMove {
-                        basic: Move::Change {
-                            variable: index,
-                            value: Some(value.clone()),
-                        },
-                        lists: ListMove::Composite(vec![]),
-                    });
-                    director.select_best(
-                        moves.take_while(|_| !config.cancelled() && !time.expired()),
-                        budget.remaining,
-                        false,
-                        |_, score| !variable.allows_unassigned() || score >= previous,
-                        |score| config.pick_early.should_pick(previous.clone(), score),
-                        config.assert_scores,
-                    )?
+            let selection = if config.placement == crate::ConstructionPlacement::Pooled {
+                let snapshot = director.assignment().clone();
+                let mut moves =
+                    pooled_moves(problem, &snapshot, settings.order, config.optional).peekable();
+                if moves.peek().is_none() {
+                    break 'phases;
                 }
-                Phase::Lists => {
-                    let lists = problem.lists();
-                    let value = &lists.values()[index];
-                    if (lists.allows_unassigned()
-                        && config.optional == crate::OptionalConstruction::Preserve)
-                        || director.assignment().lists().location(value).is_some()
-                    {
-                        continue;
-                    }
-                    if config.step_limit_reached(result.completed_steps) {
-                        result.termination = ConstructionTermination::StepLimit;
-                        break 'phases;
-                    }
-                    let snapshot = director.assignment().clone();
-                    let moves = insertions(lists, snapshot.lists(), 0..lists.entities().len())
-                        .filter(|position| lists.accepts(position.entity, value))
-                        .map(|destination| MixedMove {
-                            basic: Move::Composite(vec![]),
-                            lists: ListMove::Assign {
-                                value: value.clone(),
-                                destination,
+                if config.step_limit_reached(result.completed_steps) {
+                    result.termination = ConstructionTermination::StepLimit;
+                    break 'phases;
+                }
+                director.select_best(
+                    moves.take_while(|_| !config.cancelled() && !time.expired()),
+                    budget.remaining,
+                    false,
+                    |movement, score| {
+                        let optional = match &movement.basic {
+                            Move::Change { variable, .. } => {
+                                problem.basic().variables()[*variable].allows_unassigned()
+                            }
+                            _ => problem.lists().allows_unassigned(),
+                        };
+                        !optional || score >= previous
+                    },
+                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    config.assert_scores,
+                )?
+            } else {
+                match phase {
+                    Phase::Basic => {
+                        let variable = &problem.basic().variables()[index];
+                        if (variable.allows_unassigned()
+                            && config.optional == crate::OptionalConstruction::Preserve)
+                            || variable.is_pinned()
+                            || director.assignment().basic().values()[index].is_some()
+                        {
+                            continue;
+                        }
+                        if config.step_limit_reached(result.completed_steps) {
+                            result.termination = ConstructionTermination::StepLimit;
+                            break 'phases;
+                        }
+                        let moves = variable.domain().iter().map(|value| MixedMove {
+                            basic: Move::Change {
+                                variable: index,
+                                value: Some(value.clone()),
                             },
+                            lists: ListMove::Composite(vec![]),
                         });
-                    director.select_best(
-                        moves.take_while(|_| !config.cancelled() && !time.expired()),
-                        budget.remaining,
-                        false,
-                        |_, score| !lists.allows_unassigned() || score >= previous,
-                        |score| config.pick_early.should_pick(previous.clone(), score),
-                        config.assert_scores,
-                    )?
+                        director.select_best(
+                            moves.take_while(|_| !config.cancelled() && !time.expired()),
+                            budget.remaining,
+                            false,
+                            |_, score| !variable.allows_unassigned() || score >= previous,
+                            |score| config.pick_early.should_pick(previous.clone(), score),
+                            config.assert_scores,
+                        )?
+                    }
+                    Phase::Lists => {
+                        let lists = problem.lists();
+                        let value = &lists.values()[index];
+                        if (lists.allows_unassigned()
+                            && config.optional == crate::OptionalConstruction::Preserve)
+                            || director.assignment().lists().location(value).is_some()
+                        {
+                            continue;
+                        }
+                        if config.step_limit_reached(result.completed_steps) {
+                            result.termination = ConstructionTermination::StepLimit;
+                            break 'phases;
+                        }
+                        let snapshot = director.assignment().clone();
+                        let moves = insertions(lists, snapshot.lists(), 0..lists.entities().len())
+                            .filter(|position| lists.accepts(position.entity, value))
+                            .map(|destination| MixedMove {
+                                basic: Move::Composite(vec![]),
+                                lists: ListMove::Assign {
+                                    value: value.clone(),
+                                    destination,
+                                },
+                            });
+                        director.select_best(
+                            moves.take_while(|_| !config.cancelled() && !time.expired()),
+                            budget.remaining,
+                            false,
+                            |_, score| !lists.allows_unassigned() || score >= previous,
+                            |score| config.pick_early.should_pick(previous.clone(), score),
+                            config.assert_scores,
+                        )?
+                    }
                 }
             };
             result.evaluations += selection.evaluations;
             result.completed_steps += u64::from(selection.evaluations > 0);
             result.constraint_evaluations += selection.constraint_evaluations;
-            if selection.selected.is_some() {
-                match phase {
-                    Phase::Basic => result.assigned_basic_variables += 1,
-                    Phase::Lists => result.assigned_list_values += 1,
+            if let Some(movement) = &selection.selected {
+                match &movement.basic {
+                    Move::Change { .. } => result.assigned_basic_variables += 1,
+                    _ => result.assigned_list_values += 1,
                 }
             }
             if config.assert_scores {
@@ -275,6 +306,11 @@ pub(crate) fn construction_impl_with_clock<
             }
             if selection.evaluation_limit {
                 result.termination = budget.construction_reason();
+                break 'phases;
+            }
+            if config.placement == crate::ConstructionPlacement::Pooled
+                && selection.selected.is_none()
+            {
                 break 'phases;
             }
         }
@@ -289,4 +325,57 @@ pub(crate) fn construction_impl_with_clock<
     result.assignment = director.assignment().clone();
     result.score = Some(director.score());
     Ok(result)
+}
+
+// Candidate order controls deterministic ties and early picks; every scan uses
+// one immutable assignment while the director scores and undoes each trial.
+fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
+    problem: &'a MixedProblem<B, L>,
+    snapshot: &'a MixedAssignment<B, L>,
+    order: MixedConstructionOrder,
+    optional: crate::OptionalConstruction,
+) -> Box<dyn Iterator<Item = MixedMove<B, L>> + 'a> {
+    let basics = problem
+        .basic()
+        .variables()
+        .iter()
+        .enumerate()
+        .filter(move |(i, v)| {
+            !v.is_pinned()
+                && snapshot.basic().values()[*i].is_none()
+                && (!v.allows_unassigned() || optional == crate::OptionalConstruction::NonWorsening)
+        })
+        .flat_map(|(i, v)| {
+            v.domain().iter().map(move |value| MixedMove {
+                basic: Move::Change {
+                    variable: i,
+                    value: Some(value.clone()),
+                },
+                lists: ListMove::Composite(vec![]),
+            })
+        });
+    let lists = problem.lists();
+    let list_moves = lists
+        .values()
+        .iter()
+        .filter(move |v| {
+            snapshot.lists().location(v).is_none()
+                && (!lists.allows_unassigned()
+                    || optional == crate::OptionalConstruction::NonWorsening)
+        })
+        .flat_map(move |value| {
+            insertions(lists, snapshot.lists(), 0..lists.entities().len())
+                .filter(move |p| lists.accepts(p.entity, value))
+                .map(move |destination| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists: ListMove::Assign {
+                        value: value.clone(),
+                        destination,
+                    },
+                })
+        });
+    match order {
+        MixedConstructionOrder::BasicThenLists => Box::new(basics.chain(list_moves)),
+        MixedConstructionOrder::ListsThenBasic => Box::new(list_moves.chain(basics)),
+    }
 }

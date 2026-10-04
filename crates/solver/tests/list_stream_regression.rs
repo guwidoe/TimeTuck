@@ -376,152 +376,160 @@ fn route_network(p: &ListProblem<i32>) -> ListConstraintNetwork<'static, i32, Ha
 }
 #[test]
 fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
-    let p = ListProblem::new(
-        vec![1, 9, 2, 8, 3, 7],
-        vec![ListEntity::new(vec![]), ListEntity::new(vec![])],
-    )
-    .unwrap();
-    let n = route_network(&p);
-    for pick_early in [
-        ConstructionPickEarly::Never,
-        ConstructionPickEarly::FirstNonDeterioratingScore,
-        ConstructionPickEarly::FirstFeasibleScore,
-        ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+    for placement in [
+        ConstructionPlacement::Sequential,
+        ConstructionPlacement::Pooled,
     ] {
-        for max_evaluations in [0, 1, 2, 9, 50, 1000] {
-            let config = ConstructionConfig {
-                max_steps: None,
-                optional: timetuck::OptionalConstruction::Preserve,
-                cancellation: None,
-                max_move_evaluations: None,
-                max_time: None,
-                max_evaluations,
-                pick_early,
-                assert_scores: true,
-            };
-            let expected = greedy_list_construction(&p, &n, config).unwrap();
-            let (g, s) = route_graph();
-            let actual = greedy_list_stream_construction(&p, g, s, config).unwrap();
-            assert_eq!(actual.assignment, expected.assignment);
-            assert_eq!(actual.score, expected.score);
-            assert_eq!(
-                (
-                    actual.evaluations,
-                    actual.termination,
-                    actual.complete,
-                    actual.assigned_values
-                ),
-                (
-                    expected.evaluations,
-                    expected.termination,
-                    expected.complete,
-                    expected.assigned_values
-                )
-            );
+        let p = ListProblem::new(
+            vec![1, 9, 2, 8, 3, 7],
+            vec![ListEntity::new(vec![]), ListEntity::new(vec![])],
+        )
+        .unwrap();
+        let n = route_network(&p);
+        for pick_early in [
+            ConstructionPickEarly::Never,
+            ConstructionPickEarly::FirstNonDeterioratingScore,
+            ConstructionPickEarly::FirstFeasibleScore,
+            ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+        ] {
+            for max_evaluations in [0, 1, 2, 9, 50, 1000] {
+                let config = ConstructionConfig {
+                    placement,
+                    max_steps: None,
+                    optional: timetuck::OptionalConstruction::Preserve,
+                    cancellation: None,
+                    max_move_evaluations: None,
+                    max_time: None,
+                    max_evaluations,
+                    pick_early,
+                    assert_scores: true,
+                };
+                let expected = greedy_list_construction(&p, &n, config).unwrap();
+                let (g, s) = route_graph();
+                let actual = greedy_list_stream_construction(&p, g, s, config).unwrap();
+                assert_eq!(actual.assignment, expected.assignment);
+                assert_eq!(actual.score, expected.score);
+                assert_eq!(
+                    (
+                        actual.evaluations,
+                        actual.termination,
+                        actual.complete,
+                        actual.assigned_values
+                    ),
+                    (
+                        expected.evaluations,
+                        expected.termination,
+                        expected.complete,
+                        expected.assigned_values
+                    )
+                );
+            }
         }
-    }
-    let initial = ListAssignment::new(vec![vec![9, 1, 8], vec![2, 7, 3]]);
-    let extras = [
-        Acceptance::LateAcceptance {
-            history_size: 2,
-            hill_climbing: true,
-        },
-        Acceptance::VariableTabu {
-            tenure: 1,
-            aspiration: true,
-        },
-    ];
-    for (acceptance, additional_acceptance) in [
-        Acceptance::DiversifiedLateAcceptance { history_size: 3 },
-        Acceptance::SizedVariableTabu {
-            size: TabuSize::ratio(0.5).unwrap(),
-            aspiration: true,
-        },
-        Acceptance::StrictImprovement,
-        Acceptance::HillClimbing,
-        Acceptance::LateAcceptance {
-            history_size: 3,
-            hill_climbing: false,
-        },
-        Acceptance::VariableTabu {
-            tenure: 2,
-            aspiration: true,
-        },
-        Acceptance::ValueTabu {
-            tenure: 2,
-            aspiration: true,
-        },
-        Acceptance::FadingValueTabu {
-            hard_tenure: 1,
-            fading_tenure: 4,
-            aspiration: true,
-            seed: 77,
-        },
-        Acceptance::MoveTabu {
-            tenure: 2,
-            aspiration: true,
-        },
-        Acceptance::FadingMoveTabu {
-            hard_tenure: 1,
-            fading_tenure: 4,
-            aspiration: true,
-            seed: 77,
-        },
-        Acceptance::FadingVariableTabu {
-            hard_tenure: 1,
-            fading_tenure: 4,
-            aspiration: true,
-            seed: 20261229,
-        },
-        Acceptance::SimulatedAnnealing {
-            starting_temperature: HardSoftScore::new(1, 20),
-            seed: 73,
-            cooling_steps: 10,
-        },
-    ]
-    .into_iter()
-    .flat_map(|a| [(a, &[][..]), (a, &extras[..])])
-    {
-        for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
-            for max_evaluations in [0, 1, 2, 37, 1000] {
-                for shuffled in [false, true] {
-                    let config = LocalSearchConfig {
-                        max_evaluations,
-                        max_steps: 6,
-                        acceptance,
-                        additional_acceptance,
-                        selection,
-                        neighborhood: Neighborhood::ChangeAndSwap,
-                        move_order: if shuffled {
-                            MoveOrder::ShuffledVariables { seed: 15 }
-                        } else {
-                            MoveOrder::Original
-                        },
-                        rejected_moves: RejectedMovePolicy::BestScore,
-                        assert_scores: true,
-                        ..Default::default()
-                    };
-                    let expected = list_local_search_from(&p, &n, initial.clone(), config).unwrap();
-                    let (g, s) = route_graph();
-                    let actual =
-                        list_stream_local_search_from(&p, g, s, initial.clone(), config).unwrap();
-                    assert_eq!(actual.best, expected.best);
-                    assert_eq!(
-                        (
-                            actual.evaluations,
-                            actual.accepted_moves,
-                            actual.completed_steps,
-                            actual.termination
-                        ),
-                        (
-                            expected.evaluations,
-                            expected.accepted_moves,
-                            expected.completed_steps,
-                            expected.termination
-                        )
-                    );
-                    if let Some(best) = actual.best {
-                        assert_eq!(best.score, route_score(&best.assignment));
+        let initial = ListAssignment::new(vec![vec![9, 1, 8], vec![2, 7, 3]]);
+        let extras = [
+            Acceptance::LateAcceptance {
+                history_size: 2,
+                hill_climbing: true,
+            },
+            Acceptance::VariableTabu {
+                tenure: 1,
+                aspiration: true,
+            },
+        ];
+        for (acceptance, additional_acceptance) in [
+            Acceptance::DiversifiedLateAcceptance { history_size: 3 },
+            Acceptance::SizedVariableTabu {
+                size: TabuSize::ratio(0.5).unwrap(),
+                aspiration: true,
+            },
+            Acceptance::StrictImprovement,
+            Acceptance::HillClimbing,
+            Acceptance::LateAcceptance {
+                history_size: 3,
+                hill_climbing: false,
+            },
+            Acceptance::VariableTabu {
+                tenure: 2,
+                aspiration: true,
+            },
+            Acceptance::ValueTabu {
+                tenure: 2,
+                aspiration: true,
+            },
+            Acceptance::FadingValueTabu {
+                hard_tenure: 1,
+                fading_tenure: 4,
+                aspiration: true,
+                seed: 77,
+            },
+            Acceptance::MoveTabu {
+                tenure: 2,
+                aspiration: true,
+            },
+            Acceptance::FadingMoveTabu {
+                hard_tenure: 1,
+                fading_tenure: 4,
+                aspiration: true,
+                seed: 77,
+            },
+            Acceptance::FadingVariableTabu {
+                hard_tenure: 1,
+                fading_tenure: 4,
+                aspiration: true,
+                seed: 20261229,
+            },
+            Acceptance::SimulatedAnnealing {
+                starting_temperature: HardSoftScore::new(1, 20),
+                seed: 73,
+                cooling_steps: 10,
+            },
+        ]
+        .into_iter()
+        .flat_map(|a| [(a, &[][..]), (a, &extras[..])])
+        {
+            for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
+                for max_evaluations in [0, 1, 2, 37, 1000] {
+                    for shuffled in [false, true] {
+                        let config = LocalSearchConfig {
+                            max_evaluations,
+                            max_steps: 6,
+                            acceptance,
+                            additional_acceptance,
+                            selection,
+                            neighborhood: Neighborhood::ChangeAndSwap,
+                            move_order: if shuffled {
+                                MoveOrder::ShuffledVariables { seed: 15 }
+                            } else {
+                                MoveOrder::Original
+                            },
+                            rejected_moves: RejectedMovePolicy::BestScore,
+                            assert_scores: true,
+                            ..Default::default()
+                        };
+                        let expected =
+                            list_local_search_from(&p, &n, initial.clone(), config).unwrap();
+                        let (g, s) = route_graph();
+                        let actual =
+                            list_stream_local_search_from(&p, g, s, initial.clone(), config)
+                                .unwrap();
+                        assert_eq!(actual.best, expected.best);
+                        assert_eq!(
+                            (
+                                actual.evaluations,
+                                actual.accepted_moves,
+                                actual.completed_steps,
+                                actual.termination
+                            ),
+                            (
+                                expected.evaluations,
+                                expected.accepted_moves,
+                                expected.completed_steps,
+                                expected.termination
+                            )
+                        );
+                        if let Some(best) = actual.best {
+                            assert_eq!(best.score, route_score(&best.assignment));
+                        }
                     }
                 }
             }

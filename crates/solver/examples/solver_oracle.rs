@@ -8,7 +8,9 @@ use timetuck::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().skip(1).collect();
+    let pooled = args.as_slice() == ["pooled"];
     let strategy = match args.as_slice() {
+        [_] if pooled => None,
         [] => None,
         [order, trend] => Some(BoundedPhaseConfig {
             exploration: match order.as_str() {
@@ -21,16 +23,35 @@ fn main() -> Result<(), Box<dyn Error>> {
             max_frontier: 1_000_000,
             bound: PartialScoreBound::Trend(InitializingScoreTrend::parse(trend, 2)?),
         }),
-        _ => return Err("expected order and trend, or no arguments".into()),
+        _ => return Err("expected pooled, order and trend, or no arguments".into()),
     };
     for line in io::stdin().lock().lines() {
         let line = line?;
-        if strategy.is_some() && line.split('\t').count() != 6 {
+        if (pooled || strategy.is_some()) && line.split('\t').count() != 6 {
             return Err("trend adapter requires homogeneous required domains".into());
         }
 
         let case = solver_support::Case::parse(&line, false)?;
-        let best = if let Some(strategy) = &strategy {
+        let best = if pooled {
+            let len = case.problem.variables().len();
+            let mut network = ConstraintNetwork::new(len);
+            network.add_constraint("objective", (0..len).collect(), |v| {
+                case.score_by(|i| v[i].copied())
+            })?;
+            let r = greedy_construction(
+                &case.problem,
+                &network,
+                ConstructionConfig {
+                    placement: ConstructionPlacement::Pooled,
+                    max_evaluations: u64::MAX,
+                    ..Default::default()
+                },
+            )?;
+            if r.termination != ConstructionTermination::Completed {
+                return Err("incomplete pooled construction".into());
+            }
+            r.solution().ok_or("missing constructed solution")?
+        } else if let Some(strategy) = &strategy {
             let len = case.problem.variables().len();
             let mut network = ConstraintNetwork::new(len);
             network.add_constraint("objective", (0..len).collect(), |v| {

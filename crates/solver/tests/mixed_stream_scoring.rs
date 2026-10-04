@@ -238,48 +238,54 @@ fn small_network() -> MixedConstraintNetwork<'static, i32, i32, SimpleScore> {
 }
 #[test]
 fn construction_matches_scoped_selection_for_both_orders_policies_and_budget_prefixes() {
-    let p = small(true);
-    let n = small_network();
-    let calls = Cell::new(0);
-    for order in [
-        MixedConstructionOrder::BasicThenLists,
-        MixedConstructionOrder::ListsThenBasic,
+    for placement in [
+        ConstructionPlacement::Sequential,
+        ConstructionPlacement::Pooled,
     ] {
-        for pick_early in [
-            ConstructionPickEarly::Never,
-            ConstructionPickEarly::FirstNonDeterioratingScore,
-            ConstructionPickEarly::FirstFeasibleScore,
-            ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+        let p = small(true);
+        let n = small_network();
+        let calls = Cell::new(0);
+        for order in [
+            MixedConstructionOrder::BasicThenLists,
+            MixedConstructionOrder::ListsThenBasic,
         ] {
-            for max_evaluations in 0..=7 {
-                let config = MixedConstructionConfig {
-                    order,
-                    construction: ConstructionConfig {
-                        max_steps: None,
-                        optional: timetuck::OptionalConstruction::Preserve,
-                        cancellation: None,
-                        max_move_evaluations: None,
-                        max_time: None,
-                        max_evaluations,
-                        pick_early,
-                        assert_scores: false,
-                    },
-                };
-                let expected = greedy_mixed_construction(&p, &n, config).unwrap();
-                calls.set(0);
-                let (g, s) = small_graph(&calls);
-                let actual = greedy_mixed_stream_construction(&p, g, s, config).unwrap();
-                assert_eq!(calls.get(), actual.constraint_evaluations);
-                assert_eq!(actual.assignment, expected.assignment);
-                assert_eq!(actual.score, expected.score);
-                assert_eq!(actual.complete, expected.complete);
-                assert_eq!(actual.evaluations, expected.evaluations);
-                assert_eq!(actual.termination, expected.termination);
-                assert_eq!(
-                    actual.assigned_basic_variables,
-                    expected.assigned_basic_variables
-                );
-                assert_eq!(actual.assigned_list_values, expected.assigned_list_values);
+            for pick_early in [
+                ConstructionPickEarly::Never,
+                ConstructionPickEarly::FirstNonDeterioratingScore,
+                ConstructionPickEarly::FirstFeasibleScore,
+                ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+            ] {
+                for max_evaluations in 0..=7 {
+                    let config = MixedConstructionConfig {
+                        order,
+                        construction: ConstructionConfig {
+                            placement,
+                            max_steps: None,
+                            optional: timetuck::OptionalConstruction::Preserve,
+                            cancellation: None,
+                            max_move_evaluations: None,
+                            max_time: None,
+                            max_evaluations,
+                            pick_early,
+                            assert_scores: false,
+                        },
+                    };
+                    let expected = greedy_mixed_construction(&p, &n, config).unwrap();
+                    calls.set(0);
+                    let (g, s) = small_graph(&calls);
+                    let actual = greedy_mixed_stream_construction(&p, g, s, config).unwrap();
+                    assert_eq!(calls.get(), actual.constraint_evaluations);
+                    assert_eq!(actual.assignment, expected.assignment);
+                    assert_eq!(actual.score, expected.score);
+                    assert_eq!(actual.complete, expected.complete);
+                    assert_eq!(actual.evaluations, expected.evaluations);
+                    assert_eq!(actual.termination, expected.termination);
+                    assert_eq!(
+                        actual.assigned_basic_variables,
+                        expected.assigned_basic_variables
+                    );
+                    assert_eq!(actual.assigned_list_values, expected.assigned_list_values);
+                }
             }
         }
     }

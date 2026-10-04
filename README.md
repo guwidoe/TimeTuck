@@ -150,8 +150,8 @@ Local search supports strict improvement, hill climbing, late acceptance,
 variable tabu, seeded fading variable tabu, and seeded simulated annealing, with original or seeded variable order. Candidate selection supports first/best accepted moves, early improvement over the current or best score, per-step accepted-candidate limits, and first or seeded random ties. See `docs/incremental-search-contract.md`
 for limits and evidence. Optional diminished-returns termination compares exact
 sliding-window improvement rates after initialization and stops individual local
-phases. Greedy construction evaluates values before choosing each
-unassigned required variable; `local_search_from` improves the resulting assignment.
+phases. Greedy construction can visit one item at a time or use pooled cheapest
+insertion across all eligible missing items; `local_search_from` improves the resulting assignment.
 For ordered lists, `greedy_list_construction` inserts missing required values and
 `list_local_search_from` improves a complete assignment with lazy relocation,
 assignment, unassignment, swap and replacement moves. See

@@ -111,46 +111,53 @@ fn problem(initial: bool) -> FiniteProblem<usize> {
 }
 #[test]
 fn construction_policies_budgets_and_phase_handoff_match_full_scoring() {
-    let p = problem(false);
-    let network = network(5);
-    for policy in [
-        ConstructionPickEarly::Never,
-        ConstructionPickEarly::FirstNonDeterioratingScore,
-        ConstructionPickEarly::FirstFeasibleScore,
-        ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+    for placement in [
+        ConstructionPlacement::Sequential,
+        ConstructionPlacement::Pooled,
     ] {
-        for budget in [0, 1, 2, 4, 8, 100] {
-            let config = ConstructionConfig {
-                max_steps: None,
-                optional: timetuck::OptionalConstruction::Preserve,
-                cancellation: None,
-                max_move_evaluations: None,
-                max_time: None,
-                max_evaluations: budget,
-                pick_early: policy,
-                assert_scores: true,
-            };
-            let expected = greedy_construction(&p, &network, config).unwrap();
-            let (g, s) = graph(Rc::new(Cell::new(0)));
-            let actual = greedy_stream_construction(&p, g, s, config).unwrap();
-            assert_eq!(actual.assignment, expected.assignment);
-            assert_eq!(actual.score, expected.score);
-            assert_eq!(actual.complete, expected.complete);
-            assert_eq!(actual.termination, expected.termination);
-            assert_eq!(actual.evaluations, expected.evaluations);
-            assert_eq!(actual.assigned_variables, expected.assigned_variables);
-            if let Some(solution) = actual.solution() {
-                let config = LocalSearchConfig {
-                    max_evaluations: 80,
+        let p = problem(false);
+        let network = network(5);
+        for policy in [
+            ConstructionPickEarly::Never,
+            ConstructionPickEarly::FirstNonDeterioratingScore,
+            ConstructionPickEarly::FirstFeasibleScore,
+            ConstructionPickEarly::FirstFeasibleScoreOrNonDeterioratingHard,
+        ] {
+            for budget in [0, 1, 2, 4, 8, 100] {
+                let config = ConstructionConfig {
+                    placement,
+                    max_steps: None,
+                    optional: timetuck::OptionalConstruction::Preserve,
+                    cancellation: None,
+                    max_move_evaluations: None,
+                    max_time: None,
+                    max_evaluations: budget,
+                    pick_early: policy,
                     assert_scores: true,
-                    ..Default::default()
                 };
-                let expected =
-                    local_search_from(&p, &network, solution.assignment.clone(), config).unwrap();
+                let expected = greedy_construction(&p, &network, config).unwrap();
                 let (g, s) = graph(Rc::new(Cell::new(0)));
-                let actual =
-                    stream_local_search_from(&p, g, s, solution.assignment, config).unwrap();
-                compare(actual, expected);
+                let actual = greedy_stream_construction(&p, g, s, config).unwrap();
+                assert_eq!(actual.assignment, expected.assignment);
+                assert_eq!(actual.score, expected.score);
+                assert_eq!(actual.complete, expected.complete);
+                assert_eq!(actual.termination, expected.termination);
+                assert_eq!(actual.evaluations, expected.evaluations);
+                assert_eq!(actual.assigned_variables, expected.assigned_variables);
+                if let Some(solution) = actual.solution() {
+                    let config = LocalSearchConfig {
+                        max_evaluations: 80,
+                        assert_scores: true,
+                        ..Default::default()
+                    };
+                    let expected =
+                        local_search_from(&p, &network, solution.assignment.clone(), config)
+                            .unwrap();
+                    let (g, s) = graph(Rc::new(Cell::new(0)));
+                    let actual =
+                        stream_local_search_from(&p, g, s, solution.assignment, config).unwrap();
+                    compare(actual, expected);
+                }
             }
         }
     }

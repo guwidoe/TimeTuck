@@ -1470,3 +1470,51 @@ all six actual search paths; another checks phase handoff and a 50-second factor
 initialization delay. These original checks earn no extra source-method credit.
 Java wall-clock traces, internal ring-buffer storage and dedicated performance
 comparisons for diminished returns are not claimed.
+
+## Pooled construction (cheapest insertion)
+
+ConstructionConfig::placement defaults to Sequential. Pooled compares assignments
+for every eligible missing basic variable or list value in each step. The highest
+score wins; equal scores preserve model/domain or registry/entity/index order.
+With pick_early=Never, this follows the pinned public cheapest-insertion algorithm.
+Other early-pick policies intentionally truncate the pool. Each winning placement
+is installed from its saved score/cache without callback replay. Already assigned
+values, pins and initial list order remain fixed. All six scoring/model paths and
+ordered construction phases use the same selection machinery.
+
+For mixed models, basic and list candidates compete in one pool. The configured
+component order determines encounter order for ties and early picks, rather than
+requiring one whole component to finish first. Each chosen move assigns exactly
+one item. Required assignment reduces the native structural deficit, which ranks
+ahead of optional placements. OptionalConstruction::Preserve skips optional values;
+NonWorsening accepts only placements at least as good as the current score. A
+rejected optional item can become useful after another placement, so it is
+reconsidered on the next pool scan. An entirely rejected pool ends construction.
+This never searches worsening combinations of optional assignments.
+
+A step is a whole pool scan with at least one evaluated candidate, including an
+interrupted scan or the final rejected optional pool. Candidate/evaluation caps,
+cancellation and cooperative time retain the best evaluated prefix. A step cap
+ends between scans. Empty pools consume no steps. No global optimality or hard
+feasibility follows from Completed. Repeated scans generally cost more than
+sequential construction: n required variables with d values need d*n*(n+1)/2
+trials when all start unassigned and early picking is disabled. The implementation
+enumerates moves lazily, retaining indices/eligible values plus the best candidate;
+it does not materialize a vector of all candidate assignments.
+
+Original references cover global order, every basic evaluation-budget prefix,
+non-worsening optional reconsideration, pinned list prefixes and owner ranges,
+coupled mixed scores, deterministic ties and owned decimal scores. Existing
+scoped/stream matrices now run both placements across policies and budgets.
+Injected-clock, cancellation and candidate-budget checks cover all six paths.
+No pinned source method is credited: PooledEntityPlacerTest also checks Java
+mock lifecycle/copy interactions that these native tests do not reproduce.
+
+The public Java comparison has 66 original required homogeneous-domain graph
+cases with pins and signed weights. CHEAPEST_INSERTION disables entity/value
+sorting and uses NEVER early picking. Native assignments must match independent
+Python reconstruction of every greedy candidate; both runtimes must return valid
+assignments with independently recomputed scores. Final score agreement, selected
+assignment agreement and exhaustive optimum counts are recorded separately.
+This establishes neither intermediate Java traces nor list/mixed Java pooled
+behavior, performance parity or adapted upstream-method coverage.

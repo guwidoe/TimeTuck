@@ -1474,3 +1474,13 @@ boundaries, injected clocks and delayed factory/handoff tests are original evide
 Native multi-level reset rules, sticky expiry and late-grace behavior are documented
 in the incremental-search contract; Java timed traces and a dedicated rate-policy
 performance comparison are not claimed.
+
+
+Pooled construction independently implements the pinned public cheapest-insertion
+algorithm across native basic/list/mixed models and both scoring backends. Original
+references, budget/clock checks and backend comparisons support its native contract.
+PooledEntityPlacerTest remains pending because its mock lifecycle/copy assertions
+are not adapted. A separate public-Java comparison retains 66 original graph cases
+with independently validated greedy results and quality counts; it earns no
+additional upstream-method credit. Java list/mixed pooled construction and dedicated
+performance measurements remain outside that comparison.

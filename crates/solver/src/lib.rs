@@ -54,8 +54,8 @@ pub use forager::{FinalistRanking, ForagerConfig, InvalidFinalistIndex, MoveFora
 
 pub mod construction;
 pub use construction::{
-    ConstructionConfig, ConstructionPickEarly, ConstructionResult, ConstructionTermination,
-    OptionalConstruction, greedy_construction, greedy_construction_from,
+    ConstructionConfig, ConstructionPickEarly, ConstructionPlacement, ConstructionResult,
+    ConstructionTermination, OptionalConstruction, greedy_construction, greedy_construction_from,
 };
 
 pub mod move_acceptance;
