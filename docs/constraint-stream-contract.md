@@ -1331,3 +1331,19 @@ independent group-closure reference. Complete snapshots avoid asserting schedule
 assembled from partially updated phase rows. List snapshot construction and
 edge-change topology rebuilding still visit the full relevant structure; cached
 suppliers do not imply constant-time moves or measured speed parity with Java.
+
+
+## Indexed dependency scheduling
+
+DependencyCache uses fixed internal indices for reverse links, dirty roots,
+component-rank lookups and the ready queue. Indices follow sorted declared keys,
+so supplier inputs, deterministic callback order and returned changed keys retain
+their key-based meaning. Public snapshots remain SnapshotMap<K, DerivedValue<V>>;
+indices never escape as user keys. Supplied dirty keys resolve to declared topology
+keys. Scheduling consumers no longer clones their keys or repeatedly searches the
+key-to-index map. Edge changes still rebuild topology and reverse links.
+
+A 1,024-consumer regression uses shuffled string keys and checks full callback
+order, equality cutoffs, negligible key cloning during scheduling, and atomic
+rollback when cloning a final changed key panics. Existing exhaustive graph,
+stream transaction, saved-candidate and public concurrent checks remain required.

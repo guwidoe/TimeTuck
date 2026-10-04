@@ -1032,3 +1032,10 @@ Source and destination positions must differ because Java rejects same-position
 moves. This is an explicit input contract, checked before either runtime starts.
 The existing partial-group error cases remain in the separate correctness report;
 benchmark failures abort rather than discarding cases. No upstream method credit.
+
+
+The dependency cache's internal scheduler now uses dense stable indices for
+reverse links and queue entries. Public keys, callback inputs and changed-key
+ordering remain key-based. The new string-key fanout/late-clone-panic regression
+is original and earns no additional upstream method credit. Value storage still
+uses persistent snapshots, and changed edges still rebuild the topology.

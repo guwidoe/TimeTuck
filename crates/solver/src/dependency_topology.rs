@@ -65,11 +65,21 @@ impl<K: Ord + Clone> DependencyTopology<K> {
     pub fn keys(&self) -> &[K] {
         &self.keys
     }
-    fn lookup(&self, key: &K) -> Result<usize, DependencyError<K>> {
+    pub(crate) fn lookup(&self, key: &K) -> Result<usize, DependencyError<K>> {
         self.index
             .get(key)
             .copied()
             .ok_or_else(|| DependencyError::UnknownNode(key.clone()))
+    }
+    // Stable dense IDs follow sorted keys; the fixed universe never reindexes.
+    pub(crate) fn dependency_indices(&self, index: usize) -> &BTreeSet<usize> {
+        &self.edges[index]
+    }
+    pub(crate) fn rank_at(&self, index: usize) -> usize {
+        self.ranks[self.component_of[index]]
+    }
+    pub(crate) fn cyclic_at(&self, index: usize) -> bool {
+        self.cyclic[index]
     }
     pub fn component(&self, key: &K) -> Result<&[K], DependencyError<K>> {
         Ok(&self.components[self.component_of[self.lookup(key)?]])

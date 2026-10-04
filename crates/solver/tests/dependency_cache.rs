@@ -349,3 +349,115 @@ fn equality_panic_after_staged_changes_preserves_the_original_snapshot() {
     assert_eq!(cache.values(), saved.values());
     assert_eq!(cache.topology(), saved.topology());
 }
+
+#[test]
+fn wide_fanout_schedules_without_cloning_keys_and_late_clone_panic_is_atomic() {
+    use std::cmp::Ordering;
+    struct Key {
+        name: String,
+        clones: Rc<Cell<usize>>,
+        panic_at: Rc<Cell<Option<usize>>>,
+    }
+    impl Clone for Key {
+        fn clone(&self) -> Self {
+            let n = self.clones.get() + 1;
+            self.clones.set(n);
+            assert_ne!(self.panic_at.get(), Some(n), "key clone");
+            Self {
+                name: self.name.clone(),
+                clones: self.clones.clone(),
+                panic_at: self.panic_at.clone(),
+            }
+        }
+    }
+    impl PartialEq for Key {
+        fn eq(&self, other: &Self) -> bool {
+            self.name == other.name
+        }
+    }
+    impl Eq for Key {}
+    impl PartialOrd for Key {
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some(self.cmp(other))
+        }
+    }
+    impl Ord for Key {
+        fn cmp(&self, other: &Self) -> Ordering {
+            self.name.cmp(&other.name)
+        }
+    }
+    let clones = Rc::new(Cell::new(0));
+    let panic_at = Rc::new(Cell::new(None));
+    let key = |name: String| Key {
+        name,
+        clones: clones.clone(),
+        panic_at: panic_at.clone(),
+    };
+    let root = key("root".into());
+    let mut topology = DependencyTopology::new(
+        (0..1024)
+            .rev()
+            .map(|i| key(format!("leaf-{i:04}")))
+            .chain([root.clone()]),
+    )
+    .unwrap_or_else(|_| panic!("topology"));
+    let edges: Vec<_> = (0..1024)
+        .map(|i| (key(format!("leaf-{i:04}")), root.clone()))
+        .collect();
+    topology
+        .update(&[], &edges)
+        .unwrap_or_else(|_| panic!("edges"));
+    let mut cache = DependencyCache::new(topology, |k, inputs| {
+        if k.name == "root" {
+            assert!(inputs.is_empty());
+            Some(0)
+        } else {
+            assert_eq!(inputs[0].0.name, "root");
+            Some(5)
+        }
+    });
+    clones.set(0);
+    let mut calls = vec![];
+    let changed = cache
+        .update(&[], &[], std::slice::from_ref(&root), |k, inputs| {
+            calls.push(k.name.clone());
+            if k.name == "root" {
+                Some(1)
+            } else {
+                assert_eq!(inputs.len(), 1);
+                assert_eq!(inputs[0].0.name, "root");
+                assert_eq!(inputs[0].1.value, Some(1));
+                Some(5)
+            }
+        })
+        .unwrap_or_else(|_| panic!("update"));
+    assert_eq!(
+        changed.iter().map(|k| k.name.as_str()).collect::<Vec<_>>(),
+        ["root"]
+    );
+    assert_eq!(calls[0], "root");
+    assert_eq!(
+        calls[1..],
+        (0..1024)
+            .map(|i| format!("leaf-{i:04}"))
+            .collect::<Vec<_>>()
+    );
+    assert!(clones.get() < 10, "scheduling cloned {} keys", clones.get());
+    let before = cache.clone();
+    clones.set(0);
+    panic_at.set(Some(2));
+    assert!(
+        catch_unwind(AssertUnwindSafe(|| {
+            cache
+                .update(&[], &[], std::slice::from_ref(&root), |k, _| {
+                    Some(if k.name == "root" { 2 } else { 5 })
+                })
+                .unwrap_or_else(|_| panic!("update"));
+        }))
+        .is_err()
+    );
+    panic_at.set(None);
+    assert!(cache.values() == before.values());
+    assert!(cache.topology() == before.topology());
+    assert_eq!(cache.values()[&root].value, Some(1));
+}

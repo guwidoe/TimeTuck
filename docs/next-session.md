@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 639 fully adapted source test methods, recorded individually in
+- 671 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -5734,3 +5734,80 @@ three-node/exhaustive topology, panic/transaction and public field checks. Furth
 Community method families remain pending; do not redefine completion as benchmark
 parity. GraphStructureTest and ListVariableShadowVariablesTest were inspected only
 as possible future specifications this turn; no claims or adaptations were added.
+
+## Indexed dependency-cache scheduling
+
+Profiled the pre-change 64-visit swap in an isolated ignored copy under
+work/dependency-profile, using coarse Instant timers around cache update stages.
+No profiler executable was available. Across 2,004 updates, median total update
+was 167,848 ns: topology clone 8,402; topology update 31,063; reverse-plan creation
+29,684; value propagation 87,012. Aggregate shares approximately 5%, 19%, 18%, 52%.
+Timer instrumentation and I/O make these diagnostic stage measurements, not dashboard
+benchmarks. The original release executable is retained at work/concurrent-baseline.
+
+Production DependencyCache now resolves dirty keys to stable topology indices and
+uses Vec<Vec<usize>> reverse links plus (rank,index) ready entries. Rank, cycle and
+dependency traversal use private indexed topology accessors, removing repeated
+key searches and consumer-key clones. Public keyed SnapshotMap values, sorted
+supplier inputs and changed-key results remain. Suppliers receive declared topology
+keys. The fixed sorted key universe never reindexes. Edge updates still rebuild
+SCC/rank topology; this increment does not claim fully dynamic SCC maintenance.
+
+One original 1,024-consumer fanout regression uses shuffled string keys, verifies
+exact callback order and equal-value cutoffs, requires fewer than ten key clones
+when only the root value changes, and checks rollback when final changed-key
+cloning panics after evaluation. Existing exhaustive small graphs, 20,000-node
+stack-safe topology, stream transactions and saved-search checks pass. No new
+upstream credit or fixture adaptation.
+
+An alternating before/after run (three processes per runtime/workload, three warmup
+batches, seven measured batches, 200 transactions each) validates every output via
+benchmark_concurrent.parse_batch. Median milliseconds before/after: swap16
+0.039960/0.030565; swap64 0.211345/0.168488; relocate16 0.042174/0.039749;
+relocate64 0.130116/0.109233. Raw samples are in
+work/indexed-cache-before-after.json. These same-machine results indicate about a
+20% lower median for swap64, with the usual shared-machine/no-significance limits.
+
+Final-source full gate passes 1,438 Rust tests (671 adapted, 692 original
+integration, 75 unit), 74 doctests and 136 Python tests. Sources frozen before the
+release/full comparison refresh, session 20915, logs work/indexed-cache-*. Do not
+restart quiet optimized compilation without authoritative terminal evidence.
+
+Next feature candidate researched during compilation: consecutive-sequence
+collectors. Read only pinned test sources and public interface signatures:
+InnerUniConstraintCollectorsTest.toConsecutiveSequences (lines ~857) and
+.toConsecutiveSequencesUpdate (~1295); AbstractConstraintCollectorsTest's
+buildSequenceChain helper (~78); ConsecutiveSetTreeTest's 12 methods and its helper
+fixtures. No implementation/adaptation or provenance credit yet. Public Sequence,
+SequenceChain and Break expose items/count/length, endpoint items, first/last flags,
+and neighboring breaks. Before implementation, probe the public collector to
+establish complete field semantics, especially duplicate identity vs duplicate
+index, sequence length vs break length, and mutable-value retraction.
+
+Important observed test distinctions: repeated insertion of the SAME logical
+value increments multiplicity but does not increase sequence item count; distinct
+values can share the same index. The testDuplicateNumbers case inserts one object
+three times at index 3, counts three total distinct items [1,2,3], then removes all
+three occurrences and mutates the removed object. Random tests retain exact seeded
+1,000-step operations with threshold 2; the duplicate-index test uses absolute
+values and identity tie-breaking. The timestamp fixture uses fixed UTC January
+2000 values with one-day spacing. Adapt full assertions and helper identities;
+do not replace the expected-chain helper with the native implementation under test.
+Native snapshots may be immutable, but any change from Java's live views/tie order
+must be explicit. A useful implementation must integrate with reversible grouping,
+transactions and solver search, not only pass a standalone scaffold.
+
+Release all-target verification passes 1,438 tests after a 6m22s build. Fresh
+concurrent transactions pass all 64 generated cases and every measured sample.
+Final Rust/Java median milliseconds: swap16 0.035118/0.085286, swap64
+0.172297/0.126979, relocate16 0.028380/0.078023, relocate64
+0.099390/0.122089. The 64-visit swap remains slower than Java despite the native
+before/after improvement. Public full-field concurrent validation remains
+107/128 Java agreement, 21 explicit Java errors and 2,385 native observations.
+
+Refresh process 20915 completed exit 0. All eleven datasets are current; report
+verification succeeds and source/report/live-server fingerprints match. Coverage
+remains 671/4,855 (13.82%), pending 3,902, excluded 282, failed/unverified zero.
+Dashboard browser verification shows all 33 cards, final concurrent timings,
+no overflow, stale messages or page errors. Browser closed; existing localhost:8765
+server stays running. UI code did not change in this backend-only increment.

@@ -1,31 +1,17 @@
 //! Incremental derived values over explicit mutable dependencies.
 use crate::{DependencyError, DependencyTopology, DerivedValue, SnapshotMap};
-use std::{
-    collections::{BTreeMap, BTreeSet},
-    sync::Arc,
-};
+use std::{collections::BTreeSet, sync::Arc};
 
 struct Plan<K> {
     topology: DependencyTopology<K>,
-    consumers: BTreeMap<K, Vec<K>>,
+    consumers: Vec<Vec<usize>>,
 }
 impl<K: Ord + Clone> Plan<K> {
     fn new(topology: DependencyTopology<K>) -> Self {
-        let mut consumers: BTreeMap<_, Vec<_>> = topology
-            .keys()
-            .iter()
-            .cloned()
-            .map(|k| (k, vec![]))
-            .collect();
-        for key in topology.keys() {
-            for dependency in topology
-                .dependencies(key)
-                .unwrap_or_else(|_| unreachable!("declared node"))
-            {
-                consumers
-                    .get_mut(dependency)
-                    .expect("declared dependency")
-                    .push(key.clone());
+        let mut consumers = vec![vec![]; topology.keys().len()];
+        for index in 0..topology.keys().len() {
+            for &dependency in topology.dependency_indices(index) {
+                consumers[dependency].push(index);
             }
         }
         Self {
@@ -35,15 +21,11 @@ impl<K: Ord + Clone> Plan<K> {
     }
     fn derive<V>(
         &self,
-        key: &K,
+        index: usize,
         values: &SnapshotMap<K, DerivedValue<V>>,
         evaluate: &mut impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Option<V>,
     ) -> DerivedValue<V> {
-        if self
-            .topology
-            .is_cyclic(key)
-            .unwrap_or_else(|_| unreachable!("declared node"))
-        {
+        if self.topology.cyclic_at(index) {
             return DerivedValue {
                 value: None,
                 inconsistent: true,
@@ -51,10 +33,12 @@ impl<K: Ord + Clone> Plan<K> {
         }
         let inputs: Vec<_> = self
             .topology
-            .dependencies(key)
-            .unwrap_or_else(|_| unreachable!("declared node"))
-            .into_iter()
-            .map(|k| (k, &values[k]))
+            .dependency_indices(index)
+            .iter()
+            .map(|&i| {
+                let key = &self.topology.keys()[i];
+                (key, &values[key])
+            })
             .collect();
         if inputs.iter().any(|(_, v)| v.inconsistent) {
             DerivedValue {
@@ -63,15 +47,13 @@ impl<K: Ord + Clone> Plan<K> {
             }
         } else {
             DerivedValue {
-                value: evaluate(key, &inputs),
+                value: evaluate(&self.topology.keys()[index], &inputs),
                 inconsistent: false,
             }
         }
     }
-    fn rank(&self, key: &K) -> usize {
-        self.topology
-            .rank(key)
-            .unwrap_or_else(|_| unreachable!("declared node"))
+    fn rank(&self, index: usize) -> usize {
+        self.topology.rank_at(index)
     }
 }
 
@@ -91,6 +73,8 @@ impl<K: Ord + Clone> Plan<K> {
 /// cannot be undone. Clone shares immutable topology and persistent value roots,
 /// supporting trial snapshots even for non-Clone values. Changed edges rebuild
 /// topology/reverse indexes; value-only updates do not scan all nodes.
+/// Scheduling and reverse links use stable internal indices. Suppliers receive
+/// the declared topology keys; changed-key results remain sorted by key.
 ///
 /// ```
 /// use timetuck::*;
@@ -126,12 +110,12 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         mut evaluate: impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Option<V>,
     ) -> Self {
         let plan = Arc::new(Plan::new(topology));
-        let mut ordered: Vec<_> = plan.topology.keys().iter().collect();
-        ordered.sort_by_key(|k| plan.rank(k));
+        let mut ordered: Vec<_> = (0..plan.topology.keys().len()).collect();
+        ordered.sort_by_key(|&i| plan.rank(i));
         let mut values = SnapshotMap::new();
-        for key in ordered {
-            let value = plan.derive(key, &values, &mut evaluate);
-            values.insert(key.clone(), value);
+        for index in ordered {
+            let value = plan.derive(index, &values, &mut evaluate);
+            values.insert(plan.topology.keys()[index].clone(), value);
         }
         Self { plan, values }
     }
@@ -153,38 +137,46 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
     ) -> Result<Vec<K>, DependencyError<K>> {
         let mut roots = BTreeSet::new();
         for key in dirty {
-            self.plan.topology.rank(key)?;
-            roots.insert(key.clone());
+            roots.insert(self.plan.topology.lookup(key)?);
         }
         let mut plan = self.plan.clone();
         if !removals.is_empty() || !additions.is_empty() {
             let mut topology = self.plan.topology.clone();
             let toggled = topology.update(removals, additions)?;
             if topology != self.plan.topology {
-                roots.extend(toggled);
+                for key in toggled {
+                    roots.insert(topology.lookup(&key)?);
+                }
                 for (key, _) in removals.iter().chain(additions) {
-                    if self.plan.topology.dependencies(key)? != topology.dependencies(key)? {
-                        roots.insert(key.clone());
+                    let index = topology.lookup(key)?;
+                    if self.plan.topology.dependency_indices(index)
+                        != topology.dependency_indices(index)
+                    {
+                        roots.insert(index);
                     }
                 }
                 plan = Arc::new(Plan::new(topology));
             }
         }
-        let mut ready: BTreeSet<_> = roots.into_iter().map(|k| (plan.rank(&k), k)).collect();
+        let mut ready: BTreeSet<_> = roots.into_iter().map(|i| (plan.rank(i), i)).collect();
         let mut values = self.values.clone();
         let mut changed = BTreeSet::new();
-        while let Some((_, key)) = ready.pop_first() {
-            let value = plan.derive(&key, &values, &mut evaluate);
-            if values[&key] != value {
+        while let Some((_, index)) = ready.pop_first() {
+            let key = &plan.topology.keys()[index];
+            let value = plan.derive(index, &values, &mut evaluate);
+            if values[key] != value {
                 values.insert(key.clone(), value);
-                changed.insert(key.clone());
-                for consumer in &plan.consumers[&key] {
-                    ready.insert((plan.rank(consumer), consumer.clone()));
+                changed.insert(index);
+                for &consumer in &plan.consumers[index] {
+                    ready.insert((plan.rank(consumer), consumer));
                 }
             }
         }
         // All callbacks, comparisons and allocations finish before installation.
-        let changed = changed.into_iter().collect();
+        let changed = changed
+            .into_iter()
+            .map(|i| plan.topology.keys()[i].clone())
+            .collect();
         self.plan = plan;
         self.values = values;
         Ok(changed)
