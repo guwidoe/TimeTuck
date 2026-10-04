@@ -450,3 +450,6 @@ mod list_mass_assignment;
 pub use list_mass_assignment::{
     list_mass_assign_moves, list_mass_unassign_moves, sample_list_mass_unassign_moves,
 };
+
+mod list_k_opt;
+pub use list_k_opt::{ListKOptConfig, ListKOptError, list_k_opt_moves};

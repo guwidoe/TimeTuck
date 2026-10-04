@@ -497,3 +497,9 @@ their in-method fixtures, and the ranged-list fixture's empty-list constructor.
 Apache-2.0 notices and precise paths/revision/substitutions are in provenance.
 The singleton unassignment assertion retains fifty draws through a bounded seeded
 sampler. Native generators and independent correctness regressions are original.
+
+The single-list k-opt feasibility case and eight ordered-output fixtures in
+`crates/solver/tests/list_k_opt_cases.rs` adapt `SelectorBasedKOptListMoveTest`
+from the pinned Community revision (Apache-2.0). Exact identities, substitutions,
+and the output fixtures' unadapted notification assertions are recorded in
+`compat/provenance.json`. Original exhaustive k-opt regressions are separate.

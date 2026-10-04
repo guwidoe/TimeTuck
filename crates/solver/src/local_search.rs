@@ -82,6 +82,8 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Single-list cyclic k-opt reconnections; basic variables keep changes/swaps.
+    KOpt(crate::ListKOptConfig),
     /// Assign missing list groups; requires optional lists. Basics keep changes/swaps.
     MassListAssign(crate::ListSampleSize),
     /// Unassign assigned list groups, including singletons; requires optional lists.

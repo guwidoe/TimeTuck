@@ -639,3 +639,34 @@ yet have dedicated Java/Rust quality or performance measurements; earlier gather
 list-move and repair comparisons remain separate.
 ShuffledVariables changes assignment receiver order; unassignment retains registry
 subset order. ShuffledMoves can shuffle either finite candidate stream.
+
+
+## Cyclic k-opt within one list
+
+`ListProblem::k_opt_move` removes and adds explicit undirected edges in one
+movable suffix. Endpoints are indices in the input assignment. The suffix wraps
+from its last identity to its first; pinned prefixes stay outside the cycle.
+At least three movable values and two distinct removed edges are required.
+Reconnection must have degree two everywhere and form one connected cycle.
+Self edges, repeated edges, invalid indices and disconnected subtours are errors.
+The first unpinned identity stays fixed and an explicit `first_successor` chooses
+which direction to traverse. Existing assigned payloads are preserved by ordinary
+relocations in an atomic composite. These moves remain bound to the input snapshot.
+
+`ListKOptConfig::new(minimum, maximum)` requires 2 <= minimum <= maximum.
+`list_k_opt_moves` and `Neighborhood::KOpt` lazily enumerate every anchored order
+whose undirected edge difference is within those bounds. Both directions matter
+for directed objectives. Enumeration cuts a cycle into paths, permutes/reverses
+paths and excludes retained cut edges; no unchanged edge sets or duplicate tours
+are emitted. Storage is linear per active candidate, but the search space grows
+factorially. An empty or short suffix, full pin, or oversized minimum yields none.
+Missing values and other entities remain untouched; per-entity ranges are retained.
+Basic variables keep changes/swaps; joint mixed search combines those with k-opt.
+
+This increment implements single-entity cyclic reconnection. Multi-entity k-opt
+repartitioning, Java orientation conventions, callback spans and rebase remain
+pending. Eight upstream ordered-output fixtures are attributed without method
+credit because their Java notification assertions are not adapted. The feasibility
+method preserves both boolean outcomes using native success/error results. Original
+permutation references, rollback and search tests add no upstream method credit.
+No dedicated k-opt performance comparison is available yet.

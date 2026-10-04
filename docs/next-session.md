@@ -8930,3 +8930,58 @@ stays running. Upstream unchanged.
 Next substantive candidates: general k-opt, mixed/weighted public-Java search
 comparisons, dedicated group-provider benchmarks, and profiling sparse-domain
 group enumeration. Full goal remains active, incomplete and unblocked.
+
+## Single-list cyclic k-opt (verified)
+
+Added independent graph reconnection through ListProblem::k_opt_move. Removed and
+added undirected edges use absolute indices within one movable suffix; the suffix
+wraps around its pinned prefix. Degree-two and connected-cycle checks reject bad
+edges and subtours, including repeated-edge two-vertex cycles. An explicit first
+successor chooses direction while the first unpinned identity stays anchored.
+Ordinary snapshot-bound Change composites preserve assigned payloads, pins, ranges
+and atomic scoring rollback. No production implementation inspected.
+
+ListKOptConfig validates 2 <= minimum <= maximum, without a fixed maximum k.
+list_k_opt_moves/Neighborhood::KOpt enumerate path reconnections lazily by entity,
+k, cut combination, permutation and orientations. Exact changed-edge filtering
+removes smaller exchanges; anchored-path symmetry removes duplicates; both directed
+orders are emitted. Linear active storage does not avoid factorial search size.
+Missing values and other entities remain untouched. Basic search retains ordinary
+changes/swaps; mixed joint search combines those with the cyclic list moves.
+
+Pinned public move-selector-reference.adoc documents cyclic edges and arbitrary k.
+SelectorBasedKOptListMoveTest.testIsFeasible has a full native success/error adaptation.
+The second case creates a duplicate retained edge, so DuplicateEdge rejects it
+before connectivity traversal. Eight ordered-output fixtures preserve all lists,
+pins, edges and output orders; their Java notification checks remain unadapted and
+receive no method credit. Provenance and notices record each fixture separately.
+Multi-entity k-opt repartitioning, Java orientation, callback spans and rebase remain
+pending; dedicated k-opt runtime comparisons are not yet available.
+
+Five original regressions check2586 independent permutation successors across
+suffix sizes3..7 and pinned prefixes0..2, ranges, untouched/missing values and full
+pins; every graph reconnection and iterator successor uses independent edge sets;
+all-k bounds, invalid inputs, two-direction outputs, subtours and rollback; a130-value
+list and explicit65-edge exchange; list scoped/stream plateau escape; mixed
+joint/nonjoint scoped/stream with three orders/three acceptors/five budgets.
+Existing gather basic-backend fallback test includes KOpt. Seven focused tests
+passed. Initial fixture run found the expected native error was DuplicateEdge rather
+than Disconnected; corrected the adaptation and recorded that substitution.
+
+Full gate handle5091 completed exit0; fmt/Clippy passed.
+Handle26906 completed work/kopt-verify.sh with exit0:12 focused release tests,
+16 current datasets/83 timings and all audit invariants passed.
+Verified gate totals2012Rust,106doctests,
+235Python;931/4855(raw19.176/UI19.18%),Moves170/874,pending3642/excluded282.
+Work scripts/logs: work/kopt-focused.log,-check.log,-verify.sh,-refresh.sh,-audit.py.
+Full goal remains active, incomplete and unblocked.
+
+Browser verified1440x900 and390x844:19.18%,931/4855,83 timing cards,
+Moves170/874(19.45%). K-opt class has one passed and16 pending methods, retaining
+non-credit fixtures accurately. No page errors, overflow, stale/undefined/NaN words.
+Screenshots inspected: work/kopt-desktop.png and -mobile.png. Browser closed;
+localhost:8765 remains running. Upstream unchanged.
+
+Next substantive candidates: multi-entity k-opt behavior and public-Java quality/time
+comparisons for k-opt or mixed/weighted groups. No k-opt runtime claim has been made.
+The full rewrite remains active and incomplete.

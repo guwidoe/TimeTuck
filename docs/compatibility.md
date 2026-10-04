@@ -1622,3 +1622,13 @@ metamodel or lifecycle parity is claimed. Original successor/metadata references
 cover 2,268 combinations of layouts, pin modes, ranges and sample sizes. They and
 seeded sampling, lazy groups, search, early-validation and basic-fallback checks
 earn no additional upstream-method credit.
+
+
+General single-entity cyclic k-opt now has native edge reconnection and lazy
+bounded neighborhoods, exercised in list and mixed scoped/stream search. One
+upstream feasibility method is adapted. Eight additional attributed ordered-output
+fixtures intentionally earn no method credit: their Java notification assertions
+remain pending, along with multi-entity k-opt, rebase and implicit orientation.
+Original exhaustive permutation checks cover 2,586 successor states, repeated with
+pin/range models and independently checked edge-based construction. See the list
+planning contract for scope, ordering and combinatorial cost.
