@@ -1413,3 +1413,35 @@ preserve total scores, constraint keys, match counts and ordered fact assertions
 Native signed terminal closures replace Java scoring-builder syntax, and on-demand
 typed snapshots replace Java justification-policy/director retrieval. No Java
 reflection, API, or disabled-justification lifecycle parity is claimed.
+
+## Configurable stream constraint weights
+
+`StreamGraphBuilder::score_weighted` multiplies an ordinary score weight by an
+integer match factor; positive factors reward and negative factors penalize.
+Scaling uses exact additive score arithmetic, preserving integer wrapping and
+arbitrary-precision decimals without floating-point conversion. Factors include
+the full i64 range. Signed ordinary weights are permitted by the native API;
+structural weight components are rejected. Fractional match factors are not yet
+part of this API (fractional decimal score weights are supported).
+
+`ConstraintWeightOverrides` distinguishes missing names from explicit zero and
+iterates in sorted name order. `build_with_weights` resolves overrides once before
+source initialization, rejecting unknown names, overrides of ordinary unweighted
+terminals and structural weights. Unknown-name diagnostics include all registered
+names. Rebuild the graph for another weight configuration or live solve revision;
+existing graphs retain their copied weights.
+
+Zero-weight terminals are disconnected, along with branches feeding only disabled
+constraints. Shared ancestors of active constraints continue to execute. Source
+rows remain available, and disabled handles report zero score and empty matches.
+Ordinary `score` closures returning zero are still evaluated. Weighted matches
+participate in existing transactions, score consistency checks, candidate caching
+and the explanation API. Basic/list/mixed stream solves use the same graph logic.
+Standalone scoped networks do not yet provide named weight overrides.
+
+Three weight-override source methods plus uni-stream zero-weight and duplicate-name
+methods are adapted. Java solution reflection and resetting an existing director
+are replaced by explicit native maps and graph reconstruction; inherited-solution
+annotation rejection remains pending. Independent regressions cover pruning,
+shared branches, dead joins, frozen overrides, rejected configuration, arithmetic,
+rollback, explanations and optimum changes across all three stream solve paths.

@@ -66,6 +66,12 @@ pub type ConcatenatedStreamPort<L, R, T> = StreamPort<ConcatId<L, R>, T>;
 pub enum GraphError {
     ForeignPort,
     DuplicateConstraint(String),
+    UnknownConstraintWeights {
+        unknown: Vec<String>,
+        known: Vec<String>,
+    },
+    UnweightedConstraintOverride(String),
+    StructuralConstraintWeight(String),
     StructuralContribution(String),
     FailedTransaction,
     Dependency(String),
@@ -74,6 +80,16 @@ pub enum GraphError {
 impl fmt::Display for GraphError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::UnknownConstraintWeights { unknown, known } => write!(
+                f,
+                "unknown constraint weights {unknown:?}; known constraints {known:?}"
+            ),
+            Self::UnweightedConstraintOverride(name) => {
+                write!(f, "constraint {name:?} has no configurable weight")
+            }
+            Self::StructuralConstraintWeight(name) => {
+                write!(f, "constraint {name:?} has a structural weight component")
+            }
             Self::Dependency(reason) => write!(f, "invalid derived dependency: {reason}"),
             Self::ForeignPort => f.write_str("stream port belongs to another graph"),
             Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
@@ -130,6 +146,13 @@ impl<I, T> Clone for StreamConstraint<I, T> {
 }
 
 trait Node<S: AdditiveScore> {
+    fn constraint_weight(&self) -> Option<&S> {
+        None
+    }
+    fn replace_weight(&mut self, _weight: S) {
+        unreachable!("not a weighted constraint")
+    }
+
     fn checkpoint(&self) -> Box<dyn Any>;
     fn clear(&mut self);
     fn source_events(&self) -> Vec<Event> {
@@ -631,8 +654,15 @@ where
     }
 }
 
+enum TerminalEvaluation<'a, T, S> {
+    Direct(Box<dyn Fn(&T) -> S + 'a>),
+    Weighted {
+        weight: S,
+        factor: Box<dyn Fn(&T) -> i64 + 'a>,
+    },
+}
 struct Terminal<'a, I, T, S> {
-    evaluate: Box<dyn Fn(&T) -> S + 'a>,
+    evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
     name: String,
     matches: SnapshotMap<I, (T, S)>,
@@ -640,6 +670,19 @@ struct Terminal<'a, I, T, S> {
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
     for Terminal<'_, I, T, S>
 {
+    fn constraint_weight(&self) -> Option<&S> {
+        match &self.evaluate {
+            TerminalEvaluation::Weighted { weight, .. } => Some(weight),
+            _ => None,
+        }
+    }
+    fn replace_weight(&mut self, new: S) {
+        match &mut self.evaluate {
+            TerminalEvaluation::Weighted { weight, .. } => *weight = new,
+            _ => unreachable!("unweighted terminal"),
+        }
+    }
+
     fn clear(&mut self) {
         self.total = S::ZERO;
         self.matches.clear();
@@ -676,7 +719,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
-        let contribution = change.value.as_ref().map(|value| (self.evaluate)(value));
+        let contribution = change.value.as_ref().map(|value| match &self.evaluate {
+            TerminalEvaluation::Direct(evaluate) => evaluate(value),
+            TerminalEvaluation::Weighted { weight, factor } => {
+                crate::constraint_weights::scale(weight, factor(value))
+            }
+        });
         if contribution
             .as_ref()
             .is_some_and(|score| score.structural() != 0)
@@ -1550,7 +1598,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             return Err(GraphError::DuplicateConstraint(name));
         }
         let out = self.push(Terminal::<I, T, S> {
-            evaluate: Box::new(evaluate),
+            evaluate: TerminalEvaluation::Direct(Box::new(evaluate)),
             total: S::ZERO,
             name: name.clone(),
             matches: SnapshotMap::new(),
@@ -1559,7 +1607,109 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(input.node, out.node, false);
         Ok(StreamConstraint(out))
     }
-    pub fn build(self) -> StreamGraph<'a, S> {
+    /// Score each occurrence using a configurable score weight times a signed
+    /// integer match factor. Negative factors penalize; positive factors reward.
+    /// Scaling is exact and uses the score's native addition/overflow semantics.
+    /// Zero weights disable the terminal and exclusively feeding branches at build.
+    /// Signed ordinary weights are accepted; structural components are forbidden.
+    pub fn score_weighted<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        name: impl Into<String>,
+        input: &StreamPort<I, T>,
+        weight: S,
+        factor: impl Fn(&T) -> i64 + 'a,
+    ) -> Result<StreamConstraint<I, T>, GraphError> {
+        self.validate(input)?;
+        let name = name.into();
+        if self.constraints.contains_key(&name) {
+            return Err(GraphError::DuplicateConstraint(name));
+        }
+        if weight.structural() != 0 {
+            return Err(GraphError::StructuralConstraintWeight(name));
+        }
+        let out = self.push(Terminal::<I, T, S> {
+            evaluate: TerminalEvaluation::Weighted {
+                weight,
+                factor: Box::new(factor),
+            },
+            total: S::ZERO,
+            name: name.clone(),
+            matches: SnapshotMap::new(),
+        });
+        self.constraints.insert(name, out.node);
+        self.connect(input.node, out.node, false);
+        Ok(StreamConstraint(out))
+    }
+
+    /// Resolve overrides before any source or scoring callbacks run. Unknown
+    /// names, unweighted terminals and structural weights are typed errors.
+    /// Disabled constraints remain inspectable with zero score and no matches.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let weights = [("cost".to_owned(), SimpleScore::new(3))].into_iter().collect();
+    /// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    /// let source = b.source::<usize, i64>();
+    /// b.score_weighted("cost", source.port(), SimpleScore::new(1), |n| -*n)?;
+    /// let mut g = b.build_with_weights(&weights)?;
+    /// let mut tx = g.transaction();
+    /// tx.apply(&source, TupleChange::put(0, 4))?;
+    /// tx.commit()?;
+    /// assert_eq!(g.score(), SimpleScore::new(-12));
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn build_with_weights(
+        mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<StreamGraph<'a, S>, GraphError> {
+        let unknown: Vec<_> = overrides
+            .iter()
+            .filter(|(name, _)| !self.constraints.contains_key(*name))
+            .map(|(name, _)| name.to_owned())
+            .collect();
+        if !unknown.is_empty() {
+            return Err(GraphError::UnknownConstraintWeights {
+                unknown,
+                known: self.constraints.keys().cloned().collect(),
+            });
+        }
+        for (name, weight) in overrides.iter() {
+            let node = &mut self.nodes[self.constraints[name]];
+            if node.constraint_weight().is_none() {
+                return Err(GraphError::UnweightedConstraintOverride(name.to_owned()));
+            }
+            if weight.structural() != 0 {
+                return Err(GraphError::StructuralConstraintWeight(name.to_owned()));
+            }
+            node.replace_weight(weight.clone());
+        }
+        Ok(self.build())
+    }
+
+    fn prune_disabled_constraints(&mut self) {
+        if !self.nodes.iter().any(|node| {
+            node.constraint_weight()
+                .is_some_and(|weight| *weight == S::ZERO)
+        }) {
+            return;
+        }
+        let mut needed = vec![false; self.nodes.len()];
+        for &id in self.constraints.values() {
+            needed[id] = self.nodes[id]
+                .constraint_weight()
+                .is_none_or(|weight| *weight != S::ZERO);
+        }
+        // IDs are topological: parents always precede their children.
+        for id in (0..needed.len()).rev() {
+            needed[id] |= self.edges[id].iter().any(|edge| needed[edge.node]);
+        }
+        for edges in &mut self.edges {
+            edges.retain(|edge| needed[edge.node]);
+        }
+    }
+
+    pub fn build(mut self) -> StreamGraph<'a, S> {
+        self.prune_disabled_constraints();
         StreamGraph {
             owner: self.owner,
             nodes: self.nodes,

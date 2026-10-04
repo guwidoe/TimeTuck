@@ -470,3 +470,6 @@ pub use score_explanation::{
     ConstraintExplanation, ConstraintMatchRef, DefaultJustification, ExplainedMatch, Indictment,
     ScoreExplanation,
 };
+
+mod constraint_weights;
+pub use constraint_weights::ConstraintWeightOverrides;

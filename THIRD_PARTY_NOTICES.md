@@ -525,3 +525,10 @@ methods and two shared assertion helpers from Community
 `TestdataLavishSolution` and `TestdataSimpleBigDecimalScoreSolution` (Apache-2.0).
 Exact paths, revision and native substitutions are in `compat/provenance.json`.
 The explanation implementation and separate incremental regressions are original.
+
+`crates/solver/tests/constraint_weight_cases.rs` adapts three methods from Community
+`ConstraintWeightOverridesTest` and the zero-weight/duplicate-name methods from
+`AbstractUniConstraintStreamTest`, including their test-domain weight provider,
+solution and entity fixtures. Apache-2.0 attribution, exact revision and all native
+substitutions are recorded in `compat/provenance.json`. The weighting and pruning
+implementation and separate regressions are original.

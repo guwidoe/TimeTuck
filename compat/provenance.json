@@ -14490,6 +14490,81 @@
       "upstream_test": "impactNegativeBigDecimalCustomJustifications",
       "local_test": "impact_negative_big_decimal_custom_justifications",
       "modifications": "Preserve all total-score, sole constraint-key, match-count, justification-type and ordered singleton-fact assertions, including the shared justification assertion helper. Native signed scoring closures replace Java penalize/reward/impact builders; typed on-demand snapshots replace Java match-policy/director retrieval. Integer/decimal families use native exact scores. Justification score equality additionally checked. No Java API or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConstraintWeightOverridesTest.consistentOrderOfConstraints",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/ConstraintWeightOverridesTest.java",
+      "upstream_test": "consistentOrderOfConstraints",
+      "local_test": "consistent_order_of_constraints",
+      "modifications": "Preserve the complete ordered-name equality assertion across opposite insertion orders. Native sorted weight map replaces Java Map wrapper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConstraintWeightOverridesTest.readsOverridesFromSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/ConstraintWeightOverridesTest.java",
+      "upstream_test": "readsOverridesFromSolution",
+      "local_test": "reads_overrides_from_solution",
+      "modifications": "Preserve every missing/default, supplied and explicit-zero lookup assertion. A native typed map replaces reflected solution-property discovery and Java null with Option::None; the map itself replaces the non-null weight-supplier object."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConstraintWeightOverridesTest.appliesOverridesToConstraintProvider",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/ConstraintWeightOverridesTest.java",
+      "upstream_test": "appliesOverridesToConstraintProvider",
+      "local_test": "applies_overrides_to_constraint_provider",
+      "modifications": "Preserve both complete score assertions (5, -10), both named constraints, the unknown-weight typed failure and all three names in diagnostics. Rebuild the native graph per solution weight configuration instead of resetting a Java score director; full consistency check replaces PHASE_ASSERT. No Java reflection/lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.zeroConstraintWeightDisabled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "zeroConstraintWeightDisabled",
+      "local_test": "zero_constraint_weight_disabled",
+      "modifications": "Preserve both original filter callback counts (0/3 initially, 0/1 after property change), all three assigned entities and property strings. Native source transaction replaces Java before/after property notifications. Zero disables graph branches before evaluation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.duplicateConstraintId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "duplicateConstraintId",
+      "local_test": "duplicate_constraint_id",
+      "modifications": "Preserve rejection of two constraints named duplicateConstraintName through the native typed graph error. Native builder registration replaces Java score-director construction."
     }
   ],
   "fixtures": [
@@ -17300,6 +17375,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/TestdataSimpleBigDecimalScoreSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "Retain seven distinct Generated Entity identities, five assigned value identities and three entity groups where applicable. Unused value-group objects, solution metadata and random longProperty are omitted; none affect the adapted constant scoring or explanation assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintWeightOverridesConstraintProvider.constraint_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataConstraintWeightOverridesConstraintProvider.java",
+      "upstream_test": "defineConstraints,firstConstraint,secondConstraint",
+      "modifications": "Preserve First weight reward(default1) and Second weight penalty(default0) with signed integer match factors; explicit builder replaces Java provider."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintWeightOverridesSolution.constraint_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataConstraintWeightOverridesSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain five Generated Entity identities assigned cyclically over three value identities. Omit unused solution metadata and reflection annotations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.constraint_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain two generated entity identities, first two value and entity-group memberships from generateSolution(2,5,3,2). Omit unused value-group objects and random longProperty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/constraint_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.constraint_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "stringProperty initializer",
+      "modifications": "Preserve the empty default stringProperty of generated entities; explicit custom entity properties come from the test method."
     }
   ]
 }

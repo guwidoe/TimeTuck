@@ -9277,3 +9277,22 @@ checks reused. The cancellation follow-up rebuilt/reran only5 affected targets;
 283 other Rust targets reused matching successful results. Coverage966/4855
 (19.897%),failed/unverified0. Live dashboard data and freshness matched.
 Benchmarks remain stale; no timing sweep. Full rewrite goal remains active.
+
+## Weighted stream constraints and zero-branch pruning
+
+Added score_weighted with exact signed integer match scaling, sorted explicit
+ConstraintWeightOverrides and build_with_weights. Defaults are retained unless
+replaced; explicit zero disables the terminal and exclusively feeding branches
+before source initialization, while shared active branches continue. Disabled
+constraint handles remain inspectable. Unknown names, unweighted overrides and
+structural weights are typed errors. Rebuild per weight configuration; no dynamic
+in-place graph reweighting. Fractional decimal weights work; fractional match
+factors and standalone scoped-network overrides remain unsupported.
+Five complete upstream methods adapted with provider/solution/entity fixtures and
+attribution. Six original regressions cover disabled callbacks, sharing, dead joins,
+source retention, override activation/freeze, rejection, exact integer/decimal
+scaling, rollback/explanations and optimum changes in basic/list/mixed stream solves.
+check.sh passed:2091 Rust tests,111 doctests,fmt/Clippy. Python jobs
+reused matching successful results. Coverage971/4855(20.000%),failed/unverified0.
+Live dashboard data/freshness matched. Benchmark datasets remain stale; no sweep.
+Full rewrite goal remains active.
