@@ -9129,3 +9129,74 @@ and notification behavior is not yet implemented or credited; do not assume simp
 per-list cyclic reconnection establishes it. Upstream production remains unread
 and the pinned submodule unchanged. No new provenance entries in this increment:
 all sampler tests and benchmarks are original.
+
+## Combined-cycle k-opt repartitioning (verified)
+
+Previous goal turn made verified progress: commit75ec4d8 added bounded single-list
+sampling, all gates passed and17 datasets/91 timing workloads were current.
+Current increment adds list_k_opt_repartition.rs, explicit
+ListProblem::k_opt_repartition_move and sample_list_k_opt_repartitions with
+Neighborhood::RepartitionKOpt. Concatenate selected movable suffixes into one
+cycle, reconnect using explicit combined offsets/start/successor, partition with supplied
+suffix lengths. Empty destinations/zero lengths allowed; prefixes, unselected
+lists, missing values and actual assigned payloads preserved. Target ranges checked
+before ordinary Change composites are constructed. Atomic undo uses existing code.
+Sampler combines all unpinned entities, chooses exact-k reconnections, a uniform
+cycle rotation and uniform
+weak-composition lengths, rejects retained cut edges/invalid receiving ranges;
+proposal count bounded, repeats possible, no Java distribution claim. Per-step seeds
+integrated with list/mixed cores. Basic-only fallback remains changes/swaps.
+
+Extracted cycle_order and draw_tour from existing native implementations without
+changing their order or random draws. Java production was not inspected. Source
+specifications were pinned docs and SelectorBasedKOptListMoveTest/iterator tests.
+Explicit combined-cycle edges differ from implicit Java per-list wrap boundaries;
+full Java partition/orientation parity remains pending. Two output fixtures
+(testMultiEntity2Opt,testMultiEntity4Opt) preserve initial/edges/result order with
+explicit native lengths and successor, recorded in provenance and notices but earn
+no method credit. Do not adapt the other fixtures by treating their local wrap
+edges as global edges. Existing public Java timings remain single-route only.
+
+Nine original tests cover28,070 small tour/partition states (every cycle rotation),
+all sampled small
+successors, selected entity order/pins/ranges/missing/unselected values, invalid
+length sums/entities/source state, seeded prefixes,65cuts on130values, assigned
+payloads, manual per-step seed traces, cross-owner list and coupled mixed search.
+A focused test initially compared internal constraint work across mixed backends;
+scoped and stream graphs do different work. Corrected assertions compare all
+observable search outcomes/counters except backend-specific constraint evaluations.
+The15 focused tests (9original,1fixture runner,5basic/gather) passed. Earlier
+single-list k-opt focused tests also passed after helper extraction.
+Initial gate71499 completed exit0:2029Rust,108doctests,244Python passed.
+Review then found that a fixed combined-cycle anchor would unnecessarily exclude
+valid multi-route partitions. Added explicit start/successor pairs and uniformly
+sampled rotations; independent references now cover all permutations/partitions.
+Stopped the confirmed running verification tree16090/session86121 with SIGTERM;
+terminal exit143 observed, before editing measured sources. No duplicate workflow.
+Expanded28 focused tests passed including unchanged single-list tests. Added invalid
+start/successor bounds to the existing validation test. Full gate61978 completed exit0:
+2029Rust,108doctests,244Python plus fmt/Clippy passed. Handle33930 completed
+work/kopt-repartition-verify.sh with exit0:29focused release checks,17 current
+datasets/91timings and the independent audit passed. Coverage remains931/4855.
+
+Next comparison plan: public KOptBenchmark currently validates one full route but
+its original score calculator already sums independent cyclic Manhattan distances
+across vehicles. Extend a separate multi-route adapter/protocol deliberately,
+checking complete ownership, pins, ranges, shadows and non-regression. Rust should
+use RepartitionKOpt with full-cycle rotations. Use independent small route/partition
+optima (brute partitions/permutations or a separately verified subset DP), retain
+Java no-work/empty-route boundary observations, and label unequal final quality.
+Do not conflate per-route score edges with the native combined-cycle exchange edges.
+No general Java parity or multi-route speed claim is available yet.
+
+Browser verification passed:931/4855(19.18%),91 timing cards, current report and
+freshness responses200. Moves & selectors drill-down searched testMultiEntity;
+all five matching methods remain pending, including the two new output fixtures.
+No browser errors, undefined/NaN values or mobile horizontal overflow, including
+expanded methodology. Browser closed;localhost:8765 remains running. No UI changes
+in this increment. Upstream pin unchanged and no production implementation read.
+Single-route k-opt quality and score-call outcomes unchanged after shared helper
+extraction:128paired/114equal,each strategy64optima versusJava57. Warmed sampled
+medians0.963/0.629/2.004/1.193ms (2–3/12,2–3/16,2–4/12,2–4/16). These are
+single-route measurements; multi-entity k-opt comparison remains the next task.
+Full rewrite goal remains active and incomplete.

@@ -503,3 +503,10 @@ The single-list k-opt feasibility case and eight ordered-output fixtures in
 from the pinned Community revision (Apache-2.0). Exact identities, substitutions,
 and the output fixtures' unadapted notification assertions are recorded in
 `compat/provenance.json`. Original exhaustive k-opt regressions are separate.
+
+Two multi-entity k-opt ordered-output fixtures in
+`crates/solver/tests/list_k_opt_repartition_cases.rs` adapt the pinned Community
+`SelectorBasedKOptListMoveTest` under Apache-2.0. Explicit cycle direction and
+partition lengths replace implicit Java choices; notification assertions remain
+pending. Provenance records these substitutions and no method credit is assigned.
+The native combined-cycle implementation and independent references are original.

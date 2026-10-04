@@ -406,6 +406,16 @@ fn basic_backends_retain_changes_and_swaps_when_gather_is_selected() {
     }
     for neighborhood in [
         Neighborhood::KOpt(ListKOptConfig::new(2, usize::MAX).unwrap()),
+        Neighborhood::RepartitionKOpt(ListKOptSampling::new(
+            ListKOptConfig::new(2, 4).unwrap(),
+            7,
+            100,
+        )),
+        Neighborhood::RepartitionKOpt(ListKOptSampling::new(
+            ListKOptConfig::new(2, 4).unwrap(),
+            7,
+            0,
+        )),
         Neighborhood::SampledKOpt(ListKOptSampling::new(
             ListKOptConfig::new(2, 4).unwrap(),
             7,

@@ -174,6 +174,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
 ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
+    if let Neighborhood::RepartitionKOpt(config) = neighborhood {
+        return Box::new(crate::list_k_opt_repartition::ordered(p, a, config, order));
+    }
     if let Neighborhood::SampledKOpt(config) = neighborhood {
         return Box::new(crate::list_k_opt_sampling::ordered(p, a, config, order));
     }

@@ -663,9 +663,9 @@ factorially. An empty or short suffix, full pin, or oversized minimum yields non
 Missing values and other entities remain untouched; per-entity ranges are retained.
 Basic variables keep changes/swaps; joint mixed search combines those with k-opt.
 
-This increment implements single-entity cyclic reconnection. Multi-entity k-opt
-repartitioning, Java orientation conventions, callback spans and rebase remain
-pending. Eight upstream ordered-output fixtures are attributed without method
+The APIs above implement single-entity cyclic reconnection; explicit multi-entity
+repartitioning is described below. Java's implicit partition/orientation conventions,
+callback spans and rebase remain pending. Eight upstream output fixtures are attributed without method
 credit because their Java notification assertions are not adapted. The feasibility
 method preserves both boolean outcomes using native success/error results. Original
 permutation references, rollback and search tests add no upstream method credit.
@@ -698,3 +698,52 @@ have the same semantics as exhaustive k-opt. Each move still affects only one li
 The benchmark preserves both the exhaustive/window and sampled strategies on the
 same route corpus. Compare their quality, work and time separately: sampling may
 find better or worse outcomes even when it reduces generation cost substantially.
+
+### Combined-cycle k-opt and explicit repartitioning
+
+`k_opt_repartition_move` combines the movable suffixes of a supplied, distinct,
+unpinned entity list in that order. Endpoints index this concatenation; there is
+one wrap edge for the combined cycle, not a separate wrap per entity. The existing
+edge validator requires at least three combined values and two removed edges,
+equal removed/added counts, unique valid edges, degree two and a single cycle.
+The caller chooses an ordered start/successor pair in the new cycle and each
+destination's suffix length. Lengths must sum exactly to the original
+combined count; zero lengths and previously empty destinations are supported.
+Explicit edge input may remove and re-add an edge, as in the single-list API.
+
+The resulting tour is divided according to those lengths in the supplied entity
+order. Prefixes, all unselected lists, missing identities and assigned payloads
+are preserved. All receiving ranges are checked against the complete target.
+Construction emits ordinary current-index relocations; final-state validation and
+atomic rollback use the existing composite-move path. The move is snapshot-bound.
+This API permits changing ownership and list lengths without unassigning values.
+
+`sample_list_k_opt_repartitions` and `Neighborhood::RepartitionKOpt` propose moves
+across all unpinned lists, including empty receivers. Each bounded attempt chooses
+a feasible k, distinct cuts, random path reconnections and a uniform cycle rotation,
+then uniformly samples
+a weak composition of the combined value count into destination lengths. Retained
+cut edges and illegal receiving ranges reject a proposal; each yielded combined
+cycle has exactly k changed edges. The number of proposals, not yielded moves, is
+bounded. Repeats are allowed and final valid moves are not uniformly distributed.
+Cycle rotations let any identity begin the first nonempty destination; there is
+no fixed first identity in sampled multi-entity moves. Move-order shuffling may change the
+entity concatenation order. Per-step seed derivation works as for SampledKOpt.
+Basic-only search retains ordinary changes and swaps.
+
+Scratch storage is linear in total assigned values and entity count; validation
+and relocation construction may be quadratic. Empty or impossible cycle sizes
+return immediately. Range rejection may consume the full configured attempt
+budget. No complete candidate window or permutation space is allocated.
+
+Two upstream ordered-output fixtures retain their initial lists, edge identities
+and exact result lists with explicit direction and partition parameters. They are
+attributed without method credit: Java's implicit multi-entity boundaries,
+orientation and list-change notifications remain unadapted. In particular, local
+wrap-edge fixtures cannot be interpreted as combined-cycle edges without defining
+an additional translation. General Java multi-entity parity is not established.
+Nine original tests independently enumerate small tours and all partitions,
+validate sampled successor sets, payloads, pins, ranges, empty destinations,
+large cuts, seed/budget prefixes and cross-owner list/mixed search. Existing
+single-list regressions still cover the extracted shared graph and draw helpers.
+The current Java/Rust timing section remains limited to single-route k-opt.

@@ -16684,6 +16684,32 @@
       "id": "SelectorBasedKOptListMoveTest.testDoubleBridge4OptLong.output_fixture",
       "upstream_test": "testDoubleBridge4OptLong",
       "modifications": "Preserve initial lists, pins, removed/added undirected edges, doable success and complete output order. Explicit first successor selects the expected cycle direction; native rollback additionally checked. Java before/after notification assertions are NOT adapted. This fixture adds no method coverage; the full upstream method remains pending. No production implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "local_path": "crates/solver/tests/list_k_opt_repartition_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity2Opt.output_fixture",
+      "upstream_test": "testMultiEntity2Opt",
+      "modifications": "Preserve initial lists, removed/added identity edges, doable success and complete output order. Convert endpoints to combined-cycle offsets. Explicit start/successor and destination lengths select the asserted order and partition; Java implicit orientation/partition selection and before/after notifications are NOT adapted. Native rollback additionally checked. No method credit; full method remains pending. No production implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "local_path": "crates/solver/tests/list_k_opt_repartition_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity4Opt.output_fixture",
+      "upstream_test": "testMultiEntity4Opt",
+      "modifications": "Preserve initial lists, removed/added identity edges, doable success and complete output order. Convert endpoints to combined-cycle offsets. Explicit start/successor and destination lengths select the asserted order and partition; Java implicit orientation/partition selection and before/after notifications are NOT adapted. Native rollback additionally checked. No method credit; full method remains pending. No production implementation inspected."
     }
   ]
 }

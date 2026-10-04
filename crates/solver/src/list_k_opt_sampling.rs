@@ -49,7 +49,7 @@ impl ListKOptSampling {
 // C5 has edge differences 2, 3 or 5; a four-edge difference cannot form one cycle.
 // For n >= 6, all k from 2 through n are feasible. Filtering the small exceptions
 // avoids walking a huge attempt budget for an impossible neighborhood.
-fn feasible(n: usize, k: usize) -> bool {
+pub(crate) fn feasible(n: usize, k: usize) -> bool {
     n >= 4 && k >= 2 && k <= n && (n != 4 || k == 2) && !(n == 5 && k == 4)
 }
 /// Lazy, bounded cyclic reconnections within individual movable list suffixes.
@@ -105,33 +105,42 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
         .filter_map(move |_| {
             let (entity, start, n, sizes) = &eligible[random.below(eligible.len() as u64) as usize];
             let k = sizes[random.below(sizes.len() as u64) as usize];
-            let mut cuts: Vec<_> = (0..*n).collect();
-            for i in 0..k {
-                let j = i + random.below((n - i) as u64) as usize;
-                cuts.swap(i, j);
-            }
-            cuts.truncate(k);
-            cuts.sort_unstable();
-            let paths = cut_paths(*n, &cuts);
-            let mut order: Vec<_> = (0..k).collect();
-            random.shuffle(&mut order);
-            let mut tour = Vec::with_capacity(*n);
-            for i in order {
-                if random.below(2) == 0 {
-                    tour.extend(paths[i].iter().copied());
-                } else {
-                    tour.extend(paths[i].iter().rev().copied());
-                }
-            }
-            let removed: Vec<_> = cuts.iter().map(|&i| edge(i, (i + 1) % n)).collect();
-            if (0..*n).any(|i| removed.contains(&edge(tour[i], tour[(i + 1) % n]))) {
-                return None;
-            }
-            let anchor = tour.iter().position(|&i| i == 0).expect("anchor");
-            tour.rotate_left(anchor);
+            let tour = draw_tour(*n, k, &mut random)?;
             let target: Vec<_> = (0..*start)
                 .chain(tour.into_iter().map(|i| i + start))
                 .collect();
             Some(movement(a, *entity, &target))
         })
+}
+
+pub(crate) fn draw_tour(
+    n: usize,
+    k: usize,
+    random: &mut crate::random::SplitMix64,
+) -> Option<Vec<usize>> {
+    let mut cuts: Vec<_> = (0..n).collect();
+    for i in 0..k {
+        let j = i + random.below((n - i) as u64) as usize;
+        cuts.swap(i, j);
+    }
+    cuts.truncate(k);
+    cuts.sort_unstable();
+    let paths = cut_paths(n, &cuts);
+    let mut order: Vec<_> = (0..k).collect();
+    random.shuffle(&mut order);
+    let mut tour = Vec::with_capacity(n);
+    for i in order {
+        if random.below(2) == 0 {
+            tour.extend(paths[i].iter().copied());
+        } else {
+            tour.extend(paths[i].iter().rev().copied());
+        }
+    }
+    let removed: Vec<_> = cuts.iter().map(|&i| edge(i, (i + 1) % n)).collect();
+    if (0..n).any(|i| removed.contains(&edge(tour[i], tour[(i + 1) % n]))) {
+        return None;
+    }
+    let anchor = tour.iter().position(|&i| i == 0).expect("anchor");
+    tour.rotate_left(anchor);
+    Some(tour)
 }

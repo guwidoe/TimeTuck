@@ -1628,7 +1628,7 @@ General single-entity cyclic k-opt now has native edge reconnection and lazy
 bounded neighborhoods, exercised in list and mixed scoped/stream search. One
 upstream feasibility method is adapted. Eight additional attributed ordered-output
 fixtures intentionally earn no method credit: their Java notification assertions
-remain pending, along with multi-entity k-opt, rebase and implicit orientation.
+remain pending, along with Java's implicit multi-entity partitioning, rebase and orientation.
 Original exhaustive permutation checks cover 2,586 successor states, repeated with
 pin/range models and independently checked edge-based construction. See the list
 planning contract for scope, ordering and combinatorial cost.
@@ -1655,3 +1655,13 @@ both exhaustive and sampled neighborhoods. No upstream method credit is added.
 The k-opt comparison retains the window baseline and adds sampled runs against
 the same Java configurations: 128 paired small-case comparisons (64 per native
 strategy), eight timing workloads and the four separate exact-k Java probes.
+
+Native combined-cycle k-opt now supports explicit repartitioning across selected
+entities, and bounded sampling of both reconnections and destination lengths in
+list/mixed search. Prefixes, receiving ranges, missing identities and rollback
+remain enforced. Two additional upstream output fixtures are attributed without
+coverage credit: their explicit native partitions do not adapt Java's implicit
+partition/orientation choice or notification assertions. Nine original tests and
+independent small successor references add no upstream-method credit. Public Java
+multi-entity solving comparisons and implicit-boundary compatibility remain pending;
+the existing performance dashboard still measures single-route k-opt only.
