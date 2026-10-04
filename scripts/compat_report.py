@@ -220,6 +220,7 @@ def build_report(execute=True, test_output=None):
             'stream_differential': load_measurement('stream-differential', digest),
             'stream_performance': load_measurement('stream-performance', digest),
             'concurrent_performance': load_measurement('concurrent-performance', digest),
+            'sequence_performance': load_measurement('sequence-performance', digest),
             'pillar_performance': load_measurement('pillar-performance', digest)}
 
 

@@ -114,6 +114,7 @@ function render() {
     renderBenchmarks("stream");
     renderBenchmarks("pillar");
     renderBenchmarks("concurrent");
+    renderBenchmarks("sequence");
     renderDifferential();
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
@@ -223,7 +224,7 @@ function renderBenchmarks(kind = "score") {
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
-    const precision = (kind === "pillar" || kind === "concurrent") ? 5 : solver ? 3 : 2;
+    const precision = (kind === "pillar" || kind === "concurrent" || kind === "sequence") ? 5 : solver ? 3 : 2;
     const p = (solver ? report[`${kind}_performance`] : report.performance) || {},
         box = target("benchmarks");
     box.replaceChildren();
@@ -295,6 +296,9 @@ function renderBenchmarks(kind = "score") {
     }
     if ((kind === "pillar" || kind === "concurrent") && !missing) {
         target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
+    }
+    if (kind === "sequence" && !missing) {
+        target("benchmark-caption").textContent = `Medians per update/restore pair, including full observations (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} pairs; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Every trial, restored and committed result checked.`;
     }
     target("benchmark-method").textContent =
         p.methodology ||
@@ -427,6 +431,7 @@ async function reload() {
             renderBenchmarks("stream");
             renderBenchmarks("pillar");
             renderBenchmarks("concurrent");
+            renderBenchmarks("sequence");
             renderDifferential();
         }
         $("updated").textContent =

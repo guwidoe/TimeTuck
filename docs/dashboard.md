@@ -427,3 +427,30 @@ must agree with each runtime's observed items. Native stable ID ordering is chec
 separately. These checks add no upstream-method credit and no timing workload.
 The adapted source-method rows separately credit the twenty full native test
 adaptations, whose immutable snapshot and identity adjustments are in provenance.
+
+## Consecutive-sequence observations
+
+`python3 scripts/benchmark_sequences.py` measures a standalone collector slot
+replacement and its inverse update, including complete result observation after
+both operations. Four workloads use dense consecutive or fragmented indices with
+64/512 distinct items. Java uses public collector handles and live chains; Rust
+uses SequenceCollector and owned immutable snapshots. Both adapters copy logical
+item membership/index/rank and all sequence/break numeric metadata to arrays,
+validate each complete array against independent Python, and consume checksums.
+Equal-index identity ordering is canonicalized away only in this benchmark;
+the separate differential checks endpoint identities within each runtime's order.
+
+Setup, parsing, startup and output formatting are excluded. Finish/materialization,
+array allocation, validation and inverse updates are included. This does not isolate
+update-only performance and does not time graph checkpoints, scoring or search.
+Native finish currently rebuilds chain boundaries; Java exposes maintained chains.
+Validation/allocation costs differ. Each sample separately checks a committed update.
+All 64 seeded small cases (duplicates, empty slots, no-ops and removals included)
+and every timed state must pass; failures abort and are not discarded. Integer
+indices are bounded; the known int-overflow discrepancy remains separately reported.
+
+Defaults: 200 update/restore pairs per batch, 5 warmup batches, 7 measured batches,
+3 fresh processes per runtime/workload, alternating runtime order. Report retains
+all samples, environment and source fingerprint. Ranges are batch averages, not
+latency percentiles; no CPU isolation, JMH or statistical significance claim.
+This adds four timing cards and no upstream method credit.

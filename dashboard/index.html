@@ -13,7 +13,7 @@
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
         <link rel="stylesheet" href="styles.css?v=17ec84240fbe" />
-        <script src="app.js?v=d2798d5e563f" defer></script>
+        <script src="app.js?v=d389df289cb3" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -140,6 +140,29 @@
                         </div>
                     </section>
                 </div>
+                <section class="performance" aria-labelledby="sequence-performance-heading">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="sequence-performance-heading">Consecutive sequences vs. the original</h2>
+                            <p>Collector replacement, inverse update and complete result observation.</p>
+                        </div>
+                        <span class="tag">64 &amp; 512 items</span>
+                    </div>
+                    <div id="sequence-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span><i class="dot rust"></i>TimeTuck · Rust release</span>
+                        <span><i class="dot java"></i>Timefold · warmed JVM</span>
+                        <span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">Ratios compare observed median times (Java ÷ Rust).
+                        Both runtimes include full result copying and validation. Differences near 1× may be noise.</p>
+                    <div id="sequence-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="sequence-benchmark-caption"></p>
+                        <p>Dense and fragmented sequences; no stream graph, scoring or search is timed.
+                            These measurements do not establish overall solver speed.</p>
+                    </div>
+                </section>
                 <section class="performance" aria-labelledby="concurrent-performance-heading">
                     <div class="section-heading">
                         <div>
@@ -418,10 +441,14 @@
                             ><code>python3 scripts/differential_streams.py</code
                             ><code>python3 scripts/benchmark_streams.py</code
                             ><code>python3 scripts/benchmark_heuristics.py</code
+                            ><code>python3 scripts/benchmark_sequences.py</code
                             ><code>python3 scripts/benchmark_concurrent.py</code
                             ><code>python3 scripts/benchmark_pillars.py</code
                             ><code>python3 scripts/compat_report.py</code>
                         </div>
+                        <h3>Consecutive-sequence benchmark conditions</h3>
+                        <p id="sequence-benchmark-method"></p>
+                        <pre id="sequence-environment"></pre>
                         <h3>Concurrent shadow benchmark conditions</h3>
                         <p id="concurrent-benchmark-method"></p>
                         <pre id="concurrent-environment"></pre>

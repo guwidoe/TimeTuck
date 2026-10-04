@@ -1375,7 +1375,9 @@ Values and callback captures must remain immutable, as with other stream rows.
 A standalone empty collector finishes to an empty chain; an empty global stream
 has no aggregate row. Clone shares persistent state; mutations stage both indexes.
 Finish currently visits all distinct items and looks up each captured value; it
-does not maintain chain boundaries incrementally and has no dedicated speed claim.
+does not maintain chain boundaries incrementally. The standalone benchmark in
+`docs/dashboard.md` measures replacement/inverse updates plus full observations;
+it does not isolate insertion/removal cost or measure graph rollback.
 
 The separate public comparison checks 64 original cases/4,689 states through
 add, replacement, removal and temporary changes restored by inverse slot updates.

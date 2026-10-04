@@ -68,6 +68,9 @@ partial-group error is reproduced with unchanged pinned fixtures. Separate incre
 report Java/Rust quality and timing.
 Consecutive-sequence comparisons additionally check 64 original cases and 4,689 states,
 with a separate explicit Java integer-overflow discrepancy and stable native tie ordering.
+Four dedicated sequence benchmarks compare replacement/inverse updates plus complete
+result observations on dense/fragmented 64/512-item workloads; all generated and timed
+observations must match independent Python before a timing is reported.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
 

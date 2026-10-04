@@ -1064,3 +1064,12 @@ Java tie ordering is allowed only within equal indices, with its endpoint identi
 checked against its own items. A separate MIN/MAX int break differs (-1 in Java,
 4,294,967,295 in Rust) and receives no agreement credit. These generated checks
 and five original native regression methods add no upstream-method credit.
+
+The original consecutive-sequence benchmark adds 64 independently checked
+replacement/inverse-update/commit cases and four full-observation timing workloads.
+Its bounded indices exclude Java overflow, already retained as a separate
+correctness discrepancy. Benchmark observations canonicalize equal-index identities
+into per-ID membership/index/component arrays; sequence and break numeric fields
+remain complete. Exact endpoint identity/tie-order correctness remains covered by
+the earlier differential driver. These measurements are not solver performance
+or additional upstream test-method coverage.

@@ -5884,3 +5884,77 @@ with all 4,689 states and the explicit overflow caveat, all 33 benchmark cards,
 no stale results or page errors, and no overflow at desktop or 390px width.
 Screenshot work/sequence-dashboard.png. Browser closed; localhost:8765 remains
 served by the existing dashboard process. No source changes after verification.
+
+## Consecutive-sequence performance — current increment
+
+Added original `sequence_benchmark.rs`, `SequenceBenchmark.java` and
+`scripts/benchmark_sequences.py`, plus six response/reference regressions. No
+production solver behavior, upstream test adaptation or provenance entry changed.
+The public Java collector handle and native SequenceCollector each perform a slot
+replacement, full result observation, inverse update, and second full observation.
+Initialization is outside each timed batch. Every timed observation is checked
+against independent Python pairwise connectivity and contributes to a consumed
+checksum; a committed update is separately checked outside the timer.
+
+Canonical observation arrays retain every logical ID's membership/index/component
+rank, every sequence count/length/endpoint index/first-last flag/neighbor ordinal,
+and every break length/endpoint index/first-last flag. Java neighboring-break object
+references are additionally validated against the exposed break collection. Equal
+index tie order is omitted only from this benchmark; the earlier differential
+continues checking endpoint identities against each runtime's item ordering.
+
+All 64 seeded original cases pass, including duplicates, tied indices, empty slots,
+removals and no-op replacements. All samples of four dense/fragmented 64/512-item
+workloads pass. Default configuration: 200 pairs per batch, 5 warmup batches,
+7 measured samples, 3 fresh processes, alternating runtime order. Median ms/pair:
+dense64 Rust .006615255 / Java .010551145 (1.59x); dense512 .024316815/.057951290
+(2.38x); fragmented64 .012233405/.040087575 (3.28x); fragmented512
+.080690935/.366283415 (4.54x). Raw ranges and outputs retained in
+work/sequence-performance.json. These are update-plus-full-observation timings,
+including result materialization, array allocation, checking and checksums.
+Different native snapshots/Java live views and validation/allocation costs remain
+explicit. They do not isolate update-only cost, graph rollback, scoring or search.
+No general solver or statistical-significance claim.
+
+The dashboard adds a dedicated section using its existing timing-card layout and
+shared renderer. `compat_report.py` now loads twelve datasets, including
+sequence_performance. App asset hash updated; CSS unchanged. Native finish still
+scans all distinct items and rebuilds sequences; this increment does not optimize
+it or claim incrementally maintained boundaries. Benchmark indices are bounded;
+the existing Java int-overflow discrepancy remains separately visible.
+
+Final-source `bash scripts/check.sh` passes 1,463 Rust tests, 75 doctests and
+148 Python tests. Coverage remains 691/4,855 (14.233%); stream methods 311/1,301
+(23.905%), pending 3,882, excluded 282, failed/unverified zero. Logs:
+work/sequence-bench-final-check.log, work/sequence-bench-final-measure.log.
+All benchmarked Rust code is built optimized. Refresh process session 39991 runs
+the existing eleven datasets sequentially before regenerating the final report.
+No benchmark-source edits after this final-source gate; documentation/UI files
+are excluded from measurement fingerprints.
+
+Next substantial work: connected-range collection from pinned Community tests and
+public APIs (consecutiveUsage/toConnectedRanges), including overlapping ranges,
+removal/splitting, custom distance metrics, transactional grouped use and genuine
+source assertion adaptations. Keep exact Java identity/alias differences explicit.
+Alternatively profile update-only sequence workloads before choosing a boundary
+maintenance optimization; the full-observation benchmark cannot identify update
+cost separately. The full solver rewrite remains active and incomplete.
+
+While measurements ran, read only ConnectedRangeTrackerTest declarations, its
+initial fixed-range cases and the start of the overlap case. Important difference for the next feature: repeated insertion
+of the same range remains repeated in its iterable and contributes multiplicity to
+minimum/maximum overlap (unlike sequence logical-ID deduplication). Touching endpoints
+join a component but do not increase overlap. Removal uses captured endpoints even
+after the source object's endpoints mutate. Nine tracker methods exist, including
+two equality/hash tests and a randomized test; preserve their actual assertions
+before assigning credit. This is research only, with no connected-range code or
+coverage added in this increment.
+
+Refresh session 39991 completed exit 0. All twelve datasets are current; final
+report verification succeeds and source/report/live-server fingerprints agree.
+Existing agreement boundaries remain explicit (including 21 concurrent Java errors
+and the single sequence overflow discrepancy). Browser verification confirms all
+37 timing cards, all four new sequence medians/ranges, the update/restore plus
+observation caption, and no stale messages, page errors or horizontal overflow at
+1440px and 390px. Screenshot work/sequence-benchmark-dashboard.png. Browser closed;
+existing localhost:8765 server remains running. All source changes are verified.
