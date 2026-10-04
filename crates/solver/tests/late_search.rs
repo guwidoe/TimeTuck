@@ -97,12 +97,11 @@ fn trials_do_not_advance_history_and_size_one_uses_completed_score() {
     assert!(!state.accepts(SimpleScore::new(0), SimpleScore::new(7)));
 }
 #[test]
-fn medium_and_structural_components_are_not_hard_levels() {
+fn medium_resets_history_but_is_not_a_feasibility_level() {
     let initial = HardMediumSoftScore::new(-1, 0, 0);
     let mut state = LateAcceptance::new(3, false, initial).unwrap();
     state.step_ended(HardMediumSoftScore::new(-1, 2, 0));
-    assert_eq!(state.history()[1], initial);
-    assert_eq!(state.history()[2], initial);
+    assert_eq!(state.history(), &[HardMediumSoftScore::new(-1, 2, 0); 3]);
     let hard = HardMediumSoftScore::new(0, -100, -100);
     state.step_ended(hard);
     assert_eq!(state.history(), &[hard; 3]);

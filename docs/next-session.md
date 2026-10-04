@@ -6471,3 +6471,65 @@ late acceptance or composite acceptors), or inspect pending stream behavior.
 Read complete pinned test methods before choosing scope. Public seeded comparison
 of fading search quality and dedicated timing remain pending; do not infer those
 claims from the fixed-draw method or refreshed existing algorithms' benchmarks.
+
+## Correct HardMediumSoft late-acceptance reset levels (2026-10-04)
+
+Previous increment 7c0e576 added and verified fading variable tabu (progress).
+Read full CompositeAcceptorTest, DiversifiedLateAcceptanceAcceptorTest,
+LateAcceptanceScoreBufferTest and DefaultLevelScoreStateTest while choosing next
+work; only Community tests/public docs, no upstream production source. The last
+class exposed a correctness gap: mediumImprovementTriggersResetForHardMediumSoftScore
+requires a reset, while native LateAcceptance used hard_cmp and an original test
+incorrectly asserted no medium reset. Fix this before adding another algorithm.
+
+Original late_medium_regression.rs first ran against old code: both full-history
+and basic-search tests failed (work/late-medium-before.log, exit 101). Stale history
+left two old slots and search completed 3 steps instead of stopping after 1. The
+new Score::late_acceptance_cmp defaults to hard_cmp for custom scores. Fixed integer
+and decimal HardMediumSoft implementations compare hard plus medium; other fixed
+families explicitly use their original prefixes, and bendable/custom defaults keep
+hard-only behavior. Feasibility, HARD_LEVEL_COUNT, hard_cmp, full score ordering
+and other acceptors are unchanged. LateAcceptance now uses this comparison only
+when a completed step improves its retained global best.
+
+Six adapted DefaultLevelScoreStateTest methods preserve complete initial/new-best
+fixtures and reset/no-reset assertions: hard/soft HardSoft, medium/soft HardMediumSoft,
+hard/soft Bendable(1,2). Explicit pure comparisons replace mock step-scope indices
+0/1 and score definitions; three index/baseline-specific methods remain pending.
+Provenance/notices updated. No Java lifecycle/cache-index equivalence claimed.
+
+Five original regressions check complete history, four history lengths across 240
+completed steps against separate best/prefix/cursor reconstruction, worsening/ties,
+exact tiny decimal differences beyond f64 precision, scale equality, bendable soft
+levels, structural exclusion, preserved feasibility and all six local-search paths.
+All six paths now stop after the single medium improvement in bounded fixtures.
+The previous incorrect original medium test was corrected from the pinned evidence.
+A new Score doctest explains reset levels versus feasibility. Focused tests pass
+(work/late-medium-focused.log, work/late-level-focused.log). No new Java solver-trace
+or dedicated performance comparison; do not infer those from the native regression.
+
+Contract docs now correct the earlier hard-only statement. Historical handoff text
+that said medium does not reset is superseded by this increment. Source frozen for
+full gate session 6437, log work/late-level-check.log.
+
+Full gate completed exit 0: 1,642 Rust tests (825 adapted, 741 original integration,
+76 unit), 84 doctests and 193 Python tests. Coverage 825/4,855 = 16.99%, search
+31/158 = 19.62%; pending 3,748, excluded 282, failed/unverified zero. The six reset
+methods pass; three DefaultLevelScoreStateTest lifecycle/index methods remain
+pending. Release plus thirteen sequential refreshes use session 46832, logs
+work/late-level-release.log and work/late-level-refresh-*.log. Source remains frozen.
+
+Release and refresh session 46832 completed exit 0. All 11 new tests pass release;
+all thirteen datasets are current and report/source/verification/live-server hashes
+match (work/late-level-audit.py). Browser confirms 16.99% overall, 19.62% search,
+DefaultLevelScoreStateTest six Passed and three Pending, and 43 timing cards.
+No page errors or horizontal overflow at 1440px/390px. Browser closed and
+localhost:8765 remains. QA tip: count status text together with the class name;
+a broad Passed-text regex also counts the filter option (corrected and rerun).
+
+The rewrite remains incomplete. Next search candidates remain composite acceptors,
+diversified late acceptance and value/move tabu. Composite configuration must handle
+existing Copy configuration usage without silently limiting composition; diversified
+source tests mutate trial history and require a careful specification before design.
+Do not implement production code by translating upstream internals. Public seeded
+fading-quality comparison and dedicated timing remain pending from the prior increment.

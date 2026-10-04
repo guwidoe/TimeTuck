@@ -12285,6 +12285,96 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all seven step observations, entity identities, hard/fading sizes 2/4, zero scores, supplied draws 0.5/0.5/0.1 and acceptance assertions. Lazy native draw callbacks assert zero consumption where the source uses empty TestRandom and exactly one draw in fading states. Explicit completed-step calls replace Java lifecycle scopes; native phase state drops at test end. No Java PRNG trace, internal lifecycle or multi-key fading compatibility claim."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.hardImprovementTriggersReset",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "hardImprovementTriggersReset",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "hard_improvement_triggers_reset",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.softOnlyImprovementDoesNotTriggerReset",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "softOnlyImprovementDoesNotTriggerReset",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "soft_only_improvement_does_not_trigger_reset",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.mediumImprovementTriggersResetForHardMediumSoftScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "mediumImprovementTriggersResetForHardMediumSoftScore",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "medium_improvement_triggers_reset_for_hard_medium_soft_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.softOnlyImprovementDoesNotTriggerResetForHardMediumSoftScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "softOnlyImprovementDoesNotTriggerResetForHardMediumSoftScore",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "soft_only_improvement_does_not_trigger_reset_for_hard_medium_soft_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.hardImprovementTriggersResetForBendableScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "hardImprovementTriggersResetForBendableScore",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "hard_improvement_triggers_reset_for_bendable_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.softImprovementDoesNotTriggerResetForBendableScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "softImprovementDoesNotTriggerResetForBendableScore",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_test": "soft_improvement_does_not_trigger_reset_for_bendable_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
     }
   ],
   "fixtures": [

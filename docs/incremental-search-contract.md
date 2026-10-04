@@ -265,10 +265,12 @@ This replaces the earlier stateless configuration-level `accepts` method.
 filled with the phase's best score. A candidate is accepted if it is at least the
 current history entry, or (when enabled) at least the current score. Completing a
 step stores that step's score, even when worse than the global best, then advances
-the cursor. A new best that improves hard levels resets all history entries to
-that best; soft or medium improvements do not reset them. `Score::hard_cmp` compares
-hard levels only. Structural components are not hard levels, and local-search
-phases use complete assignments with structural zero.
+the cursor. A new best that improves the score family's reset levels resets all
+history entries to that best. `Score::late_acceptance_cmp` uses hard levels by
+default, and hard plus medium for HardMediumSoft integer/decimal scores. Bendable
+families retain only their declared hard levels; soft changes do not reset them.
+`Score::hard_cmp` and feasibility remain hard-only. Structural state is excluded
+from reset-level comparison; local-search phases use complete assignments.
 
 Zero history is rejected before scoring, even with zero evaluation budget. History
 allocation failure is reported as an error. The native size is unsigned; the
@@ -1056,3 +1058,23 @@ sizes 2/4, all step observations, exact supplied draws and no-draw assertions.
 This source method covers one queried key at a time. Multi-key fading, zero-hard
 configuration and the native PRNG are independent policies, not verified Java
 trace equivalence. No value/move-tabu search, ratio sizing or new timing claim.
+
+
+## Medium-level late-history correction
+
+The earlier hard-only policy incorrectly kept old thresholds when a HardMediumSoft
+best improved only its medium level. The pinned DefaultLevelScoreStateTest requires
+that improvement to reset history. Score::late_acceptance_cmp now separates reset
+levels from hard-level feasibility, with a backward-compatible default for custom
+scores. Both fixed HardMediumSoft families override it using exact lexicographic
+hard/medium comparison. This changes accepted paths under late acceptance; other
+acceptors and score feasibility are unchanged.
+
+Six source methods preserve their complete fixtures and reset/no-reset assertions
+for HardSoft, HardMediumSoft and Bendable(1,2). Java mock indices map to explicit
+initial/new-best comparisons; three lifecycle/cache-index methods remain pending.
+Original regressions first failed on stale slots and a 3-step native search where
+reset thresholds stop after one step. They now check full history, wraparound,
+global-best improvements, worsening steps, ties, exact tiny decimal differences,
+bendable soft levels, structural exclusion and all six search paths. No new Java
+search-trace or timing claim is made.

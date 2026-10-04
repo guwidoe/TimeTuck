@@ -236,7 +236,8 @@ impl<S: Score> Acceptor<S> {
 
 /// A circular history initialized to the phase's best score. History updates
 /// only on completed steps, and stores that step's score even when it worsens.
-/// A new best with better hard levels resets every slot to the new best score.
+/// A new best with better reset levels resets every slot to the new best score.
+/// See Score::late_acceptance_cmp: HardMediumSoft includes its medium level.
 /// Structural components are not hard levels; use fully assigned phase scores.
 #[derive(Clone, Debug)]
 pub struct LateAcceptance<S> {
@@ -277,7 +278,7 @@ impl<S: Score> LateAcceptance<S> {
     }
     pub fn step_ended(&mut self, score: S) {
         if score > self.best {
-            if score.hard_cmp(&self.best) == Ordering::Greater {
+            if score.late_acceptance_cmp(&self.best) == Ordering::Greater {
                 self.history.fill(score.clone());
             }
             self.best = score.clone();

@@ -347,3 +347,9 @@ its validation cases and references are original and add no upstream-method cred
 EntityTabuAcceptorTest.fadingTabuSize method. Step fixtures, supplied random draws
 and expected decisions are attributed in compat/provenance.json. FadingTabuMemory,
 search integration and separate reference regressions are independent implementations.
+
+
+`crates/solver/tests/late_level_cases.rs` adapts six Apache-2.0
+DefaultLevelScoreStateTest methods from the pinned Community revision. Complete
+score fixtures and reset/no-reset expectations are recorded in compat/provenance.json.
+The separate history and search regressions are original and add no source-method credit.

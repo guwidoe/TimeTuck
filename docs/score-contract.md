@@ -308,3 +308,13 @@ public accessors. Independent Python Fraction arithmetic distinguishes fixed and
 Bendable scale rules. Factors remain the seven selected finite literals and powers
 0..4. Generated cases add no upstream test-method credit; benchmarks still use
 integer scores and do not measure decimal performance.
+
+
+`Score::late_acceptance_cmp` defines which leading levels reset late-acceptance
+history on a new best. Its default calls hard_cmp, preserving existing custom
+scores. Fixed HardMediumSoft integer/decimal families include hard and medium;
+HardSoft and bendable families use only their declared hard levels, and Simple
+families compare no reset levels. Structural components are excluded. The medium
+level remains outside HARD_LEVEL_COUNT and feasibility; only the late-history
+reset decision changes. Decimal comparison is exact, including scale-equivalent
+values and differences below floating-point precision.

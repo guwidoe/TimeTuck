@@ -46,6 +46,23 @@ pub trait Score: Clone + Ord + fmt::Debug {
     /// Compare hard levels only, excluding structural and all soft levels.
     fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering;
 
+    /// Compare the levels whose improvement resets late-acceptance history.
+    /// Defaults to hard levels. HardMediumSoft families additionally include
+    /// medium; bendable families retain only their declared hard levels.
+    /// This policy is distinct from feasibility and excludes structural state.
+    ///
+    /// ```
+    /// use timetuck::{Score, HardMediumSoftScore};
+    /// let old = HardMediumSoftScore::new(0, -10, 0);
+    /// let new = HardMediumSoftScore::new(0, -9, -100);
+    /// assert!(new.late_acceptance_cmp(&old).is_gt());
+    /// assert!(new.hard_cmp(&old).is_eq());
+    /// assert!(old.is_feasible() && new.is_feasible());
+    /// ```
+    fn late_acceptance_cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.hard_cmp(other)
+    }
+
     /// Whether the structural and hard constraints are satisfied.
     fn is_feasible(&self) -> bool;
 }
@@ -104,7 +121,7 @@ fn parse<const N: usize>(
 }
 
 macro_rules! fixed_score {
-    ($name:ident, $n:expr, $hard:expr, [$($field:ident : $index:expr => $label:literal),+], $doc:literal) => {
+    ($name:ident, $n:expr, $hard:expr, $late:expr, [$($field:ident : $index:expr => $label:literal),+], $doc:literal) => {
         #[doc = $doc]
         #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
         pub struct $name {
@@ -206,6 +223,9 @@ macro_rules! fixed_score {
             fn hard_cmp(&self, other: &Self) -> std::cmp::Ordering {
                 self.levels[..$hard].cmp(&other.levels[..$hard])
             }
+            fn late_acceptance_cmp(&self, other: &Self) -> std::cmp::Ordering {
+                self.levels[..$late].cmp(&other.levels[..$late])
+            }
             fn structural(&self) -> i64 { (*self).structural() }
             fn is_feasible(&self) -> bool { (*self).is_feasible() }
         }
@@ -241,9 +261,9 @@ macro_rules! fixed_score {
     };
 }
 
-fixed_score!(SimpleScore, 1, 0, [score: 0 => ""], "One soft integer level plus a structural component.");
-fixed_score!(HardSoftScore, 2, 1, [hard: 0 => "hard", soft: 1 => "soft"], "One hard and one soft integer level plus a structural component.");
-fixed_score!(HardMediumSoftScore, 3, 1, [hard: 0 => "hard", medium: 1 => "medium", soft: 2 => "soft"], "One hard, one medium and one soft integer level plus a structural component.");
+fixed_score!(SimpleScore, 1, 0, 0, [score: 0 => ""], "One soft integer level plus a structural component.");
+fixed_score!(HardSoftScore, 2, 1, 1, [hard: 0 => "hard", soft: 1 => "soft"], "One hard and one soft integer level plus a structural component.");
+fixed_score!(HardMediumSoftScore, 3, 1, 2, [hard: 0 => "hard", medium: 1 => "medium", soft: 2 => "soft"], "One hard, one medium and one soft integer level plus a structural component.");
 
 impl HardSoftScore {
     pub const fn of_hard(hard: i64) -> Self {

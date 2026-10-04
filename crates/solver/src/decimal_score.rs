@@ -42,7 +42,7 @@ fn numeric_cmp(a: &[Decimal], b: &[Decimal]) -> Ordering {
         .unwrap_or(Ordering::Equal)
 }
 macro_rules! decimal_score {
-    ($name:ident,$n:expr,$hard:expr,[$($field:ident:$index:expr=>$label:literal),+],$doc:literal) => {
+    ($name:ident,$n:expr,$hard:expr,$late:expr,[$($field:ident:$index:expr=>$label:literal),+],$doc:literal) => {
         #[doc=$doc]
         #[derive(Clone,Debug)]
         pub struct $name {structural:i64,levels:[Decimal;$n]}
@@ -96,6 +96,7 @@ macro_rules! decimal_score {
             fn ordinary_levels(&self)->impl Iterator<Item=Decimal> {self.levels.iter().cloned()}
             fn structural(&self)->i64 {self.structural}
             fn hard_cmp(&self,o:&Self)->Ordering {numeric_cmp(&self.levels[..$hard],&o.levels[..$hard])}
+            fn late_acceptance_cmp(&self,o:&Self)->Ordering {numeric_cmp(&self.levels[..$late],&o.levels[..$late])}
             fn is_feasible(&self)->bool {self.is_feasible()}
         }
         impl AdditiveScore for $name {
@@ -128,9 +129,9 @@ macro_rules! decimal_score {
         }
     }
 }
-decimal_score!(SimpleDecimalScore,1,0,[score:0=>""],"One arbitrary-precision decimal level and structural state.");
-decimal_score!(HardSoftDecimalScore,2,1,[hard:0=>"hard",soft:1=>"soft"],"One hard and one soft arbitrary-precision decimal level.");
-decimal_score!(HardMediumSoftDecimalScore,3,1,[hard:0=>"hard",medium:1=>"medium",soft:2=>"soft"],"Hard, medium and soft arbitrary-precision decimal levels.");
+decimal_score!(SimpleDecimalScore,1,0,0,[score:0=>""],"One arbitrary-precision decimal level and structural state.");
+decimal_score!(HardSoftDecimalScore,2,1,1,[hard:0=>"hard",soft:1=>"soft"],"One hard and one soft arbitrary-precision decimal level.");
+decimal_score!(HardMediumSoftDecimalScore,3,1,2,[hard:0=>"hard",medium:1=>"medium",soft:2=>"soft"],"Hard, medium and soft arbitrary-precision decimal levels.");
 impl HardSoftDecimalScore {
     pub fn of_hard(v: Decimal) -> Self {
         Self::new(v, Decimal::ZERO)

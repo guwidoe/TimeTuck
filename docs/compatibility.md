@@ -1287,3 +1287,15 @@ multiple-key fading, value/move tabu or new performance comparison is claimed.
 Pinned documentation marks Score Analysis as Enterprise-only; that API is not an
 authorized implementation specification for this Community rewrite. Existing native
 per-constraint totals and typed match inspection remain independent diagnostics.
+
+
+## Late-acceptance reset levels
+
+Six DefaultLevelScoreStateTest methods are adapted with unchanged score fixtures
+and reset assertions. They expose and fix the previous HardMediumSoft medium-level
+history bug; integer and decimal families now reset on a new best in hard/medium,
+while feasibility remains hard-only. Explicit score comparisons replace mocked
+Java scope/index plumbing. Three index-cache/lifecycle methods remain pending.
+Original failing-before/fixed-after regressions and complete history/search checks
+are recorded in docs/incremental-search-contract.md. No source-method credit is
+claimed for generated histories, decimal extensions or six-backend search checks.
