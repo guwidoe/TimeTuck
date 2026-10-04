@@ -341,3 +341,6 @@ pub use range_collector::{
     ConnectedRange, ConnectedRangeChain, ConnectedRangeCollector, IntegerRangeMetric, RangeGap,
     RangeItem, RangeMetric,
 };
+
+mod load_balance_collector;
+pub use load_balance_collector::{LoadBalance, LoadBalanceCollector};

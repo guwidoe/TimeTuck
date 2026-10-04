@@ -299,3 +299,10 @@ and TestRange equality/hash fixture; tests/fixtures/range-traces.txt contains it
 10,000 generated operations. Source identities, revision, license and adjustments
 are recorded in compat/provenance.json. Native production range collection,
 independent references and public-API comparison drivers are original work.
+
+`crates/solver/tests/load_balance_cases.rs` adapts the four pinned Apache-2.0
+Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest.loadBalance methods, including the
+uni LoadBalanced record's key/load fixture fields and each arity's tuple mapping.
+Source commit, paths, test identities and adjustments are in compat/provenance.json.
+The production collector, original regressions and public comparison drivers are
+independent implementations, with no extra upstream-method credit.

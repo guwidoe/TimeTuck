@@ -1426,3 +1426,35 @@ removal can leave a Java occurrence behind, empty-range overlap flags can disagr
 with maximum counts, and integer lengths can overflow. Inputs and full differences
 are retained. All original shared-identity cases were kept after adding the distinct
 cohort to isolate the cause. There are no Java runtime-error cases in this run.
+
+## Load balancing
+
+`LoadBalanceCollector<K>` consumes captured `(key, load: i64, initial_load: i64)`
+occurrences. Each active key totals its initial load once plus every occurrence's
+load. Signed and zero loads are valid. Zero-load keys remain until their final
+occurrence is removed. Only present keys participate; insert zero-load baseline
+rows for idle resources that should influence fairness. All generic keyed/global,
+conditional and composed collection operators accept this collector.
+
+Simultaneously active occurrences of a key must have equal initial loads.
+Inconsistent inserts/replacements panic atomically; a changed initial load is
+allowed after all old occurrences are removed. This gives history-independent
+rebuild/undo. A public Java probe instead retains the first initial value while
+any occurrence remains. Retraction matches the exact captured triple, with
+multiplicity. Missing removal/replacement returns false without mutation.
+
+Native totals, total sum and squared moments use BigInt. Unfairness equals
+`sqrt(sum((load - mean)^2))`, rounded once to six significant digits, nearest with
+ties to even. Zero returns Decimal::ZERO; other results strip trailing zeros.
+Integer square root and exact squared-midpoint comparisons avoid binary floats.
+Java's observed numeric format uses six significant digits, although LoadBalance
+Javadoc says six decimal places. General Java decimal-scale representation is not
+preserved: comparisons normalize trailing zeros. Native full-width arithmetic
+intentionally avoids Java overflow and cancellation. Immutable LoadBalance
+snapshots expose loads and unfairness; Java live-map aliases are not reproduced.
+
+Updates maintain exact moments and persistent capture/key maps; finish shares the
+load-map root and computes the rounded square root. There is no dedicated timing
+claim. An empty standalone collector produces an empty map and zero; an empty
+stream group produces no aggregate row. Inverse updates are exercised in public
+comparisons; native graph regressions additionally check rollback and rebuild.

@@ -10665,6 +10665,66 @@
       "local_path": "crates/solver/tests/range_collector_cases.rs",
       "local_test": "quad_consecutive_usage_update",
       "modifications": "Preserve all source item, endpoint, count, overlap-bound and gap assertions with native captured identities/values and fresh immutable snapshots. Independent pairwise connectivity and midpoint counts replace implementation-built expectations. Start/end/ID ordering replaces Java identity ties. Empty-component Integer MAX/MIN overlap sentinels map to None; exact i128 distances replace int overflow. No Java API/ABI or mutable live-view parity claim. Preserve tuple endpoint projections/trailing ignored inputs, every duplicate/removal/update state, and the dynamic first interval start mutation before retraction/reinsertion. Explicit captured triples and native CollectNode slots replace object handles."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.loadBalance",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "loadBalance",
+      "local_path": "crates/solver/tests/load_balance_cases.rs",
+      "local_test": "uni_load_balance",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every empty, add, duplicate and retraction unfairness assertion, including exact native decimal coefficient/scale for 0 and 0.707107. Captured native key/load/zero-initial triples replace the uni LoadBalanced record or multi-arity tuples and Java retractor handles; ignored tri/quad inputs remain zero. No Java API/ABI or general decimal scale parity. Production implementation is independent; original regressions and public comparison cases add no source-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.loadBalance",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "loadBalance",
+      "local_path": "crates/solver/tests/load_balance_cases.rs",
+      "local_test": "bi_load_balance",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every empty, add, duplicate and retraction unfairness assertion, including exact native decimal coefficient/scale for 0 and 0.707107. Captured native key/load/zero-initial triples replace the uni LoadBalanced record or multi-arity tuples and Java retractor handles; ignored tri/quad inputs remain zero. No Java API/ABI or general decimal scale parity. Production implementation is independent; original regressions and public comparison cases add no source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.loadBalance",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "loadBalance",
+      "local_path": "crates/solver/tests/load_balance_cases.rs",
+      "local_test": "tri_load_balance",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every empty, add, duplicate and retraction unfairness assertion, including exact native decimal coefficient/scale for 0 and 0.707107. Captured native key/load/zero-initial triples replace the uni LoadBalanced record or multi-arity tuples and Java retractor handles; ignored tri/quad inputs remain zero. No Java API/ABI or general decimal scale parity. Production implementation is independent; original regressions and public comparison cases add no source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.loadBalance",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "loadBalance",
+      "local_path": "crates/solver/tests/load_balance_cases.rs",
+      "local_test": "quad_load_balance",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every empty, add, duplicate and retraction unfairness assertion, including exact native decimal coefficient/scale for 0 and 0.707107. Captured native key/load/zero-initial triples replace the uni LoadBalanced record or multi-arity tuples and Java retractor handles; ignored tri/quad inputs remain zero. No Java API/ABI or general decimal scale parity. Production implementation is independent; original regressions and public comparison cases add no source-method credit."
     }
   ],
   "fixtures": [

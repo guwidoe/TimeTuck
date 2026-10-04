@@ -14,6 +14,7 @@ from membership_join_checks import run_checks as check_memberships
 from conditional_collector_checks import run_checks as check_conditionals
 from average_collector_checks import run_checks as check_averages
 from range_collector_checks import run_checks as check_ranges
+from load_balance_checks import run_checks as check_load_balance
 from sequence_collector_checks import run_checks as check_sequences
 from duration_collector_checks import run_checks as check_durations
 from big_number_collector_checks import run_checks as check_big_numbers
@@ -94,8 +95,8 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','sequence_oracle','--example','range_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/LoadBalanceOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','sequence_oracle','--example','range_oracle','--example','load_balance_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
@@ -107,6 +108,8 @@ def main():
     print(f'Conditional collectors: {conditional_checks["passed"]}/{conditional_checks["total"]} cases; {conditional_checks["observations"]} observations',flush=True)
     average_checks=check_averages(cp)
     print(f'Average collectors: {average_checks["passed"]}/{average_checks["total"]} cases; {average_checks["observations"]} observations',flush=True)
+    load_balance_checks=check_load_balance(cp)
+    print(f'Load balance: {load_balance_checks["passed"]}/{load_balance_checks["total"]} Java agreement; {load_balance_checks["divergent_cases"]} differing cases; {load_balance_checks["native_reference_passed"]} native passes',flush=True)
     range_checks=check_ranges(cp)
     print(f'Connected ranges: {range_checks["passed"]}/{range_checks["total"]} Java agreement; {range_checks["divergent_cases"]} differing cases; {range_checks["native_reference_passed"]} native passes',flush=True)
     sequence_checks=check_sequences(cp)
@@ -151,6 +154,7 @@ def main():
             'duration_collector_checks':duration_checks,
             'sequence_collector_checks':sequence_checks,
             'range_collector_checks':range_checks,
+            'load_balance_checks':load_balance_checks,
             'big_number_collector_checks':big_number_checks,
             'mixed_stream_checks':mixed_checks,
             'follower_checks':follower_checks,

@@ -461,3 +461,12 @@ shared-object removal, empty-range flags and integer overflow are explicit bound
 No failing case is removed from the report. The distinct-positive cohort is identified
 separately. Full cases and per-state differences are retained in the downloadable
 report, and these generated cases add no upstream-method coverage or timing card.
+
+Load-balance comparison is included in the stream dataset: 101 native reference
+passes / 101 cases, 8,290 states, 97 full Java agreements, four differing cases and
+zero Java errors. All 96 bounded cases agree. The card retains large-number load
+and unfairness differences, including overflow and cancellation. Six significant
+digits and numeric trailing-zero normalization are explicit; no Java decimal-scale
+or live-map parity. Paired inputs use consistent initial loads per key; native
+inconsistent updates are tested separately as atomic rejection. No new timing card
+or generated-case upstream-method credit. The existing 37 timing workloads remain.

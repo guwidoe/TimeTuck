@@ -1108,3 +1108,29 @@ normalize to None; item ordering is not compared across runtimes, while native
 stable order is checked. Seven Python regressions enforce reference behavior,
 response identity/shape, complete observations and truthful discrepancy accounting.
 No new generated-case method credit or connected-range timing claim follows.
+
+## Load-balance collection
+
+The four Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest.loadBalance methods are
+adapted with all source empty/add/duplicate/retraction unfairness assertions.
+The uni record and tuple mappings become captured native key/load/initial triples;
+tri/quad ignored inputs stay zero. Provenance and notices record these changes.
+No Java API/ABI claim follows. Five original integration tests, one rounding unit
+test, a doctest and seven Python tests add no upstream-method coverage.
+
+Native exact totals/moments, initial-load consistency, missing captures, zero keys,
+immutable snapshots, failed updates, 1,800 grouped edits with trial/commit/rebuild,
+construction and 32 bounded searches have independent reference checks. Unfairness
+rounds to six significant digits with half-even ties. This matches observed public
+Java numeric precision, despite its six-decimal-place Javadoc. Native canonical
+trailing-zero representation differs from Java scale; comparison is numeric.
+
+Original public comparisons retain 101 cases / 8,290 states. Native matches
+independent Python pairwise distances and high-precision Decimal roots in every
+case. Java agrees in 97 cases, including all 96 bounded cases; four large-number
+cases differ, with no runtime errors. At loads 1,000,000,000 and 1,000,000,001 Java
+reports zero, native 0.707107. Full-width signed totals/squared values also expose
+Java overflow. All raw inputs, outputs and differences remain in load_balance_checks;
+none receive agreement credit. Initial loads are constant per active key in paired
+inputs; conflicting native initial loads reject atomically instead of inheriting
+Java's first-initial-load history. No live-map, general decimal-scale or timing claim.

@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 711 fully adapted source test methods, recorded individually in
+- 715 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -6050,3 +6050,72 @@ arities and public LoadBalance docs before implementation. Exact unfairness roun
 load/group multiplicities, initial loads, undo and solver scoring need evidence.
 A dedicated connected-range performance comparison is also still pending. Do not
 claim unsupported mutable hash or Java duplicate-object bug parity.
+
+## Load balancing — current increment
+
+Independent load_balance_collector.rs exports LoadBalanceCollector<K> and immutable
+LoadBalance<K>. Captured (key,i64 load,i64 initial) occurrences use persistent maps;
+initial load is counted once per active key, every occurrence adds its load. All
+active captures of a key must have equal initial load. Conflicts panic atomically;
+remove all captures before changing initial load. Removal matches exact triples.
+Missing remove/replace returns false. Zero and negative loads are supported; only
+present keys participate, including zero-load keys. Baseline zero rows can include
+idle resources. Empty standalone result is empty map/zero; empty streams emit no row.
+
+Totals, total sum and sum of squares use BigInt. Updates maintain moments, finish
+computes sqrt((n*sumSquares-sum^2)/n) using integer square root and squared midpoint
+rounding. Six significant digits, half-even, canonical trailing-zero stripping;
+zero is scale-zero Decimal::ZERO. No binary floats. Owned result shares load-map
+root; clones share captures and key state. Java live-map and decimal-scale parity
+are not claimed. Java documentation says six decimal places, but public observations
+use six significant digits. Additional exact halfway probes (work/load-balance-
+rounding-probe.txt) confirm half-even at roots 1234565,1234575,9999995. Production
+implementation source was neither read nor copied.
+
+Four methods adapted: loadBalance in Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest.
+Every empty/add/duplicate/removal unfairness assertion remains. Native captures
+replace uni record/multi-arity tuples and handles; ignored fields remain zero.
+Provenance/notices updated. Five original Rust integrations cover multiplicities,
+initial consistency/reset, zero keys, missing values, immutable snapshots, atomic
+failures, exact full-width totals/large offsets, 1,800 grouped edits through
+commit/undo/rebuild, callback/structural rejection restoration, construction and
+32 bounded saved-candidate searches vs independent full scoring. One unit test
+covers exact-root ties and decimal exponents -80..80. Seven Python tests protect
+reference arithmetic, representation normalization, malformed/missing/reordered
+responses, differences/errors and retained seeded inputs. No generated-case credit.
+
+Public LoadBalanceOracle.java and native load_balance_oracle.rs perform captured
+slot insert/replace/remove and inverse-update trials. Python load_balance_checks.py
+uses independent pairwise squared load differences and a 120-digit Decimal square
+root, rounded to six digits. All 101 cases / 8,290 states match native results.
+Java agrees on 97 cases, including all 96 bounded cases; four large-number cases
+differ, no runtime errors. All original input/output/difference records remain.
+Java returns zero for loads 1000000000 and 1000000001 vs native 0.707107; full i64
+boundaries expose wrapped totals and squared deviations. Decimal trailing zeros
+normalize numerically; Java representation scale is not an equivalence claim.
+Paired inputs require consistent initial loads. Separate initial probe shows Java
+keeps first initial while any occurrence remains; native rejects inconsistent ones
+for deterministic rebuild. Connected-range's existing 132 differences stay explicit.
+
+Final bash scripts/check.sh passes: 1,498 Rust tests (715 adapted, 707 original
+integration, 76 unit), 77 doctests, 162 Python tests. New nine integrations and the
+rounding unit test also pass release. Coverage 715/4,855 = 14.73%, streams 335/1,301
+= 25.75%; pending 3,858, excluded 282, failed/unverified zero. Gate logs are
+work/load-balance-check.log and work/load-balance-release.log. Source frozen before
+sequential refresh session 38165; work/load-balance-refresh-*.log tracks all twelve
+datasets. Load balance adds correctness evidence only, no new timing card. The
+existing 37 workloads must remain accurately described. Goal remains unfinished.
+
+Refresh session 38165 completed exit 0: all twelve datasets are current and final
+report verification succeeds. Source, report and live-server fingerprints match.
+The stream dataset retains 97/101 load-balance agreements, four explicit differences,
+and the existing range/concurrent boundaries. Browser checks confirm 14.73% overall,
+25.75% stream coverage, four passed loadBalance methods, complete comparison caveats,
+all 37 timing cards, no stale measurement text, no page errors and no horizontal
+overflow at 1440px/390px. work/load-balance-dashboard.png shows the refreshed coverage.
+Browser closed; existing localhost:8765 server remains running.
+
+Next possible increments: calendar-period sum collectors or custom-order min/max,
+whose source methods remain pending; read their pinned tests/public contracts first.
+Dedicated connected-range and load-balance timing comparisons also remain pending.
+Do not describe this milestone as a complete rewrite or full Java behavioral parity.
