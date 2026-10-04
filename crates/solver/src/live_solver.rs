@@ -178,6 +178,7 @@ impl<P> State<P> {
     fn cancel(&self) -> bool {
         let mut d = self.data.lock().unwrap();
         let first = !d.cancelled;
+        let was_accepting = d.accepting;
         d.cancelled = true;
         d.accepting = false;
         if let Some(t) = &d.running {
@@ -185,7 +186,11 @@ impl<P> State<P> {
         }
         self.ready.notify_all();
         drop(d);
-        self.cancel_job.get().map_or(first, |cancel| cancel())
+        // Notification can let the live worker finish and leave the pool before
+        // pool cancellation acquires its lock. The accepted live request still
+        // counts; only the first caller may report success.
+        let pool_cancelled = self.cancel_job.get().is_some_and(|cancel| cancel());
+        first && (was_accepting || pool_cancelled)
     }
     fn enqueue(
         &self,
@@ -652,5 +657,53 @@ impl<P, R, E> LiveSolverManager<P, R, E> {
 impl<P, R, E> Drop for LiveSolverManager<P, R, E> {
     fn drop(&mut self) {
         self.cancel_all();
+    }
+}
+
+#[cfg(test)]
+mod cancellation_race_tests {
+    use super::*;
+
+    #[test]
+    fn live_cancellation_succeeds_when_notified_worker_finishes_before_pool_cancel() {
+        let state = Arc::new(State::<()>::new());
+        let observed = Arc::downgrade(&state);
+        assert!(
+            state
+                .cancel_job
+                .set(Box::new(move || {
+                    let state = observed.upgrade().unwrap();
+                    let data = state.data.lock().unwrap();
+                    assert!(data.cancelled);
+                    assert!(!data.accepting);
+                    false // Pool no longer has the job after the wakeup.
+                }))
+                .is_ok()
+        );
+        assert!(state.cancel());
+        assert!(!state.cancel());
+        let completed = State::<()>::new();
+        completed.data.lock().unwrap().accepting = false;
+        assert!(!completed.cancel()); // A naturally completed stale handle.
+    }
+
+    #[test]
+    fn racing_live_cancel_callers_report_success_only_once() {
+        let state = Arc::new(State::<()>::new());
+        let barrier = Arc::new(std::sync::Barrier::new(2));
+        assert!(
+            state
+                .cancel_job
+                .set(Box::new(move || {
+                    barrier.wait();
+                    true // Both enter the pool hook after marking the live state.
+                }))
+                .is_ok()
+        );
+        let other = state.clone();
+        let worker = std::thread::spawn(move || other.cancel());
+        let first = state.cancel();
+        let second = worker.join().unwrap();
+        assert_ne!(first, second);
     }
 }
