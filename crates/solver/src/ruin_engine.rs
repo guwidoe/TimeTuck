@@ -169,6 +169,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 LocalSearchTermination::UnimprovedTimeLimit => {
                     RuinRecreateTermination::UnimprovedTimeLimit
                 }
+                LocalSearchTermination::StepCondition => RuinRecreateTermination::Condition,
                 LocalSearchTermination::UnimprovedStepLimit => {
                     RuinRecreateTermination::UnimprovedStepLimit
                 }

@@ -43,6 +43,9 @@ pub enum IncompleteHandoffPolicy {
 /// Diagnostic callbacks are excluded from both evaluation counters.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SolverLimits<'a, S = SimpleScore> {
+    /// Composed solve-wide limits, polled within search/custom phases and at
+    /// phase boundaries. Construction evaluates this condition at its boundary.
+    pub termination: Option<&'a SearchTermination<'a>>,
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
     /// Cooperative deadline shared by construction, improvement and stream graph
@@ -66,6 +69,7 @@ pub struct SolverLimits<'a, S = SimpleScore> {
 impl<S> Default for SolverLimits<'_, S> {
     fn default() -> Self {
         Self {
+            termination: None,
             max_evaluations: 100_000,
             max_move_evaluations: None,
             max_time: None,
@@ -163,6 +167,8 @@ pub struct PhaseReport<S> {
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolverTermination {
+    /// The configured solve-wide expression became true.
+    Condition,
     /// All planned phases ended, possibly at their own limits. Not optimality.
     PlanCompleted,
     /// A complete scored solution and an exhausted exact search. Pruned branches
@@ -309,6 +315,8 @@ enum PhaseRequest<'a, S> {
 // Clock readings are elapsed from entry to run(), including plan validation.
 // Clip immediately before phase entry, after any graph factory preparation.
 struct SolveControl<'c> {
+    condition: Option<&'c SearchTermination<'c>>,
+    condition_expired: bool,
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
     last: Duration,
@@ -322,6 +330,20 @@ struct SolveControl<'c> {
     steps_expired: bool,
 }
 impl SolveControl<'_> {
+    fn condition_reached(&mut self) -> bool {
+        if let Some(condition) = self.condition {
+            self.sample();
+            let progress = SearchProgress {
+                elapsed: self.last,
+                completed_steps: self.steps.completed_steps(),
+                unimproved_steps: self.started.then(|| self.steps.unimproved_steps()),
+                unimproved_time: self.last_improvement.map(|last| self.last - last),
+            };
+            self.condition_expired |= condition.status(progress).is_some_and(|s| s.reached);
+        }
+        self.condition_expired
+    }
+
     fn sample(&mut self) {
         self.last = self.last.max((self.clock)());
     }
@@ -342,7 +364,10 @@ impl SolveControl<'_> {
         self.steps_expired
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
-        if self.unimproved_limit.is_some() || self.unimproved_steps_limit.is_some() {
+        if self.condition.is_some()
+            || self.unimproved_limit.is_some()
+            || self.unimproved_steps_limit.is_some()
+        {
             Some(self)
         } else {
             None
@@ -368,24 +393,30 @@ impl SolveControl<'_> {
 impl crate::time_limit::SearchControl for SolveControl<'_> {
     fn start_search(&mut self) {
         self.started = true;
-        if self.unimproved_limit.is_some() && self.last_improvement.is_none() {
+        if (self.condition.is_some() || self.unimproved_limit.is_some())
+            && self.last_improvement.is_none()
+        {
             self.sample();
             self.last_improvement = Some(self.last);
         }
     }
     fn record_improvement(&mut self) {
+        self.condition_reached();
         if !self.step_stagnated() {
             self.steps.record_improvement();
         }
         // Keep late improvements in the solution, but never revive an expired solve.
-        if !self.stagnated() && self.last_improvement.is_some() {
+        if !self.stagnated() && !self.condition_expired && self.last_improvement.is_some() {
             self.last_improvement = Some(self.last);
         }
     }
     fn complete_step(&mut self, improved: bool) {
-        if self.unimproved_steps_limit.is_some() && !self.step_stagnated() {
+        if (self.condition.is_some() || self.unimproved_steps_limit.is_some())
+            && !self.step_stagnated()
+        {
             self.steps.complete_step(improved);
             self.step_stagnated();
+            self.condition_reached();
         }
     }
     fn stop(&mut self) -> Option<LocalSearchTermination> {
@@ -393,6 +424,8 @@ impl crate::time_limit::SearchControl for SolveControl<'_> {
             Some(LocalSearchTermination::UnimprovedTimeLimit)
         } else if self.step_stagnated() {
             Some(LocalSearchTermination::UnimprovedStepLimit)
+        } else if self.condition_reached() {
+            Some(LocalSearchTermination::StepCondition)
         } else {
             None
         }
@@ -618,7 +651,9 @@ where
     A: Clone,
 {
     let mut clock = crate::time_limit::monotonic_clock(
-        limits.max_time.is_some() || limits.max_unimproved_time.is_some(),
+        limits.termination.is_some()
+            || limits.max_time.is_some()
+            || limits.max_unimproved_time.is_some(),
     );
     run_with_clock_observed(limits, local, initial, &mut observation, phase, &mut clock)
 }
@@ -666,6 +701,8 @@ where
     A: Clone,
 {
     let mut time = SolveControl {
+        condition: limits.termination,
+        condition_expired: false,
         limit: limits.max_time,
         clock,
         last: Duration::ZERO,
@@ -745,6 +782,10 @@ where
         termination: SolverTermination::PlanCompleted,
     };
     for index in 0..local.len() {
+        if time.condition_reached() {
+            result.termination = SolverTermination::Condition;
+            break;
+        }
         let used = result.work;
         let remaining_scores = limits.max_evaluations - used.evaluations;
         let remaining_moves = limits
@@ -923,6 +964,7 @@ where
             _ if time.expired() => Some(SolverTermination::TimeLimit),
             _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
             _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
+            _ if time.condition_reached() => Some(SolverTermination::Condition),
             _ if !r.complete
                 && !matches!(
                     local.get(index + 1),

@@ -510,3 +510,11 @@ Two multi-entity k-opt ordered-output fixtures in
 partition lengths replace implicit Java choices; notification assertions remain
 pending. Provenance records these substitutions and no method credit is assigned.
 The native combined-cycle implementation and independent references are original.
+
+The twelve cases in `crates/solver/tests/composite_termination_cases.rs` adapt
+`AndCompositeTerminationTest` and `OrCompositeTerminationTest`, including the
+applicability helper from `AbstractCompositeTerminationTest`, at the pinned
+Timefold Community revision (Apache-2.0). Every truth-table and gradient assertion
+is retained; native evaluators replace Java mocks and scope objects. Exact source
+identities and substitutions appear in `compat/provenance.json`. Native expression
+and solve-control implementations and additional integration tests are original.

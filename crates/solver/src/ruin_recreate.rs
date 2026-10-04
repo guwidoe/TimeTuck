@@ -95,6 +95,7 @@ pub enum RuinRecreateTermination {
     FeasibleScore,
     UnimprovedTimeLimit,
     UnimprovedStepLimit,
+    Condition,
     TimeLimit,
     Cancelled,
     NoMovableVariables,

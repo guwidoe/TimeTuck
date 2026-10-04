@@ -67,6 +67,7 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
                 LocalSearchTermination::TimeLimit => X::TimeLimit,
                 LocalSearchTermination::UnimprovedTimeLimit => X::UnimprovedTimeLimit,
                 LocalSearchTermination::UnimprovedStepLimit => X::UnimprovedStepLimit,
+                LocalSearchTermination::StepCondition => X::Condition,
                 _ => unreachable!("timer only reports elapsed/stagnation limits"),
             })
         } else if out.score.as_ref().is_some_and(|s| {

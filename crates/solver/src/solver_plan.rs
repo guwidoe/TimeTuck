@@ -115,6 +115,7 @@ pub enum ExactPhaseTermination {
     TimeLimit,
     UnimprovedTimeLimit,
     UnimprovedStepLimit,
+    Condition,
     Cancelled,
     BestScoreLimit,
     FeasibleScore,

@@ -1665,3 +1665,10 @@ partition/orientation choice or notification assertions. Nine original tests and
 independent small successor references add no upstream-method credit. Public Java
 multi-entity solving comparisons and implicit-boundary compatibility remain pending;
 the existing performance dashboard still measures single-route k-opt only.
+
+All twelve AndCompositeTerminationTest/OrCompositeTerminationTest methods now have
+native adaptations preserving every boolean/gradient assertion and phase-applicability
+case. Native evaluators replace Java mocks and solver/phase scope objects; the
+shared applicability helper is attributed. This establishes expression behavior,
+not Java lifecycle or object API equivalence. Independent six-path orchestration
+and controlled-clock checks cover the new solve-wide count/time expressions.

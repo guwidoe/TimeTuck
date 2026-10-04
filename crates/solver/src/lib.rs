@@ -459,3 +459,8 @@ pub use list_k_opt_sampling::{ListKOptSampling, sample_list_k_opt_moves};
 
 mod list_k_opt_repartition;
 pub use list_k_opt_repartition::sample_list_k_opt_repartitions;
+
+mod composite_termination;
+pub use composite_termination::{
+    SearchLimit, SearchProgress, SearchTermination, TerminationExpression, TerminationState,
+};

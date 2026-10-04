@@ -65,6 +65,7 @@ where
                 LocalSearchTermination::TimeLimit => B::TimeLimit,
                 LocalSearchTermination::UnimprovedTimeLimit => B::UnimprovedTimeLimit,
                 LocalSearchTermination::UnimprovedStepLimit => B::UnimprovedStepLimit,
+                LocalSearchTermination::StepCondition => B::Condition,
                 _ => unreachable!("timer only reports elapsed/stagnation limits"),
             })
         } else if best.is_some_and(|s| {
@@ -102,6 +103,7 @@ impl From<BranchTermination> for ExactPhaseTermination {
             B::TimeLimit => Self::TimeLimit,
             B::UnimprovedTimeLimit => Self::UnimprovedTimeLimit,
             B::UnimprovedStepLimit => Self::UnimprovedStepLimit,
+            B::Condition => Self::Condition,
             B::BestScoreLimit => Self::BestScoreLimit,
             B::FeasibleScore => Self::FeasibleScore,
         }
@@ -197,6 +199,8 @@ mod tests {
     }
     fn control(clock: &mut dyn FnMut() -> Duration) -> SolveControl<'_> {
         SolveControl {
+            condition: None,
+            condition_expired: false,
             limit: None,
             clock,
             last: Duration::ZERO,

@@ -13965,6 +13965,186 @@
       "upstream_test": "testIsFeasible",
       "local_test": "is_feasible",
       "modifications": "Preserve both edge reconnection fixtures and true/false feasibility assertions. Native Result replaces isMoveDoable: a connected cycle succeeds and the disconnected two-vertex subtour is rejected as DuplicateEdge because it adds a second copy of a retained edge. Stable integer IDs and explicit first successor replace Java descriptors and implicit orientation. No Java notification/rebase compatibility claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.solveTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "solveTermination",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_solve_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.phaseTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "phaseTermination",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_phase_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.phaseTerminationInapplicable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "phaseTerminationInapplicable",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_phase_termination_inapplicable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.calculateSolverTimeGradientTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "calculateSolverTimeGradientTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_solver_gradient",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.calculatePhaseTimeGradientTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "calculatePhaseTimeGradientTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_phase_gradient",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "AndCompositeTerminationTest.calculatePhaseTimeGradientInapplicableTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AndCompositeTerminationTest.java",
+      "upstream_test": "calculatePhaseTimeGradientInapplicableTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "and_phase_gradient_inapplicable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.solveTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "solveTermination",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_solve_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.phaseTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "phaseTermination",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_phase_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.phaseTerminationInapplicable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "phaseTerminationInapplicable",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_phase_termination_inapplicable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.calculateSolverTimeGradientTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "calculateSolverTimeGradientTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_solver_gradient",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.calculatePhaseTimeGradientTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "calculatePhaseTimeGradientTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_phase_gradient",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
+    },
+    {
+      "id": "OrCompositeTerminationTest.calculatePhaseTimeGradientInapplicableTest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/OrCompositeTerminationTest.java",
+      "upstream_test": "calculatePhaseTimeGradientInapplicableTest",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "local_test": "or_phase_gradient_inapplicable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every boolean truth-table and exact gradient assertion, including negative unsupported estimates and inapplicable phase leaves. Native borrowed expression and scope-selecting evaluator replace Java termination mocks/scope objects; None represents an inapplicable leaf. Separate solver/phase test functions retain each source identity. No Java object, lifecycle notification or reflection parity claimed."
     }
   ],
   "fixtures": [
@@ -16710,6 +16890,19 @@
       "id": "SelectorBasedKOptListMoveTest.testMultiEntity4Opt.output_fixture",
       "upstream_test": "testMultiEntity4Opt",
       "modifications": "Preserve initial lists, removed/added identity edges, doable success and complete output order. Convert endpoints to combined-cycle offsets. Explicit start/successor and destination lengths select the asserted order and partition; Java implicit orientation/partition selection and before/after notifications are NOT adapted. Native rollback additionally checked. No method credit; full method remains pending. No production implementation inspected."
+    },
+    {
+      "id": "AbstractCompositeTerminationTest.mockPhaseTermination",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/AbstractCompositeTerminationTest.java",
+      "upstream_test": "mockPhaseTermination",
+      "local_path": "crates/solver/tests/composite_termination_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Replace the default-true and explicit-boolean applicability mock helpers with the native phase evaluator applicability flag; preserve the ignored-child behavior. No method credit for the helper."
     }
   ]
 }

@@ -1360,3 +1360,28 @@ absolute updates and report saturating-add overflow. Native reference/budget/his
 notification/decimal/cancellation/managed checks cover all six paths; adapted list
 selector methods add only the documented source-method assertions. Existing Java
 repair timings remain repair-only and do not measure this weighted mode.
+
+## Composed solve-wide termination
+
+`SolverLimits::termination` accepts a borrowed `SearchTermination` tree: `All`,
+`Any`, or `Condition(SearchLimit)`. Conditions currently cover completed search
+steps, unimproved search steps, elapsed solve time and unimproved search time.
+Counters span local/repair phases; phase changes do not reset them. Construction
+is excluded from step/stagnation counts. Strict improvements reset stagnation until
+the whole expression becomes true; individual children of AND are not latched.
+The reached expression stays latched, preserving late improvements in the result.
+
+Expressions are polled at phase boundaries, within local search, between repair
+attempts, between exact-search candidates/nodes, and by custom-command checks.
+Construction polls at its phase boundary. Elapsed time includes setup/scoring;
+active callbacks are cooperative and may overshoot. Existing hard budgets and
+cancellation remain independent. `SolverTermination::Condition` identifies this
+stop; phase reports retain the corresponding phase reason. Full exact exhaustion
+still proves optimality when it coincides with a condition becoming true.
+
+`TerminationExpression<C>::evaluate` also supports caller-defined conditions and
+scope applicability. Inapplicable leaves return None; unsupported progress estimates
+are independent of exact boolean decisions. AND reports minimum supported progress
+(default 1), OR maximum (default 0). Empty composites use logical identities. Native
+`SearchLimit` snapshots before search starts mark stagnation as unreached with no
+estimate. Rounded progress never decides whether an integer threshold is reached.

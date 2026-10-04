@@ -31,6 +31,7 @@ pub enum CustomPhaseTermination {
     Cancelled,
     UnimprovedTimeLimit,
     UnimprovedStepLimit,
+    Condition,
     BestScoreLimit,
     FeasibleScore,
 }
@@ -214,6 +215,9 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             self.stop = self.shared.as_mut().and_then(|m| match m.stop() {
                 Some(LocalSearchTermination::UnimprovedTimeLimit) => {
                     Some(CustomPhaseTermination::UnimprovedTimeLimit)
+                }
+                Some(LocalSearchTermination::StepCondition) => {
+                    Some(CustomPhaseTermination::Condition)
                 }
                 Some(LocalSearchTermination::UnimprovedStepLimit) => {
                     Some(CustomPhaseTermination::UnimprovedStepLimit)

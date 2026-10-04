@@ -9212,3 +9212,24 @@ Initial Rust baseline:2029 passed; unchanged follow-up:284 targets reused, zero
 commands executed (39.31s hashing/log assembly). Python suite251 passed, followed by
 8 focused cache checks including one added module-isolation case (252 distinct tests).
 Old global-key benchmark reports remain stale; no benchmark sweep was performed.
+
+## Solve-wide composite termination
+
+Added borrowed TerminationExpression<C> (All/Any/Condition), exact decisions and
+optional progress estimates, with scope applicability supplied by a native evaluator.
+SearchTermination composes steps, elapsed time and both stagnation limits through
+SolverLimits::termination. Shared counters survive local/repair phase handoffs;
+only the complete expression latches, so an unfinished AND permits stagnation resets.
+Polled within local/repair/exact/custom phases and at construction boundaries.
+Construction does not yet poll composite conditions inside its candidate loop;
+score/evaluation leaves are not yet part of this native solve-wide expression.
+Twelve complete And/OrCompositeTerminationTest adaptations and the abstract
+applicability helper are attributed. Six original integration tests cover all six
+solve paths, repair stopping, initialization, nested progress and full-width counts;
+two controlled-clock cases cover resets and exact/bounded/custom stopping.
+Exact exhaustion still takes optimality precedence when a condition coincides.
+check.sh passed:2049 Rust tests,109 doctests,252 Python checks,fmt/Clippy.
+Coverage943/4855(19.423%); failed/unverified0. Dashboard data/freshness matched.
+Benchmarks remain stale; no benchmark sweep or browser redesign. A single batched
+--no-run Cargo build avoided sequential recompilation during the gate. Full goal
+remains active; extend substantial missing solver behavior next.

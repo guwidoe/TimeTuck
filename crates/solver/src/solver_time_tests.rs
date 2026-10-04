@@ -278,6 +278,8 @@ fn elapsed_time_precedes_shared_goals_but_preserves_phase_reports() {
 fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time() {
     let mut disabled = || panic!("disabled global clock");
     let mut time = SolveControl {
+        condition: None,
+        condition_expired: false,
         limit: None,
         clock: &mut disabled,
         last: Duration::ZERO,
@@ -298,6 +300,8 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     let mut samples = [ms(3), ms(1), ms(8), ms(2), ms(10), ms(0)].into_iter();
     let mut clock = || samples.next().unwrap();
     let mut time = SolveControl {
+        condition: None,
+        condition_expired: false,
         limit: Some(ms(10)),
         clock: &mut clock,
         last: Duration::ZERO,
@@ -409,6 +413,8 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
     let elapsed = Cell::new(ms(10_000));
     let mut clock = || elapsed.get();
     let mut time = SolveControl {
+        condition: None,
+        condition_expired: false,
         limit: None,
         clock: &mut clock,
         last: Duration::ZERO,
@@ -457,6 +463,8 @@ fn equal_score_moves_and_new_phase_initialization_do_not_reset_shared_stagnation
 
 fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> SolveControl<'a> {
     SolveControl {
+        condition: None,
+        condition_expired: false,
         limit: None,
         clock,
         last: Duration::ZERO,
@@ -972,5 +980,69 @@ fn significant_improvement_is_phase_local_and_excludes_factory_preparation() {
         );
         assert_eq!(r.termination, SolverTermination::Optimal);
         assert_eq!(r.score, Some(SimpleScore::ZERO));
+    }
+}
+
+#[test]
+fn composed_stagnation_can_reset_until_the_whole_condition_is_reached() {
+    use crate::time_limit::SearchControl;
+    let elapsed = Cell::new(0);
+    let mut clock = || ms(elapsed.get());
+    let children = [
+        SearchTermination::Condition(SearchLimit::UnimprovedTime(ms(5))),
+        SearchTermination::Condition(SearchLimit::Steps(3)),
+    ];
+    let condition = SearchTermination::All(&children);
+    let mut control = step_control(u64::MAX, &mut clock);
+    control.condition = Some(&condition);
+    control.start_search();
+    elapsed.set(6);
+    assert_eq!(control.stop(), None); // Time child true, step child false.
+    control.record_improvement(); // Reset time; no individual-child latch.
+    control.complete_step(false);
+    control.complete_step(false);
+    control.complete_step(false);
+    assert_eq!(control.stop(), None);
+    elapsed.set(11);
+    assert_eq!(control.stop(), Some(LocalSearchTermination::StepCondition));
+    control.record_improvement();
+    control.start_search();
+    assert_eq!(control.stop(), Some(LocalSearchTermination::StepCondition));
+}
+
+#[test]
+fn composed_elapsed_limits_stop_inside_exact_and_custom_phases() {
+    let children = [
+        SearchTermination::Condition(SearchLimit::Time(ms(1))),
+        SearchTermination::Condition(SearchLimit::Time(ms(2))),
+    ];
+    let condition = SearchTermination::All(&children);
+    for phase in [
+        SolverPhase::Exact(ExactPhaseConfig::default()),
+        SolverPhase::Exact(ExactPhaseConfig {
+            strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+            ..Default::default()
+        }),
+        SolverPhase::Custom(CustomPhaseConfig::default()),
+    ] {
+        let r = exercise_scored(
+            SolverSequence {
+                limits: SolverLimits {
+                    termination: Some(&condition),
+                    ..Default::default()
+                },
+                phases: vec![phase.clone(), phase],
+            },
+            0,
+            |v| v as i64,
+        );
+        assert_eq!(r.termination, SolverTermination::Condition);
+        assert_eq!(r.phases.len(), 1);
+        assert_eq!(r.work.evaluations, 2);
+        assert!(matches!(
+            r.phases[0].termination,
+            PhaseTermination::Exact(ExactPhaseTermination::Condition)
+                | PhaseTermination::Custom(CustomPhaseTermination::Condition)
+        ));
     }
 }
