@@ -417,16 +417,19 @@ mod ruin_recreate;
 pub use ruin_recreate::{
     ListRuinRecreateResult, RuinRecreateConfig, RuinRecreateError, RuinRecreateOutcome,
     RuinRecreateResult, RuinRecreateTermination, ruin_recreate_search_from,
-    ruin_recreate_stream_search_from,
+    ruin_recreate_search_from_with_observer, ruin_recreate_stream_search_from,
+    ruin_recreate_stream_search_from_with_observer,
 };
 
 mod list_ruin_recreate;
 pub use list_ruin_recreate::{
-    ruin_recreate_list_search_from, ruin_recreate_list_stream_search_from,
+    ruin_recreate_list_search_from, ruin_recreate_list_search_from_with_observer,
+    ruin_recreate_list_stream_search_from, ruin_recreate_list_stream_search_from_with_observer,
 };
 
 mod mixed_ruin_recreate;
 pub use mixed_ruin_recreate::{
     MixedRuinRecreateConfig, MixedRuinRecreateResult, ruin_recreate_mixed_search_from,
-    ruin_recreate_mixed_stream_search_from,
+    ruin_recreate_mixed_search_from_with_observer, ruin_recreate_mixed_stream_search_from,
+    ruin_recreate_mixed_stream_search_from_with_observer,
 };

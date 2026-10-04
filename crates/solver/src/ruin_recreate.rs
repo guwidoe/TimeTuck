@@ -145,6 +145,31 @@ pub fn ruin_recreate_search_from<V: Eq + Clone, S: AdditiveScore>(
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
+    ruin_recreate_search_from_observed(problem, network, initial, config, None)
+}
+
+/// Report the initial complete scored solution and each strict retained-best
+/// improvement synchronously. No partial repairs, ties or accepted worsening
+/// states are reported. Callbacks do not rescore; their time counts toward the
+/// search deadline. Cancellation from a callback stops at the next boundary,
+/// after retaining that solution. Panics propagate with caller inputs unchanged.
+/// Validation failures and skipped initial scoring emit no notifications.
+pub fn ruin_recreate_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: RuinRecreateConfig<S>,
+    mut observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
+    ruin_recreate_search_from_observed(problem, network, initial, config, Some(&mut observer))
+}
+fn ruin_recreate_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: RuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
+) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
     if network.variable_count() != problem.variables().len() {
         return Err(LocalSearchError::from(ScoringError::VariableCount {
             expected: network.variable_count(),
@@ -152,7 +177,7 @@ pub fn ruin_recreate_search_from<V: Eq + Clone, S: AdditiveScore>(
         })
         .into());
     }
-    run(problem, initial, config, |p, a, c| {
+    run(problem, initial, config, observer, |p, a, c| {
         greedy_construction_from(p, network, a, c).map_err(LocalSearchError::from)
     })
 }
@@ -163,11 +188,44 @@ pub fn ruin_recreate_search_from<V: Eq + Clone, S: AdditiveScore>(
 /// preparation is cooperative; errors propagate and panics leave caller data intact.
 pub fn ruin_recreate_stream_search_from<'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     problem: &FiniteProblem<V>,
-    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
-    run(problem, initial, config, |p, a, mut c| {
+    ruin_recreate_stream_search_from_observed(problem, graph, initial, config, None)
+}
+
+/// Report the initial complete scored solution and each strict retained-best
+/// improvement synchronously. No partial repairs, ties or accepted worsening
+/// states are reported. Callbacks do not rescore; their time counts toward the
+/// search deadline. Cancellation from a callback stops at the next boundary,
+/// after retaining that solution. Panics propagate with caller inputs unchanged.
+/// Validation failures and skipped initial scoring emit no notifications.
+pub fn ruin_recreate_stream_search_from_with_observer<
+    'g,
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &FiniteProblem<V>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    initial: Assignment<V>,
+    config: RuinRecreateConfig<S>,
+    mut observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
+    ruin_recreate_stream_search_from_observed(problem, graph, initial, config, Some(&mut observer))
+}
+fn ruin_recreate_stream_search_from_observed<
+    'g,
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &FiniteProblem<V>,
+    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, PlanningStreamSource<V>), GraphError>,
+    initial: Assignment<V>,
+    config: RuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
+) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
+    run(problem, initial, config, observer, |p, a, mut c| {
         let start = c.max_time.map(|_| Instant::now());
         let (graph, source) =
             graph().map_err(|e| LocalSearchError::from(StreamScoringError::from(e)))?;
@@ -182,13 +240,14 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
     problem: &FiniteProblem<V>,
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
     mut rebuild: impl FnMut(
         &FiniteProblem<V>,
         Assignment<V>,
         ConstructionConfig,
     ) -> Result<ConstructionResult<V, S>, LocalSearchError>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
-    crate::ruin_engine::run(problem, initial, config, |p, a, c| {
+    crate::ruin_engine::run(problem, initial, config, observer, |p, a, c| {
         let r = rebuild(p, a, c)?;
         Ok(crate::ruin_engine::Repair {
             assignment: r.assignment,

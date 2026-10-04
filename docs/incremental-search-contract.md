@@ -1839,5 +1839,35 @@ Seven original regressions cover 2,550 independent score/candidate budget prefix
 (25 score limits x 17 candidate limits x six entry points), exact work/quality at
 cutoffs, optional/required retention, coincident limits, initial and post-repair
 goals, owned decimal thresholds, and 702 placement/early-pick budget combinations.
-Observation and solver-wide stagnation hooks are still needed before phase-plan
-integration can preserve the existing global lifecycle contract.
+Solver-wide stagnation hooks are still needed before phase-plan integration can
+preserve the existing global lifecycle contract. Observation is described below.
+
+
+## Repair solution notifications
+
+The six repair entry points now have `_with_observer` counterparts accepting
+`SolutionUpdate`. They emit the initial complete scored assignment and then each
+strict retained-best improvement. Ties, incomplete required repairs, accepted
+worsening states and unchanged attempts emit nothing. Complete optional repairs may
+contain unassigned values. Notifications describe retained best independently of
+whether the acceptance policy changes the current search state.
+
+Callbacks are synchronous, borrow the assignment and receive an owned score.
+They do not trigger additional scoring. The existing unobserved APIs pass no
+callback and perform no notification-related score clones. Observed searches retain
+the same work counters and seeded trace unless callback side effects stop work.
+Observers must not mutate shared problem facts. Clone snapshots for publication.
+
+Retention and acceptance bookkeeping precede improvement notification. Cancellation
+from a callback is honored at the next attempt boundary, preserving the notified
+solution. Callback time consumes the cooperative search deadline. Panics propagate;
+input models and caller-owned assignment clones stay unchanged. Validation failures,
+zero score budgets and pre-cancellation emit no initial event. Errors in a later
+repair can follow earlier valid notifications; an error is not a successful result.
+
+Five original regressions add 1,638 observed/unobserved budget pairs across all six
+paths (3,276 solves), exact event/quality/counter equivalence, cancellation from
+initial and improvement callbacks, callback timing, owned decimal scores, skipped
+scoring, panic propagation/reuse, optional unassignment, and successive sampled
+improvements. These checks earn no upstream method credit. Shared stagnation
+control and SolverPlan/managed lifecycle integration remain pending.

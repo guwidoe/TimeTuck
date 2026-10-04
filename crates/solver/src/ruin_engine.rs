@@ -2,6 +2,8 @@
 use crate::*;
 use std::time::Instant;
 
+pub(crate) type RepairObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
+
 pub(crate) struct Repair<A, S> {
     pub assignment: A,
     pub score: Option<S>,
@@ -50,6 +52,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     problem: &P,
     initial: P::Assignment,
     config: RuinRecreateConfig<S>,
+    mut observer: crate::ruin_engine::RepairObserver<'_, P::Assignment, S>,
     mut rebuild: impl FnMut(
         &P,
         P::Assignment,
@@ -116,6 +119,13 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     let mut acceptor = policy
         .start_with_values(current.1.clone())
         .map_err(LocalSearchError::from)?;
+    if let Some(observer) = &mut observer {
+        observer(SolutionUpdate {
+            assignment: &current.0,
+            score: current.1.clone(),
+            complete: true,
+        });
+    }
     // Keep the previous permutation when the eligible set is unchanged, retaining
     // the established basic-variable seeded trace. Lists can change eligibility.
     let mut movable = problem.movable(&current.0);
@@ -183,7 +193,8 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         result.constraint_evaluations += candidate.constraint_evaluations;
         if let Some(candidate) = candidate.solution() {
             result.complete_reconstructions += 1;
-            if candidate.1 > result.best.as_ref().expect("initial best").1 {
+            let improved = candidate.1 > result.best.as_ref().expect("initial best").1;
+            if improved {
                 result.best = Some(candidate.clone());
             }
             if current.0 != candidate.0 {
@@ -199,6 +210,14 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                     current = candidate;
                     result.accepted_moves += 1;
                 }
+            }
+            if improved && let Some(observer) = &mut observer {
+                let (assignment, score) = result.best.as_ref().expect("retained best");
+                observer(SolutionUpdate {
+                    assignment,
+                    score: score.clone(),
+                    complete: true,
+                });
             }
         }
     }

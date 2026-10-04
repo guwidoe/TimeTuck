@@ -121,6 +121,28 @@ fn run<S: AdditiveScore + 'static>(
     c: RuinRecreateConfig<S>,
     score: impl Fn(&[Option<i32>]) -> S,
 ) -> RuinRecreateOutcome<(Vec<Option<i32>>, S)> {
+    run_observed(kind, stream, optional, c, score, None)
+}
+fn run_observed<S: AdditiveScore + 'static>(
+    kind: Kind,
+    stream: bool,
+    optional: bool,
+    c: RuinRecreateConfig<S>,
+    score: impl Fn(&[Option<i32>]) -> S,
+    mut observer: Option<&mut dyn FnMut(Vec<Option<i32>>, S)>,
+) -> RuinRecreateOutcome<(Vec<Option<i32>>, S)> {
+    macro_rules! repair {
+        ($plain:path, $observed:path, ($($arg:expr),* $(,)?), $project:expr) => {
+            if let Some(observer) = observer.as_deref_mut() {
+                $observed($($arg),*, |u| {
+                    assert!(u.complete);
+                    observer(($project)(u.assignment), u.score);
+                })
+            } else {
+                $plain($($arg),*)
+            }
+        };
+    }
     let p = problem(kind, optional);
     let result = match (kind, stream) {
         (Kind::Basic, false) => {
@@ -130,17 +152,27 @@ fn run<S: AdditiveScore + 'static>(
             })
             .unwrap();
             map(
-                ruin_recreate_search_from(p.basic(), &n, p.basic().initial_assignment(), c)
-                    .unwrap(),
+                repair!(
+                    ruin_recreate_search_from,
+                    ruin_recreate_search_from_with_observer,
+                    (p.basic(), &n, p.basic().initial_assignment(), c),
+                    |a: &Assignment<i32>| a.values().to_vec()
+                )
+                .unwrap(),
                 |b| (b.assignment.values().to_vec(), b.score),
             )
         }
         (Kind::Basic, true) => map(
-            ruin_recreate_stream_search_from(
-                p.basic(),
-                || graph(kind, &score).map(|(g, s)| (g, s.basic)),
-                p.basic().initial_assignment(),
-                c,
+            repair!(
+                ruin_recreate_stream_search_from,
+                ruin_recreate_stream_search_from_with_observer,
+                (
+                    p.basic(),
+                    || graph(kind, &score).map(|(g, s)| (g, s.basic)),
+                    p.basic().initial_assignment(),
+                    c,
+                ),
+                |a: &Assignment<i32>| a.values().to_vec()
             )
             .unwrap(),
             |b| (b.assignment.values().to_vec(), b.score),
@@ -165,17 +197,27 @@ fn run<S: AdditiveScore + 'static>(
             )
             .unwrap();
             map(
-                ruin_recreate_list_search_from(p.lists(), &n, p.lists().initial_assignment(), c)
-                    .unwrap(),
+                repair!(
+                    ruin_recreate_list_search_from,
+                    ruin_recreate_list_search_from_with_observer,
+                    (p.lists(), &n, p.lists().initial_assignment(), c),
+                    |a: &ListAssignment<i32>| project(kind, &[], a.lists())
+                )
+                .unwrap(),
                 |b| (project(kind, &[], b.assignment.lists()), b.score),
             )
         }
         (Kind::Lists, true) => map(
-            ruin_recreate_list_stream_search_from(
-                p.lists(),
-                || graph(kind, &score).map(|(g, s)| (g, s.lists)),
-                p.lists().initial_assignment(),
-                c,
+            repair!(
+                ruin_recreate_list_stream_search_from,
+                ruin_recreate_list_stream_search_from_with_observer,
+                (
+                    p.lists(),
+                    || graph(kind, &score).map(|(g, s)| (g, s.lists)),
+                    p.lists().initial_assignment(),
+                    c,
+                ),
+                |a: &ListAssignment<i32>| project(kind, &[], a.lists())
             )
             .unwrap(),
             |b| (project(kind, &[], b.assignment.lists()), b.score),
@@ -200,14 +242,23 @@ fn run<S: AdditiveScore + 'static>(
             )
             .unwrap();
             map(
-                ruin_recreate_mixed_search_from(
-                    &p,
-                    &n,
-                    p.initial_assignment(),
-                    MixedRuinRecreateConfig {
-                        search: c,
-                        ..Default::default()
-                    },
+                repair!(
+                    ruin_recreate_mixed_search_from,
+                    ruin_recreate_mixed_search_from_with_observer,
+                    (
+                        &p,
+                        &n,
+                        p.initial_assignment(),
+                        MixedRuinRecreateConfig {
+                            search: c,
+                            ..Default::default()
+                        },
+                    ),
+                    |a: &MixedAssignment<i32, i32>| project(
+                        kind,
+                        a.basic().values(),
+                        a.lists().lists()
+                    )
                 )
                 .unwrap(),
                 |b| {
@@ -223,14 +274,23 @@ fn run<S: AdditiveScore + 'static>(
             )
         }
         (Kind::Mixed, true) => map(
-            ruin_recreate_mixed_stream_search_from(
-                &p,
-                || graph(kind, &score),
-                p.initial_assignment(),
-                MixedRuinRecreateConfig {
-                    search: c,
-                    ..Default::default()
-                },
+            repair!(
+                ruin_recreate_mixed_stream_search_from,
+                ruin_recreate_mixed_stream_search_from_with_observer,
+                (
+                    &p,
+                    || graph(kind, &score),
+                    p.initial_assignment(),
+                    MixedRuinRecreateConfig {
+                        search: c,
+                        ..Default::default()
+                    },
+                ),
+                |a: &MixedAssignment<i32, i32>| project(
+                    kind,
+                    a.basic().values(),
+                    a.lists().lists()
+                )
             )
             .unwrap(),
             |b| {
@@ -621,6 +681,250 @@ fn every_placement_and_early_pick_obeys_the_shared_candidate_cap() {
                     }
                 }
             }
+        }
+    }
+}
+
+#[test]
+fn repair_observers_preserve_results_counters_and_strict_event_prefixes() {
+    for kind in KINDS {
+        for stream in [false, true] {
+            for scores in 0..=20 {
+                for moves in 0..=12 {
+                    let c = RuinRecreateConfig {
+                        max_evaluations: scores,
+                        max_move_evaluations: Some(moves),
+                        ..config()
+                    };
+                    let plain = run(kind, stream, false, c.clone(), quality);
+                    let mut events = vec![];
+                    let observed = run_observed(
+                        kind,
+                        stream,
+                        false,
+                        c,
+                        quality,
+                        Some(&mut |v, s| events.push((v, s))),
+                    );
+                    assert_eq!(plain, observed);
+                    for (v, s) in &events {
+                        assert_eq!(*s, quality(v));
+                        assert!(v.iter().all(Option::is_some));
+                    }
+                    assert!(events.windows(2).all(|w| w[0].1 < w[1].1));
+                    assert_eq!(events.last(), observed.best.as_ref());
+                    assert_eq!(
+                        events.len(),
+                        if scores == 0 {
+                            0
+                        } else {
+                            1 + usize::from(
+                                observed.best.as_ref().unwrap().1 > quality(&[Some(0), Some(0)]),
+                            )
+                        }
+                    );
+                    if scores > 0 {
+                        assert_eq!(
+                            events[0],
+                            (vec![Some(0), Some(0)], quality(&[Some(0), Some(0)]))
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn cancelling_from_initial_or_improved_notification_keeps_that_solution() {
+    for kind in KINDS {
+        for stream in [false, true] {
+            for cancel_after in [1, 2] {
+                let token = CancellationToken::new();
+                let mut events = vec![];
+                let r = run_observed(
+                    kind,
+                    stream,
+                    false,
+                    RuinRecreateConfig {
+                        cancellation: Some(&token),
+                        ..config()
+                    },
+                    quality,
+                    Some(&mut |v, s| {
+                        events.push((v, s));
+                        if events.len() == cancel_after {
+                            token.cancel();
+                        }
+                    }),
+                );
+                assert_eq!(r.termination, RuinRecreateTermination::Cancelled);
+                assert_eq!(r.attempts, if cancel_after == 1 { 0 } else { 1 });
+                assert_eq!(events.len(), cancel_after);
+                assert_eq!(events.last(), r.best.as_ref());
+                assert_eq!(
+                    r.best.unwrap().1,
+                    HardSoftScore::new(if cancel_after == 1 { -2 } else { 0 }, 0)
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn callback_time_counts_and_owned_decimal_notifications_do_not_round() {
+    let old: HardSoftDecimalScore = "-0.000000000000000002hard/0soft".parse().unwrap();
+    let new: HardSoftDecimalScore = "-0.000000000000000001hard/0soft".parse().unwrap();
+    for kind in KINDS {
+        for stream in [false, true] {
+            let mut events = vec![];
+            let r = run_observed(
+                kind,
+                stream,
+                false,
+                config(),
+                |v| {
+                    if v.contains(&Some(1)) {
+                        new.clone()
+                    } else {
+                        old.clone()
+                    }
+                },
+                Some(&mut |v, s| events.push((v, s))),
+            );
+            assert_eq!(
+                events.iter().map(|e| e.1.clone()).collect::<Vec<_>>(),
+                vec![old.clone(), new.clone()]
+            );
+            assert_eq!(events.last(), r.best.as_ref());
+            let mut count = 0;
+            let r = run_observed(
+                kind,
+                stream,
+                false,
+                RuinRecreateConfig {
+                    max_time: Some(Duration::from_millis(1)),
+                    ..config()
+                },
+                quality,
+                Some(&mut |_, _| {
+                    count += 1;
+                    std::thread::sleep(Duration::from_millis(3));
+                }),
+            );
+            assert_eq!(r.termination, RuinRecreateTermination::TimeLimit);
+            assert_eq!(count, 1);
+            assert_eq!(r.attempts, 0);
+            assert_eq!(r.evaluations, 1);
+        }
+    }
+}
+
+#[test]
+fn skipped_scoring_emits_nothing_and_observer_panics_propagate() {
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+    for kind in KINDS {
+        for stream in [false, true] {
+            let token = CancellationToken::new();
+            token.cancel();
+            for c in [
+                RuinRecreateConfig {
+                    max_evaluations: 0,
+                    ..config()
+                },
+                RuinRecreateConfig {
+                    cancellation: Some(&token),
+                    ..config()
+                },
+            ] {
+                let r = run_observed(
+                    kind,
+                    stream,
+                    false,
+                    c,
+                    quality,
+                    Some(&mut |_, _| panic!("skipped scoring must not notify")),
+                );
+                assert!(r.best.is_none());
+            }
+            for panic_after in [1, 2] {
+                let mut count = 0;
+                let error = catch_unwind(AssertUnwindSafe(|| {
+                    run_observed(
+                        kind,
+                        stream,
+                        false,
+                        config(),
+                        quality,
+                        Some(&mut |_, _| {
+                            count += 1;
+                            if count == panic_after {
+                                panic!("observer failure");
+                            }
+                        }),
+                    )
+                }));
+                assert!(error.is_err());
+                assert_eq!(count, panic_after);
+            }
+            // A callback failure leaves no thread-local search/graph state behind.
+            let r = run(kind, stream, false, config(), quality);
+            assert_eq!(r.best.unwrap().1, HardSoftScore::ZERO);
+        }
+    }
+}
+
+#[test]
+fn sampled_improvements_notify_in_order_and_optional_repairs_notify_complete_nulls() {
+    for kind in KINDS {
+        for stream in [false, true] {
+            for seed in 0..8 {
+                let mut events = vec![];
+                let r = run_observed(
+                    kind,
+                    stream,
+                    false,
+                    RuinRecreateConfig {
+                        seed,
+                        minimum_ruined: 1,
+                        maximum_ruined: 1,
+                        max_attempts: 30,
+                        ..config()
+                    },
+                    quality,
+                    Some(&mut |v, s| events.push((v, s))),
+                );
+                assert_eq!(
+                    events.iter().map(|v| v.1).collect::<Vec<_>>(),
+                    vec![
+                        HardSoftScore::new(-2, 0),
+                        HardSoftScore::new(-1, 0),
+                        HardSoftScore::ZERO
+                    ]
+                );
+                assert_eq!(events.last(), r.best.as_ref());
+            }
+            let mut events = vec![];
+            let r = run_observed(
+                kind,
+                stream,
+                true,
+                RuinRecreateConfig {
+                    max_move_evaluations: Some(1),
+                    ..config()
+                },
+                |v| SimpleScore::new(-(v.iter().flatten().count() as i64)),
+                Some(&mut |v, s| events.push((v, s))),
+            );
+            assert_eq!(r.termination, RuinRecreateTermination::MoveEvaluationLimit);
+            assert_eq!(
+                events,
+                vec![
+                    (vec![Some(0), Some(0)], SimpleScore::new(-2)),
+                    (vec![None, None], SimpleScore::ZERO)
+                ]
+            );
+            assert_eq!(events.last(), r.best.as_ref());
         }
     }
 }

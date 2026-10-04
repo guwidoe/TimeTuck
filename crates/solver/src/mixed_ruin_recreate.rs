@@ -41,10 +41,39 @@ pub fn ruin_recreate_mixed_search_from<B: Eq + Clone, L: Eq + Clone, S: Additive
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
+    ruin_recreate_mixed_search_from_observed(problem, network, initial, config, None)
+}
+
+/// Report the initial complete scored solution and each strict retained-best
+/// improvement synchronously. No partial repairs, ties or accepted worsening
+/// states are reported. Callbacks do not rescore; their time counts toward the
+/// search deadline. Cancellation from a callback stops at the next boundary,
+/// after retaining that solution. Panics propagate with caller inputs unchanged.
+/// Validation failures and skipped initial scoring emit no notifications.
+pub fn ruin_recreate_mixed_search_from_with_observer<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: MixedRuinRecreateConfig<S>,
+    mut observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
+    ruin_recreate_mixed_search_from_observed(problem, network, initial, config, Some(&mut observer))
+}
+fn ruin_recreate_mixed_search_from_observed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: MixedRuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
+) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     network
         .validate(problem, &initial)
         .map_err(MixedLocalSearchError::from)?;
-    run(problem, initial, config, |p, a, c| {
+    run(problem, initial, config, observer, |p, a, c| {
         greedy_mixed_construction_from(p, network, a, c).map_err(MixedLocalSearchError::from)
     })
 }
@@ -58,11 +87,52 @@ pub fn ruin_recreate_mixed_stream_search_from<
     S: AdditiveScore + 'static,
 >(
     problem: &MixedProblem<B, L>,
-    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    run(problem, initial, config, |p, a, mut c| {
+    ruin_recreate_mixed_stream_search_from_observed(problem, graph, initial, config, None)
+}
+
+/// Report the initial complete scored solution and each strict retained-best
+/// improvement synchronously. No partial repairs, ties or accepted worsening
+/// states are reported. Callbacks do not rescore; their time counts toward the
+/// search deadline. Cancellation from a callback stops at the next boundary,
+/// after retaining that solution. Panics propagate with caller inputs unchanged.
+/// Validation failures and skipped initial scoring emit no notifications.
+pub fn ruin_recreate_mixed_stream_search_from_with_observer<
+    'g,
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    initial: MixedAssignment<B, L>,
+    config: MixedRuinRecreateConfig<S>,
+    mut observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
+    ruin_recreate_mixed_stream_search_from_observed(
+        problem,
+        graph,
+        initial,
+        config,
+        Some(&mut observer),
+    )
+}
+fn ruin_recreate_mixed_stream_search_from_observed<
+    'g,
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    mut graph: impl FnMut() -> Result<(StreamGraph<'g, S>, MixedStreamSources<B, L>), GraphError>,
+    initial: MixedAssignment<B, L>,
+    config: MixedRuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
+) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
+    run(problem, initial, config, observer, |p, a, mut c| {
         let start = c.construction.max_time.map(|_| Instant::now());
         let (graph, sources) =
             graph().map_err(|e| MixedLocalSearchError::from(MixedStreamScoringError::from(e)))?;
@@ -77,29 +147,36 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
+    observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
     mut rebuild: impl FnMut(
         &MixedProblem<B, L>,
         MixedAssignment<B, L>,
         MixedConstructionConfig,
     ) -> Result<MixedConstructionResult<B, L, S>, MixedLocalSearchError>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    crate::ruin_engine::run(problem, initial, config.search, |p, a, construction| {
-        let r = rebuild(
-            p,
-            a,
-            MixedConstructionConfig {
-                construction,
-                order: config.order,
-            },
-        )?;
-        Ok(crate::ruin_engine::Repair {
-            assignment: r.assignment,
-            score: r.score,
-            complete: r.complete,
-            evaluations: r.evaluations,
-            constraint_evaluations: r.constraint_evaluations,
-        })
-    })
+    crate::ruin_engine::run(
+        problem,
+        initial,
+        config.search,
+        observer,
+        |p, a, construction| {
+            let r = rebuild(
+                p,
+                a,
+                MixedConstructionConfig {
+                    construction,
+                    order: config.order,
+                },
+            )?;
+            Ok(crate::ruin_engine::Repair {
+                assignment: r.assignment,
+                score: r.score,
+                complete: r.complete,
+                evaluations: r.evaluations,
+                constraint_evaluations: r.constraint_evaluations,
+            })
+        },
+    )
     .map(|r| r.map(|(assignment, score)| ScoredMixedAssignment { assignment, score }))
 }
 impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProblem<B, L> {

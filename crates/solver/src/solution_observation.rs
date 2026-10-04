@@ -1,8 +1,8 @@
-//! Synchronous notifications of committed construction/local-search states.
+//! Synchronous notifications of construction, local-search and repair states.
 use crate::*;
 
 /// A scored state borrowed for one observer call. Construction includes partial
-/// initialization; local-search updates are complete retained bests. No candidate
+/// initialization; local-search and repair updates are complete retained bests. No candidate
 /// trials are exposed. Clone the assignment when sending an owned snapshot to a
 /// SolverProgress publisher. Observers must not mutate shared problem facts.
 /// Each phase emits its initial scored state even when it equals a prior phase's

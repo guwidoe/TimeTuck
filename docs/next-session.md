@@ -8408,3 +8408,46 @@ Then wire SolverPhase/MixedSolverPhase, phase reports, global limits, factories 
 managed lifecycle across all six backends. RuinRecreateError already wraps native
 local errors; avoid introducing unboxed recursive error types when integrating.
 The full goal remains active, incomplete and unblocked.
+
+
+## Repair observers increment (verified)
+
+Added `_with_observer` counterparts for all six repair APIs, using SolutionUpdate.
+Shared engine emits initial complete scored state and strict retained-best updates
+only; notification follows retention/acceptance bookkeeping. Callback cancellation
+and time are checked at the next attempt boundary. Existing unobserved wrappers pass
+None, avoiding extra score clones. Public/private wrapper split shares validation,
+factory timing and reconstruction; internal RepairObserver alias avoids complex
+callback signatures. No new upstream method/fixture or provenance change.
+
+Five new original regressions passed: 1,638 observed/unobserved budget pairs (3,276
+solves), exact counter/results and event equivalence, initial/improvement cancellation,
+callback timing, decimals, skipped scoring, panic propagation/reuse, optional nulls,
+and successive sampled improvements. Original seven control regressions still pass.
+Full gate runs as handle 73739 into work/repair-observers-check.log; formatting and
+Clippy already pass. Sources frozen. Expected full counts: 1,909 Rust / 101 doctests /
+223 Python; coverage unchanged 887/4,855=18.27%. Goal active and incomplete.
+
+Full gate 73739 completed exit 0 with expected counts: 1,909 Rust tests, 101 doctests,
+223 Python checks and clean format/Clippy. Release/refresh/audit runs as handle 92449:
+work/repair-observers-release.log, work/repair-observers-verify.log and
+work/repair-observers-audit.log. Expected 42 focused release checks, 14 current
+measurement datasets and 71 timing workloads. Re-poll the same handle on observation
+timeouts; do not restart timed jobs. No source/provenance changes during measurement.
+
+
+Release/refresh/audit handle 92449 completed exit 0. All 42 focused repair tests
+passed in release mode. All 14 datasets have current measured-source/verification
+fingerprints, with 71 timing workloads and prior quality/counter/discrepancy checks
+passing. No new Java repair benchmark or adapted method credit is claimed.
+Browser checks passed at 1440x900 and 390x844: 18.27%, 71 cards, no stale/undefined
+text, page errors or horizontal overflow. Browser closed; localhost:8765 remains
+running. No test or measurement process remains live. Upstream/provenance unchanged.
+
+Next substantive work remains full repair-phase integration. Shared observer support
+is now available; add SearchControl monitoring and explicit accepted-step semantics,
+then all six SolverPhase/MixedSolverPhase backend paths, global work/time/goal limits,
+phase reports and managed solver factories. Existing private *_observed wrappers
+share optional callbacks; expose crate-level variants as needed rather than duplicate
+validation/scoring logic. Avoid recursive unboxed native/repair error variants.
+Keep goal active: the full Community solver remains incomplete and unblocked.
