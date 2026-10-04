@@ -20,6 +20,7 @@ fn config(
 ) -> ForagerConfig<HardSoftScore> {
     ForagerConfig {
         selection: mode,
+        ranking: FinalistRanking::HighestScore,
         current_score: HardSoftScore::new(0, -3),
         best_score: HardSoftScore::new(0, 1),
         accepted_candidate_limit: limit.and_then(NonZeroU64::new),

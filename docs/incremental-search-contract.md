@@ -1361,3 +1361,27 @@ tied snapshots before the later failure. These add no source-method credit.
 Existing Java/Rust performance workloads are refreshed; they retain their original
 selection configuration and do not claim timing or random-trace parity for these
 new policy options.
+
+## Strategic finalist ranking
+
+`FinalistRanking` defaults to `HighestScore`. Set `selection` to `BestAccepted`
+to compare the evaluated neighborhood; the default `FirstAccepted` still picks
+the first accepted move immediately. Both strategic modes rank accepted
+candidates by structural state, overall improvement over their selected reference,
+then earliest ordinary level improving that reference, then ordinary full-score
+order. `StrategicOscillationLastStep` uses the current score;
+`StrategicOscillationBest` uses retained best. References are immutable per scan
+and refresh at each completed step. Level comparisons use exact `ScoreLevel`
+numeric comparison, including full-width integers and arbitrary-precision decimals.
+No floating projection is used for ranking. Rejected `BestScore` fallback retains
+its existing lexicographic behavior.
+
+An explicit early-pick condition selects that candidate immediately; the accepted
+count limit instead selects the best finalist in its evaluated prefix. Seeded ties,
+lazy saved state, failed-capture atomicity and callback-free installation keep
+their existing contracts. Native callbacks across all six backends verify actual
+selected-step neighborhood exclusions, including worsening moves and both reference
+modes. Original generated ranking/permutation, exact decimal/full-width,
+failed/panicking capture and 1,728 paired owned/Copy configuration checks add no
+upstream coverage. See compatibility documentation for the public Java comparison
+and its recorded exact-reference encounter-order differences.

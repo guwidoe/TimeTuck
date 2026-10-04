@@ -7209,3 +7209,84 @@ Search now has button ref e36 in the initial snapshot because its increased coun
 changes the displayed order; always obtain fresh refs. Browser closed; server8765
 remains alive. No test/measurement process from this increment remains active.
 Final staged review precedes commit; the full goal remains active/incomplete.
+
+## 2026-10-04: Strategic oscillation ranking
+
+Continued the active full goal from clean 18fac3e. Added FinalistRanking with
+HighestScore default, StrategicOscillationLastStep and StrategicOscillationBest.
+All six native local-search paths pass immutable current/best references through
+the shared forager. Accepted priority and structural score remain authoritative;
+overall improvement wins, otherwise earliest ordinary numeric improvement, then
+full-score order. Rejected BestScore fallback retains ordinary order. Explicit
+early-pick matches override ranking; accepted-count limits keep prefix ranking.
+Default FirstAccepted remains immediate; select BestAccepted to compare finalists.
+No upstream production implementation was read or translated.
+
+All four StrategicOscillationByLevelFinalistPodiumTest methods are adapted in
+oscillation_cases.rs, with provenance/notices preserving complete score/order,
+singleton identity and reference-update fixtures. Original regression tests cover
+256 histories x3 rankings x16 rotations, rejected fallback, exact-reference order,
+early-pick/count-limit interaction, decimal/full-width numeric comparisons and
+failed/panicking saved captures. One original test records actual scoring callbacks
+across all six backends, proving chosen worsening steps via the excluded candidate
+in each subsequent neighborhood. Owned-score forager matrix now has 1,728 paired
+owned/Copy configurations (all six models/backends), with no extra method credit.
+
+Original public OscillationOracle uses documented STEP_SCORE and MOVE_COUNT_PER_STEP
+Micrometer gauges, plus returned best identity/score. It stays within public
+Community configuration/domain APIs and resets its isolated global registry between
+solves. Bounded scores [-8,8], 2..16 choices, 1..4 steps, huge annealing temperatures
+and first ties ensure complete accepted neighborhoods; gauges check those counts
+without narrowing before validation. Native oscillation_oracle exercises forager
+selection. Python compares 402 matrices x3 modes x4 prefixes: 4,824 native reference
+passes, 4,499 Community agreements, 325 differing cases, no failures. All differences
+and raw inputs/outputs remain in report/work artifacts. These are not timing or
+additional source-method credits; no general annealing/PRNG/internal-trace claim.
+
+Observed exact-reference boundary: reference (6,0,0), equal candidate and
+(2,8,-2). Community selects whichever candidate occurs last in the two permutations;
+native consistently selects the medium improvement, following the documented
+preference for softer improvement over none. Deliberate total-order difference is
+in compatibility/search docs, API docs and dashboard methodology. An ignored
+work/oscillation/boundary_explanation.py sequential public-output hypothesis,
+changing only handling of exact-reference candidates, reproduces all 4,824 Java
+observations. It is an inference from outputs, not observation of internals.
+
+Full final gate 97680 passed 1,736 Rust tests, 90 doctests and 208 Python tests;
+work/oscillation-final-check.log. Prior full gate also passed, then final review
+added explicit rejected-fallback coverage, clarified module prose and made Java
+count validation exact. Measurement/release refresh session: 3483;
+work/oscillation-release.log and work/oscillation-refresh-*.log. Sources frozen
+before this capture. Dashboard update adds only data/caption text, no Impeccable.
+
+Next useful increment: add both strategic modes with entity tabu to the existing
+heuristic benchmark and small-case quality comparison. Native selector already
+supports them; Java public LocalSearchForagerConfig.withFinalistPodiumType supports
+both variants. Existing benchmark stays at nine algorithms/eighteen timing cards
+in this increment. Preserve equal-score/quality distinctions because the recorded
+exact-reference behavior can cause different traces or results. Then continue
+pending search/solver functionality; do not equate these increments with the full
+rewrite. Full goal remains active and incomplete. No subagents were used.
+
+Final release/refresh/audit session 3483 completed successfully. All 32 focused
+release tests passed. All 13 dataset statuses and report/source/verification/live
+fingerprints are current. Coverage: 861/4,855 (17.73% UI), 3,712 pending, 282 excluded,
+zero failed/unverified; Search 56/158 (35.44%). There are 53 timing cards, including
+18 heuristic cards. Existing heuristic validation remains 288 valid/equal-score
+cases and 238 optimal per runtime. The oscillation comparison again reports
+4,499/4,824 agreement, 325 differences, 4,824 native reference passes and no failures.
+The 256 gather comparisons and documented list metadata differences are unchanged.
+Audit: work/oscillation-audit.py; original raw cases: work/oracle/oscillation-cases.json.
+
+Current stream medians Rust/Java ms: hill32 45.333/14.598; hill96 170.440/26.708;
+tabu32 49.520/16.177; tabu96 180.213/37.287. Scores agree: 0/0 at32, -44/-484 at96
+(both infeasible at96 under the budget). Shared-host timings do not establish a
+causal before/after speedup. These workloads retain their prior highest-score
+configuration; new strategic policies have no dedicated timing claim yet.
+
+Browser verified 1440/390 widths: 17.73%, four passed oscillation methods, all 53
+benchmark cards/18 heuristic cards, visible 4,499/4,824 agreement and 325-difference
+explanation, no stale warning, no errors or horizontal overflow. Desktop/phone
+screenshots reviewed in work/oscillation-{desktop,phone}.png. Browser closed;
+server8765 stays alive. Staged code/test/provenance/adapter diffs reviewed before
+commit. No test or measurement process remains active. Full goal stays active.

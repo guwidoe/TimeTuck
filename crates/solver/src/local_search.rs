@@ -174,6 +174,7 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub additional_acceptance: &'a [Acceptance<S>],
     pub move_order: MoveOrder,
     pub selection: MoveSelection,
+    pub ranking: crate::FinalistRanking,
     /// Stop scanning a step after this many accepted candidates, including ties.
     pub accepted_candidate_limit: Option<std::num::NonZeroU64>,
     /// Random ties retain all equal best candidates until selection. Each step
@@ -200,6 +201,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             additional_acceptance: &[],
             move_order: MoveOrder::Original,
             selection: MoveSelection::FirstAccepted,
+            ranking: crate::FinalistRanking::HighestScore,
             accepted_candidate_limit: None,
             tie_breaking: crate::TieBreaking::First,
             rejected_moves: RejectedMovePolicy::Stop,
@@ -216,6 +218,7 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
     ) -> crate::ForagerConfig<S> {
         crate::ForagerConfig {
             selection: self.selection,
+            ranking: self.ranking,
             current_score,
             best_score,
             accepted_candidate_limit: self.accepted_candidate_limit,

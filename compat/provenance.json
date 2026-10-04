@@ -12855,6 +12855,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every candidate identity, score, accepted flag, intermediate quit-early assertion, selected identity and empty-selection assertion. Native ForagerConfig/MoveForager and char payloads replace mocked Java phase/move scopes; best -10/current -100 references and positive candidate limits are unchanged. A supplied finalist index 1 replaces TestRandom(1,1); single/first/empty choices need no draw. Canonical rejected structural flaw maps to native -1 structural state; zero finalists represents the asserted empty selected-move count. No Java lifecycle, metric plumbing or PRNG trace equivalence is claimed."
+    },
+    {
+      "id": "StrategicOscillationByLevelFinalistPodiumTest.referenceLastStepScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/forager/finalist/StrategicOscillationByLevelFinalistPodiumTest.java",
+      "upstream_test": "referenceLastStepScore",
+      "local_path": "crates/solver/tests/oscillation_cases.rs",
+      "local_test": "reference_last_step_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate scores, encounter order, accepted flags, singleton identities and explicit last-step/best-reference updates. Native immutable score references and saved candidate IDs replace mocked Java move/phase scopes; random-tie retention verifies singleton cardinality. No Java lifecycle/PRNG equivalence. Original generated exact-reference ordering discrepancies are reported separately and receive no agreement credit."
+    },
+    {
+      "id": "StrategicOscillationByLevelFinalistPodiumTest.referenceBestScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/forager/finalist/StrategicOscillationByLevelFinalistPodiumTest.java",
+      "upstream_test": "referenceBestScore",
+      "local_path": "crates/solver/tests/oscillation_cases.rs",
+      "local_test": "reference_best_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate scores, encounter order, accepted flags, singleton identities and explicit last-step/best-reference updates. Native immutable score references and saved candidate IDs replace mocked Java move/phase scopes; random-tie retention verifies singleton cardinality. No Java lifecycle/PRNG equivalence. Original generated exact-reference ordering discrepancies are reported separately and receive no agreement credit."
+    },
+    {
+      "id": "StrategicOscillationByLevelFinalistPodiumTest.referenceLastStepScore3Levels",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/forager/finalist/StrategicOscillationByLevelFinalistPodiumTest.java",
+      "upstream_test": "referenceLastStepScore3Levels",
+      "local_path": "crates/solver/tests/oscillation_cases.rs",
+      "local_test": "reference_last_step_score_three_levels",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate scores, encounter order, accepted flags, singleton identities and explicit last-step/best-reference updates. Native immutable score references and saved candidate IDs replace mocked Java move/phase scopes; random-tie retention verifies singleton cardinality. No Java lifecycle/PRNG equivalence. Original generated exact-reference ordering discrepancies are reported separately and receive no agreement credit."
+    },
+    {
+      "id": "StrategicOscillationByLevelFinalistPodiumTest.alwaysPickImprovingMove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/forager/finalist/StrategicOscillationByLevelFinalistPodiumTest.java",
+      "upstream_test": "alwaysPickImprovingMove",
+      "local_path": "crates/solver/tests/oscillation_cases.rs",
+      "local_test": "always_pick_improving_move",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate scores, encounter order, accepted flags, singleton identities and explicit last-step/best-reference updates. Native immutable score references and saved candidate IDs replace mocked Java move/phase scopes; random-tie retention verifies singleton cardinality. No Java lifecycle/PRNG equivalence. Original generated exact-reference ordering discrepancies are reported separately and receive no agreement credit."
     }
   ],
   "fixtures": [

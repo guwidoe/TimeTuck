@@ -402,3 +402,12 @@ Community AcceptedLocalSearchForagerTest. Complete candidate/score/acceptance an
 early-stop fixtures, supplied-index substitutions and source identities are
 recorded in compat/provenance.json. Native candidate retention, search integration
 and original reference/failure/owned-score regressions are independent work.
+
+`crates/solver/tests/oscillation_cases.rs` adapts all four methods in pinned
+Community `StrategicOscillationByLevelFinalistPodiumTest` (Apache-2.0). All score
+fixtures, candidate order, singleton identities and reference updates are retained;
+explicit native references replace mocked Java phase/move scopes. The source's
+`alwaysPickImprovingMove` candidate uses soft -3, as in its executable fixture.
+The independent native ranking, generated diagnostics and public Java adapter are
+original work. Observed Community exact-reference ordering differences are separate
+from adapted-method coverage. See `compat/provenance.json` for paths and revision.

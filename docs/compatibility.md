@@ -1364,3 +1364,33 @@ accepted-candidate limit, and first or seeded random ties across all six backend
 Construction retains its existing selection behavior. Independent prefix references,
 owned-score comparisons, retained-tie failure checks and search integration grant
 no additional upstream-method credit. See docs/incremental-search-contract.md.
+
+## Strategic oscillation
+
+All four StrategicOscillationByLevelFinalistPodiumTest methods preserve every
+candidate score/order, singleton identity and last-step/best-reference update.
+Native immutable references replace Java phase scopes. This establishes those
+fixtures, not Java lifecycle or whole-podium equivalence.
+
+FinalistRanking adds last-step and retained-best strategic modes across all six
+native search paths. Overall improvements outrank non-improvements; otherwise the
+earliest ordinary level strictly above its reference wins, then full score breaks
+ties. Accepted priority and structural ordering remain authoritative. Rejected
+BestScore fallback remains ordinary score order. Early-pick matches bypass ranking;
+accepted-candidate limits stop scanning without overriding ranking.
+
+Original public-API comparisons cover 402 bounded score tables, three ranking
+modes and four step prefixes (4,824 cases). Rust agrees with independent Python
+throughout. Community agrees in 4,499 cases; 325 differ and are excluded from
+agreement counts. Public STEP_SCORE and MOVE_COUNT_PER_STEP metrics observe the
+last step and complete accepted candidate set; returned best identity/score is
+checked separately. Very large annealing temperatures plus bounded levels make
+all candidates accepted, confirmed at each prefix. No general annealing or PRNG
+trace, internal API, additional source-method coverage or new timing claim follows.
+
+A minimal boundary has reference (6,0,0), a candidate equal to it and candidate
+(2,8,-2). Community chooses whichever occurs last in these two permutations.
+Native consistently chooses the medium improvement, following the documented
+preference over a candidate improving no level. This intentional total ordering
+avoids encounter-order dependence except genuine tied finalists. All generated
+inputs, both outputs and differences remain available in the report/work artifacts.

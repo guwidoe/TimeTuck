@@ -1,9 +1,9 @@
 //! Per-step selection of scored candidates, with optional early stopping.
 //!
-//! Accepted candidates outrank rejected fallback candidates. Within either group,
-//! scores maximize lexicographically. Random ties retain every tied finalist;
+//! Accepted candidates outrank rejected fallback candidates and use the configured
+//! ranking. Rejected fallback maximizes score. Random ties retain every tied finalist;
 //! saved candidates are selected without evaluating or replaying them again.
-use crate::{AdditiveScore, MoveSelection, RejectedMovePolicy, Score};
+use crate::{AdditiveScore, MoveSelection, RejectedMovePolicy, Score, ScoreLevel};
 use std::{cmp::Ordering, convert::Infallible, error::Error, fmt, num::NonZeroU64};
 
 /// First-tie ordering retains one candidate. Random ties use native seeded randomness,
@@ -17,11 +17,26 @@ pub enum TieBreaking {
     },
 }
 
+/// How accepted candidates rank after acceptance and structural validity.
+/// Strategic modes prefer overall improvement over the reference; otherwise,
+/// the earliest ordinary level strictly improving its reference wins, with
+/// lexicographic score breaking ties. Rejected fallback keeps highest-score order.
+/// This total ordering intentionally differs from Community 2.7.0's observed
+/// encounter-order behavior when a candidate equals the reference exactly.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum FinalistRanking {
+    #[default]
+    HighestScore,
+    StrategicOscillationLastStep,
+    StrategicOscillationBest,
+}
+
 /// References and limits for one neighborhood scan. A new forager starts a new
 /// accepted-candidate count. Phase-wide accepted-move limits are separate.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ForagerConfig<S> {
     pub selection: MoveSelection,
+    pub ranking: FinalistRanking,
     pub current_score: S,
     pub best_score: S,
     pub accepted_candidate_limit: Option<NonZeroU64>,
@@ -32,6 +47,7 @@ impl<S: AdditiveScore> Default for ForagerConfig<S> {
     fn default() -> Self {
         Self {
             selection: MoveSelection::BestAccepted,
+            ranking: FinalistRanking::HighestScore,
             current_score: S::ZERO,
             best_score: S::ZERO,
             accepted_candidate_limit: None,
@@ -102,6 +118,35 @@ impl<C, S: Score> MoveForager<C, S> {
             quit: false,
         }
     }
+    fn compare_scores(&self, a: &S, b: &S, accepted: bool) -> Ordering {
+        let reference = match self.config.ranking {
+            FinalistRanking::HighestScore => return a.cmp(b),
+            FinalistRanking::StrategicOscillationLastStep => &self.config.current_score,
+            FinalistRanking::StrategicOscillationBest => &self.config.best_score,
+        };
+        if !accepted {
+            return a.cmp(b);
+        }
+        a.structural().cmp(&b.structural()).then_with(|| {
+            let improving_a = a > reference;
+            let improving_b = b > reference;
+            improving_a.cmp(&improving_b).then_with(|| {
+                if improving_a {
+                    return a.cmp(b);
+                }
+                let first_improvement = |score: &S| {
+                    score
+                        .ordinary_levels()
+                        .zip(reference.ordinary_levels())
+                        .position(|(level, baseline)| level.numeric_cmp(&baseline).is_gt())
+                        .unwrap_or(usize::MAX)
+                };
+                first_improvement(b)
+                    .cmp(&first_improvement(a))
+                    .then_with(|| a.cmp(b))
+            })
+        })
+    }
     pub fn accepted_candidates(&self) -> u128 {
         self.accepted
     }
@@ -135,21 +180,30 @@ impl<C, S: Score> MoveForager<C, S> {
             return Ok(());
         }
         let count = self.accepted.saturating_add(u128::from(accepted));
-        let early = accepted
-            && (match self.config.selection {
+        let pick_early = accepted
+            && match self.config.selection {
                 MoveSelection::FirstAccepted => true,
                 MoveSelection::BestAccepted => false,
                 MoveSelection::FirstBestScoreImproving => score > self.config.best_score,
                 MoveSelection::FirstLastStepScoreImproving => score > self.config.current_score,
-            } || self
-                .config
-                .accepted_candidate_limit
-                .is_some_and(|limit| count >= u128::from(limit.get())));
+            };
+        let early = pick_early
+            || (accepted
+                && self
+                    .config
+                    .accepted_candidate_limit
+                    .is_some_and(|limit| count >= u128::from(limit.get())));
         let rank = self
             .best
             .as_ref()
             .map_or(Ordering::Greater, |(old_accepted, old_score, _)| {
-                (accepted, &score).cmp(&(*old_accepted, old_score))
+                if pick_early {
+                    Ordering::Greater
+                } else {
+                    accepted
+                        .cmp(old_accepted)
+                        .then_with(|| self.compare_scores(&score, old_score, accepted))
+                }
             });
         match rank {
             Ordering::Greater => {

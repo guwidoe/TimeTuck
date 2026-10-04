@@ -10,6 +10,7 @@ use timetuck::{
 fn forager(selection: MoveSelection, limit: u64, random: bool) -> MoveForager<char, SimpleScore> {
     MoveForager::new(ForagerConfig {
         selection,
+        ranking: timetuck::FinalistRanking::HighestScore,
         current_score: SimpleScore::new(-100),
         best_score: SimpleScore::new(-10),
         accepted_candidate_limit: NonZeroU64::new(limit),

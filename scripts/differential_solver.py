@@ -130,12 +130,14 @@ def main():
     step_counting = check_step_counting(classpath)
     from great_deluge_checks import run_checks as check_great_deluge
     great_deluge = check_great_deluge(classpath)
+    from oscillation_checks import run_checks as check_oscillation
+    oscillation = check_oscillation(classpath)
     if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     failed_ids = {failure['case'] for failure in failures}
     report = {'schema_version':1, 'generated_at':datetime.now(timezone.utc).isoformat(), 'source_digest':digest,
               'revision':REF['commit'], 'seed':20261001,
               'seeds':{'homogeneous_required':20261001, 'per_variable_ranges':20261002}, 'total':len(cases), 'passed':len(cases)-len(failed_ids),
-              'failures':failures, 'termination_checks':termination, 'step_counting_checks':step_counting, 'great_deluge_checks':great_deluge, 'mixed_solver_checks':mixed, 'artifacts':artifacts, 'environment':platform.platform(),
+              'failures':failures, 'oscillation_checks':oscillation, 'termination_checks':termination, 'step_counting_checks':step_counting, 'great_deluge_checks':great_deluge, 'mixed_solver_checks':mixed, 'artifacts':artifacts, 'environment':platform.platform(),
               'groups': {label:{'total':len(group), 'passed':sum(c['id'] not in failed_ids for c in group)}
                          for label,group in [('homogeneous_required',cases[:64]),('per_variable_ranges',cases[64:])]},
               'scope':'Original graph-assignment cases checked against independent Python enumeration: 64 homogeneous required and 64 per-variable range cases, including mixed required/optional values, empty optional ranges, pinned nulls and signed null preferences. Movable initial values reset. The extended Java adapter uses two fields per entity; its inactive field has one fixed choice. HardSoft scores, complete optima, no trace equivalence or upstream coverage credit.'}
@@ -143,7 +145,7 @@ def main():
     (WORK / 'solver-cases.json').write_text(json.dumps({'schema_version':1,'seeds':report['seeds'],'cases':cases,'outputs':outputs},indent=2)+'\n')
     print(f'Differential solver cases: {report["passed"]}/{report["total"]} passed')
     for failure in failures[:8]: print(json.dumps(failure))
-    return bool(failures or termination['failures'] or mixed['failures'] or step_counting['failures'] or great_deluge['failures'])
+    return bool(failures or termination['failures'] or mixed['failures'] or step_counting['failures'] or great_deluge['failures'] or oscillation['failures'])
 
 if __name__ == '__main__':
     raise SystemExit(main())
