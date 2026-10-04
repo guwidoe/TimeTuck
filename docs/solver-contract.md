@@ -1307,3 +1307,22 @@ factory errors, initialization/best events, owned decimal targets and managed jo
 The existing six-path solver test fixture is shared between legacy and repair tests.
 No upstream method credit is added. Java repair quality/timing comparisons remain
 separate pending evidence; the standalone reconstruction contracts still apply.
+
+## Repair work reporting
+
+`SolverWork.repair_attempts` counts started reconstructions, including incomplete,
+rejected and unchanged attempts. `complete_reconstructions` counts those producing
+a complete scored assignment, regardless of acceptance or best retention. Neither
+includes phase initialization. Completeness does not require exhausting every
+candidate: a final-slot candidate or optional partial reconstruction may already
+be a complete solution when a budget expires. Failed phases return typed errors,
+not a fabricated successful work report.
+
+These counters survive all six phase adapters, phase aggregation and managed-job
+publication. Non-repair phases contribute zero. They do not change existing
+`move_evaluations` (individual reconstruction candidates), accepted moves, completed
+steps or shared termination limits. Managed statistics reject decreasing absolute
+counts and saturate additive overflow with `work_overflowed`, as for other work.
+Original six-path budget-prefix, complete/no-op/rejection and managed monotonicity/
+overflow tests verify the distinction. Public Community basic-repair quality and
+performance evidence is now available separately in docs/dashboard.md.

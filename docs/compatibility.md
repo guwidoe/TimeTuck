@@ -1551,3 +1551,16 @@ checked for every solve. Independent assignment, score and enumerated/planted-op
 checks remain separate from equal quality and timing. Sampling and reconstruction
 orders differ. This adds no source-method coverage or Java trace, list/mixed/optional
 repair equivalence. See docs/dashboard.md for scope and measurement boundaries.
+
+The remaining three RuinRecreateMoveSelectorTest methods now preserve their
+successful-solve and metric assertions using native ordered construction/repair
+phases in scoped and stream backends. Five values/30 entities retain required cyclic
+and optional first-null/rest-cyclic initial assignments. Required scoring penalizes
+assigned entities; optional scoring preserves -1 per null and -1000 per ordered
+collision pair. Required tests retain the 1000ms unimproved-time limit and full score
+assertions. The optional 100-step cap becomes 100 complete reconstruction attempts;
+no Java accepted-step or random trace parity is inferred. Public native work counts
+replace Micrometer publication/registration, preserving all three metric inequalities
+without claiming Java registry integration or identical numeric counters. Fixtures,
+API substitutions and notices are recorded in provenance. This finishes the four
+methods in that basic selector class, not the remaining list selector/lifecycle work.

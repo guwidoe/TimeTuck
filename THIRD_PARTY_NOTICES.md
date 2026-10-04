@@ -23,9 +23,10 @@ The following test files adapt the pinned Community tests:
   the surrounding implementation is independently written.
 
 - `crates/solver/tests/ruin_recreate_cases.rs` adapts
-  `RuinRecreateMoveSelectorTest.testRuiningNoAssignedValues`, its embedded
-  assigned-value penalty, and the three-entity optional solution-generator fixture.
-  See provenance for native search and integer-identity substitutions.
+  all four methods in `RuinRecreateMoveSelectorTest`, its embedded assigned-value
+  penalty, required/optional solution-generator fixtures, `TestdataConstraintProvider`
+  and `TestdataAllowsUnassignedEasyScoreCalculator`. See provenance for native
+  work-counter, bounded-search and integer-identity substitutions.
 
 - `crates/solver/tests/concurrent_cases.rs` adapts all seven methods in
   `ConcurrentValuesShadowVariableTest`. Its reusable `concurrent_support` example

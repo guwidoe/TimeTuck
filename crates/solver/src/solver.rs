@@ -123,6 +123,12 @@ pub struct SolverWork {
     /// Local-search steps and accepted changed repairs; excludes construction steps.
     pub completed_steps: u64,
     pub accepted_moves: u64,
+    /// Started ruin-and-recreate attempts, including incomplete, rejected and unchanged repairs.
+    /// Reconstruction candidates are counted separately in `move_evaluations`.
+    pub repair_attempts: u64,
+    /// Repair attempts producing a complete scored assignment, including rejected and unchanged results.
+    /// Complete does not imply that every reconstruction candidate was evaluated.
+    pub complete_reconstructions: u64,
 }
 impl SolverWork {
     fn add(&mut self, other: Self) {
@@ -131,6 +137,8 @@ impl SolverWork {
         self.constraint_evaluations += other.constraint_evaluations;
         self.completed_steps += other.completed_steps;
         self.accepted_moves += other.accepted_moves;
+        self.repair_attempts += other.repair_attempts;
+        self.complete_reconstructions += other.complete_reconstructions;
     }
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -973,6 +981,8 @@ macro_rules! repaired {
             constraint_evaluations: r.constraint_evaluations,
             completed_steps: r.accepted_moves,
             accepted_moves: r.accepted_moves,
+            repair_attempts: r.attempts,
+            complete_reconstructions: r.complete_reconstructions,
         };
         let (assignment, score) = r.best.map_or((None, None), |best| {
             (Some(best.assignment), Some(best.score))
@@ -1014,6 +1024,7 @@ macro_rules! improved {
             constraint_evaluations: r.constraint_evaluations,
             completed_steps: r.completed_steps,
             accepted_moves: r.accepted_moves,
+            ..Default::default()
         };
         let (assignment, score) = r.best.map_or((None, None), |best| {
             (Some(best.assignment), Some(best.score))

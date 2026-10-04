@@ -243,7 +243,9 @@ impl StatisticsState {
                         move_evaluations,
                         constraint_evaluations,
                         completed_steps,
-                        accepted_moves
+                        accepted_moves,
+                        repair_attempts,
+                        complete_reconstructions
                     );
                     self.snapshot.work = Some(total);
                 } else {
@@ -252,6 +254,8 @@ impl StatisticsState {
                         || work.constraint_evaluations < old.constraint_evaluations
                         || work.completed_steps < old.completed_steps
                         || work.accepted_moves < old.accepted_moves
+                        || work.repair_attempts < old.repair_attempts
+                        || work.complete_reconstructions < old.complete_reconstructions
                     {
                         return false;
                     }

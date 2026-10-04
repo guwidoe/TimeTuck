@@ -8576,3 +8576,55 @@ basic comparison explicitly retains half-group quality differences (20/32 equal;
 Java 19 optima, Rust 17) while whole-group results agree in 32/32 (16 optima each).
 Do not treat differing random traces or quality as method passes or hide them.
 Full solver rewrite remains active, incomplete and unblocked.
+
+## Repair work counters and remaining basic selector tests (verification underway)
+
+SolverWork now exposes repair_attempts and complete_reconstructions. All six phase
+adapters preserve standalone counts; plan totals sum them, other phases contribute
+zero, and managed statistics apply monotonic absolute updates plus saturating
+additions/overflow flags. Existing candidate and accepted-step counters stay distinct.
+
+Three more RuinRecreateMoveSelectorTest methods are adapted in ruin_recreate_cases:
+ruining, ruining_with_metric and ruining_allows_unassigned. Preserve five-value/
+30-entity generators, required cyclic initial values and optional first-null/rest-
+cyclic values, assigned-entity penalty and optional -1/null,-1000/ordered collision
+score. Required cases keep 1000ms unimproved termination; optional native limit is
+100 full repair attempts. Full score diagnostics and both scoring backends execute.
+Successful-solve and all three metric inequalities remain; public SolverWork counts
+replace Java Micrometer, explicitly not registry or numeric/trace parity. All reused
+test fixtures and transformations attributed in provenance/notices; no production
+implementation read. Expected coverage 890/4,855=18.33%, Moves/selectors129/874.
+
+Three original regressions check 2,850 score/candidate prefixes across six paths,
+complete/no-op/rejected work and managed counter monotonicity/additive overflow.
+Existing managed repair tests compare actual job statistics to returned work.
+Corrected an initial reference expectation: completing the last required slot can
+produce a complete assignment before all candidates for that slot are scanned.
+Focused 31 checks pass (18 phase, four adapted basic repair, nine job statistics).
+Next full gate, focused release, all 15 datasets, audit/browser and commit.
+Expected full counts: 1,931 Rust,101 doctests,229 Python. Full goal remains active.
+
+Full gate 6664 completed exit 0: 1,931 Rust,101 doctests,229 Python; formatting and
+Clippy clean. Coverage verified 890/4,855 (raw report percent18.332, UI18.33%),
+pending3683, excluded282, failed/unverified0. Sources/provenance frozen. Sequential
+release/refresh/audit now runs work/repair-metrics-verify.sh; logs repair-metrics-
+release.log, -verify.log, -refresh-*.log and -audit.log. Expect 31 focused release
+checks, 15 current datasets/75 timings. Re-poll the live handle; observation timeouts
+are not process termination. No measurement/source mutation while this job runs.
+
+Release/refresh/audit handle 79129 completed exit 0. All31 focused release checks
+passed; all15 datasets are current,75 timing workloads. Existing quality/counter/
+discrepancy invariants remain intact. New basic repair metrics and four source
+methods verified, with source/verification fingerprints matching current files.
+
+Browser verification passed at1440x900 and390x844 using a fresh query URL:
+18.33%,890/4,855 methods,75 timing cards; Moves/selectors129/874(14.76%). Searching
+for generic/RuinRecreateMoveSelectorTest.java shows all four named methods passed.
+No horizontal overflow, stale/undefined/error text or page errors. Browser closed;
+localhost:8765 remains running. No verification process is live. Upstream unchanged.
+
+Next substantive work remains list/mixed/optional repair comparisons, applicable
+list selector tests and broader native lifecycle/search behavior. Basic repair
+work reporting is complete for successful solver results; failed phases retain
+existing typed-error behavior, without claiming complete partial work telemetry.
+The full solver rewrite remains active, incomplete and unblocked.

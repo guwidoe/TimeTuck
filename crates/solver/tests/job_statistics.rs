@@ -399,3 +399,57 @@ fn speeds_handle_unknown_zero_duration_flooring_and_large_values() {
     s.solving_duration = Duration::from_nanos(1);
     assert_eq!(s.score_calculation_speed(), Some(u64::MAX));
 }
+
+#[test]
+fn repair_statistics_preserve_monotonicity_and_report_overflow() {
+    let mut manager = SolverManager::<usize, String>::new(1).unwrap();
+    let job = manager
+        .submit_with_progress(
+            1,
+            |_, p| {
+                let initial = SolverWork {
+                    repair_attempts: 4,
+                    complete_reconstructions: 3,
+                    ..Default::default()
+                };
+                assert!(p.record_work(initial));
+                assert!(!p.record_work(SolverWork {
+                    repair_attempts: 3,
+                    ..initial
+                }));
+                assert!(!p.record_work(SolverWork {
+                    complete_reconstructions: 2,
+                    ..initial
+                }));
+                assert!(p.add_work(SolverWork {
+                    repair_attempts: 2,
+                    complete_reconstructions: 1,
+                    ..Default::default()
+                }));
+                assert!(!p.record_work(SolverWork {
+                    repair_attempts: 5,
+                    complete_reconstructions: 4,
+                    ..Default::default()
+                }));
+                assert!(!p.record_work(SolverWork {
+                    repair_attempts: 6,
+                    complete_reconstructions: 3,
+                    ..Default::default()
+                }));
+                assert!(p.add_work(SolverWork {
+                    repair_attempts: u64::MAX,
+                    complete_reconstructions: u64::MAX,
+                    ..Default::default()
+                }));
+                Ok(1)
+            },
+            SolverJobCallbacks::default(),
+        )
+        .unwrap();
+    assert!(job.wait_timeout(WAIT).unwrap().is_ok());
+    let stats = job.statistics();
+    assert!(stats.work_overflowed);
+    assert_eq!(stats.work.unwrap().repair_attempts, u64::MAX);
+    assert_eq!(stats.work.unwrap().complete_reconstructions, u64::MAX);
+    manager.shutdown().unwrap();
+}

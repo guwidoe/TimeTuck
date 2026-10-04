@@ -726,3 +726,78 @@ fn managed_consumers_receive_real_repair_phase_origins_and_initialization() {
     );
     assert!(job.callback_failures().is_empty());
 }
+
+#[test]
+fn repair_work_counts_complete_noops_and_incomplete_attempts_across_all_paths() {
+    for mode in 0..6 {
+        for scores in 0..=24 {
+            for moves in 0..=18 {
+                let mut c = phases(vec![SolverPhase::RuinRecreate(repair()); 3]);
+                c.limits.max_evaluations = scores;
+                c.limits.max_move_evaluations = Some(moves);
+                let r = check(mode, true, c);
+                let mut attempts = 0;
+                let mut complete = 0;
+                for p in &r.phases {
+                    // Required one-slot components: each attempt clears all slots,
+                    // scores initialization and evaluates 3 choices per component.
+                    let expected_attempts = u64::from(p.work.evaluations > 1);
+                    // A complete prefix needs one candidate for the last slot.
+                    let completion_candidates = if mode < 4 { 1 } else { 4 };
+                    assert_eq!(p.work.repair_attempts, expected_attempts);
+                    assert_eq!(
+                        p.work.complete_reconstructions,
+                        u64::from(
+                            expected_attempts == 1
+                                && p.work.move_evaluations >= completion_candidates
+                        )
+                    );
+                    assert!(p.work.accepted_moves <= p.work.complete_reconstructions);
+                    attempts += p.work.repair_attempts;
+                    complete += p.work.complete_reconstructions;
+                }
+                assert_eq!(r.work.repair_attempts, attempts);
+                assert_eq!(r.work.complete_reconstructions, complete);
+            }
+        }
+        let r = check(
+            mode,
+            true,
+            phases(vec![SolverPhase::RuinRecreate(repair()); 3]),
+        );
+        assert_eq!(
+            (r.work.repair_attempts, r.work.complete_reconstructions),
+            (3, 3)
+        );
+        assert_eq!(r.work.accepted_moves, 1); // The next two complete repairs are no-ops.
+    }
+}
+
+#[test]
+fn rejected_changed_reconstructions_still_count_as_completed_work() {
+    for mode in 0..6 {
+        let c = phases(vec![SolverPhase::RuinRecreate(RuinRecreateConfig {
+            max_attempts: 3,
+            acceptance: Acceptance::StrictImprovement,
+            ..repair()
+        })]);
+        let r = run_scored_events_initial(
+            (mode, true, MixedConstructionOrder::BasicThenLists),
+            c,
+            &Cell::new(0),
+            None,
+            || {},
+            |_| SimpleScore::ZERO,
+            None,
+            None,
+            2,
+        )
+        .unwrap();
+        assert_eq!(
+            (r.work.repair_attempts, r.work.complete_reconstructions),
+            (3, 3)
+        );
+        assert_eq!((r.work.accepted_moves, r.work.completed_steps), (0, 0));
+        assert!(r.values.iter().all(|v| *v == Some(2)));
+    }
+}
