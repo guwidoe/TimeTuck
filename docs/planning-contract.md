@@ -281,8 +281,8 @@ rejection, clone failures, observer cancellation and controlled elapsed clocks.
 Four complete pinned comparator methods retain every fixture and bidirectional
 pair assertion. Other exhaustive-search lifecycle/branching methods remain pending;
 list/mixed bounded search is described in the component contracts. Ordered solver
-phase integration is described in solver-contract.md. Automatic per-level
-score-trend bounds remain unimplemented.
+phase integration is described in solver-contract.md. Declared per-level score-trend bounds
+are supported there; automatic constraint analysis remains unimplemented.
 
 The comparator priorities and pruning contract use the pinned public documentation
 `docs/src/modules/ROOT/pages/optimization-algorithms/exhaustive-search.adoc` as a

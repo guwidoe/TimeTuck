@@ -86,9 +86,7 @@ fn exercise_scored<'a>(
                                 crate::branch_and_bound::TreeSearchError::Evaluation(e) => {
                                     LocalSearchError::from(e)
                                 }
-                                crate::branch_and_bound::TreeSearchError::Bound(e) => {
-                                    panic!("unknown-bound fixture: {e}")
-                                }
+                                e => panic!("unknown-bound fixture: {e:?}"),
                             })?
                         } else {
                             exact::run_with_clock(

@@ -1427,8 +1427,9 @@ extensions add no adapted-method coverage or new Java timing workloads. Ordered
 solver phases now use the same engine across all six model/scoring paths, retaining
 shared controls, typed errors, prior incumbents and observations. Unknown bounds
 remain safe; non-increasing partial scores require an explicit caller assertion.
-Automatic per-level score-trend inference remains pending. The native phase tests
-and managed-job checks add no source-method credit or phase-trace parity claim.
+Declared per-level trends now derive bounds with symbolic infinity; constraint
+analysis does not infer the declarations. The native phase tests and managed-job
+checks add no source-method credit or phase-trace parity claim.
 
 The oscillation diagnostic keeps the Java solver strongly reachable through all
 STEP_SCORE and move-count reads using Reference.reachabilityFence. A forced-GC
@@ -1438,3 +1439,23 @@ the normal run byte-for-byte. This is an adapter reliability check, not addition
 native-method or Java-behavior coverage. Micrometer documents weak gauge references
 and missing/NaN observations after collection:
 https://docs.micrometer.io/micrometer/reference/1.16/concepts/gauges.html.
+
+
+All three pinned `InitializingScoreTrendTest` methods have complete native
+adaptations, retaining every token and predicate assertion with provenance.
+InitializingScoreTrend supports uniform/per-level declarations and derives upper
+and lower bounds over lexicographic numeric scores. Unknown upper/lower levels use
+symbolic infinity, represented by a finite prefix and its first infinite boundary;
+no integer extrema or floating-point approximations substitute for infinity.
+Ordered bounded phases use the derived upper bound in all six model/scoring paths.
+The declaration remains a caller obligation, including optional choices, later
+list insertions, constraints becoming unmatched and actual arithmetic/overflow.
+
+Original public-API comparisons cover 512 configurations/cases: the 64 homogeneous
+required graph fixtures, four exploration orders and ANY / ONLY_DOWN/ANY trends.
+Both Java results and native ordered phases match independent Python optima with
+assignment validation and score recomputation. Soft weights have both signs; pins
+remain fixed. This establishes neither internal bound representation nor traversal,
+list/mixed Java trend support, timing equivalence or additional adapted-method credit.
+Raw inputs and results are in work/oracle/score-trend-cases.json; differential_solver
+includes this check, and the dashboard displays its separate agreement count.

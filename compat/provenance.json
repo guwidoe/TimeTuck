@@ -13080,6 +13080,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain every depth, score, unassigned count, explicit/default optimistic bound, parent breadth and breadth fixture; assert both comparison directions for every ordered pair. Native SearchNodeKey replaces mocked Java nodes. InnerScore unassigned counts map to native structural values ignored for scheduling. Covers the source comparator(true) cases; no Java node lifecycle or traversal equivalence."
+    },
+    {
+      "id": "InitializingScoreTrendTest.parseTrend",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/trend/InitializingScoreTrendTest.java",
+      "upstream_test": "parseTrend",
+      "local_path": "crates/solver/tests/score_trend_cases.rs",
+      "local_test": "parse_trend",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all source assertions and ordered trend tokens to native InitializingScoreTrend parsing and predicates. Native symbolic bounds and solver integration are original work; no Java internal bound or trace parity claimed."
+    },
+    {
+      "id": "InitializingScoreTrendTest.isOnlyUp",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/trend/InitializingScoreTrendTest.java",
+      "upstream_test": "isOnlyUp",
+      "local_path": "crates/solver/tests/score_trend_cases.rs",
+      "local_test": "is_only_up",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all source assertions and ordered trend tokens to native InitializingScoreTrend parsing and predicates. Native symbolic bounds and solver integration are original work; no Java internal bound or trace parity claimed."
+    },
+    {
+      "id": "InitializingScoreTrendTest.isOnlyDown",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/trend/InitializingScoreTrendTest.java",
+      "upstream_test": "isOnlyDown",
+      "local_path": "crates/solver/tests/score_trend_cases.rs",
+      "local_test": "is_only_down",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all source assertions and ordered trend tokens to native InitializingScoreTrend parsing and predicates. Native symbolic bounds and solver integration are original work; no Java internal bound or trace parity claimed."
     }
   ],
   "fixtures": [

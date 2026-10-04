@@ -93,7 +93,8 @@ controls. Exhaustion proves optimality when supplied bounds are admissible; unkn
 bounds keep branches open. `branch_and_bound`, `branch_and_bound_lists` and
 `branch_and_bound_mixed` share pruning and controls; mixed search evaluates the
 coupled objective. Ordered Exact phases accept the same exploration strategies
-with unknown bounds or an explicit non-increasing-score assumption. The
+with unknown bounds, an explicit non-increasing-score assumption, or declared
+per-level initialization trends with symbolic infinity for unknown levels. The
 `mixed_routes` example demonstrates a metric-distance bound for standalone search.
 See [the planning contract](docs/planning-contract.md)
 for callback semantics, validation and limits. The dashboard compares all four

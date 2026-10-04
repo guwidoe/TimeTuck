@@ -1,6 +1,6 @@
 //! Ordered bounded phases, using the same tree engine as standalone exact search.
 use super::*;
-use crate::branch_and_bound::{BranchContext, Retained, TreeSearchError, run_tree};
+use crate::branch_and_bound::{BranchContext, Retained, TreeEvaluation, TreeSearchError, run_tree};
 use crate::branch_tree::BranchTree;
 use crate::time_limit::{TimeBudget, monotonic_clock};
 
@@ -32,14 +32,21 @@ where
     C: FnMut() -> Duration,
 {
     type Error = E;
-    fn evaluate(&mut self, a: &A, _: usize) -> Result<BranchEvaluation<S>, E> {
+    fn evaluate(&mut self, a: &A, _: usize) -> Result<TreeEvaluation<S>, E> {
         let (score, callbacks) = (self.evaluate)(a)?;
         self.constraint_evaluations += callbacks;
-        let optimistic_bound = match self.bound {
+        let optimistic_bound = match &self.bound {
             PartialScoreBound::Unknown => None,
-            PartialScoreBound::NonIncreasing => Some(score.clone().with_structural(0)),
+            PartialScoreBound::NonIncreasing => Some(InitializingScoreBound::finite(
+                score.clone().with_structural(0),
+            )),
+            PartialScoreBound::Trend(trend) => Some(
+                trend
+                    .optimistic_bound(score.clone())
+                    .expect("validated constant score-level count"),
+            ),
         };
-        Ok(BranchEvaluation {
+        Ok(TreeEvaluation {
             score,
             optimistic_bound,
         })
@@ -109,10 +116,11 @@ pub(super) fn error<E, F: From<E>, S: fmt::Debug>(
             phase,
             error: error.into(),
         },
-        TreeSearchError::Bound(e) => SolverError::InvalidOptimisticBound {
+        TreeSearchError::Trend(error) => SolverError::InvalidScoreTrend { phase, error },
+        TreeSearchError::Bound { score, bound } => SolverError::InvalidOptimisticBound {
             phase,
-            score: format!("{:?}", e.score),
-            bound: format!("{:?}", e.bound),
+            score: format!("{:?}", score),
+            bound: format!("{:?}", bound),
         },
     }
 }
@@ -136,9 +144,12 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
     observer: Observer<'_, T::Assignment, S>,
     clock: impl FnMut() -> Duration,
 ) -> Result<PhaseOutput<T::Assignment, S>, TreeSearchError<E, S>> {
-    let ExactSearchStrategy::BranchAndBound(branch) = config.strategy else {
+    let ExactSearchStrategy::BranchAndBound(branch) = config.strategy.clone() else {
         unreachable!("bounded dispatch")
     };
+    if let PartialScoreBound::Trend(trend) = &branch.bound {
+        trend.validate(&S::ZERO).map_err(TreeSearchError::Trend)?;
+    }
     let timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
     let mut context = Context {
         config,

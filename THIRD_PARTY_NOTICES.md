@@ -426,3 +426,9 @@ AbstractNodeComparatorTest fixture defaults/assertion loops, at the pinned Commu
 revision. Complete fixture attribution and API substitutions appear in
 compat/provenance.json. The native branch-and-bound engine, original reference/
 failure tests and public-API benchmark adapters are independently implemented.
+
+`crates/solver/tests/score_trend_cases.rs` adapts all three Apache-2.0 methods in
+pinned Community `InitializingScoreTrendTest`. All ordered tokens and predicate
+assertions are retained; native parsing/predicates replace Java APIs. Revision,
+source paths and substitutions are recorded in `compat/provenance.json`. The
+symbolic bounds, engine integration and reference regressions are original work.

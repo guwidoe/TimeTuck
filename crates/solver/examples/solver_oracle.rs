@@ -4,21 +4,69 @@ use std::{
     error::Error,
     io::{self, BufRead},
 };
-use timetuck::exhaustive_search;
+use timetuck::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let args: Vec<_> = std::env::args().skip(1).collect();
+    let strategy = match args.as_slice() {
+        [] => None,
+        [order, trend] => Some(BoundedPhaseConfig {
+            exploration: match order.as_str() {
+                "depth" => NodeExploration::DepthFirst,
+                "breadth" => NodeExploration::BreadthFirst,
+                "score" => NodeExploration::ScoreFirst,
+                "bound" => NodeExploration::OptimisticBoundFirst,
+                _ => return Err("unknown branch order".into()),
+            },
+            max_frontier: 1_000_000,
+            bound: PartialScoreBound::Trend(InitializingScoreTrend::parse(trend, 2)?),
+        }),
+        _ => return Err("expected order and trend, or no arguments".into()),
+    };
     for line in io::stdin().lock().lines() {
-        let case = solver_support::Case::parse(&line?, false)?;
-        let budget: u64 = case
-            .problem
-            .search_space_size()
-            .ok_or("space overflow")?
-            .try_into()?;
-        let result = exhaustive_search(&case.problem, |state| case.score(state), budget);
-        if !result.is_optimal() {
-            return Err("expected a complete optimal result".into());
+        let line = line?;
+        if strategy.is_some() && line.split('\t').count() != 6 {
+            return Err("trend adapter requires homogeneous required domains".into());
         }
-        let best = result.best.ok_or("no result")?;
+
+        let case = solver_support::Case::parse(&line, false)?;
+        let best = if let Some(strategy) = &strategy {
+            let len = case.problem.variables().len();
+            let mut network = ConstraintNetwork::new(len);
+            network.add_constraint("objective", (0..len).collect(), |v| {
+                case.score_by(|i| v[i].copied())
+            })?;
+            let r = solve(
+                &case.problem,
+                &network,
+                SolverSequence {
+                    phases: vec![SolverPhase::Exact(ExactPhaseConfig {
+                        strategy: ExactSearchStrategy::BranchAndBound(strategy.clone()),
+                        max_evaluations: u64::MAX,
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                },
+            )?;
+            if !r.is_optimal() {
+                return Err("expected optimal bounded result".into());
+            }
+            ScoredAssignment {
+                assignment: r.assignment,
+                score: r.score.ok_or("no score")?,
+            }
+        } else {
+            let budget: u64 = case
+                .problem
+                .search_space_size()
+                .ok_or("space overflow")?
+                .try_into()?;
+            let result = exhaustive_search(&case.problem, |state| case.score(state), budget);
+            if !result.is_optimal() {
+                return Err("expected a complete optimal result".into());
+            }
+            result.best.ok_or("no result")?
+        };
         if case.score(&best.assignment) != best.score {
             return Err("score recomputation mismatch".into());
         }

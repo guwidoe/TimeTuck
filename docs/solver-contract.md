@@ -1139,8 +1139,7 @@ list-then-basic branching retain the standalone bounded-search contracts.
 with structural state cleared to zero, must dominate EVERY eligible completion
 under full score ordering. This includes optional omissions, later list insertions,
 coupled constraints and actual arithmetic, including integer wrapping. Negative
-weights alone do not establish this property. It is not an automatic inference or
-per-level initializing-score-trend implementation. A visited eligible leaf exceeding
+weights alone do not establish this property. It is not automatic constraint analysis. A visited eligible leaf exceeding
 an ancestor bound returns `SolverError::InvalidOptimisticBound` with phase index
 and diagnostic score/bound strings. Pruned branches cannot validate the assertion;
 optimality remains conditional on its validity. Scoring errors retain their original
@@ -1177,3 +1176,40 @@ incumbents, handoffs, goals, callback errors, cancellation, exact decimal scores
 factory timing and stagnation. Standalone and legacy enumeration regressions remain
 required. These native extensions earn no new upstream-method credit or dedicated
 phase timing comparison.
+
+
+## Declared initialization trends
+
+`PartialScoreBound::Trend(InitializingScoreTrend)` supports per-level `Any`,
+`OnlyUp` and `OnlyDown` declarations. `parse("ONLY_DOWN/ANY", 2)` specifies two
+levels; a single token repeats across the given count. Tokens are exact and
+case-sensitive. Invalid tokens/counts return ScoreTrendError; a configured trend
+whose count differs from the score type returns typed SolverError::InvalidScoreTrend
+with its phase before any score callback. A stream factory may already have run.
+Zero-level score families accept an empty trend. Configuration now owns its trend
+vector and is Clone, not Copy.
+
+Optimistic bounds retain the partial value on OnlyDown levels and use positive
+infinity otherwise. Pessimistic bounds retain OnlyUp levels and use negative
+infinity otherwise. InitializingScoreBound stores the finite prefix and the first
+infinite boundary: suffixes beyond it do not distinguish sets of reachable finite
+scores. Bounds compare exact numeric levels, including decimals, without float
+conversion or finite sentinels. Structural state is cleared to zero when deriving
+bounds; comparison still considers structural state first. These derived bounds
+require structural-first, numeric lexicographic Score ordering. All built-in
+score families provide this ordering. A custom Score must honor that contract.
+
+The ordered engine uses upper bounds for scheduling, inherited path minima, pruning
+and visited-leaf validation. A known hard prefix can prune a worse hard branch
+while unknown softer levels stay open. All-Any is safe and retains full exploration;
+all-OnlyDown agrees with the existing NonIncreasing mode. Unknown suffixes do not
+turn partial scores into retained solutions. Derived lower bounds are exposed for
+reasoning, but never become incumbents without actual scored witness assignments.
+
+Declarations must hold for every eligible completion under the actual arithmetic,
+including omissions, changed list neighbors and wrapping integers. The API does
+not infer declarations from weights and cannot validate pruned branches. Visited
+leaf checks validate the inherited full optimistic bound, not every independent
+trend assertion; OnlyUp/Any levels may make some assertions unobservable. Original
+checks cover all six paths/four orders, every unknown-budget prefix, decimal
+precision, invalid widths and independent two/three-level bound references.

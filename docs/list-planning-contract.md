@@ -107,7 +107,8 @@ Each queued partial state owns its lists. The frontier limit bounds node count,
 not bytes; per-parent insertion choices also consume memory. Full scoring remains
 the callback's responsibility. Ordered Exact phases additionally support unknown
 bounds or a declared non-increasing-score assumption; see solver-contract.md.
-No automatic bound inference is provided.
+Declared per-level trends derive symbolic bounds in ordered phases. No automatic
+constraint analysis is provided.
 
 Original checks compare full traversal with independent subset/permutation/partition
 enumeration for all 128 two-entity range/optionality configurations, then check

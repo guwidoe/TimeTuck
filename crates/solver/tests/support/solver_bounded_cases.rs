@@ -68,7 +68,7 @@ fn bounded_phases_optimize_all_backends_with_unknown_and_valid_bounds() {
     for mode in 0..6 {
         for order in ORDERS {
             for bound in [PartialScoreBound::Unknown, PartialScoreBound::NonIncreasing] {
-                let r = checked(mode, false, sequence(phase(order, bound)), |n| {
+                let r = checked(mode, false, sequence(phase(order, bound.clone())), |n| {
                     SimpleScore::new(-n)
                 });
                 assert_eq!(r.reason, SolverTermination::Optimal);

@@ -394,3 +394,8 @@ pub use list_branch_and_bound::{
 pub use mixed_branch_and_bound::{
     MixedBranchAndBoundResult, branch_and_bound_mixed, branch_and_bound_mixed_with_observer,
 };
+
+mod score_trend;
+pub use score_trend::{
+    InitializingScoreBound, InitializingScoreTrend, InitializingScoreTrendLevel, ScoreTrendError,
+};

@@ -167,6 +167,7 @@ fn run_scored_events<'a>(
                     })
                 }
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
+                Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
                 Err(SolverError::InvalidOptimisticBound { phase, .. }) => {
                     Err(Failure::Bound(phase))
                 }

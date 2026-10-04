@@ -192,6 +192,10 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    InvalidScoreTrend {
+        phase: usize,
+        error: ScoreTrendError,
+    },
     /// A visited eligible leaf exceeded a declared ancestor bound. Scores are
     /// retained as Debug strings so the scoring error type remains unchanged.
     InvalidOptimisticBound {
@@ -230,6 +234,7 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidScoreTrend { phase, error } => write!(f, "phase {phase}: {error}"),
             Self::InvalidOptimisticBound {
                 phase,
                 score,
@@ -262,6 +267,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::InvalidAcceptance { error, .. } => Some(error),
+            Self::InvalidScoreTrend { error, .. } => Some(error),
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::EmptyPlan

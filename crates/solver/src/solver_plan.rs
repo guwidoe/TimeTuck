@@ -4,7 +4,7 @@ use std::time::Duration;
 
 /// Assumption used to derive a bound from a partial score. Never inferred from
 /// the constraint names or sign of weights; the caller must establish it.
-#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum PartialScoreBound {
     /// No bound; explore the complete tree subject to configured controls.
     #[default]
@@ -15,6 +15,8 @@ pub enum PartialScoreBound {
     /// and the actual arithmetic (including integer wrapping). Visited leaves
     /// can disprove this assertion; pruned branches cannot validate it.
     NonIncreasing,
+    /// Declared per-level initialization trends, with symbolic infinite bounds.
+    Trend(InitializingScoreTrend),
 }
 /// Bounded exact-search settings for any basic, list or mixed solver phase.
 /// Limits and observations come from the surrounding ExactPhaseConfig/solve.
@@ -41,7 +43,7 @@ pub enum PartialScoreBound {
 /// assert!(r.work.evaluations < 40); // Root + all partial and complete nodes.
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BoundedPhaseConfig {
     pub exploration: NodeExploration,
     pub max_frontier: usize,
@@ -56,7 +58,7 @@ impl Default for BoundedPhaseConfig {
         }
     }
 }
-#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum ExactSearchStrategy {
     #[default]
     Enumerate,

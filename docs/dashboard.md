@@ -494,3 +494,12 @@ rejections. Its separate card labels rejection agreement explicitly and explains
 first-error truncation, component arithmetic and subtraction-before-addition updates.
 The full generated inputs and runtime output prefixes remain in the downloadable
 report. No additional timing card or generated-case method credit is inferred.
+
+
+The separate score-trend diagnostic compares 512 original exact-search cases
+(64 pinned/required graph fixtures x four branch orders x two trend declarations).
+It validates Community public configuration and native ordered bounded phases
+against independent optima, including signed soft preferences with ONLY_DOWN/ANY.
+This agreement count adds no timing workloads or adapted-method credit. Run
+`python3 scripts/score_trend_checks.py` for that diagnostic alone; the standard
+solver differential includes it and saves all inputs/results.

@@ -73,7 +73,8 @@ Additional independent product/table checks cover coupled mixed-sign objectives,
 every budget prefix, observations, resource limits, decimal precision and panics.
 These original checks add no upstream-method coverage. Ordered Exact phases now
 support all exploration orders with unknown bounds or an explicit non-increasing
-score assumption; see solver-contract.md. Automatic bound inference remains pending.
+score assumption; see solver-contract.md. Declared per-level trends also derive symbolic bounds; constraint analysis does
+not infer declarations.
 
 Eight original regression methods test atomic commit/undo, invalid starts, later
 component failure, panic rollback, nested composites, pins and ranges. Independent

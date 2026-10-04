@@ -7702,3 +7702,84 @@ This turn made verified progress. The full rewrite remains active and incomplete
 automatic per-level initializing-score-trend bounds and broader Community behavior
 remain pending. Unknown bounds and the explicit caller assertion are the currently
 supported ordered-phase choices; do not claim generic automatic bound inference.
+
+## 2026-10-04: Declared score trends and symbolic bounds
+
+Previous goal turn made verified progress in 3fd8c22. This increment adds declared
+per-level initialization trends to ordered bounded phases, rather than only parser
+fixtures. Read score_trend.rs and the new solver-contract section. Only pinned
+Community tests/public documentation and public black-box APIs informed behavior;
+no upstream production implementation was inspected or translated.
+
+InitializingScoreTrend parses exact ANY/ONLY_UP/ONLY_DOWN tokens, repeating a single
+token across the specified width. Three complete pinned predicate/parser methods
+are adapted and attributed. Native bounds retain a finite numeric prefix followed
+by an optional infinite boundary. Upper bounds keep OnlyDown levels; lower bounds
+keep OnlyUp levels. First infinity makes suffixes irrelevant to partitions of
+finite reachable scores. Structural state clears to zero; full bound comparisons
+still consider structural first. Native exact decimal comparisons avoid float and
+finite-extrema sentinels. Custom scores require numeric lexicographic ordering.
+
+The common engine uses these bounds for scheduling, path minima, visited-leaf
+checks and pruning. Existing finite standalone callbacks/errors retain their API;
+SearchNodeKey now has an optional bound-type parameter defaulting to its score.
+PartialScoreBound::Trend owns its declaration; bounded configs are Clone, not Copy.
+Invalid widths return a typed phase error before scoring (stream factories can
+already have run). Lower bounds never supply an incumbent without a scored witness.
+Declarations remain caller obligations, including actual overflow/list/optional
+semantics. This is declared-trend derivation, not automatic constraint analysis.
+
+Five original bound regressions check parsing/widths/empty scores, every legal
+small two-level completion, integer extremes, decimal exactness, total ordering
+and independent three-level finite-score partitions. Five original solver methods
+cover all six paths/four orders, pruning with unknown soft levels, every unknown
+budget prefix, error typing, old finite-mode equivalence and decimal precision.
+The first three-level reference incorrectly distinguished suffixes after equal
+infinity; corrected it to compare finite-score partitions as documented. No
+production algorithm workaround. One old fixture needed clone after the config
+ceased to be Copy. Focused runs and all-target clippy passed.
+
+Public Java SolverOracle optionally accepts branch order/trend, retaining existing
+no-argument behavior and benchmark factory overload. Native solver_oracle invokes
+real ordered scoped phases in this mode. score_trend_checks compares 64 original
+homogeneous required graph cases x four orders x ANY/ONLY_DOWN-ANY declarations;
+all 512 results passed independent Python optima, validity and rescoring in probe
+44771, work/trend-java-probe.log. Signed soft preferences/pins are included; no
+Java traversal/bound representation/list/mixed/timing claim. The standard solver
+differential and existing dashboard diagnostic list now include this count.
+
+Full gate is work/trend-check.log. Expected totals: 1,813 Rust tests, 95 doctests,
+211 Python checks,875/4,855 adapted methods. Sources are frozen for final capture,
+focused release and the sequential 13-dataset refresh. The full goal remains
+active, incomplete and unblocked; this turn makes concrete progress.
+
+Full gate 9717 completed exit 0: 1,813 Rust tests, 95 doctests, 211 Python tests.
+Adapted methods 875/4,855=18.023%; Score calculation 3/119; Search remains 67/158;
+pending 3,698 / excluded 282 / failed 0 / unverified 0. Focused release 33652 completed exit 0
+including all 13 new methods, standalone 13+10, comparator 4 and controlled-clock 4;
+work/trend-release.log. No source/provenance changes after full capture. The
+sequential 13-dataset refresh runs work/trend-refresh.sh; re-poll its live handle
+if interrupted. Work/trend-audit.py checks fingerprints, all timing/quality data,
+three new adapted identities, native references and the 512-case Java diagnostic.
+
+Refresh 85413 completed exit 0. Final work/trend-audit.log passed: 13 current
+measurement datasets and live freshness match source/verification fingerprints;
+65 timing cards (10 exact, 22 heuristic); all 512 trend comparisons and all 128
+baseline planning cases match independent optima. Heuristic quality remains
+352 valid/equal-score cases, 300 optima per runtime. Existing oscillation differences
+remain 325, with 24/24 forced-GC checks. Final coverage 875/4,855=18.023%; Score
+calculation 3/119=2.52%, Search 67/158=42.41%; pending 3698 / excluded 282 and zero
+failed/unverified methods. These diagnostics earn no additional method credit.
+
+Browser checks passed at 1440x1000 and 390x844: 18.02% overall, all 65 timing cards,
+three passed InitializingScoreTrendTest results when filtering Score calculation,
+and the 512/512 separate diagnostic with its scope explanation. No page errors,
+stale-data warning or horizontal overflow. Visually inspected screenshots:
+work/trend-{desktop,phone,phone-diagnostic}.png. Browser closed; localhost:8765
+server remains running. No test/measurement process remains live. Upstream checkout
+is unchanged/clean. Staged implementation, adapters, attribution and docs reviewed.
+
+This goal turn made verified progress. Full Community behavior remains incomplete;
+declared-trend bound derivation now exists, while automatic constraint analysis is
+not implemented or claimed. Future work should advance remaining solver behavior
+and its complete pinned tests, keeping native semantics and Java boundaries explicit.

@@ -1,5 +1,7 @@
 //! Exact tree search with caller-supplied optimistic bounds.
-use crate::{Assignment, FiniteProblem, Score, ScoreLevel, ScoredAssignment};
+use crate::{
+    Assignment, FiniteProblem, InitializingScoreBound, Score, ScoreLevel, ScoredAssignment,
+};
 use std::{cmp::Ordering, collections::BinaryHeap, error::Error, fmt, time::Duration};
 
 /// Priority of open partial assignments. Greater comparison means explored first.
@@ -21,11 +23,11 @@ pub enum NodeExploration {
 /// Observable scheduling metadata. Breadth identifies a node within its parent's
 /// domain scan; parent_breadth identifies its parent within the preceding scan.
 #[derive(Clone, Debug)]
-pub struct SearchNodeKey<S> {
+pub struct SearchNodeKey<S, B = S> {
     pub depth: usize,
     pub score: S,
     /// None is unknown, ranks ahead of finite bounds, and never permits pruning.
-    pub optimistic_bound: Option<S>,
+    pub optimistic_bound: Option<B>,
     pub parent_breadth: u64,
     pub breadth: u64,
 }
@@ -41,9 +43,17 @@ impl NodeExploration {
     /// breadth-first reverses that precedence. Unknown bounds rank above finite
     /// bounds. Exact key ties are equal; the engine then prefers earlier insertion.
     pub fn compare<S: Score>(self, a: &SearchNodeKey<S>, b: &SearchNodeKey<S>) -> Ordering {
+        self.compare_with(a, b, ordinary_cmp)
+    }
+    fn compare_with<S: Score, B>(
+        self,
+        a: &SearchNodeKey<S, B>,
+        b: &SearchNodeKey<S, B>,
+        compare_bound: impl Fn(&B, &B) -> Ordering,
+    ) -> Ordering {
         let score = || ordinary_cmp(&a.score, &b.score);
         let bound = || match (&a.optimistic_bound, &b.optimistic_bound) {
-            (Some(a), Some(b)) => ordinary_cmp(a, b),
+            (Some(a), Some(b)) => compare_bound(a, b),
             (None, Some(_)) => Ordering::Greater,
             (Some(_), None) => Ordering::Less,
             (None, None) => Ordering::Equal,
@@ -170,9 +180,9 @@ impl<S: fmt::Debug> Error for InvalidOptimisticBound<S> {}
 
 struct Node<A, S> {
     assignment: A,
-    key: SearchNodeKey<S>,
+    key: SearchNodeKey<S, InitializingScoreBound<S>>,
     /// Tightest full-score bound on the path, for pruning and visited-leaf checks.
-    path_bound: Option<S>,
+    path_bound: Option<InitializingScoreBound<S>>,
     serial: u64,
     exploration: NodeExploration,
 }
@@ -180,7 +190,13 @@ impl<V, S: Score> Ord for Node<V, S> {
     fn cmp(&self, other: &Self) -> Ordering {
         self.exploration
             .cmp(&other.exploration)
-            .then_with(|| self.exploration.compare(&self.key, &other.key))
+            .then_with(|| {
+                self.exploration.compare_with(
+                    &self.key,
+                    &other.key,
+                    InitializingScoreBound::ordinary_cmp,
+                )
+            })
             .then_with(|| other.serial.cmp(&self.serial))
     }
 }
@@ -195,8 +211,10 @@ impl<V, S: Score> PartialEq for Node<V, S> {
     }
 }
 impl<V, S: Score> Eq for Node<V, S> {}
-fn dominated<S: Score>(bound: Option<&S>, best: Option<&S>) -> bool {
-    bound.zip(best).is_some_and(|(bound, best)| bound <= best)
+fn dominated<S: Score>(bound: Option<&InitializingScoreBound<S>>, best: Option<&S>) -> bool {
+    bound
+        .zip(best)
+        .is_some_and(|(bound, best)| !bound.compare_score(best).is_gt())
 }
 
 /// Maximize over a finite basic-variable tree. Movable variables branch in model
@@ -290,15 +308,19 @@ impl<V, S> Retained<Assignment<V>, S> for ScoredAssignment<V, S> {
 #[derive(Debug)]
 pub(crate) enum TreeSearchError<E, S> {
     Evaluation(E),
-    Bound(InvalidOptimisticBound<S>),
+    Bound {
+        score: S,
+        bound: InitializingScoreBound<S>,
+    },
+    Trend(crate::ScoreTrendError),
+}
+pub(crate) struct TreeEvaluation<S> {
+    pub score: S,
+    pub optimistic_bound: Option<InitializingScoreBound<S>>,
 }
 pub(crate) trait BranchContext<A, S, R> {
     type Error;
-    fn evaluate(
-        &mut self,
-        assignment: &A,
-        depth: usize,
-    ) -> Result<BranchEvaluation<S>, Self::Error>;
+    fn evaluate(&mut self, assignment: &A, depth: usize) -> Result<TreeEvaluation<S>, Self::Error>;
     fn stop(&mut self, evaluations: u64, best: Option<&S>) -> Option<BranchTermination>;
     fn improved(&mut self, best: &R);
 }
@@ -308,19 +330,19 @@ struct StandaloneContext<'a, 'm, F, O, C> {
     config: BranchAndBoundConfig<'a>,
     time: crate::time_limit::TimeBudget<'m, C>,
 }
-impl<A, S, R, F, O, C> BranchContext<A, S, R> for StandaloneContext<'_, '_, F, O, C>
+impl<A, S: Score, R, F, O, C> BranchContext<A, S, R> for StandaloneContext<'_, '_, F, O, C>
 where
     F: FnMut(&A, usize) -> BranchEvaluation<S>,
     O: FnMut(&R),
     C: FnMut() -> Duration,
 {
     type Error = std::convert::Infallible;
-    fn evaluate(
-        &mut self,
-        assignment: &A,
-        depth: usize,
-    ) -> Result<BranchEvaluation<S>, Self::Error> {
-        Ok((self.evaluate)(assignment, depth))
+    fn evaluate(&mut self, assignment: &A, depth: usize) -> Result<TreeEvaluation<S>, Self::Error> {
+        let e = (self.evaluate)(assignment, depth);
+        Ok(TreeEvaluation {
+            score: e.score,
+            optimistic_bound: e.optimistic_bound.map(InitializingScoreBound::finite),
+        })
     }
     fn stop(&mut self, evaluations: u64, _: Option<&S>) -> Option<BranchTermination> {
         stop(self.config, evaluations, &mut self.time)
@@ -357,7 +379,13 @@ where
         &mut context,
     ) {
         Ok(r) => Ok(r),
-        Err(TreeSearchError::Bound(e)) => Err(e),
+        Err(TreeSearchError::Bound { score, bound }) => Err(InvalidOptimisticBound {
+            score,
+            bound: bound
+                .into_finite()
+                .expect("standalone supplies finite bounds"),
+        }),
+        Err(TreeSearchError::Trend(_)) => unreachable!("standalone has no trend"),
         Err(TreeSearchError::Evaluation(e)) => match e {},
     }
 }
@@ -394,12 +422,12 @@ where
                  depth: usize,
                  breadth: u64,
                  parent_breadth: u64,
-                 inherited: Option<&S>,
+                 inherited: Option<&InitializingScoreBound<S>>,
                  result: &mut BoundedSearchResult<R>,
                  frontier: &mut BinaryHeap<Node<T::Assignment, S>>,
                  context: &mut C|
      -> Result<bool, TreeSearchError<C::Error, S>> {
-        let BranchEvaluation {
+        let TreeEvaluation {
             score,
             optimistic_bound,
         } = context
@@ -415,11 +443,14 @@ where
         if depth == tree.depth() {
             result.complete_evaluations += 1;
             if score.structural() >= 0 {
-                if let Some(bound) = path_bound.as_ref().filter(|b| score > **b) {
-                    return Err(TreeSearchError::Bound(InvalidOptimisticBound {
+                if let Some(bound) = path_bound
+                    .as_ref()
+                    .filter(|b| b.compare_score(&score).is_lt())
+                {
+                    return Err(TreeSearchError::Bound {
                         score,
                         bound: bound.clone(),
-                    }));
+                    });
                 }
                 if result
                     .best

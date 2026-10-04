@@ -94,6 +94,10 @@ public final class SolverOracle {
     }
 
     static SolverFactory<Problem> branchFactory(String algorithm) {
+        return branchFactory(algorithm, "ONLY_DOWN");
+    }
+
+    static SolverFactory<Problem> branchFactory(String algorithm, String trend) {
         var order = switch (algorithm) {
             case "depth" -> NodeExplorationType.DEPTH_FIRST;
             case "breadth" -> NodeExplorationType.BREADTH_FIRST;
@@ -103,7 +107,7 @@ public final class SolverOracle {
         };
         var config = new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Job.class)
             .withScoreDirectorFactory(new ai.timefold.solver.core.config.score.director.ScoreDirectorFactoryConfig()
-                .withEasyScoreCalculatorClass(Calculator.class).withInitializingScoreTrend("ONLY_DOWN"))
+                .withEasyScoreCalculatorClass(Calculator.class).withInitializingScoreTrend(trend))
             .withRandomSeed(20261001L)
             .withPhases(new ExhaustiveSearchPhaseConfig().withExhaustiveSearchType(ExhaustiveSearchType.BRANCH_AND_BOUND)
                 .withNodeExplorationType(order).withEntitySorterManner(EntitySorterManner.NONE)
@@ -112,11 +116,13 @@ public final class SolverOracle {
     }
 
     public static void main(String[] args) throws Exception {
-        var factory = factory();
+        if (args.length != 0 && args.length != 2) throw new IllegalArgumentException("Expected order and trend, or no arguments");
+        var factory = args.length == 0 ? factory() : branchFactory(args[0], args[1]);
         try (var input = new BufferedReader(new InputStreamReader(System.in))) {
             for (String line; (line = input.readLine()) != null;) {
                 String[] fields = line.split("\t", -1);
                 if (fields.length == 9) {
+                    if (args.length != 0) throw new IllegalArgumentException("Trend adapter requires homogeneous required domains");
                     System.out.println(RangeSolverOracle.solve(fields));
                     continue;
                 }
