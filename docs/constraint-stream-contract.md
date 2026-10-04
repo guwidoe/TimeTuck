@@ -1545,3 +1545,33 @@ count. All 132 cases and 11,300 states match independently rebuilt minima, maxim
 counts and exact average bits, including duplicate inputs and inverse updates.
 Inputs keep integer sums/differences representable. Dedicated composition timings
 and generic Java callback-failure/recovery behavior are outside this increment.
+
+## Checked integer sum and collection updates
+
+SumCollector returns a checked signed-i64 sum, with zero for an empty standalone
+collector. It is separate from IntCollector/IntSummary, whose sum remains wrapping.
+Insert checks total+value; removal checks total-value. Replacement checks new-old
+first, then total+difference. Both intermediates must be representable. An equal
+replacement has zero difference; replacing MIN with MAX rejects even for a single
+occurrence because the difference overflows. SumOverflow from try_insert/remove/
+replace preserves state; trait methods panic for normal graph rollback. Missing
+remove/replace returns false. Captured zero/duplicate values retain multiplicity,
+clone shares persistent roots, and finish reads the maintained total. Count overflow
+remains the underlying collector's checked panic. Keep all insertion prefixes
+representable when requiring independent reconstruction to succeed.
+
+Public black-box probes, not implementation inspection, establish these arithmetic
+rules. The bounded ordinary collector source methods now use SumCollector for sum
+updates. Existing wrapping summaries remain useful for explicitly modular arithmetic.
+MapCollector with FinishingCollector can expose each key's merged integer result;
+using the IntSummary sum cast to i32 implements Integer::sum modulo 2^32 for captured
+i32 values. Zero-valued keys persist until their final occurrence is removed.
+This is an additive merge policy, not a general arbitrary binary merger API.
+
+Set/map/sum comparison retains 270 original cases and 19,484 observations with
+independent full multiset reconstruction. All states or expected rejection markers
+agree with public Java collectors, including 39 expected overflow rejections. Both
+runtimes stop at their first error; those rejections are not successful updates and
+no Java post-error state is claimed. Set comparisons normalize iteration order; native sorted-set iteration is checked
+separately by the adapted tests, and map comparisons retain sorted key order. Null-key/value semantics,
+general merge functions and dedicated timings are not covered by this comparison.

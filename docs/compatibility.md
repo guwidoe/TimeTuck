@@ -1216,3 +1216,31 @@ independent min/max/count values and f64 average bits through duplicate inputs,
 replacement, removal and inverse-update trials. Inputs keep intermediate integer
 arithmetic representable. Callback count/order, live aliases, Java ABI and dedicated
 performance measurements are not claimed.
+
+## Sets, merged sorted maps and checked integer sums
+
+Thirty-two source methods are adapted: toSet, toSortedSet, toSortedMapMerged,
+countUpdate, sumUpdate, countDistinctUpdate, toSetUpdate and toSortedSetUpdate in
+all four Inner*ConstraintCollectorsTest arities. All assertions, arity-specific
+numeric tuple inputs/projections, null ignored string fields and operation sequences
+remain. The uni merged-map fixture retains its alternating value counter, captured
+once per insertion. Native sets check membership and natural sorted iteration;
+map results use wrapping i32 addition as in Integer::sum. Count uses native usize
+for these bounded fixtures. Provenance and notices record every adaptation.
+
+Independent SumCollector implements checked i64 summation based on public black-box
+observations. It leaves the existing IntSummary wrapping contract unchanged.
+Replacement checks difference then final total, unlike AverageCollector's observed
+wrapping replacement total. Five original regressions cover widened boundary
+arithmetic, duplicate/zero/missing captures, atomic failure at both replacement
+stages, unchanged-value replacement, MIN removal, snapshots, graph failure/rollback,
+1,800 grouped map edits, construction and 32 bounded searches against independent
+scores. A doctest and seven Python protocol/reference tests add no method credit.
+
+Public set/sorted-set/merged-map/sum checks retain 270 cases / 19,484 observations.
+Every successful result or expected overflow agrees with independent Python and
+Java. There are 39 expected sum-overflow rejections; both runtimes stop at their
+first error, so rejection agreement does not claim a successful update or Java
+post-error recovery. Merged-map zero keys and i32 wrap boundaries remain explicit;
+unordered set output normalizes order. No generic merge-function, Java API/ABI,
+null-key/value, callback-order or dedicated performance claim.

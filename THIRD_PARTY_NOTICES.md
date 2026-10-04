@@ -328,3 +328,10 @@ from all four pinned Apache-2.0 Inner*ConstraintCollectorsTest classes. Original
 assertions and mapped tuple/date fixtures are represented as recorded in
 compat/provenance.json. FinishingCollector, original regression tests, independent
 references and public comparison drivers are original implementations.
+
+`crates/solver/tests/set_sum_collector_cases.rs` adapts toSet, toSortedSet,
+toSortedMapMerged, countUpdate, sumUpdate, countDistinctUpdate, toSetUpdate and
+toSortedSetUpdate from all four pinned Apache-2.0 Inner*ConstraintCollectorsTest
+classes. Tuple/string fixtures and the uni alternating merged-value counter retain
+source attribution in compat/provenance.json. SumCollector and separate original
+regressions, references and public comparison drivers were independently implemented.

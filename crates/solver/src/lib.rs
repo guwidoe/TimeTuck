@@ -353,3 +353,6 @@ pub use extrema_collector::{Extremum, ExtremumCollector, MaxByCollector, MinByCo
 
 mod finishing_collector;
 pub use finishing_collector::{CollectorFinisher, FinishingCollector};
+
+mod sum_collector;
+pub use sum_collector::{SumCollector, SumOverflow};

@@ -11565,6 +11565,486 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_to_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSortedSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_to_sorted_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSortedMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapMerged",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_to_sorted_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Preserve each key/value mapping, including the uni alternating counter. Native ordered MapCollector with a finishing policy returns wrapping i32 merged sums, matching Integer::sum; map entries are checked in key order. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.countUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "countUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_count_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use native usize counts with all source bounded integer/long tuple inputs retained. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.sumUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "sumUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_sum_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use checked i64 SumCollector; source bounded integer/long tuple sums retain their exact values. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.countDistinctUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "countDistinctUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_count_distinct_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Retain string values and nullable ignored trailing fields; finish the captured set to its distinct cardinality. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_to_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.toSortedSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "uni_to_sorted_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_to_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSortedSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_to_sorted_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSortedMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapMerged",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_to_sorted_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Preserve each key/value mapping, including the uni alternating counter. Native ordered MapCollector with a finishing policy returns wrapping i32 merged sums, matching Integer::sum; map entries are checked in key order. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.countUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "countUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_count_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use native usize counts with all source bounded integer/long tuple inputs retained. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sumUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sumUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_sum_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use checked i64 SumCollector; source bounded integer/long tuple sums retain their exact values. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.countDistinctUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "countDistinctUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_count_distinct_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Retain string values and nullable ignored trailing fields; finish the captured set to its distinct cardinality. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_to_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.toSortedSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "bi_to_sorted_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_to_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSortedSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_to_sorted_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSortedMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapMerged",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_to_sorted_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Preserve each key/value mapping, including the uni alternating counter. Native ordered MapCollector with a finishing policy returns wrapping i32 merged sums, matching Integer::sum; map entries are checked in key order. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.countUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "countUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_count_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use native usize counts with all source bounded integer/long tuple inputs retained. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sumUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sumUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_sum_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use checked i64 SumCollector; source bounded integer/long tuple sums retain their exact values. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.countDistinctUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "countDistinctUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_count_distinct_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Retain string values and nullable ignored trailing fields; finish the captured set to its distinct cardinality. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_to_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.toSortedSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "tri_to_sorted_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_to_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSortedSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSet",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_to_sorted_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSortedMapMerged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSortedMapMerged",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_to_sorted_map_merged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Preserve each key/value mapping, including the uni alternating counter. Native ordered MapCollector with a finishing policy returns wrapping i32 merged sums, matching Integer::sum; map entries are checked in key order. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.countUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "countUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_count_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use native usize counts with all source bounded integer/long tuple inputs retained. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sumUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sumUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_sum_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Use checked i64 SumCollector; source bounded integer/long tuple sums retain their exact values. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.countDistinctUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "countDistinctUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_count_distinct_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Retain string values and nullable ignored trailing fields; finish the captured set to its distinct cardinality. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_to_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.toSortedSetUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "toSortedSetUpdate",
+      "local_path": "crates/solver/tests/set_sum_collector_cases.rs",
+      "local_test": "quad_to_sorted_set_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
     }
   ],
   "fixtures": [

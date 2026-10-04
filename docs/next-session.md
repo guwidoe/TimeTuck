@@ -6302,3 +6302,62 @@ toSetUpdate and toSortedSetUpdate. Read corresponding arities and compare existi
 SetCollector/MapCollector behavior before adapting; toSortedMapMerged may need a
 reusable merge-result policy or stronger ordering/multiplicity coverage. Dedicated
 extrema/composition/connected-range/load-balance/period benchmarks remain pending.
+
+## Checked integer sums and remaining collection updates (2026-10-04)
+
+Read all eight methods in all four arities (re-read the truncated bi output
+separately). New set_sum_collector_cases.rs adapts toSet/toSortedSet,
+toSortedMapMerged, countUpdate, sumUpdate, countDistinctUpdate, toSetUpdate and
+toSortedSetUpdate: 32 methods. Retain all source assertions and arity-specific tuple
+sums/first-field mappings, ignored nullable string fields and uni alternating
+merged-value counter. SetCollector provides memberships/ordered native keys;
+MapCollector plus FinishingCollector exposes wrapping i32 sums matching Integer::sum
+for captured i32 inputs. Bounded source count values use usize. All provenance and
+notices are recorded. No upstream production implementation used.
+
+Black-box work/SumBoundaryProbe.java found that public Java sum rejects insertion,
+removal, replacement-difference and replacement-total overflow, but accepts a
+same-value replacement even when subtracting the old value first would overflow.
+New original sum_collector.rs exports SumCollector and SumOverflow. It checks
+insert/remove totals, and checks new-old then total+difference on replacement.
+Try methods preserve state on overflow; missing captures return false. Trait methods
+panic for normal graph rollback. Captured zero/duplicates persist. It shares roots
+on clone and maintains finish total without scanning. Existing IntSummary wrapping
+sum is unchanged. AverageCollector's separately observed wrapping replacement-total
+behavior is unchanged. Keep all insertion prefixes representable for rebuilds.
+
+Five original regressions add no source-method credit: widened i64 boundary
+arithmetic, both replacement failure stages, zero/duplicate/missing captures,
+unchanged-value updates, MIN removal, immutable snapshots, graph overflow recovery,
+1,800 map updates with commit/undo/rebuild and zero-key retention, construction and
+32 bounded searches against independent total scores. One doctest and seven Python
+reference/protocol tests accompany them.
+
+SetSumCollectorOracle.java, set_sum_oracle.rs and set_sum_collector_checks.py retain
+270 original cases / 19,484 observations. All public Java/native outputs match full
+independent multiset calculations, including 39 expected sum overflow rejections.
+Cases stop at the first error; rejected operations are not successful updates and
+no Java post-error state is claimed. Set comparison normalizes iteration order;
+native sorted iteration is separately checked by adaptations, while map key order
+is retained in comparisons. Maps exercise wrapping i32 merges, duplicate captures,
+zero-valued retained keys and key changes. All modes include inverse-update trials.
+No arbitrary merge-function, Java ABI, null-key/value or timing claim. Standalone
+results saved to work/set-sum-probe.json.
+
+Final gate passes: 1,608 Rust tests (803 adapted, 729 original integration, 76 unit),
+82 doctests and 187 Python tests. All 37 new integration tests pass release. Logs
+work/set-sum-check.log and work/set-sum-release.log. Coverage 803/4,855 = 16.54%,
+streams 423/1,301 = 32.51%, pending 3,770, excluded 282, failed/unverified zero.
+The pinned InnerUniConstraintCollectorsTest declares 58 methods, now all passed.
+Bi has 54/59, tri/quad each 53/58. Remaining five in each are count, countDistinct,
+sum, minComparable and maxComparable; read their exact tuples/date fixtures next.
+The overall rewrite remains unfinished; goal active. Refresh session 70903 runs
+all twelve datasets sequentially on frozen source, logs work/set-sum-refresh-*.log.
+
+Refresh session 70903 finished exit 0. All twelve datasets are current, and
+report/source/live-server fingerprints match. Browser QA confirms 16.54% overall,
+32.51% streams, four sorted merged-map methods and four sumUpdate methods passed,
+the 270/270 comparison card with 19,484 observations and 39 expected-rejection
+caveat, and all 37 timing cards. No page errors or horizontal overflow at desktop
+1440px/mobile 390px. Screenshot work/set-sum-dashboard.png; browser closed and
+localhost:8765 remains. Existing Java differences remain visible and uncredited.

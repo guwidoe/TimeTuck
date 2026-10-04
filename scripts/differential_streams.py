@@ -20,6 +20,7 @@ from duration_collector_checks import run_checks as check_durations
 from period_collector_checks import run_checks as check_periods
 from extrema_collector_checks import run_checks as check_extrema
 from composition_collector_checks import run_checks as check_composition
+from set_sum_collector_checks import run_checks as check_set_sum
 from big_number_collector_checks import run_checks as check_big_numbers
 from mixed_stream_checks import run_checks as check_mixed_streams
 from follower_checks import run_checks as check_followers
@@ -98,8 +99,8 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/PeriodCollectorOracle.java'),str(ROOT/'compat/oracle/ExtremaCollectorOracle.java'),str(ROOT/'compat/oracle/CompositionCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/LoadBalanceOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','period_oracle','--example','extrema_oracle','--example','composition_oracle','--example','sequence_oracle','--example','range_oracle','--example','load_balance_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/PeriodCollectorOracle.java'),str(ROOT/'compat/oracle/ExtremaCollectorOracle.java'),str(ROOT/'compat/oracle/CompositionCollectorOracle.java'),str(ROOT/'compat/oracle/SetSumCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/LoadBalanceOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','period_oracle','--example','extrema_oracle','--example','composition_oracle','--example','set_sum_oracle','--example','sequence_oracle','--example','range_oracle','--example','load_balance_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
@@ -117,6 +118,8 @@ def main():
     print(f'Connected ranges: {range_checks["passed"]}/{range_checks["total"]} Java agreement; {range_checks["divergent_cases"]} differing cases; {range_checks["native_reference_passed"]} native passes',flush=True)
     sequence_checks=check_sequences(cp)
     print(f'Sequence collectors: {sequence_checks["passed"]}/{sequence_checks["total"]} cases; {sequence_checks["observations"]} observations; {sequence_checks["boundary_divergences"]} explicit overflow divergence',flush=True)
+    set_sum_checks=check_set_sum(cp)
+    print(f'Set/map/sum collectors: {set_sum_checks["passed"]}/{set_sum_checks["total"]} cases; {set_sum_checks["observations"]} observations; {set_sum_checks["expected_overflow_rejections"]} expected rejections',flush=True)
     composition_checks=check_composition(cp)
     print(f'Collector composition: {composition_checks["passed"]}/{composition_checks["total"]} cases; {composition_checks["observations"]} observations',flush=True)
     extrema_checks=check_extrema(cp)
@@ -164,6 +167,7 @@ def main():
             'period_collector_checks':period_checks,
             'extrema_collector_checks':extrema_checks,
             'composition_collector_checks':composition_checks,
+            'set_sum_collector_checks':set_sum_checks,
             'sequence_collector_checks':sequence_checks,
             'range_collector_checks':range_checks,
             'load_balance_checks':load_balance_checks,
