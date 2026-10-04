@@ -306,3 +306,10 @@ uni LoadBalanced record's key/load fixture fields and each arity's tuple mapping
 Source commit, paths, test identities and adjustments are in compat/provenance.json.
 The production collector, original regressions and public comparison drivers are
 independent implementations, with no extra upstream-method credit.
+
+`crates/solver/tests/period_collector_cases.rs` adapts sumPeriod and sumPeriodUpdate
+from the four pinned Apache-2.0 Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest classes.
+All original arity-specific day inputs and expected values remain; native captured
+values replace Java handles. Identities, revision, license and adjustments are in
+compat/provenance.json. CalendarPeriod, PeriodSumCollector, independent regressions
+and public comparison drivers are original code based on tests and public contracts.

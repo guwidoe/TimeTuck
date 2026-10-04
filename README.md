@@ -5,7 +5,7 @@ The goal is behavioral compatibility with selected **Timefold Solver Community**
 features, using its open-source tests as a conformance reference.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 715 adapted upstream
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 723 adapted upstream
 test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
@@ -35,7 +35,7 @@ grouping and weighted scoring, with retractable integer collectors. Streams are
 rebuilt inside affected score callbacks. Separate persistent operators now propagate
 filter, one-to-many expansion, concatenation, complement, equality/ordered/partitioned/existence-join, distinct, keyed/global collection and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. Composable
-collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, consecutive sequences and connected ranges with custom distance metrics, exact load balancing, nested maps and lists ordered by stable
+collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, calendar-period sums, consecutive sequences and connected ranges with custom distance metrics, exact load balancing, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
 and immutable result snapshots. Stream
 score directors bind it to basic, ordered-list and combined mixed moves. Indexed
@@ -91,6 +91,11 @@ updates and undo. All 101 generated cases / 8,290 states match independent Pytho
 97 agree with Java, including all 96 bounded cases. Four large-number cases expose
 Java overflow or cancellation and remain explicit discrepancies. Initial loads must
 be constant per active key. No load-balance timing claim is made.
+
+Calendar-period aggregation preserves signed year/month/day fields and checks
+32-bit overflow independently. All 227 generated cases / 8,771 observations agree
+with Java and Python, including 120 expected arithmetic rejections. Failed native
+updates preserve captured state; no date application or period timing is claimed.
 
 ## Development
 

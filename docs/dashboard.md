@@ -470,3 +470,10 @@ digits and numeric trailing-zero normalization are explicit; no Java decimal-sca
 or live-map parity. Paired inputs use consistent initial loads per key; native
 inconsistent updates are tested separately as atomic rejection. No new timing card
 or generated-case upstream-method credit. The existing 37 timing workloads remain.
+
+Calendar-period comparison is part of the stream dataset: 227/227 cases and 8,771
+observations agree with Java and independent Python, including 120 expected overflow
+rejections. Its separate card labels rejection agreement explicitly and explains
+first-error truncation, component arithmetic and subtraction-before-addition updates.
+The full generated inputs and runtime output prefixes remain in the downloadable
+report. No additional timing card or generated-case method credit is inferred.

@@ -1134,3 +1134,30 @@ Java overflow. All raw inputs, outputs and differences remain in load_balance_ch
 none receive agreement credit. Initial loads are constant per active key in paired
 inputs; conflicting native initial loads reject atomically instead of inheriting
 Java's first-initial-load history. No live-map, general decimal-scale or timing claim.
+
+## Calendar-period aggregation
+
+Eight source methods are adapted: sumPeriod and sumPeriodUpdate in all four
+Inner*ConstraintCollectorsTest arities. All default, add, duplicate, retract,
+replacement and repeated-replacement assertions are retained with exact native
+calendar components. Day mappings preserve each arity's original inputs; update
+mappings keep ignored nullable trailing fields. Provenance and notices record them.
+No full java.time API/ABI compatibility is implied.
+
+CalendarPeriod and PeriodSumCollector are independent Rust implementations. Six
+original integration tests cover field identity/sign/display, widened arithmetic
+boundaries, multiplicity/zero capture, immutable snapshots, insertion/removal/both
+replacement intermediate failures, 1,800 grouped edits with commit/undo/rebuild,
+callback/structural rejection restoration, construction and 32 bounded searches
+against independently summed calendar score levels. Two doctests and seven Python
+protocol/reference tests add no source-method credit.
+
+Public collector comparison retains 227 original cases and 8,771 observations.
+Every year/month/day field or overflow marker agrees with independent Python and
+Java. All 120 expected overflow rejections are identified as such; they are not
+successful updates. Both runtimes stop at their first error, retaining complete input
+and observed prefix; no Java post-error state is claimed. Period replacement checks
+subtraction then addition even for the same Java object, as separately probed on
+cancelling boundary inputs. Arithmetic never normalizes calendar fields or converts
+them to fixed durations. Date application, time zones and dedicated timing remain
+outside this increment.

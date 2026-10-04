@@ -16,7 +16,7 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 715 fully adapted source test methods, recorded individually in
+- 723 fully adapted source test methods, recorded individually in
   `compat/provenance.json`. See the latest verified increment below for counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
@@ -6119,3 +6119,71 @@ Next possible increments: calendar-period sum collectors or custom-order min/max
 whose source methods remain pending; read their pinned tests/public contracts first.
 Dedicated connected-range and load-balance timing comparisons also remain pending.
 Do not describe this milestone as a complete rewrite or full Java behavioral parity.
+
+## Calendar-period aggregation — current increment
+
+Independent period_collector.rs exports CalendarPeriod, PeriodOverflow and
+PeriodSumCollector. Period values hold three independent signed i32 fields. Public
+constructors/accessors, equality/hash, checked add/subtract and display preserve
+years/months/days, including non-normalized and mixed-sign amounts. No Ord is exposed
+because calendar amounts have no anchor-independent chronological order. There is
+no date application, normalization, parsing or elapsed-duration/time-zone conversion.
+Public JDK Period documentation is linked in the stream contract; no copied JDK code.
+
+The collector records exact component triples/multiplicities in a persistent map,
+including zero captures, and maintains a checked per-field total. Clone shares roots,
+finish returns an owned Copy value. Empty standalone sum is ZERO, empty stream groups
+emit no row. Missing remove/replace returns false. Try methods return PeriodOverflow
+without mutation; trait methods panic for graph rollback. Replacement subtracts old
+then adds new, checking both intermediates. An identical replacement is not generally
+a no-op: public pinned Java reuses the same Period object and still throws replacing
+-1 in the day sequence [-1,MAX,1]. Equal-but-distinct periods also throw there. Source
+update-test comments suggesting an identity shortcut are not generalized. Subtracting
+MIN from MIN succeeds. Keep all arithmetic prefixes representable for full rebuilds.
+
+Eight methods adapted: sumPeriod and sumPeriodUpdate in all four Inner* collector
+arities. All source values, expected results and operation ordering remain; native
+captured tuples/CollectNode IDs replace Java handles, with ignored nullable fields
+retained for update mappings. Ledger and notices updated. Original tests add no
+upstream-method credit: six Rust regressions cover calendar identity/sign/display,
+all-field widened arithmetic boundaries, zero/duplicate captures, snapshots, failed
+insert/remove and both replacement stages, 1,800 grouped edits through commit/undo/
+rebuild, mapping/downstream/structural/overflow recovery, construction and 32 bounded
+saved-candidate searches against independent per-field full scoring. Two doctests
+and seven Python reference/protocol tests cover the supporting contract and evidence.
+
+PeriodCollectorOracle.java uses pinned public APIs and pooled Period objects.
+period_oracle.rs exposes the same add/replace/remove/inverse-update protocol through
+try methods. period_collector_checks.py compares independent Python checked field
+arithmetic and reconstructs every successful state from active captures using
+unbounded sums. All 227 cases / 8,771 observations agree, including 120 expected
+arithmetic rejections. Both runtimes stop at the first rejection; all input operations
+and observed prefixes remain stored. Rejection agreement is not a successful update,
+and Java post-error state is not claimed. Same-object/equal-object and both update
+stages have fixed boundaries for every field. work/period-probe.txt retains initial
+black-box observations; work/period-probe.json retains full latest checks.
+
+Review added explicit addition-stage replacement failures for all three fields.
+The first in-flight check correctly rejected its stale log after these source edits
+(work/period-initial-check.log). A fresh complete final-source gate then passed:
+1,512 Rust tests (723 adapted, 713 original integration, 76 unit), 79 doctests and
+169 Python tests. All 14 period integration tests pass release. Logs are
+work/period-check.log and work/period-release.log. Coverage 723/4,855 = 14.89%,
+streams 343/1,301 = 26.36%, pending 3,850, excluded 282, failed/unverified zero.
+Source frozen before sequential refresh session 99193, with per-dataset logs at
+work/period-refresh-*.log. This adds correctness only; 37 timing cards remain.
+Goal is active and the complete rewrite remains unfinished.
+
+Refresh session 99193 completed exit 0. All twelve datasets are current; final report
+verification succeeds and report/source/live-server fingerprints agree. Existing
+Java differences remain explicit. Browser QA confirms 14.89% overall, 26.36% streams,
+eight passed sumPeriod/sumPeriodUpdate methods, the 227/227 period card with 120
+expected-rejection caveat, all 37 timing cards and no stale messages, page errors or
+horizontal overflow at 1440px/390px. Screenshot work/period-dashboard.png shows the
+period/load-balance/range evidence entries. Browser closed; localhost:8765 remains.
+
+Next useful feature: custom-order minimum/maximum collectors. Their source methods
+minNotComparable/maxNotComparable and corresponding updates in the Inner* test
+classes remain pending; read all arities and public comparator semantics before
+implementation. Do not assume stable tie identities or mutable aliases. Dedicated
+connected-range/load-balance/period performance measurements are still pending.

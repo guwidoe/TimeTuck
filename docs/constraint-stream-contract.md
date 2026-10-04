@@ -1458,3 +1458,37 @@ load-map root and computes the rounded square root. There is no dedicated timing
 claim. An empty standalone collector produces an empty map and zero; an empty
 stream group produces no aggregate row. Inverse updates are exercised in public
 comparisons; native graph regressions additionally check rollback and rebuild.
+
+## Calendar-period sums
+
+`CalendarPeriod` holds independent signed i32 year, month and day fields. Constructors,
+component access, equality/hash, checked addition/subtraction and display preserve
+those fields. `12 months` and `1 year` remain distinct. This follows the public
+[Java Period arithmetic contract](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Period.html#plus(java.time.temporal.TemporalAmount)).
+There is no automatic normalization, conversion to elapsed seconds or chronological
+ordering. Applying amounts to calendar dates, parsing and time-zone handling remain
+outside this value type. Display uses P with nonzero signed fields; zero is P0D.
+
+`PeriodSumCollector` records every captured occurrence, including zero, in persistent
+maps and caches a checked component-wise sum. Empty standalone finish is ZERO;
+empty stream groups emit no row. All generic global/keyed, conditional and composed
+collection operators accept it. `try_insert`, `try_remove` and `try_replace` return
+PeriodOverflow without changing state. Missing removal/replacement returns false.
+Trait methods panic on arithmetic error; graph transactions restore their checkpoint.
+Clone shares occurrence roots, while outputs are owned Copy values.
+
+Replacement subtracts the old amount then adds the new one. Both intermediates must
+fit i32 in every field, even when the final mathematical sum is representable or the
+replacement value equals the old one. A public Java same-reference probe confirms
+this: day amounts -1,MAX,1 total MAX; replacing -1 with itself throws on subtraction.
+The comments in source update tests calling repeated replacement a shortcut are not
+generalized beyond their bounded assertions. Native preserves its state on error;
+Java post-error state is not assumed. Subtracting MIN from MIN succeeds and gives zero.
+Keep all arithmetic prefixes representable for history-independent rebuild checking.
+
+Original comparison retains 227 cases/8,771 observations, all agreeing with Java and
+independent Python on components or expected overflow. There are 120 expected
+rejections, each ending that case's observed prefix; the unexecuted operations remain
+in its stored input. Successful observations also match independent full sums from
+active captures. Inverse-update trials compare standalone collectors; separate native
+tests exercise actual graph undo/rebuild and solver candidates. No timing claim.
