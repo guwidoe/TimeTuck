@@ -4,9 +4,9 @@ use crate::{
     SubPillarSelection,
 };
 
-/// Cardinality of an assigned, movable group. Groups smaller than two produce no
-/// moves. `all()` means every assigned movable identity before receiver filtering;
-/// a receiver that cannot admit that whole group contributes no destination.
+/// Source group cardinality for list mass moves. Change and assignment need at
+/// least two members; unassignment accepts singletons. `all()` uses every eligible
+/// source identity before receiver filtering, never a receiver-specific subset.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ListSampleSize {
     minimum: usize,
@@ -39,12 +39,19 @@ impl ListSampleSize {
         }
     }
     fn bounds(self, population: usize) -> Option<(usize, usize)> {
+        self.bounds_with_minimum(population, 2)
+    }
+    pub(crate) fn bounds_with_minimum(
+        self,
+        population: usize,
+        floor: usize,
+    ) -> Option<(usize, usize)> {
         let (minimum, maximum) = if self.all {
             (population, population)
         } else {
             (self.minimum, self.maximum.min(population))
         };
-        let minimum = minimum.max(2);
+        let minimum = minimum.max(floor);
         (minimum <= maximum).then_some((minimum, maximum))
     }
 }
@@ -99,6 +106,17 @@ pub struct ListMassChange<V> {
     movement: ListMove<V>,
 }
 impl<V> ListMassChange<V> {
+    pub(crate) fn from_parts(
+        members: Vec<V>,
+        destination: Option<ListPosition>,
+        movement: ListMove<V>,
+    ) -> Self {
+        Self {
+            members,
+            destination,
+            movement,
+        }
+    }
     pub fn members(&self) -> &[V] {
         &self.members
     }
@@ -116,6 +134,9 @@ impl Neighborhood {
     pub(crate) fn validate_list<V: Eq + Clone>(self, p: &ListProblem<V>) -> Result<(), ListError> {
         if let Self::MassListChange(c) = self {
             c.validate(p)?;
+        }
+        if matches!(self, Self::MassListAssign(_) | Self::MassListUnassign(_)) {
+            crate::list_mass_assignment::validate_optional(p)?;
         }
         Ok(())
     }

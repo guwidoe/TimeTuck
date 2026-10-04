@@ -113,6 +113,7 @@ impl<V: Eq> ListAssignment<V> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListError {
+    OptionalValuesRequired,
     InvalidSampleSize {
         minimum: usize,
         maximum: usize,

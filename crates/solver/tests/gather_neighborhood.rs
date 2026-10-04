@@ -405,6 +405,10 @@ fn basic_backends_retain_changes_and_swaps_when_gather_is_selected() {
         .unwrap();
     }
     for neighborhood in [
+        Neighborhood::MassListAssign(ListSampleSize::all()),
+        Neighborhood::MassListAssign(ListSampleSize::exactly(0)),
+        Neighborhood::MassListUnassign(ListSampleSize::all()),
+        Neighborhood::MassListUnassign(ListSampleSize::exactly(0)),
         Neighborhood::Gather { max_size: 0 },
         Neighborhood::Gather { max_size: 3 },
         Neighborhood::MassListChange(ListMassChangeConfig::new(ListSampleSize::exactly(0))),

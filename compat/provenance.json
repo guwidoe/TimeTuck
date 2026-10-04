@@ -13800,6 +13800,156 @@
       "local_path": "crates/solver/tests/mass_assignment_cases.rs",
       "local_test": "unassign::pinned_entity_never_joins_a_sample",
       "modifications": "Retain pinned plus two free optional entities all assigned the sole value, exact size two, limit fifty, nonempty output and pinned-member exclusion. Native immutable selected-slot/target metadata and basic models replace Java move getters and metamodels; integer IDs replace named entities. Finite deterministic enumeration replaces sampled streams except the explicit fifty-draw singleton case. All method assertions retained; no Java random distribution, trace, internal equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "assign::constructor_rejects_non_unassigned_variable",
+      "modifications": "Retain rejection for required lists; native provider construction returns OptionalValuesRequired instead of a Java metamodel constructor exception. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.sampleMembersAreAlwaysASubsetOfTheUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "sampleMembersAreAlwaysASubsetOfTheUnassignedValues",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "assign::sample_members_are_always_a_subset_of_the_unassigned_values",
+      "modifications": "Retain one assigned plus two missing optional identities on one entity, exact size two, limit fifty, nonempty output, non-null destination, missing-value subset and assigned exclusion assertions. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.destinationRespectsEveryMembersValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "destinationRespectsEveryMembersValueRange",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "assign::destination_respects_every_members_value_range",
+      "modifications": "Retain two missing identities, A admitting both and B admitting only the first (both lists initially empty), all-sized sample, limit fifty, nonempty/non-null destinations and every receiving range containing every member. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.destinationNeverFallsInThePinnedPrefix",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "destinationNeverFallsInThePinnedPrefix",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "assign::destination_never_falls_in_the_pinned_prefix",
+      "modifications": "Retain five identities with three initially assigned, prefix length two, two missing values, exact size two, limit one hundred, nonempty/non-null destinations and index at least two. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.fullyPinnedEntityIsNeverAssignedInto",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "fullyPinnedEntityIsNeverAssignedInto",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "assign::fully_pinned_entity_is_never_assigned_into",
+      "modifications": "Retain one assigned identity on a fully pinned entity, one free empty entity, two missing values, exact size two, limit one hundred, nonempty/non-null destinations and pinned receiver exclusion. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "unassign::constructor_rejects_non_unassigned_variable",
+      "modifications": "Retain rejection for required lists; native provider construction returns OptionalValuesRequired instead of a Java metamodel constructor exception. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.everyMoveHasANullDestination",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "everyMoveHasANullDestination",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "unassign::every_move_has_a_null_destination",
+      "modifications": "Retain eight ordered assigned optional values on one entity, exact size three, limit fifty, nonempty output and every destination null. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.sizeOneSampleStillYieldsAMoveAndTheProviderIsNotCutOffEarly",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "sizeOneSampleStillYieldsAMoveAndTheProviderIsNotCutOffEarly",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "unassign::size_one_sample_still_yields_a_move_and_the_provider_is_not_cut_off_early",
+      "modifications": "Retain eight ordered assigned optional values on one entity, singleton sample and exactly fifty emitted moves. Native bounded seeded sampler uses seed31 and fifty requested draws with replacement, preserving the count assertion without cycling a finite list. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.pinnedValueNeverJoinsASample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "pinnedValueNeverJoinsASample",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "unassign::pinned_value_never_joins_a_sample",
+      "modifications": "Retain four ordered assigned optional values with first two prefix-pinned, exact size two, limit fifty, nonempty output and both pinned identities excluded. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.fullyPinnedEntityContributesNoMembers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "fullyPinnedEntityContributesNoMembers",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "local_test": "unassign::fully_pinned_entity_contributes_no_members",
+      "modifications": "Retain two values on a fully pinned optional entity plus three on a free entity, exact size two, limit fifty, nonempty output and every sample excluding both pinned values. Native list models, immutable member/destination metadata and typed errors replace Java metamodel/move APIs; integer IDs replace named values. Finite enumeration replaces sampled streams except the explicit fifty-draw method. Original fixtures, limits and assertions retained; no Java PRNG/distribution, stream order, internal equality or lifecycle equivalence claimed."
     }
   ],
   "fixtures": [
@@ -16376,6 +16526,45 @@
       "upstream_test": "generateSolution(3,5)",
       "local_path": "crates/solver/tests/mass_assignment_cases.rs",
       "modifications": "Retain five optional entities over three values: entity zero is missing; entities one through four use their index modulo three. Integer identities replace generated names and Java model annotations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListAssignMoveProviderTest.group_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListAssignMoveProviderTest.java",
+      "upstream_test": "In-method missing, assigned, ranged, prefix-pinned and fully pinned fixtures",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "modifications": "Preserve counts, registry and list order, optionality, ranges and pins. Native list models/IDs replace Java entity/meta-model plumbing. No production implementation adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListUnassignMoveProviderTest.group_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassListUnassignMoveProviderTest.java",
+      "upstream_test": "In-method missing, assigned, ranged, prefix-pinned and fully pinned fixtures",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "modifications": "Preserve counts, registry and list order, optionality, ranges and pins. Native list models/IDs replace Java entity/meta-model plumbing. No production implementation adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingEntity.mass_assign_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "Two-argument constructor delegates with empty valueList",
+      "local_path": "crates/solver/tests/list_mass_assignment_cases.rs",
+      "modifications": "Preserve range versus initial assignment: both entities start empty; A admits both identities and B only the first. Native explicit registry is the union of fixture ranges."
     }
   ]
 }

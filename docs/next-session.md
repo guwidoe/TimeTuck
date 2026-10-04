@@ -8875,3 +8875,58 @@ Browser verified1440x900 and390x844:18.95%,920/4855,83 cards, Moves159/874(18.19
 allthree assignment and allfour unassignment methods passed. No errors, overflow,
 stale/undefined/NaN words. Screenshots inspected: work/mass-assign-desktop.png and
 -mobile.png. Browser closed; localhost:8765 stays running. Upstream unchanged.
+
+## List group assignment/unassignment (verified)
+
+list_mass_assign_moves/list_mass_unassign_moves require optional list values and
+return OptionalValuesRequired for required models even at zero requested work.
+ListSampleSize now shares an internal cardinality-floor helper: existing mass change
+and new assignment require two members, unassignment permits one. Old change
+semantics unchanged. Assignment sources only missing values, uses global missing
+population for all-sized groups, and enumerates legal receiver/index then size and
+registry permutations. Range/prefix/full-pin restrictions apply to all receivers.
+Unassignment selects assigned movable identities, unique subsets in registry order,
+excluding missing values, full pins and pinned prefixes. Candidate metadata is
+ListMassChange, composites use native gather/atomic scoring rollback.
+
+sample_list_mass_unassign_moves provides bounded draws with an explicit seed,
+size uniform over clipped positive bounds, subset uniform without internal repeats,
+with replacement between draws. Members follow registry index order. Enough source
+members yields every requested draw, including repeated singleton groups. Empty
+populations terminate. No Java PRNG/distribution parity. Neighborhood::MassListAssign
+and MassListUnassign integrate finite enumeration into list/mixed scoped/stream
+local search and joint moves. Basic-only modes retain changes/swaps. Existing
+list/mixed sequence validation hooks reject invalid phases before any scoring or
+factory, retaining phase indices. ShuffledVariables changes assignment receivers;
+unassignment stays in registry order, ShuffledMoves can reorder either stream.
+
+All five methods each from MassListAssignMoveProviderTest and MassListUnassign-
+MoveProviderTest adapted with original fixtures, limits and assertions. Singleton
+unassignment retains exactly50 draws via the real seeded sampler(seed31). Ranged
+fixture constructors produce empty lists, A admits both values and B only first;
+fixture attribution records this. Pinned public neighborhoods.adoc “Moving scattered
+values” also confirms source/optionality/minimum-two assignment semantics. No
+production implementation inspected. Five original regressions cover2268 independent
+successor/metadata references over27 layouts,3pin modes,2range modes,2families,7sizes;
+32seed/six-size bounded sampling; lazy128missing/64selected groups; all-global/empty
+boundaries; list and joint/nonjoint mixed scoped+stream searches with threeorders,
+threeacceptors,fourbudgets; all required-model rejection paths before callbacks.
+Existing gather basic-fallback regression expanded to both new modes/all+zero sizes.
+
+All20 focused debug tests passed. Full gate98819 completed exit0, fmt/Clippy passed.
+Handle53951 completed exit0:20 focused release tests,16 current datasets/83timings
+and audit passed with source/verification fingerprints and prior quality invariants
+intact. Verified gate2005 Rust,105doctests,235Python;
+930/4855(raw19.156/UI19.16%), Moves169/874,pending3643/excluded282. Logs:
+work/list-assign-focused.log,-check.log,-release.log,-verify.log,-refresh-*.log,
+-audit.log. New group providers remain without dedicated Java/Rust benchmarks.
+
+Browser verified at1440x900 and390x844:19.16%,930/4855,83 timing cards,
+Moves169/874(19.34%), all five assignment and five unassignment methods passed.
+No overflow, stale/undefined/NaN words or page errors. Screenshots inspected:
+work/list-assign-desktop.png and -mobile.png. Browser closed; localhost:8765
+stays running. Upstream unchanged.
+
+Next substantive candidates: general k-opt, mixed/weighted public-Java search
+comparisons, dedicated group-provider benchmarks, and profiling sparse-domain
+group enumeration. Full goal remains active, incomplete and unblocked.

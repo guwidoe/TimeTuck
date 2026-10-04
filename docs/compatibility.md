@@ -1612,3 +1612,13 @@ Other methods use finite enumeration, with original stream limits and assertions
 No Java sampling distribution or lifecycle claim. Independent checks cover 10,829
 model/size/mode successor and metadata comparisons, sampled reproducibility,
 large lazy groups, required partial inputs, search and validation before factories.
+
+All five MassListAssignMoveProviderTest and five MassListUnassignMoveProviderTest
+methods now have complete native adaptations. Optional-list requirements, missing
+versus assigned sources, receiving ranges, prefixes and whole-entity pins are
+preserved. The singleton method still requires fifty moves, provided by a bounded
+seeded sampler. Finite enumeration serves the other methods; no Java randomness,
+metamodel or lifecycle parity is claimed. Original successor/metadata references
+cover 2,268 combinations of layouts, pin modes, ranges and sample sizes. They and
+seeded sampling, lazy groups, search, early-validation and basic-fallback checks
+earn no additional upstream-method credit.

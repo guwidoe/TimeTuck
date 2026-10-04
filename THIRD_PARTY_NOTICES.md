@@ -490,3 +490,10 @@ in-method fixtures, and `TestdataAllowsUnassignedSolution.generateSolution(3,5)`
 They remain Apache-2.0 material. Provenance records the exact revision, paths and
 native substitutions, including bounded seeded sampling preserving the fifty-draw
 singleton assertion. Native generators and independent regressions are original.
+
+`crates/solver/tests/list_mass_assignment_cases.rs` adapts all five methods in each
+of Community `MassListAssignMoveProviderTest` and `MassListUnassignMoveProviderTest`,
+their in-method fixtures, and the ranged-list fixture's empty-list constructor.
+Apache-2.0 notices and precise paths/revision/substitutions are in provenance.
+The singleton unassignment assertion retains fifty draws through a bounded seeded
+sampler. Native generators and independent correctness regressions are original.

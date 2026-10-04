@@ -604,3 +604,38 @@ receiver order; ShuffledMoves uses the existing bounded shuffle window. Acceptan
 budgets, observation, retained best and transactional scoring use the existing local
 search contract. List/mixed solver sequences validate every configured null policy
 before any phase scores or invokes a stream factory; errors retain the phase index.
+
+## List group assignment and unassignment
+
+`list_mass_assign_moves` and `list_mass_unassign_moves` require optional list values,
+including when the requested size or search budget is zero. Required models return
+OptionalValuesRequired before scoring or graph factory work. The pinned public
+neighborhood documentation's “Moving scattered values” section specifies missing
+sources for assignment, assigned sources for unassignment, legal common insertion
+destinations, and a minimum of two members for assignment/change.
+
+ListSampleSize remains exact/ranged/all; the minimum is two for assignment/change,
+one for unassignment. Zero is empty. Exact sizes exceeding source population are
+empty, ranged maximums clip, and all uses the global eligible population before
+receiver filtering. Assignment enumerates receiver/index, size and registry-index
+permutations of missing values. Every receiver must admit every member. Pins and
+prefixes constrain insertion positions. Unassignment enumerates assigned movable
+subsets once in size/registry order, excluding missing values and all pinned values.
+Both return ListMassChange metadata plus ordinary snapshot-bound composite moves;
+existing gather validation, payload preservation and atomic scoring rollback apply.
+
+`sample_list_mass_unassign_moves` uses an explicit seed and bounded draw count.
+Groups sample without replacement internally and with replacement between draws.
+Size is uniform over clipped positive bounds; subsets are uniform and presented in
+registry order. A sufficient population supplies every draw, including repeated
+singletons. Empty/insufficient populations return none. This is not Java PRNG or
+sampling distribution parity. All draws use the same immutable assignment snapshot.
+
+Neighborhood::MassListAssign and MassListUnassign integrate finite enumeration into
+list/mixed scoped and stream local search, including joint basic/list moves. Basic
+search retains changes/swaps. All list/mixed sequence adapters validate these modes
+before any phase work, retaining phase-indexed errors. These new providers do not
+yet have dedicated Java/Rust quality or performance measurements; earlier gather,
+list-move and repair comparisons remain separate.
+ShuffledVariables changes assignment receiver order; unassignment retains registry
+subset order. ShuffledMoves can shuffle either finite candidate stream.
