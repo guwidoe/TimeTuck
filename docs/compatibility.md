@@ -1270,3 +1270,20 @@ no upstream-method credit; six Python tests reject corrupt fields, checksums,
 identities, batch counts and invalid input scope. The report retains raw samples,
 warmups, fresh-process order and environment. This measures update plus complete
 observation, not isolated mutation, graph rollback, solver speed, memory or overflow.
+
+
+## Fading tabu acceptance
+
+One additional Community method, EntityTabuAcceptorTest.fadingTabuSize, preserves
+all acceptance and random-consumption assertions through seven step observations.
+A native FadingTabuMemory and FadingVariableTabu acceptance policy integrate with
+basic, list and mixed search using both scoring backends. Independent regressions
+check chronological reference probabilities, duplicates, refresh, empty steps,
+aspiration, extreme tenures, invalid supplied draws, reproducible native randomness,
+actual stopped neighborhoods and mixed variable/entity index separation. Existing
+backend and owned-score matrices now include this policy. No Java PRNG trace,
+multiple-key fading, value/move tabu or new performance comparison is claimed.
+
+Pinned documentation marks Score Analysis as Enterprise-only; that API is not an
+authorized implementation specification for this Community rewrite. Existing native
+per-constraint totals and typed match inspection remain independent diagnostics.

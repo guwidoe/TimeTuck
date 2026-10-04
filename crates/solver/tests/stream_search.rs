@@ -183,6 +183,12 @@ fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::FadingVariableTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 20261229,
+        },
         Acceptance::SimulatedAnnealing {
             starting_temperature: HardSoftScore::new(2, 4),
             cooling_steps: 12,

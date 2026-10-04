@@ -12270,6 +12270,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "EntityTabuAcceptorTest.fadingTabuSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/EntityTabuAcceptorTest.java",
+      "upstream_test": "fadingTabuSize",
+      "local_path": "crates/solver/tests/fading_tabu_cases.rs",
+      "local_test": "entity_fading_tabu_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven step observations, entity identities, hard/fading sizes 2/4, zero scores, supplied draws 0.5/0.5/0.1 and acceptance assertions. Lazy native draw callbacks assert zero consumption where the source uses empty TestRandom and exactly one draw in fading states. Explicit completed-step calls replace Java lifecycle scopes; native phase state drops at test end. No Java PRNG trace, internal lifecycle or multi-key fading compatibility claim."
     }
   ],
   "fixtures": [

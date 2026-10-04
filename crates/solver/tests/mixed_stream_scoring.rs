@@ -312,6 +312,12 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::FadingVariableTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 20261229,
+        },
         Acceptance::SimulatedAnnealing {
             starting_temperature: SimpleScore::new(5),
             cooling_steps: 5,

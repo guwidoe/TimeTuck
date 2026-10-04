@@ -432,6 +432,12 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::FadingVariableTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 20261229,
+        },
         Acceptance::SimulatedAnnealing {
             starting_temperature: HardSoftScore::new(1, 20),
             seed: 73,

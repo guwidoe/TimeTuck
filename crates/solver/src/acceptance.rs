@@ -1,7 +1,7 @@
 //! Acceptance configurations and per-search state.
 use crate::{
-    GreatDeluge, GreatDelugeRise, Score, SimpleScore, SimulatedAnnealing, StepCountingHillClimbing,
-    StepCountingMode, TabuMemory,
+    FadingTabuMemory, GreatDeluge, GreatDelugeRise, Score, SimpleScore, SimulatedAnnealing,
+    StepCountingHillClimbing, StepCountingMode, TabuMemory,
 };
 use std::{cmp::Ordering, error::Error, fmt};
 
@@ -30,6 +30,14 @@ pub enum Acceptance<S = SimpleScore> {
         tenure: usize,
         aspiration: bool,
     },
+    /// Variable tabu followed by seeded probabilistic fading. Keys are basic
+    /// variable indices or list entity indices, as with VariableTabu.
+    FadingVariableTabu {
+        hard_tenure: usize,
+        fading_tenure: usize,
+        aspiration: bool,
+        seed: u64,
+    },
     LateAcceptance {
         history_size: usize,
         hill_climbing: bool,
@@ -43,6 +51,7 @@ pub enum AcceptanceError {
     ZeroStepCountingPeriod,
     EmptyHistory,
     EmptyTabu,
+    TabuTenureOverflow,
     HistoryAllocation,
     InvalidTemperature,
     ZeroCoolingSteps,
@@ -66,6 +75,7 @@ impl fmt::Display for AcceptanceError {
             Self::ZeroCoolingSteps => "annealing cooling steps must be positive",
             Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
             Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
+            Self::TabuTenureOverflow => "combined tabu tenure exceeds usize",
             Self::EmptyTabu => "tabu tenure must be positive",
             Self::EmptyHistory => "late-acceptance history must not be empty",
             Self::HistoryAllocation => "late-acceptance history could not be allocated",
@@ -75,6 +85,14 @@ impl fmt::Display for AcceptanceError {
 impl Error for AcceptanceError {}
 impl<S: Score> Acceptance<S> {
     pub fn validate(&self) -> Result<(), AcceptanceError> {
+        if let Self::FadingVariableTabu {
+            hard_tenure,
+            fading_tenure,
+            ..
+        } = self
+        {
+            FadingTabuMemory::<usize>::validate(*hard_tenure, *fading_tenure)?;
+        }
         if let Self::GreatDeluge {
             initial_water_level,
             rise,
@@ -130,6 +148,15 @@ impl<S: Score> Acceptance<S> {
             )?),
             Self::StrictImprovement => Acceptor::StrictImprovement,
             Self::HillClimbing => Acceptor::HillClimbing,
+            Self::FadingVariableTabu {
+                hard_tenure,
+                fading_tenure,
+                aspiration,
+                seed,
+            } => Acceptor::FadingVariableTabu {
+                memory: FadingTabuMemory::new(hard_tenure, fading_tenure, aspiration, seed)?,
+                best: initial_best,
+            },
             Self::VariableTabu { tenure, aspiration } => Acceptor::VariableTabu {
                 memory: TabuMemory::new(tenure, aspiration)?,
                 best: initial_best,
@@ -153,11 +180,18 @@ pub enum Acceptor<S> {
     StrictImprovement,
     HillClimbing,
     LateAcceptance(LateAcceptance<S>),
-    VariableTabu { memory: TabuMemory<usize>, best: S },
+    VariableTabu {
+        memory: TabuMemory<usize>,
+        best: S,
+    },
+    FadingVariableTabu {
+        memory: FadingTabuMemory<usize>,
+        best: S,
+    },
 }
 impl<S: Score> Acceptor<S> {
     /// Supply all variable indices written by the candidate (both sides of swaps).
-    /// Score-only acceptors ignore this slice. Annealing trial checks may consume
+    /// Score-only acceptors ignore this slice. Annealing and fading-tabu trial checks may consume
     /// a random draw. Step-counting trial modes count these checks, while only
     /// completed steps replace their threshold or advance cooling/history.
     pub fn accepts(&mut self, current: S, candidate: S, variables: &[usize]) -> bool {
@@ -168,6 +202,9 @@ impl<S: Score> Acceptor<S> {
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::LateAcceptance(state) => state.accepts(current, candidate),
+            Self::FadingVariableTabu { memory, best } => {
+                memory.accepts(variables, candidate, best.clone())
+            }
             Self::VariableTabu { memory, best } => {
                 memory.accepts(variables, candidate, best.clone())
             }
@@ -180,6 +217,12 @@ impl<S: Score> Acceptor<S> {
             Self::StepCountingHillClimbing(state) => state.step_ended(score),
             Self::SimulatedAnnealing(state) => state.step_ended(),
             Self::LateAcceptance(state) => state.step_ended(score),
+            Self::FadingVariableTabu { memory, best } => {
+                memory.step_ended(variables);
+                if score > *best {
+                    *best = score;
+                }
+            }
             Self::VariableTabu { memory, best } => {
                 memory.step_ended(variables);
                 if score >= *best {

@@ -480,7 +480,10 @@ where
             order.iter().copied(),
         );
         let current = director.score();
-        let tracks_variables = matches!(config.acceptance, Acceptance::VariableTabu { .. });
+        let tracks_variables = matches!(
+            config.acceptance,
+            Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
+        );
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,

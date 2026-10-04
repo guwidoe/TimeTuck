@@ -363,7 +363,7 @@ The native model has individual basic variables, not separate multi-variable
 entities. `TabuMemory<K>` supports stable equality-based keys; the integrated
 acceptor uses variable indices. Three upstream entity-tabu methods map each test
 entity to one variable ID, preserving all 96 assertions and every completed step.
-No general multi-variable entity, move/value tabu, fading probability, ratio-size
+No general multi-variable entity, move/value tabu, ratio-size
 strategy or Java negative-size compatibility is claimed. Memory uses countdowns
 rather than an ever-growing step counter, with no up-front tenure-sized allocation.
 Its current linear key lookup is a correctness baseline, not a throughput claim.
@@ -1025,3 +1025,34 @@ backends escaping a tuple-group trap under seeded orders with score rollback, bo
 mixed backends requiring a joint tuple/list move, lazy value cloning and early
 undersized-pair rejection. Eleven source methods preserve whole/subpillar swap
 membership, directed orientations, range and selected-column key behavior.
+
+
+## Fading variable tabu
+
+`Acceptance::FadingVariableTabu { hard_tenure, fading_tenure, aspiration, seed }`
+extends recent-variable rejection with probabilistic expiry. A selected key starts
+at age 1. Through hard_tenure completed steps its acceptance probability is zero;
+subsequent age hard_tenure + k gives (k + 1)/(fading_tenure + 1), reaching one at
+the combined horizon. Zero fading reproduces hard tabu; zero hard tenure permits
+immediate fading. The combined tenure must be positive and fit usize.
+
+The youngest of all touched retained keys determines a candidate's probability.
+Duplicates refresh one key, empty completed steps age keys, and trials do not age
+memory. Aspiration requires a strict global-best improvement. Certain decisions
+consume no randomness; intermediate probabilities consume one native seeded draw.
+`FadingTabuMemory<K>` additionally exposes pure probability inspection and lazy
+supplied-draw replay with finite [0,1) validation. Selection stops without aging
+if no move is selected, unless the configured rejected-move fallback selects one.
+
+All six local-search paths use this policy. Basic moves track written variables;
+list moves track touched entities; mixed moves use separate index namespaces.
+Independent reference histories check multiplicity, refresh, expiry and youngest-key
+probabilities. Search regressions cover actual tabu stops and mixed key separation,
+plus existing backend-comparison matrices for pins, budgets, selection, fallback,
+shuffled ordering and joint moves. Owned and decimal scores also pass those phases.
+
+The complete Community EntityTabuAcceptorTest.fadingTabuSize adaptation preserves
+sizes 2/4, all step observations, exact supplied draws and no-draw assertions.
+This source method covers one queried key at a time. Multi-key fading, zero-hard
+configuration and the native PRNG are independent policies, not verified Java
+trace equivalence. No value/move-tabu search, ratio sizing or new timing claim.

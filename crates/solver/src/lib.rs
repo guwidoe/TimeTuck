@@ -58,6 +58,8 @@ pub use construction::{
 
 pub mod tabu;
 pub use tabu::TabuMemory;
+mod fading_tabu;
+pub use fading_tabu::FadingTabuMemory;
 
 pub mod annealing;
 pub use annealing::SimulatedAnnealing;

@@ -341,3 +341,9 @@ minComparable and maxComparable from the pinned Apache-2.0 InnerBi/Tri/Quad
 ConstraintCollectorsTest classes. Numeric tuple values and fixed-date extrema
 fixtures retain attribution in compat/provenance.json. The aggregate benchmark,
 its validation cases and references are original and add no upstream-method credit.
+
+
+`crates/solver/tests/fading_tabu_cases.rs` adapts the pinned Apache-2.0
+EntityTabuAcceptorTest.fadingTabuSize method. Step fixtures, supplied random draws
+and expected decisions are attributed in compat/provenance.json. FadingTabuMemory,
+search integration and separate reference regressions are independent implementations.

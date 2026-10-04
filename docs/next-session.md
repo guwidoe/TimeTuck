@@ -6411,3 +6411,63 @@ pending methods, and constraint streams retain 863 pending. Use tests/public API
 specifications only. Dedicated extrema/composition/range/load-balance/period
 benchmarks and generic merge functions remain possible extensions. Check inventory
 and existing native contracts before choosing the next meaningful behavior gap.
+
+## Fading variable tabu acceptance (2026-10-04)
+
+Previous increment 21c5f36 completed the Inner collector inventory and added
+aggregate benchmarks; it was concrete progress. Current source adds independent
+FadingTabuMemory<K> and Acceptance::FadingVariableTabu. A selected key starts age 1;
+ages <= hard_tenure reject, age hard_tenure+k gives (k+1)/(fading_tenure+1), combined
+horizon accepts. Zero fading matches hard tabu; zero hard tenure supports immediate
+fading. Combined zero/overflow is rejected before scoring. Refresh deduplicates
+keys, empty completed steps age them, and no global step counter can overflow.
+The youngest queried retained key determines probability (documented native policy).
+Aspiration requires strict global-best improvement. Seeded SplitMix64 is separate
+from move ordering and does not claim Java random traces. Lazy supplied-draw API
+validates finite [0,1) values only if a probabilistic decision actually needs one.
+
+All basic/list/mixed local-search engines now collect touched indices for fading,
+covering scoped and graph backends. List moves retain both touched owners and mixed
+basic/list keys remain separate. Best/rejected fallback steps advance memory as
+before. The policy is also in owned-score, fractional and bendable-decimal matrices.
+
+Read the complete pinned EntityTabuAcceptorTest.fadingTabuSize. The one adaptation
+preserves all 7 step observations, sizes 2/4, entity keys e0/e1, zero scores, draws
+0.5/0.5/0.1, acceptance decisions and empty-random expectations. Native callbacks
+assert no draw or exactly one draw. Java mock/lifecycle plumbing maps to explicit
+native completed-step calls. Provenance/notices updated. Multi-key fading and
+zero-hard behavior remain native contracts, not Java-equivalence claims. No
+value/move-tabu search or ratio sizing in this increment.
+
+Seven original regressions cover chronological last-touch references across
+29 tenure pairs x 180 steps x 81 key pairs, zero-fading agreement with TabuMemory,
+large tenure arithmetic, optional/null keys, boundary/invalid draws, aspiration,
+seed replay and certain-decision draw preservation, fresh sessions, early config
+rejection, actual search stops, touched list owners and mixed identity separation.
+Existing backend-comparison matrices additionally cover selection, fallback, pins,
+budgets, shuffled ordering and joint moves. One new API doctest. Focused logs
+work/fading-focused.log and work/fading-extra.log passed.
+
+Scope audit: pinned public understanding-the-score documentation explicitly marks
+Score Analysis Enterprise-only. Do not implement that API from those docs or
+request Enterprise artifacts. Existing native graph match inspection is unchanged.
+
+Full gate passed: 1,631 Rust tests (819 adapted, 736 original integration, 76 unit),
+83 doctests and 193 Python tests. All 8 new tests pass release. Logs
+work/fading-check.log and work/fading-release.log. Coverage 819/4,855 = 16.87%,
+search algorithms 25/158 = 15.82%; EntityTabuAcceptorTest now 4/4 adapted. Pending
+3,754, excluded 282, failed/unverified zero. Source frozen during sequential refresh
+session 79021; thirteen datasets, logs work/fading-refresh-*.log. No dedicated
+fading-tabu timing or public-Java trace comparison has been added.
+
+Refresh session 79021 completed exit 0. All thirteen datasets current; report,
+source, verification and live-server fingerprints agree (work/fading-audit.py).
+Browser QA confirms 16.87% overall, 15.82% search, all four entity-tabu methods
+Passed, and 43 timing cards. No page errors or horizontal overflow at 1440px/390px.
+Browser closed; localhost:8765 remains running. The full rewrite remains incomplete.
+
+Next candidates: extend Community search behavior (value/move tabu, diversified
+late acceptance or composite acceptors), or inspect pending stream behavior.
+Read complete pinned test methods before choosing scope. Public seeded comparison
+of fading search quality and dedicated timing remain pending; do not infer those
+claims from the fixed-draw method or refreshed existing algorithms' benchmarks.

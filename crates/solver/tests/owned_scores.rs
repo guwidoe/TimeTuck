@@ -210,6 +210,12 @@ fn policies<S: AdditiveScore>(make: impl Fn(i64, i64) -> S) -> Vec<Acceptance<S>
             tenure: 2,
             aspiration: true,
         },
+        Acceptance::FadingVariableTabu {
+            hard_tenure: 1,
+            fading_tenure: 4,
+            aspiration: true,
+            seed: 77,
+        },
         Acceptance::SimulatedAnnealing {
             starting_temperature: make(2, 3),
             cooling_steps: 6,

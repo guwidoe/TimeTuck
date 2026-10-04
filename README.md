@@ -134,7 +134,7 @@ across phases, resetting only for strict retained-best improvements. See `docs/s
 Basic/list/mixed exact search also supports a cooperative `ExactSearchConfig::max_time`
 limit, with explicit TimeLimit results; see `docs/planning-contract.md`.
 Local search supports strict improvement, hill climbing, late acceptance,
-variable tabu and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
+variable tabu, seeded fading variable tabu, and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each
 unassigned required variable; `local_search_from` improves the resulting assignment.
 For ordered lists, `greedy_list_construction` inserts missing required values and
