@@ -1394,3 +1394,12 @@ Native consistently chooses the medium improvement, following the documented
 preference over a candidate improving no level. This intentional total ordering
 avoids encounter-order dependence except genuine tied finalists. All generated
 inputs, both outputs and differences remain available in the report/work artifacts.
+
+
+The full-scoring heuristic comparison additionally measures both strategic modes
+with entity tabu tenure two, original-order changes, first ties and fixed step
+budgets. Four new timed workloads use 32/96 variables; 64 new original small-case
+checks independently validate assignments, rescored quality and exhaustive optima.
+These generated cases earn no adapted-method credit. Observed equal final scores
+do not establish identical traces or erase the separate exact-reference boundary.
+Raw scores, calls, samples, per-algorithm quality counts and methodology are retained.

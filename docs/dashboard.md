@@ -143,30 +143,42 @@ so the live freshness endpoint uses that version.
 
 ## Heuristic comparison
 
-The heuristic section compares deterministic hill climbing and tabu search on
-32- and 96-variable graph problems, with 50 completed steps at most. Both engines
-use original-order change moves, best-accepted selection, first ties and the best
-rejected fallback when no accepted candidate exists. Tabu tenure is two steps.
+The heuristic section compares eleven configurations on 32- and 96-variable graph
+problems, with 50 completed steps at most: hill climbing, diversified late
+acceptance, fixed/ratio entity tabu, move/value tabu, combined late acceptance/tabu,
+strategic oscillation using last-step or best-score references, step counting and
+Great Deluge. Both engines use original-order change moves, best-accepted selection
+and first ties. Native rejected fallback chooses highest score; Java retains its
+configured public forager behavior. Strategic oscillation adds entity tabu with
+tenure two and global-best aspiration. Its documented native exact-reference
+ordering difference remains visible in the separate correctness comparison;
+these timings do not claim identical selected moves or fallback behavior.
+
 Both start with exactly the supplied complete assignment and recalculate the full
 score for every candidate. This does not measure the Rust incremental network
 against Java incremental scoring. Setup and returned-result validation are timed;
 process startup, parsing and one-time model/factory/network setup are excluded.
+Default sampling uses three fresh processes, five warmup solves and seven measured
+solves per process, alternating runtime order by workload/process.
 
 The report records each sample's time, score, assignment and score-call count.
 Python checks domain membership, pins, score recomputation and non-regression from
-the initial score for every sample. Four workloads use a planted optimum of
+the initial score for every sample. The 22 workloads use a planted optimum of
 `0hard/0soft`; reaching a step limit can leave them infeasible. The UI therefore
 shows scores and feasibility beside runtime, without treating faster execution as
 better quality. It labels differing scores explicitly. The recorded ratios apply
 only to the chosen algorithm, budget, full-scoring implementation and inputs.
+These shared-machine measurements do not establish statistical significance.
 
-An additional 64 original checks (32 small inputs × two algorithms) compare valid
-results and scores, with independent exhaustive optima recorded per case. These
-checks contribute no upstream compatibility credit. Validity and Java/Rust score
-agreement are separate counts. Run `python3 scripts/benchmark_heuristics.py` to
-regenerate the combined quality/timing artifact; optional flags set completed
-steps, warmup solves, samples and process forks. Full conditions and raw data are
-included in the downloadable JSON and the measurement-notes disclosure.
+An additional 352 original checks (32 small inputs x eleven configurations) compare
+valid results and scores, with independent exhaustive optima recorded per case.
+These checks contribute no upstream compatibility credit. Validity, Java/Rust score
+agreement and optima are separate counts, also grouped by algorithm in JSON.
+The dashboard derives its configuration count from measured workloads, avoiding a
+stale static label. Run `python3 scripts/benchmark_heuristics.py` to regenerate the
+combined quality/timing artifact; optional flags set completed steps, warmup solves,
+samples and process forks. Full conditions and raw data are included in the
+downloadable JSON and the measurement-notes disclosure.
 
 
 ## List-move comparison

@@ -1,5 +1,5 @@
 import unittest
-from benchmark_heuristics import parse_result, workload
+from benchmark_heuristics import parse_result, workload, quality_summary
 
 class HeuristicResultTests(unittest.TestCase):
     def setUp(self):
@@ -22,3 +22,16 @@ class HeuristicResultTests(unittest.TestCase):
             case=workload(n)
             self.assertEqual(score(case,[i%4 for i in range(n)]),(0,0))
             self.assertTrue(all(w<=0 for row in case['weights'] for w in row))
+
+    def test_quality_agreement_is_separate_from_validity_and_optimality(self):
+        c={'id':'quality','value_count':3,'initial':[0],'pins':[False],
+           'edges':[],'weights':[[0,4,6]]}
+        java=parse_result(c,'quality\t100\t0\t4\t1\t3')
+        rust=parse_result(c,'quality\t100\t0\t6\t2\t3')
+        rows=[{'java':java,'rust':rust,'optimal_score':[0,6]}]
+        self.assertEqual(quality_summary(rows),{'total':1,'passed':1,'equal_scores':0,'optimal':{'java':0,'rust':1}})
+        # Equal quality need not imply equal assignment identities.
+        c['weights']=[[0,6,6]]
+        rows.append({'java':parse_result(c,'quality\t100\t0\t6\t1\t3'),
+                     'rust':parse_result(c,'quality\t100\t0\t6\t2\t3'),'optimal_score':[0,6]})
+        self.assertEqual(quality_summary(rows),{'total':2,'passed':2,'equal_scores':1,'optimal':{'java':1,'rust':2}})

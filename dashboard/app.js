@@ -230,6 +230,11 @@ function renderBenchmarks(kind = "score") {
         box = target("benchmarks");
     box.replaceChildren();
     const missing = !p.workloads?.length;
+    if (kind === "heuristic") {
+        $("heuristic-algorithm-count").textContent = missing
+            ? "Heuristic configurations"
+            : `${new Set(p.workloads.map(w => w.algorithm)).size} heuristic configurations`;
+    }
     target("benchmark-state").hidden = !missing && p.status === "current" && fresh;
     target("benchmark-state").textContent = missing
         ? "No performance comparison recorded yet. Run the matched benchmark to measure both runtimes."

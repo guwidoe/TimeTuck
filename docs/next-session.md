@@ -7290,3 +7290,72 @@ explanation, no stale warning, no errors or horizontal overflow. Desktop/phone
 screenshots reviewed in work/oscillation-{desktop,phone}.png. Browser closed;
 server8765 stays alive. Staged code/test/provenance/adapter diffs reviewed before
 commit. No test or measurement process remains active. Full goal stays active.
+
+## 2026-10-04: Strategic oscillation performance comparison
+
+Previous goal turn made verified progress (b37ed5a). Continued from that clean
+commit; no subagents. Added oscillation_last/oscillation_best to both original
+heuristic benchmark adapters: native FinalistRanking and public Community
+FinalistPodiumType, entity tabu tenure two, global-best aspiration, original-order
+changes, first ties, bounded steps. Existing highest-score configurations retain
+explicit HighestScore/HIGHEST_SCORE. No upstream production source inspected.
+
+The benchmark now has eleven configurations, 22 timed workloads at 32/96 variables
+and 352 independently validated small cases. New config metadata records each
+strategic reference and separates native highest-score rejected fallback from
+Java public-forager behavior; no identical fallback/selected-trace claim. Report
+also groups validity, equal-score counts and enumerated optima by algorithm.
+A new Python regression proves valid differing scores are not equality/optimality
+passes, and equal scores need not imply equal assignment identity. No additional
+adapted-method or solver-feature credit. Dashboard configuration label now derives
+from measured data; the prior static "Seven" label was already stale for nine.
+Docs/dashboard.md now describes the current eleven configurations and methodology.
+
+Unwarmed one-sample probe session 54105 completed, only as adapter/correctness
+validation. Do not use its timing values as warmed performance claims. It returned
+352 valid/equal-score cases and 300 optimal per runtime; each new strategic mode
+was valid/equal in 32/32 and optimal in 31/32. Timed workload scores agreed, 0/0 at 32
+and -44/-22 at 96. The final default refresh overwrites this probe's artifact with
+three fresh processes x seven measured solves after five warmups, 50 steps.
+
+Full gate 75697 passed 1,736 Rust tests, 90 doctests and 209 Python tests;
+work/strategic-timing-check.log. Sequential refresh/audit session 53364 runs all 13
+datasets; work/strategic-timing-refresh-*.log and work/strategic-timing-audit.py.
+Coverage remains 861/4,855 (17.73%), pending 3,712/excluded 282; expected workload
+count 57 including 22 heuristic cards. Sources froze before the final full capture.
+
+Next functional target considered: all seven LateAcceptanceScoreBufferTest methods
+were read in full, exclusively from the pinned test tree. They specify initial
+slots/current, write-and-advance, wrap, reset retaining cursor, post-reset writes,
+repeated equal reset without writes, and equal reset after a write. Native
+LateAcceptance in acceptance.rs currently owns Vec<S>, eagerly clones all initial
+slots and fills every slot on reset. An independently designed lazy score history
+could improve large/owned-score history resets and support these fixtures, but
+must integrate with actual acceptance/search rather than be an unused wrapper.
+Preserve the existing public history observation contract or handle any native API
+change deliberately; add clone/panic/large-history checks and independent eager
+reference histories. No production Timefold buffer implementation was inspected.
+Full goal remains active and incomplete.
+
+Final refresh/audit session 53364 completed successfully. All 13 datasets and
+source/verification/live fingerprints are current. There are 57 benchmark cards,
+22 heuristic cards and eleven configurations. Final validation remains 352 valid
+and equal-score cases, 300 independently optimal per runtime; both new modes are
+32/32 valid/equal and 31/32 optimal. Source-method coverage is unchanged at 861/4,855,
+with no failed/unverified methods. Existing 4,499/4,824 oscillation agreements and
+325 recorded differences remain separate and unchanged.
+
+New strategic medians Rust/Java in milliseconds: last-step 32 2.611/14.723,
+last-step 96 16.721/16.072, best-score 32 2.913/11.771, best-score 96 16.265/16.680.
+Each has 21 measured samples/runtime after warmups across three processes.
+Scores/calls agree: 0/0 and 4,801 at 32; -44/-22 and 14,401 at 96. Both 96 results are
+infeasible. Shared-host timing ranges remain in the report; near 1x differences
+are not established speed advantages, and no isolated before/after claim follows.
+
+Browser checked at 1440/390: dynamic "11 heuristic configurations", 57/22 card
+counts, all four new titles and current numbers, quality/infeasibility labels,
+no stale warning, no errors, no horizontal overflow. Screenshots reviewed in
+work/strategic-timing-{desktop,phone}.png. Browser closed; server 8765 remains alive.
+Staged source/adapter/UI/documentation diffs reviewed. No test/measurement process
+remains active. Full rewrite goal stays active; the next functional opportunity
+is the independently designed late-acceptance history described above.

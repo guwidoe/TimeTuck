@@ -11,6 +11,7 @@ import ai.timefold.solver.core.config.localsearch.LocalSearchPhaseConfig;
 import ai.timefold.solver.core.config.localsearch.decider.acceptor.AcceptorType;
 import ai.timefold.solver.core.config.localsearch.decider.acceptor.LocalSearchAcceptorConfig;
 import ai.timefold.solver.core.config.localsearch.decider.forager.LocalSearchForagerConfig;
+import ai.timefold.solver.core.config.localsearch.decider.forager.FinalistPodiumType;
 import ai.timefold.solver.core.config.localsearch.decider.forager.LocalSearchPickEarlyType;
 import ai.timefold.solver.core.config.solver.EnvironmentMode;
 import ai.timefold.solver.core.config.solver.SolverConfig;
@@ -34,7 +35,7 @@ public final class HeuristicBenchmark {
         return copy;
     }
     public static void main(String[] args) throws Exception {
-        if (args.length != 4) throw new IllegalArgumentException("expected hill|diversified|ratio_tabu|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples");
+        if (args.length != 4) throw new IllegalArgumentException("expected hill|diversified|ratio_tabu|tabu|move_tabu|value_tabu|late_tabu|oscillation_last|oscillation_best|step|deluge steps warmup samples");
         String algorithm = args[0];
         int steps = Integer.parseInt(args[1]), warmup = Integer.parseInt(args[2]), samples = Integer.parseInt(args[3]);
         if (steps < 1 || warmup < 0 || samples < 1) throw new IllegalArgumentException("invalid counts");
@@ -53,14 +54,19 @@ public final class HeuristicBenchmark {
             case "value_tabu" -> new LocalSearchAcceptorConfig().withValueTabuSize(2);
             case "move_tabu" -> new LocalSearchAcceptorConfig().withMoveTabuSize(2);
             case "ratio_tabu" -> new LocalSearchAcceptorConfig().withEntityTabuRatio(0.2);
-            case "tabu" -> new LocalSearchAcceptorConfig().withEntityTabuSize(2);
+            case "tabu", "oscillation_last", "oscillation_best" -> new LocalSearchAcceptorConfig().withEntityTabuSize(2);
             default -> throw new IllegalArgumentException("unknown algorithm");
+        };
+        var ranking = switch (algorithm) {
+            case "oscillation_last" -> FinalistPodiumType.STRATEGIC_OSCILLATION_BY_LEVEL;
+            case "oscillation_best" -> FinalistPodiumType.STRATEGIC_OSCILLATION_BY_LEVEL_ON_BEST_SCORE;
+            default -> FinalistPodiumType.HIGHEST_SCORE;
         };
         var phase = new LocalSearchPhaseConfig()
             .withMoveSelectorConfig(new ChangeMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL))
             .withAcceptorConfig(acceptor)
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE)
-                .withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
+                .withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false).withFinalistPodiumType(ranking))
             .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps));
         var solverConfig = new SolverConfig()
             .withSolutionClass(SolverOracle.Problem.class).withEntityClasses(SolverOracle.Job.class)

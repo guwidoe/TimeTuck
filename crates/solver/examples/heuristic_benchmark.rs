@@ -7,14 +7,14 @@ use std::{
     time::Instant,
 };
 use timetuck::{
-    Acceptance, ConstraintNetwork, LocalSearchConfig, MoveSelection, Neighborhood,
+    Acceptance, ConstraintNetwork, FinalistRanking, LocalSearchConfig, MoveSelection, Neighborhood,
     RejectedMovePolicy, local_search,
 };
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if args.len() != 5 {
         return Err(
-            "expected hill|diversified|ratio_tabu|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples"
+            "expected hill|diversified|ratio_tabu|tabu|move_tabu|value_tabu|late_tabu|oscillation_last|oscillation_best|step|deluge steps warmup samples"
                 .into(),
         );
     }
@@ -45,11 +45,16 @@ fn main() -> Result<(), Box<dyn Error>> {
             size: timetuck::TabuSize::ratio(0.2)?,
             aspiration: true,
         },
-        "tabu" => Acceptance::VariableTabu {
+        "tabu" | "oscillation_last" | "oscillation_best" => Acceptance::VariableTabu {
             tenure: 2,
             aspiration: true,
         },
         _ => return Err("unknown algorithm".into()),
+    };
+    let ranking = match args[1].as_str() {
+        "oscillation_last" => FinalistRanking::StrategicOscillationLastStep,
+        "oscillation_best" => FinalistRanking::StrategicOscillationBest,
+        _ => FinalistRanking::HighestScore,
     };
     let extra_tabu = [Acceptance::VariableTabu {
         tenure: 2,
@@ -85,6 +90,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             .ok_or("budget overflow")?;
         let config = LocalSearchConfig {
             acceptance,
+            ranking,
             additional_acceptance: if args[1] == "late_tabu" {
                 &extra_tabu
             } else {
