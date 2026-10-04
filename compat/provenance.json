@@ -12915,6 +12915,111 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all candidate scores, encounter order, accepted flags, singleton identities and explicit last-step/best-reference updates. Native immutable score references and saved candidate IDs replace mocked Java move/phase scopes; random-tie retention verifies singleton cardinality. No Java lifecycle/PRNG equivalence. Original generated exact-reference ordering discrepancies are reported separately and receive no agreement credit."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.initialStateReturnsInitialScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "initialStateReturnsInitialScore",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "initial_state_returns_initial_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.updateWritesCurrentSlotAndAdvancesCursor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "updateWritesCurrentSlotAndAdvancesCursor",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "update_writes_current_slot_and_advances_cursor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.circularBufferWrapsAround",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "circularBufferWrapsAround",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "circular_buffer_wraps_around",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.tryResetLazilySetsAllSlots",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "tryResetLazilySetsAllSlots",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "try_reset_lazily_sets_all_slots",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.slotWrittenAfterResetRetainsOwnValue",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "slotWrittenAfterResetRetainsOwnValue",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "slot_written_after_reset_retains_own_value",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.tryResetSkippedWhenNoWritesAndSameScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "tryResetSkippedWhenNoWritesAndSameScore",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "try_reset_skipped_when_no_writes_and_same_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
+    },
+    {
+      "id": "LateAcceptanceScoreBufferTest.tryResetFiresWhenWrittenSinceResetEvenWithSameScore",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/LateAcceptanceScoreBufferTest.java",
+      "upstream_test": "tryResetFiresWhenWrittenSinceResetEvenWithSameScore",
+      "local_path": "crates/solver/tests/score_history_cases.rs",
+      "local_test": "try_reset_fires_when_written_since_reset_even_with_same_score",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every score, operation, slot/current observation and repeated reset assertion. Native ScoreHistory and fully assigned SimpleScore replace Java buffer and InnerScore wrappers. Internal epoch commentary is not asserted; native reset return value is not upstream coverage."
     }
   ],
   "fixtures": [

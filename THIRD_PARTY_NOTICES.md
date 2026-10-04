@@ -411,3 +411,10 @@ explicit native references replace mocked Java phase/move scopes. The source's
 The independent native ranking, generated diagnostics and public Java adapter are
 original work. Observed Community exact-reference ordering differences are separate
 from adapted-method coverage. See `compat/provenance.json` for paths and revision.
+
+`crates/solver/tests/score_history_cases.rs` adapts all seven Apache-2.0 methods
+in pinned Community `LateAcceptanceScoreBufferTest`. Every score, operation and
+slot/current assertion is retained; native ScoreHistory replaces Java wrappers.
+Paths, revision and API substitutions are recorded in compat/provenance.json.
+Native history, acceptance integration, generated reference and failure/cost
+regressions are independently implemented.

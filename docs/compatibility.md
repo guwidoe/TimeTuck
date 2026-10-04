@@ -1403,3 +1403,10 @@ checks independently validate assignments, rescored quality and exhaustive optim
 These generated cases earn no adapted-method credit. Observed equal final scores
 do not establish identical traces or erase the separate exact-reference boundary.
 Raw scores, calls, samples, per-algorithm quality counts and methodology are retained.
+
+All seven pinned `LateAcceptanceScoreBufferTest` methods now have complete native
+adaptations. `ScoreHistory` is integrated into late acceptance; score fixtures,
+write/wrap/reset sequences and slot/current assertions are retained. Java internal
+epoch commentary and native reset return values are not compatibility claims.
+Independent eager-reference, owned-score failure and clone-count checks receive
+no additional upstream-method credit.

@@ -1385,3 +1385,38 @@ modes. Original generated ranking/permutation, exact decimal/full-width,
 failed/panicking capture and 1,728 paired owned/Copy configuration checks add no
 upstream coverage. See compatibility documentation for the public Java comparison
 and its recorded exact-reference encounter-order differences.
+
+### Lazy late-acceptance score history
+
+`ScoreHistory<S>` is a nonempty native circular history used by `LateAcceptance`.
+Updates write the current slot and advance with wraparound. Reset changes all
+logical entries and preserves the cursor. Repeating an equal reset without writes
+is a no-op; any intervening write makes the reset effective again. Bounds-checked
+`get`, `current`, and slot-order `iter` borrow scores without cloning them.
+
+Construction allocates slot storage but does not clone the initial score. Ordinary
+updates and resets move scores and perform constant slot work. Each slot has a
+generation stamp; a rare generation-counter rollover clears all slots. Stale owned
+values remain allocated until overwritten, rollover or history drop. This trades
+extra slot metadata and retained values for avoiding per-slot clones on resets.
+
+`as_slice` materializes a contiguous snapshot only when requested, cloning every
+logical slot once and caching it until mutation. Invalidating a materialized cache
+also drops its entries, so the first subsequent mutation can do linear work.
+`LateAcceptance::history()` preserves its borrowed-slice API using this cache;
+normal search acceptance checks do not materialize it. Shared observations use a
+thread-safe once-initialized cache for Send + Sync score types. Cloning a history
+produces independent storage and can clone stale entries and a populated cache.
+
+LateAcceptance initialization clones one score for its retained best. A best-score
+improvement clones at most two scores, independent of capacity, preparing both
+before changing history or best. Score-clone panics therefore leave completed-step
+state unchanged; failed snapshot cloning leaves logical history intact and can be
+retried. Equality during reset also precedes mutation. Existing hard/medium reset
+policy and all six search-backend integration checks remain in effect.
+
+Seven adapted buffer methods preserve every pinned slot/current fixture. Original
+checks additionally cover generated eager-reference histories, generation rollover,
+100,000-slot clone counts, concurrent cache initialization, independent copies and
+injected clone/equality failures. These deterministic cost checks do not establish
+a wall-clock speedup or Java internal allocation equivalence.

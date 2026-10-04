@@ -374,3 +374,6 @@ pub use diversified_late::DiversifiedLateAcceptance;
 
 mod tabu_size;
 pub use tabu_size::TabuSize;
+
+mod score_history;
+pub use score_history::ScoreHistory;

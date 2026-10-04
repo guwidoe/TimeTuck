@@ -3,7 +3,7 @@ use crate::{
     DiversifiedLateAcceptance, FadingTabuMemory, GreatDeluge, GreatDelugeRise, Score, SimpleScore,
     SimulatedAnnealing, StepCountingHillClimbing, StepCountingMode, TabuMemory,
 };
-use std::{cmp::Ordering, error::Error, fmt};
+use std::{error::Error, fmt};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Acceptance<S = SimpleScore> {
@@ -408,8 +408,7 @@ impl<S: Score> Acceptor<S> {
 /// Structural components are not hard levels; use fully assigned phase scores.
 #[derive(Clone, Debug)]
 pub struct LateAcceptance<S> {
-    history: Vec<S>,
-    cursor: usize,
+    history: crate::ScoreHistory<S>,
     hill_climbing: bool,
     best: S,
 }
@@ -419,42 +418,38 @@ impl<S: Score> LateAcceptance<S> {
         hill_climbing: bool,
         initial_best: S,
     ) -> Result<Self, AcceptanceError> {
-        if history_size == 0 {
-            return Err(AcceptanceError::EmptyHistory);
-        }
-        let mut history = Vec::new();
-        history
-            .try_reserve_exact(history_size)
-            .map_err(|_| AcceptanceError::HistoryAllocation)?;
-        history.resize(history_size, initial_best.clone());
+        let history = crate::ScoreHistory::new(history_size, initial_best)?;
+        let best = history.current().clone();
         Ok(Self {
             history,
-            cursor: 0,
             hill_climbing,
-            best: initial_best,
+            best,
         })
     }
+    /// Materialize and cache the full history until its next mutation. Normal
+    /// acceptance checks and resets do not require this O(history size) snapshot.
     pub fn history(&self) -> &[S] {
-        &self.history
+        self.history.as_slice()
     }
     pub fn threshold(&self) -> S {
-        self.history[self.cursor].clone()
+        self.history.current().clone()
     }
     pub fn accepts(&self, current: S, candidate: S) -> bool {
-        candidate >= self.history[self.cursor] || (self.hill_climbing && candidate >= current)
+        candidate >= *self.history.current() || (self.hill_climbing && candidate >= current)
     }
     pub fn step_ended(&mut self, score: S) {
-        if score > self.best {
-            if score.late_acceptance_cmp(&self.best) == Ordering::Greater {
-                self.history.fill(score.clone());
-            }
-            self.best = score.clone();
+        let improves = score > self.best;
+        let resets = improves && score.late_acceptance_cmp(&self.best).is_gt();
+        // Prepare every potentially panicking score clone before mutating history
+        // or the retained best. Normal writes/resets move prepared values only.
+        let new_best = improves.then(|| score.clone());
+        let baseline = resets.then(|| score.clone());
+        if let Some(baseline) = baseline {
+            self.history.reset(baseline);
         }
-        self.history[self.cursor] = score;
-        self.cursor = if self.cursor + 1 == self.history.len() {
-            0
-        } else {
-            self.cursor + 1
-        };
+        self.history.update(score);
+        if let Some(best) = new_best {
+            self.best = best;
+        }
     }
 }

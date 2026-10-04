@@ -7359,3 +7359,59 @@ work/strategic-timing-{desktop,phone}.png. Browser closed; server 8765 remains a
 Staged source/adapter/UI/documentation diffs reviewed. No test/measurement process
 remains active. Full rewrite goal stays active; the next functional opportunity
 is the independently designed late-acceptance history described above.
+
+## 2026-10-04: Lazy late-acceptance history
+
+Independent native `ScoreHistory<S>` now backs LateAcceptance. Nonempty circular
+slots track writes since a shared baseline; reset preserves cursor. `get`, `current`
+and slot-order `iter` borrow without cloning. `as_slice` uses OnceLock to lazily
+materialize a full contiguous cache, retaining the existing borrowed `history()`
+API. No new production upstream source inspected. Extra slot metadata and stale
+owned values are the explicit memory tradeoff; snapshot invalidation can drop a
+linear number of cached scores. u64 generation rollover clears old stamps.
+
+LateAcceptance prepares its new best/baseline clones before mutation. Constructor
+uses one score clone and a hard/medium improvement at most two, independent of
+history length. A failed score clone leaves prior history, cursor and best intact.
+Seven fully attributed LateAcceptanceScoreBufferTest methods retain every score,
+operation and observation. Native reset return values/internal generation choices
+are outside compatibility claims. Nine original integration tests plus one private
+rollover unit test check generated eager histories, 100,000-slot clone work,
+concurrent cache initialization, copy independence and clone/equality failures.
+Existing generated hard/medium histories and six-backend search checks remain.
+
+Focused seven fixtures/eight initial regressions passed session 88823, followed by
+one additional equality-failure regression in the full gate. Initial gates caught
+unused Ordering and manual-is-multiple-of lints, fixed before final capture. Full
+check session 54235 passed; log work/history-check.log. Verified counts:
+1,753 Rust tests, 91 doctests, 209 Python tests; 868/4,855 adapted methods
+(17.88%), Search 63/158 (39.87%), pending 3,705/excluded 282; no failed/unverified
+methods. No isolated wall-clock reset speedup claimed.
+
+All nine DefaultLevelScoreStateTest bodies were read as tests only during this
+increment. Six score-level methods were already adapted; three remaining cases
+concern Java best-score-index lifecycle. Avoid claiming them from native comparison
+alone. No next implementation target selected yet; full rewrite goal remains active.
+
+Focused release tests passed before sequential measurement refresh in session 65111;
+work/history-release.log. All 13 datasets refresh through work/history-refresh-*.log;
+final report audit is work/history-audit.py (output work/history-audit.log).
+
+Refresh/audit session 65111 finished with exit 0. All 13 datasets are current;
+source, verification and live-server fingerprints agree. Coverage is 868/4,855
+(17.88%), Search 63/158 (39.87%), with zero failed/unverified methods. All 57 timing
+workloads remain, including 22 heuristic workloads/11 configurations. Heuristic
+checks remain 352 valid/equal-score cases and 300 optimal per runtime. Recorded
+oscillation boundary differences remain 325; no hidden compatibility credit.
+
+Late-acceptance + tabu current medians Rust/Java: 32 variables 2.240/9.609 ms,
+96 variables 15.573/16.495 ms; 21 samples/runtime, three processes, five warmups,
+50 steps. Scores agree (0/0 and -44/-22 respectively); 96-variable result remains
+infeasible. Shared-host measurements do not isolate this reset change's effect.
+
+Browser checks at 1440/390 confirmed 17.88%, Search 39.87%, seven passing buffer
+fixtures, 57/22 cards, current measurements and no errors/horizontal overflow.
+Screenshots work/history-{desktop,phone}.png were visually inspected. Browser is
+closed, server 8765 remains running; no test/measurement process remains active.
+All staged changes inspected before commit. This turn made verified progress;
+full goal remains active, not complete or blocked.
