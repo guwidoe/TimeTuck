@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Compare original generated boundary/random cases with the pinned Java public API."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import hashlib
 import json
 import platform
@@ -88,7 +90,7 @@ def result_matches(case, java, rust):
 def main():
     artifact = prepare_java()
     subprocess.run(['cargo', 'build', '--release', '--example', 'score_oracle', '--locked'], cwd=ROOT, check=True)
-    digest = source_digest()
+    digest = measurement_digest('differential')
     cases = generate()
     payload = ''.join('\t'.join([c['type'], c['operation'], c['a'], c['b']]) + '\n' for c in cases)
     commands = {
@@ -101,7 +103,7 @@ def main():
     failures = [{'case': case, 'java': j, 'rust': r} for case, j, r in zip(cases, outputs['java'], outputs['rust']) if not result_matches(case,j,r)]
     from differential_decimal_scores import run_checks
     decimal_checks = run_checks(JAR)
-    if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
+    if measurement_digest('differential') != digest: raise RuntimeError('Sources changed during comparison')
     report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
               'revision': REF['commit'], 'source_digest': digest, 'seed': 20261001,
               'total': len(cases), 'passed': len(cases)-len(failures), 'failures': failures,
@@ -117,4 +119,4 @@ def main():
     return bool(failures)
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    raise SystemExit(run_measurement('differential', main))

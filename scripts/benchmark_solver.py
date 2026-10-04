@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Measure brute force and four branch-and-bound orders against pinned Timefold."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 import json
 import platform
@@ -7,7 +9,7 @@ import random
 import statistics
 import subprocess
 from datetime import datetime, timezone
-from differential_scores import ROOT, REF, source_digest
+from differential_scores import ROOT, REF
 from differential_solver import encode, optimum, validate
 from prepare_solver_oracle import prepare_solver_java
 from benchmark_scores import version
@@ -38,7 +40,7 @@ def main():
     if min(args.iterations,args.samples,args.forks) < 1 or args.warmup < 0: parser.error('Positive counts required; warmup may be zero')
     classpath, artifacts = prepare_solver_java()
     subprocess.run(['cargo','build','--release','--example','solver_benchmark','--locked'],cwd=ROOT,check=True)
-    digest = source_digest()
+    digest = measurement_digest('solver-performance')
     results=[]
     for index, (algorithm, count) in enumerate((a,n) for a in ALGORITHMS for n in [6,8]):
         case = workload(count, algorithm)
@@ -67,7 +69,7 @@ def main():
         entry['java_over_rust']=entry['java']['median']/entry['rust']['median']
         results.append(entry)
         print(f'{case["id"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms/solve; {entry["java_over_rust"]:.2f}x',flush=True)
-    if digest != source_digest(): raise RuntimeError('Sources changed during benchmark')
+    if digest != measurement_digest('solver-performance'): raise RuntimeError('Sources changed during benchmark')
     cpu=next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
             'reference':REF,'artifacts':artifacts,'config':{**vars(args),'seed':20261001,'algorithms':list(ALGORITHMS)},'workloads':results,
@@ -75,4 +77,5 @@ def main():
             'methodology':'Two problem sizes for brute force and each of four branch-and-bound orders (depth, breadth, score, optimistic bound). Brute force preserves the original mixed-sign preference workload; branch workloads use its nonpositive preferences so assigning another variable cannot improve either score level. Java uses BRANCH_AND_BOUND with ONLY_DOWN initializing-score trend; native bound is the partial full score. Both use original entity/domain order and full score recomputation. Independent Python enumeration verifies each optimum, sample checksum and final assignment; no identical traversal, node-count or bound-implementation claim. Models are parsed before timing; Java SolverFactory is also prepared once. Includes per-run solver setup, search and returned-assignment/score validation, excludes startup and parsing. Fresh processes alternate runtime order after warmups. Shared-host ranges include allocation/GC effects. These small exact-search workloads do not establish large-instance, heuristic, incremental-scoring or memory performance.'}
     (ROOT/'work/solver-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
-if __name__=='__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('solver-performance', main))

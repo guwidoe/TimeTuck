@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Matched checked-sum, sorted-set and merged-map update/full-observation benchmarks."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from datetime import datetime, timezone
 import json
@@ -7,7 +9,7 @@ import platform
 import random
 import statistics
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest, prepare_java
+from differential_scores import ROOT, REF, WORK, prepare_java
 from benchmark_scores import version
 SEED=20261228
 
@@ -85,7 +87,7 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.iterations <= 10000 or min(args.samples, args.forks) < 1 or args.warmup < 0:
         parser.error('Positive iterations (at most 10000), samples/forks; nonnegative warmups')
-    digest = source_digest()
+    digest = measurement_digest('aggregate-performance')
     artifacts = prepare_java()
     classpath = str(WORK / f'timefold-solver-core-{REF["tag"][1:]}.jar')+':'+str(WORK)
     subprocess.run(['javac', '-cp', classpath, '-d', str(WORK), str(ROOT/'compat/oracle/AggregateBenchmark.java')], check=True)
@@ -117,7 +119,7 @@ def main():
             entry['java_over_rust'] = entry['java']['median']/entry['rust']['median']
             results.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.6f}, Java {entry["java"]["median"]:.6f} ms / pair', flush=True)
-    if source_digest() != digest:
+    if measurement_digest('aggregate-performance') != digest:
         raise RuntimeError('Sources changed during measurement')
     report = dict(schema_version=1, generated_at=datetime.now(timezone.utc).isoformat(), source_digest=digest,
                   reference=REF, artifacts=artifacts, config={**vars(args), 'seed': SEED}, workloads=results,
@@ -138,4 +140,5 @@ def main():
                   'All 96 original validation cases and every timing sample must pass, otherwise the run aborts. No new upstream-method credit.')
     (ROOT/'work/aggregate-performance.json').write_text(json.dumps(report, indent=2)+'\n')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('aggregate-performance', main))

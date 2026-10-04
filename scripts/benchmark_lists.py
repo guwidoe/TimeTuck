@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Validate and measure native/Java construction, relocation and two-opt search."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -9,7 +11,7 @@ import platform
 import random
 import statistics
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from prepare_solver_oracle import prepare_solver_java
 from benchmark_scores import version
 
@@ -149,7 +151,7 @@ def main():
     classpath,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',classpath,'-d',str(WORK/'solver'),str(ROOT/'compat/oracle/ListSolverBenchmark.java')],check=True)
     subprocess.run(['cargo','build','--release','--example','list_solver_benchmark','--locked'],cwd=ROOT,check=True)
-    digest=source_digest()
+    digest=measurement_digest('list-performance')
     bases={'java':['java','-Xms256m','-Xmx256m','-cp',classpath,'ListSolverBenchmark'],
            'rust':[str(ROOT/'target/release/examples/list_solver_benchmark')]}
     def run(runtime,mode,cases,warmup,samples,optima=None):
@@ -188,7 +190,7 @@ def main():
                                 'score_calls':{'min':min(r['score_calls'] for r in rows),'max':max(r['score_calls'] for r in rows)}}
             entry['equal_scores']=entry['rust']['score']==entry['java']['score'];entry['java_over_rust']=entry['java']['median']/entry['rust']['median'];results.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}',flush=True)
-    if digest!=source_digest(): raise RuntimeError('Sources changed during measurement')
+    if digest!=measurement_digest('list-performance'): raise RuntimeError('Sources changed during measurement')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,
             'config':{**vars(args),'seed':SEED,'range_seed':SEED+1,'two_opt_score_limit':10_000,'two_opt_rust_order':{'kind':'shuffled-window','seed':SEED,'window':1024},'iterations':1},'workloads':results,
             'validation':{'total':len(checks),'passed':len(checks),'equal_scores':sum(c['equal_scores'] for c in checks),
@@ -202,4 +204,5 @@ def main():
             'methodology':'Required ordered lists with Manhattan round-trip distance and per-route capacity penalties. Construction inserts missing values using best insertion with no early pick; engine-specific tie handling is retained. Relocation hill climbing uses complete identical inputs, best accepted/first tie, best-rejected fallback, and the same step cap. Two-opt uses identical complete starts, within-route reversals and non-reversing cross-owner nonempty tail exchanges, first accepted hill climbing and the same step cap, with an additional 10,000 score-calculation/evaluation budget. Java uses its seeded public preview TwoOptListMoveProvider; native ordering uses a seeded SplitMix64 rolling shuffle window of 1,024 moves, capped by remaining evaluations. Both seeds are 20261006; PRNGs and sampling are not identical. Candidate sampling/order and score-count accounting differ, so these are bounded quality/time comparisons, not equal-work or equal-trace claims. Deterministic native original orders may differ (Rust entity/position order; Java configured ORIGINAL); scores, callback work and optima agreement are reported, not identical traces. Full scoring in both engines: Java EasyScoreCalculator, one global Rust constraint. Timed: per-solve setup, solving and assignment/score/shadow validation. Excluded: input parsing, model/network/factory creation, process startup and output encoding. Warmups and alternating runtime order across fresh processes. Every measured output is independently checked for ownership, completeness, pins, score and local-search non-regression; construction retains existing route values in relative order. Small original cases, including per-entity ranges, have independently enumerated optima. Legacy seven-field inputs use the full global registry as every entity range; eight-field inputs add explicit subsets. Larger timing workloads retain unrestricted ranges. Larger workload optima are unknown. Rust list transactions clone state and derive shadows by linear lookup; Java uses managed shadows. No general solver, incremental-scoring, memory, optional-list or mixed-model performance claim.'}
     (ROOT/'work/list-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('list-performance', main))

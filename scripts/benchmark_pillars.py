@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Original explicit-group pillar transactions checked against Python and Java."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -8,7 +10,7 @@ import platform
 import random
 import statistics
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from prepare_solver_oracle import prepare_solver_java
 from benchmark_scores import version
 
@@ -124,7 +126,7 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.iterations <= 1000000 or min(args.samples, args.forks) < 1 or args.warmup < 0:
         parser.error('Use positive iterations (at most 1000000), samples/forks and nonnegative warmups')
-    digest = source_digest()
+    digest = measurement_digest('pillar-performance')
     classpath, artifacts = prepare_solver_java()
     subprocess.run(['javac', '-cp', classpath, '-d', str(WORK/'solver'), str(ROOT/'compat/oracle/PillarMoveBenchmark.java')], check=True)
     subprocess.run(['cargo', 'build', '--release', '--locked', '--example', 'pillar_move_benchmark'], cwd=ROOT, check=True)
@@ -153,7 +155,7 @@ def main():
             entry['java_over_rust'] = entry['java']['median']/entry['rust']['median']
             results.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.6f}, Java {entry["java"]["median"]:.6f} ms / transaction', flush=True)
-    if digest != source_digest(): raise RuntimeError('Sources changed during measurement')
+    if digest != measurement_digest('pillar-performance'): raise RuntimeError('Sources changed during measurement')
     report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
               'source_digest': digest, 'reference': REF, 'artifacts': artifacts,
               'config': {**vars(args), 'seed': SEED}, 'workloads': results,
@@ -163,4 +165,5 @@ def main():
               'methodology': 'Original explicit-group basic-variable transactions, with three optional integer columns per entity. Supplied members and columns are identical; no automatic grouping, schema-provider enumeration, random sampling, scoring or search is timed. Change writes one column; swap exchanges one or three columns between unequal groups, leaving some matching members untouched (subpillars). Every iteration constructs native Pillars/moves or Java Samples/public Moves, temporarily applies the move, copies and checks the full trial state, undoes it, copies and checks the restored state and consumes both checksums. Rust includes Pillar structural/uniformity checks and FiniteProblem domain/pin validation; Java includes public MoveTester infrastructure. These validation/framework costs differ. Parsing, model/test-context setup, expected states, startup, output encoding and a separate committed-state check are outside timing. Each sample repeats the same transaction; medians and ranges are per-transaction batch averages, not latency percentiles. Warmup batches, alternating runtime order and fresh processes are recorded; JVM compilation/GC may still affect samples. Python independently verifies trial, restored and committed states and every batch checksum, including 128 seeded small cases with optional values, no-ops, noncontiguous members and 1–3 columns. All cases are original and earn no upstream-method credit. No general solver speedup, schema-provider or memory claim.'}
     (ROOT/'work/pillar-performance.json').write_text(json.dumps(report, indent=2)+'\n')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('pillar-performance', main))

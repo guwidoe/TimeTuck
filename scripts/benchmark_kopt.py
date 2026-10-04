@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Compare bounded cyclic k-opt quality/time using public Community configuration."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from datetime import datetime, timezone
 from itertools import permutations
@@ -10,7 +12,7 @@ import statistics
 import subprocess
 from benchmark_lists import encode, accepts
 from benchmark_scores import version
-from differential_scores import ROOT, WORK, REF, source_digest
+from differential_scores import ROOT, WORK, REF
 from prepare_solver_oracle import prepare_solver_java
 
 SEED = 20261008
@@ -94,7 +96,7 @@ def main():
     classpath,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',classpath,'-d',str(WORK/'solver'),str(ROOT/'compat/oracle/ListSolverBenchmark.java'),str(ROOT/'compat/oracle/KOptBenchmark.java')],check=True)
     subprocess.run(['cargo','build','--release','--example','k_opt_benchmark','--locked'],cwd=ROOT,check=True)
-    digest=source_digest()
+    digest=measurement_digest('kopt-performance')
     bases={'java':['java','-Xms256m','-Xmx256m','-cp',classpath,'KOptBenchmark'],
            'rust':[str(ROOT/'target/release/examples/k_opt_benchmark')]}
     def run(runtime,minimum,maximum,cases,warmup,samples,optima=None,strategy="window"):
@@ -141,7 +143,7 @@ def main():
                 entry['equal_scores']=entry['rust']['score']==entry['java']['score']
                 entry['java_over_rust']=entry['java']['median']/entry['rust']['median'];workloads.append(entry)
                 print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]}/{entry["java"]["score"]}',flush=True)
-    if digest!=source_digest(): raise RuntimeError('Sources changed during measurement')
+    if digest!=measurement_digest('kopt-performance'): raise RuntimeError('Sources changed during measurement')
     report=dict(schema_version=1,generated_at=datetime.now(timezone.utc).isoformat(),source_digest=digest,reference=REF,artifacts=artifacts,
                 config={**vars(args),'seed':SEED,'native_window':WINDOW,'native_attempts_per_step':args.evaluations,'native_strategies':strategies,'iterations':1},workloads=workloads,boundary_probes=probes,
                 validation=quality_summary(checks),
@@ -150,4 +152,5 @@ def main():
                 methodology='Original single-entity, complete unpinned cyclic Manhattan routes. Capacity is nonbinding. Same initial orders, configured k ranges 2–3/2–4, seed, step and score-evaluation limits. First-accepted hill climbing; best result retained. Public Java KOptListMoveSelectorConfig uses random selection. Rust window strategy enumerates anchored tours by exact changed-edge count then cut/path order and uses a seeded rolling shuffle window of 4096; its first window reaches each configured k at measured sizes. Rust sampled strategy instead uses the configured score-evaluation budget as its maximum number of proposals per step, selecting entity/k/cut edges/path order/directions with seeded randomness and rejecting retained cut edges. The seed varies deterministically per completed step. Both native strategies include both cycle directions; final-tour sampling is not uniform. Java may retain removed edges or select equivalent cycles; native exact-edge enumeration excludes these. Sampling, PRNGs, anchor conventions, score-count accounting and work differ. Counts and quality accompany time; no identical-trace, equal-work or general speed claim. Full scoring in both engines. Timed: per-solve setup, solving, full score/non-regression/ownership/shadow validation. Excluded: parsing, model/network/factory construction, process startup and output encoding. Three warmups per process by default; alternating runtime order across fresh process forks. All outputs independently validated in Python; 128 paired comparisons (64 per native strategy over the same 32 routes and two k ranges) have exhaustive cyclic optima. Large workload optima unknown. Four exact-3/exact-4 boundary probes are excluded from timing comparisons because pinned Java returned without candidate scoring in the initial observations; actual counts remain recorded. No extra upstream method coverage.')
     (ROOT/'work/kopt-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('kopt-performance', main))

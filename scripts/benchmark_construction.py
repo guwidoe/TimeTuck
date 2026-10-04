@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Measure three construction strategies, validating assignments and quality separately."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from datetime import datetime, timezone
 import json
@@ -7,7 +9,7 @@ import platform
 import random
 import statistics
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from differential_solver import encode, score, optimum, validate
 from value_queue_construction_checks import generate_cases, reference as queued_reference
 from pooled_construction_checks import reference as pooled_reference
@@ -71,7 +73,7 @@ def main():
     classpath, artifacts = prepare_solver_java()
     subprocess.run(['javac', '-cp', classpath, '-d', str(WORK/'solver'), str(ROOT/'compat/oracle/ConstructionBenchmark.java')], check=True)
     subprocess.run(['cargo', 'build', '--release', '--locked', '--example', 'construction_benchmark'], cwd=ROOT, check=True)
-    digest = source_digest()
+    digest = measurement_digest('construction-performance')
     commands = {'java': ['java', '-Xms256m', '-Xmx256m', '-cp', classpath, 'ConstructionBenchmark'],
                 'rust': [str(ROOT/'target/release/examples/construction_benchmark')]}
     def run(runtime, mode, cases, warmup, samples, optima):
@@ -122,7 +124,7 @@ def main():
             entry['java_over_rust'] = entry['java']['median']/entry['rust']['median']
             workloads.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}', flush=True)
-    if source_digest() != digest: raise RuntimeError('Sources changed during measurement')
+    if measurement_digest('construction-performance') != digest: raise RuntimeError('Sources changed during measurement')
     report = dict(schema_version=1, generated_at=datetime.now(timezone.utc).isoformat(), source_digest=digest,
                   reference=REF, artifacts=artifacts, config={**vars(args), 'seed': SEED, 'validation_seed': 20261001, 'iterations': 1, 'algorithms': list(MODES)},
                   workloads=workloads, validation={**summary, 'by_algorithm': {m: quality_summary([r for r in checks if r['mode'] == m]) for m in MODES}, 'cases': checks},
@@ -132,4 +134,5 @@ def main():
     (ROOT/'work/construction-performance.json').write_text(json.dumps(report, indent=2)+'\n')
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('construction-performance', main))

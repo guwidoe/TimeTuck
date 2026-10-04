@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Run matched warm score microbenchmarks; never claim whole-solver performance."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 import json
 import os
@@ -8,7 +10,7 @@ import statistics
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-from differential_scores import ROOT, WORK, JAR, REF, prepare_java, source_digest
+from differential_scores import ROOT, WORK, JAR, REF, prepare_java
 
 
 def version(command):
@@ -51,7 +53,7 @@ def main():
         results.append(entry)
         print(f'{kind}: Rust {entry["rust"]["median"]:.2f}, Java {entry["java"]["median"]:.2f} ns/iteration; ratio {entry["java_over_rust"]:.2f}x', flush=True)
     cpu = next((s.split(':', 1)[1].strip() for s in Path('/proc/cpuinfo').read_text().splitlines() if s.startswith('model name')), 'unknown')
-    report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(), 'source_digest': source_digest(),
+    report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(), 'source_digest': measurement_digest('performance'),
               'reference': REF, 'artifact': artifact, 'config': {**vars(args), 'seed': 20261001}, 'workloads': results,
               'environment': {'platform': platform.platform(), 'cpu': cpu, 'logical_cpus': os.cpu_count(),
                               'rust': version(['rustc', '-Vv']), 'java': version(['java', '-version'])},
@@ -59,4 +61,5 @@ def main():
               'methodology': 'Identical seeded LCG inputs, score addition and conditional subtraction per iteration. Rust release; warmed JVM. Alternating fresh process forks; medians of all samples. Checksums must match. Startup and compilation excluded. Shared machine; no CPU isolation. Not JMH or a statistical significance claim.'}
     (ROOT / 'work/performance.json').write_text(json.dumps(report, indent=2) + '\n')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('performance', main))

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Compare fixed concurrent shadow-update transactions; no scoring/search timing."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from datetime import datetime, timezone
 import json
@@ -8,7 +10,7 @@ import random
 import statistics
 import subprocess
 from concurrent_checks import apply, project, valid
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from prepare_solver_oracle import prepare_solver_java
 from benchmark_scores import version
 
@@ -80,7 +82,7 @@ def main():
     parser.add_argument('--forks',type=int,default=3)
     args=parser.parse_args()
     if not 1<=args.iterations<=10000 or min(args.samples,args.forks)<1 or args.warmup<0:parser.error('Positive iterations (at most 10000), samples/forks; nonnegative warmups')
-    digest=source_digest();classpath,artifacts=prepare_solver_java()
+    digest=measurement_digest('concurrent-performance');classpath,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',classpath,'-d',str(WORK/'solver'),str(ROOT/'compat/oracle/ConcurrentOracle.java'),str(ROOT/'compat/oracle/ConcurrentBenchmark.java')],check=True)
     subprocess.run(['cargo','build','--release','--locked','--example','concurrent_benchmark'],cwd=ROOT,check=True)
     bases={'java':['java','-Xms256m','-Xmx256m','-cp',classpath,'ConcurrentBenchmark'],'rust':[str(ROOT/'target/release/examples/concurrent_benchmark')]}
@@ -104,8 +106,9 @@ def main():
                 entry[runtime]=dict(median=statistics.median(times),min=min(times),max=max(times))
             entry['java_over_rust']=entry['java']['median']/entry['rust']['median'];results.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.6f}, Java {entry["java"]["median"]:.6f} ms / transaction',flush=True)
-    if source_digest()!=digest:raise RuntimeError('Sources changed during measurement')
+    if measurement_digest('concurrent-performance')!=digest:raise RuntimeError('Sources changed during measurement')
     report=dict(schema_version=1,generated_at=datetime.now(timezone.utc).isoformat(),source_digest=digest,reference=REF,artifacts=artifacts,config={**vars(args),'seed':SEED},workloads=results,validation=dict(total=len(checks),passed=len(checks),cases=checks),environment=dict(cpu=next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown'),platform=platform.platform(),rust=version(['rustc','--version']),java=version(['java','-version'])),methodology='Fixed fully assigned concurrent schedules, with disjoint shared-start groups and distinct source/destination positions (required by the Java move API). Each transaction constructs a public change/swap move, applies it temporarily, copies and validates all nine shadow fields for every visit, undoes it, checks restored fields and ownership, and consumes checksums. Rust uses ListProblem moves and CachedSchedule (the evaluator used by cached stream scoring), explicitly snapshotting/restoring cache and output rows; Java uses public MoveTester with the attributed annotated domain. Rust rebuilds topology on changed edges; Java maintains its shadow listeners. Runtime framework and validation costs differ. No score engine, constraint stream graph, search, full-reference rescoring or model setup is timed. Expected complete field arrays come from independent Python recursion outside timing. A separate committed move is checked outside each timed batch. Parsing, initialization, process startup and output encoding are excluded; move-string decoding, cloning, output copying, checks and checksum work are included equally in scope. Samples repeat the same trial from the same initial state; numbers are medians/ranges of per-transaction batch averages, not latency percentiles. Warmup batches and alternating runtime order across fresh processes are recorded. The machine is shared, without CPU isolation; no JMH, memory, statistical significance or whole-solver speed claim. All 64 generated validation cases and every timing sample must match; errors abort measurement and are never dropped. Fully assigned inputs are an explicit benchmark scope, not a correction of the 21 known Java partial-group errors retained in the separate 128-case correctness comparison. Original cases earn no upstream method credit.')
     (ROOT/'work/concurrent-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('concurrent-performance', main))

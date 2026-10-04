@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Compare required/optional list repair validity, quality and bounded timing."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 from datetime import datetime, timezone
 from itertools import permutations, product
@@ -8,7 +10,7 @@ import platform
 import random
 import statistics
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from prepare_solver_oracle import prepare_solver_java
 from benchmark_scores import version
 from benchmark_heuristics import quality_summary
@@ -123,7 +125,7 @@ def main():
     cp, artifacts = prepare_solver_java()
     subprocess.run(['javac', '-cp', cp, '-d', str(WORK/'solver'), str(ROOT/'compat/oracle/ListRepairBenchmark.java')], check=True)
     subprocess.run(['cargo', 'build', '--release', '--locked', '--example', 'list_repair_benchmark'], cwd=ROOT, check=True)
-    digest = source_digest()
+    digest = measurement_digest('list-repair-performance')
     commands = dict(java=['java', '-Xms256m', '-Xmx256m', '-cp', cp, 'ListRepairBenchmark'],
                     rust=[str(ROOT/'target/release/examples/list_repair_benchmark')])
     def run(runtime, c, group, minimum, warmup, samples, optimal, require_all=True):
@@ -171,7 +173,7 @@ def main():
                 entry['java_over_rust'] = entry['java']['median']/entry['rust']['median']
                 workloads.append(entry)
                 print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}', flush=True)
-    if source_digest() != digest: raise RuntimeError('Sources changed during measurement')
+    if measurement_digest('list-repair-performance') != digest: raise RuntimeError('Sources changed during measurement')
     report = dict(schema_version=1, generated_at=datetime.now(timezone.utc).isoformat(), source_digest=digest, reference=REF, artifacts=artifacts,
                   config={**vars(args), 'seed': SEED, 'iterations': 1, 'algorithms': sorted({r['algorithm'] for r in checks})},
                   validation={**summary, 'by_algorithm': {m: quality_summary([r for r in checks if r['algorithm'] == m]) for m in sorted({r['algorithm'] for r in checks})}, 'cases': checks},
@@ -181,4 +183,5 @@ def main():
     (ROOT/'work/list-repair-performance.json').write_text(json.dumps(report, indent=2)+'\n')
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('list-repair-performance', main))

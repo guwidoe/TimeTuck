@@ -9200,3 +9200,15 @@ extraction:128paired/114equal,each strategy64optima versusJava57. Warmed sampled
 medians0.963/0.629/2.004/1.193ms (2–3/12,2–3/16,2–4/12,2–4/16). These are
 single-route measurements; multi-entity k-opt comparison remains the next task.
 Full rewrite goal remains active and incomplete.
+
+## Selective verification cache
+
+check.sh now reuses successful per-target Rust, per-file Python, fmt, Clippy and
+Doctest jobs. All17 measurement commands have separate input keys and direct-command
+reuse; --force bypasses caching. Native dependencies use an intentionally selective
+module/symbol scan, not compiler-proven dependencies. Use --force for final-phase
+validation. See docs/dashboard.md. No Rust solver behavior changed.
+Initial Rust baseline:2029 passed; unchanged follow-up:284 targets reused, zero
+commands executed (39.31s hashing/log assembly). Python suite251 passed, followed by
+8 focused cache checks including one added module-isolation case (252 distinct tests).
+Old global-key benchmark reports remain stale; no benchmark sweep was performed.

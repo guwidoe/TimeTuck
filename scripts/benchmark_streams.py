@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Verify and measure incremental stream search using Community public APIs."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import argparse
 import json
 import platform
 import statistics
 import subprocess
 from datetime import datetime, timezone
-from differential_scores import ROOT, REF, source_digest
+from differential_scores import ROOT, REF
 from differential_solver import encode, generate
 from differential_streams import SEED, optimum, score, prepare
 from benchmark_scores import version
@@ -51,7 +53,7 @@ def main():
     if min(args.steps,args.samples,args.forks)<1 or args.warmup<0 or args.steps>2_147_483_647:
         parser.error('Positive counts required; steps must fit Java int; warmup may be zero')
     classpath,artifacts=prepare()
-    digest=source_digest()
+    digest=measurement_digest('stream-performance')
     bases={'java':['java','-Xms256m','-Xmx256m','-cp',classpath,'StreamBenchmark'],
            'rust':[str(ROOT/'target/release/examples/stream_benchmark')]}
     def run(runtime,algorithm,cases,warmup,samples):
@@ -99,7 +101,7 @@ def main():
             entry['java_over_rust']=entry['java']['median']/entry['rust']['median']
             results.append(entry)
             print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]} / {entry["java"]["score"]}',flush=True)
-    if digest!=source_digest():
+    if digest!=measurement_digest('stream-performance'):
         raise RuntimeError('Sources changed during stream comparison')
     cpu=next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
@@ -113,4 +115,5 @@ def main():
     (ROOT/'work/stream-performance.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'Stream search validation: {len(checks)} valid; {report["validation"]["equal_scores"]} equal-score cases',flush=True)
 
-if __name__=='__main__': main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('stream-performance', main))

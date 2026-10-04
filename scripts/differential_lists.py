@@ -2,11 +2,13 @@
 """Compare original list moves and four derived shadows with Java public APIs."""
 from copy import deepcopy
 from datetime import datetime, timezone
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import json
 import platform
 import random
 import subprocess
-from differential_scores import ROOT, REF, WORK, source_digest
+from differential_scores import ROOT, REF, WORK
 from prepare_solver_oracle import prepare_solver_java
 
 SEED = 20261003
@@ -202,7 +204,7 @@ def main():
     classpath, artifacts = prepare_solver_java()
     subprocess.run(['javac','-cp',classpath,'-d',str(WORK/'solver'),str(ROOT/'compat/oracle/ListMoveOracle.java')],check=True)
     subprocess.run(['cargo','build','--release','--example','list_move_oracle','--locked'],cwd=ROOT,check=True)
-    digest = source_digest()
+    digest = measurement_digest('list-differential')
     cases = generate()
     payload = '\n'.join(map(encode,cases))+'\n'
     commands = {'java':['java','-cp',classpath,'ListMoveOracle'], 'rust':[str(ROOT/'target/release/examples/list_move_oracle')]}
@@ -222,7 +224,7 @@ def main():
     value_metadata = compare(cases, commands, WORK)
     from differential_list_gather import compare as compare_gather
     gather = compare_gather(commands, WORK)
-    if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
+    if measurement_digest('list-differential') != digest: raise RuntimeError('Sources changed during comparison')
     failed = {f['case'] for f in failures}
     report = {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
               'revision':REF['commit'],'seed':SEED,'sublist_seed':SUBLIST_SEED,'sublist_swap_seed':SUBLIST_SWAP_SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
@@ -239,4 +241,5 @@ def main():
           f'differences {value_metadata["divergent_cases"]}; unsupported {value_metadata["unsupported_cases"]}')
     return bool(failures or value_metadata['failures'] or gather['failures'])
 
-if __name__ == '__main__': raise SystemExit(main())
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('list-differential', main))

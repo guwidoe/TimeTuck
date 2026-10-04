@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Compare Community full score updates with native transactional stream edits."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import itertools
 import json
 import platform
@@ -7,7 +9,7 @@ import random
 import subprocess
 from collections import defaultdict
 from datetime import datetime, timezone
-from differential_scores import ROOT, REF, source_digest
+from differential_scores import ROOT, REF
 from differential_solver import generate as basic_cases, encode as encode_basic
 from prepare_solver_oracle import prepare_solver_java
 from membership_join_checks import run_checks as check_memberships
@@ -104,7 +106,7 @@ def prepare():
     return cp,artifacts
 
 def main():
-    cp,artifacts=prepare();digest=source_digest();cases=generate();payload='\n'.join(map(encode,cases))+'\n'
+    cp,artifacts=prepare();digest=measurement_digest('stream-differential');cases=generate();payload='\n'.join(map(encode,cases))+'\n'
     subprocess.run(['java','-Xms256m','-Xmx256m','-cp',cp,'AggregationBoundaryOracle'],check=True,timeout=60)
     membership_checks=check_memberships(cp)
     print(f'Membership joins: {membership_checks["passed"]}/{membership_checks["total"]} cases; {membership_checks["observations"]} observations',flush=True)
@@ -156,7 +158,7 @@ def main():
     for index,(case,state,values) in enumerate(observations):
         results.append({'id':case['id'],'state':state,'values':values,
                         **{runtime:validate(case,state,values,lines[index],runtime) for runtime,lines in outputs.items()}})
-    if digest!=source_digest(): raise RuntimeError('Sources changed during stream comparisons')
+    if digest!=measurement_digest('stream-differential'): raise RuntimeError('Sources changed during stream comparisons')
     report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
             'reference':REF,'artifacts':artifacts,'seed':SEED,'total':len(cases),'passed':len(cases),
             'observations':len(observations),'failures':[],'cases':cases,'results':results,'platform':platform.platform(),
@@ -184,4 +186,5 @@ def main():
     (ROOT/'work/stream-differential.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'Stream differential: {len(cases)}/{len(cases)} cases; {len(observations)} observations',flush=True)
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    raise SystemExit(run_measurement('stream-differential', main))

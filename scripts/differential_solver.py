@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Compare original finite planning cases against Java and an independent oracle."""
+from verification_inputs import measurement_digest
+from verification_cache import run_measurement
 import itertools
 import json
 import platform
 import random
 import subprocess
 from datetime import datetime, timezone
-from differential_scores import ROOT, WORK, REF, source_digest
+from differential_scores import ROOT, WORK, REF
 from prepare_solver_oracle import prepare_solver_java
 
 
@@ -104,7 +106,7 @@ def validate(case, line, expected):
 def main():
     classpath, artifacts = prepare_solver_java()
     subprocess.run(['cargo','build','--release','--example','solver_oracle','--locked'], cwd=ROOT, check=True)
-    digest = source_digest()
+    digest = measurement_digest('solver-differential')
     cases = generate() + generate_extended()
     payload = '\n'.join(map(encode, cases)) + '\n'
     commands = {'java': ['java','-Xms256m','-Xmx256m','-cp',classpath,'SolverOracle'],
@@ -138,7 +140,7 @@ def main():
     pooled = check_pooled(classpath)
     from value_queue_construction_checks import run_checks as check_value_queue
     value_queue = check_value_queue(classpath)
-    if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
+    if measurement_digest('solver-differential') != digest: raise RuntimeError('Sources changed during comparison')
     failed_ids = {failure['case'] for failure in failures}
     report = {'schema_version':1, 'generated_at':datetime.now(timezone.utc).isoformat(), 'source_digest':digest,
               'revision':REF['commit'], 'seed':20261001,
@@ -154,4 +156,4 @@ def main():
     return bool(failures or termination['failures'] or mixed['failures'] or step_counting['failures'] or great_deluge['failures'] or oscillation['failures'] or trends['failures'] or pooled['failures'] or value_queue['failures'])
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    raise SystemExit(run_measurement('solver-differential', main))

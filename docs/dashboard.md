@@ -615,3 +615,25 @@ final meter reads and formatting. Java metric collection runs during measurement
 Three fresh processes per runtime, five warmups and seven samples per process,
 with alternating runtime order and all raw samples. Shared-host ranges include
 allocation and GC effects. Original benchmark fixtures add no adapted-method credit.
+
+## Selective verification during development
+
+`bash scripts/check.sh` reuses successful jobs with matching inputs. Rust tests
+are cached per target, Python checks per test file, and each of the 17 comparison
+runners has its own key. Native dependencies are selected by a module-level source
+scan of imports, referenced public symbols and out-of-line implementations; local
+modules and literal include fixtures are tracked. This is a development heuristic,
+not compiler-proven dependency analysis. Shared types can still select many modules.
+Python imports and Java adapter references are followed separately. Dashboard,
+provenance, unrelated tests and unrelated adapters do not invalidate Rust execution.
+
+Direct benchmark/differential commands also reuse successful matching reports.
+Command arguments, toolchain/environment identity and output checksums participate
+in reuse. Original measurement dates remain unchanged. Missing/modified outputs,
+failed runs and changes during execution are never reused. Cache files live in
+ignored `work/verification/`; deleting them requests fresh execution.
+
+Use `bash scripts/check.sh --force` or add `--force` to an individual comparison
+command when fresh execution is needed, including final-phase validation. Reports
+use each measurement's own source key. Evidence from the former global-key scheme
+stays stale until that job is next run; migrating the keys does not refresh timings.

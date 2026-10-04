@@ -13,7 +13,7 @@ import re
 import subprocess
 import sys
 
-from differential_scores import source_digest
+from verification_inputs import measurement_digest, report_digest, rust_digest
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = re.compile(r'@(?:org\.junit\.jupiter\.(?:api|params)\.)?(Test|ParameterizedTest|RepeatedTest|TestFactory|TestTemplate)\b')
@@ -24,11 +24,7 @@ METHOD = re.compile(r'\b(?:void|[A-Za-z_$][\w.$]*(?:\s*<[^;{}]+>)?(?:\[\])?)\s+(
 
 
 def verification_digest():
-    h = hashlib.sha256(source_digest().encode())
-    for relative in ['compat/provenance.json', 'compat/upstream.json', 'compat/exclusions.json',
-                     'scripts/compat_report.py', 'scripts/run_rust_tests.py']:
-        h.update((ROOT / relative).read_bytes())
-    return h.hexdigest()
+    return report_digest(ROOT)
 
 
 def declarations(text):
@@ -121,7 +117,8 @@ def run_local(cases, execute):
     return results, runs
 
 
-def load_measurement(name, digest):
+def load_measurement(name, digest=None):
+    digest = measurement_digest(name, ROOT) if digest is None else digest
     path = ROOT / 'work' / f'{name}.json'
     if not path.exists(): return {'status': 'not_measured'}
     report = json.loads(path.read_text())
@@ -181,7 +178,7 @@ def build_report(execute=True, test_output=None):
     if test_output is None:
         results, runs = run_local(ledger, execute)
     else:
-        results, runs = read_test_run(test_output, verified_source)
+        results, runs = read_test_run(test_output, rust_digest(ROOT))
 
     for case in ledger:
         method = lookup[(case['upstream_path'], case['upstream_test'])][0]
@@ -202,7 +199,7 @@ def build_report(execute=True, test_output=None):
             classes.append({'name': Path(path).stem, 'path': path, **counts([m for m in subset if m['path'] == path])})
         groups.append({'name': name, **counts(subset), 'classes': classes})
     groups.sort(key=lambda g: (-g['passed'], -g['total'], g['name']))
-    digest = source_digest()
+    digest = verified_source
     if verification_digest() != verified_source:
         raise ValueError('Sources changed during verification; rerun to produce a consistent report.')
     return {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
@@ -213,23 +210,23 @@ def build_report(execute=True, test_output=None):
                           'limitations': 'Not a JUnit runtime test count. Parameterized, repeated, and inherited template invocations are not expanded. Custom composed test annotations and non-Java tests are not included. The original Java suite is not run by this report.'},
             'verification': {'successful': bool(runs) and all(r['exit_code'] == 0 for r in runs)},
             'summary': counts(methods), 'families': groups, 'methods': methods, 'runs': runs,
-            'differential': load_measurement('differential', digest),
-            'performance': load_measurement('performance', digest),
-            'solver_differential': load_measurement('solver-differential', digest),
-            'list_differential': load_measurement('list-differential', digest),
-            'solver_performance': load_measurement('solver-performance', digest),
-            'heuristic_performance': load_measurement('heuristic-performance', digest),
-            'repair_performance': load_measurement('repair-performance', digest),
-            'list_repair_performance': load_measurement('list-repair-performance', digest),
-            'construction_performance': load_measurement('construction-performance', digest),
-            'list_performance': load_measurement('list-performance', digest),
-            'kopt_performance': load_measurement('kopt-performance', digest),
-            'stream_differential': load_measurement('stream-differential', digest),
-            'stream_performance': load_measurement('stream-performance', digest),
-            'concurrent_performance': load_measurement('concurrent-performance', digest),
-            'sequence_performance': load_measurement('sequence-performance', digest),
-            'aggregate_performance': load_measurement('aggregate-performance', digest),
-            'pillar_performance': load_measurement('pillar-performance', digest)}
+            'differential': load_measurement('differential'),
+            'performance': load_measurement('performance'),
+            'solver_differential': load_measurement('solver-differential'),
+            'list_differential': load_measurement('list-differential'),
+            'solver_performance': load_measurement('solver-performance'),
+            'heuristic_performance': load_measurement('heuristic-performance'),
+            'repair_performance': load_measurement('repair-performance'),
+            'list_repair_performance': load_measurement('list-repair-performance'),
+            'construction_performance': load_measurement('construction-performance'),
+            'list_performance': load_measurement('list-performance'),
+            'kopt_performance': load_measurement('kopt-performance'),
+            'stream_differential': load_measurement('stream-differential'),
+            'stream_performance': load_measurement('stream-performance'),
+            'concurrent_performance': load_measurement('concurrent-performance'),
+            'sequence_performance': load_measurement('sequence-performance'),
+            'aggregate_performance': load_measurement('aggregate-performance'),
+            'pillar_performance': load_measurement('pillar-performance')}
 
 
 def main():
