@@ -1570,3 +1570,53 @@ invalid configuration and zero/max durations. Four injected-clock methods exerci
 all six search paths, plus one ordered-phase factory/handoff test. These earn no
 additional method credit. No Java timed-trace, shared lifecycle or dedicated
 performance equivalence is claimed.
+
+## Allocate receivers from a cycling value queue
+
+ConstructionPlacement::ValueQueue independently implements the round-robin
+value-first construction described by pinned Community public documentation
+(optimization-algorithms/construction-heuristics.adoc, Allocate to value from queue).
+For basic variables, the queue contains distinct domain values in first model/domain
+encounter order, using Eq equality. A step selects one value and scores its eligible
+unassigned receivers in model order. The best accepted receiver wins, with first
+ties and the configured early-pick policy. The next step advances the value cursor;
+a successful assignment permits another full rotation. Existing assignments and
+pins stay intact; heterogeneous domains filter out illegal receivers.
+
+Optional Preserve excludes missing optional variables. NonWorsening considers them
+but rejects assignments below the current score. Rejected receivers may be retried
+after another successful assignment. One full rotation with no installed assignment
+ends construction, preventing an infinite loop when all optional choices are worse.
+Values without any eligible receiver are skipped without scoring or consuming a
+step. Optional rejections with scored trials consume a step. No queued state survives
+a call: resumed construction preserves supplied values and restarts the value queue.
+
+All score/candidate/step/time/cancellation limits retain their existing scope and
+precedence. Interrupted receiver scans keep the best scored prefix. Selected caches
+are installed without rescoring. Empty/unreachable required models retain existing
+NoCompleteAssignment behavior; finite optional-only queues may finish unassigned.
+Building the distinct queue uses Eq comparisons with worst-case quadratic comparison
+cost in total domain entries; no new hash/order constraint is imposed on value types.
+Like other candidate generation, queue preparation is cooperative, not preemptive.
+
+List construction is already value-first and uses its existing sequential registry
+order for this placement mode. Mixed models finish components in the requested order:
+basics use the cycling queue and lists use sequential insertion. Unlike pooled mixed
+placement, the two components never compete in a common queue. Optional basics are
+not revisited after subsequent list construction; another phase may reconsider them.
+Scoped and stream backends share these algorithms. Ordinary integer and owned decimal
+score ordering determine receiver selection, with no floating ranking conversion.
+
+Seven original regression methods check cycling/ties/resume, rejected rotations,
+3,200 heterogeneous-domain reference comparisons (32 models, 25 score budgets, four
+basic/mixed scoring paths), empty queues, list order, coupled mixed objectives and
+sub-float decimal differences. Existing six-path injected-clock, cancellation and
+candidate-budget matrices now include this mode. These checks confer no upstream
+method credit; QueuedValuePlacerTest lifecycle/copy assertions remain pending.
+
+A separate public-Java comparison uses ALLOCATE_TO_VALUE_FROM_QUEUE with original
+entity/value order and NEVER early picking. All 67 original homogeneous required
+graph cases agree on final assignments and independently recomputed scores; both
+runtimes reach 24 enumerated optima. Native assignments also match independent Python
+receiver reconstruction. The generated comparison does not establish Java internal
+traces, heterogeneous/optional/list/mixed parity or dedicated performance results.

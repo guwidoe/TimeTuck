@@ -152,7 +152,9 @@ for limits and evidence. Optional diminished-returns termination compares exact
 sliding-window improvement rates after initialization and stops individual local
 phases. A separate significant-improvement limit requires a configured score gain
 within each window, with exact arithmetic and optional ignored lower score levels. Greedy construction can visit one item at a time or use pooled cheapest
-insertion across all eligible missing items; `local_search_from` improves the resulting assignment.
+insertion across all eligible missing items. Value-queue construction cycles through
+basic values and chooses their best unassigned receivers; `local_search_from` improves
+the resulting assignment.
 For ordered lists, `greedy_list_construction` inserts missing required values and
 `list_local_search_from` improves a complete assignment with lazy relocation,
 assignment, unassignment, swap and replacement moves. See

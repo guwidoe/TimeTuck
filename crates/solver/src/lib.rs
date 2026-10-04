@@ -407,3 +407,5 @@ mod significant_improvement;
 pub use significant_improvement::{
     SignificantImprovement, SignificantImprovementConfig, SignificantImprovementError,
 };
+
+mod value_construction_queue;

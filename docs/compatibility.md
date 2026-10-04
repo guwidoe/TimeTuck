@@ -1495,3 +1495,13 @@ negative-millisecond constructor methods remain pending. The new phase-local nat
 limit uses exact differences, optional ignored score suffixes and a strict deadline;
 original generated/clock/integration checks confer no additional method coverage.
 Java boundary arithmetic, timed traces and dedicated timings are not claimed.
+
+Value-first construction now cycles distinct basic values and selects their best
+eligible receivers in both scoring backends, with component-ordered mixed integration.
+Pinned Community public construction documentation supplies the behavioral specification.
+QueuedValuePlacerTest was read, but its lifecycle/copy assertions remain pending;
+no upstream methods or fixtures were adapted in this increment. Original native
+regressions and 67 public-Java/Python graph comparisons establish separate evidence.
+Final assignments and scores agree in all 67 cases, with 24 enumerated optima each.
+Native heterogeneous, optional, mixed and budget semantics have original regressions;
+the Java comparison covers homogeneous required basic variables only.

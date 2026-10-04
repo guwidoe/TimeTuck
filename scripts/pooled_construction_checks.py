@@ -48,23 +48,22 @@ def observed(case, line):
             raise ValueError(error)
         return values, claimed
     except (ValueError, IndexError) as e:
-        raise ValueError(f'invalid pooled response: {e}') from e
+        raise ValueError(f'invalid construction response: {e}') from e
 
 
-def run_checks(classpath):
+def run_cases(classpath, mode, cases, reference, scope):
     subprocess.run(['cargo', 'build', '--release', '--example', 'solver_oracle', '--locked'], cwd=ROOT, check=True)
-    cases = generate_cases()
     payload = '\n'.join(map(encode, cases))+'\n'
     outputs = {}
     for runtime, command in [('java', ['java', '-Xms256m', '-Xmx256m', '-cp', classpath, 'SolverOracle']),
                              ('rust', [str(ROOT/'target/release/examples/solver_oracle')])]:
-        result = subprocess.run([*command, 'pooled'], input=payload, text=True, capture_output=True, timeout=120)
-        (WORK/f'pooled-{runtime}.stderr.log').write_text(result.stderr)
+        result = subprocess.run([*command, mode], input=payload, text=True, capture_output=True, timeout=120)
+        (WORK/f'{mode}-{runtime}.stderr.log').write_text(result.stderr)
         if result.returncode:
-            raise RuntimeError(f'{runtime} pooled adapter failed; see work/oracle/pooled-{runtime}.stderr.log')
+            raise RuntimeError(f'{runtime} {mode} adapter failed; see work/oracle/{mode}-{runtime}.stderr.log')
         outputs[runtime] = result.stdout.splitlines()
         if len(outputs[runtime]) != len(cases):
-            raise ValueError(f'{runtime} pooled response count mismatch')
+            raise ValueError(f'{runtime} {mode} response count mismatch')
     failures, differences = [], []
     native_passed = equal_scores = equal_assignments = 0
     optimal = dict(java=0, rust=0)
@@ -90,10 +89,14 @@ def run_checks(classpath):
     report = dict(seed=20261001, total=len(cases), passed=equal_scores,
                   native_reference_passed=native_passed, equal_assignments=equal_assignments,
                   optimal=optimal, differences=differences, failures=failures,
-                  scope='66 original homogeneous required graph cases with pins and signed weights. Public Java CHEAPEST_INSERTION, original entity/value order and NEVER early pick; native pooled construction. Every returned score/assignment independently validated, native assignment also checked against full candidate reconstruction. Final equal scores and exact optima are separate counts. No Java trace/list/mixed/timing or upstream-method credit.')
-    (WORK/'pooled-construction-cases.json').write_text(json.dumps(dict(cases=cases, outputs=outputs, report=report), indent=2)+'\n')
-    print(f'Pooled construction: {equal_scores}/{len(cases)} equal scores; {native_passed} native references; {len(failures)} failures', flush=True)
+                  scope=scope)
+    (WORK/f'{mode}-construction-cases.json').write_text(json.dumps(dict(cases=cases, outputs=outputs, report=report), indent=2)+'\n')
+    print(f'{mode} construction: {equal_scores}/{len(cases)} equal scores; {native_passed} native references; {len(failures)} failures', flush=True)
     return report
+
+
+def run_checks(classpath):
+    return run_cases(classpath, 'pooled', generate_cases(), reference, '66 original homogeneous required graph cases with pins and signed weights. Public Java CHEAPEST_INSERTION, original entity/value order and NEVER early pick; native pooled construction. Every returned score/assignment independently validated, native assignment also checked against full candidate reconstruction. Final equal scores and exact optima are separate counts. No Java trace/list/mixed/timing or upstream-method credit.')
 
 
 if __name__ == '__main__':

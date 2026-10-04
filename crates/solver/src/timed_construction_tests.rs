@@ -249,6 +249,7 @@ fn elapsed_limits_keep_the_same_scored_prefix_as_evaluation_caps() {
     for placement in [
         ConstructionPlacement::Sequential,
         ConstructionPlacement::Pooled,
+        ConstructionPlacement::ValueQueue,
     ] {
         for mode in 0..6 {
             for order in ORDERS {
@@ -535,81 +536,92 @@ fn elapsed_time_precedes_construction_step_limits_at_a_shared_boundary() {
 
 #[test]
 fn pooled_cancellation_retains_the_same_selected_prefix_in_all_six_paths() {
-    for mode in 0..6 {
-        for order in ORDERS {
-            let base = ConstructionConfig {
-                placement: ConstructionPlacement::Pooled,
-                ..Default::default()
-            };
-            let full = run(mode, order, base, || {}, || panic!("disabled clock"));
-            for cap in 1..=full.evaluations {
-                let token = CancellationToken::new();
-                let calls = Cell::new(0);
-                let actual = run(
-                    mode,
-                    order,
-                    ConstructionConfig {
-                        cancellation: Some(&token),
-                        ..base
-                    },
-                    || {
-                        calls.set(calls.get() + 1);
-                        if calls.get() == cap {
-                            token.cancel();
-                        }
-                    },
-                    || panic!("disabled clock"),
-                );
-                let mut expected = run(
-                    mode,
-                    order,
-                    ConstructionConfig {
-                        max_evaluations: cap,
-                        ..base
-                    },
-                    || {},
-                    || panic!("disabled clock"),
-                );
-                expected.reason = ConstructionTermination::Cancelled;
-                assert_eq!(actual, expected, "mode {mode}, {order:?}, cap {cap}");
+    for placement in [
+        ConstructionPlacement::Pooled,
+        ConstructionPlacement::ValueQueue,
+    ] {
+        for mode in 0..6 {
+            for order in ORDERS {
+                let base = ConstructionConfig {
+                    placement,
+                    ..Default::default()
+                };
+                let full = run(mode, order, base, || {}, || panic!("disabled clock"));
+                for cap in 1..=full.evaluations {
+                    let token = CancellationToken::new();
+                    let calls = Cell::new(0);
+                    let actual = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            cancellation: Some(&token),
+                            ..base
+                        },
+                        || {
+                            calls.set(calls.get() + 1);
+                            if calls.get() == cap {
+                                token.cancel();
+                            }
+                        },
+                        || panic!("disabled clock"),
+                    );
+                    let mut expected = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            max_evaluations: cap,
+                            ..base
+                        },
+                        || {},
+                        || panic!("disabled clock"),
+                    );
+                    expected.reason = ConstructionTermination::Cancelled;
+                    assert_eq!(actual, expected, "mode {mode}, {order:?}, cap {cap}");
+                }
             }
         }
     }
 }
+
 #[test]
 fn pooled_candidate_limits_exclude_initialization_and_match_score_caps() {
-    for mode in 0..6 {
-        for order in ORDERS {
-            let base = ConstructionConfig {
-                placement: ConstructionPlacement::Pooled,
-                ..Default::default()
-            };
-            let full = run(mode, order, base, || {}, || panic!("disabled clock"));
-            for cap in 0..=full.evaluations {
-                let actual = run(
-                    mode,
-                    order,
-                    ConstructionConfig {
-                        max_move_evaluations: Some(cap),
-                        ..base
-                    },
-                    || {},
-                    || panic!("disabled clock"),
-                );
-                let mut expected = run(
-                    mode,
-                    order,
-                    ConstructionConfig {
-                        max_evaluations: cap + 1,
-                        ..base
-                    },
-                    || {},
-                    || panic!("disabled clock"),
-                );
-                if expected.reason == ConstructionTermination::EvaluationLimit {
-                    expected.reason = ConstructionTermination::MoveEvaluationLimit;
+    for placement in [
+        ConstructionPlacement::Pooled,
+        ConstructionPlacement::ValueQueue,
+    ] {
+        for mode in 0..6 {
+            for order in ORDERS {
+                let base = ConstructionConfig {
+                    placement,
+                    ..Default::default()
+                };
+                let full = run(mode, order, base, || {}, || panic!("disabled clock"));
+                for cap in 0..=full.evaluations {
+                    let actual = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            max_move_evaluations: Some(cap),
+                            ..base
+                        },
+                        || {},
+                        || panic!("disabled clock"),
+                    );
+                    let mut expected = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            max_evaluations: cap + 1,
+                            ..base
+                        },
+                        || {},
+                        || panic!("disabled clock"),
+                    );
+                    if expected.reason == ConstructionTermination::EvaluationLimit {
+                        expected.reason = ConstructionTermination::MoveEvaluationLimit;
+                    }
+                    assert_eq!(actual, expected, "mode {mode}, {order:?}, cap {cap}");
                 }
-                assert_eq!(actual, expected, "mode {mode}, {order:?}, cap {cap}");
             }
         }
     }

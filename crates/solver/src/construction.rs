@@ -66,6 +66,12 @@ pub enum ConstructionPlacement {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     Pooled,
+    /// Cycle through distinct basic values in first model/domain encounter order.
+    /// For each value choose the best eligible missing variable in model order.
+    /// Skip values without targets; stop after a full rotation installs nothing.
+    /// List variables use their ordinary sequential value insertion. Mixed models
+    /// finish each component in the configured order.
+    ValueQueue,
 }
 
 /// Shared controls for basic, list and mixed construction in both scoring
@@ -77,7 +83,8 @@ pub enum ConstructionPlacement {
 /// The default token is None. Configurations borrow tokens and remain Copy.
 ///
 /// A sequential step evaluates one missing item; a pooled step compares all
-/// remaining eligible items. Required items are assigned; optional scans
+/// remaining eligible items; a queued-value step compares receivers of one value.
+/// Required items are assigned; optional scans
 /// may reject all candidates. A step limit preserves an entire scan, unlike a
 /// candidate limit (unless another control interrupts the scan):
 ///
@@ -100,7 +107,7 @@ pub enum ConstructionPlacement {
 /// ```
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConstructionConfig<'a> {
-    /// Sequential by default; pooled placement compares all missing items.
+    /// Sequential by default; optionally compare a pool or cycle through values.
     pub placement: ConstructionPlacement,
     /// Cooperative cancellation shared with other phases; validation runs first.
     pub cancellation: Option<&'a crate::CancellationToken>,
@@ -108,7 +115,7 @@ pub struct ConstructionConfig<'a> {
     pub max_evaluations: u64,
     /// Candidate evaluations only; initialization is excluded. None disables it.
     pub max_move_evaluations: Option<u64>,
-    /// Evaluated item scans (Sequential) or whole-pool scans (Pooled) per call.
+    /// Evaluated item, whole-pool or queued-value target scans per call.
     /// None disables this limit.
     /// Scans of optional values count even if every candidate is rejected.
     /// Initialization, existing assignments and scans with no candidates do not
@@ -213,7 +220,10 @@ impl<V: Clone, S: Clone> ConstructionResult<V, S> {
 /// Constraints must support partial assignments (None in scoped arguments).
 /// Each variable's candidates use the same prior assignment; ties retain the
 /// first candidate. Pooled placement instead compares all eligible missing items
-/// each step, retaining the same model/domain tie order. Cached contributions
+/// each step, retaining the same model/domain tie order. ValueQueue cycles distinct
+/// values in first domain encounter order and compares eligible receivers. A full
+/// rotation without a selected move ends construction; each call restarts the queue.
+/// Cached contributions
 /// install without rescoring the winner.
 /// This greedy initializer neither backtracks nor proves optimality.
 pub fn greedy_construction<V: Eq + Clone, S: AdditiveScore>(
@@ -296,7 +306,19 @@ pub(crate) fn construction_impl_with_clock<
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
-    for index in 0..problem.variables().len() {
+    let mut indices_in_order = 0..problem.variables().len();
+    let mut value_queue = (config.placement == ConstructionPlacement::ValueQueue)
+        .then(|| crate::value_construction_queue::ValueConstructionQueue::new(problem));
+    loop {
+        // Sequential and pooled construction install at most one item per pass.
+        let index = if value_queue.is_some() {
+            0
+        } else {
+            let Some(index) = indices_in_order.next() else {
+                break;
+            };
+            index
+        };
         if config.cancelled() {
             result.termination = ConstructionTermination::Cancelled;
             break;
@@ -312,7 +334,16 @@ pub(crate) fn construction_impl_with_clock<
                 && (!variable.allows_unassigned()
                     || config.optional == OptionalConstruction::NonWorsening)
         };
-        let indices: Vec<_> = if config.placement == ConstructionPlacement::Pooled {
+        let mut queued_value = None;
+        let indices: Vec<_> = if let Some(queue) = &mut value_queue {
+            let Some((value, indices)) =
+                queue.next(problem, director.assignment(), config.optional)
+            else {
+                break;
+            };
+            queued_value = Some(value);
+            indices
+        } else if config.placement == ConstructionPlacement::Pooled {
             (0..problem.variables().len())
                 .filter(|&i| eligible(i) && !problem.variables()[i].domain().is_empty())
                 .collect()
@@ -333,6 +364,7 @@ pub(crate) fn construction_impl_with_clock<
             problem.variables()[index]
                 .domain()
                 .iter()
+                .filter(move |value| queued_value.is_none_or(|queued| *value == queued))
                 .map(move |value| Move::Change {
                     variable: index,
                     value: Some(value.clone()),
@@ -364,6 +396,9 @@ pub(crate) fn construction_impl_with_clock<
             director.assert_consistent()?;
         }
         if selection.selected.is_some() {
+            if let Some(queue) = &mut value_queue {
+                queue.installed();
+            }
             director.notify_best(|assignment| problem.is_complete(assignment));
         }
         if selection.evaluation_limit {

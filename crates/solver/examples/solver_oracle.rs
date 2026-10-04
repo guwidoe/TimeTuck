@@ -8,9 +8,13 @@ use timetuck::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    let pooled = args.as_slice() == ["pooled"];
+    let placement = match args.as_slice() {
+        [mode] if mode == "pooled" => Some(ConstructionPlacement::Pooled),
+        [mode] if mode == "value-queue" => Some(ConstructionPlacement::ValueQueue),
+        _ => None,
+    };
     let strategy = match args.as_slice() {
-        [_] if pooled => None,
+        [_] if placement.is_some() => None,
         [] => None,
         [order, trend] => Some(BoundedPhaseConfig {
             exploration: match order.as_str() {
@@ -23,16 +27,16 @@ fn main() -> Result<(), Box<dyn Error>> {
             max_frontier: 1_000_000,
             bound: PartialScoreBound::Trend(InitializingScoreTrend::parse(trend, 2)?),
         }),
-        _ => return Err("expected pooled, order and trend, or no arguments".into()),
+        _ => return Err("expected pooled, value-queue, order and trend, or no arguments".into()),
     };
     for line in io::stdin().lock().lines() {
         let line = line?;
-        if (pooled || strategy.is_some()) && line.split('\t').count() != 6 {
+        if (placement.is_some() || strategy.is_some()) && line.split('\t').count() != 6 {
             return Err("trend adapter requires homogeneous required domains".into());
         }
 
         let case = solver_support::Case::parse(&line, false)?;
-        let best = if pooled {
+        let best = if let Some(placement) = placement {
             let len = case.problem.variables().len();
             let mut network = ConstraintNetwork::new(len);
             network.add_constraint("objective", (0..len).collect(), |v| {
@@ -42,13 +46,13 @@ fn main() -> Result<(), Box<dyn Error>> {
                 &case.problem,
                 &network,
                 ConstructionConfig {
-                    placement: ConstructionPlacement::Pooled,
+                    placement,
                     max_evaluations: u64::MAX,
                     ..Default::default()
                 },
             )?;
             if r.termination != ConstructionTermination::Completed {
-                return Err("incomplete pooled construction".into());
+                return Err("incomplete construction".into());
             }
             r.solution().ok_or("missing constructed solution")?
         } else if let Some(strategy) = &strategy {

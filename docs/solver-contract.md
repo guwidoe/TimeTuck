@@ -1243,3 +1243,13 @@ SignificantImprovementTimeLimit reason ends only that phase; later phases may ru
 and establish optimality. Existing shared controls remain authoritative. There is
 no corresponding solve-wide score-difference history. See the incremental-search
 contract for exact threshold arithmetic, prefix comparisons and deadline semantics.
+
+## Value-first construction phases
+
+Construction phases may select ConstructionPlacement::ValueQueue. Basic values cycle
+in stable domain encounter order while each scan chooses the best missing receiver.
+List phases retain sequential insertion; mixed phases honor component order. Every
+phase starts a fresh queue, preserves existing assignments, and uses the same shared
+budgets and observation pipeline as other construction modes. No optimality proof is
+implied by completing the queue. See the incremental-search contract for optional
+retries, stopping, runtime comparisons and evidence boundaries.

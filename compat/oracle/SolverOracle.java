@@ -115,11 +115,13 @@ public final class SolverOracle {
         return SolverFactory.<Problem>create(config);
     }
 
-    static SolverFactory<Problem> pooledFactory() {
+    static SolverFactory<Problem> constructionFactory(boolean valueQueue) {
         var config = new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Job.class)
             .withEasyScoreCalculatorClass(Calculator.class).withRandomSeed(20261001L)
             .withPhases(new ai.timefold.solver.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig()
-                .withConstructionHeuristicType(ai.timefold.solver.core.config.constructionheuristic.ConstructionHeuristicType.CHEAPEST_INSERTION)
+                .withConstructionHeuristicType(valueQueue
+                    ? ai.timefold.solver.core.config.constructionheuristic.ConstructionHeuristicType.ALLOCATE_TO_VALUE_FROM_QUEUE
+                    : ai.timefold.solver.core.config.constructionheuristic.ConstructionHeuristicType.CHEAPEST_INSERTION)
                 .withEntitySorterManner(EntitySorterManner.NONE).withValueSorterManner(ValueSorterManner.NONE)
                 .withForagerConfig(new ai.timefold.solver.core.config.constructionheuristic.decider.forager.ConstructionHeuristicForagerConfig()
                     .withPickEarlyType(ai.timefold.solver.core.config.constructionheuristic.decider.forager.ConstructionHeuristicPickEarlyType.NEVER)));
@@ -128,8 +130,9 @@ public final class SolverOracle {
 
     public static void main(String[] args) throws Exception {
         boolean pooled = args.length == 1 && args[0].equals("pooled");
-        if (!pooled && args.length != 0 && args.length != 2) throw new IllegalArgumentException("Expected pooled, order and trend, or no arguments");
-        var factory = pooled ? pooledFactory() : args.length == 0 ? factory() : branchFactory(args[0], args[1]);
+        boolean valueQueue = args.length == 1 && args[0].equals("value-queue");
+        if (!pooled && !valueQueue && args.length != 0 && args.length != 2) throw new IllegalArgumentException("Expected pooled, value-queue, order and trend, or no arguments");
+        var factory = (pooled || valueQueue) ? constructionFactory(valueQueue) : args.length == 0 ? factory() : branchFactory(args[0], args[1]);
         try (var input = new BufferedReader(new InputStreamReader(System.in))) {
             for (String line; (line = input.readLine()) != null;) {
                 String[] fields = line.split("\t", -1);

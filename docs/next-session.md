@@ -7992,3 +7992,79 @@ checks passed, along with all 14 focused release tests. Coverage is 885/4,855,
 with 3,688 pending, 282 excluded and no failed or unverified adaptations. The full
 goal remains active, incomplete and unblocked. Shared/construction lifecycle
 semantics and the remaining Community behavior still need implementation.
+
+## 2026-10-04: Cycling value-first construction
+
+Previous goal turn made verified progress in 9276182. This increment independently
+implements ConstructionPlacement::ValueQueue from pinned Community public
+construction documentation (Allocate to value from queue). Read the two
+QueuedValuePlacerTest methods; lifecycle/copy assertions remain pending. No upstream
+production implementation was read; no test fixtures were adapted or copied.
+
+Basic values are deduplicated by Eq in first model/domain encounter order. Each
+queued value competes for eligible missing variables in model order; the winning
+receiver uses existing scoring/forager/cache behavior. A successful assignment
+permits another full rotation. Empty receiver sets skip without scored steps;
+scored optional rejections count a step. A full rotation without an installed
+assignment stops, and later successful placements allow optional retries. Existing
+values/pins and heterogeneous domains remain authoritative. Each call restarts.
+
+A shared private ValueConstructionQueue feeds both basic and mixed construction.
+List construction retains sequential value insertion. Mixed component order remains
+meaningful: finish each component in sequence, without later cross-component retries.
+Default sequential and pooled modes retain their prior behavior. See the new
+incremental-search contract section for precise scope and allocation costs.
+
+Seven new original tests pass: target order/ties/resume; rejected rotations;
+3,200 reference comparisons (32 heterogeneous/optional models x 25 budgets x four
+basic/mixed scoring paths); empty queues; list/mixed order; coupled mixed objectives;
+and exact owned-decimal target ranking/early picks. Extended the existing six-path
+time/cancellation/candidate-cap matrices to include the queue; all nine timed
+construction test methods passed. Initial focused run 56215 stopped at test-only
+integer inference and a borrow in domain rotation, both corrected; final focused
+handle 18611 exited 0. Production all-target check 29663 exited 0.
+
+Public Java adapter now selects ALLOCATE_TO_VALUE_FROM_QUEUE through public config.
+Shared construction result validation and process orchestration retain the old pooled
+comparison. New original value_queue_construction_checks.py reports 67/67 equal final
+assignments and scores, all native references correct, 24 optima per runtime and no
+failures. Initial Java handle 19580 exited 0 (work/value-queue-java.log). Three new
+Python reference checks pass. Dashboard gains a separate diagnostic with these counts
+and limitations. No new dedicated timing or upstream method credit is claimed.
+
+Full gate runs under handle 64333, work/value-queue-check.log. Formatting and Clippy
+passed; expected totals are 1,861 Rust tests, 98 doctests and 218 Python tests until
+verified at exit. Prepared work/value-queue-refresh.sh and work/value-queue-audit.py
+for the next sequential 13-dataset refresh. Sources are frozen during capture and
+measurements. Re-poll the same handle on observation timeouts. Full goal remains
+active, incomplete and unblocked.
+
+Full gate 64333 completed exit 0: 1,861 Rust tests, 98 doctests and 218 Python
+checks, with formatting/Clippy clean. Coverage remains 885/4,855=18.229%, with
+3,688 pending, 282 excluded and zero failed/unverified. Sources are frozen for
+focused release verification and the sequential 13-dataset refresh.
+
+Release and refresh run under handle 88894 with set -e; work/value-queue-release.log
+and work/value-queue-refresh.log retain output. Re-poll the same handle after an
+observation timeout; do not restart solely because output is delayed.
+
+Release/refresh handle 88894 completed exit 0. Seven new regression methods and all
+nine timed construction methods passed release. All 13 datasets were regenerated,
+including 65 timing workloads. work/value-queue-audit.log passed source/verification
+fingerprints, live API freshness, coverage and existing comparison invariants.
+The fresh queue comparison again reports 67/67 assignments/scores/native references,
+24 optima each and zero failures; pooled remains 66/66 with 48 optima each. Exact
+baseline 128/128, trend 512/512 and heuristic 352 valid/equal with 300 optima each.
+Existing divergence/error diagnostics remain explicitly represented in the dashboard.
+
+Browser checks passed at 1440x1000 and 390x844: 18.23% adapted-method coverage,
+65 timing cards, new 67/67 value-queue diagnostic and separate 24/67 optimum count,
+with no page errors, stale-result warning or horizontal overflow. Visually inspected
+work/value-queue-{desktop,desktop-diagnostic,phone,phone-diagnostic}.png. Browser
+closed; localhost:8765 server remains running. No test/measurement process remains
+live. Staged implementation, tests, adapters and docs were reviewed.
+
+This turn made verified progress toward the full rewrite. The goal remains active,
+incomplete and unblocked. Queue lifecycle/copy method adaptations, broader construction
+ordering and remaining Community behavior remain pending. New generated cases and
+original regressions earn no additional upstream-method credit.

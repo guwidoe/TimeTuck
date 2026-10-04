@@ -62,7 +62,10 @@ enum Phase {
 /// order, following the explicit component order. Optional unassignment follows
 /// ConstructionConfig::optional. Pooled placement compares eligible assignments
 /// across both components; component order then determines only encounter order
-/// for ties and early picks. Constraints must handle partial combined states.
+/// for ties and early picks. ValueQueue instead completes each component in order,
+/// cycling basic values and using sequential list insertion. Rejected optional
+/// basics are retried after a successful basic placement, not after later list work.
+/// Constraints must handle partial combined states.
 ///
 /// One budget includes the initial score and every candidate in both phases.
 /// Winners reuse saved caches without callback replay. A truncated scan retains
@@ -182,7 +185,19 @@ pub(crate) fn construction_impl_with_clock<
             Phase::Basic => problem.basic().variables().len(),
             Phase::Lists => problem.lists().values().len(),
         };
-        for index in 0..count {
+        let mut indices_in_order = 0..count;
+        let mut value_queue = (matches!(phase, Phase::Basic)
+            && config.placement == crate::ConstructionPlacement::ValueQueue)
+            .then(|| crate::value_construction_queue::ValueConstructionQueue::new(problem.basic()));
+        loop {
+            let index = if value_queue.is_some() {
+                0
+            } else {
+                let Some(index) = indices_in_order.next() else {
+                    break;
+                };
+                index
+            };
             if config.cancelled() {
                 result.termination = ConstructionTermination::Cancelled;
                 break 'phases;
@@ -197,7 +212,40 @@ pub(crate) fn construction_impl_with_clock<
                 config.max_move_evaluations,
                 result.evaluations,
             );
-            let selection = if config.placement == crate::ConstructionPlacement::Pooled {
+            let selection = if let Some(queue) = &mut value_queue {
+                let Some((value, indices)) = queue.next(
+                    problem.basic(),
+                    director.assignment().basic(),
+                    config.optional,
+                ) else {
+                    break;
+                };
+                if config.step_limit_reached(result.completed_steps) {
+                    result.termination = ConstructionTermination::StepLimit;
+                    break 'phases;
+                }
+                let moves = indices.into_iter().map(|variable| MixedMove {
+                    basic: Move::Change {
+                        variable,
+                        value: Some(value.clone()),
+                    },
+                    lists: ListMove::Composite(vec![]),
+                });
+                director.select_best(
+                    moves.take_while(|_| !config.cancelled() && !time.expired()),
+                    budget.remaining,
+                    false,
+                    |movement, score| {
+                        let Move::Change { variable, .. } = &movement.basic else {
+                            unreachable!("queued change")
+                        };
+                        !problem.basic().variables()[*variable].allows_unassigned()
+                            || score >= previous
+                    },
+                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    config.assert_scores,
+                )?
+            } else if config.placement == crate::ConstructionPlacement::Pooled {
                 let snapshot = director.assignment().clone();
                 let mut moves =
                     pooled_moves(problem, &snapshot, settings.order, config.optional).peekable();
@@ -302,6 +350,9 @@ pub(crate) fn construction_impl_with_clock<
                 director.assert_consistent()?;
             }
             if selection.selected.is_some() {
+                if let Some(queue) = &mut value_queue {
+                    queue.installed();
+                }
                 director.notify_best(|assignment| problem.is_complete(assignment));
             }
             if selection.evaluation_limit {

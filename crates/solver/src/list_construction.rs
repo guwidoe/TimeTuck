@@ -43,6 +43,7 @@ impl<V: Clone, S: Clone> ListConstructionResult<V, S> {
 /// each step, preserving registry/entity/index order for ties. Optional
 /// missing values remain unassigned by default; NonWorsening also considers them
 /// and preserves unassignment when every evaluated insertion is worse.
+/// ValueQueue uses this same sequential list-value insertion order.
 /// Initial scoring and every trial count toward the budget; installing a winner
 /// reuses its saved contribution cache. Partial progress is returned on limits.
 pub fn greedy_list_construction<V: Eq + Clone, S: AdditiveScore>(
