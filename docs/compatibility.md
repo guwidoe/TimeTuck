@@ -54,6 +54,9 @@ exclusion assertions, including per-entity ranges. Native greedy list constructi
 are verified separately with original regressions. Complete Java move metadata coverage, rebase,
 custom listeners, optional-list solving and matched mixed Java local-search
 comparisons remain pending.
+Six planning-value methods additionally preserve complete mass/pillar/list/sublist
+metadata assertions, with native pre-state capture retained across execution.
+The public Java getter lifecycle remains distinct from the native API.
 An original list planning-value comparison additionally checks 514 native cases
 against independently replayed identities: 425 Java membership agreements,
 16 differing sets, 40 Java errors and 33 unsupported empty compositions.

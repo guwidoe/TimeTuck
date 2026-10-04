@@ -133,13 +133,6 @@ impl<V: Clone> Assignment<V> {
     /// Indices are checked; no domain or pinning rules are assumed here. Use a
     /// finite problem's `apply` method to enforce those rules as well.
     pub fn apply(&mut self, movement: &Move<V>) -> Result<AppliedMove<'_, V>, MoveError> {
-        self.apply_recording(movement, |_| {})
-    }
-    fn apply_recording(
-        &mut self,
-        movement: &Move<V>,
-        mut record: impl FnMut(&Option<V>),
-    ) -> Result<AppliedMove<'_, V>, MoveError> {
         let mut transaction = AppliedMove {
             assignment: self,
             journal: Vec::new(),
@@ -148,7 +141,6 @@ impl<V: Clone> Assignment<V> {
         while let Some(step) = pending.pop() {
             match step {
                 Move::Change { variable, value } => {
-                    record(value);
                     transaction.write(*variable, value.clone())?;
                 }
                 Move::Swap { left, right } => {
@@ -165,8 +157,6 @@ impl<V: Clone> Assignment<V> {
                     };
                     let a = read(*left)?;
                     let b = read(*right)?;
-                    record(&b);
-                    record(&a);
                     transaction.write(*left, b)?;
                     transaction.write(*right, a)?;
                 }
@@ -182,16 +172,64 @@ impl<V: Eq + Clone> Assignment<V> {
     /// Includes None and intermediate composite writes. Reads each swap at that
     /// child's execution point. Checks indices; model pins/domains are outside
     /// this raw-assignment helper. The original assignment is never modified.
+    /// Only distinct returned values are cloned. Composite execution uses borrowed
+    /// references for written indices instead of cloning the whole assignment.
     pub fn planning_values(&self, movement: &Move<V>) -> Result<Vec<Option<V>>, MoveError> {
-        let mut copy = self.clone();
-        let mut values = Vec::new();
-        {
-            let _transaction = copy.apply_recording(movement, |v| {
-                if !values.contains(v) {
-                    values.push(v.clone());
-                }
-            })?;
+        let read = |variable| {
+            self.values.get(variable).ok_or(MoveError {
+                variable,
+                variable_count: self.values.len(),
+            })
+        };
+        // The overwhelmingly common leaf queries need neither a snapshot nor
+        // an overlay. All indices are validated before cloning output values.
+        match movement {
+            Move::Change { variable, value } => {
+                read(*variable)?;
+                return Ok(vec![value.clone()]);
+            }
+            Move::Swap { left, right } => {
+                let a = read(*left)?;
+                let b = read(*right)?;
+                return Ok(if a == b {
+                    vec![b.clone()]
+                } else {
+                    vec![b.clone(), a.clone()]
+                });
+            }
+            Move::Composite(_) => {}
         }
-        Ok(values)
+        // Borrow values from the input and move tree. Only written indices need
+        // entries; a later child reads the most recent write to that index.
+        let mut overlay = std::collections::BTreeMap::<usize, &Option<V>>::new();
+        let mut values: Vec<&Option<V>> = Vec::new();
+        let mut pending = vec![movement];
+        while let Some(step) = pending.pop() {
+            match step {
+                Move::Change { variable, value } => {
+                    read(*variable)?;
+                    if !values.contains(&value) {
+                        values.push(value);
+                    }
+                    overlay.insert(*variable, value);
+                }
+                Move::Swap { left, right } => {
+                    let a = overlay.get(left).copied().map_or_else(|| read(*left), Ok)?;
+                    let b = overlay
+                        .get(right)
+                        .copied()
+                        .map_or_else(|| read(*right), Ok)?;
+                    for value in [b, a] {
+                        if !values.contains(&value) {
+                            values.push(value);
+                        }
+                    }
+                    overlay.insert(*left, b);
+                    overlay.insert(*right, a);
+                }
+                Move::Composite(steps) => pending.extend(steps.iter().rev()),
+            }
+        }
+        Ok(values.into_iter().cloned().collect())
     }
 }

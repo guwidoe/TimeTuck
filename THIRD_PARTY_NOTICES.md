@@ -383,3 +383,10 @@ EntityRatioTabuSizeStrategyTest and FixedTabuSizeStrategyTest at the pinned
 Community revision. Complete ratio/population/fixed-size fixtures and rejection
 assertions are recorded in compat/provenance.json. Native sizing and phase
 integration, original regressions and benchmark configuration are independent.
+
+crates/solver/tests/move_value_cases.rs adapts six Apache-2.0 planning-value
+metadata methods from MassChangeMoveTest, PillarSwapMoveTest, ListChangeMoveTest,
+SubListChangeMoveTest, SubListSwapMoveTest and SubListUnassignMoveTest at the
+pinned Community revision. Fixture identities, lifecycle mapping and assertions
+are recorded in compat/provenance.json. Sparse native capture and its clone-cost,
+reference and panic-safety regressions are independent implementations.

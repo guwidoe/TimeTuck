@@ -6912,3 +6912,60 @@ Full goal remains active/incomplete. Next useful work: population-relative value
 or fading tabu with explicit key-universe semantics; or remaining move metadata
 adaptations after the public list comparison. Do not erase known Java metadata
 errors/differences or claim Java trace parity from final-score equality.
+
+## In progress: sparse basic planning-value capture (2026-10-04)
+
+Previous increment committed d9fc36d. Basic capture now clones only distinct
+outputs; composites use a sparse map of borrowed values at written indices.
+Input validation order, intermediate writes, first equal payload and None remain
+observable. Basic apply no longer routes through an unused recording callback.
+List/mixed capture semantics and known Java metadata differences are unchanged.
+Six complete mass/pillar/list/sublist metadata methods adapted with provenance
+and notices. Four original regressions compare 1500 generated cases against
+independent full-array execution and check 10000-variable clone bounds, identity
+payloads, invalid queries and clone/equality panics without input mutation.
+
+Required gate74391 completed exit0: expected1698Rust (845adapted,777original
+integration,76original unit),87doctests,200Python. Source frozen. Focused release
+and all13 sequential measurement refreshes running session15868, logs
+work/value-capture-release.log and work/value-capture-refresh-*.log. Afterward:
+report/audit fingerprints and845/4855coverage, browser QA53cards/18heuristics
+and six new method passes, final evidence, staged review, conventional commit.
+Full goal remains active/incomplete; no subagents or frontend redesign used.
+
+During review, clarified the mass-change provenance entry: its source and native
+query both run before execution (the other five retain capture across execution).
+No measurement source changed. This changes the verification digest, so repeat
+scripts/check.sh after session15868's measurements finish, then regenerate report.
+The final report step in15868 may reject the old verification digest as expected.
+
+Possible next implementation: native list gather builder, specified by the five
+execution/undo methods in builtin/MassListChangeMoveTest.java (read fully this
+turn). It gathers sampled identities in draw order, adjusts a pre-move destination
+only for sampled members originally before it, supports currently unassigned
+members and optional null-destination unassignment, and rolls back. No native
+mass-list/gather API exists yet. Existing ListAssignment::location and ListMove
+Composite/Change/Assign/Unassign can support an independently designed builder.
+The source's equality/hash/rebase methods have separate semantics and must not
+receive credit merely from the execution builder. Production Java was not read.
+
+All13 measurements completed successfully in15868; its final report correctly
+rejected the old provenance fingerprint. Repeated required gate14634 completed
+exit0, including1698Rust,87doctests,200Python; focused release17tests also passed.
+Final audit work/value-capture-audit.py verifies13current datasets and matching
+source/verification/live digests,845/4855methods (17.405% report;17.40%UI from raw
+counts),3728pending,282excluded,zero failed/unverified. Moves119/874(13.62%).
+All six new methods Passed;53timingcards,18heuristiccards. Validation288/288valid
+and equal-score,238optimal/runtime. Defaults50steps/5warmups/7samples/3forks,
+21samples/runtime/workload. Value-tabu32variables Rust2.504ms/Java9.645ms,
+both0/0optimal;96variables Rust15.252ms/Java15.375ms,both-44/-22infeasible.
+These refreshed bounded workloads are not a controlled before/after optimization
+experiment or a general speed/trace-parity claim. Clone counters prove the reduced
+capture cost directly. List metadata remains514native/425Javaagreements,
+16differences,40errors,33unsupportedemptycompositions.
+
+Browser1440px/390px confirms six new methods,17.40%coverage,13.62%moves,
+53cards/18heuristics, both value-tabu cards with quality/feasibility/ranges/calls.
+No browser errors or horizontaloverflow. Screenshots visually inspected; browser
+closed,server8765remainsalive. Staged implementation/test/provenance review before
+commit; full rewrite goal remains active/incomplete. Next gather candidate above.

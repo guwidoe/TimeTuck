@@ -1189,11 +1189,12 @@ no hashing or mutable Java identity equivalence is implied. Duplicate values ref
 one key and an empty selected-value list still ages existing tabu memory.
 
 All six solver paths derive trial and selected-step metadata from the same pre-step
-snapshot, only when a configured child needs value keys. Current capture deliberately
-replays on a private snapshot, so its allocation/copy cost is included in native
-value-tabu timings. These replays do not invoke scoring or observers. Ordinary
-policies retain no value keys. Future optimization must preserve intermediate writes,
-final validation, input immutability and selected-step identity.
+snapshot, only when a configured child needs value keys. Basic capture uses direct
+change/swap paths or a sparse borrowed-reference overlay for composites. It clones
+only distinct returned values, after index validation. List capture still replays a
+private snapshot; mixed capture still validates its full transaction before extracting
+component keys. All capture costs are included in native value-tabu timing. Capture
+does not invoke scoring or observers. Ordinary policies retain no value keys.
 
 All five ValueTabuAcceptorTest methods preserve every source acceptance assertion,
 repeated query, multi-key selection, null expiry and supplied fading draw. Source
@@ -1206,7 +1207,7 @@ Paired-backend and owned-score matrices include hard and fading value policies.
 Public Java/native benchmarks add value tabu tenure 2 with global-best aspiration,
 complete change-only assignments, fixed steps and best-rejected fallback. Every
 sample has independent Python validity/rescoring and retained quality/score-call
-counts. Native capture replay cost is timed. This does not establish Java metadata
+counts. Native capture cost is timed. This does not establish Java metadata
 parity for arbitrary composites/lists, fading PRNG traces or general performance.
 
 ### Diversified late acceptance
@@ -1283,3 +1284,30 @@ Native basic counts correspond to one Java entity per variable, including pins.
 The 32/96-variable workloads resolve to 6/19 completed-step tenures. Timing,
 returned quality, validity and small-case optima remain separate evidence;
 no general Java list/mixed population or dynamic problem-change claim is made.
+
+
+### Move-value metadata assertions and sparse basic capture
+
+Six additional pinned methods assert planning values for singleton mass changes,
+pillar swaps, list changes, sublist relocation, sublist swaps and sublist unassignment.
+The mass-change adaptation queries metadata before execution, as does its source.
+The other adaptations capture immutable metadata from the input and retain it across
+actual execution, replacing the public Java getter's post-execution observation.
+Only the pillar-swap source assertion permits unordered membership. All six fixtures
+and assertions have provenance; the generated Java list comparison remains separate
+and retains its known differences, errors and unsupported empty compositions.
+
+Basic capture now borrows values from the original assignment or the move tree.
+Composite overrides contain only written indices and are read in child execution
+order, so swaps see prior writes without copying the full input. Unique output
+identities retain the payload of their first write even when later equal identities
+carry different payloads. Change and swap fast paths need no overlay. Invalid
+queries clone no output values. Clone/equality panic regressions confirm that the
+input remains intact and reusable.
+
+Four original regressions include 1,500 generated nested cases checked against a
+separate recursive full-array reference, with explicit valid/invalid and change/swap
+coverage guards. A 10,000-variable clone counter proves one clone for a change,
+two for a distinct swap and only one per distinct non-null composite output.
+These are clone-count bounds, not a general speed claim. Existing value-tabu
+search, list/mixed capture and transaction tests remain part of the full gate.

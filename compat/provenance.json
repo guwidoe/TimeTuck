@@ -12585,6 +12585,96 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all ratios, population 100, expected sizes, fixed sizes 5/17 and rejected signed inputs 0/-1. Validated native TabuSize and explicit population replace mocked phase/step scopes. Fixed sizing uses population zero to demonstrate independence. Original boundary, population and backend checks are separate from method credit."
+    },
+    {
+      "id": "MassChangeMoveTest.getPlanningValuesReturnsDestination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsDestination",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "mass_change_values_return_destination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the singleton initially unassigned entity and complete destination-value assertion. Stable integer identity replaces the domain value; the native Pillar change builder replaces the singleton mass-change sample. Both the source getter and native metadata query run before execution."
+    },
+    {
+      "id": "PillarSwapMoveTest.getPlanningValuesReturnsTheValuesThatChangedHands",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsTheValuesThatChangedHands",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "pillar_swap_values_return_values_that_changed_hands",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
+    },
+    {
+      "id": "ListChangeMoveTest.getPlanningValuesReturnsMovedValue",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsMovedValue",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "list_change_values_return_moved_value",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
+    },
+    {
+      "id": "SubListChangeMoveTest.getPlanningValuesReturnsMovedValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsMovedValues",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "sublist_change_values_return_moved_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
+    },
+    {
+      "id": "SubListSwapMoveTest.getPlanningValuesReturnsPreMoveValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsPreMoveValues",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "sublist_swap_values_return_pre_move_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
+    },
+    {
+      "id": "SubListUnassignMoveTest.getPlanningValuesReturnsUnassignedValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "getPlanningValuesReturnsUnassignedValues",
+      "local_path": "crates/solver/tests/move_value_cases.rs",
+      "local_test": "sublist_unassign_values_return_unassigned_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source fixture and complete planning-value assertion. Stable integer identities replace domain objects; native Pillar change/swap builders replace singleton mass/pillar samples. List positions, ranges, reversal flag and unassignment permission are unchanged. Native metadata is captured from the pre-move state and retained across the executed move; this replaces the Java post-execution getter lifecycle without claiming API parity. Only the pillar assertion is normalized for unordered membership."
     }
   ],
   "fixtures": [
