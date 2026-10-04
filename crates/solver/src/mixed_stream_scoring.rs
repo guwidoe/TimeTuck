@@ -238,7 +238,6 @@ impl<B, L, S: AdditiveScore> MixedStreamScoredMove<'_, '_, B, L, S> {
 struct Saved<B, L, S> {
     accepted: bool,
     movement: MixedMove<B, L>,
-    score: S,
     assignment: MixedAssignment<B, L>,
     graph: crate::stream_graph::GraphState<S>,
 }
@@ -262,7 +261,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
         &mut self,
         moves: impl IntoIterator<Item = MixedMove<B, L>>,
         max_evaluations: u64,
-        allow_rejected: bool,
+        forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
@@ -274,7 +273,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
-        let mut best: Option<Saved<B, L, S>> = None;
+        let mut forager = crate::MoveForager::new(forager.into());
         for movement in moves {
             if result.evaluations == max_evaluations {
                 result.evaluation_limit = true;
@@ -287,26 +286,19 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
                 candidate.graph.assert_consistent()?;
             }
             let accepted = accepts(&movement, candidate.score());
-            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
-                continue;
-            }
-            if best
-                .as_ref()
-                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
-            {
-                best = Some(Saved {
+            forager.try_add_with(candidate.score(), accepted, || -> Result<_, Self::Error> {
+                Ok(Saved {
                     accepted,
                     movement: movement.clone(),
-                    score: candidate.score(),
                     assignment: candidate.assignment().clone(),
                     graph: candidate.graph.capture()?,
-                });
-            }
-            if accepted && quit_early(candidate.score()) {
+                })
+            })?;
+            if forager.is_quit_early() || (accepted && quit_early(candidate.score())) {
                 break;
             }
         }
-        if let Some(saved) = best {
+        if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
             self.assignment = saved.assignment;
             result.selected = Some(saved.movement);
@@ -434,7 +426,7 @@ mod selection_tests {
             .unwrap();
             let mut d =
                 MixedStreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
-            let moves = [1, 2].map(|v| MixedMove {
+            let moves = [1, 1, 2].map(|v| MixedMove {
                 basic: Move::Change {
                     variable: 0,
                     value: Some(v),
@@ -453,8 +445,11 @@ mod selection_tests {
             let outcome = catch_unwind(AssertUnwindSafe(|| {
                 d.select_best(
                     moves,
-                    2,
-                    false,
+                    3,
+                    crate::ForagerConfig {
+                        tie_breaking: crate::TieBreaking::Random { seed: 7 },
+                        ..Default::default()
+                    },
                     |_, score| {
                         assert!(
                             !(failure == 2 && score == SimpleScore::new(2)),

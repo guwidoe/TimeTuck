@@ -204,7 +204,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         &mut self,
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
-        allow_rejected: bool,
+        forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&Move<V>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
@@ -216,7 +216,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
-        let mut best: Option<SavedStreamCandidate<V, S>> = None;
+        let mut forager = crate::MoveForager::new(forager.into());
         for movement in moves {
             if result.evaluations == max_evaluations {
                 result.evaluation_limit = true;
@@ -229,26 +229,19 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
                 candidate.graph.assert_consistent()?;
             }
             let accepted = accepts(&movement, candidate.score());
-            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
-                continue;
-            }
-            if best
-                .as_ref()
-                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
-            {
-                best = Some(SavedStreamCandidate {
+            forager.try_add_with(candidate.score(), accepted, || -> Result<_, Self::Error> {
+                Ok(SavedStreamCandidate {
                     accepted,
                     movement: movement.clone(),
-                    score: candidate.score(),
                     assignment: candidate.assignment().clone(),
                     graph: candidate.graph.capture()?,
-                });
-            }
-            if accepted && quit_early(candidate.score()) {
+                })
+            })?;
+            if forager.is_quit_early() || (accepted && quit_early(candidate.score())) {
                 break;
             }
         }
-        if let Some(saved) = best {
+        if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
             self.assignment = saved.assignment;
             result.selected = Some(saved.movement);
@@ -260,7 +253,6 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
 struct SavedStreamCandidate<V, S> {
     accepted: bool,
     movement: Move<V>,
-    score: S,
     assignment: Assignment<V>,
     graph: crate::stream_graph::GraphState<S>,
 }
@@ -381,12 +373,15 @@ mod selection_tests {
             let mut d = StreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
             let outcome = catch_unwind(AssertUnwindSafe(|| {
                 d.select_best(
-                    [1, 2].map(|v| Move::Change {
+                    [1, 1, 2].map(|v| Move::Change {
                         variable: 0,
                         value: Some(v),
                     }),
-                    2,
-                    false,
+                    3,
+                    crate::ForagerConfig {
+                        tie_breaking: crate::TieBreaking::Random { seed: 7 },
+                        ..Default::default()
+                    },
                     |_, score| {
                         assert!(
                             !(failure == 2 && score == SimpleScore::new(2)),

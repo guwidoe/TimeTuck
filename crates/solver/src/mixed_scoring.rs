@@ -305,7 +305,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         &mut self,
         moves: impl IntoIterator<Item = MixedMove<B, L>>,
         max_evaluations: u64,
-        allow_rejected: bool,
+        forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
@@ -317,7 +317,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
-        let mut best: Option<Selected<B, L, S>> = None;
+        let mut forager = crate::MoveForager::new(forager.into());
         let network = self.network;
         let problem = self.problem;
         for movement in moves {
@@ -334,26 +334,24 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 return Err(MixedScoringError::CorruptedTotal);
             }
             let accepted = accepts(&movement, candidate.score());
-            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
-                continue;
-            }
-            if best
-                .as_ref()
-                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
-            {
-                best = Some(Selected {
-                    movement: movement.clone(),
-                    assignment: candidate.assignment().clone(),
-                    score: candidate.score(),
-                    updates: candidate.updates.clone(),
-                    accepted,
-                });
-            }
-            if accepted && quit_early(candidate.score()) {
+            forager.try_add_with(
+                candidate.score(),
+                accepted,
+                || -> Result<_, MixedScoringError> {
+                    Ok(Selected {
+                        movement: movement.clone(),
+                        assignment: candidate.assignment().clone(),
+                        score: candidate.score(),
+                        updates: candidate.updates.clone(),
+                        accepted,
+                    })
+                },
+            )?;
+            if forager.is_quit_early() || (accepted && quit_early(candidate.score())) {
                 break;
             }
         }
-        if let Some(best) = best {
+        if let Some(best) = forager.pick() {
             self.assignment = best.assignment;
             for (i, score) in best.updates {
                 self.contributions[i] = score;
@@ -512,7 +510,7 @@ mod selection_tests {
             let mut d = MixedScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
             let outcome = catch_unwind(AssertUnwindSafe(|| {
                 d.select_best(
-                    [1, 2].map(|v| MixedMove {
+                    [1, 1, 2].map(|v| MixedMove {
                         basic: Move::Change {
                             variable: 0,
                             value: Some(v),
@@ -528,8 +526,11 @@ mod selection_tests {
                             },
                         },
                     }),
-                    2,
-                    false,
+                    3,
+                    crate::ForagerConfig {
+                        tie_breaking: crate::TieBreaking::Random { seed: 7 },
+                        ..Default::default()
+                    },
                     |_, _| true,
                     |_| false,
                     false,

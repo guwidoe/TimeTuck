@@ -7138,3 +7138,74 @@ Browser verification at 1440 and 390 pixels confirmed 17.51%, 53 timing cards,
 Search algorithms drilldown/filter lists all seven forager methods as pending.
 Browser is closed; server 8765 remains running. Final staged diff reviewed before
 commit. No processes from this increment remain active.
+
+## 2026-10-04: Per-step foraging and seeded ties
+
+Continued the full active goal from clean 62d7fe1. Previous increment was verified
+progress. Implemented the seven pending AcceptedLocalSearchForagerTest methods
+from pinned Community tests; no upstream production implementation was inspected.
+Provenance and notices record all score/acceptance/identity/quit assertions and
+native substitutions. Canonical structural flaw uses -1 structural state, empty
+finalists represent the asserted zero selected-move count, and supplied index 1
+replaces TestRandom(1,1). No Java lifecycle/metric/PRNG trace claim.
+
+New forager.rs exports ForagerConfig<S>, MoveForager<C,S>, TieBreaking and
+InvalidFinalistIndex. Saved payloads need not be Clone. Accepted candidates rank
+before rejected fallback, then maximize scores. Rejected structural flaws cannot
+enter fallback. First ties retain one payload; seeded random ties retain all equal
+finalists and pick in encounter order without replay. Capture is lazy and failed
+capture leaves selection/counts/quit unchanged. Invalid supplied finalist indices
+reject; empty, singleton and first pools do not request a draw.
+
+LocalSearchConfig adds accepted_candidate_limit: Option<NonZeroU64> and
+tie_breaking (First default). MoveSelection adds FirstBestScoreImproving and
+FirstLastStepScoreImproving, both strict and accepted-only. Per-step accepted count
+includes inferior accepted candidates and ties, and is separate from phase
+max_accepted_moves. Random tie seeds are seed + completed_steps (wrapping),
+independent of move ordering/acceptance, with a fresh count per local phase.
+
+All six scoring backends use MoveForager for saved candidates. Internal select_best
+accepts Into<ForagerConfig<S>>; bool conversion preserves construction and its
+custom early-pick callbacks. Local search passes current/best references and step
+number through one helper. Solution-observation wrappers forward this configuration.
+Stream saved structs no longer duplicate the ranking score. Random ties can retain
+many assignment/cache/graph snapshots; first mode stays one candidate. Reference
+and ownership boundaries are in docs/incremental-search-contract.md.
+
+Seven adapted tests and six original forager regressions passed. Originals cover
+256 generated histories x32 configurations and every finalist, lazy/error/panic
+capture, seed repetition/coverage, bounds, exact early/budget termination, and
+240 configs across all six backends. One new owned-score test compares 576 paired
+configurations across six backends. Six existing unit failure tests now save two
+tied candidates before a later scoring/acceptance failure, then verify restoration.
+Full gate 60369 passed 1,727 Rust tests, 90 doctests and 203 Python tests; logs are
+work/forager-final-check.log. Focused release checks passed all 23 tests in
+forager_cases, forager_regression and owned_scores; work/forager-release.log.
+README no longer freezes the obsolete 723-method count; it points to the dashboard.
+
+Next functional target: the four StrategicOscillationByLevelFinalistPodiumTest
+methods remain pending. Read all four test bodies during the measurement wait.
+They distinguish best vs last-step reference, two/three levels and unconditional
+priority for overall improving moves. A plausible reference derived from fixtures
+is: overall improvements first; otherwise prefer the earliest score level that
+strictly improves its reference, then ordinary lexicographic score. This is only
+an inference; verify unresolved cases against public documentation/Community oracle
+before generalizing. Preserve every multi-step reference update and score fixture.
+No production implementation was read. Full goal remains active and incomplete.
+
+Sequential release/refresh/audit session 82047 finished successfully. All 13
+measurement datasets and source/verification/live report fingerprints are current.
+Coverage is 857/4,855 (17.65% UI), 3,716 pending, 282 excluded, zero failed or
+unverified. Search is 52/158 (32.91%); moves remain 124/874. There are 53 timing
+cards, 18 heuristic cards, 288 valid/equal-score small heuristic cases and 238
+optimal per runtime. Existing list/gather and recorded differential limitations
+remain unchanged. Logs: work/forager-refresh-*.log; audit: work/forager-audit.py.
+These refreshed benchmarks keep their original selection settings; new early/tie
+policies have native/fixture evidence, not new Java PRNG or timing equivalence.
+
+Browser checks at 1440/390 confirmed current percentages, seven passed forager
+methods, 53 cards, no stale indicator, no errors and no horizontal overflow.
+Search now has button ref e36 in the initial snapshot because its increased count
+changes the displayed order; always obtain fresh refs. Browser closed; server8765
+remains alive. No test/measurement process from this increment remains active.
+Final staged review precedes commit; the full goal remains active/incomplete.

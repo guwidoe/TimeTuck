@@ -742,3 +742,76 @@ fn every_solver_backend_accepts_bendable_decimal_levels() {
         }
     }
 }
+
+#[test]
+fn owned_scores_support_every_forager_policy_in_all_six_backends() {
+    for mode in 0..6 {
+        for selection in [
+            MoveSelection::FirstAccepted,
+            MoveSelection::BestAccepted,
+            MoveSelection::FirstBestScoreImproving,
+            MoveSelection::FirstLastStepScoreImproving,
+        ] {
+            for limit in [None, 1.try_into().ok(), 2.try_into().ok()] {
+                for ties in [TieBreaking::First, TieBreaking::Random { seed: 17 }] {
+                    for budget in [0, 1, 3, 20] {
+                        let owned = SolverConfig {
+                            limits: SolverLimits {
+                                max_evaluations: budget,
+                                ..Default::default()
+                            },
+                            local_search: vec![
+                                LocalSearchConfig {
+                                    selection,
+                                    accepted_candidate_limit: limit,
+                                    tie_breaking: ties,
+                                    max_steps: 3,
+                                    assert_scores: true,
+                                    ..Default::default()
+                                };
+                                2
+                            ],
+                            ..Default::default()
+                        };
+                        let plain = SolverConfig {
+                            limits: SolverLimits {
+                                max_evaluations: budget,
+                                ..Default::default()
+                            },
+                            local_search: vec![
+                                LocalSearchConfig {
+                                    selection,
+                                    accepted_candidate_limit: limit,
+                                    tie_breaking: ties,
+                                    max_steps: 3,
+                                    assert_scores: true,
+                                    ..Default::default()
+                                };
+                                2
+                            ],
+                            ..Default::default()
+                        };
+                        assert_eq!(
+                            run(
+                                mode,
+                                true,
+                                owned,
+                                |v| OwnedScore::new(0, v),
+                                MixedConstructionOrder::BasicThenLists,
+                                raw
+                            ),
+                            run(
+                                mode,
+                                true,
+                                plain,
+                                |v| HardSoftScore::new(0, v),
+                                MixedConstructionOrder::BasicThenLists,
+                                raw
+                            )
+                        );
+                    }
+                }
+            }
+        }
+    }
+}

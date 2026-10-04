@@ -245,15 +245,15 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     pub fn score(&self) -> S {
         self.score.clone()
     }
-    /// Evaluate against one unchanged base, retaining the first highest-scoring
-    /// accepted candidate. The saved assignment and sparse cache updates stay inside this
+    /// Evaluate against one unchanged base, retaining the configured best
+    /// accepted candidates. The saved assignment and sparse cache updates stay inside this
     /// exclusive director borrow. Installing them does not invoke callbacks again.
     /// Errors/unwinding before installation leave the base and caches unchanged.
     pub(crate) fn select_best(
         &mut self,
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
-        allow_rejected: bool,
+        forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&Move<V>, S) -> bool,
         quit_early: impl Fn(S) -> bool,
         assert_scores: bool,
@@ -265,7 +265,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
-        let mut best: Option<SelectedCandidate<V, S>> = None;
+        let mut forager = crate::MoveForager::new(forager.into());
         let network = self.network;
         let problem = self.problem;
         for movement in moves {
@@ -282,26 +282,24 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 return Err(ScoringError::CorruptedTotal);
             }
             let accepted = accepts(&movement, candidate.score());
-            if !accepted && (!allow_rejected || candidate.score().structural() < 0) {
-                continue;
-            }
-            if best
-                .as_ref()
-                .is_none_or(|saved| (accepted, &candidate.score()) > (saved.accepted, &saved.score))
-            {
-                best = Some(SelectedCandidate {
-                    accepted,
-                    movement: movement.clone(),
-                    assignment: candidate.assignment().clone(),
-                    score: candidate.score(),
-                    updates: candidate.updates.clone(),
-                });
-            }
-            if accepted && quit_early(candidate.score()) {
+            forager.try_add_with(
+                candidate.score(),
+                accepted,
+                || -> Result<_, ScoringError> {
+                    Ok(SelectedCandidate {
+                        accepted,
+                        movement: movement.clone(),
+                        assignment: candidate.assignment().clone(),
+                        score: candidate.score(),
+                        updates: candidate.updates.clone(),
+                    })
+                },
+            )?;
+            if forager.is_quit_early() || (accepted && quit_early(candidate.score())) {
                 break;
             }
         }
-        if let Some(selected) = best {
+        if let Some(selected) = forager.pick() {
             self.assignment = selected.assignment;
             for (i, contribution) in selected.updates {
                 self.contributions[i] = contribution;
@@ -406,7 +404,7 @@ mod selection_tests {
         for panic in [false, true] {
             let mut network = ConstraintNetwork::new(1);
             network
-                .add_constraint("failure on second candidate", vec![0], |v| {
+                .add_constraint("failure after tied candidates", vec![0], |v| {
                     let value = *v[0].unwrap();
                     if value == 2 {
                         if panic {
@@ -421,12 +419,15 @@ mod selection_tests {
                 ScoreDirector::new(&problem, &network, problem.initial_assignment()).unwrap();
             let outcome = catch_unwind(AssertUnwindSafe(|| {
                 director.select_best(
-                    [1, 2].map(|v| Move::Change {
+                    [1, 1, 2].map(|v| Move::Change {
                         variable: 0,
                         value: Some(v),
                     }),
-                    2,
-                    false,
+                    3,
+                    crate::ForagerConfig {
+                        tie_breaking: crate::TieBreaking::Random { seed: 7 },
+                        ..Default::default()
+                    },
                     |_, _| true,
                     |_| false,
                     false,

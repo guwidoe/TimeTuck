@@ -18,7 +18,7 @@ impl SplitMix64 {
     pub(crate) fn unit(&mut self) -> f64 {
         (self.next() >> 11) as f64 * (1.0 / 9_007_199_254_740_992.0)
     }
-    fn below(&mut self, bound: u64) -> u64 {
+    pub(crate) fn below(&mut self, bound: u64) -> u64 {
         let threshold = bound.wrapping_neg() % bound;
         loop {
             let value = self.next();

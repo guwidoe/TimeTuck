@@ -48,7 +48,9 @@ pub use local_search::{
 
 pub mod acceptance;
 pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance};
+mod forager;
 mod random;
+pub use forager::{ForagerConfig, InvalidFinalistIndex, MoveForager, TieBreaking};
 
 pub mod construction;
 pub use construction::{

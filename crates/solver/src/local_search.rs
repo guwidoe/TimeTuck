@@ -118,13 +118,18 @@ impl Neighborhood {
     }
 }
 
-/// Choose the first accepted candidate, or the first highest-scoring accepted
-/// candidate over the evaluated neighborhood prefix. BestAccepted can select a
+/// Choose when to stop scanning accepted candidates. BestAccepted scans the
+/// available prefix; improving modes stop at the first strict improvement over
+/// their reference. Ties use the separately configured policy. BestAccepted can select a
 /// worsening step with tabu/late acceptance, while retaining the global best.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum MoveSelection {
     FirstAccepted,
     BestAccepted,
+    /// Stop at the first accepted candidate strictly above the retained best.
+    FirstBestScoreImproving,
+    /// Stop at the first accepted candidate strictly above the current step score.
+    FirstLastStepScoreImproving,
 }
 
 /// Behavior when a scanned neighborhood prefix has no accepted candidate.
@@ -169,6 +174,11 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub additional_acceptance: &'a [Acceptance<S>],
     pub move_order: MoveOrder,
     pub selection: MoveSelection,
+    /// Stop scanning a step after this many accepted candidates, including ties.
+    pub accepted_candidate_limit: Option<std::num::NonZeroU64>,
+    /// Random ties retain all equal best candidates until selection. Each step
+    /// uses seed + completed_steps (wrapping), independently of other randomness.
+    pub tie_breaking: crate::TieBreaking,
     pub rejected_moves: RejectedMovePolicy,
     pub assert_scores: bool,
 }
@@ -190,12 +200,35 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             additional_acceptance: &[],
             move_order: MoveOrder::Original,
             selection: MoveSelection::FirstAccepted,
+            accepted_candidate_limit: None,
+            tie_breaking: crate::TieBreaking::First,
             rejected_moves: RejectedMovePolicy::Stop,
             assert_scores: false,
         }
     }
 }
 impl<S: crate::Score> LocalSearchConfig<'_, S> {
+    pub(crate) fn forager(
+        &self,
+        current_score: S,
+        best_score: S,
+        step: u64,
+    ) -> crate::ForagerConfig<S> {
+        crate::ForagerConfig {
+            selection: self.selection,
+            current_score,
+            best_score,
+            accepted_candidate_limit: self.accepted_candidate_limit,
+            tie_breaking: match self.tie_breaking {
+                crate::TieBreaking::First => crate::TieBreaking::First,
+                crate::TieBreaking::Random { seed } => crate::TieBreaking::Random {
+                    seed: seed.wrapping_add(step),
+                },
+            },
+            rejected_moves: self.rejected_moves,
+        }
+    }
+
     fn policies(&self) -> impl Iterator<Item = &Acceptance<S>> + Clone {
         std::iter::once(&self.acceptance).chain(self.additional_acceptance.iter())
     }
@@ -558,7 +591,11 @@ where
             )
             .take_while(|_| !config.cancelled() && !time_budget.expired()),
             budget.remaining,
-            config.rejected_moves == RejectedMovePolicy::BestScore,
+            config.forager(
+                current.clone(),
+                result.best.as_ref().expect("initial best").score.clone(),
+                progress.completed_steps(),
+            ),
             |movement, score| {
                 let variables = if tracks_variables {
                     movement.touched_variables()
@@ -574,7 +611,7 @@ where
                 };
                 acceptor.accepts(current.clone(), score, &variables, movement, &values)
             },
-            |_| config.selection == MoveSelection::FirstAccepted,
+            |_| false,
             config.assert_scores,
         )?;
         result.evaluations += selection.evaluations;

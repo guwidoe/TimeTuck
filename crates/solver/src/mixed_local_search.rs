@@ -3,7 +3,7 @@ use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
     AcceptanceError, AdditiveScore, LocalSearchConfig, LocalSearchTermination, MixedAssignment,
     MixedConstraintNetwork, MixedProblem, MixedScoreDirector, MixedScoringError, MoveOrder,
-    MoveSelection, RejectedMovePolicy, ScoredMixedAssignment,
+    ScoredMixedAssignment,
 };
 use crate::{
     mixed_neighborhood::{ordered, tabu_keys},
@@ -269,7 +269,11 @@ where
             crate::random::order_moves(moves, config.move_order, random.as_mut(), budget.remaining)
                 .take_while(|_| !config.cancelled() && !time_budget.expired()),
             budget.remaining,
-            config.rejected_moves == RejectedMovePolicy::BestScore,
+            config.forager(
+                current.clone(),
+                result.best.as_ref().expect("initial best").score.clone(),
+                progress.completed_steps(),
+            ),
             |movement, score| {
                 let keys = if tracks_entities {
                     tabu_keys(movement, problem.basic().variables().len())
@@ -285,7 +289,7 @@ where
                 };
                 acceptor.accepts(current.clone(), score, &keys, movement, &values)
             },
-            |_| config.selection == MoveSelection::FirstAccepted,
+            |_| false,
             config.assert_scores,
         )?;
         result.evaluations += selection.evaluations;

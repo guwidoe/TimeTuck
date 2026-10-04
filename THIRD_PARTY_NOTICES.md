@@ -396,3 +396,9 @@ methods from pinned Community MassListChangeMoveTest. Full identities and native
 API substitutions are recorded in compat/provenance.json. The gather builder,
 original exhaustive/scoring regressions and generated public-API comparisons are
 independently implemented; equality/hash/rebase methods remain unadapted.
+
+crates/solver/tests/forager_cases.rs adapts all seven Apache-2.0 methods in pinned
+Community AcceptedLocalSearchForagerTest. Complete candidate/score/acceptance and
+early-stop fixtures, supplied-index substitutions and source identities are
+recorded in compat/provenance.json. Native candidate retention, search integration
+and original reference/failure/owned-score regressions are independent work.

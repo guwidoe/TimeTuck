@@ -1351,3 +1351,16 @@ the search contract. These helpers, independent chronology/search checks and two
 new timing workloads plus 32 small Java/native quality cases earn no additional
 source-method credit. Java mutable identity/lifecycle and fading PRNG parity remain
 unclaimed; input validation, score quality and timing stay separate measurements.
+
+## Local-search foraging
+
+All seven AcceptedLocalSearchForagerTest methods now preserve their candidate
+identities, scores, acceptance flags, every intermediate early-stop assertion and
+chosen/empty result. Native typed saved candidates replace mocked Java scopes;
+explicit references preserve best -10/current -100, and supplied finalist index 1
+preserves the random-tie choice without asserting Java PRNG equivalence. Native
+selection supports strict improvement over the best/current score, a per-step
+accepted-candidate limit, and first or seeded random ties across all six backends.
+Construction retains its existing selection behavior. Independent prefix references,
+owned-score comparisons, retained-tie failure checks and search integration grant
+no additional upstream-method credit. See docs/incremental-search-contract.md.

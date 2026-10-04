@@ -1,12 +1,12 @@
 # Timetuck
 
 An independent constraint optimization solver being written from scratch in Rust.
-The goal is behavioral compatibility with selected **Timefold Solver Community**
-features, using its open-source tests as a conformance reference.
+The target is **Timefold Solver Community** behavior, using its open-source tests
+as a conformance reference. Current compatibility is limited to verified cases.
 
 **Status: scores, basic/list moves, exact basic/list/mixed search, incremental basic/list/mixed scoring, construction, local search and multi-phase solving.**
-The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams cover 723 adapted upstream
-test methods. Three fixed integer score types and const-generic BendableScore also pass 9,959
+The solver is still under development. Scores, moves, acceptance, construction, termination, lifecycle, derived values and constraint streams have adapted upstream
+tests; the [dashboard](docs/dashboard.md) reports current verified method coverage. Three fixed integer score types and const-generic BendableScore also pass 9,959
 generated Java/Rust checks (including 30 expected malformed-input rejections). Corresponding
 fixed and bendable decimal scores pass 8,170 generated comparisons, with 225 expected
 errors; decimal timing and general floating-exponent equivalence remain outside this evidence. Exact search solves small finite problems with explicit evaluation
@@ -134,7 +134,7 @@ across phases, resetting only for strict retained-best improvements. See `docs/s
 Basic/list/mixed exact search also supports a cooperative `ExactSearchConfig::max_time`
 limit, with explicit TimeLimit results; see `docs/planning-contract.md`.
 Local search supports strict improvement, hill climbing, late acceptance,
-variable tabu, seeded fading variable tabu, and seeded simulated annealing, with original or seeded variable order and first/best accepted moves. See `docs/incremental-search-contract.md`
+variable tabu, seeded fading variable tabu, and seeded simulated annealing, with original or seeded variable order. Candidate selection supports first/best accepted moves, early improvement over the current or best score, per-step accepted-candidate limits, and first or seeded random ties. See `docs/incremental-search-contract.md`
 for limits and evidence. Greedy construction evaluates values before choosing each
 unassigned required variable; `local_search_from` improves the resulting assignment.
 For ordered lists, `greedy_list_construction` inserts missing required values and

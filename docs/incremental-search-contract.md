@@ -1311,3 +1311,53 @@ coverage guards. A 10,000-variable clone counter proves one clone for a change,
 two for a distinct swap and only one per distinct non-null composite output.
 These are clone-count bounds, not a general speed claim. Existing value-tabu
 search, list/mixed capture and transaction tests remain part of the full gate.
+
+## Per-step foraging and random ties
+
+MoveForager retains typed candidate payloads under accepted-first, then highest-score
+priority. Rejected fallback candidates enter only when enabled and structurally
+sound. First-tie ordering retains one candidate. Random ties retain every equal
+finalist in encounter order and choose one with a bounded native draw; better
+candidates clear the previous finalist set. Saved candidates need not implement
+Clone. Full and stream scoring backends retain candidate assignments and cache or
+graph snapshots, then install the selected state without callback replay.
+
+LocalSearchConfig adds accepted_candidate_limit: Option<NonZeroU64> and
+TieBreaking::First / Random { seed }. The default remains First, with no per-step
+accepted-candidate limit. max_accepted_moves remains the separate phase budget.
+Every accepted candidate counts, including inferior scores and ties; rejected
+candidates never consume this limit. Each neighborhood scan starts at zero.
+FirstAccepted stops immediately; BestAccepted scans the available prefix;
+FirstBestScoreImproving and FirstLastStepScoreImproving stop at the first accepted
+score strictly above the retained phase best or the current step score, respectively.
+Any configured accepted-candidate limit may stop these scans sooner.
+
+Random tie selection uses SplitMix64 with seed + completed_steps (wrapping),
+independent of move-order and acceptance randomness. Each local-search phase starts
+its own step count. Standalone foragers use their supplied seed directly. The
+pick_with method instead accepts a zero-based finalist index, checked before any
+candidate is returned. First, empty and singleton pools do not request a draw.
+No Java PRNG trace, mutable scope identity or lifecycle equivalence is claimed.
+Random ties can require storage proportional to the best tied candidates in the
+evaluated prefix; default first-tie storage remains constant in candidate count.
+
+Construction retains its existing custom early-pick callbacks and first-tie policy.
+All six native local-search paths use the shared forager, including solution
+observation wrappers. An early selection stop does not probe another candidate to
+discover evaluation exhaustion; existing phase/step budget precedence is retained.
+Failed candidate capture or a later scoring/acceptance error cannot install an
+unfinished selection. Ordinary unwinding restores the base assignment and caches.
+
+All seven AcceptedLocalSearchForagerTest methods preserve their complete candidate
+fixtures, intermediate quit assertions and selected identities. Native typed payloads,
+score references, canonical structural flaws and supplied index 1 replace Java
+mocks/scopes and TestRandom; provenance and notices record these adaptations.
+Original checks cover 256 generated histories across 32 policy/limit/fallback
+configurations, every finalist choice, native seeded reproducibility, invalid
+indices, lazy capture and save failure, exact early/budget boundaries, and 240
+configurations across all six backends. Additional owned-score checks compare all
+six backends against Copy scores. Six existing failure regressions now retain two
+tied snapshots before the later failure. These add no source-method credit.
+Existing Java/Rust performance workloads are refreshed; they retain their original
+selection configuration and do not claim timing or random-trace parity for these
+new policy options.
