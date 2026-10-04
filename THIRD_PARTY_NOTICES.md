@@ -313,3 +313,11 @@ All original arity-specific day inputs and expected values remain; native captur
 values replace Java handles. Identities, revision, license and adjustments are in
 compat/provenance.json. CalendarPeriod, PeriodSumCollector, independent regressions
 and public comparison drivers are original code based on tests and public contracts.
+
+`crates/solver/tests/extrema_collector_cases.rs` adapts minNotComparable,
+maxNotComparable and their Update methods from all four pinned Apache-2.0
+Inner{Uni,Bi,Tri,Quad}ConstraintCollectorsTest classes. String fixtures, nullable
+trailing tuple fields and all asserted operation sequences remain represented.
+Revision, paths, identities and modifications are in compat/provenance.json.
+Native production collection, original regressions and public oracle drivers are
+independently implemented from tests and public API contracts.

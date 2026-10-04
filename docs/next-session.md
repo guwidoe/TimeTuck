@@ -6187,3 +6187,60 @@ minNotComparable/maxNotComparable and corresponding updates in the Inner* test
 classes remain pending; read all arities and public comparator semantics before
 implementation. Do not assume stable tie identities or mutable aliases. Dedicated
 connected-range/load-balance/period performance measurements are still pending.
+
+## Captured-key extrema increment (2026-10-04)
+
+Independent extrema_collector.rs exports Extremum, ExtremumCollector, MinByCollector
+and MaxByCollector. Inputs capture (stable ID, Ord key, non-Ord payload). Persistent
+identity/multiplicity and key/bucket indexes stage updates before installation.
+Both min and max choose smallest active ID among tied keys; finish returns an owned
+snapshot. Retraction looks up captured ID only. Duplicate IDs require equal captured
+key/payload until final removal; conflicts panic atomically. Missing remove/replace
+returns false. Default ReversibleCollector replacement stages both halves. Pure,
+consistent immutable key/ID ordering remains a precondition. Reverse/tuple/Ord newtype
+keys express custom order; no arbitrary Java Comparator/ABI parity is claimed.
+
+Read all four arities' minNotComparable/maxNotComparable and Update source methods,
+plus public comparable-property min/max Javadocs/signatures (not production bodies).
+Sixteen adaptations preserve all source assertions, duplicate/retraction/update
+ordering and ignored nullable tuple fields. Non-Ord Text payloads with captured string
+keys replace Java projections. Provenance and notices updated. Public docs explicitly
+allow either tied element and changing identity with incremental history; native
+stable ties provide deterministic reconstruction, not a Java history match.
+
+Six original regressions (no method credit) cover null/non-Ord payloads, duplicates,
+Reverse/composite/full-width keys, captured removal, atomic conflicting updates,
+clone-failure fault injection across 64 attempts, 1,800 grouped edits with commit/
+undo/full-sort reconstruction, mapping/downstream failures, construction and 32
+bounded saved-candidate searches with payload-sensitive scores. One doctest and six
+Python reference/protocol regressions supplement them.
+
+ExtremaCollectorOracle.java and extrema_oracle.rs use pooled immutable items and
+slot handles. Original extrema_collector_checks.py keeps all 196 cases and 16,528
+states, including duplicate IDs, signed/full-width keys, replacements/removals and
+inverse-update trials. Every runtime output must name an active item with its exact
+captured key/payload and independent extreme key. Native additionally chooses lowest
+ID. Java satisfies the public rule throughout, with 2,429 permitted tie-identity
+differences retained explicitly. No exact identity agreement, extra method coverage
+or dedicated timing claim. work/extrema-probe.json retains the standalone result.
+
+Final source gate passed: 1,534 Rust tests (739 adapted, 719 original integration,
+76 unit), 80 doctests and 175 Python tests; all 22 extrema integration tests also pass
+release. Logs work/extrema-check.log and work/extrema-release.log. Overall method
+coverage 739/4,855 = 15.22%; constraint streams 359/1,301 = 27.59%. Pending 3,834,
+excluded 282, failed/unverified zero. Sequential twelve-dataset refresh is session
+10464 with logs work/extrema-refresh-*.log. Source frozen throughout measurements.
+Goal remains active; the complete solver rewrite is not finished.
+
+Refresh session 10464 finished successfully. All twelve datasets are current;
+report/source/live-server fingerprints match. Dashboard browser QA confirms overall
+15.22%, streams 27.59%, all sixteen NotComparable methods passed, the 196/196 extrema
+selection-rule card with 2,429 permitted identity differences, and all 37 timing
+cards. No page errors or horizontal overflow at desktop 1440px/mobile 390px. Saved
+screenshot work/extrema-dashboard.png; browser closed and localhost:8765 remains.
+Existing Java discrepancies remain explicit. No new extrema timing was added.
+
+Next useful increment: inspect remaining natural-comparable min/max Update methods
+and collector-composition cases in the pinned test inventory. Dedicated extrema,
+connected-range/load-balance/period performance measurements remain pending. Preserve
+stable native identity and keep Java tie differences separate from invalid results.

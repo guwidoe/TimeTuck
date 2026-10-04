@@ -1492,3 +1492,30 @@ rejections, each ending that case's observed prefix; the unexecuted operations r
 in its stored input. Successful observations also match independent full sums from
 active captures. Inverse-update trials compare standalone collectors; separate native
 tests exercise actual graph undo/rebuild and solver candidates. No timing claim.
+
+## Key-projected extrema
+
+MinByCollector<I,K,V> and MaxByCollector<I,K,V> accept captured `(id,key,payload)`
+occurrences. Keys and IDs implement Ord; payloads only need Clone and PartialEq.
+An owned `Option<Extremum<I,K,V>>` returns the selected identity, ordering key and
+payload. Standalone emptiness is None; an empty grouped stream emits no group row.
+Both directions choose the smallest active ID among tied keys. Use Reverse, tuples
+or an Ord newtype to define other key orderings. Comparisons must remain pure,
+consistent and immutable while keys are stored. No chronological ordering is
+invented for calendar values or other non-Ord payloads.
+
+Map and capture keys when inserting/updating source rows. Retraction uses the stored
+ID and captured fields, so no projection runs again on removal or finish. Duplicate
+IDs must carry equal keys/payloads while active; the last removal deletes the ID.
+Use distinct occurrence IDs for independently mutable rows. Removal and replacement
+of a missing ID return false. Conflicting insertions/replacements panic atomically;
+replacement stages removal and insertion before installation. Persistent indexes
+share roots across clone/checkpoint and return immutable selected snapshots. Finish
+looks up endpoint keys and lowest IDs without scanning all values.
+
+Pinned public ConstraintCollectors.min/max comparable-property Javadocs permit any
+tied value and allow that value to vary with incremental history. Native tie IDs
+are deliberately deterministic for rollback/reconstruction. Comparison evidence
+checks that Java's selected identity is active, its payload matches its capture,
+and its key is extreme; differing valid tied IDs are explicitly retained. No Java
+ABI, exact tie history, live aliasing, callback-order or dedicated timing claim.

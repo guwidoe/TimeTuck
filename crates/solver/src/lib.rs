@@ -347,3 +347,6 @@ pub use load_balance_collector::{LoadBalance, LoadBalanceCollector};
 
 mod period_collector;
 pub use period_collector::{CalendarPeriod, PeriodOverflow, PeriodSumCollector};
+
+mod extrema_collector;
+pub use extrema_collector::{Extremum, ExtremumCollector, MaxByCollector, MinByCollector};

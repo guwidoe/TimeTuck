@@ -1161,3 +1161,31 @@ subtraction then addition even for the same Java object, as separately probed on
 cancelling boundary inputs. Arithmetic never normalizes calendar fields or converts
 them to fixed durations. Date application, time zones and dedicated timing remain
 outside this increment.
+
+## Captured-key minimum and maximum
+
+Sixteen methods are adapted: minNotComparable, maxNotComparable and their Update
+variants in all four Inner*ConstraintCollectorsTest arities. Every source assertion
+and add/remove/repeated-replacement sequence is retained. Non-Ord native payloads,
+captured keys and explicit handle identities replace Java comparable projections.
+Nullable trailing tuple fields remain represented. Provenance and notices record
+these test adaptations; no production implementation is translated.
+
+MinByCollector and MaxByCollector select payloads by captured Ord keys. Both break
+equal-key ties by lowest active stable ID. The public Java contract permits any
+of the tied values and expressly allows that choice to vary across calculations.
+Native deterministic identity supports full reconstruction and graph transaction
+undo; it is not a claim of matching Java's tie history or mutable object aliases.
+
+Six original Rust regressions cover duplicate IDs, nullable/non-Ord payloads,
+Reverse/composite/full-width keys, captured removal, atomic conflicting updates and
+injected clone failures, 1,800 grouped edits with undo/reconstruction, callback
+failures, construction and 32 bounded saved-candidate searches. A doctest and six
+Python protocol/reference tests add no source-method credit.
+
+The public comparison has 196 cases and 16,528 states. Both Java and Rust satisfy
+independent extreme-key, active-identity and captured-payload checks throughout.
+The 2,429 differing tie choices are permitted by the contract and retained in raw
+outputs; this is selection-contract agreement, not exact selected-ID agreement.
+Duplicate item handles, signed/full-width keys, replacements, removals and inverse
+update trials are included. No generated-case method credit or new timing claim.

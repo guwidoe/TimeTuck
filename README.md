@@ -35,7 +35,7 @@ grouping and weighted scoring, with retractable integer collectors. Streams are
 rebuilt inside affected score callbacks. Separate persistent operators now propagate
 filter, one-to-many expansion, concatenation, complement, equality/ordered/partitioned/existence-join, distinct, keyed/global collection and score updates by stable tuple ID. A typed graph
 automatically routes these changes and rolls back candidate transactions. Composable
-collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, calendar-period sums, consecutive sequences and connected ranges with custom distance metrics, exact load balancing, nested maps and lists ordered by stable
+collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, calendar-period sums, key-projected minima/maxima for non-ordered payloads, consecutive sequences and connected ranges with custom distance metrics, exact load balancing, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
 and immutable result snapshots. Stream
 score directors bind it to basic, ordered-list and combined mixed moves. Indexed

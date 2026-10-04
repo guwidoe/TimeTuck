@@ -18,6 +18,7 @@ from load_balance_checks import run_checks as check_load_balance
 from sequence_collector_checks import run_checks as check_sequences
 from duration_collector_checks import run_checks as check_durations
 from period_collector_checks import run_checks as check_periods
+from extrema_collector_checks import run_checks as check_extrema
 from big_number_collector_checks import run_checks as check_big_numbers
 from mixed_stream_checks import run_checks as check_mixed_streams
 from follower_checks import run_checks as check_followers
@@ -96,8 +97,8 @@ def prepare():
     cp,artifacts=prepare_solver_java()
     subprocess.run(['javac','-cp',cp,'-d',str(ROOT/'work/oracle/solver'),
                     str(ROOT/'compat/oracle/StreamOracle.java'),str(ROOT/'compat/oracle/StreamBenchmark.java'),
-                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/PeriodCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/LoadBalanceOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
-    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','period_oracle','--example','sequence_oracle','--example','range_oracle','--example','load_balance_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
+                    str(ROOT/'compat/oracle/AggregationBoundaryOracle.java'),str(ROOT/'compat/oracle/ConditionalCollectorOracle.java'),str(ROOT/'compat/oracle/MembershipJoinOracle.java'),str(ROOT/'compat/oracle/AverageCollectorOracle.java'),str(ROOT/'compat/oracle/DurationCollectorOracle.java'),str(ROOT/'compat/oracle/PeriodCollectorOracle.java'),str(ROOT/'compat/oracle/ExtremaCollectorOracle.java'),str(ROOT/'compat/oracle/SequenceCollectorOracle.java'),str(ROOT/'compat/oracle/RangeCollectorOracle.java'),str(ROOT/'compat/oracle/LoadBalanceOracle.java'),str(ROOT/'compat/oracle/BigNumberCollectorOracle.java'),str(ROOT/'compat/oracle/MixedStreamOracle.java'),str(ROOT/'compat/oracle/OrderedJoinOracle.java'),str(ROOT/'compat/oracle/ExistenceOracle.java')],check=True)
+    subprocess.run(['cargo','build','--release','--example','membership_oracle','--example','conditional_oracle','--example','stream_oracle','--example','stream_benchmark','--example','average_oracle','--example','duration_oracle','--example','period_oracle','--example','extrema_oracle','--example','sequence_oracle','--example','range_oracle','--example','load_balance_oracle','--example','big_number_oracle','--example','mixed_stream_oracle','--example','ordered_join_oracle','--example','existence_oracle','--locked'],cwd=ROOT,check=True)
     return cp,artifacts
 
 def main():
@@ -115,6 +116,8 @@ def main():
     print(f'Connected ranges: {range_checks["passed"]}/{range_checks["total"]} Java agreement; {range_checks["divergent_cases"]} differing cases; {range_checks["native_reference_passed"]} native passes',flush=True)
     sequence_checks=check_sequences(cp)
     print(f'Sequence collectors: {sequence_checks["passed"]}/{sequence_checks["total"]} cases; {sequence_checks["observations"]} observations; {sequence_checks["boundary_divergences"]} explicit overflow divergence',flush=True)
+    extrema_checks=check_extrema(cp)
+    print(f'Extrema collectors: {extrema_checks["passed"]}/{extrema_checks["total"]} valid cases; {extrema_checks["tie_choice_differences"]} permitted tie differences',flush=True)
     period_checks=check_periods(cp)
     print(f'Period collectors: {period_checks["passed"]}/{period_checks["total"]} cases; {period_checks["observations"]} observations; {period_checks["expected_overflow_rejections"]} expected rejections',flush=True)
     duration_checks=check_durations(cp)
@@ -156,6 +159,7 @@ def main():
             'average_collector_checks':average_checks,
             'duration_collector_checks':duration_checks,
             'period_collector_checks':period_checks,
+            'extrema_collector_checks':extrema_checks,
             'sequence_collector_checks':sequence_checks,
             'range_collector_checks':range_checks,
             'load_balance_checks':load_balance_checks,
