@@ -266,7 +266,7 @@ where
         let moves = ordered(
             problem,
             &snapshot,
-            config.neighborhood,
+            config.neighborhood.at_step(progress.completed_steps()),
             joint_moves,
             basic_order.iter().copied(),
             list_order.iter().copied(),

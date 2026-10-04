@@ -82,6 +82,8 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Bounded seeded cyclic k-opt proposals; search varies the seed per step.
+    SampledKOpt(crate::ListKOptSampling),
     /// Single-list cyclic k-opt reconnections; basic variables keep changes/swaps.
     KOpt(crate::ListKOptConfig),
     /// Assign missing list groups; requires optional lists. Basics keep changes/swaps.
@@ -127,6 +129,12 @@ pub enum Neighborhood {
     },
 }
 impl Neighborhood {
+    pub(crate) fn at_step(self, step: u64) -> Self {
+        match self {
+            Self::SampledKOpt(config) => Self::SampledKOpt(config.for_step(step)),
+            _ => self,
+        }
+    }
     pub(crate) fn includes_swaps(self) -> bool {
         match self {
             Self::Change | Self::Pillar { swaps: false } => false,

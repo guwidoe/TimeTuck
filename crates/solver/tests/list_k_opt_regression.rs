@@ -258,6 +258,11 @@ fn k_opt_escapes_two_opt_plateau_in_both_list_scoring_backends() {
             cross_entity: false,
         },
         Neighborhood::KOpt(ListKOptConfig::new(3, 3).unwrap()),
+        Neighborhood::SampledKOpt(ListKOptSampling::new(
+            ListKOptConfig::new(3, 3).unwrap(),
+            11,
+            2000,
+        )),
     ] {
         for order in [
             MoveOrder::Original,
@@ -294,7 +299,10 @@ fn k_opt_escapes_two_opt_plateau_in_both_list_scoring_backends() {
                 if budget == 1000 {
                     assert_eq!(
                         result.best.unwrap().score,
-                        SimpleScore::new(i64::from(matches!(neighborhood, Neighborhood::KOpt(_))))
+                        SimpleScore::new(i64::from(matches!(
+                            neighborhood,
+                            Neighborhood::KOpt(_) | Neighborhood::SampledKOpt(_)
+                        )))
                     );
                 }
             }
@@ -353,71 +361,81 @@ fn k_opt_integrates_joint_moves_orders_acceptors_and_both_mixed_backends() {
         },
     )
     .unwrap();
-    for joint_moves in [false, true] {
-        for order in [
-            MoveOrder::Original,
-            MoveOrder::ShuffledVariables { seed: 13 },
-            MoveOrder::ShuffledMoves {
-                seed: 13,
-                window: 5.try_into().unwrap(),
-            },
-        ] {
-            for acceptance in [
-                Acceptance::StrictImprovement,
-                Acceptance::ValueTabu {
-                    tenure: 2,
-                    aspiration: true,
-                },
-                Acceptance::MoveTabu {
-                    tenure: 2,
-                    aspiration: true,
+    for neighborhood in [
+        Neighborhood::KOpt(ListKOptConfig::new(3, 3).unwrap()),
+        Neighborhood::SampledKOpt(ListKOptSampling::new(
+            ListKOptConfig::new(3, 3).unwrap(),
+            11,
+            2000,
+        )),
+    ] {
+        for joint_moves in [false, true] {
+            for order in [
+                MoveOrder::Original,
+                MoveOrder::ShuffledVariables { seed: 13 },
+                MoveOrder::ShuffledMoves {
+                    seed: 13,
+                    window: 5.try_into().unwrap(),
                 },
             ] {
-                for budget in [0, 1, 2, 17, 1000] {
-                    let cfg = MixedLocalSearchConfig {
-                        joint_moves,
-                        search: LocalSearchConfig {
-                            neighborhood: Neighborhood::KOpt(ListKOptConfig::new(3, 3).unwrap()),
-                            move_order: order,
-                            max_evaluations: budget,
-                            max_steps: 3,
-                            acceptance,
-                            selection: MoveSelection::BestAccepted,
-                            assert_scores: true,
-                            ..Default::default()
-                        },
-                    };
-                    let a = mixed_local_search_from(&p, &net, p.initial_assignment(), cfg).unwrap();
-                    let mut b = StreamGraphBuilder::new();
-                    let s = MixedStreamSources::new(&mut b);
-                    let joined = b
-                        .join_equal(s.basic.port(), s.lists.entities.port(), |_| 0, |_| 0)
+                for acceptance in [
+                    Acceptance::StrictImprovement,
+                    Acceptance::ValueTabu {
+                        tenure: 2,
+                        aspiration: true,
+                    },
+                    Acceptance::MoveTabu {
+                        tenure: 2,
+                        aspiration: true,
+                    },
+                ] {
+                    for budget in [0, 1, 2, 17, 1000] {
+                        let cfg = MixedLocalSearchConfig {
+                            joint_moves,
+                            search: LocalSearchConfig {
+                                neighborhood,
+                                move_order: order,
+                                max_evaluations: budget,
+                                max_steps: 3,
+                                acceptance,
+                                selection: MoveSelection::BestAccepted,
+                                assert_scores: true,
+                                ..Default::default()
+                            },
+                        };
+                        let a =
+                            mixed_local_search_from(&p, &net, p.initial_assignment(), cfg).unwrap();
+                        let mut b = StreamGraphBuilder::new();
+                        let s = MixedStreamSources::new(&mut b);
+                        let joined = b
+                            .join_equal(s.basic.port(), s.lists.entities.port(), |_| 0, |_| 0)
+                            .unwrap();
+                        b.score("joint", &joined, |((_, v), (_, row))| {
+                            if *v == Some(1) {
+                                reward(row)
+                            } else {
+                                SimpleScore::ZERO
+                            }
+                        })
                         .unwrap();
-                    b.score("joint", &joined, |((_, v), (_, row))| {
-                        if *v == Some(1) {
-                            reward(row)
-                        } else {
-                            SimpleScore::ZERO
+                        let c = mixed_stream_local_search_from(
+                            &p,
+                            b.build(),
+                            s,
+                            p.initial_assignment(),
+                            cfg,
+                        )
+                        .unwrap();
+                        assert_eq!(a.best, c.best);
+                        assert_eq!(a.evaluations, c.evaluations);
+                        assert_eq!(a.termination, c.termination);
+                        assert!(a.evaluations <= budget);
+                        if budget == 1000 && acceptance == Acceptance::StrictImprovement {
+                            assert_eq!(
+                                a.best.unwrap().score,
+                                SimpleScore::new(i64::from(joint_moves))
+                            );
                         }
-                    })
-                    .unwrap();
-                    let c = mixed_stream_local_search_from(
-                        &p,
-                        b.build(),
-                        s,
-                        p.initial_assignment(),
-                        cfg,
-                    )
-                    .unwrap();
-                    assert_eq!(a.best, c.best);
-                    assert_eq!(a.evaluations, c.evaluations);
-                    assert_eq!(a.termination, c.termination);
-                    assert!(a.evaluations <= budget);
-                    if budget == 1000 && acceptance == Acceptance::StrictImprovement {
-                        assert_eq!(
-                            a.best.unwrap().score,
-                            SimpleScore::new(i64::from(joint_moves))
-                        );
                     }
                 }
             }

@@ -669,4 +669,32 @@ pending. Eight upstream ordered-output fixtures are attributed without method
 credit because their Java notification assertions are not adapted. The feasibility
 method preserves both boolean outcomes using native success/error results. Original
 permutation references, rollback and search tests add no upstream method credit.
-No dedicated k-opt performance comparison is available yet.
+The dedicated k-opt comparison reports single-route solution quality, score calls
+and elapsed time against the pinned public Java API; its scope is described below.
+
+### Bounded k-opt sampling
+
+`ListKOptSampling` and `sample_list_k_opt_moves` generate proposals on demand.
+Each proposal chooses an eligible entity uniformly, a possible k uniformly within
+its clipped bounds, distinct cycle cuts, a path permutation and independent path
+directions. Proposals retaining any selected cut edge are rejected. Every emitted
+move therefore changes exactly k undirected edges; repeats across proposals are
+allowed. The attempt count bounds proposals, not returned moves or coverage. No
+uniform distribution over final tours or Java random-distribution parity is claimed.
+Small impossible cycle sizes are rejected before consuming attempts. No eligible
+entity yields no work even with a maximal attempt count. Invalid input still fails
+when attempts are zero. Construction and each proposal use linear scratch storage;
+edge checking is O(n*k) and conversion to ordinary relocations is O(n²).
+
+`Neighborhood::SampledKOpt` integrates this sampler into list and mixed search.
+The sampler config exposes `for_step`: step zero preserves the supplied seed;
+subsequent completed steps derive new seeds using wrapping arithmetic. The list
+and mixed engines use that derivation for both scoring backends. Phase counters
+restart at zero. Standalone neighborhood enumeration uses the supplied seed as-is.
+Move-order shuffling is separate; use Original to avoid a candidate window.
+Basic-only search retains changes/swaps. Pins, ranges, anchors and missing values
+have the same semantics as exhaustive k-opt. Each move still affects only one list.
+
+The benchmark preserves both the exhaustive/window and sampled strategies on the
+same route corpus. Compare their quality, work and time separately: sampling may
+find better or worse outcomes even when it reduces generation cost substantially.

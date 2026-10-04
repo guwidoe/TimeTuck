@@ -53,13 +53,17 @@ impl ListKOptConfig {
         self.maximum
     }
 }
-fn edge(a: usize, b: usize) -> (usize, usize) {
+pub(crate) fn edge(a: usize, b: usize) -> (usize, usize) {
     (a.min(b), a.max(b))
 }
 
 // Reorder with ordinary relocations, preserving assigned payloads and transaction
 // rollback. All positions and target indices refer to the immutable input list.
-fn movement<V: Eq + Clone>(a: &ListAssignment<V>, entity: usize, target: &[usize]) -> ListMove<V> {
+pub(crate) fn movement<V: Eq + Clone>(
+    a: &ListAssignment<V>,
+    entity: usize,
+    target: &[usize],
+) -> ListMove<V> {
     let mut current: Vec<_> = (0..a.lists()[entity].len()).collect();
     let mut moves = Vec::new();
     for (index, &wanted) in target.iter().enumerate() {
@@ -223,7 +227,7 @@ impl Iterator for Orientations {
         Some(result)
     }
 }
-fn reconnections(n: usize, cuts: Vec<usize>) -> impl Iterator<Item = Vec<usize>> {
+pub(crate) fn cut_paths(n: usize, cuts: &[usize]) -> Vec<Vec<usize>> {
     let k = cuts.len();
     let mut paths = Vec::with_capacity(k);
     for i in 0..k {
@@ -239,6 +243,11 @@ fn reconnections(n: usize, cuts: Vec<usize>) -> impl Iterator<Item = Vec<usize>>
         }
         paths.push(path);
     }
+    paths
+}
+fn reconnections(n: usize, cuts: Vec<usize>) -> impl Iterator<Item = Vec<usize>> {
+    let k = cuts.len();
+    let paths = cut_paths(n, &cuts);
     let removed: Vec<_> = cuts.iter().map(|&i| edge(i, (i + 1) % n)).collect();
     crate::list_gather_neighborhood::Selections::bounded(k - 1, k - 1, k - 1).flat_map(
         move |permutation| {

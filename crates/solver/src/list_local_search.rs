@@ -227,7 +227,7 @@ where
         let moves = ordered(
             problem,
             &snapshot,
-            config.neighborhood,
+            config.neighborhood.at_step(progress.completed_steps()),
             order.iter().copied(),
         );
         let current = director.score();

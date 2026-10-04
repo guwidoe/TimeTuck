@@ -1645,3 +1645,13 @@ workloads report final quality and score calls alongside times. Exact-3/exact-4
 probes are kept separate because pinned Java returned after only its initial score
 calculation. No elapsed-time ratio is reported for those probes. These original
 comparisons add no adapted-method credit and establish no multi-entity k-opt parity.
+
+Optional bounded native k-opt sampling now avoids building an exhaustive move
+window. Six original regressions check independent edge/successor sets, exact-k
+membership, small impossible cases, reproducibility, bounded attempt prefixes,
+65-edge samples, pins/ranges/missing identities and per-step seed integration.
+Existing list/mixed scoped/stream plateau tests and basic fallback controls cover
+both exhaustive and sampled neighborhoods. No upstream method credit is added.
+The k-opt comparison retains the window baseline and adds sampled runs against
+the same Java configurations: 128 paired small-case comparisons (64 per native
+strategy), eight timing workloads and the four separate exact-k Java probes.

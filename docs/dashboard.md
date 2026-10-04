@@ -9,10 +9,16 @@ python3 scripts/benchmark_scores.py
 python3 scripts/differential_solver.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
+python3 scripts/benchmark_construction.py
+python3 scripts/benchmark_repair.py
 python3 scripts/differential_lists.py
 python3 scripts/benchmark_lists.py
+python3 scripts/benchmark_list_repair.py
+python3 scripts/benchmark_kopt.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
+python3 scripts/benchmark_aggregates.py
+python3 scripts/benchmark_sequences.py
 python3 scripts/benchmark_pillars.py
 python3 scripts/benchmark_concurrent.py
 python3 scripts/compat_report.py --test-output work/rust-tests.log
@@ -85,6 +91,34 @@ and are not JMH results or statistical significance claims. Nanoseconds are per
 loop iteration, not a single score operation. A 1.01× ratio may simply be noise.
 These score operations do not measure whole-solver throughput, memory, or solution
 quality.
+
+The cyclic k-opt section compares complete single-route Manhattan-cycle problems
+using public Java configuration and two native strategies. Both native strategies
+change exactly k undirected edges: window search shuffles up to 4,096 enumerated
+candidates; sampled search proposes random cuts and path reconnections on demand.
+The latter allows at most 10,000 proposals per step by default, discards proposals
+that retain a cut edge, and derives a seed for each completed step. Repeated moves
+are possible. Java uses its public random selector. Work, sampling distributions,
+PRNGs and score-call accounting differ between implementations.
+
+All three searches configure first-accepted hill climbing, 30 steps, at most 10,000
+score evaluations and seed 20261008. Each native strategy is paired with Java on
+32 original eight-value routes and two k ranges (2–3 and 2–4), giving 64 comparisons
+per strategy and 128 paired comparisons overall. These reuse the same routes and
+Java results; they are not 128 independent inputs. Every small-case optimum is
+independently enumerated. Eight timing cards cover both native strategies, both
+k ranges and 12/16 values; larger-case optima are unknown. Quality and score counts
+accompany times, with differing scores clearly labelled. No method-coverage credit
+or general solver speed claim follows from these original benchmarks.
+
+K-opt timings use three warmups and five measured solves in each of three fresh
+processes, with runtime order alternating. Per-solve setup, full scoring, search
+and result validation are timed; parsing, model/network/factory construction,
+startup and output encoding are excluded. Four separate exact-3/exact-4 probes
+retain the pinned Java observation of returning after its initial score call.
+They have no speed ratios. Reproduce this section with
+`python3 scripts/benchmark_kopt.py`; it checks all returned assignments and scores,
+non-regression, candidate work and score budgets before saving the evidence.
 
 The exact-search section measures ten workloads: brute force and four
 branch-and-bound exploration orders, each at 6 and 8 variables with 3 values

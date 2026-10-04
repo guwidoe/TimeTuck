@@ -453,3 +453,6 @@ pub use list_mass_assignment::{
 
 mod list_k_opt;
 pub use list_k_opt::{ListKOptConfig, ListKOptError, list_k_opt_moves};
+
+mod list_k_opt_sampling;
+pub use list_k_opt_sampling::{ListKOptSampling, sample_list_k_opt_moves};

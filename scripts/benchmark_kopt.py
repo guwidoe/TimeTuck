@@ -64,6 +64,24 @@ def summarize(rows):
                 score_calls=dict(min=min(r['score_calls'] for r in rows),max=max(r['score_calls'] for r in rows)))
 
 
+
+def check_search_work(rows, budget):
+    if not rows or any(not 1 < row['score_calls'] <= budget for row in rows):
+        raise ValueError('Search comparison must score candidates within its budget')
+
+
+def quality_summary(checks):
+    if not checks: raise ValueError('Empty comparison suite')
+    identities=[(c['case']['id'],c['minimum'],c['maximum'],c['native_strategy']) for c in checks]
+    if len(set(identities))!=len(identities): raise ValueError('Duplicate paired comparison')
+    def counts(rows):
+        return dict(total=len(rows),equal_scores=sum(c['rust']['score']==c['java']['score'] for c in rows),
+                    optimal={r:sum(c[r]['score']==c['optimal_score'] for c in rows) for r in ('java','rust')})
+    return dict(**counts(checks),passed=len(checks),
+                by_maximum={str(k):counts([c for c in checks if c['maximum']==k]) for k in sorted({c['maximum'] for c in checks})},
+                by_strategy={strategy:counts([c for c in checks if c['native_strategy']==strategy]) for strategy in sorted({c['native_strategy'] for c in checks})},cases=checks)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--steps',type=int,default=30)
@@ -79,8 +97,9 @@ def main():
     digest=source_digest()
     bases={'java':['java','-Xms256m','-Xmx256m','-cp',classpath,'KOptBenchmark'],
            'rust':[str(ROOT/'target/release/examples/k_opt_benchmark')]}
-    def run(runtime,minimum,maximum,cases,warmup,samples,optima=None):
+    def run(runtime,minimum,maximum,cases,warmup,samples,optima=None,strategy="window"):
         cmd=bases[runtime]+list(map(str,[minimum,maximum,args.steps,args.evaluations,SEED,warmup,samples]))
+        if runtime=="rust": cmd.append(strategy)
         result=subprocess.run(cmd,input='\n'.join(map(encode,cases))+'\n',text=True,capture_output=True,timeout=180)
         if result.returncode: raise RuntimeError(f'{runtime} {minimum}-{maximum}: {result.stderr}')
         lines=result.stdout.splitlines()
@@ -89,13 +108,16 @@ def main():
                  for line in lines[i*samples:(i+1)*samples]] for i,c in enumerate(cases)]
     inputs=generate();optima={c['id']:optimum(c) for c in inputs}
     checks=[]
+    strategies=['window','sampled']
     for maximum in [3,4]:
-        runs={r:run(r,2,maximum,inputs,0,1,optima) for r in bases}
-        for i,c in enumerate(inputs):
-            if any(runs[r][i][0]['score_calls']<=1 for r in bases): raise ValueError('Main comparison performed no candidate scoring')
-            entry=dict(case=c,minimum=2,maximum=maximum,optimal_score=list(optima[c['id']]),**{r:runs[r][i][0] for r in bases})
-            entry['equal_scores']=entry['rust']['score']==entry['java']['score'];checks.append(entry)
-    print(f'K-opt validation: {len(checks)} valid; {sum(c["equal_scores"] for c in checks)} equal scores',flush=True)
+        java=run('java',2,maximum,inputs,0,1,optima)
+        for strategy in strategies:
+            runs={'java':java,'rust':run('rust',2,maximum,inputs,0,1,optima,strategy)}
+            for i,c in enumerate(inputs):
+                for runtime in bases: check_search_work(runs[runtime][i],args.evaluations)
+                entry=dict(case=c,minimum=2,maximum=maximum,native_strategy=strategy,optimal_score=list(optima[c['id']]),**{r:runs[r][i][0] for r in bases})
+                entry['equal_scores']=entry['rust']['score']==entry['java']['score'];checks.append(entry)
+    print(f'K-opt validation: {len(checks)} paired comparisons valid; {sum(c["equal_scores"] for c in checks)} equal scores',flush=True)
     # Retain exact-bound behavior separately, without search speed ratios.
     probes=[]
     for k in [3,4]:
@@ -106,28 +128,26 @@ def main():
             probes.append(dict(case=c,minimum=k,maximum=k,optimal_score=optimal,**runs))
             print(f'Exact k={k}, {n} values: score calls Java {runs["java"]["score_calls"]}, Rust {runs["rust"]["score_calls"]}',flush=True)
     workloads=[]
-    for maximum in [3,4]:
-        for index,n in enumerate([12,16]):
-            c=case(n,99);measurements={r:[] for r in bases}
-            for fork in range(args.forks):
-                order=['java','rust'] if (fork+index)%2==0 else ['rust','java']
-                for runtime in order: measurements[runtime].extend(run(runtime,2,maximum,[c],args.warmup,args.samples)[0])
-            if any(row['score_calls']<=1 for rows in measurements.values() for row in rows): raise ValueError('Timing comparison performed no candidate scoring')
-            entry=dict(name=f'K-opt 2–{maximum} · {n} values',minimum=2,maximum=maximum,case=c,unit='ms / solve',optimal_score=None,samples=measurements,
-                       **{r:summarize(rows) for r,rows in measurements.items()})
-            entry['equal_scores']=entry['rust']['score']==entry['java']['score']
-            entry['java_over_rust']=entry['java']['median']/entry['rust']['median'];workloads.append(entry)
-            print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]}/{entry["java"]["score"]}',flush=True)
+    for strategy in strategies:
+        for maximum in [3,4]:
+            for index,n in enumerate([12,16]):
+                c=case(n,99);measurements={r:[] for r in bases}
+                for fork in range(args.forks):
+                    order=['java','rust'] if (fork+index)%2==0 else ['rust','java']
+                    for runtime in order: measurements[runtime].extend(run(runtime,2,maximum,[c],args.warmup,args.samples,strategy=strategy)[0])
+                for rows in measurements.values(): check_search_work(rows,args.evaluations)
+                entry=dict(name=f'K-opt 2–{maximum} · {n} values · {strategy}',minimum=2,maximum=maximum,native_strategy=strategy,case=c,unit='ms / solve',optimal_score=None,samples=measurements,
+                           **{r:summarize(rows) for r,rows in measurements.items()})
+                entry['equal_scores']=entry['rust']['score']==entry['java']['score']
+                entry['java_over_rust']=entry['java']['median']/entry['rust']['median'];workloads.append(entry)
+                print(f'{entry["name"]}: Rust {entry["rust"]["median"]:.3f}, Java {entry["java"]["median"]:.3f} ms; scores {entry["rust"]["score"]}/{entry["java"]["score"]}',flush=True)
     if digest!=source_digest(): raise RuntimeError('Sources changed during measurement')
     report=dict(schema_version=1,generated_at=datetime.now(timezone.utc).isoformat(),source_digest=digest,reference=REF,artifacts=artifacts,
-                config={**vars(args),'seed':SEED,'native_window':WINDOW,'iterations':1},workloads=workloads,boundary_probes=probes,
-                validation=dict(total=len(checks),passed=len(checks),equal_scores=sum(c['equal_scores'] for c in checks),
-                                optimal={r:sum(c[r]['score']==c['optimal_score'] for c in checks) for r in bases},
-                                by_maximum={str(k):dict(total=32,equal_scores=sum(c['equal_scores'] for c in checks if c['maximum']==k),
-                                  optimal={r:sum(c[r]['score']==c['optimal_score'] for c in checks if c['maximum']==k) for r in bases}) for k in [3,4]},cases=checks),
+                config={**vars(args),'seed':SEED,'native_window':WINDOW,'native_attempts_per_step':args.evaluations,'native_strategies':strategies,'iterations':1},workloads=workloads,boundary_probes=probes,
+                validation=quality_summary(checks),
                 environment=dict(cpu=next((s.split(':',1)[1].strip() for s in open('/proc/cpuinfo') if s.startswith('model name')),'unknown'),
                                  platform=platform.platform(),rust=version(['rustc','--version']),java=version(['java','-version'])),
-                methodology='Original single-entity, complete unpinned cyclic Manhattan routes. Capacity is nonbinding. Same initial orders, configured k ranges 2–3/2–4, seed, step and score-evaluation limits. First-accepted hill climbing; best result retained. Public Java KOptListMoveSelectorConfig uses random selection. Rust enumerates anchored tours by exact changed-edge count then cut/path order and uses a seeded rolling shuffle window of 4096; both cycle directions are included. The first native window reaches each configured k for measured sizes. Java may retain removed edges or select equivalent cycles; native exact-edge enumeration excludes these. Sampling, PRNGs, anchor conventions, score-count accounting and work differ. Counts and quality accompany time; no identical-trace, equal-work or general speed claim. Full scoring in both engines. Timed: per-solve setup, solving, full score/non-regression/ownership/shadow validation. Excluded: parsing, model/network/factory construction, process startup and output encoding. Three warmups per process by default; alternating runtime order across fresh process forks. All outputs independently validated in Python; 64 small cases have exhaustive cyclic optima. Large workload optima unknown. Four exact-3/exact-4 boundary probes are excluded from timing comparisons because pinned Java returned without candidate scoring in the initial observations; actual counts remain recorded. No extra upstream method coverage.')
+                methodology='Original single-entity, complete unpinned cyclic Manhattan routes. Capacity is nonbinding. Same initial orders, configured k ranges 2–3/2–4, seed, step and score-evaluation limits. First-accepted hill climbing; best result retained. Public Java KOptListMoveSelectorConfig uses random selection. Rust window strategy enumerates anchored tours by exact changed-edge count then cut/path order and uses a seeded rolling shuffle window of 4096; its first window reaches each configured k at measured sizes. Rust sampled strategy instead uses the configured score-evaluation budget as its maximum number of proposals per step, selecting entity/k/cut edges/path order/directions with seeded randomness and rejecting retained cut edges. The seed varies deterministically per completed step. Both native strategies include both cycle directions; final-tour sampling is not uniform. Java may retain removed edges or select equivalent cycles; native exact-edge enumeration excludes these. Sampling, PRNGs, anchor conventions, score-count accounting and work differ. Counts and quality accompany time; no identical-trace, equal-work or general speed claim. Full scoring in both engines. Timed: per-solve setup, solving, full score/non-regression/ownership/shadow validation. Excluded: parsing, model/network/factory construction, process startup and output encoding. Three warmups per process by default; alternating runtime order across fresh process forks. All outputs independently validated in Python; 128 paired comparisons (64 per native strategy over the same 32 routes and two k ranges) have exhaustive cyclic optima. Large workload optima unknown. Four exact-3/exact-4 boundary probes are excluded from timing comparisons because pinned Java returned without candidate scoring in the initial observations; actual counts remain recorded. No extra upstream method coverage.')
     (ROOT/'work/kopt-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':main()

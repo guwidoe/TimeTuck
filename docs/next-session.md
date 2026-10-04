@@ -9046,3 +9046,86 @@ Next substantive candidates: profile native k-opt generation/window costs and ad
 bounded seeded sampling if justified, then multi-entity k-opt repartitioning and
 its public-API evidence. Preserve the current exact-k Java boundary evidence.
 The full rewrite remains active and incomplete.
+
+## Bounded seeded k-opt sampling (verified)
+
+Profile in work/kopt-profile.rs/.log measures generation of the initial window:
+12values/2–3:1196moves0.837ms;12/2–4:4096moves2.836ms;
+16/2–3:3408moves2.749ms;16/2–4:4096moves3.295ms. Thirty window generations
+approximately account for prior solve time, motivating direct on-demand proposals.
+These are local diagnostic timings, not new Java/Rust benchmark ratios.
+
+Added ListKOptSampling and sample_list_k_opt_moves plus Neighborhood::SampledKOpt.
+Each bounded attempt chooses an eligible entity, possible clipped k, distinct cuts,
+random path order/directions; retained cut edges reject the proposal. Every returned
+move changes exactly selected k edges. Attempts bound proposals, not yield count;
+repeats allowed; no uniform-final-tour or Java distribution/PRNG claim. Small C4/C5
+impossible edge counts and ineligible entities return immediately. Anchors, pins,
+entity ranges, payloads and missing values remain unchanged; each move affects one
+list. O(n*k) edge checking, O(n²) relocation construction, linear scratch memory.
+Shared cut_paths extraction preserves exhaustive enumeration. No production code read.
+
+ListKOptSampling::for_step mixes the base seed with completed step using wrapping
+arithmetic; step0 unchanged, each phase resets counters. List and mixed search cores
+apply this to both scoring backends; ordinary neighborhoods retain old behavior.
+Standalone iterators use the supplied seed. Move-order shuffling is independent;
+sampled benchmark uses Original to avoid another window. Basic-only fallback stays
+changes/swaps. Six original sampler tests check independent small-tour sets/exact-k
+membership (all possible outputs observed for4..6values;7values checked by membership),
+pins/ranges/missing identities, seed/attempt-prefix repeatability, empty/max-budget
+boundaries,65edge draws on130values and32manual first-improvement/seed traces through
+both list backends. Existing list/mixed plateau and basic-fallback tests expanded.
+All18 focused tests passed; nine Python benchmark-evidence tests passed.
+
+Benchmark retains window baseline and adds sampled strategy. Sampled proposal budget
+per step equals configured evaluation cap (10000default); score/step limits unchanged.
+New rollups reject empty/duplicate paired cases and enforce real candidate work and
+score-call budgets.128paired comparisons over32routes/twokranges/twostrategies,
+eight timings, four retained exact-k probes. No upstream-method credit.
+Pilot0warmups/1sample/1fork:128valid114equal,Java114/Rust128optima counting paired
+runs; each native strategy64/64optima versus Java57/64. Native sampled cold timings
+roughly1–2ms versus window31–108ms. Compared with window, sampled quality is worse
+on two larger workloads, equal on one and better on one; warmed results are below.
+
+Full gate32736 completed exit0:fmt/Clippy,2019Rust,107doctests,244Python passed.
+Handle78381 completed work/kopt-sample-verify.sh with exit0:19focused release tests,
+17 current datasets/91 timing workloads and the independent audit passed.
+Coverage unchanged931/4855(19.18%). Full goal remains active and incomplete.
+
+Warmed k-opt results:128valid114equal,Java114/Rust128optima counting paired runs;
+each native strategy64valid57equal,Java57/Rust64optima. Four exact-k probes retain
+Java1scorecall each and unchanged routes. Eight timings,15samples/runtime:
+
+- window2–3/n12 Rust27.568ms -180 calls2145;Java9.550ms -182 calls80.
+- window2–3/n16 Rust80.030ms -202 calls325;Java14.511ms -272 calls124.
+- window2–4/n12 Rust105.529ms -180 calls3439;Java10.933ms -194 calls130.
+- window2–4/n16 Rust106.529ms -190 calls1720;Java12.582ms -238 calls115.
+- sampled2–3/n12 Rust1.100ms -182 calls445;Java10.763ms -182 calls80.
+- sampled2–3/n16 Rust0.635ms -212 calls239;Java12.308ms -272 calls124.
+- sampled2–4/n12 Rust2.126ms -180 calls802;Java10.842ms -194 calls130.
+- sampled2–4/n16 Rust1.204ms -186 calls386;Java12.110ms -238 calls115.
+
+All hard scores are zero. Sampling reduces native generation time, but compared
+with window search returns worse quality on two, equal on one and better on one.
+Java quality is equal on one sampled workload,
+worse on the other three; no equal-work or general-speed claim. The independent
+audit replayed all assignments, checked small-case optima and recalculated medians,
+ranges, counts and ratio labels from all 240 measured k-opt runtime samples.
+
+Browser checks passed at1440x900 and390x844:931/4855(19.18%),91 cards,8 k-opt
+cards,7 quality differences,4 separate exact-k probes and both strategy rollups.
+Report and freshness HTTP responses200; no browser errors or horizontal overflow,
+including expanded notes. Screenshots inspected:work/kopt-sample-desktop.png and
+-mobile.png. Expanded notes exposed an existing missing CPU field in list-repair
+evidence; the UI now renders missing environment fields as explicitly not recorded.
+Updated app.js asset hash to avoid cached old rendering. No undefined/NaN values
+remain in expanded notes. Browser closed;localhost:8765 remains running.
+The dashboard guide now includes all17 refresh commands and the k-opt methodology.
+
+Next substantial capability remains multi-entity k-opt. Four ordered upstream
+fixtures were read from SelectorBasedKOptListMoveTest (testMultiEntity2Opt,
+testMultiEntity3Opt,testMultiEntity3OptPinned,testMultiEntity4Opt). Their repartition
+and notification behavior is not yet implemented or credited; do not assume simple
+per-list cyclic reconnection establishes it. Upstream production remains unread
+and the pinned submodule unchanged. No new provenance entries in this increment:
+all sampler tests and benchmarks are original.

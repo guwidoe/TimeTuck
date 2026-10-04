@@ -1,7 +1,7 @@
 """Original independent checks of cyclic k-opt benchmark evidence."""
 from copy import deepcopy
 import unittest
-from benchmark_kopt import case, generate, optimum, parse_result, score, summarize
+from benchmark_kopt import case, generate, optimum, parse_result, score, summarize, quality_summary, check_search_work
 
 class KOptEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -48,5 +48,25 @@ class KOptEvidenceTests(unittest.TestCase):
         self.assertEqual(s['score_calls'],dict(min=8,max=12));self.assertEqual(s['score'],[0,-40])
         rows[1]['score']=[0,-42]
         with self.assertRaisesRegex(ValueError,'vary'):summarize(rows)
+
+    def test_paired_strategy_counts_reuse_routes_without_inflating_each_strategy(self):
+        checks=[]
+        for strategy,score_value in [('window',-40),('sampled',-42)]:
+            checks.append(dict(case={'id':'same-route'},minimum=2,maximum=3,native_strategy=strategy,
+                               optimal_score=[0,-40],rust={'score':[0,score_value]},java={'score':[0,-40]}))
+        s=quality_summary(checks)
+        self.assertEqual(s['total'],2);self.assertEqual(s['equal_scores'],1)
+        self.assertEqual(s['optimal'],dict(java=2,rust=1))
+        self.assertEqual(s['by_strategy']['window'],dict(total=1,equal_scores=1,optimal=dict(java=1,rust=1)))
+        self.assertEqual(s['by_strategy']['sampled'],dict(total=1,equal_scores=0,optimal=dict(java=1,rust=0)))
+        self.assertEqual(s['by_maximum']['3']['total'],2)
+    def test_empty_or_duplicated_comparisons_are_rejected(self):
+        with self.assertRaisesRegex(ValueError,'Empty'):quality_summary([])
+        row=dict(case={'id':'a'},minimum=2,maximum=3,native_strategy='sampled')
+        with self.assertRaisesRegex(ValueError,'Duplicate'):quality_summary([row,row])
+    def test_no_candidate_work_or_budget_overrun_cannot_be_timed_as_search(self):
+        for rows in [[],[dict(score_calls=1)],[dict(score_calls=101)]]:
+            with self.assertRaisesRegex(ValueError,'within its budget'):check_search_work(rows,100)
+        check_search_work([dict(score_calls=2),dict(score_calls=100)],100)
 
 if __name__=='__main__':unittest.main()

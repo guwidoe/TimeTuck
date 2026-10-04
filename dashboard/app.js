@@ -320,7 +320,7 @@ function renderBenchmarks(kind = "score") {
         target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
     }
     if (kind === "kopt" && !missing) {
-        target("benchmark-caption").textContent = `At most ${p.config.steps} steps and ${n(p.config.evaluations)} score evaluations · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Rust shuffles a window of ${n(p.config.native_window)} candidates; Java uses random selection. Work and sampling differ.`;
+        target("benchmark-caption").textContent = `At most ${p.config.steps} steps and ${n(p.config.evaluations)} score evaluations · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Rust uses a ${n(p.config.native_window)}-candidate window or at most ${n(p.config.native_attempts_per_step || p.config.evaluations)} direct proposals per step; Java uses random selection. Work and sampling differ.`;
     }
     if ((kind === "pillar" || kind === "concurrent") && !missing) {
         target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
@@ -332,7 +332,7 @@ function renderBenchmarks(kind = "score") {
         p.methodology ||
         "Not measured. The benchmark will record its workload, warmup, sample counts, inputs, machine, and runtime versions.";
     target("environment").textContent = p.environment
-        ? `${p.environment.cpu}\n${p.environment.platform}\n\n${p.environment.rust}\n\n${p.environment.java}`
+        ? `${p.environment.cpu || "CPU not recorded"}\n${p.environment.platform || "Platform not recorded"}\n\n${p.environment.rust || "Rust version not recorded"}\n\n${p.environment.java || "Java version not recorded"}`
         : "Environment not recorded yet.";
 }
 function renderDifferential() {
@@ -423,7 +423,7 @@ function renderDifferential() {
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
         ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
         ["list_performance", " original list-solving cases return valid complete solutions; local search retains at least its initial quality."],
-        ["kopt_performance", " original cyclic k-opt cases return valid, non-regressing solutions."],
+        ["kopt_performance", " cyclic k-opt paired comparisons return valid, non-regressing solutions."],
     ]) {
         const h = report[key] || {};
         if (h.validation) {
@@ -439,8 +439,14 @@ function renderDifferential() {
                 }
             }
             if (key === "kopt_performance") {
-                for (const [maximum, detail] of Object.entries(v.by_maximum || {})) {
-                    box.append(node("p", "note", `K-opt 2–${maximum}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}.`));
+                if (v.by_strategy) {
+                    for (const [strategy, detail] of Object.entries(v.by_strategy)) {
+                        box.append(node("p", "note", `Rust ${strategy}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score comparisons; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}. Strategies use the same routes and k ranges.`));
+                    }
+                } else {
+                    for (const [maximum, detail] of Object.entries(v.by_maximum || {})) {
+                        box.append(node("p", "note", `K-opt 2–${maximum}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}.`));
+                    }
                 }
                 for (const probe of h.boundary_probes || []) {
                     box.append(node("p", "note", `Exact k=${probe.minimum} · ${n(probe.case.points.length)} values: Java made ${n(probe.java.score_calls)} score calculations, Rust ${n(probe.rust.score_calls)}. Scores: Java ${probe.java.score.join("/")}, Rust ${probe.rust.score.join("/")}. Separate behavior probe; excluded from timing comparisons.`));

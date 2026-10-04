@@ -19,8 +19,10 @@ fn score(case: &Case, row: &[usize]) -> HardSoftScore {
 }
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 8 {
-        return Err("minimum maximum steps evaluations seed warmup samples".into());
+    if args.len() != 8 && args.len() != 9 {
+        return Err(
+            "minimum maximum steps evaluations seed warmup samples [window|sampled]".into(),
+        );
     }
     let minimum: usize = args[1].parse()?;
     let k: usize = args[2].parse()?;
@@ -41,6 +43,28 @@ fn main() -> Result<(), Box<dyn Error>> {
     {
         return Err("counts".into());
     }
+    let strategy = args.get(8).map(String::as_str).unwrap_or("window");
+    if !["window", "sampled"].contains(&strategy) {
+        return Err("unknown strategy".into());
+    }
+    let sizes = ListKOptConfig::new(minimum, k)?;
+    let neighborhood = if strategy == "sampled" {
+        Neighborhood::SampledKOpt(ListKOptSampling::new(
+            sizes,
+            seed,
+            usize::try_from(evaluations)?,
+        ))
+    } else {
+        Neighborhood::KOpt(sizes)
+    };
+    let move_order = if strategy == "sampled" {
+        MoveOrder::Original
+    } else {
+        MoveOrder::ShuffledMoves {
+            seed,
+            window: 4096.try_into().unwrap(),
+        }
+    };
     for line in io::stdin().lock().lines() {
         let case = Case::parse(&line?)?;
         if case.problem.entities().len() != 1 {
@@ -75,11 +99,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                     max_steps: steps,
                     max_accepted_moves: u64::MAX,
                     acceptance: Acceptance::HillClimbing,
-                    neighborhood: Neighborhood::KOpt(ListKOptConfig::new(minimum, k)?),
-                    move_order: MoveOrder::ShuffledMoves {
-                        seed,
-                        window: 4096.try_into().unwrap(),
-                    },
+                    neighborhood,
+                    move_order,
                     selection: MoveSelection::FirstAccepted,
                     rejected_moves: RejectedMovePolicy::BestScore,
                     ..Default::default()
