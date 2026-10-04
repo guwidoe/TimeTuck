@@ -98,6 +98,20 @@ def run_checks(classpath):
         outputs[name] = run.stdout.splitlines()
         if len(outputs[name]) != len(cases):
             raise ValueError(f'{name} oscillation response count')
+    # A completed solver must stay strongly reachable through its weak metric
+    # observations. Force collection between solve and observation on 24 cases.
+    gc_cases = cases[:24]
+    gc_run = subprocess.run(['java', '-Xms64m', '-Xmx64m', '-cp', classpath,
+                             'OscillationOracle', '--gc-check'],
+                            input='\n'.join(map(encode,gc_cases))+'\n', text=True,
+                            capture_output=True, timeout=60)
+    (WORK/'oscillation-java-gc.stderr.log').write_text(gc_run.stderr)
+    if gc_run.returncode:
+        raise RuntimeError('Java metric GC regression failed; see work/oracle/oscillation-java-gc.stderr.log')
+    gc_outputs = gc_run.stdout.splitlines()
+    if len(gc_outputs) != len(gc_cases) or gc_outputs != outputs['java'][:len(gc_cases)]:
+        raise ValueError('Java metric observations changed or disappeared under GC')
+    gc_checks = dict(total=len(gc_cases), passed=len(gc_outputs))
     failures, differences = [], []
     native_passed = 0
     for i, c in enumerate(cases):
@@ -111,11 +125,11 @@ def run_checks(classpath):
             failures.append(dict(case=c['id'], error=str(error)))
     failed = {r['case'] for r in failures}
     divergent = {r['case'] for r in differences}
-    report = dict(seed=SEED, total=len(cases), passed=len(cases)-len(failed | divergent),
+    report = dict(seed=SEED, metric_gc_checks=gc_checks, total=len(cases), passed=len(cases)-len(failed | divergent),
                   native_reference_passed=native_passed, diverged=len(divergent),
                   failures=failures, divergences=differences,
                   scope='Original bounded three-level score tables, 402 matrices x3 ranking modes x4 step prefixes. Public Java STEP_SCORE and move-count gauges observe the last step and complete accepted candidate set; returned best identity/score is checked separately. Native forager matches independent Python. Exact-reference encounter-order differences remain outside agreement counts. Large annealing temperatures make all bounded Java candidates accepted, verified at every prefix; no general annealing, PRNG, Java internal trace, timing or upstream-method credit.')
-    (WORK/'oscillation-cases.json').write_text(json.dumps(dict(schema_version=1, seed=SEED, cases=cases, outputs=outputs), indent=2)+'\n')
+    (WORK/'oscillation-cases.json').write_text(json.dumps(dict(schema_version=1, seed=SEED, cases=cases, outputs=outputs, metric_gc_outputs=gc_run.stdout.splitlines()), indent=2)+'\n')
     print(f'Oscillation: {report["passed"]}/{report["total"]} agree, {report["diverged"]} differ, {len(failures)} failures', flush=True)
     return report
 

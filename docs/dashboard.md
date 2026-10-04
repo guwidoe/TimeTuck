@@ -86,13 +86,18 @@ loop iteration, not a single score operation. A 1.01× ratio may simply be noise
 These score operations do not measure whole-solver throughput, memory, or solution
 quality.
 
-A separate exact-search section measures two original graph-assignment problems:
-6 or 8 variables, each with 3 values (729 or 6,561 complete assignments). Both
-runtimes maximize identical hard-conflict and soft-preference scores by brute
-force. Timefold uses BRUTE_FORCE/ORIGINAL_ORDER; Rust enumerates complete finite
-assignments. Java also visits partial states, so traversal/evaluation counts differ.
-Every returned score is recomputed; sample score checksums and final assignments
-must match an independently enumerated optimum.
+The exact-search section measures ten workloads: brute force and four
+branch-and-bound exploration orders, each at 6 and 8 variables with 3 values
+(729 or 6,561 complete assignments). Brute force preserves the original mixed-sign
+preference fixtures. Branch workloads use nonpositive preferences and identical
+inputs for all four orders: depth first, breadth first, score first and optimistic
+bound first. Java uses BRANCH_AND_BOUND with an ONLY_DOWN initializing-score trend;
+native search uses the partial full score as an admissible bound. Python checks
+this bound over complete small prefix trees. Every sample checksum and returned
+assignment is checked against independently enumerated optima. This establishes
+optimal scores on these fixtures, not identical bounds, traces or node counts.
+Native branch search counts both partial and complete nodes; brute force enumerates
+complete assignments. All runs recompute full scores; no incremental scoring.
 
 The default is 3 processes × 7 samples × 5 solves, after 5 warmup batches per
 process. Milliseconds are per complete solve. Models are parsed before timing;

@@ -7,7 +7,12 @@ public final class SolverBenchmark {
         int iterations = Integer.parseInt(args[0]), warmup = Integer.parseInt(args[1]), samples = Integer.parseInt(args[2]);
         var reader = new BufferedReader(new InputStreamReader(System.in));
         var problem = SolverOracle.parse(reader.readLine().split("\t", -1));
-        var factory = SolverOracle.factory();
+        String algorithm = args.length > 3 ? args[3] : "brute";
+        if (!algorithm.equals("brute")) {
+            for (long[] row : problem.weights) for (long value : row)
+                if (value > 0) throw new IllegalArgumentException("Branch benchmark requires nonpositive weights");
+        }
+        var factory = algorithm.equals("brute") ? SolverOracle.factory() : SolverOracle.branchFactory(algorithm);
         var calculator = new SolverOracle.Calculator();
         for (int sample = -warmup; sample < samples; sample++) {
             long hard = 0, soft = 0;

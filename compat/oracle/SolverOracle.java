@@ -93,6 +93,24 @@ public final class SolverOracle {
         return SolverFactory.<Problem>create(config);
     }
 
+    static SolverFactory<Problem> branchFactory(String algorithm) {
+        var order = switch (algorithm) {
+            case "depth" -> NodeExplorationType.DEPTH_FIRST;
+            case "breadth" -> NodeExplorationType.BREADTH_FIRST;
+            case "score" -> NodeExplorationType.SCORE_FIRST;
+            case "bound" -> NodeExplorationType.OPTIMISTIC_BOUND_FIRST;
+            default -> throw new IllegalArgumentException("Unknown branch exploration");
+        };
+        var config = new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Job.class)
+            .withScoreDirectorFactory(new ai.timefold.solver.core.config.score.director.ScoreDirectorFactoryConfig()
+                .withEasyScoreCalculatorClass(Calculator.class).withInitializingScoreTrend("ONLY_DOWN"))
+            .withRandomSeed(20261001L)
+            .withPhases(new ExhaustiveSearchPhaseConfig().withExhaustiveSearchType(ExhaustiveSearchType.BRANCH_AND_BOUND)
+                .withNodeExplorationType(order).withEntitySorterManner(EntitySorterManner.NONE)
+                .withValueSorterManner(ValueSorterManner.NONE));
+        return SolverFactory.<Problem>create(config);
+    }
+
     public static void main(String[] args) throws Exception {
         var factory = factory();
         try (var input = new BufferedReader(new InputStreamReader(System.in))) {

@@ -7415,3 +7415,123 @@ Screenshots work/history-{desktop,phone}.png were visually inspected. Browser is
 closed, server 8765 remains running; no test/measurement process remains active.
 All staged changes inspected before commit. This turn made verified progress;
 full goal remains active, not complete or blocked.
+
+## 2026-10-04: Basic branch-and-bound search
+
+Prior goal turn made verified progress (83e8aa7). This increment adds a substantive
+exact-search capability: independent native branch-and-bound over FiniteProblem.
+The callback gets partial assignment plus unresolved movable indices (a decided
+optional None must not be confused with unresolved). BranchEvaluation holds its
+score and optional admissible upper bound. Unknown bounds add no pruning; the
+minimum full-score bound along a path carries forward and detects violations at
+visited eligible leaves. Pruned branches cannot validate caller admissibility.
+
+Four NodeExploration policies and public SearchNodeKey scheduling comparison follow
+pinned comparator fixtures and public exhaustive-search.adoc, not production code.
+Scheduling ignores structural incompleteness; eligible leaf retention and pruning
+use full score order. Negative structural leaves are rejected. Queued partial
+parents expand in priority order, generating children in domain order. Pins fixed,
+movable initial values cleared, optional None last, ties first eligible evaluated
+leaf. Native insertion serial gives deterministic exact-key ties. Full owned
+assignments live in a BinaryHeap; no incremental or linear-memory DFS claim.
+
+Evaluation/cancellation/time limits, frontier-size stopping, strict-best observer,
+node/leaf/open-parent/pruned-branch counters and conditional is_optimal are exposed.
+Remaining proven-dominated branches can be pruned despite exhausted budgets; empty
+space/final completion retain exhaustion precedence. FrontierLimit cannot imply
+optimality. Panics propagate with caller model unchanged. List/mixed branch search,
+orchestration integration and automatic score-trend bounds remain unimplemented.
+
+Four complete comparator methods plus shared AbstractNodeComparatorTest fixture
+helpers are attributed. Thirteen original integration tests and two controlled-clock
+unit tests cover independent enumeration, generated valid bounds, every evaluation
+prefix, owned/decimal scores, structural states, cancellation, limits, failures,
+optional None/pins/ranges and actual ConstraintNetwork scoring. Focused integration
+and unit runs passed; avoid the first filtered integration output (0 tests) as
+coverage evidence. Work/branch-focused-integration.log contains all 13+4 passes.
+Clippy passed. Full gate session 93549 writes work/branch-check.log.
+
+Public Java SolverOracle.branchFactory uses BRANCH_AND_BOUND, four exploration
+types, no entity/value sorting and ONLY_DOWN score trend. Javap signatures only
+verified public configuration methods. Native/Java benchmark adapters accept an
+optional order mode; default brute force preserved. Benchmark_solver now measures
+10 workloads: original brute sizes6/8 plus four branch orders at each size. Branch
+fixtures negate absolute soft preferences so partial hard/soft score is admissible;
+Python tests prove it against all complete states on small prefix trees. Same
+inputs across branch orders; full scoring, per-run setup and result validation.
+No identical Java/native bounds, trace or node-count claim. Existing visual cards
+consume all workloads; exact section footer and docs now describe both algorithms.
+
+Unwarmed one-sample probe 15914 passed all10 independently enumerated optima;
+work/branch-benchmark-probe.log. Its timings are NOT warmed performance evidence.
+Final refresh must replace probe artifact. Expected final counts: 1,772 Rust tests,
+92 doctests, 211 Python tests; 872/4,855=17.96% coverage, Search67/158=42.41%,
+pending3,701/excluded282; 13 current datasets,65 timing cards including10 exact and
+22 heuristic. Work/branch-audit.py checks fingerprints, counters and warmed samples.
+Full goal remains active, incomplete, and not blocked.
+
+Full gate93549 completed successfully: 1,772 Rust tests,92 doctests,211 Python
+checks; coverage872/4,855 (17.96%), Search67/158 (42.41%), zero failed/unverified.
+Focused release checks also passed before sequential refresh in session24565;
+work/branch-release.log. Refresh logs: work/branch-refresh-*.log; final audit output
+work/branch-audit.log. No source changes after the frozen full capture.
+
+The three InitializingScoreTrendTest bodies were read as tests only while waiting.
+Native automatic bounds are not implemented. A future trend/bound integration must
+handle exact numeric levels and unknown/infinite bounds honestly, including decimal
+families; do not infer arbitrary finite bounds from integer maxima. Priority remains
+integrating bounded search into the broader native solver, not earning isolated
+parser-fixture credit. README now exposes the standalone capability and its contract.
+
+Refresh24565 terminated exit1 in the existing Java oscillation adapter: "missing
+or inexact step score". Do not treat that refresh as successful. A controlled GC
+probe in work/oscillation-gc/{baseline,retained} reproduced the unfenced adapter
+failure (zero output rows) and passed24 with a strong solver reference plus Java
+Reference.reachabilityFence. No upstream production code was inspected. Official
+Micrometer gauge docs confirm weak observation references; see compatibility.md.
+
+Permanent OscillationOracle now holds/fences solver through metric reads, includes
+metric value in failures and accepts a diagnostic --gc-check. run_checks forces GC
+on24 cases in a fresh64MiB process and compares complete raw observations with the
+normal Java run. GC evidence is metric_gc_checks in the report and raw
+metric_gc_outputs in work/oracle/oscillation-cases.json. No compatibility credit.
+Recheck46523 passed4499 agreements/325 differences/0 failures and24/24 GC checks;
+work/branch-gc-recheck.log. Final capture must use the new adapter/script sources:
+full gate45079 writes work/branch-final-check.log. Prior fingerprints are stale.
+
+Final gate45079 passed on the GC-fixed sources: 1,772 Rust tests,92 doctests,
+211 Python tests. Sequential final refresh is session88284, logs
+work/branch-final-refresh-*.log, followed by work/branch-final-audit.log.
+Re-poll that exact handle if interrupted; do not restart on observation timeout.
+Old refresh24565 is terminal failure; final refresh88284 replaces every dataset so
+all measurements share the new global source fingerprint. Rust release evidence
+remains work/branch-release.log (no Rust changes after that check).
+
+Final solver differential in refresh88284 passed128/128 cases,4499/4824 oscillation
+agreements with325 unchanged differences,0 failures, and24/24 forced-GC metric
+checks. The warm exact-search benchmark has completed all10 workloads; final
+heuristic/pillar measurements and combined audit still follow in the same session.
+
+Final refresh88284 finished exit0 and work/branch-final-audit.log passed: all13
+datasets current with matching source/verification fingerprints,65 timing cards,
+10 exact workloads and22 heuristic workloads. Coverage872/4,855=17.96%; Search
+67/158=42.41%; pending3,701,excluded282,failed/unverified0. The final full gate
+45079 passed1,772 Rust tests,92 doctests,211 Python checks. Forced-GC checks24/24
+passed and the325 existing oscillation differences remain recorded.
+
+Warmed median milliseconds per solve (Rust/Java), sizes6 then8: brute force
+0.021313/7.626263 and0.238770/8.470987; depth first0.012708/4.217277 and
+0.060763/6.738224; breadth first0.062455/5.932555 and1.372616/8.875124;
+score first0.019462/3.596690 and0.115350/6.569077; optimistic bound first
+0.014944/4.127800 and0.075903/7.188131. Independently enumerated optima match
+every sample. These are small full-score framework workloads, not general speed
+claims; bounds and execution traces need not match across runtimes.
+
+Browser verification passed at1440x1000 and390x844:65 cards,10 exact,22 heuristic;
+Search filtering NodeComparatorTest returns all4 passed methods. No page errors,
+horizontal overflow or stale-data warning. Visually inspected screenshots:
+work/branch-dashboard-desktop.png, work/branch-dashboard-phone.png and
+work/branch-dashboard-phone-bound.png. Browser closed; localhost:8765 dashboard
+server remains running. No measurement/test process remains live. Broader branch
+integration (list/mixed/orchestration and automatic bounds) is still pending.
+Full goal remains active and incomplete.

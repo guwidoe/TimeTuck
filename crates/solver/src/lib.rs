@@ -377,3 +377,10 @@ pub use tabu_size::TabuSize;
 
 mod score_history;
 pub use score_history::ScoreHistory;
+
+mod branch_and_bound;
+pub use branch_and_bound::{
+    BranchAndBoundConfig, BranchAndBoundResult, BranchEvaluation, BranchTermination,
+    InvalidOptimisticBound, NodeExploration, SearchNodeKey, branch_and_bound,
+    branch_and_bound_with_observer,
+};

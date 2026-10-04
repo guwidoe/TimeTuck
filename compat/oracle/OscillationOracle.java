@@ -57,10 +57,12 @@ public final class OscillationOracle {
     static long stepLevel(SimpleMeterRegistry registry,String level) {
         double value=registry.get("timefold.solver.step.score."+level+".score").gauge().value();
         if (!Double.isFinite(value) || value!=Math.rint(value) || Math.abs(value)>8)
-            throw new IllegalStateException("missing or inexact step score");
+            throw new IllegalStateException("missing or inexact step score: "+level+"="+value);
         return (long)value;
     }
     public static void main(String[] args) throws Exception {
+        boolean gcCheck=args.length==1 && args[0].equals("--gc-check");
+        if(args.length>0 && !gcCheck) throw new IllegalArgumentException("expected optional --gc-check");
         var factories=new HashMap<String,SolverFactory<Problem>>();
         try(var input=new BufferedReader(new InputStreamReader(System.in))) {
             for(String line;(line=input.readLine())!=null;) {
@@ -89,8 +91,11 @@ public final class OscillationOracle {
                 var registry=new SimpleMeterRegistry();
                 try {
                     Metrics.addRegistry(registry);
+                    ai.timefold.solver.core.api.solver.Solver<Problem> solver=null;
                     try {
-                        var best=factory.buildSolver().solve(p);
+                        solver=factory.buildSolver();
+                        var best=solver.solve(p);
+                        if(gcCheck) System.gc();
                         int value=best.jobs.getFirst().value;
                         double selected=registry.get("timefold.solver.step.move.count.selected").gauge().value();
                         double accepted=registry.get("timefold.solver.step.move.count.accepted").gauge().value();
@@ -99,7 +104,12 @@ public final class OscillationOracle {
                         if(!best.score.equals(p.scores[value])) throw new IllegalStateException("invalid retained best");
                         System.out.println(f[0]+"\t"+stepLevel(registry,"hard")+"\t"+stepLevel(registry,"medium")+"\t"+stepLevel(registry,"soft")
                             +"\t"+best.score.hardScore()+"\t"+best.score.mediumScore()+"\t"+best.score.softScore()+"\t"+value+"\t"+(int)selected+"\t"+(int)accepted);
-                    } finally {Metrics.removeRegistry(registry);Metrics.globalRegistry.clear();}
+                    } finally {
+                        // Gauges hold weak references. Keep their owning solver live
+                        // through every metric read, including under explicit GC.
+                        java.lang.ref.Reference.reachabilityFence(solver);
+                        Metrics.removeRegistry(registry);Metrics.globalRegistry.clear();
+                    }
                 } finally {registry.close();}
             }
         }

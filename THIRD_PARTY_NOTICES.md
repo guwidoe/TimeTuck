@@ -418,3 +418,11 @@ slot/current assertion is retained; native ScoreHistory replaces Java wrappers.
 Paths, revision and API substitutions are recorded in compat/provenance.json.
 Native history, acceptance integration, generated reference and failure/cost
 regressions are independently implemented.
+
+`crates/solver/tests/node_order_cases.rs` adapts the four Apache-2.0 compare methods
+from DepthFirstNodeComparatorTest, BreadthFirstNodeComparatorTest,
+ScoreFirstNodeComparatorTest and OptimisticBoundFirstNodeComparatorTest, plus
+AbstractNodeComparatorTest fixture defaults/assertion loops, at the pinned Community
+revision. Complete fixture attribution and API substitutions appear in
+compat/provenance.json. The native branch-and-bound engine, original reference/
+failure tests and public-API benchmark adapters are independently implemented.

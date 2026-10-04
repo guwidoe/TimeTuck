@@ -1410,3 +1410,24 @@ write/wrap/reset sequences and slot/current assertions are retained. Java intern
 epoch commentary and native reset return values are not compatibility claims.
 Independent eager-reference, owned-score failure and clone-count checks receive
 no additional upstream-method credit.
+
+Four exhaustive-search comparator methods now have complete native adaptations:
+depth first, breadth first, score first and optimistic bound first. Every fixture
+and all-pairs bidirectional comparison is retained, including unassigned counts,
+explicit/default optimistic bounds and breadth metadata. SearchNodeKey replaces
+mocked nodes; these fixtures do not claim Java traversal or lifecycle equivalence.
+The independent basic-variable branch-and-bound engine is tested against exhaustive
+enumeration and admissible prefix tables. Separate benchmark cases compare all four
+public Java exploration configurations with native search on nonpositive-score
+fixtures, validating results against Python optima. Their timings include setup,
+search and result validation; node counts and traces are not asserted equal. List
+and mixed branch-and-bound remain unimplemented.
+
+The oscillation diagnostic keeps the Java solver strongly reachable through all
+STEP_SCORE and move-count reads using Reference.reachabilityFence. A forced-GC
+probe reproduced missing gauge observations without this lifetime protection;
+24 representative cases now force GC between solve and observation and must match
+the normal run byte-for-byte. This is an adapter reliability check, not additional
+native-method or Java-behavior coverage. Micrometer documents weak gauge references
+and missing/NaN observations after collection:
+https://docs.micrometer.io/micrometer/reference/1.16/concepts/gauges.html.

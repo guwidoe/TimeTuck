@@ -87,6 +87,13 @@ factory for each phase. Results include partial progress, retained solutions and
 per-phase work. See [the solver contract](docs/solver-contract.md) for configuration,
 error behavior and limits; `mixed_routes` exercises both scoring backends.
 
+Basic models also support standalone `branch_and_bound`, with four exploration
+orders, optional optimistic bounds, best-solution observations and bounded search
+controls. Exhaustion proves optimality when supplied bounds are admissible; unknown
+bounds keep branches open. See [the planning contract](docs/planning-contract.md)
+for callback semantics, validation and limits. The dashboard compares all four
+orders with Community on independently verified small exact-search workloads.
+
 Load balancing retains exact per-key loads and rounded decimal unfairness through
 updates and undo. All 101 generated cases / 8,290 states match independent Python;
 97 agree with Java, including all 96 bounded cases. Four large-number cases expose

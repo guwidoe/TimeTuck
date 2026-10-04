@@ -235,3 +235,54 @@ Every target must be legal for every selected member in every column; a single
 invalid cross-value rejects the entire pair. No-ops in unchanged columns can remain
 inside a valid Composite swap. Domain/pin validation and scored rollback retain
 existing atomic semantics. Neither moves nor provider grouping mutates the schema.
+
+## Branch-and-bound basic-variable search
+
+`branch_and_bound` and `branch_and_bound_with_observer` search the finite basic
+model using owned partial assignments and a priority queue. They preserve pins,
+clear movable initial assignments, branch in model/domain order and include optional
+None last. The callback receives remaining movable indices: this separates an
+unresolved variable from a decided optional None. An empty remaining slice marks a
+leaf, even when the model considers optional partial assignments complete earlier.
+
+`BranchEvaluation` contains a partial scheduling score (actual score at leaves)
+and an optional optimistic bound. Bounds must dominate every eligible completion
+under full Score ordering, including structural state. None adds no bound; known
+ancestor bounds still apply. The tightest supplied bound on a path permits pruning
+when it cannot improve the retained best. A visited eligible leaf exceeding that
+bound returns InvalidOptimisticBound. This cannot validate branches pruned before
+visiting any completion. As with deterministic scoring, admissibility is a caller
+contract: is_optimal is conditional on it. No automatic score-trend inference or
+Java bound implementation is claimed. Unknown bounds permit unpruned exploration.
+
+NodeExploration supports depth first, breadth first, score first and optimistic
+bound first. Public SearchNodeKey comparison uses exact ordinary numeric levels,
+ignoring partial structural incompleteness for scheduling. It then uses depth,
+parent breadth and breadth ties as documented/tested; final native insertion order
+makes queue ties deterministic. Child scores are calculated in each parent's domain
+order; queue policy chooses the next partial parent. Negative structural leaves are
+rejected, hard-infeasible eligible leaves retained, and equal scores keep the first
+evaluated eligible leaf. Positive structural leaf values use full score ordering.
+
+Every callback counts as one evaluation, including root and partial nodes.
+Complete evaluations, opened parents, cut branches and peak queued-node count are
+reported separately. A cut branch count is not its number of descendant solutions.
+Budgets poll before callbacks and parent expansion, with evaluation/cancellation/time
+precedence. Exhaustion after the final callback or pruning all remaining branches
+wins over expired controls. Callback/observer execution cannot be preempted. A full
+frontier stops with FrontierLimit; discarded unexplored work never earns optimality.
+Queue size is bounded by configuration, but each queued assignment owns all variable
+slots; this is not linear-memory DFS or an incremental scoring implementation.
+
+Original checks compare all four policies with exhaustive optima, full traversal
+sets, independently enumerated admissible prefix bounds, every evaluation prefix,
+scoped-constraint scores, full-width decimal scores, optional ranges/pins, structural
+rejection, clone failures, observer cancellation and controlled elapsed clocks.
+Four complete pinned comparator methods retain every fixture and bidirectional
+pair assertion. Other exhaustive-search lifecycle/branching methods remain pending;
+list/mixed branch-and-bound and orchestration integration are not yet implemented.
+
+The comparator priorities and pruning contract use the pinned public documentation
+`docs/src/modules/ROOT/pages/optimization-algorithms/exhaustive-search.adoc` as a
+specification, together with the attributed test fixtures. No Timefold production
+implementation was inspected or translated for this implementation.
