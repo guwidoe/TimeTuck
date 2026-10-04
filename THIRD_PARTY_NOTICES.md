@@ -377,3 +377,9 @@ Apache-2.0 DiversifiedLateAcceptanceAcceptorTest methods at the pinned Community
 revision. The Cargo library test target and fully qualified test identities are
 recorded in compat/provenance.json. All score/state fixtures and assertions retain
 attribution. The acceptance implementation and original regressions are independent.
+
+crates/solver/tests/tabu_size_cases.rs adapts all three Apache-2.0 methods in
+EntityRatioTabuSizeStrategyTest and FixedTabuSizeStrategyTest at the pinned
+Community revision. Complete ratio/population/fixed-size fixtures and rejection
+assertions are recorded in compat/provenance.json. Native sizing and phase
+integration, original regressions and benchmark configuration are independent.

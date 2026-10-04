@@ -202,11 +202,24 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
     pub(crate) fn start_acceptance<M: Eq + Clone, K: Eq + Clone>(
         &self,
         initial: S,
+        population: usize,
     ) -> Result<crate::ValueAcceptor<S, M, K>, AcceptanceError> {
         if self.additional_acceptance.is_empty() {
-            self.acceptance.start_with_values(initial)
+            self.acceptance
+                .for_population(population)
+                .start_with_values(initial)
         } else {
-            crate::ValueAcceptor::start_composite(self.policies(), initial)
+            let count = self
+                .additional_acceptance
+                .len()
+                .checked_add(1)
+                .ok_or(AcceptanceError::AcceptorAllocation)?;
+            let mut resolved = Vec::new();
+            resolved
+                .try_reserve_exact(count)
+                .map_err(|_| AcceptanceError::AcceptorAllocation)?;
+            resolved.extend(self.policies().map(|p| p.for_population(population)));
+            crate::ValueAcceptor::start_composite(resolved.iter(), initial)
         }
     }
     pub(crate) fn tracks_values(&self) -> bool {
@@ -221,7 +234,9 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
         self.policies().any(|p| {
             matches!(
                 p,
-                Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
+                Acceptance::VariableTabu { .. }
+                    | Acceptance::FadingVariableTabu { .. }
+                    | Acceptance::SizedVariableTabu { .. }
             )
         })
     }
@@ -469,7 +484,7 @@ where
         assignment
     });
     let mut director = create(initial)?;
-    let mut acceptor = config.start_acceptance(director.score())?;
+    let mut acceptor = config.start_acceptance(director.score(), problem.variables().len())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {

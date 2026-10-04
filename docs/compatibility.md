@@ -67,7 +67,10 @@ The first three integer score families have 47 adapted tests; BendableScore adds
 27, using native compile-time dimensions in place of Java score definitions; basic change/swap
 moves add ten adapted cases; provider behavior and hill-climbing acceptance add
 nine more. Four late-acceptance methods validate history behavior and hard-score
-resets. Two diversified-late-acceptance methods additionally preserve all trial acceptance
+resets. Three tabu-sizing methods preserve all fixed-size validation and population-ratio
+rounding/boundary fixtures. Native phase integration and broader ratio boundaries
+have separate original regressions and do not add upstream method credit.
+Two diversified-late-acceptance methods additionally preserve all trial acceptance
 and private-history replacement assertions. Native phase/candidate behavior and
 original backend/search checks are specified in the incremental-search contract.
 Four construction-forager methods preserve early-pick decisions. Three

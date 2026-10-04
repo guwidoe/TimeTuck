@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if args.len() != 5 {
         return Err(
-            "expected hill|diversified|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples"
+            "expected hill|diversified|ratio_tabu|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples"
                 .into(),
         );
     }
@@ -39,6 +39,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         },
         "move_tabu" => Acceptance::MoveTabu {
             tenure: 2,
+            aspiration: true,
+        },
+        "ratio_tabu" => Acceptance::SizedVariableTabu {
+            size: timetuck::TabuSize::ratio(0.2)?,
             aspiration: true,
         },
         "tabu" => Acceptance::VariableTabu {

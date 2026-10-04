@@ -433,6 +433,10 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
     ];
     for (acceptance, additional_acceptance) in [
         Acceptance::DiversifiedLateAcceptance { history_size: 3 },
+        Acceptance::SizedVariableTabu {
+            size: TabuSize::ratio(0.5).unwrap(),
+            aspiration: true,
+        },
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {

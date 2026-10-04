@@ -12540,6 +12540,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all candidate/current/history fixtures and all assertions in private-state Rust unit tests in src/diversified_late.rs. Native Score replaces fully assigned InnerScore; fresh constructors replace phaseStarted. Preserve deliberately inconsistent cached worst/count injections used by the source tests. Cargo library target and fully qualified names identify actual executions; production state machine is independently implemented."
+    },
+    {
+      "id": "EntityRatioTabuSizeStrategyTest.tabuSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/size/EntityRatioTabuSizeStrategyTest.java",
+      "upstream_test": "tabuSize",
+      "local_path": "crates/solver/tests/tabu_size_cases.rs",
+      "local_test": "entity_ratio_tabu_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ratios, population 100, expected sizes, fixed sizes 5/17 and rejected signed inputs 0/-1. Validated native TabuSize and explicit population replace mocked phase/step scopes. Fixed sizing uses population zero to demonstrate independence. Original boundary, population and backend checks are separate from method credit."
+    },
+    {
+      "id": "FixedTabuSizeStrategyTest.tabuSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/size/FixedTabuSizeStrategyTest.java",
+      "upstream_test": "tabuSize",
+      "local_path": "crates/solver/tests/tabu_size_cases.rs",
+      "local_test": "fixed_tabu_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ratios, population 100, expected sizes, fixed sizes 5/17 and rejected signed inputs 0/-1. Validated native TabuSize and explicit population replace mocked phase/step scopes. Fixed sizing uses population zero to demonstrate independence. Original boundary, population and backend checks are separate from method credit."
+    },
+    {
+      "id": "FixedTabuSizeStrategyTest.invalidTabuSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/tabu/size/FixedTabuSizeStrategyTest.java",
+      "upstream_test": "invalidTabuSize",
+      "local_path": "crates/solver/tests/tabu_size_cases.rs",
+      "local_test": "invalid_fixed_tabu_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ratios, population 100, expected sizes, fixed sizes 5/17 and rejected signed inputs 0/-1. Validated native TabuSize and explicit population replace mocked phase/step scopes. Fixed sizing uses population zero to demonstrate independence. Original boundary, population and backend checks are separate from method credit."
     }
   ],
   "fixtures": [

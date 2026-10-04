@@ -6855,3 +6855,60 @@ Goal remains active/incomplete. Useful next work: ratio-based tabu sizing from
 EntityRatioTabuSizeStrategyTest and FixedTabuSizeStrategyTest (already read this
 turn); or richer public Java trial/step acceptance evidence. Do not infer Java
 trace parity from the new final-score comparisons. No subagents were used.
+
+## In progress: population-relative tabu sizing (2026-10-04)
+
+Previous turn was progress, committedcc58d1e, clean at start. Added validated
+TabuSize::fixed(i64)/ratio(f64), private representation preservesCopy/Eq with
+canonical signed zero. Ratio interval[0,1], finite; positive nearest-half-up
+binary64 product, exact final cap[1,population-1], counts0/1resolve1. Fixed positive
+conversion rejects overflow on narrower targets. Endpoint/tiny population rules
+are original native extensions, not claimed from the six source ratio fixtures.
+
+SizedVariableTabu integrates through LocalSearchConfig::start_acceptance(population)
+across all six scoring/search paths. Basic count=all variables, list=all owners,
+mixed=sum, including pins. Additional policies are resolved in a fallibly
+allocated temporary vector. No implicit missing population: standalone users call
+for_population first; otherwise PopulationContextRequired. Existing ordinary
+policy settings retained. Fixed/fading/value policies still available unchanged;
+no automatic value/move/fading ratio expansion this increment.
+
+Three source methods fully adapted: EntityRatioTabuSizeStrategyTest.tabuSize,
+FixedTabuSizeStrategyTest.tabuSize/invalidTabuSize. Provenance/notices updated.
+Five original regressions pass: exact binary-fraction integer reference rounding,
+bounds/NaN/zero/huge counts, standalone context/expiry, all six backends against
+explicit fixed controls withpins and additional policies, empty/reused configs.
+Owned-score six-backend and list-stream matrices additionally include sizing.
+Focused session62363 completed exit0. Public Java/native ratio_tabu benchmark
+adds0.2ratio and aspiration. Default workloads resolve6/19 for32/96variables.
+Smoke session37878 running, log work/tabu-size-smoke.log (not timing evidence).
+
+Source frozen; full gate83095 running work/tabu-size-check.log. Expected1688Rust
+(839adapted,773original integration,76original unit),87doctests,200Python.
+After success, focused release, all13 sequential refreshes, regenerate/audit
+report, browser verify3source methods and53cards/18heuristiccards, review/commit.
+
+Full gate83095 completed exit0 with1688Rust,87doctests,200Python. Report credits
+839/4855 (17.281%), search45/158 (28.481%), pending3734,excluded282,zero failed
+or unverified. Smoke37878 finished288/288valid/equal-score cases at3steps;
+not timing evidence. Focused release plus all13 sequential refreshes now running
+session58813, logs work/tabu-size-release.log and tabu-size-refresh-*.
+Audit prepared in work/tabu-size-audit.py for13current datasets,839coverage,
+all3new methods,53cards/18heuristiccards,288validationcases and21samples per
+runtime/workload. Source remains frozen; browser closed until timings finish.
+
+Refresh58813 completed exit0. Audit confirms all13current datasets, exact source/
+verification/live fingerprints,839coverage,3new method passes,53timing cards and
+18heuristic cards. Default50steps/5warmups/7samples/3forks:288/288small cases valid
+and equal-score,238optimal/runtime. Ratio-tabu32variables Rust2.530ms/Java12.450ms,
+both0/0optimal;96variables Rust15.987ms/Java17.434ms,both-44/-22infeasible.
+21samples/runtime/workload; ranges and score calls retained. These are bounded
+workload comparisons, not general speed or Java trace equivalence.
+Browser1440px/390px confirms17.28%,28.48%search,all3methods Passed,53cards and
+18heuristiccards. Both new cards showquality/feasibility/ranges/scorecalls. No
+pageerrors or horizontaloverflow; browserclosed,server8765stillrunning. Final
+stagedimplementation,tests/provenance and required gate reviewed before commit.
+Full goal remains active/incomplete. Next useful work: population-relative value
+or fading tabu with explicit key-universe semantics; or remaining move metadata
+adaptations after the public list comparison. Do not erase known Java metadata
+errors/differences or claim Java trace parity from final-score equality.

@@ -201,7 +201,10 @@ where
         return Ok(result);
     }
     let mut director = make_director(initial)?;
-    let mut acceptor = config.start_acceptance(director.score())?;
+    let mut acceptor = config.start_acceptance(
+        director.score(),
+        problem.basic().variables().len() + problem.lists().entities().len(),
+    )?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {

@@ -1243,3 +1243,43 @@ The full-scoring heuristic benchmark adds public Community preview configuration
 with history size three on the same complete change-move workloads. Final validity,
 quality, raw scores and score-call counts are measured separately from timings.
 These comparisons do not establish identical Java candidate acceptance or traces.
+
+### Population-relative tabu sizing
+
+`TabuSize::fixed(i64)` validates a positive fixed tenure; `TabuSize::ratio(f64)`
+validates a finite ratio in `[0,1]`. Ratio resolution rounds the binary64 product
+to the nearest integer (positive halves upward), clamps to at least one and at
+most population minus one, and returns one for empty/singleton populations.
+Signed zero is canonicalized. The final upper cap is exact even for populations
+outside binary64's exact integer range. Fixed sizes do not depend on population.
+The zero/one-population and ratio endpoint rules are native extensions verified
+by original regressions; the pinned ratio method specifies six cases at count 100.
+
+`Acceptance::SizedVariableTabu { size, aspiration }` resolves at phase start.
+Basic models count variables, list models count list-owning entities, and mixed
+models add both namespaces. All counts include pinned entries. Primary and
+additional policies both receive that population. Each new search resolves
+again from its own model. Resulting memory retains the existing completed-step
+expiry and strict global-best aspiration semantics; the size is not a maximum
+number of retained keys. There is no automatic population-relative value/move
+or fading policy in this increment. `TabuSize::resolve` can explicitly size a
+fixed native policy when the caller supplies the appropriate population.
+
+Standalone acceptors require `policy.for_population(count)` before starting a
+sized policy, so a missing population cannot silently use an arbitrary tenure.
+Validated private sizing representation preserves Copy/Eq configuration without
+permitting NaN or invalid raw ratios. Oversized fixed integers reject conversion
+instead of wrapping on narrower platforms.
+
+All three methods in the pinned EntityRatioTabuSizeStrategyTest and
+FixedTabuSizeStrategyTest are fully adapted with provenance. Original checks
+compare exact binary fractions with integer rounding; verify validation, huge
+counts, new models and independent memory; and compare all six backend paths
+with explicitly sized controls, including pinned entries and additional policies.
+Existing owned-score and list-stream matrices also include the new policy.
+
+The matched basic-change benchmark adds public Java `withEntityTabuRatio(0.2)`.
+Native basic counts correspond to one Java entity per variable, including pins.
+The 32/96-variable workloads resolve to 6/19 completed-step tenures. Timing,
+returned quality, validity and small-case optima remain separate evidence;
+no general Java list/mixed population or dynamic problem-change claim is made.

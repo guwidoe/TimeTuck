@@ -26,6 +26,12 @@ pub enum Acceptance<S = SimpleScore> {
     HillClimbing,
     /// Forbid touching variables from recent completed steps, unless optional
     /// aspiration beats the global best. Non-tabu worsening moves are allowed.
+    /// Resolve this size from the model's variable/entity count per phase.
+    /// Standalone users call for_population before starting acceptance.
+    SizedVariableTabu {
+        size: crate::TabuSize,
+        aspiration: bool,
+    },
     VariableTabu {
         tenure: usize,
         aspiration: bool,
@@ -79,6 +85,8 @@ pub enum AcceptanceError {
     ZeroStepCountingPeriod,
     EmptyHistory,
     EmptyTabu,
+    InvalidTabuRatio,
+    PopulationContextRequired,
     MoveContextRequired,
     ValueContextRequired,
     TabuTenureOverflow,
@@ -106,12 +114,16 @@ impl fmt::Display for AcceptanceError {
             Self::ZeroCoolingSteps => "annealing cooling steps must be positive",
             Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
             Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
-            Self::TabuTenureOverflow => "combined tabu tenure exceeds usize",
+            Self::TabuTenureOverflow => "tabu tenure exceeds usize",
             Self::ValueContextRequired => {
                 "value-based acceptance requires typed value context (start_with_values)"
             }
             Self::MoveContextRequired => {
                 "move-based acceptance requires typed move context (start_with_moves)"
+            }
+            Self::InvalidTabuRatio => "tabu ratio must be finite and in [0, 1]",
+            Self::PopulationContextRequired => {
+                "sized variable tabu requires population context (for_population)"
             }
             Self::EmptyTabu => "tabu tenure must be positive",
             Self::EmptyHistory => "late-acceptance history must not be empty",
@@ -122,6 +134,18 @@ impl fmt::Display for AcceptanceError {
 }
 impl Error for AcceptanceError {}
 impl<S: Score> Acceptance<S> {
+    /// Resolve model-relative policies once per phase, retaining other settings.
+    /// Basic models count variables; list models count list-owning entities;
+    /// mixed models count both namespaces. Counts include pinned entries.
+    pub fn for_population(&self, population: usize) -> Self {
+        match self {
+            Self::SizedVariableTabu { size, aspiration } => Self::VariableTabu {
+                tenure: size.resolve(population),
+                aspiration: *aspiration,
+            },
+            _ => self.clone(),
+        }
+    }
     pub fn validate(&self) -> Result<(), AcceptanceError> {
         if let Self::FadingVariableTabu {
             hard_tenure,
@@ -201,6 +225,9 @@ impl<S: Score> Acceptance<S> {
     pub fn start(&self, initial_best: S) -> Result<Acceptor<S>, AcceptanceError> {
         self.validate()?;
         Ok(match self.clone() {
+            Self::SizedVariableTabu { .. } => {
+                return Err(AcceptanceError::PopulationContextRequired);
+            }
             Self::ValueTabu { .. } | Self::FadingValueTabu { .. } => {
                 return Err(AcceptanceError::ValueContextRequired);
             }

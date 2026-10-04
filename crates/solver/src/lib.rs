@@ -365,3 +365,6 @@ pub use sum_collector::{SumCollector, SumOverflow};
 
 mod diversified_late;
 pub use diversified_late::DiversifiedLateAcceptance;
+
+mod tabu_size;
+pub use tabu_size::TabuSize;
