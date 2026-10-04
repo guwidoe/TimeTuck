@@ -1142,6 +1142,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_basic_phase_neighborhoods(p, &c.phases, LocalSearchError::from)?;
     let observation = PlanObservation::new(observer);
     let initial = || {
         let assignment = p.initial_assignment();
@@ -1287,6 +1288,24 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             })
         },
     )
+}
+fn validate_basic_phase_neighborhoods<V: Eq, S, E>(
+    problem: &FiniteProblem<V>,
+    phases: &[SolverPhase<'_, S>],
+    error: impl Fn(ModelError) -> E,
+) -> Result<(), SolverError<E>> {
+    for (phase, config) in phases.iter().enumerate() {
+        if let SolverPhase::LocalSearch(config) = config {
+            config
+                .neighborhood
+                .validate_basic(problem)
+                .map_err(|e| SolverError::Phase {
+                    phase,
+                    error: error(e),
+                })?;
+        }
+    }
+    Ok(())
 }
 fn validate_list_phase_neighborhoods<V: Eq + Clone, S, E>(
     problem: &ListProblem<V>,
@@ -1558,6 +1577,9 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
+    validate_basic_phase_neighborhoods(p.basic(), &phases, |e| {
+        MixedLocalSearchError::from(MixedScoringError::from(MixedError::Basic(e)))
+    })?;
     validate_list_phase_neighborhoods(p.lists(), &phases, |e| {
         MixedLocalSearchError::from(MixedScoringError::from(MixedError::Lists(e)))
     })?;
@@ -1763,6 +1785,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_basic_phase_neighborhoods(p, &c.phases, LocalSearchError::from)?;
     let observation = PlanObservation::new(observer);
     let initial = || {
         let assignment = p.initial_assignment();
@@ -2217,6 +2240,9 @@ fn solve_mixed_stream_impl<
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
+    validate_basic_phase_neighborhoods(p.basic(), &phases, |e| {
+        MixedLocalSearchError::from(MixedScoringError::from(MixedError::Basic(e)))
+    })?;
     validate_list_phase_neighborhoods(p.lists(), &phases, |e| {
         MixedLocalSearchError::from(MixedScoringError::from(MixedError::Lists(e)))
     })?;

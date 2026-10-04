@@ -187,6 +187,11 @@ where
     problem.validate(&initial).map_err(D::Error::from)?;
     config
         .neighborhood
+        .validate_basic(problem.basic())
+        .map_err(crate::MixedError::Basic)
+        .map_err(D::Error::from)?;
+    config
+        .neighborhood
         .validate_list(problem.lists())
         .map_err(crate::MixedError::Lists)
         .map_err(D::Error::from)?;

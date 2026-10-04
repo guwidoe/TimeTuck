@@ -13545,6 +13545,156 @@
       "local_path": "crates/solver/tests/mass_list_cases.rs",
       "local_test": "fully_pinned_entity_is_never_drawn_from_or_into",
       "modifications": "Retain three values on a fully pinned optional entity and five on a free entity, exact size two, limit one hundred, nonempty and every sample/destination excluding the pinned entity. Native ListProblem, ListMassChangeConfig and immutable candidate metadata replace Java solution/metamodel/tester plumbing. Integer identities replace unused object names. Ordered finite enumeration replaces the sampled Java stream; original limits and all method assertions retained. No Java stream order, probability, lifecycle or internal move-identity equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.mixedValueSampleYieldsOneMoveSettingEveryMemberToALegalValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "mixedValueSampleYieldsOneMoveSettingEveryMemberToALegalValue",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "mixed_value_sample_yields_one_move_setting_every_member_to_a_legal_value",
+      "modifications": "Retain two differently initialized entities over two common values, exact sample size two, limit fifty, nonempty moves, member subset and legal target assertions. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.assignSideDisabledExcludesUnassignedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "assignSideDisabledExcludesUnassignedEntities",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "assign_side_disabled_excludes_unassigned_entities",
+      "modifications": "Retain optional missing/first-value/second-value members, all-sized sample, crossingNull=false, limit fifty, nonempty and both source-null exclusion and non-null target assertions. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.mixedSampleMayAssignOrUnassign",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "mixedSampleMayAssignOrUnassign",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "mixed_sample_may_assign_or_unassign",
+      "modifications": "Retain one missing and one assigned optional entity over one value, all-sized sample, default null policy, limit fifty, exact member set, legal non-null destination and existence of both null and non-null branches. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.crossingNullDefaultFalseWhenVariableDoesNotAllowUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullDefaultFalseWhenVariableDoesNotAllowUnassigned",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "crossing_null_default_false_when_variable_does_not_allow_unassigned",
+      "modifications": "Retain two required entities initialized to distinct values, exact size two, default null policy, limit fifty and successful nonempty enumeration. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "constructor_rejects_explicit_crossing_null_on_non_unassigned_variable",
+      "modifications": "Retain rejection of explicit null crossing for a required variable. Native provider creation validates a required two-slot model and returns NullCrossingRequired instead of a Java metamodel constructor exception. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.homogeneousSampleNeverProducesANoOpMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "homogeneousSampleNeverProducesANoOpMove",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "homogeneous_sample_never_produces_a_no_op_move",
+      "modifications": "Retain five required entities all sharing the first of two values, exact size two, limit two hundred, nonempty output and no destination equal to the shared value. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.sizeOneSampleProducesNoMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "sizeOneSampleProducesNoMove",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "size_one_sample_produces_no_move",
+      "modifications": "Retain five required entities cycling two values, exact size one, limit ten and empty output. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.emptyIntersectionEndsTheIteratorInsteadOfHanging",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "emptyIntersectionEndsTheIteratorInsteadOfHanging",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "empty_intersection_ends_the_iterator_instead_of_hanging",
+      "modifications": "Retain two optional entities with disjoint two-value ranges, first value initially assigned in each, all-sized sample, explicit false null policy, limit ten and terminating empty output. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.emptyIntersectionStillYieldsNullDestinationWhenCrossingNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "emptyIntersectionStillYieldsNullDestinationWhenCrossingNull",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "empty_intersection_still_yields_null_destination_when_crossing_null",
+      "modifications": "Retain the same disjoint optional fixture, all-sized sample, default null policy, limit ten, nonempty output and every destination null. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.pinnedEntitySharingAValueWithFreeEntitiesNeverJoinsASample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "pinnedEntitySharingAValueWithFreeEntitiesNeverJoinsASample",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "local_test": "pinned_entity_sharing_a_value_with_free_entities_never_joins_a_sample",
+      "modifications": "Retain pinned plus two free required entities sharing the first of two values, exact size two, limit fifty, nonempty output and pinned-member exclusion. Native immutable selected-slot/common-target metadata replaces Java metamodel and move getters; integer identities replace named objects. Finite deterministic subset/target enumeration replaces sampled streams; original limits and all assertions retained, without a random-distribution, stream-order, internal move-equality or lifecycle claim."
     }
   ],
   "fixtures": [
@@ -16056,6 +16206,32 @@
       "upstream_test": "Two- and three-argument constructors and valueRange/valueList declarations",
       "local_path": "crates/solver/tests/mass_list_cases.rs",
       "modifications": "Preserve the range-test fixture distinction between receiving range and initial list: A admits and initially holds both identities, B admits only the first and starts empty. Native optional ListEntity ranges replace Java annotations and constructors; names and descriptor helpers omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveProviderTest.basic_group_fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/MassChangeMoveProviderTest.java",
+      "upstream_test": "In-method optional/missing, disjoint-range, homogeneous and pinned fixtures",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "modifications": "Preserve counts, initial assignments, domain overlap/disjointness, optionality and pins. Native basic slots and integer IDs replace Java entities/metamodels. No production implementation adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.mass_group_generation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(valueListSize, entityListSize), initialized branch",
+      "local_path": "crates/solver/tests/mass_change_cases.rs",
+      "modifications": "Preserve generated fixture counts, ordered domains and initial value at entity index modulo domain length. Integer IDs replace generated names; unrelated fields/helpers omitted."
     }
   ]
 }

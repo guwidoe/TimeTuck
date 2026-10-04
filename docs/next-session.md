@@ -8772,3 +8772,54 @@ Next substantive work: basic mass-change grouping, general k-opt, remaining full
 preservable selector/lifecycle methods, or mixed/weighted public-Java comparisons.
 Mass-list search performance remains unmeasured; existing list/gather comparisons
 do not imply a new provider benchmark. Full goal remains active/incomplete.
+
+## Arbitrary basic mass-change neighborhood (verified)
+
+MassChangeConfig supports exact/ranged/all group sizes and optional null-crossing
+policy. Arbitrary basic slots may have different starting values. Lazy combinations
+reuse native subset enumeration; all uses source-eligible population before target
+filtering. Targets follow first-member domain order, then null. Every member must
+admit the target, pins never join, zero/singleton groups and no-op states yield none.
+Default null crossing admits missing optional slots and permits null targets only
+for wholly optional groups. Explicit false excludes missing slots and null targets;
+explicit true rejects any required model slot, including pins. Missing required
+slots stay excluded. Empty models are valid. Immutable MassChange metadata carries
+all selected slots, common destination and an ordinary composite writing each slot.
+PillarSchema does not alter arbitrary slot grouping.
+
+Neighborhood::MassChange integrates basic/mixed scoped and stream local search,
+including joint moves. List-only paths keep changes/swaps. All basic/mixed solver
+sequences validate every local-phase null policy before any scoring/factory even
+with zero shared budget; phase indices remain in errors. Existing move ordering,
+acceptance, budgets, score checking, rollback and observations are reused.
+
+All ten pinned MassChangeMoveProviderTest methods adapted with their original
+fixtures, limits and assertions. Native metadata/errors and finite enumeration
+replace Java metamodels, constructor exceptions and sampled streams. No Java
+probability, internal move identity or lifecycle claim. Provenance records methods,
+in-method fixtures and TestdataSolution initialized modulo-value fixture generation.
+No production implementation inspected. Five original regressions cover 20,146
+bitmask/reference successor comparisons across ranges/pins/optionality/states/sizes,
+metadata and rollback, lazy128-slot/64-member groups, empty/bad bounds, group-only
+plateau escape across basic and joint mixed scoped/stream backends with three move
+orders/three acceptors/five budgets, optional search, list fallback, and pre-scoring
+validation across standalone and planned basic/mixed paths.
+
+All 15 focused debug and release tests passed. Full gate2951 and verification
+handle39399 completed exit0. All 16 comparison datasets are current,83 timings,
+and the audit passed with source/verification fingerprints and prior invariants.
+Verified gate counts: 1,977 Rust,103 doctests,235 Python; 913/4855(raw18.805/UI18.81%), Moves152/874,
+pending3660/excluded282. Logs: work/mass-basic-focused.log, -check.log, -release.log,
+-verify.log, -refresh-*.log, -audit.log. Mass-change search performance remains
+unmeasured; prior pillar timing is not a benchmark of this new provider.
+
+Next candidates include mass assign/unassign providers (their tests were searched,
+not adapted: basic unassignment explicitly permits singleton samples), general
+k-opt, and mixed/weighted public Java comparisons. Profile bounded enumeration
+on sparse overlapping domains as well as successful early polls before claiming
+practical large-group performance. Goal remains active, incomplete and unblocked.
+
+Browser verified at 1440x900 and390x844:18.81%,913/4855,83 timing cards,
+Moves152/874(17.39%), allten new methods passed, no overflow/stale/undefined/NaN
+words or page errors. Screenshots inspected: work/mass-basic-desktop.png and
+-mobile.png. Browser closed; localhost:8765 stays running. Upstream unchanged.

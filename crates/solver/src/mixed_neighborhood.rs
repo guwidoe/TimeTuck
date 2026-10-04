@@ -25,6 +25,9 @@ pub fn mixed_moves<'a, B: Eq + Clone, L: Eq + Clone>(
 ) -> Result<impl Iterator<Item = MixedMove<B, L>> + 'a, MixedError> {
     problem.validate(assignment)?;
     neighborhood
+        .validate_basic(problem.basic())
+        .map_err(MixedError::Basic)?;
+    neighborhood
         .validate_list(problem.lists())
         .map_err(MixedError::Lists)?;
     Ok(ordered(

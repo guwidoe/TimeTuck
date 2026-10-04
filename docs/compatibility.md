@@ -1594,3 +1594,11 @@ probabilities, infinite-stream order, lifecycle or internal move identity is cla
 Original exhaustive successor checks cover 4,455 model/configuration combinations;
 additional laziness, optional behavior and four-path plan validation checks add no
 method credit. General gather behavior and its earlier evidence remain unchanged.
+
+All ten MassChangeMoveProviderTest methods now have native adaptations, retaining
+all sample sizes, stream limits, fixtures and assertions. Arbitrary basic slots
+may have different starting values; native metadata exposes the full selected set
+and common destination. Finite subsets and legal targets replace sampled streams;
+no probability or Java metamodel/lifecycle equivalence is claimed. Independent
+bitmask checks cover 20,146 model/configuration combinations; these, lazy subset
+checks and search/early-validation integrations add no upstream-method credit.

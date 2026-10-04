@@ -437,3 +437,6 @@ pub use mixed_ruin_recreate::{
     ruin_recreate_mixed_search_from_with_observer, ruin_recreate_mixed_stream_search_from,
     ruin_recreate_mixed_stream_search_from_with_observer,
 };
+
+mod mass_change;
+pub use mass_change::{MassChange, MassChangeConfig, mass_change_moves};

@@ -476,3 +476,10 @@ are retained; native finite enumeration and candidate metadata replace the Java
 sampled stream and metamodel. `compat/provenance.json` records paths, revision and
 substitutions. The generator, size/null policy, search integration and independent
 successor/laziness/control regressions are original work.
+
+`crates/solver/tests/mass_change_cases.rs` adapts all ten methods of Community
+`MassChangeMoveProviderTest`, its in-method fixtures and `TestdataSolution`'s
+initialized fixture generator, under Apache-2.0. Provenance records the pin,
+paths, native metadata/error substitutions and finite enumeration in place of
+sampled streams. Independent subset references, search integration and the native
+group generator are original work; no production implementation was adapted.

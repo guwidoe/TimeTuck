@@ -85,6 +85,12 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: crate::Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    if let crate::Neighborhood::MassChange(config) = neighborhood {
+        return Box::new(
+            crate::mass_change::ordered(problem, assignment, config, order)
+                .map(crate::MassChange::into_move),
+        );
+    }
     if let crate::Neighborhood::Pillar { swaps } = neighborhood {
         return crate::pillar::ordered(problem, assignment, swaps, order);
     }

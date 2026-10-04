@@ -1872,3 +1872,30 @@ initial and improvement callbacks, callback timing, owned decimal scores, skippe
 scoring, panic propagation/reuse, optional unassignment, and successive sampled
 improvements. These checks earn no upstream method credit. Shared stagnation,
 solver-plan and managed lifecycle integration are described in the solver contract.
+
+## Arbitrary basic group changes
+
+`MassChangeConfig::exactly`, `between` and `all` configure a lazy common-target
+neighborhood over arbitrary basic slots. These groups need not share a current
+value. Sizes zero and one produce no moves; reversed bounds return a typed model
+error. All selects the full eligible source population before destination filtering.
+Enumeration follows increasing group size, combinations in variable order, then
+the first member's domain order and optional null. Every target must be legal for
+every member. Pins are excluded and unchanged states skipped. No subsets are
+precomputed. PillarSchema does not change selection of these independent slots.
+
+Default null crossing follows each variable's optionality. Missing required slots
+are excluded; missing optional slots can join. A null destination requires every
+member to be optional. Explicit false excludes all missing members and null targets.
+Explicit true is rejected if any model variable is required, including pinned ones.
+Empty models are vacuously valid. `MassChange` exposes immutable member IDs, target
+and an ordinary composite which writes every selected slot. Existing model and
+score-director transactions validate and roll back these moves atomically.
+
+`Neighborhood::MassChange` uses this family for basic and mixed search; list-only
+search retains changes/swaps. ShuffledVariables alters member encounter/target
+order; ShuffledMoves uses the bounded shuffle window. Existing acceptance, budgets,
+tabu identity, score checking and observations apply. Basic/mixed sequences validate
+all local-phase null policies before any scoring or graph factory, with phase-indexed
+errors even for a zero global budget. Mass-change search performance and public
+Java search quality remain unmeasured; existing pillar benchmarks are separate.

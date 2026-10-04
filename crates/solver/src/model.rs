@@ -50,6 +50,8 @@ impl<V> Variable<V> {
 /// Invalid domain metadata or an assignment that violates the model.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ModelError {
+    InvalidSampleSize { minimum: usize, maximum: usize },
+    NullCrossingRequired { variable: usize },
     DuplicateValue { variable: usize },
     ValueOutsideDomain { variable: usize },
     PinnedUnassigned { variable: usize },
@@ -60,6 +62,12 @@ pub enum ModelError {
 impl fmt::Display for ModelError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidSampleSize { minimum, maximum } => {
+                write!(f, "invalid sample bounds {minimum}..={maximum}")
+            }
+            Self::NullCrossingRequired { variable } => {
+                write!(f, "variable {variable} does not allow null crossing")
+            }
             Self::DuplicateValue { variable } => {
                 write!(f, "variable {variable} has duplicate domain values")
             }

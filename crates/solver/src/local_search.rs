@@ -82,6 +82,8 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Common-target groups of arbitrary basic slots. Lists retain changes/swaps.
+    MassChange(crate::MassChangeConfig),
     /// Assigned-only list groups with explicit cardinality and null policy.
     /// Basic variables retain changes/swaps; mixed joint moves use both sets.
     MassListChange(crate::ListMassChangeConfig),
@@ -519,6 +521,7 @@ where
 {
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
+    config.neighborhood.validate_basic(problem)?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
         if !problem.is_complete(initial) {
