@@ -73,7 +73,17 @@ fn state(
         .join(",");
     format!("{lists}/{shadows}")
 }
+fn values_text(values: &[i32]) -> String {
+    values
+        .iter()
+        .map(ToString::to_string)
+        .collect::<Vec<_>>()
+        .join(",")
+}
 fn main() {
+    let args: Vec<_> = std::env::args().skip(1).collect();
+    let metadata = args == ["--planning-values"];
+    assert!(args.is_empty() || metadata, "unknown option");
     for line in io::stdin().lock().lines() {
         let line = line.expect("input");
         let f: Vec<_> = line.split('\t').collect();
@@ -153,6 +163,8 @@ fn main() {
                 });
             }
         }
+        let movement = ListMove::Composite(moves);
+        let temporary_values = metadata.then(|| p.planning_values(&a, &movement).unwrap());
         let mut builder = StreamGraphBuilder::<SimpleScore>::new();
         let sources = ListStreamSources::new(&mut builder);
         let inspect = sources.clone();
@@ -164,17 +176,30 @@ fn main() {
             })
             .unwrap();
         let mut director = ListStreamScoreDirector::new(&p, builder.build(), sources, a).unwrap();
-        let movement = ListMove::Composite(moves);
         let temporary = {
             let candidate = director.apply(&movement).expect("valid temporary move");
             state(candidate.assignment(), candidate.graph(), &inspect, count)
         };
         let restored = state(director.assignment(), director.graph(), &inspect, count);
+        let committed_values =
+            metadata.then(|| p.planning_values(director.assignment(), &movement).unwrap());
         director
             .apply(&movement)
             .expect("valid permanent move")
             .commit();
         director.assert_consistent().unwrap();
+        if metadata {
+            println!(
+                "{}\tok\t{}\t{}\t{}\t{}\t{}",
+                f[0],
+                temporary,
+                restored,
+                state(director.assignment(), director.graph(), &inspect, count),
+                values_text(temporary_values.as_ref().unwrap()),
+                values_text(committed_values.as_ref().unwrap())
+            );
+            continue;
+        }
         println!(
             "{}\t{}\t{}\t{}",
             f[0],

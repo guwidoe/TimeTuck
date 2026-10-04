@@ -205,16 +205,23 @@ def main():
         for name in outputs:
             error = validate(case,outputs[name][i])
             if error: failures.append({'case':case['id'],'runtime':name,'error':error,'expected':expected(case),'actual':outputs[name][i]})
+    from differential_list_values import compare
+    value_metadata = compare(cases, commands, WORK)
     if source_digest() != digest: raise RuntimeError('Sources changed during comparison')
     failed = {f['case'] for f in failures}
     report = {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,
               'revision':REF['commit'],'seed':SEED,'sublist_seed':SUBLIST_SEED,'sublist_swap_seed':SUBLIST_SWAP_SEED,'total':len(cases),'passed':len(cases)-len(failed),'failures':failures,
+              'value_metadata':value_metadata,
               'moves':sum(len(c['moves']) for c in cases),'artifacts':artifacts,'environment':platform.platform(),
               'scope':'Original valid assign/change/swap/span-unassign composites, plus 128 span-relocation/reversal cases (seed 20261124). 128 original disjoint span-swap/reversal cases (seed 20261125), including unequal lengths and reversed argument order. Java public MoveTester candidate, undo and commit states, with owner/index/previous/next shadows, independently checked in Python. Rust now emits cached ListStreamScoreDirector value views and checks cached entity lists plus an independently recomputed native position score. No Java/Rust score comparison is claimed here. One optional list variable; no pinned Java cases, custom listeners, list solving, timing or upstream coverage credit.'}
     (ROOT/'work/list-differential.json').write_text(json.dumps(report,indent=2)+'\n')
     (WORK/'list-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'sublist_seed':SUBLIST_SEED,'sublist_swap_seed':SUBLIST_SWAP_SEED,'cases':cases,'outputs':outputs},indent=2)+'\n')
     print(f'Differential list cases: {report["passed"]}/{report["total"]} passed ({report["moves"]} moves)')
     for failure in failures[:8]: print(json.dumps(failure))
-    return bool(failures)
+    print(f'Planning-value membership: {value_metadata["passed"]}/{value_metadata["total"]}; '
+          f'native reference {value_metadata["native_reference_passed"]}; '
+          f'Java errors {value_metadata["java_error_cases"]}; '
+          f'differences {value_metadata["divergent_cases"]}; unsupported {value_metadata["unsupported_cases"]}')
+    return bool(failures or value_metadata['failures'])
 
 if __name__ == '__main__': raise SystemExit(main())

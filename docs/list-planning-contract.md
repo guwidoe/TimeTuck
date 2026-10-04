@@ -442,3 +442,35 @@ The cooperative timer spans setup and enumeration; it polls before scoring a
 complete candidate and retains the evaluated best on TimeLimit. Exhausted remains
 the only optimality-proving reason. See `planning-contract.md` for shared precedence,
 empty-space semantics, callback overshoot and controlled-clock verification.
+
+### Planning-value metadata comparison
+
+The generated list comparison additionally exercises native
+`ListProblem::planning_values` against an independent Python replay and pinned
+Community public `Move.getPlanningValues()`. The same 512 original cases plus
+two small composite reproductions give 514 native reference passes, 425 Java
+identity-set agreements, 16 differing Java sets, 40 Java runtime errors and 33
+unsupported empty Java compositions. These are original checks, not adapted
+upstream methods. The original 512 candidate/undo/commit state comparisons still
+all agree.
+
+The reference records each child's moved or assigned identities before applying
+that child, including removed items and intermediate composite operations.
+Native capture is observed before temporary execution and again after undo,
+before committing. Java getters are observed after each execution, as the public
+API requires. Successful responses also check candidate, restored and committed
+lists and all four derived shadows. Java errors stop that case's metadata
+observations; they do not establish post-error state correctness.
+
+Two original reproductions retain the distinction:
+- Lists `[[0,1],[2]]`: swap positions `(0,0)` and `(1,0)`, then relocate
+  `(0,0)` to `(1,1)`. Moved identities are `{0,2}`; Java reports `{0,1,2}`.
+- List `[[0,1]]`: swap its two items, then unassign index range `[0,1)`.
+  Moved identities are `{0,1}`; Java's getter throws an index error.
+
+No production Java move implementation was used to explain these observations.
+Rust keeps its independently specified capture semantics. Java order and
+multiplicity are retained in `work/oracle/list-values-cases.json`; membership
+comparison normalizes to sets, while native checks require exact first-touch
+order without duplicates. The report exposes all differences and errors. These
+checks establish neither identical value-tabu search traces nor new timing results.

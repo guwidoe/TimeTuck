@@ -6737,3 +6737,48 @@ known optimum, ranges and score calls. No page errors or horizontal overflow at
 1440px/390px. Browser closed; localhost:8765 remains running. Staged implementation,
 adaptations, provenance, notices and contracts were reviewed. The full solver
 rewrite remains incomplete; this increment is concrete progress toward it.
+
+## In progress: list value metadata comparison (2026-10-04)
+
+Previous increment committed 649aa0f; clean worktree at start. Added optional
+--planning-values mode to the existing Java and native list adapters. Default
+list/shadow protocol unchanged. New independent differential_list_values.py
+replays current child input identities and compares native first-touch order;
+Java getter is called after execution and compared by identity set. Both
+temporary/undo/commit paths checked; raw Java order/multiplicity retained.
+Original corpus unchanged; metadata adds two original minimal reproductions.
+No upstream adaptation or new method credit, no production Rust behavior changes.
+
+First complete run: baseline 512/512 states, metadata native 514/514, Java
+425 agreements / 16 differing sets / 40 errors / 33 unsupported empty composites.
+Minimal swap+change includes untouched value in Java getter; swap+unassign
+throws index error. Documented in list-planning-contract.md. Seven new Python
+tests guard evidence protocol, wrong state/identity, native dedup/order, reference
+sequential capture, Java set normalization, errors and unsupported classification.
+Dashboard shows separate metadata evidence row; no design skill needed.
+
+Source frozen. Full gate session80779 running, log work/list-values-check.log.
+Expected unchanged 1,673 Rust tests / 87 doctests, Python increased193→200.
+Then refresh all13 measurements, regenerate report, audit current hashes/49cards,
+browser QA of new evidence at desktop/mobile, inspect staged diff and commit.
+
+Full gate session80779 completed exit0: Rust counts unchanged, 87 doctests and
+200 Python tests pass. All13 sequential dataset refreshes running session77152,
+logs work/list-values-refresh-*.log. Source frozen; no implementation changes
+during measurements. Focused release adapter already exercised all514 native
+metadata cases twice and baseline512 full state cases before this gate.
+
+Refresh session77152 completed exit0. Audit work/list-values-audit.py confirms
+all13 current datasets, source/verification/live-server fingerprints, unchanged
+834/4855 upstream coverage and49 timing cards. Refreshed metadata counts exactly
+reproduce the first run, with56 retained Java error/difference records and no
+native/protocol failures. Java default state/undo/commit mode independently
+passes both added minimal reproductions without the metadata getter.
+
+Browser QA at1440px/390px confirms17.18%,49 cards and new425/514 evidence row,
+with514/514 native,16 differences,40 errors,33 unsupported explicitly visible.
+No page errors or horizontal overflow; browser closed, server8765 remains alive.
+Full gate and staged diff reviewed. This is verification progress; goal remains
+incomplete. Next useful work: ratio-based tabu sizing or diversified late
+acceptance from pinned Community tests/public APIs, or capture optimization
+while preserving independent first-touch contracts and honest Java differences.

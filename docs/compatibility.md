@@ -51,9 +51,14 @@ sublist touched-entity membership assertions. Native derived owner/index/neighbo
 views and exact list enumeration are described in `docs/list-planning-contract.md`.
 Thirty-one list-provider methods additionally preserve move membership and
 exclusion assertions, including per-entity ranges. Native greedy list construction and bounded local search
-are verified separately with original regressions. Java move metadata, rebase,
+are verified separately with original regressions. Complete Java move metadata coverage, rebase,
 custom listeners, optional-list solving and matched mixed Java local-search
 comparisons remain pending.
+An original list planning-value comparison additionally checks 514 native cases
+against independently replayed identities: 425 Java membership agreements,
+16 differing sets, 40 Java errors and 33 unsupported empty compositions.
+Those limitations remain visible; the generated checks add no adapted methods.
+See the list-planning contract for two small composite reproductions.
 Original generated list-move and required-list-solving comparisons are separate
 from coverage; the latter check complete valid solutions, final quality and
 independently enumerated small-case optima.

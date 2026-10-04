@@ -51,7 +51,13 @@ public final class ListMoveOracle {
         String shadows=p.values.stream().map(v -> v.owner==null ? "-" : v.owner.id+":"+v.index+":"+value(v.previous)+":"+value(v.next)).collect(Collectors.joining(","));
         return lists+"/"+shadows;
     }
+    static String planningValues(Move<Problem> move) {
+        return move.getPlanningValues().stream().map(v -> Integer.toString(((Value) v).id))
+                .collect(Collectors.joining(","));
+    }
     public static void main(String[] args) throws Exception {
+        boolean metadata=args.length==1 && args[0].equals("--planning-values");
+        if(args.length>0 && !metadata) throw new IllegalArgumentException("Unknown option");
         var meta=PlanningSolutionMetaModel.of(Problem.class,Entity.class,Value.class);
         var variable=meta.genuineEntity(Entity.class).listVariable("values",Value.class);
         try(var input=new BufferedReader(new InputStreamReader(System.in))) {
@@ -83,12 +89,34 @@ public final class ListMoveOracle {
                 // No-move cases compare initial shadow enrichment only. The
                 // public Java compose API rejects an empty move collection.
                 if(moves.isEmpty()) {
+                    if(metadata) {
+                        System.out.println(f[0]+"\tunsupported_empty");
+                        continue;
+                    }
                     String unchanged=state(p);
                     System.out.println(f[0]+"\t"+unchanged+"\t"+unchanged+"\t"+unchanged);
                     continue;
                 }
                 var movement=Moves.compose(moves);
                 var context=MoveTester.build(meta).using(p);
+                if(metadata) {
+                    try {
+                        String[] temporaryState={null}, temporaryValues={null};
+                        context.executeTemporarily(movement,view -> {
+                            temporaryState[0]=state(p);
+                            temporaryValues[0]=planningValues(movement);
+                        });
+                        String restored=state(p);
+                        context.execute(movement);
+                        System.out.println(f[0]+"\tok\t"+temporaryState[0]+"\t"+restored+"\t"+state(p)
+                                +"\t"+temporaryValues[0]+"\t"+planningValues(movement));
+                    } catch(RuntimeException | AssertionError error) {
+                        String detail=error.getClass().getName()+": "+error.getMessage();
+                        System.out.println(f[0]+"\terror\t"+java.util.Base64.getEncoder()
+                                .encodeToString(detail.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                    }
+                    continue;
+                }
                 String[] temporary={null};
                 context.executeTemporarily(movement,view -> temporary[0]=state(p));
                 String restored=state(p);
