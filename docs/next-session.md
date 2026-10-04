@@ -8721,3 +8721,54 @@ Next substantive work: mixed/weighted public-Java search comparisons and remaini
 fully preservable selector/lifecycle behavior, or native search improvements with
 broad quality evidence. Half-group quality gaps are retained, not evidence of
 identical random sampling. Full solver rewrite remains active/incomplete/unblocked.
+
+## Assigned-only mass-list neighborhood (verified)
+
+ListSampleSize supports exact/ranged/all assigned movable groups. Zero/singleton
+sizes yield no moves; exact populations too small yield none, maximums clip.
+All uses global assigned movable count before receiving-range filtering.
+ListMassChangeConfig defaults to model optionality for whole-group unassignment;
+explicit true on a required model is UnassignmentNotAllowed. Missing values never
+join any sample. Immutable ListMassChange metadata exposes ordered members,
+original insertion destination and snapshot-bound ordinary composite movement.
+Enumeration is lazy: receiver/index, size, registry permutation, then unique
+unordered optional unassignments. Pins/prefixes/ranges constrain members/receivers.
+General Gather behavior/order remains unchanged; shared permutation helper gains
+bounded starting size. No factorial candidate collection is allocated.
+
+Neighborhood::MassListChange integrates list/mixed scoped+stream search and joint
+moves; basic-only paths retain changes/swaps. All four list/mixed solver sequence
+adapters validate every configured null policy before any phase scoring/factory.
+Validation errors preserve phase index. Existing acceptance, controls, observations,
+transactional cache/graph and retained-best machinery is reused.
+
+All ten MassListChangeMoveProviderTest methods adapted with original fixtures,
+limits and assertions. Finite deterministic enumeration replaces sampled Java
+streams, native candidate metadata/model/errors replace metamodel/constructor APIs.
+No Java probability, lifecycle or internal move-equality claim. Provenance/notices
+record methods, in-method fixtures and ranged fixture constructor semantics.
+No production implementation inspected. Original 4,455 successor-set comparisons
+cover layouts/pins/ranges/cardinality/null policy and validate candidate metadata,
+rollback, completeness and missing-value exclusion. Other tests cover lazy80-member
+full permutations, all-global semantics, optional search, and validation before
+factories. Expanded existing gather integration matrix covers both new size modes,
+three move orders/four acceptors/five score budgets across list/joint mixed paths;
+basic controls verify ordinary changes/swaps still apply.
+
+Gate14526 passed:1,962 Rust,102 doctests,235 Python; format/Clippy clean. Coverage
+903/4,855(raw18.599/UI18.60%), pending3670/excluded282,failed/unverified0;
+Moves/selectors142/874(16.25%). All 20 focused release tests passed. Handle23218
+completed exit0: all16 datasets refreshed,83 timing workloads, evidence audit
+passed with source/verification fingerprints and prior quality invariants intact.
+Logs: work/mass-list-check.log, -release.log, -verify.log, -refresh-*.log,-audit.log.
+Browser verified1440x900 and390x844:18.60%,903/4855,83cards, Moves142/874,
+allten mass-list methods passed, eight list-repair cards retaining four explicit
+quality differences and8/8 repair counts. No page errors, overflow or stale/
+undefined/NaN words. Screenshots inspected: work/mass-list-desktop.png and
+-mobile.png. Word-boundary checks avoid matching NaN inside "nanosecond".
+Browser closed; localhost:8765 stays running. Upstream unchanged.
+
+Next substantive work: basic mass-change grouping, general k-opt, remaining fully
+preservable selector/lifecycle methods, or mixed/weighted public-Java comparisons.
+Mass-list search performance remains unmeasured; existing list/gather comparisons
+do not imply a new provider benchmark. Full goal remains active/incomplete.

@@ -238,6 +238,8 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
         Neighborhood::ChangeAndSwap,
         Neighborhood::Gather { max_size: 0 },
         Neighborhood::Gather { max_size: 3 },
+        Neighborhood::MassListChange(ListMassChangeConfig::new(ListSampleSize::exactly(3))),
+        Neighborhood::MassListChange(ListMassChangeConfig::new(ListSampleSize::all())),
     ] {
         for order in [
             MoveOrder::Original,
@@ -295,13 +297,18 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
                     assert!(a.evaluations <= budget);
                     if budget == 1000
                         && (acceptance == Acceptance::StrictImprovement
-                            || neighborhood == Neighborhood::Gather { max_size: 3 })
+                            || matches!(
+                                neighborhood,
+                                Neighborhood::Gather { max_size: 3 }
+                                    | Neighborhood::MassListChange(_)
+                            ))
                     {
                         assert_eq!(
                             a.best.unwrap().score,
                             SimpleScore::new(i64::from(matches!(
                                 neighborhood,
                                 Neighborhood::Gather { max_size: 3 }
+                                    | Neighborhood::MassListChange(_)
                             )))
                         );
                     }
@@ -366,13 +373,18 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
                     assert!(a.evaluations <= budget);
                     if budget == 1000
                         && (acceptance == Acceptance::StrictImprovement
-                            || neighborhood == Neighborhood::Gather { max_size: 3 })
+                            || matches!(
+                                neighborhood,
+                                Neighborhood::Gather { max_size: 3 }
+                                    | Neighborhood::MassListChange(_)
+                            ))
                     {
                         assert_eq!(
                             a.best.unwrap().score,
                             SimpleScore::new(i64::from(matches!(
                                 neighborhood,
                                 Neighborhood::Gather { max_size: 3 }
+                                    | Neighborhood::MassListChange(_)
                             )))
                         );
                     }
@@ -392,9 +404,14 @@ fn basic_backends_retain_changes_and_swaps_when_gather_is_selected() {
         })
         .unwrap();
     }
-    for max_size in [0, 3] {
+    for neighborhood in [
+        Neighborhood::Gather { max_size: 0 },
+        Neighborhood::Gather { max_size: 3 },
+        Neighborhood::MassListChange(ListMassChangeConfig::new(ListSampleSize::exactly(0))),
+        Neighborhood::MassListChange(ListMassChangeConfig::new(ListSampleSize::all())),
+    ] {
         let config = LocalSearchConfig {
-            neighborhood: Neighborhood::Gather { max_size },
+            neighborhood,
             max_steps: 3,
             max_evaluations: 50,
             assert_scores: true,

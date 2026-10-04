@@ -81,7 +81,11 @@ pub use list::{
     ListProblem, ListRange,
 };
 mod list_gather_neighborhood;
+mod list_mass_change;
 pub use list_gather_neighborhood::list_gather_moves;
+pub use list_mass_change::{
+    ListMassChange, ListMassChangeConfig, ListSampleSize, list_mass_change_moves,
+};
 mod list_gather;
 pub use list_gather::ListGatherError;
 pub mod list_search;

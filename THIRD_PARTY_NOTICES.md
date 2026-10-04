@@ -468,3 +468,11 @@ results for all 300 fixture positions. Provenance records native metrics, weight
 selection and attempt-limit substitutions. The native interleaving engine and
 independent budget, cancellation, history and managed-statistics checks are
 original work; no upstream union-selector lifecycle methods receive credit.
+
+`crates/solver/tests/mass_list_cases.rs` adapts all ten methods in pinned Community
+`MassListChangeMoveProviderTest` (Apache-2.0), its in-method fixtures, and the ranged
+list fixture's constructor semantics. Every method's assertions and stream limit
+are retained; native finite enumeration and candidate metadata replace the Java
+sampled stream and metamodel. `compat/provenance.json` records paths, revision and
+substitutions. The generator, size/null policy, search integration and independent
+successor/laziness/control regressions are original work.

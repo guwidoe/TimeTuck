@@ -570,3 +570,37 @@ acceptance policies and five evaluation budgets. A target permutation demonstrat
 an improvement unavailable to strict single changes/swaps. Basic backends retain
 the ordinary neighborhood behavior. Gather-search performance and Java search
 comparison remain unmeasured; the existing gather transaction comparison is separate.
+
+## Assigned-only group moves
+
+`list_mass_change_moves` produces immutable `ListMassChange` candidates with ordered
+member identities, an original insertion boundary (or no destination for group
+unassignment), and an ordinary snapshot-bound composite move. Missing values never
+join a sample. All members must be assigned and movable; full pins and pinned
+prefixes exclude values and receiving positions. Every receiver must admit every
+member. Applying the move preserves each assigned payload and uses existing atomic
+validation and scoring rollback. Regenerate candidates after changing the snapshot.
+
+`ListSampleSize::exactly(n)` requires n eligible members; insufficient population
+produces no candidates. `between(min,max)` rejects reversed bounds; the maximum is
+clipped to population. Groups of zero or one always produce no moves. `all()` uses
+the entire assigned movable population before per-receiver range filtering, not a
+smaller receiver-specific population. The default config enumerates sizes two
+through the whole population. This is finite deterministic enumeration, with
+receiver/index order followed by size and registry-index permutation order.
+Unchanged states and equivalent adjacent insertion boundaries are skipped; distinct
+samples can still lead to the same state. Permutations are lazy, not materialized.
+
+Whole-group unassignment defaults to the model's optionality. Explicit false
+suppresses it. Explicit true on a required model returns UnassignmentNotAllowed,
+even at zero search budget. Each unassignment subset appears once without ordering
+permutations. Required partial inputs remain partial; this provider does not assign
+missing values. General `list_gather_moves` keeps its broader previous behavior.
+
+`Neighborhood::MassListChange(config)` integrates this provider into scoped and
+stream list search and both mixed paths, including simultaneous basic/list moves.
+Basic-only search retains ordinary changes/swaps. ShuffledVariables changes the
+receiver order; ShuffledMoves uses the existing bounded shuffle window. Acceptance,
+budgets, observation, retained best and transactional scoring use the existing local
+search contract. List/mixed solver sequences validate every configured null policy
+before any phase scores or invokes a stream factory; errors retain the phase index.

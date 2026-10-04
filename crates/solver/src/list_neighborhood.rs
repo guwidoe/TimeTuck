@@ -153,6 +153,7 @@ pub fn list_swap_moves<'a, V: Eq + Clone>(
     Ok(swaps(p, a, 0..p.entities().len()))
 }
 /// Enumerate the selected neighborhood. Gather yields bounded selected groups;
+/// MassListChange uses assigned-only groups with explicit size/null policy;
 /// TwoOpt yields only reversals/tail swaps. Other modes include relocations and
 /// optional assignments/unassignments.
 /// Complete inputs remain complete and all pins remain unchanged.
@@ -162,6 +163,7 @@ pub fn list_moves<'a, V: Eq + Clone>(
     neighborhood: Neighborhood,
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
     p.validate(a)?;
+    neighborhood.validate_list(p)?;
     Ok(ordered(p, a, neighborhood, 0..p.entities().len()))
 }
 pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -172,6 +174,12 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
 ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
+    if let Neighborhood::MassListChange(config) = neighborhood {
+        return Box::new(
+            crate::list_mass_change::ordered(p, a, config, order)
+                .map(crate::ListMassChange::into_move),
+        );
+    }
     if let Neighborhood::Gather { max_size } = neighborhood {
         return crate::list_gather_neighborhood::ordered(p, a, max_size, order);
     }

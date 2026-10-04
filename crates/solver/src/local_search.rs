@@ -82,6 +82,9 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Assigned-only list groups with explicit cardinality and null policy.
+    /// Basic variables retain changes/swaps; mixed joint moves use both sets.
+    MassListChange(crate::ListMassChangeConfig),
     /// List-only gather permutations of at most max_size movable identities, with
     /// optional subset unassignments. Zero disables list moves. Basic variables
     /// retain changes/swaps; mixed joint moves combine these component sets.

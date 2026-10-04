@@ -70,7 +70,9 @@ pub struct ListLocalSearchResult<V, S> {
 /// Uses the shared search configuration: Change includes relocations plus optional
 /// assign/unassign moves; ChangeAndSwap adds ordered swaps and optional replacements.
 /// Gather enumerates bounded identity groups at original insertion boundaries,
-/// followed by optional subset unassignments. ShuffledVariables changes gather
+/// followed by optional subset unassignments. MassListChange restricts members to
+/// assigned values and applies explicit cardinality/unassignment policy.
+/// ShuffledVariables changes gather
 /// destination order; member permutations remain in registry order.
 /// ShuffledMoves reorders generated candidates within a bounded rolling window.
 /// ShuffledVariables shuffles entity lists; insertion positions and value order
@@ -155,6 +157,10 @@ where
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
+    config
+        .neighborhood
+        .validate_list(problem)
+        .map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(ListLocalSearchError::IncompleteInitialAssignment);
     }

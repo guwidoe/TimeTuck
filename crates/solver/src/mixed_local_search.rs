@@ -185,6 +185,11 @@ where
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
+    config
+        .neighborhood
+        .validate_list(problem.lists())
+        .map_err(crate::MixedError::Lists)
+        .map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
     }

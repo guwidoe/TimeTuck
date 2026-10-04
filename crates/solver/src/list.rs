@@ -113,6 +113,11 @@ impl<V: Eq> ListAssignment<V> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListError {
+    InvalidSampleSize {
+        minimum: usize,
+        maximum: usize,
+    },
+    UnassignmentNotAllowed,
     DuplicateDomainValue,
     DuplicateAssignedValue,
     DuplicateEntityRangeValue {

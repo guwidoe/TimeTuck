@@ -1584,3 +1584,13 @@ Java termination after optional omissions, while native repair can include missi
 values and finish the requested work. Equality is not presumed, and timing cases
 with differing quality remain labelled. These original cases add no upstream-method
 credit; methodology, scope and exclusions are documented in docs/dashboard.md.
+
+All ten MassListChangeMoveProviderTest methods now have native adaptations. Their
+required/optional, missing-value, ranged-receiver, prefix-pinned and fully pinned
+fixtures, sample sizes, stream limits and assertions are retained. Native assigned-
+only group enumeration, immutable sample/destination metadata and typed errors
+replace Java sampled streams, metamodels and constructor exceptions. No Java random
+probabilities, infinite-stream order, lifecycle or internal move identity is claimed.
+Original exhaustive successor checks cover 4,455 model/configuration combinations;
+additional laziness, optional behavior and four-path plan validation checks add no
+method credit. General gather behavior and its earlier evidence remain unchanged.

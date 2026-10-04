@@ -2,17 +2,21 @@
 use crate::{ListAssignment, ListError, ListMove, ListPosition, ListProblem, SubPillarSelection};
 
 // Increasing length, then lexicographic tuples without repeated indices.
-struct Selections {
+pub(crate) struct Selections {
     n: usize,
     max: usize,
     next: Option<Vec<usize>>,
 }
 impl Selections {
     fn new(n: usize, max: usize) -> Self {
+        Self::bounded(n, 1, max)
+    }
+    pub(crate) fn bounded(n: usize, minimum: usize, maximum: usize) -> Self {
         Self {
             n,
-            max: max.min(n),
-            next: (n > 0 && max > 0).then(|| vec![0]),
+            max: maximum.min(n),
+            next: (minimum > 0 && minimum <= n && minimum <= maximum)
+                .then(|| (0..minimum).collect()),
         }
     }
 }
@@ -47,7 +51,11 @@ fn movable<V: Eq + Clone>(p: &ListProblem<V>, a: &ListAssignment<V>, value: &V) 
         !entity.is_pinned() && position.index >= entity.pinned_prefix()
     })
 }
-fn unchanged<V: Eq>(a: &ListAssignment<V>, members: &[&V], destination: ListPosition) -> bool {
+pub(crate) fn unchanged<V: Eq>(
+    a: &ListAssignment<V>,
+    members: &[&V],
+    destination: ListPosition,
+) -> bool {
     let Some(first) = a.location(members[0]) else {
         return false;
     };
