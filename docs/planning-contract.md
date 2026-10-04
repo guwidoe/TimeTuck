@@ -280,7 +280,8 @@ scoped-constraint scores, full-width decimal scores, optional ranges/pins, struc
 rejection, clone failures, observer cancellation and controlled elapsed clocks.
 Four complete pinned comparator methods retain every fixture and bidirectional
 pair assertion. Other exhaustive-search lifecycle/branching methods remain pending;
-list/mixed branch-and-bound and orchestration integration are not yet implemented.
+list/mixed bounded search is described in the component contracts. Ordered solver
+phase integration and automatic score-trend bounds are not yet implemented.
 
 The comparator priorities and pruning contract use the pinned public documentation
 `docs/src/modules/ROOT/pages/optimization-algorithms/exhaustive-search.adoc` as a

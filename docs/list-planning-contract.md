@@ -80,12 +80,38 @@ have one empty assignment; required remaining values with no mutable entities
 have no complete assignments. Optional values can all remain unassigned.
 
 Runtime grows factorially. Enumeration stores the candidate and best assignment
-plus insertion choices for each active depth. There is no branch-and-bound. Bounded heuristic solving and its Java comparison
+plus insertion choices for each active depth. Separate branch-and-bound is described
+below. Bounded heuristic solving and its Java comparison
 are described below.
 Twelve original regressions check complete assignment sets against independent
 owner-selection and permutation enumeration, optima, budgets, ties, structural
 rejection, pins, derived shadows, move invariants, undo, atomic errors and panic
 unwinding. They contribute no upstream coverage credit.
+
+## Bounded exact search
+
+`branch_and_bound_lists` and its observer variant use the same priority-queue engine
+as basic bounded search. Each node decides the next non-pinned registry value by
+inserting it at a permitted entity/index or omitting it when optional. Frozen
+lists and pinned prefixes survive root preparation; movable initial values are
+cleared. Each complete state has exactly one decision path. The callback receives
+remaining registry indices, so a decided optional omission is distinguishable
+from an unresolved value. A model-complete optional partial state is not a leaf.
+
+Later insertions can change existing positions and neighbors. Caller-supplied
+optimistic bounds must account for those changes and dominate every eligible
+completion under full score order. Unknown bounds are safe; the engine retains
+known ancestor bounds. Existing basic bound checks, exploration orders, counters,
+eligibility, limits, strict-best observation and conditional optimality apply.
+Each queued partial state owns its lists. The frontier limit bounds node count,
+not bytes; per-parent insertion choices also consume memory. Full scoring remains
+the callback's responsibility. No automatic bounds or ordered phase integration.
+
+Original checks compare full traversal with independent subset/permutation/partition
+enumeration for all 128 two-entity range/optionality configurations, then check
+pins, prefixes, non-dense registry IDs, tight/loose/unknown completion-table bounds,
+empty/impossible spaces, structural rejection and failure recovery. These add no
+upstream-method credit or dedicated list branch-and-bound timing claim.
 
 ## Incremental list scoring
 

@@ -1,11 +1,12 @@
 //! Jointly choose vehicle depots (basic variables) and ordered customer routes.
 use timetuck::{
-    Assignment, ConstructionConfig, FiniteProblem, HardSoftScore, ListAssignment, ListEntity,
-    ListProblem, LocalSearchConfig, MixedAssignment, MixedConstraintNetwork,
-    MixedConstructionConfig, MixedConstructionOrder, MixedFact, MixedLocalSearchConfig,
-    MixedProblem, MixedScope, MixedStreamSources, MoveSelection, StreamGraphBuilder, Variable,
-    exhaustive_mixed_search, greedy_mixed_construction, greedy_mixed_stream_construction,
-    mixed_local_search_from, mixed_stream_local_search_from,
+    Assignment, BranchAndBoundConfig, BranchEvaluation, ConstructionConfig, FiniteProblem,
+    HardSoftScore, ListAssignment, ListEntity, ListProblem, LocalSearchConfig, MixedAssignment,
+    MixedConstraintNetwork, MixedConstructionConfig, MixedConstructionOrder, MixedFact,
+    MixedLocalSearchConfig, MixedProblem, MixedScope, MixedStreamSources, MoveSelection,
+    NodeExploration, StreamGraphBuilder, Variable, branch_and_bound_mixed, exhaustive_mixed_search,
+    greedy_mixed_construction, greedy_mixed_stream_construction, mixed_local_search_from,
+    mixed_stream_local_search_from,
 };
 
 fn score(state: &MixedAssignment<i64, usize>) -> HardSoftScore {
@@ -34,6 +35,28 @@ fn route_contribution(depot: Option<i64>, route: &[usize]) -> HardSoftScore {
         .collect();
     let distance: i64 = tour.windows(2).map(|edge| (edge[1] - edge[0]).abs()).sum();
     HardSoftScore::new(-(route.len().saturating_sub(2) as i64), -distance)
+}
+// Inserting a customer cannot reduce a metric tour's distance or overload.
+// Undecided depots use their best permitted choice separately for each route.
+// This remains optimistic for the combined objective without guessing an optimum.
+fn route_bound(state: &MixedAssignment<i64, usize>, undecided_depots: &[usize]) -> HardSoftScore {
+    state
+        .lists()
+        .lists()
+        .iter()
+        .enumerate()
+        .map(|(vehicle, route)| {
+            if undecided_depots.contains(&vehicle) {
+                [0, 10]
+                    .into_iter()
+                    .map(|depot| route_contribution(Some(depot), route))
+                    .max()
+                    .unwrap()
+            } else {
+                route_contribution(state.basic().values()[vehicle], route)
+            }
+        })
+        .fold(HardSoftScore::new(0, 0), |total, s| total + s)
 }
 fn route_graph() -> (
     timetuck::StreamGraph<'static, HardSoftScore>,
@@ -101,6 +124,39 @@ fn main() {
                 },
             )
             .unwrap();
+    }
+    for exploration in [
+        NodeExploration::DepthFirst,
+        NodeExploration::BreadthFirst,
+        NodeExploration::ScoreFirst,
+        NodeExploration::OptimisticBoundFirst,
+    ] {
+        let bounded = branch_and_bound_mixed(
+            &problem,
+            |state, basic, _| {
+                BranchEvaluation::bounded(
+                    network.calculate(&problem, state).unwrap(),
+                    route_bound(state, basic),
+                )
+            },
+            BranchAndBoundConfig {
+                exploration,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(bounded.is_optimal());
+        let solution = bounded.best.unwrap();
+        assert_eq!(solution.score, best.score);
+        assert_eq!(solution.score, score(&solution.assignment));
+        assert!(bounded.complete_evaluations < result.evaluations);
+        println!(
+            "Bounded {exploration:?}: {} after {} nodes / {} complete assignments / {} pruned branches",
+            solution.score,
+            bounded.evaluations,
+            bounded.complete_evaluations,
+            bounded.pruned_branches
+        );
     }
     let initial = MixedAssignment::new(
         Assignment::new(vec![Some(0), Some(0)]),
@@ -264,5 +320,104 @@ fn main() {
             "Orchestrated {order:?}: {} / {} evaluations, both at {}",
             automatic.work.evaluations, automatic_stream.work.evaluations, best.score
         );
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn stream_bounded_search_matches_route_scoring_at_every_partial_state() {
+        let p = MixedProblem::new(
+            FiniteProblem::new(vec![Variable::new(vec![0, 10]); 2]).unwrap(),
+            ListProblem::new(vec![0, 1, 2], vec![ListEntity::new(vec![]); 2]).unwrap(),
+        );
+        for exploration in [
+            NodeExploration::DepthFirst,
+            NodeExploration::BreadthFirst,
+            NodeExploration::ScoreFirst,
+            NodeExploration::OptimisticBoundFirst,
+        ] {
+            let r = branch_and_bound_mixed(
+                &p,
+                |a, basic, lists| {
+                    let (graph, sources) = route_graph();
+                    let director =
+                        timetuck::MixedStreamScoreDirector::new(&p, graph, sources, a.clone())
+                            .unwrap();
+                    let expected = a
+                        .lists()
+                        .lists()
+                        .iter()
+                        .enumerate()
+                        .map(|(i, row)| route_contribution(a.basic().values()[i], row))
+                        .fold(HardSoftScore::new(0, 0), |sum, s| sum + s)
+                        .with_structural(-((basic.len() + lists.len()) as i64));
+                    assert_eq!(director.score(), expected);
+                    if basic.is_empty() && lists.is_empty() {
+                        assert_eq!(expected, score(a));
+                    }
+                    BranchEvaluation::bounded(director.score(), route_bound(a, basic))
+                },
+                BranchAndBoundConfig {
+                    exploration,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+            assert!(r.is_optimal());
+            assert_eq!(r.best.unwrap().score, HardSoftScore::new(0, -4));
+        }
+    }
+    // Enumerate independently scored complete states, then check every unknown-
+    // bound tree prefix against all compatible completions. Later insertions can
+    // shift positions, so remove unresolved customers before comparing routes.
+    #[test]
+    fn metric_bound_dominates_every_compatible_completion() {
+        let p = MixedProblem::new(
+            FiniteProblem::new(vec![Variable::new(vec![0, 10]); 2]).unwrap(),
+            ListProblem::new(vec![0, 1, 2], vec![ListEntity::new(vec![]); 2]).unwrap(),
+        );
+        let mut full = Vec::new();
+        exhaustive_mixed_search(
+            &p,
+            |a| {
+                let s = score(a);
+                full.push((a.clone(), s));
+                s
+            },
+            u64::MAX,
+        );
+        let r = branch_and_bound_mixed(
+            &p,
+            |a, basic, lists| {
+                let bound = route_bound(a, basic);
+                let mut matches = 0;
+                for (complete, s) in &full {
+                    let depots_match = (0..2).all(|i| {
+                        basic.contains(&i) || complete.basic().values()[i] == a.basic().values()[i]
+                    });
+                    let rows: Vec<Vec<_>> = complete
+                        .lists()
+                        .lists()
+                        .iter()
+                        .map(|row| row.iter().filter(|v| !lists.contains(v)).copied().collect())
+                        .collect();
+                    if depots_match && rows == a.lists().lists() {
+                        matches += 1;
+                        assert!(*s <= bound);
+                        if basic.is_empty() && lists.is_empty() {
+                            assert_eq!(*s, bound);
+                        }
+                    }
+                }
+                assert!(matches > 0);
+                BranchEvaluation::unbounded(bound)
+            },
+            BranchAndBoundConfig::default(),
+        )
+        .unwrap();
+        assert_eq!(r.complete_evaluations, 96);
+        assert_eq!(r.best.unwrap().score, HardSoftScore::new(0, -4));
     }
 }

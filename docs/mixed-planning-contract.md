@@ -53,6 +53,27 @@ implementations without a scalability claim.
 
 ## Evidence and limits
 
+`branch_and_bound_mixed` and its observer variant now search the same full product
+with caller-supplied bounds. The shared engine first decides list values, then
+basic variables; a callback receives separate remaining basic-variable and list
+registry indices. Both must be empty for a leaf. Optional omissions, pins and
+ranges retain their component semantics. Bounds must cover the coupled objective,
+including all unresolved decisions; separate component optima are insufficient.
+All four exploration policies share exact full-score pruning and the basic bounded
+search controls. Queue entries own entire joint states; no incremental cost claim.
+
+The routing example uses triangle inequality: inserting customers cannot shorten
+the existing metric tour or reduce overload. An undecided depot contributes its
+best allowed tour bound. Original tests check every bound against every compatible
+complete route/depot state and compare stream scores with full recomputation on
+each visited partial state. All four policies recover the independently established
+0hard/-4soft optimum, evaluating 1–4 complete assignments instead of 96; total node
+counts include partial states. These counts are correctness evidence, not timings.
+Additional independent product/table checks cover coupled mixed-sign objectives,
+every budget prefix, observations, resource limits, decimal precision and panics.
+These original checks add no upstream-method coverage. Automatic bounds and
+ordered solver-phase integration remain pending.
+
 Eight original regression methods test atomic commit/undo, invalid starts, later
 component failure, panic rollback, nested composites, pins and ranges. Independent
 subset/permutation/split enumeration checks the exact complete product sets for

@@ -1,4 +1,4 @@
-//! Exact basic-variable tree search with caller-supplied optimistic bounds.
+//! Exact tree search with caller-supplied optimistic bounds.
 use crate::{Assignment, FiniteProblem, Score, ScoreLevel, ScoredAssignment};
 use std::{cmp::Ordering, collections::BinaryHeap, error::Error, fmt, time::Duration};
 
@@ -124,8 +124,8 @@ pub enum BranchTermination {
     TimeLimit,
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct BranchAndBoundResult<V, S> {
-    pub best: Option<ScoredAssignment<V, S>>,
+pub struct BoundedSearchResult<R> {
+    pub best: Option<R>,
     pub evaluations: u64,
     pub complete_evaluations: u64,
     pub expanded_nodes: u64,
@@ -134,7 +134,9 @@ pub struct BranchAndBoundResult<V, S> {
     pub peak_frontier: usize,
     pub termination: BranchTermination,
 }
-impl<V, S> BranchAndBoundResult<V, S> {
+/// Basic-variable bounded-search result.
+pub type BranchAndBoundResult<V, S> = BoundedSearchResult<ScoredAssignment<V, S>>;
+impl<R> BoundedSearchResult<R> {
     /// Conditional on deterministic scores and admissible bounds from the callback.
     pub fn is_optimal(&self) -> bool {
         self.termination == BranchTermination::Exhausted && self.best.is_some()
@@ -158,8 +160,8 @@ impl<S: fmt::Debug> fmt::Display for InvalidOptimisticBound<S> {
 }
 impl<S: fmt::Debug> Error for InvalidOptimisticBound<S> {}
 
-struct Node<V, S> {
-    assignment: Assignment<V>,
+struct Node<A, S> {
+    assignment: A,
     key: SearchNodeKey<S>,
     /// Tightest full-score bound on the path, for pruning and visited-leaf checks.
     path_bound: Option<S>,
@@ -185,10 +187,8 @@ impl<V, S: Score> PartialEq for Node<V, S> {
     }
 }
 impl<V, S: Score> Eq for Node<V, S> {}
-fn dominated<V, S: Score>(bound: Option<&S>, best: Option<&ScoredAssignment<V, S>>) -> bool {
-    bound
-        .zip(best)
-        .is_some_and(|(bound, best)| bound <= &best.score)
+fn dominated<S: Score>(bound: Option<&S>, best: Option<&S>) -> bool {
+    bound.zip(best).is_some_and(|(bound, best)| bound <= best)
 }
 
 /// Maximize over a finite basic-variable tree. Movable variables branch in model
@@ -254,8 +254,45 @@ fn search<V: Eq + Clone, S: Score>(
     mut observer: impl FnMut(&ScoredAssignment<V, S>),
     clock: impl FnMut() -> Duration,
 ) -> Result<BranchAndBoundResult<V, S>, InvalidOptimisticBound<S>> {
-    let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
-    let mut result = BranchAndBoundResult {
+    let time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
+    let (tree, root) = crate::branch_tree::BasicTree::new(problem);
+    search_tree(
+        &tree,
+        root,
+        |a, depth| evaluate(a, &tree.remaining()[depth..]),
+        config,
+        &mut observer,
+        time,
+    )
+}
+
+pub(crate) trait Retained<A, S> {
+    fn new(assignment: A, score: S) -> Self;
+    fn score(&self) -> &S;
+}
+impl<V, S> Retained<Assignment<V>, S> for ScoredAssignment<V, S> {
+    fn new(assignment: Assignment<V>, score: S) -> Self {
+        Self { assignment, score }
+    }
+    fn score(&self) -> &S {
+        &self.score
+    }
+}
+
+pub(crate) fn search_tree<T, S, R>(
+    tree: &T,
+    root: Option<T::Assignment>,
+    mut evaluate: impl FnMut(&T::Assignment, usize) -> BranchEvaluation<S>,
+    config: BranchAndBoundConfig<'_>,
+    mut observer: impl FnMut(&R),
+    mut time: crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration>,
+) -> Result<BoundedSearchResult<R>, InvalidOptimisticBound<S>>
+where
+    T: crate::branch_tree::BranchTree,
+    S: Score,
+    R: Retained<T::Assignment, S>,
+{
+    let mut result = BoundedSearchResult {
         best: None,
         evaluations: 0,
         complete_evaluations: 0,
@@ -264,33 +301,23 @@ fn search<V: Eq + Clone, S: Score>(
         peak_frontier: 0,
         termination: BranchTermination::Exhausted,
     };
-    if problem.search_space_size() == Some(0) {
+    let Some(assignment) = root else {
         return Ok(result);
-    }
-    let movable: Vec<_> = problem
-        .variables()
-        .iter()
-        .enumerate()
-        .filter_map(|(i, v)| (!v.is_pinned()).then_some(i))
-        .collect();
-    let mut assignment = problem.initial_assignment();
-    for &i in &movable {
-        assignment.values[i] = None;
-    }
+    };
     let mut frontier = BinaryHeap::new();
     // Each call scores a new node and either saves its leaf or queues its subtree.
-    let mut visit = |assignment: Assignment<V>,
+    let mut visit = |assignment: T::Assignment,
                      depth: usize,
                      breadth: u64,
                      parent_breadth: u64,
                      inherited: Option<&S>,
-                     result: &mut BranchAndBoundResult<V, S>,
-                     frontier: &mut BinaryHeap<Node<V, S>>|
+                     result: &mut BoundedSearchResult<R>,
+                     frontier: &mut BinaryHeap<Node<T::Assignment, S>>|
      -> Result<bool, InvalidOptimisticBound<S>> {
         let BranchEvaluation {
             score,
             optimistic_bound,
-        } = evaluate(&assignment, &movable[depth..]);
+        } = evaluate(&assignment, depth);
         let serial = result.evaluations;
         result.evaluations += 1;
         let path_bound = match (inherited, optimistic_bound.as_ref()) {
@@ -298,7 +325,7 @@ fn search<V: Eq + Clone, S: Score>(
             (Some(a), None) | (None, Some(a)) => Some(a.clone()),
             (None, None) => None,
         };
-        if depth == movable.len() {
+        if depth == tree.depth() {
             result.complete_evaluations += 1;
             if score.structural() >= 0 {
                 if let Some(bound) = path_bound.as_ref().filter(|b| score > **b) {
@@ -307,12 +334,16 @@ fn search<V: Eq + Clone, S: Score>(
                         bound: bound.clone(),
                     });
                 }
-                if result.best.as_ref().is_none_or(|best| score > best.score) {
-                    result.best = Some(ScoredAssignment { assignment, score });
+                if result
+                    .best
+                    .as_ref()
+                    .is_none_or(|best| score > *best.score())
+                {
+                    result.best = Some(R::new(assignment, score));
                     observer(result.best.as_ref().unwrap());
                 }
             }
-        } else if dominated(path_bound.as_ref(), result.best.as_ref()) {
+        } else if dominated(path_bound.as_ref(), result.best.as_ref().map(R::score)) {
             result.pruned_branches += 1;
         } else {
             if frontier.len() >= config.max_frontier {
@@ -344,7 +375,10 @@ fn search<V: Eq + Clone, S: Score>(
         return Ok(result);
     }
     while let Some(parent) = frontier.pop() {
-        if dominated(parent.path_bound.as_ref(), result.best.as_ref()) {
+        if dominated(
+            parent.path_bound.as_ref(),
+            result.best.as_ref().map(R::score),
+        ) {
             result.pruned_branches += 1;
             continue;
         }
@@ -352,25 +386,30 @@ fn search<V: Eq + Clone, S: Score>(
             result.termination = reason;
             return Ok(result);
         }
-        let variable = movable[parent.key.depth];
-        let domain = problem.variables()[variable].domain();
-        let choices = domain.len() + usize::from(problem.variables()[variable].allows_unassigned());
+        let mut choices = tree.choices(&parent.assignment, parent.key.depth);
+        let choice_count = choices.len();
         result.expanded_nodes += 1;
-        for choice in 0..choices {
-            if dominated(parent.path_bound.as_ref(), result.best.as_ref()) {
-                result.pruned_branches += (choices - choice) as u128;
+        for breadth in 0..choice_count {
+            if dominated(
+                parent.path_bound.as_ref(),
+                result.best.as_ref().map(R::score),
+            ) {
+                result.pruned_branches += (choice_count - breadth) as u128;
                 break;
             }
             if let Some(reason) = stop(config, result.evaluations, &mut time) {
                 result.termination = reason;
                 return Ok(result);
             }
-            let mut child = parent.assignment.clone();
-            child.values[variable] = domain.get(choice).cloned();
+            let child = tree.child(
+                &parent.assignment,
+                parent.key.depth,
+                choices.next().expect("exact choice count"),
+            );
             if !visit(
                 child,
                 parent.key.depth + 1,
-                choice as u64,
+                breadth as u64,
                 parent.key.breadth,
                 parent.path_bound.as_ref(),
                 &mut result,

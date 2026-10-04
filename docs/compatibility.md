@@ -1421,7 +1421,10 @@ enumeration and admissible prefix tables. Separate benchmark cases compare all f
 public Java exploration configurations with native search on nonpositive-score
 fixtures, validating results against Python optima. Their timings include setup,
 search and result validation; node counts and traces are not asserted equal. List
-and mixed branch-and-bound remain unimplemented.
+and mixed bounded search now share the same independent engine, with original
+subset/permutation/product reference tests and a metric routing example. Those
+extensions add no adapted-method coverage or new Java timing workloads. Ordered
+solver-phase integration and automatic bounds remain pending.
 
 The oscillation diagnostic keeps the Java solver strongly reachable through all
 STEP_SCORE and move-count reads using Reference.reachabilityFence. A forced-GC

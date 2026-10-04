@@ -379,8 +379,17 @@ mod score_history;
 pub use score_history::ScoreHistory;
 
 mod branch_and_bound;
+mod branch_tree;
+mod list_branch_and_bound;
+mod mixed_branch_and_bound;
 pub use branch_and_bound::{
-    BranchAndBoundConfig, BranchAndBoundResult, BranchEvaluation, BranchTermination,
-    InvalidOptimisticBound, NodeExploration, SearchNodeKey, branch_and_bound,
+    BoundedSearchResult, BranchAndBoundConfig, BranchAndBoundResult, BranchEvaluation,
+    BranchTermination, InvalidOptimisticBound, NodeExploration, SearchNodeKey, branch_and_bound,
     branch_and_bound_with_observer,
+};
+pub use list_branch_and_bound::{
+    ListBranchAndBoundResult, branch_and_bound_lists, branch_and_bound_lists_with_observer,
+};
+pub use mixed_branch_and_bound::{
+    MixedBranchAndBoundResult, branch_and_bound_mixed, branch_and_bound_mixed_with_observer,
 };

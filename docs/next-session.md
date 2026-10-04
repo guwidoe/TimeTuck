@@ -7535,3 +7535,90 @@ work/branch-dashboard-phone-bound.png. Browser closed; localhost:8765 dashboard
 server remains running. No measurement/test process remains live. Broader branch
 integration (list/mixed/orchestration and automatic bounds) is still pending.
 Full goal remains active and incomplete.
+
+## 2026-10-04: List and mixed branch-and-bound
+
+Previous goal turn made verified progress in commit 18f6428. This increment extends
+bounded exact search across basic, list and mixed models, preparing the shared tree
+and control machinery needed for ordered solver-phase integration. That integration
+remains pending; do not imply these standalone APIs are already SolverPhase choices.
+
+The original basic engine now accepts a private BranchTree and Retained result type.
+BoundedSearchResult<R> contains the shared counters; BranchAndBoundResult<V,S> remains
+an alias with the same fields and ScoredAssignment best. ListBranchAndBoundResult and
+MixedBranchAndBoundResult use the existing corresponding scored assignment types.
+No extra best/observer cloning is introduced by the common engine. Existing 13 basic
+integration tests and all four adapted comparator methods pass after the refactor.
+
+BasicTree preserves original model/domain order. ListTree starts with frozen lists
+and pinned prefixes, clears movable initial values, then branches remaining registry
+values in registry order over allowed entity/index insertions and optional omission.
+Callback remaining indices are registry positions, not identities. Later insertions
+can shift positions/neighbors: bounds must cover all completions. MixedTree first
+branches lists then basics, retains both value types, and passes separate remaining
+slices. Model completeness alone does not identify optional-model leaves. Impossible
+components score nothing. Queue nodes own whole states; per-parent insertion choices
+also allocate. No incremental scoring or linear-memory claim.
+
+Ten original integration tests cover independent subset/permutation/partition sets
+for 128 range/optionality configurations across four orders; fixed lists/prefixes,
+initial resets, non-dense IDs; tight/loose/unknown table bounds; coupled mixed products;
+every evaluation prefix with exact observer/best history; empty/impossible/frozen
+spaces; limits/cancellation; inherited-bound violations and structural leaf eligibility;
+full-width decimals, score-clone failures, scoring/observer panics and reusable models.
+No upstream-method adaptations or provenance changes are claimed. A first overly
+strong test assertion demanded pruning even from deliberately loose bounds; fixed
+the test to require pruning only for tight depth-first cases. No algorithm workaround.
+
+The mixed_routes example adds all four bounded policies using actual mixed network
+scoring. Its optimistic distance bound chooses the best remaining depot for each
+current metric tour; inserting customers cannot reduce distance or overload. Two
+original example tests check every bound against every compatible complete state
+and compare stream scoring at every visited partial node. The known 0hard/-4soft
+optimum is attained by every order: depth 25 nodes/4 leaves/12 pruned branches;
+breadth 82/1/48; score 37/2/24; optimistic bound 21/2/12. Exhaustive baseline visits
+96 leaves. These are deterministic counts, not performance measurements.
+
+Focused debug tests pass (10 joint tests, 2 example tests); example execution and
+bound/backend tests are in work/joint-branch-{tests,integration,routes}.log. Clippy
+passed before the full frozen-source gate. Full gate is session64664, output
+work/joint-branch-check.log. Re-poll that live handle if interrupted; do not restart
+on timeout. Expected counts are 1,784 Rust tests, 93 doctests, 211 Python tests;
+coverage stays 872/4,855 (17.96%) because these are original native tests. All 13
+measurement datasets must be refreshed after the full capture; old data is stale.
+The full goal remains active and incomplete, with concrete progress this turn.
+
+Full gate64664 completed exit0: 1,784 all-target Rust tests, 93 doctests and 211
+Python tests. Focused release session1600 completed exit0 (13 basic, 10 joint,
+4 comparator and 2 routing-example tests); work/joint-branch-release.log. Sources
+are frozen for the sequential 13-dataset refresh; work/joint-branch-refresh.sh
+writes per-job work/joint-branch-refresh-*.log and rebuilds the dashboard report.
+work/joint-branch-audit.py checks the new test names/count and all existing metrics.
+No implementation/provenance source changes after the full verification capture.
+
+Next implementation priority is connecting these trees to SolverPhase::Exact across
+all six model/scoring paths. Current exact orchestration uses solver_exact.rs with
+shared SolveControl, fallible scoring, retained prior scores, goal/feasibility stops,
+move/score budgets and observations. Standalone search_tree currently has infallible
+scoring and only its own BranchAndBoundConfig controls; integrate those contracts
+explicitly rather than wrapping errors into panics or dropping shared stop reasons.
+Unknown bounds must remain a safe mode. A declared non-increasing-score bound would
+need an explicit caller contract, including integer wrap behavior; do not infer
+safe generic upper bounds from a partial score or arbitrary integer maxima.
+Current refresh session79724 is live and must be re-polled if interrupted.
+
+Refresh79724 completed exit0. Final work/joint-branch-audit.log passed: all 13
+measurement datasets match the current source/verification fingerprints and live
+freshness endpoint. There are 65 timing cards (10 exact, 22 heuristic), unchanged
+872/4,855 adapted methods (17.96%), Search 67/158 (42.41%), pending 3,701,
+excluded 282 and zero failed/unverified methods. Heuristic quality remains 352
+valid/equal-score cases and 300 optimal per runtime. Existing diagnostic boundaries
+remain recorded, including 325 oscillation differences and 24/24 forced-GC checks.
+
+Browser verified at 1440x1000 and 390x844: correct 17.96% coverage, all 65 cards,
+10 exact and 22 heuristic cards, and all four passed NodeComparatorTest results
+when filtering Search. No page errors, stale-data warning or horizontal overflow.
+Screenshots work/joint-branch-{desktop,phone}.png were visually inspected. Browser
+closed; localhost:8765 server remains running. No test/measurement process remains
+live. All staged implementation, example, tests and documentation diffs reviewed.
+This turn made verified progress; the full goal remains active and incomplete.
