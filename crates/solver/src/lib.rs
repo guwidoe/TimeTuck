@@ -402,3 +402,8 @@ pub use score_trend::{
 
 mod diminished_returns;
 pub use diminished_returns::{DiminishedReturns, DiminishedReturnsConfig, DiminishedReturnsError};
+
+mod significant_improvement;
+pub use significant_improvement::{
+    SignificantImprovement, SignificantImprovementConfig, SignificantImprovementError,
+};

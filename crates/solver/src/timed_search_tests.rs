@@ -582,3 +582,105 @@ fn elapsed_limit_precedes_diminished_returns_and_zero_budget_never_starts_it() {
         assert_eq!(r.evaluations, 0);
     }
 }
+
+#[test]
+fn significant_expiry_preserves_selected_prefix_and_excludes_initialization() {
+    let policy =
+        SignificantImprovementConfig::new(Duration::from_millis(1), HardSoftScore::new(0, 7))
+            .unwrap();
+    let c = LocalSearchConfig {
+        significant_improvement: Some(&policy),
+        selection: MoveSelection::BestAccepted,
+        ..Default::default()
+    };
+    let expected = run_all(c, score, ticking);
+    for r in &expected {
+        assert_eq!(
+            *r,
+            Outcome {
+                evaluations: 2,
+                steps: 1,
+                unimproved: 0,
+                accepted: 1,
+                best: Some(score(1)),
+                reason: Stop::SignificantImprovementTimeLimit
+            }
+        );
+    }
+    let delayed = run_all(c, score, || {
+        let mut tick = 50_000;
+        move || {
+            tick += 1;
+            Duration::from_millis(tick)
+        }
+    });
+    assert_eq!(delayed, expected);
+}
+#[test]
+fn significant_threshold_resets_extend_search_but_small_improvements_do_not() {
+    for minimum in [1, 100] {
+        let policy = SignificantImprovementConfig::new(
+            Duration::from_millis(5),
+            HardSoftScore::new(0, minimum),
+        )
+        .unwrap();
+        let c = LocalSearchConfig {
+            significant_improvement: Some(&policy),
+            ..Default::default()
+        };
+        for r in run_all(c, score, ticking) {
+            assert_eq!(r.best, Some(score(if minimum == 1 { 2 } else { 1 })));
+            assert_eq!(r.steps, if minimum == 1 { 2 } else { 1 });
+            if minimum == 100 {
+                assert_eq!(r.reason, Stop::SignificantImprovementTimeLimit);
+            }
+        }
+    }
+}
+#[test]
+fn significant_prefix_threshold_ignores_soft_deterioration_in_all_six_paths() {
+    let full =
+        SignificantImprovementConfig::new(Duration::from_millis(5), HardSoftScore::new(1, 0))
+            .unwrap();
+    for ignored in [0, 1] {
+        let policy = full.ignoring_trailing_levels(ignored).unwrap();
+        let c = LocalSearchConfig {
+            significant_improvement: Some(&policy),
+            ..Default::default()
+        };
+        for r in run_all(
+            c,
+            |v| HardSoftScore::new(v as i64, -100_000 * (v as i64)),
+            ticking,
+        ) {
+            let best = if ignored == 1 { 2 } else { 1 };
+            assert_eq!(r.best, Some(HardSoftScore::new(best, -100_000 * best)));
+            assert_eq!(r.steps, best as u64);
+        }
+    }
+}
+#[test]
+fn total_time_precedes_significant_expiry_and_zero_budget_reads_no_clock() {
+    let policy =
+        SignificantImprovementConfig::new(Duration::ZERO, HardSoftScore::new(0, 1)).unwrap();
+    let c = LocalSearchConfig {
+        max_time: Some(Duration::from_millis(3)),
+        significant_improvement: Some(&policy),
+        ..Default::default()
+    };
+    for r in run_all(c, score, ticking) {
+        assert_eq!(r.reason, Stop::TimeLimit);
+        assert_eq!(r.evaluations, 1);
+    }
+    for r in run_all(
+        LocalSearchConfig {
+            max_evaluations: 0,
+            ..c
+        },
+        score,
+        || || panic!("zero budget must not read time"),
+    ) {
+        assert_eq!(r.reason, Stop::EvaluationLimit);
+        assert_eq!(r.evaluations, 0);
+    }
+}

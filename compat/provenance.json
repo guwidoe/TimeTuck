@@ -13245,6 +13245,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.scoreImproves_terminationIsPostponed",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "upstream_test": "scoreImproves_terminationIsPostponed",
+      "local_path": "crates/solver/tests/significant_improvement_cases.rs",
+      "local_test": "score_improves_termination_is_postponed",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all score/time fixtures, both phase and solver termination queries, every exact gradient assertion and the strict deadline boundary. Explicit native start/observations replace Clock mocks, scope spies and best-score-improved flags. Repeated queries exercise the native policy instead of Java scope identities. Unasserted phaseEnded/solvingEnded calls become ordinary Rust lifetime cleanup. This covers these policy fixtures only; construction suppression, shared Java lifecycle and negative millisecond constructor methods remain pending."
+    },
+    {
+      "id": "UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.scoreImprovesTooLate_terminates",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "upstream_test": "scoreImprovesTooLate_terminates",
+      "local_path": "crates/solver/tests/significant_improvement_cases.rs",
+      "local_test": "score_improves_too_late_terminates",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all score/time fixtures, both phase and solver termination queries, every exact gradient assertion and the strict deadline boundary. Explicit native start/observations replace Clock mocks, scope spies and best-score-improved flags. Repeated queries exercise the native policy instead of Java scope identities. Unasserted phaseEnded/solvingEnded calls become ordinary Rust lifetime cleanup. This covers these policy fixtures only; construction suppression, shared Java lifecycle and negative millisecond constructor methods remain pending."
     }
   ],
   "fixtures": [

@@ -256,6 +256,7 @@ fn soft_gain<S: Score>(to: &S, from: &S) -> Decimal {
 pub(crate) struct LocalTimeBudget<'a, S, C> {
     base: crate::time_limit::TimeBudget<'a, C>,
     rate: Option<DiminishedReturns<S>>,
+    significant: Option<crate::SignificantImprovement<S>>,
 }
 impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn new(
@@ -264,6 +265,10 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
         shared: Option<&'a mut dyn crate::time_limit::SearchControl>,
     ) -> Result<Self, DiminishedReturnsError> {
         Ok(Self {
+            significant: config
+                .significant_improvement
+                .cloned()
+                .map(crate::SignificantImprovement::new),
             base: crate::time_limit::TimeBudget::new(
                 config.max_time,
                 config.max_unimproved_time,
@@ -284,6 +289,9 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     }
     pub(crate) fn complete_step(&mut self, improved: bool, best: &S) {
         self.base.complete_step(improved);
+        if let Some(limit) = &mut self.significant {
+            limit.is_terminated(self.base.elapsed(), best);
+        }
         if let Some(rate) = &mut self.rate {
             rate.step(self.base.elapsed(), best);
         }
@@ -291,6 +299,15 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn stop(&mut self, best: &S) -> Option<crate::LocalSearchTermination> {
         if let Some(reason) = self.base.stop() {
             return Some(reason);
+        }
+        if let Some(limit) = &mut self.significant {
+            let now = self.base.elapsed();
+            if !limit.is_started() {
+                limit.start(now, best.clone());
+            }
+            if limit.is_terminated(now, best) {
+                return Some(crate::LocalSearchTermination::SignificantImprovementTimeLimit);
+            }
         }
         if let Some(rate) = &mut self.rate {
             let now = self.base.elapsed();

@@ -117,7 +117,8 @@ where
     let clock = crate::time_limit::monotonic_clock(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
-            || config.diminished_returns.is_some(),
+            || config.diminished_returns.is_some()
+            || config.significant_improvement.is_some(),
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, make_director, clock)
 }

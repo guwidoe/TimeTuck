@@ -1484,3 +1484,14 @@ are not adapted. A separate public-Java comparison retains 66 original graph cas
 with independently validated greedy results and quality counts; it earns no
 additional upstream-method credit. Java list/mixed pooled construction and dedicated
 performance measurements remain outside that comparison.
+
+
+Two scoreImproves methods from the pinned
+UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest now have complete
+native policy adaptations with every score, timestamp, termination query and
+gradient assertion retained. Mock clock/scope plumbing becomes explicit observations;
+provenance records the distinction. Construction suppression/shared lifecycle and
+negative-millisecond constructor methods remain pending. The new phase-local native
+limit uses exact differences, optional ignored score suffixes and a strict deadline;
+original generated/clock/integration checks confer no additional method coverage.
+Java boundary arithmetic, timed traces and dedicated timings are not claimed.

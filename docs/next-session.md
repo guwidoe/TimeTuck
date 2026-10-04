@@ -7918,3 +7918,77 @@ This turn made verified progress toward the full rewrite. The goal remains activ
 incomplete and unblocked. Pooled construction is now available; Java lifecycle/copy
 method adaptations, broader construction strategies and remaining Community
 behavior remain pending. Do not turn generated-case agreement into method credit.
+
+## 2026-10-04: Minimum significant improvement within a time window
+
+Previous goal turn made verified progress in 0c3b55e. This increment adds an
+independent exact score-difference stagnation policy to all six local-search paths.
+Only pinned Community tests/public documentation informed it; no upstream production
+implementation was read. Read significant_improvement.rs and the new search contract.
+
+SignificantImprovementConfig validates zero structural state, ordinary score width
+and exact level arithmetic. Optional ignored suffixes use true prefix comparison,
+not a finite wildcard sentinel. SignificantImprovement owns a score/time anchor,
+accumulates smaller gains until a qualifying best is observed, clamps backward time
+and latches expiry strictly after the deadline. A gain at the exact deadline can
+reset it; a late gain remains retained by search without reviving the policy.
+Initialization/factory work is excluded and later ordered phases may continue.
+The option is independent of ordinary max_unimproved_time; both can be enabled.
+Public progress is approximate and can be one before exact expiry.
+
+LocalSearchConfig::significant_improvement borrows immutable settings; a running
+phase clones them into independent history. The first full gate 40787 ended at
+Clippy large_enum_variant because inline settings enlarged all solver phase enums.
+Borrowing settings avoids a broad phase-API boxing change and preserves lightweight
+configuration copies. Standalone policy still owns its configuration. The new
+config/reason is integrated in the shared LocalTimeBudget without changing disabled
+clock behavior. No solve-wide score-difference policy or Java lifecycle parity.
+
+Two source scoreImproves methods retain all timestamps, scores, repeated phase/solver
+queries and exact gradient assertions, with provenance and notices. Three remaining
+methods stay pending (negative milliseconds and construction/shared lifecycle).
+Seven original regressions cover 640 histories / 64,000 events, exact integer and
+decimal differences, prefix/wildcard boundaries, zero/max durations and validation.
+Four injected-clock tests cover all six search paths; one phase/factory test checks
+a 50-second preparation delay and subsequent exact completion. The first native
+reference run 24002 found only incorrect bitwise assertions for floating estimates;
+changed those original checks to 1e-15 tolerance, leaving stop decisions exact.
+Focused run 50248 passed all then-current tests.
+
+Final full gate runs as handle 36818, work/significant-check.log; formatting and
+Clippy passed. Expected totals after all tests: 1,854 Rust tests, 98 doctests and
+215 Python checks; 885/4,855 adapted methods=18.229%, Solver lifecycle 61/379.
+These are estimates until the gate exits successfully. Prepared
+work/significant-refresh.sh and work/significant-audit.py for the subsequent
+sequential 13-dataset refresh. No new dedicated timed-search comparison is claimed.
+Full goal remains active, incomplete and unblocked. Re-poll live handles on timeouts.
+
+Full gate 36818 completed exit 0: 1,854 Rust tests, 98 doctests and 215 Python
+checks. Coverage 885/4,855=18.229%; pending 3,688 / excluded 282 / failed 0 /
+unverified 0. Sources and provenance are frozen for release and measurements.
+
+Release and sequential refresh run under handle 81489 with set -e. All 14 new
+focused tests passed release in work/significant-release.log. Refresh progress
+is work/significant-refresh.log and per-job significant-refresh-*.log files.
+Re-poll that same handle if interrupted; do not restart on an observation timeout.
+
+Release/refresh handle 81489 completed exit 0. All 13 datasets and 65 timing
+workloads were regenerated successfully. The audit in work/significant-audit.log
+passed current source/verification fingerprint checks and live API freshness.
+Baseline solver comparisons retain 128/128 optima, trend cases 512/512, and pooled
+construction 66/66 assignment/score agreement with 48 optima each. Heuristic
+comparisons retain 352 valid equal outcomes with 300 optima each. These workload
+results do not claim universal speed superiority or timed-policy trace parity.
+
+Browser verification passed at 1440x1000 and 390x844: overall coverage 18.23%,
+Solver lifecycle 61/379 (16.09%), two passed and three pending methods in the
+threshold class, and all 65 timing cards. No page errors, visible stale warnings
+or horizontal overflow. Visually inspected work/significant-desktop.png,
+work/significant-phone.png and work/significant-phone-tests.png. Browser closed;
+localhost:8765 server remains running. No test/measurement process remains live.
+
+This increment made verified progress: 1,854 Rust tests, 98 doctests and 215 Python
+checks passed, along with all 14 focused release tests. Coverage is 885/4,855,
+with 3,688 pending, 282 excluded and no failed or unverified adaptations. The full
+goal remains active, incomplete and unblocked. Shared/construction lifecycle
+semantics and the remaining Community behavior still need implementation.

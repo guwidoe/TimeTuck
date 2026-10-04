@@ -939,3 +939,37 @@ fn diminished_returns_is_phase_local_and_excludes_factory_preparation() {
         assert_eq!(r.score, Some(SimpleScore::ZERO));
     }
 }
+
+#[test]
+fn significant_improvement_is_phase_local_and_excludes_factory_preparation() {
+    let rate = crate::SignificantImprovementConfig::new(ms(2), SimpleScore::new(7)).unwrap();
+    let c = SolverSequence {
+        phases: vec![
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                significant_improvement: Some(&rate),
+                acceptance: Acceptance::HillClimbing,
+                ..Default::default()
+            }),
+            SolverPhase::Exact(ExactPhaseConfig::default()),
+        ],
+        ..Default::default()
+    };
+    // Flat objective forces the local window to expire after real scoring work.
+    let short = exercise_scored(c.clone(), 0, |_| 0);
+    let expensive = exercise_scored(c, 50_000, |_| 0);
+    assert_eq!(short.work, expensive.work);
+    for r in [short, expensive] {
+        assert_eq!(r.phases.len(), 2);
+        assert_eq!(
+            r.phases[0].termination,
+            PhaseTermination::LocalSearch(LocalSearchTermination::SignificantImprovementTimeLimit)
+        );
+        assert!(r.phases[0].work.evaluations > 1);
+        assert_eq!(
+            r.phases[1].termination,
+            PhaseTermination::Exact(ExactPhaseTermination::Exhausted)
+        );
+        assert_eq!(r.termination, SolverTermination::Optimal);
+        assert_eq!(r.score, Some(SimpleScore::ZERO));
+    }
+}

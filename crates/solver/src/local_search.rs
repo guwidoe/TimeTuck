@@ -165,6 +165,10 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub max_unimproved_time: Option<std::time::Duration>,
     /// Phase-local sliding-window slowdown policy; initialization is excluded.
     pub diminished_returns: Option<crate::DiminishedReturnsConfig>,
+    /// Phase-local minimum retained-best improvement within a time window.
+    /// Borrows immutable settings; the running phase owns its history. Independent
+    /// of max_unimproved_time; initialization is excluded.
+    pub significant_improvement: Option<&'a crate::SignificantImprovementConfig<S>>,
     /// Completed steps since the last strict global-best improvement. None disables.
     pub max_unimproved_steps: Option<u64>,
     /// Stop at a step boundary when the retained best score is at least this value.
@@ -199,6 +203,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             max_time: None,
             max_unimproved_time: None,
             diminished_returns: None,
+            significant_improvement: None,
             max_unimproved_steps: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -345,6 +350,7 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
     DiminishedReturns,
+    SignificantImprovementTimeLimit,
     /// An unevaluated candidate remains after the candidate-only budget is spent.
     MoveEvaluationLimit,
     /// The external cancellation token was observed. Does not prove optimality.
@@ -461,7 +467,8 @@ where
     let clock = crate::time_limit::monotonic_clock(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
-            || config.diminished_returns.is_some(),
+            || config.diminished_returns.is_some()
+            || config.significant_improvement.is_some(),
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
 }

@@ -1233,3 +1233,13 @@ Shared score/candidate/time/cancellation controls still constrain these phases,
 and subsequent phases receive the selected assignment and accumulated work.
 A completed greedy phase is not an optimality proof. See the construction section
 of the incremental-search contract for candidate order and optional-value rules.
+
+## Significant-improvement phase limit
+
+Local phases may independently require a minimum retained-best score improvement
+within an elapsed-time window through LocalSearchConfig::significant_improvement.
+Each phase arms after initialization, including stream preparation. Its typed
+SignificantImprovementTimeLimit reason ends only that phase; later phases may run
+and establish optimality. Existing shared controls remain authoritative. There is
+no corresponding solve-wide score-difference history. See the incremental-search
+contract for exact threshold arithmetic, prefix comparisons and deadline semantics.

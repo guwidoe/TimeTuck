@@ -1518,3 +1518,55 @@ assignments with independently recomputed scores. Final score agreement, selecte
 assignment agreement and exhaustive optimum counts are recorded separately.
 This establishes neither intermediate Java traces nor list/mixed Java pooled
 behavior, performance parity or adapted upstream-method coverage.
+
+## Minimum significant improvement within a time window
+
+LocalSearchConfig::significant_improvement optionally enables an independent
+phase-local stagnation limit across all six search paths. Construct its validated
+SignificantImprovementConfig from a Duration and a zero-structural score difference.
+The config field borrows these immutable settings; each running phase clones them
+and owns independent history. Keep the settings alive for the configured plan.
+It observes retained best scores after initialization and ignores small gains until
+the accumulated difference from the last qualifying anchor meets the threshold.
+A qualifying improvement resets both anchor score and anchor time. Ties never
+reset, including with zero or negative minima. Structural improvement qualifies
+independently; otherwise comparison is lexicographic numeric score difference.
+
+Unlike ordinary max_unimproved_time, this policy expires strictly after its
+deadline: an improvement exactly at the deadline can still qualify. A late
+improvement remains in the result but cannot revive the policy. Expiry latches
+until explicit restart. Progress is a capped floating estimate and can equal one
+at the deadline without expiry. Zero windows permit only observations at the
+start timestamp; Duration::MAX cannot be exceeded by a Duration elapsed sample.
+Backward time clamps. Public SignificantImprovement exposes the same deterministic
+start, query and progress operations; queries before start are inactive.
+
+Integer and decimal differences use exact Decimal arithmetic, avoiding wrapping
+score subtraction and loss of tiny improvements at large magnitudes. A configurable
+ignored suffix compares only the remaining prefix, so a one-hard-point threshold
+can permit arbitrary soft deterioration. This is a native prefix operation, not
+a finite MIN sentinel or a claim of Java wildcard behavior at numeric boundaries.
+At least one ordinary level must remain. Custom scores require exact_decimal
+levels and structural-first numeric lexicographic ordering. Empty scores, flawed
+thresholds, unsupported arithmetic and invalid suffix widths fail during config
+construction. Large scale gaps retain Decimal's ordinary allocation costs.
+
+The optional policy composes with existing limits: cancellation/count boundaries
+retain their order, then total/unimproved/shared time, significant-improvement
+time, and diminished returns. Enabling both stagnation options means either may
+stop the phase. Disabling the new option adds no clock reads. Initialization and
+initial notification are excluded, including stream factory preparation. Candidate
+prefix winners are still installed on expiry; later ordered phases may continue.
+There is no new solve-wide score-difference limit in SolverLimits.
+
+Two pinned scoreImproves methods from
+UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest retain every
+score/time fixture and phase/solver query/gradient assertion through the native
+policy, with provenance. Mock scope identities and unasserted lifecycle cleanup
+become native calls/lifetimes. The other three methods remain pending. Seven
+original regressions include 640 histories / 64,000 events against widened integer
+deadline references, numeric extremes, ignored suffixes, exact decimal boundaries,
+invalid configuration and zero/max durations. Four injected-clock methods exercise
+all six search paths, plus one ordered-phase factory/handoff test. These earn no
+additional method credit. No Java timed-trace, shared lifecycle or dedicated
+performance equivalence is claimed.

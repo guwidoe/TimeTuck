@@ -439,3 +439,10 @@ query sequences and assertions are retained. Native explicit time and lifecycle
 methods replace Java scopes; provenance records each substitution. The native
 sliding-window policy, search integration and independent regressions are original
 work. No production implementation or internal ring-buffer tests were ported.
+
+`crates/solver/tests/significant_improvement_cases.rs` adapts the two scoreImproves
+methods from pinned Community UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest
+(Apache-2.0). Every score/time fixture, repeated termination query and gradient
+assertion remains. Explicit native observations replace mocked scope/clock plumbing;
+paths and substitutions are in compat/provenance.json. The native threshold policy,
+exact arithmetic, ignored suffixes, integration and reference tests are original.
