@@ -1519,3 +1519,29 @@ are deliberately deterministic for rollback/reconstruction. Comparison evidence
 checks that Java's selected identity is active, its payload matches its capture,
 and its key is extreme; differing valid tied IDs are explicitly retained. No Java
 ABI, exact tie history, live aliasing, callback-order or dedicated timing claim.
+
+## Finishing collector results
+
+CollectorFinisher<Input> defines a pure, deterministic transformation of an owned
+result into another Clone result. FinishingCollector<C,F> wraps an inner collector
+and applies that transformation only at finish, including empty standalone results.
+An empty stream group still emits no row. The policy is a type, with no Clone or
+Default requirement on F; its function must not mutate shared state or depend on
+call history. For transformations needing runtime closure captures, use a graph map.
+
+Combine arbitrary captured input fields using nested PairCollector, then flatten or
+derive a result with FinishingCollector. It preserves each delegate's own replace
+method, including conditional transitions and specialized checked arithmetic. It
+stages inner insert/remove/replace calls before installation; false removals or
+replacements and ordinary panics leave the wrapper's prior inner state intact.
+A finisher panic cannot mutate captured state under the pure-finisher contract.
+Graph transaction failures still invalidate the transaction and restore its checkpoint
+on drop. from_collector accepts an existing collector; into_inner returns it. Clone
+shares inner roots when supported by that collector. No general O(1) custom-collector
+clone, callback count/order, live aliasing or Java ABI guarantee is made.
+
+Public comparisons cover two-/three-/four-result composition and a transformed
+count. All 132 cases and 11,300 states match independently rebuilt minima, maxima,
+counts and exact average bits, including duplicate inputs and inverse updates.
+Inputs keep integer sums/differences representable. Dedicated composition timings
+and generic Java callback-failure/recovery behavior are outside this increment.

@@ -6244,3 +6244,61 @@ Next useful increment: inspect remaining natural-comparable min/max Update metho
 and collector-composition cases in the pinned test inventory. Dedicated extrema,
 connected-range/load-balance/period performance measurements remain pending. Preserve
 stable native identity and keep Java tie differences separate from invalid results.
+
+## Collector composition and finish mapping (2026-10-04)
+
+New original finishing_collector.rs exports CollectorFinisher<Input> (a pure static
+result policy with associated Clone output) and FinishingCollector<C,F>. Default and
+Clone require only C's capabilities, not F:Default/Clone. finish invokes F on the
+inner's owned output, even when empty; graph empty groups still emit no row. Inner
+insert/remove/replace stage cloned state before installation; false returns and
+ordinary panics cannot install partial changes. replace delegates to C::replace,
+retaining specialized behavior instead of recreating remove/insert. from_collector
+and into_inner support existing collectors. Policies must be deterministic, pure
+and preserve immutable-snapshot semantics; runtime closure captures can use graph
+mapping. No callback-count/order or Java ABI guarantee.
+
+Read full source methods in all four arities. composed_collector_cases.rs adapts
+compose2/3/4, compose2Update, collectAndThen/Update, minComparableUpdate and
+maxComparableUpdate: 32 methods. Preserve all empty/duplicate/add/remove/replacement
+assertions and zero trailing tuple fields. Nested PairCollector and finish policies
+flatten tuples or transform counts. Natural min/max updates use captured natural
+keys; non-uni LocalDateTime fixtures retain ordered (2023,1,1,0,minute) fields for
+source offsets 1..7, with no general date arithmetic claim. Provenance/notices updated.
+
+Five original regressions add no upstream-method credit: isolated partial custom
+inner mutations on panic/false, specialized replace dispatch, real same-value period
+subtraction overflow, standalone/graph finisher-panic recovery, 1,800 grouped edits
+with full independent fields and commit/undo/rebuild, construction and 32 bounded
+saved-candidate searches. One doctest and five Python reference/protocol regressions.
+
+Original CompositionCollectorOracle.java, composition_oracle.rs and
+composition_collector_checks.py compare 132 cases / 11,300 observations. Two-, three-
+and four-result composition plus count-result transformation agree exactly on all
+fields, including f64 average bits; independent Python reconstructs every state.
+Duplicate values, replacements, removals and inverse-update trials are retained.
+Generated inputs keep intermediate integer sums/differences representable. No new
+source-method credit, Java callback failure/recovery or dedicated timing claim.
+work/composition-probe.json retains the standalone comparison.
+
+Final source gate passed: 1,571 Rust tests (771 adapted, 724 original integration,
+76 unit), 81 doctests and 180 Python tests. All 37 new integration tests pass release.
+Logs work/composition-check.log and work/composition-release.log. Coverage
+771/4,855 = 15.88%, streams 391/1,301 = 30.05%; pending 3,802, excluded 282,
+failed/unverified zero. Sequential refresh is session 82208; source frozen throughout.
+Logs work/composition-refresh-*.log. Goal remains active and the rewrite is unfinished.
+
+Refresh session 82208 completed exit 0. All twelve datasets are current and
+report/source/live-server fingerprints match. Browser QA confirms 15.88% overall,
+30.05% streams, 16/16 compose methods and 8/8 collectAndThen methods passed; all 32
+new adaptations are verified in report metadata. The 132/132 composition card
+retains 11,300 states and exact-average-bit scope; existing Java differences remain.
+All 37 timing cards render. No page errors or horizontal overflow at 1440px/390px.
+Screenshot work/composition-dashboard.png. Browser closed; localhost:8765 remains.
+
+Next inspect remaining Inner* collector methods. The uni pending list is toSet,
+toSortedSet, toSortedMapMerged, countUpdate, sumUpdate, countDistinctUpdate,
+toSetUpdate and toSortedSetUpdate. Read corresponding arities and compare existing
+SetCollector/MapCollector behavior before adapting; toSortedMapMerged may need a
+reusable merge-result policy or stronger ordering/multiplicity coverage. Dedicated
+extrema/composition/connected-range/load-balance/period benchmarks remain pending.

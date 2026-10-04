@@ -11085,6 +11085,486 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every source assertion and add/update/remove sequence; model the first mapped string with a non-Ord Rust payload and a captured comparable key, and trailing null tuple fields with None. Explicit stable logical IDs represent handles and duplicate occurrences; owned selected snapshots replace Java nullable return values. Same-value updates execute CollectNode replacement. No Java ABI, mutable alias or exact equal-key identity policy claimed."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.compose2",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "compose2",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_compose2",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.compose3",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "compose3",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_compose3",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.compose4",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "compose4",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_compose4",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.compose2Update",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "compose2Update",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_compose2_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.collectAndThen",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThen",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_collect_and_then",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.collectAndThenUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThenUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_collect_and_then_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.minComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "minComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_min_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerUniConstraintCollectorsTest.maxComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/uni/InnerUniConstraintCollectorsTest.java",
+      "upstream_test": "maxComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "uni_max_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.compose2",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "compose2",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_compose2",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.compose3",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "compose3",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_compose3",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.compose4",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "compose4",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_compose4",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.compose2Update",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "compose2Update",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_compose2_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.collectAndThen",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThen",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_collect_and_then",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.collectAndThenUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThenUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_collect_and_then_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.minComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "minComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_min_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.maxComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "maxComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "bi_max_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.compose2",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "compose2",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_compose2",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.compose3",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "compose3",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_compose3",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.compose4",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "compose4",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_compose4",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.compose2Update",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "compose2Update",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_compose2_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.collectAndThen",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThen",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_collect_and_then",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.collectAndThenUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThenUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_collect_and_then_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.minComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "minComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_min_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.maxComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "maxComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "tri_max_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.compose2",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "compose2",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_compose2",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.compose3",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "compose3",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_compose3",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.compose4",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "compose4",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_compose4",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.compose2Update",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "compose2Update",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_compose2_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.collectAndThen",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThen",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_collect_and_then",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.collectAndThenUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "collectAndThenUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_collect_and_then_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source assertion, default/add/duplicate/remove/update sequence and zero-valued trailing tuple fields. Native nested PairCollector plus FinishingCollector replaces Java compose/result functions and tuple result holders; owned Option results replace nullable fields. Source bounded integer/long values map exactly to i64 and average expectations remain f64. Explicit replace/remove calls represent value handles. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.minComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "minComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_min_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.maxComparableUpdate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "maxComparableUpdate",
+      "local_path": "crates/solver/tests/composed_collector_cases.rs",
+      "local_test": "quad_max_comparable_update",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source natural-order replacement/repeated-replacement/removal assertions. Uni integer fixtures remain exact; other arities retain tuple sums and the fixed 2023-01-01 local date/time plus 1..7 minute offsets as an ordered native (year,month,day,hour,minute) fixture. Captured keys and payloads replace Java value handles. No general date arithmetic or java.time API implementation is claimed. No Java ABI, callback-count/order, identity-shortcut or generated-case coverage credit."
     }
   ],
   "fixtures": [

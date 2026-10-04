@@ -350,3 +350,6 @@ pub use period_collector::{CalendarPeriod, PeriodOverflow, PeriodSumCollector};
 
 mod extrema_collector;
 pub use extrema_collector::{Extremum, ExtremumCollector, MaxByCollector, MinByCollector};
+
+mod finishing_collector;
+pub use finishing_collector::{CollectorFinisher, FinishingCollector};

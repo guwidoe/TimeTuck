@@ -1189,3 +1189,30 @@ The 2,429 differing tie choices are permitted by the contract and retained in ra
 outputs; this is selection-contract agreement, not exact selected-ID agreement.
 Duplicate item handles, signed/full-width keys, replacements, removals and inverse
 update trials are included. No generated-case method credit or new timing claim.
+
+## Collector composition and result transformations
+
+Thirty-two additional methods are adapted from all four Inner*ConstraintCollectorsTest
+arities: compose2, compose3, compose4, compose2Update, collectAndThen,
+collectAndThenUpdate, minComparableUpdate and maxComparableUpdate. All source result
+fields, operation sequences and zero trailing tuple mappings remain. Nullable tuple
+results become Option fields. Non-uni natural-order update tests retain their fixed
+2023-01-01 local date/time plus 1..7 minute fixtures with explicit ordered native
+calendar fields; this does not implement a general date/time API. Source provenance
+and notices record each adaptation. No production implementation was translated.
+
+FinishingCollector adds a reusable pure result transformation around any reversible
+collector. Nested PairCollector handles independently mapped inputs; custom finishers
+flatten or derive results, including empty standalone outputs. Specialized inner
+replacement semantics remain intact. Five original Rust regressions cover partial
+inner mutation failures, specialized replacement delegation, real calendar-overflow
+rejection on same-value replacement, finisher panic recovery, 1,800 grouped edits
+with commit/undo/full recomputation, construction and 32 bounded saved-candidate
+searches. One doctest and five Python reference/protocol tests add no method credit.
+
+Original public comparisons retain 132 cases and 11,300 states across composition
+of two, three and four collectors and count-result mapping. Java and Rust match all
+independent min/max/count values and f64 average bits through duplicate inputs,
+replacement, removal and inverse-update trials. Inputs keep intermediate integer
+arithmetic representable. Callback count/order, live aliases, Java ABI and dedicated
+performance measurements are not claimed.

@@ -37,7 +37,8 @@ filter, one-to-many expansion, concatenation, complement, equality/ordered/parti
 automatically routes these changes and rolls back candidate transactions. Composable
 collectors include sets, integer summaries/averages, arbitrary-precision integer/decimal sums and averages, signed duration sums/averages, calendar-period sums, key-projected minima/maxima for non-ordered payloads, consecutive sequences and connected ranges with custom distance metrics, exact load balancing, nested maps and lists ordered by stable
 occurrence ID, with duplicate tracking
-and immutable result snapshots. Stream
+and immutable result snapshots. Pure finishing adapters transform or flatten nested
+collector results while preserving each inner collector's update semantics. Stream
 score directors bind it to basic, ordered-list and combined mixed moves. Indexed
 `follow_reference` streams derive values through changing entity references, retain
 missing targets explicitly, and restore their inverse dependencies on rollback.

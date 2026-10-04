@@ -321,3 +321,10 @@ trailing tuple fields and all asserted operation sequences remain represented.
 Revision, paths, identities and modifications are in compat/provenance.json.
 Native production collection, original regressions and public oracle drivers are
 independently implemented from tests and public API contracts.
+
+`crates/solver/tests/composed_collector_cases.rs` adapts compose2/3/4, compose2Update,
+collectAndThen and its Update method, and natural minComparableUpdate/maxComparableUpdate
+from all four pinned Apache-2.0 Inner*ConstraintCollectorsTest classes. Original
+assertions and mapped tuple/date fixtures are represented as recorded in
+compat/provenance.json. FinishingCollector, original regression tests, independent
+references and public comparison drivers are original implementations.
