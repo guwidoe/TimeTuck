@@ -8323,3 +8323,45 @@ This increment makes verified progress on list repair and shared search control.
 The full Community goal remains active, incomplete and unblocked. Mixed repair,
 SolverPlan integration and dedicated public-Java repair quality/performance evidence
 remain substantive next work; other selector/lifecycle methods stay pending.
+
+## Mixed repair increment (verified)
+
+Added mixed_ruin_recreate.rs and original mixed repair checks. The shared engine
+samples one basic-slot/list-value pool, then uses mixed construction under explicit
+component order and coupled scoring. Acceptance namespaces distinguish basic slots
+from list entities and Basic from List values; list registry identity is preserved.
+No new upstream method/fixture was adapted, so provenance and method credit stay
+unchanged. See the mixed section in docs/incremental-search-contract.md.
+
+Focused checks initially caught two test expectations: ValueQueue commits its first
+queued basic value even in list-first order; factory cancellation skips repair
+scoring, whereas cancellation from the scoring callback retains a scored optional
+repair. Tests now exercise the intended distinctions. Production assertions were
+not weakened. Full goal remains active, incomplete and unblocked.
+
+Full gate 49326 passed: 1,897 Rust tests, 101 doctests, 223 Python tests;
+formatting/Clippy clean after simplifying one test closure type annotation.
+Coverage remains 887/4,855=18.27%, pending 3,686, excluded 282, failed/unverified 0.
+Sources are frozen. Handle 22418 runs focused release checks (basic/list/mixed),
+then 14 sequential refresh jobs and work/mixed-ruin-audit.py. Logs:
+work/mixed-ruin-release.log, work/mixed-ruin-verify.log, work/mixed-ruin-audit.log.
+The audit expects 1,897 tests and unchanged 71 workload/compatibility invariants.
+Re-poll the same live handle on observation timeouts; do not restart timed work.
+
+Release/refresh/audit handle 22418 completed exit 0. All 30 focused repair tests
+passed in release mode. All 14 measurement datasets are current with matching
+source/verification fingerprints. The audit confirms unchanged coverage, 71 timing
+workloads, independent quality references, work counters and known discrepancies.
+No dedicated Java mixed-repair measurement is claimed.
+
+Browser checks passed at desktop and 390x844: 18.27%, 71 timing cards, no stale or
+undefined text, page errors or horizontal overflow. Browser closed; localhost:8765
+server remains running. No test or measurement process remains live. Pinned upstream
+and attribution ledger are unchanged; every new check is original.
+
+Next substantive work: shared repair controls needed for SolverPlan integration
+(independent move budgets, score targets, feasibility and observation/stagnation
+hooks), then all six plan/backend paths and managed lifecycle. Existing repair
+entry points only expose score/attempt/time/cancellation limits. Preserve existing
+seeded traces and partial-repair retention when extending the shared engine.
+The full Community goal remains active, incomplete and unblocked.

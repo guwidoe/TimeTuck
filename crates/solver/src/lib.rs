@@ -424,3 +424,9 @@ mod list_ruin_recreate;
 pub use list_ruin_recreate::{
     ruin_recreate_list_search_from, ruin_recreate_list_stream_search_from,
 };
+
+mod mixed_ruin_recreate;
+pub use mixed_ruin_recreate::{
+    MixedRuinRecreateConfig, MixedRuinRecreateResult, ruin_recreate_mixed_search_from,
+    ruin_recreate_mixed_stream_search_from,
+};

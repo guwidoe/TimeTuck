@@ -1704,8 +1704,8 @@ Scoped constraints must support partial assignments. Each stream factory supplie
 fresh empty planning sources and the same deterministic objective; factories run
 for initialization and each attempted repair, not when initial scoring is skipped.
 Per-repair model/cache/graph rebuilding is intentional; this is not an in-place
-incremental repair optimization. Mixed repair and SolverPlan integration are
-not yet implemented. List repair is described below.
+incremental repair optimization. SolverPlan integration is not yet implemented.
+List and mixed repair are described below.
 
 The initial score, each repair's initial score and all candidate scores share the
 exact evaluation cap. `repair_move_evaluations` counts only construction candidate
@@ -1775,5 +1775,37 @@ regressions include 1,584 scoped/stream solves against independent full-score in
 (24 models x 33 budgets x two backends), sampled subset preservation, pin/range/null
 boundaries, stable value scopes/shadows, multiple placements and acceptance policies,
 factory timing/cancellation/errors, complete-vs-partial cancellation retention and
-exact decimal ranking. All earlier basic repair checks continue to pass. Mixed repair,
+exact decimal ranking. All earlier basic repair checks continue to pass.
 SolverPlan integration and dedicated Java list-repair performance remain pending.
+
+## Mixed ruin-and-recreate search
+
+`ruin_recreate_mixed_search_from` and `ruin_recreate_mixed_stream_search_from`
+reuse the same bounded engine for a combined basic/list problem. A single group
+samples basic slots and list registry identities without replacement. Counts bound
+the combined eligible pool, so an attempt may repair either or both components.
+Basic pins, list full/prefix pins, ranges, unsampled basic values, unsampled list
+owners/relative order, and unsampled missing optional values remain protected.
+List registry indices remain stable for value scopes and stream shadows.
+
+`MixedRuinRecreateConfig` combines shared search settings with explicit construction
+order. Reconstruction evaluates the full coupled objective: Sequential and
+ValueQueue finish components in the selected order; Pooled compares candidates
+across both components. Constraints must handle partial mixed assignments. A
+required incomplete repair cannot replace the complete incumbent. Complete optional
+repairs may improve the best even when cancellation interrupts reconstruction.
+
+Acceptance entity identities use basic slot indices followed by list entity indices;
+the combined population sizes relative tabu. Sampling uses list *value* indices
+at that offset instead; the two identity sets serve different purposes. Move
+identities pair final basic edits with changed lists. Planning values explicitly
+wrap Basic or List, preventing collisions even when their underlying Rust types
+and values are equal. These identities do not claim Java move equality.
+
+Ten original regressions include 2,016 solves against independent coupled tables
+(24 tables x 21 evaluation budgets x two orders x two backends), order/placement
+quality differences, single-member samples with pins and optional values, empty and
+fully pinned models, deterministic tabu policies, metadata namespaces, cancellation
+inside reconstruction, skipped factory work, factory elapsed time and typed errors.
+These tests earn no upstream method credit. Repair still rebuilds models and caches;
+SolverPlan integration and dedicated Java repair quality/timing remain pending.

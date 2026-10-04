@@ -78,6 +78,7 @@ pub enum RuinRecreateError {
     IncompleteInitialAssignment,
     Search(LocalSearchError),
     ListSearch(ListLocalSearchError),
+    MixedSearch(MixedLocalSearchError),
 }
 impl fmt::Display for RuinRecreateError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -90,6 +91,7 @@ impl fmt::Display for RuinRecreateError {
             }
             Self::Search(e) => e.fmt(f),
             Self::ListSearch(e) => e.fmt(f),
+            Self::MixedSearch(e) => e.fmt(f),
         }
     }
 }
@@ -98,6 +100,7 @@ impl Error for RuinRecreateError {
         match self {
             Self::Search(e) => Some(e),
             Self::ListSearch(e) => Some(e),
+            Self::MixedSearch(e) => Some(e),
             _ => None,
         }
     }
