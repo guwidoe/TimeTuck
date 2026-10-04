@@ -335,3 +335,9 @@ toSortedSetUpdate from all four pinned Apache-2.0 Inner*ConstraintCollectorsTest
 classes. Tuple/string fixtures and the uni alternating merged-value counter retain
 source attribution in compat/provenance.json. SumCollector and separate original
 regressions, references and public comparison drivers were independently implemented.
+
+`crates/solver/tests/tuple_collector_cases.rs` adapts count, countDistinct, sum,
+minComparable and maxComparable from the pinned Apache-2.0 InnerBi/Tri/Quad
+ConstraintCollectorsTest classes. Numeric tuple values and fixed-date extrema
+fixtures retain attribution in compat/provenance.json. The aggregate benchmark,
+its validation cases and references are original and add no upstream-method credit.

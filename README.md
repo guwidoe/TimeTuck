@@ -98,6 +98,12 @@ Calendar-period aggregation preserves signed year/month/day fields and checks
 with Java and Python, including 120 expected arithmetic rejections. Failed native
 updates preserve captured state; no date application or period timing is claimed.
 
+Aggregate collector benchmarks compare checked sums, sorted sets and additive
+merged maps against Java at 64 and 512 captures. Run
+`python3 scripts/benchmark_aggregates.py` to measure replacement and restoration
+with complete result validation. The dashboard retains timing ranges, raw samples
+and methodology; these workloads do not establish overall solver speed.
+
 ## Development
 
 Install Rust via rustup, Git, and Python 3. Run from the repository root:

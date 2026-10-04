@@ -12045,6 +12045,231 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all source values, arity-specific tuple projections and result assertions through insertion, duplicates, retraction, replacement and repeated replacement. Native captured inputs and reversible updates replace Java value/retractor handles. Set membership uses persistent ordered native keys; sorted-source tests also verify iteration order. No Java unordered iteration, object alias or ABI compatibility claim. Source identity-shortcut comments do not imply callback-count/order guarantees. Generated comparison cases add no method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.count",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "count",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "bi_count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Keep original tuple occurrence identities and use native usize for bounded source counts. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.countDistinct",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "countDistinct",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "bi_count_distinct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Capture exact tuple sums in a SetCollector and transform the owned result to its distinct cardinality. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.sum",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "sum",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "bi_sum",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Use checked i64 SumCollector and retain exact tuple sums and expected totals. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.minComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "minComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "bi_min_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerBiConstraintCollectorsTest.maxComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/bi/InnerBiConstraintCollectorsTest.java",
+      "upstream_test": "maxComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "bi_max_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.count",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "count",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "tri_count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Keep original tuple occurrence identities and use native usize for bounded source counts. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.countDistinct",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "countDistinct",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "tri_count_distinct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Capture exact tuple sums in a SetCollector and transform the owned result to its distinct cardinality. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.sum",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "sum",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "tri_sum",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Use checked i64 SumCollector and retain exact tuple sums and expected totals. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.minComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "minComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "tri_min_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerTriConstraintCollectorsTest.maxComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/tri/InnerTriConstraintCollectorsTest.java",
+      "upstream_test": "maxComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "tri_max_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.count",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "count",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "quad_count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Keep original tuple occurrence identities and use native usize for bounded source counts. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.countDistinct",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "countDistinct",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "quad_count_distinct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Capture exact tuple sums in a SetCollector and transform the owned result to its distinct cardinality. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.sum",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "sum",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "quad_sum",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Use checked i64 SumCollector and retain exact tuple sums and expected totals. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.minComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "minComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "quad_min_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
+    },
+    {
+      "id": "InnerQuadConstraintCollectorsTest.maxComparable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/quad/InnerQuadConstraintCollectorsTest.java",
+      "upstream_test": "maxComparable",
+      "local_path": "crates/solver/tests/tuple_collector_cases.rs",
+      "local_test": "quad_max_comparable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every source default/add/duplicate/remove assertion and all arity-specific tuple values. Native captured rows and reversible calls replace Java retractor handles. Preserve the fixed 2023-01-01 00:00 LocalDateTime fixture and exact minute offsets as ordered native calendar fields, including all ignored zero tuple fields. This checks native ordering and multiplicity, not Java PECS generic variance, the Java type system or a general date API. No Java ABI, mutable alias, callback-order or benchmark-generated source-method credit."
     }
   ],
   "fixtures": [

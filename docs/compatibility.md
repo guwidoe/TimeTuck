@@ -1244,3 +1244,29 @@ first error, so rejection agreement does not claim a successful update or Java
 post-error recovery. Merged-map zero keys and i32 wrap boundaries remain explicit;
 unordered set output normalizes order. No generic merge-function, Java API/ABI,
 null-key/value, callback-order or dedicated performance claim.
+
+## Remaining tuple collector methods and aggregate timings
+
+Fifteen additional methods are adapted: count, countDistinct, sum, minComparable
+and maxComparable in InnerBi/Tri/QuadConstraintCollectorsTest. All numeric tuple
+inputs, mapped sums, duplicate/retraction sequences and expected results remain.
+Date-valued extrema retain the fixed 2023-01-01 local calendar fields and 1/2 minute
+positions; native Ord checks do not reproduce Java PECS type-system variance or
+implement general date arithmetic. Provenance and notices state this distinction.
+
+These finish the declared method inventory in the four Inner* collector classes:
+58 uni, 59 bi, 58 tri and 58 quad methods. This is adapted native method coverage,
+not execution of the original JUnit suite, full constraint-stream compatibility,
+or closure of the independently documented Java/native boundary differences.
+
+The aggregate benchmark adds checked i64 sum, naturally sorted set and additive
+merged-map workloads at 64 and 512 captured occurrences. Every timed replacement
+and inverse restoration materializes the complete scalar/set/map observation,
+checks it against independent Python reconstruction and consumes a checksum.
+Committed results are separately checked outside timing. Sets retain duplicate
+pairs; maps start with eight contributions per key and replace one with a new key.
+All arithmetic is bounded and representable. The 96 generated validation cases add
+no upstream-method credit; six Python tests reject corrupt fields, checksums,
+identities, batch counts and invalid input scope. The report retains raw samples,
+warmups, fresh-process order and environment. This measures update plus complete
+observation, not isolated mutation, graph rollback, solver speed, memory or overflow.

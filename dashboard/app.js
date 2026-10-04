@@ -114,6 +114,7 @@ function render() {
     renderBenchmarks("stream");
     renderBenchmarks("pillar");
     renderBenchmarks("concurrent");
+    renderBenchmarks("aggregate");
     renderBenchmarks("sequence");
     renderDifferential();
     $("inventory-note").textContent =
@@ -224,7 +225,7 @@ function renderBenchmarks(kind = "score") {
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
-    const precision = (kind === "pillar" || kind === "concurrent" || kind === "sequence") ? 5 : solver ? 3 : 2;
+    const precision = (kind === "pillar" || kind === "concurrent" || kind === "sequence" || kind === "aggregate") ? 5 : solver ? 3 : 2;
     const p = (solver ? report[`${kind}_performance`] : report.performance) || {},
         box = target("benchmarks");
     box.replaceChildren();
@@ -297,7 +298,7 @@ function renderBenchmarks(kind = "score") {
     if ((kind === "pillar" || kind === "concurrent") && !missing) {
         target("benchmark-caption").textContent = `Medians per transaction (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} transactions; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Trial, undo, committed states and batch checksums independently checked.`;
     }
-    if (kind === "sequence" && !missing) {
+    if ((kind === "sequence" || kind === "aggregate") && !missing) {
         target("benchmark-caption").textContent = `Medians per update/restore pair, including full observations (batch averages) · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} pairs; ${p.config.warmup} warmup batches per process. Measured ${timestamp(p.generated_at)}. Every trial, restored and committed result checked.`;
     }
     target("benchmark-method").textContent =
@@ -443,6 +444,7 @@ async function reload() {
             renderBenchmarks("stream");
             renderBenchmarks("pillar");
             renderBenchmarks("concurrent");
+            renderBenchmarks("aggregate");
             renderBenchmarks("sequence");
             renderDifferential();
         }

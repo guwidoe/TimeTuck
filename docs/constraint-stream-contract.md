@@ -1575,3 +1575,25 @@ runtimes stop at their first error; those rejections are not successful updates 
 no Java post-error state is claimed. Set comparisons normalize iteration order; native sorted-set iteration is checked
 separately by the adapted tests, and map comparisons retain sorted key order. Null-key/value semantics,
 general merge functions and dedicated timings are not covered by this comparison.
+
+## Aggregate update/observation benchmark
+
+`python3 scripts/benchmark_aggregates.py` compares SumCollector, SetCollector and
+MapCollector with an i32-sum finishing policy against public Community collectors.
+Workloads contain 64/512 captures. Sorted sets have 32/256 distinct paired values;
+merged maps have 8/64 initial keys with eight captures per key. Each selected capture
+is replaced with a value/new key and restored by an inverse update. Inputs keep
+all arithmetic intermediates representable. Independent Python reconstructs each
+full result; both runtimes assert every timed trial/restore and separately committed
+state, and consume batch checksums. Native snapshots and Java live results are
+materialized into integer arrays. Native captured-value and Java handle APIs retain
+their own bookkeeping costs.
+
+Timing includes mutation, inverse mutation, finish, full observation allocation and
+copying, assertions and checksums. Initialization, parsing, process startup and
+output encoding are outside timing. Warmup batches precede measured samples in
+fresh processes with alternating runtime order; all raw records remain in
+work/aggregate-performance.json. Ratios compare median batch-average pair times.
+No latency percentiles, statistical significance, isolated CPU, JMH, memory, generic
+merger, graph rollback or overall solver-speed claim is made. All 96 original
+validation cases and every timed observation must pass or the run aborts.

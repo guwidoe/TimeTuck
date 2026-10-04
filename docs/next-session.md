@@ -6361,3 +6361,53 @@ the 270/270 comparison card with 19,484 observations and 39 expected-rejection
 caveat, and all 37 timing cards. No page errors or horizontal overflow at desktop
 1440px/mobile 390px. Screenshot work/set-sum-dashboard.png; browser closed and
 localhost:8765 remains. Existing Java differences remain visible and uncredited.
+
+## Complete Inner collector inventory and aggregate timings (2026-10-04)
+
+Added tuple_collector_cases.rs with the remaining count, countDistinct, sum,
+minComparable and maxComparable methods for bi/tri/quad (15 adaptations). Read all
+full pinned methods. Numeric tuples, sums, duplicates, retraction order and expected
+results are preserved. Fixed LocalDateTime calendar fields use a native ordered
+fixture; no Java PECS variance or general date API claim. All provenance/notices
+are recorded. No new production Rust implementation in this increment.
+
+The four Inner* classes now have all 233 declared methods adapted: uni 58, bi 59,
+tri 58, quad 58. This is native adapted-method coverage, not original JUnit execution
+or full stream compatibility. Overall 818/4,855 = 16.85%; streams 438/1,301 = 33.67%.
+Pending 3,755, excluded 282, failed/unverified zero. The rewrite remains unfinished.
+
+New aggregate_benchmark.rs / AggregateBenchmark.java / benchmark_aggregates.py
+compare checked i64 sums, naturally sorted sets and sorted maps merged by wrapping
+i32 addition at 64/512 captures. Every timed pair replaces one capture, materializes
+and validates the full observation, restores it, materializes/validates again, and
+consumes weighted checksums. Separate committed results are checked outside timing.
+Native captured-value APIs and Java handle APIs keep their own bookkeeping costs.
+This includes allocation/copying/assertions, not isolated mutation, graph rollback,
+scoring or solver search. Inputs and arithmetic are bounded and representable.
+Sets have duplicate pairs; maps have eight contributions per key and a new-key trial.
+96 generated cases pass independent Python reconstruction in both runtimes; six
+Python tests reject bad protocol/observations/checksums and validate workload scope.
+All benchmark cases are original and add no method credit.
+
+Final gate: 1,623 Rust tests (818 adapted, 729 original integration, 76 unit),
+82 doctests and 193 Python tests passed; all 15 new adaptations also pass release.
+Logs work/aggregate-check.log and work/aggregate-release.log. Sequential refresh
+session 79641 completed exit 0 on frozen source; logs work/aggregate-refresh-*.log.
+All thirteen datasets are current and report/source/live-server fingerprints match.
+Aggregate timing uses 200 pairs, 5 warmup batches, 7 samples, 3 fresh processes,
+alternating runtime order; all 21 records per runtime/workload passed validation.
+Results are mixed: Java/Rust median ratios sum64 0.17, sum512 0.12, set64 1.48,
+set512 0.81, map64 3.10, map512 1.40. No overall solver-speed claim.
+
+Browser QA: 16.85% overall, 33.67% streams, new bi methods Passed and 59-method
+class filter; metadata verifies all four classes. All 43 timing cards render,
+including six new aggregate cards and methodology/environment/caption. No errors
+or horizontal overflow at 1440px/390px. Screenshot work/aggregate-dashboard.png.
+Browser closed; localhost:8765 remains running. README and contract docs updated.
+
+Next inspect broader remaining solver/stream behavior, rather than assuming that
+finishing four collector classes closes the rewrite. Score calculation has 119
+pending methods, and constraint streams retain 863 pending. Use tests/public API
+specifications only. Dedicated extrema/composition/range/load-balance/period
+benchmarks and generic merge functions remain possible extensions. Check inventory
+and existing native contracts before choosing the next meaningful behavior gap.

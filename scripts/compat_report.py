@@ -221,6 +221,7 @@ def build_report(execute=True, test_output=None):
             'stream_performance': load_measurement('stream-performance', digest),
             'concurrent_performance': load_measurement('concurrent-performance', digest),
             'sequence_performance': load_measurement('sequence-performance', digest),
+            'aggregate_performance': load_measurement('aggregate-performance', digest),
             'pillar_performance': load_measurement('pillar-performance', digest)}
 
 
