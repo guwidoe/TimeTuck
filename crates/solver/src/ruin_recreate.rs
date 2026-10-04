@@ -19,6 +19,13 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub max_attempts: u64,
     /// Includes the initial score, reconstruction initial scores and all trials.
     pub max_evaluations: u64,
+    /// Construction candidate scores only; excludes initialization of each repair.
+    /// Zero still permits scoring the supplied complete assignment.
+    pub max_move_evaluations: Option<u64>,
+    /// Checked against retained complete best at attempt boundaries.
+    pub best_score_limit: Option<S>,
+    /// Stop at an attempt boundary when retained complete best is hard-feasible.
+    pub stop_when_feasible: bool,
     pub max_time: Option<Duration>,
     pub cancellation: Option<&'a CancellationToken>,
     /// Receives changed variables/entities and native move/value identities.
@@ -36,6 +43,9 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             maximum_ruined: 20,
             max_attempts: 100,
             max_evaluations: 10_000,
+            max_move_evaluations: None,
+            best_score_limit: None,
+            stop_when_feasible: false,
             max_time: None,
             cancellation: None,
             acceptance: Acceptance::HillClimbing,
@@ -49,6 +59,9 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
 pub enum RuinRecreateTermination {
     AttemptLimit,
     EvaluationLimit,
+    MoveEvaluationLimit,
+    BestScoreLimit,
+    FeasibleScore,
     TimeLimit,
     Cancelled,
     NoMovableVariables,

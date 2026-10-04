@@ -133,8 +133,23 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             Some(RuinRecreateTermination::TimeLimit)
         } else if result.evaluations >= config.max_evaluations {
             Some(RuinRecreateTermination::EvaluationLimit)
+        } else if config
+            .max_move_evaluations
+            .is_some_and(|limit| result.repair_move_evaluations >= limit)
+        {
+            Some(RuinRecreateTermination::MoveEvaluationLimit)
         } else if result.attempts >= config.max_attempts {
             Some(RuinRecreateTermination::AttemptLimit)
+        } else if config
+            .best_score_limit
+            .as_ref()
+            .is_some_and(|limit| result.best.as_ref().expect("initial best").1 >= *limit)
+        {
+            Some(RuinRecreateTermination::BestScoreLimit)
+        } else if config.stop_when_feasible
+            && result.best.as_ref().expect("initial best").1.is_feasible()
+        {
+            Some(RuinRecreateTermination::FeasibleScore)
         } else if movable.is_empty() {
             Some(RuinRecreateTermination::NoMovableVariables)
         } else {
@@ -155,6 +170,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             repair.initial(),
             ConstructionConfig {
                 max_evaluations: config.max_evaluations - result.evaluations,
+                max_move_evaluations: config
+                    .max_move_evaluations
+                    .map(|limit| limit - result.repair_move_evaluations),
                 max_steps: None,
                 max_time: remaining(),
                 ..construction

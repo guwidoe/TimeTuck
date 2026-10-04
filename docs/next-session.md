@@ -8365,3 +8365,46 @@ hooks), then all six plan/backend paths and managed lifecycle. Existing repair
 entry points only expose score/attempt/time/cancellation limits. Preserve existing
 seeded traces and partial-repair retention when extending the shared engine.
 The full Community goal remains active, incomplete and unblocked.
+
+## Shared repair controls increment (verified)
+
+Added independent max_move_evaluations, exact best_score_limit, and
+stop_when_feasible to shared RuinRecreateConfig, with typed termination reasons.
+Engine passes remaining candidate budgets into each reconstruction and checks goals
+only against complete retained best at attempt boundaries. Precedence and zero-limit
+semantics are documented in docs/incremental-search-contract.md. Defaults preserve
+previous seeded behavior. No new upstream adaptation or provenance change.
+
+Seven focused original tests passed, including 2,550 independent score/candidate
+budget combinations and 702 placement/early-pick combinations across all six paths.
+The first test harness incorrectly joined a populated source with an unused empty
+source for pure basic/list models; fixed those graph definitions and added explicit
+independent final-score assertions. No production assertion was weakened.
+Full goal remains active; observation/stagnation hooks and phase integration follow.
+
+Full gate 35103 passed: 1,904 Rust tests, 101 doctests, 223 Python tests;
+formatting/Clippy clean. Coverage remains 887/4,855=18.27%, pending 3,686, excluded
+282, failed/unverified 0. Sources frozen. Handle 96395 runs focused release tests,
+14 sequential measurement refreshes, then work/repair-controls-audit.py. Follow
+work/repair-controls-release.log and work/repair-controls-verify.log. Expected final
+invariants remain 14 current datasets and 71 workloads. Re-poll the same live handle
+on an observation timeout; do not restart measurement work.
+
+
+Release/refresh/audit handle 96395 completed exit 0. All 37 focused repair tests
+passed in release mode. Fourteen datasets have current measured-source/verification
+fingerprints; 71 timing workloads, prior quality/counter checks and known discrepancy
+counts pass the final audit. No dedicated Java repair timing or method credit added.
+Browser checks passed at default desktop and 390x844: 18.27%, 71 cards, no stale or
+undefined text, page errors or horizontal overflow. Browser closed; localhost:8765
+server remains running. No test/measurement job remains live. Upstream unchanged.
+
+Next: add observer/control plumbing to shared ruin_engine, preserving seed and work
+counts. Reuse SolutionUpdate for initial and strict retained-best notifications;
+SearchControl in time_limit.rs exposes start_search, record_improvement,
+complete_step and stop. Decide/document repair step semantics explicitly (accepted
+changed moves currently advance acceptance history; attempts include rejections).
+Then wire SolverPhase/MixedSolverPhase, phase reports, global limits, factories and
+managed lifecycle across all six backends. RuinRecreateError already wraps native
+local errors; avoid introducing unboxed recursive error types when integrating.
+The full goal remains active, incomplete and unblocked.

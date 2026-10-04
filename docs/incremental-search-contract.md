@@ -1723,8 +1723,9 @@ complete interrupted repairs may be retained. Returned best never loses quality,
 need not be feasible and never proves optimality. Zero evaluations skips scoring;
 zero attempts or zero time permits only the initial score. Validation precedes
 skipped work. At attempt boundaries precedence is cancellation, elapsed time,
-evaluation cap, attempt cap, then no movable variables. Time includes validation,
-model/cache preparation, callbacks, diagnostics and stream factories. Checks are
+evaluation cap, candidate cap, attempt cap, score target, hard feasibility, then
+no movable variables. Time includes validation, model/cache preparation, callbacks,
+diagnostics and stream factories. Checks are
 cooperative; active work cannot be preempted, and factory time is deducted from the
 repair's remaining time before construction begins. Caller data is immutable;
 errors propagate without returning a partial search result.
@@ -1809,3 +1810,34 @@ fully pinned models, deterministic tabu policies, metadata namespaces, cancellat
 inside reconstruction, skipped factory work, factory elapsed time and typed errors.
 These tests earn no upstream method credit. Repair still rebuilds models and caches;
 SolverPlan integration and dedicated Java repair quality/timing remain pending.
+
+## Shared repair candidate limits and score goals
+
+All six basic/list/mixed scoped/stream repair entry points accept optional
+`max_move_evaluations`, `best_score_limit` and `stop_when_feasible` through their
+shared config. Defaults preserve existing behavior and seeded traces. Candidate
+limits count only construction trials, excluding the original initial score and
+each repair's initial score. Every repair receives the remaining candidate budget;
+that budget cannot reset between attempts. Zero candidates still permits scoring
+the supplied complete assignment, but starts no repair. The existing total score
+budget includes all initial scores and candidates and remains independent.
+
+Targets use exact score ordering; feasibility uses the score's hard-feasibility
+contract. Both inspect retained complete best after initial scoring and after each
+repair. They do not interrupt reconstruction midway or consider incomplete trial
+scores. A complete truncated repair is retained before stop checks; partial required
+repairs remain discarded. Optional repairs can be complete with missing values.
+
+Boundary precedence is cancellation, elapsed time, total score limit, candidate
+limit, attempt limit, target, feasibility, then no movable variables. A coincident
+resource limit wins the reported reason even when the retained best reaches a goal.
+Before initialization, zero total scores still precedes pre-cancellation. Error and
+validation behavior is unchanged. Native counters/precedence do not claim Java trace
+parity or add adapted-method credit.
+
+Seven original regressions cover 2,550 independent score/candidate budget prefixes
+(25 score limits x 17 candidate limits x six entry points), exact work/quality at
+cutoffs, optional/required retention, coincident limits, initial and post-repair
+goals, owned decimal thresholds, and 702 placement/early-pick budget combinations.
+Observation and solver-wide stagnation hooks are still needed before phase-plan
+integration can preserve the existing global lifecycle contract.
