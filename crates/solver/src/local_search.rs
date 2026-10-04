@@ -157,6 +157,10 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub stop_when_feasible: bool,
     pub neighborhood: Neighborhood,
     pub acceptance: Acceptance<S>,
+    /// Additional required policies, evaluated in this order after `acceptance`.
+    /// Empty preserves the single-policy path. Borrowing permits arbitrary
+    /// composition length without changing Copy behavior for Copy score types.
+    pub additional_acceptance: &'a [Acceptance<S>],
     pub move_order: MoveOrder,
     pub selection: MoveSelection,
     pub rejected_moves: RejectedMovePolicy,
@@ -177,6 +181,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             stop_when_feasible: false,
             neighborhood: Neighborhood::ChangeAndSwap,
             acceptance: Acceptance::StrictImprovement,
+            additional_acceptance: &[],
             move_order: MoveOrder::Original,
             selection: MoveSelection::FirstAccepted,
             rejected_moves: RejectedMovePolicy::Stop,
@@ -185,6 +190,34 @@ impl<S> Default for LocalSearchConfig<'_, S> {
     }
 }
 impl<S: crate::Score> LocalSearchConfig<'_, S> {
+    fn policies(&self) -> impl Iterator<Item = &Acceptance<S>> + Clone {
+        std::iter::once(&self.acceptance).chain(self.additional_acceptance.iter())
+    }
+    pub(crate) fn validate_acceptance(&self) -> Result<(), AcceptanceError> {
+        for policy in self.policies() {
+            policy.validate()?;
+        }
+        Ok(())
+    }
+    pub(crate) fn start_acceptance(
+        &self,
+        initial: S,
+    ) -> Result<crate::Acceptor<S>, AcceptanceError> {
+        if self.additional_acceptance.is_empty() {
+            self.acceptance.start(initial)
+        } else {
+            crate::Acceptor::start_composite(self.policies(), initial)
+        }
+    }
+    pub(crate) fn tracks_variables(&self) -> bool {
+        self.policies().any(|p| {
+            matches!(
+                p,
+                Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
+            )
+        })
+    }
+
     pub(crate) fn cancelled(&self) -> bool {
         self.cancellation
             .is_some_and(crate::CancellationToken::is_cancelled)
@@ -330,7 +363,7 @@ fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
@@ -391,7 +424,7 @@ where
     let mut time_budget =
         crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
             .with_shared(shared);
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
         if !problem.is_complete(initial) {
@@ -428,7 +461,7 @@ where
         assignment
     });
     let mut director = create(initial)?;
-    let mut acceptor = config.acceptance.start(director.score())?;
+    let mut acceptor = config.start_acceptance(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
@@ -480,10 +513,7 @@ where
             order.iter().copied(),
         );
         let current = director.score();
-        let tracks_variables = matches!(
-            config.acceptance,
-            Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
-        );
+        let tracks_variables = config.tracks_variables();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,

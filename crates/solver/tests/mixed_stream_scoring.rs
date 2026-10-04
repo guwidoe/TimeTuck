@@ -301,7 +301,17 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
     );
     assert!(exact.is_optimal());
     assert_eq!(exact.best.unwrap().score, SimpleScore::new(10));
-    for acceptance in [
+    let extras = [
+        Acceptance::LateAcceptance {
+            history_size: 2,
+            hill_climbing: true,
+        },
+        Acceptance::VariableTabu {
+            tenure: 1,
+            aspiration: true,
+        },
+    ];
+    for (acceptance, additional_acceptance) in [
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {
@@ -323,7 +333,10 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
             cooling_steps: 5,
             seed: 20261107,
         },
-    ] {
+    ]
+    .into_iter()
+    .flat_map(|a| [(a, &[][..]), (a, &extras[..])])
+    {
         for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
             for joint_moves in [false, true] {
                 for budget in [0, 1, 2, 3, 4, 5, 12, 100] {
@@ -331,6 +344,7 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
                         joint_moves,
                         search: LocalSearchConfig {
                             acceptance,
+                            additional_acceptance,
                             selection,
                             max_evaluations: budget,
                             max_steps: 5,

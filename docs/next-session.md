@@ -6533,3 +6533,66 @@ existing Copy configuration usage without silently limiting composition; diversi
 source tests mutate trial history and require a careful specification before design.
 Do not implement production code by translating upstream internals. Public seeded
 fading-quality comparison and dedicated timing remain pending from the prior increment.
+
+## In progress: ordered composite acceptance
+
+Native Acceptor::All/from_policies and LocalSearchConfig::additional_acceptance
+combine an arbitrary slice of policies in order. Trials short-circuit, completed
+steps update all children (including rejected fallback), and all configs validate
+before state allocation/scoring/factories/events. Empty extras preserve single-policy
+execution; standalone empty All accepts everything. Any child tabu activates key
+tracking across all six paths. Scoped borrowed slices preserve Copy configs; static
+factories require static policy slices and score types. Contract docs state these
+limits and distinguish native state ordering from Java lifecycle equivalence.
+
+One CompositeAcceptorTest.isAccepted adaptation preserves all five truth patterns.
+phaseLifecycle remains pending. Provenance/notices updated. Six original composite
+regressions cover short-circuit counters/randomness, step broadcasts, empty/nested/
+large composition, validation-before-allocation, fresh state, basic/list/mixed tabu
+keys and aspiration isolation. Existing paired backend matrices test both empty
+and combined extras. A new owned-score matrix and later-phase validation test add
+two more original cases. The latter initially expected the wrong Failure::Phase;
+actual Failure::Acceptance was correct, and the test expectation was fixed after
+inspection of existing acceptance-validation tests. Focused suites now pass.
+
+The public Java and native heuristic drivers add late acceptance size 3 plus tabu
+size 2, global-best aspiration and native hill shortcut. Smoke with 3 steps/no
+warmup/one sample passed all 160 cases (32 per five algorithms), including all 32
+combined equal scores and both combined timing workloads. Smoke numbers are not
+performance evidence. Full default benchmark will replace them. Source now frozen
+for full gate session 79875, work/composite-check.log. Expected 1,651 Rust tests
+(826 adapted, 749 original integration, 76 unit), 85 doctests and 193 Python tests;
+verify actual output. Final refresh should yield 13 current datasets and 45 cards.
+
+Full gate completed exit 0 with the expected 1,651 Rust tests, 85 doctests and
+193 Python tests. Coverage 826/4,855 = 17.013%, search 32/158 = 20.253%, pending
+3,747, excluded 282, failed/unverified zero. Seven new standalone tests also pass
+release. Thirteen sequential refreshes run under session 33710 with logs
+work/composite-refresh-*.log; final report generation is included in that process.
+
+Next search candidates remain diversified late acceptance and value/move tabu.
+The complete diversified source test was inspected (tests only): it mutates history
+on isAccepted, explicitly injects history/worst-occurrence state, and asserts eight
+replacement branches. Pinned local-search docs describe a different acceptance/
+replacement strategy. Establish a precise native trial/step contract before adding
+it; do not mechanically extend current step-only LateAcceptance. MoveTabuAcceptorTest
+uses mock move identities; an actual native search policy needs a stable structural
+move-identity contract across generated candidates, not variable keys relabeled
+as moves. Neither feature nor its source-method coverage is implemented here.
+
+Refresh session 33710 completed exit 0. Audit work/composite-audit.py confirms
+matching source/report/verification/live-server fingerprints, 13 current datasets,
+45 timing cards and CompositeAcceptorTest one Passed / one Pending. Default
+heuristic run used 50 steps, 5 warmups, 7 samples and 3 fresh forks (21 samples per
+runtime/workload): all 160 small cases valid and equal-score, 132 optimal per runtime.
+Combined 32-variable medians Rust 2.669 ms / Java 12.195 ms, both optimal 0/0;
+96-variable medians Rust 17.223 ms / Java 19.000 ms, both infeasible -44/-22.
+Do not generalize those ratios or omit the latter quality limitation. All existing
+reference discrepancies remain retained in the refreshed datasets.
+
+Browser QA confirms 17.01% overall, 20.25% search, 45 cards, ten heuristic cards,
+both combined cards with quality/ranges/call counts, and composite filter results
+isAccepted Passed / phaseLifecycle Pending. No page errors or horizontal overflow
+at 1440px and 390px. Browser closed; localhost:8765 remains running. Documentation
+and source/provenance were inspected before the Conventional Commit. The rewrite
+is still incomplete; this increment is concrete progress, not goal completion.

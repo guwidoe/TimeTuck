@@ -13,10 +13,14 @@ use timetuck::{
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if args.len() != 5 {
-        return Err("expected hill|tabu|step|deluge steps warmup samples".into());
+        return Err("expected hill|tabu|late_tabu|step|deluge steps warmup samples".into());
     }
     let acceptance = match args[1].as_str() {
         "hill" => Acceptance::HillClimbing,
+        "late_tabu" => Acceptance::LateAcceptance {
+            history_size: 3,
+            hill_climbing: true,
+        },
         "step" => Acceptance::StepCountingHillClimbing {
             period: 7,
             mode: timetuck::StepCountingMode::Step,
@@ -31,6 +35,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         },
         _ => return Err("unknown algorithm".into()),
     };
+    let extra_tabu = [Acceptance::VariableTabu {
+        tenure: 2,
+        aspiration: true,
+    }];
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
     let samples: usize = args[4].parse()?;
@@ -61,6 +69,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             .ok_or("budget overflow")?;
         let config = LocalSearchConfig {
             acceptance,
+            additional_acceptance: if args[1] == "late_tabu" {
+                &extra_tabu
+            } else {
+                &[]
+            },
             max_accepted_moves: u64::MAX,
             max_steps: steps,
             rejected_moves: RejectedMovePolicy::BestScore,

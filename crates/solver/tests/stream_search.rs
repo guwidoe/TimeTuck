@@ -172,7 +172,17 @@ fn compare(
 fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
     let p = problem(true);
     let n = network(5);
-    for acceptance in [
+    let extras = [
+        Acceptance::LateAcceptance {
+            history_size: 2,
+            hill_climbing: true,
+        },
+        Acceptance::VariableTabu {
+            tenure: 1,
+            aspiration: true,
+        },
+    ];
+    for (acceptance, additional_acceptance) in [
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {
@@ -194,7 +204,10 @@ fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
             cooling_steps: 12,
             seed: 20261014,
         },
-    ] {
+    ]
+    .into_iter()
+    .flat_map(|a| [(a, &[][..]), (a, &extras[..])])
+    {
         for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
             for rejected_moves in [RejectedMovePolicy::Stop, RejectedMovePolicy::BestScore] {
                 for move_order in [
@@ -207,6 +220,7 @@ fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
                             max_steps: 15,
                             max_accepted_moves: 10,
                             acceptance,
+                            additional_acceptance,
                             selection,
                             rejected_moves,
                             move_order,

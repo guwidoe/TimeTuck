@@ -46,7 +46,7 @@ fn validate<S>(config: &SolverSequence<'_, S>) -> Result<(), SolverFactoryError>
     }
     Ok(())
 }
-struct Factory<P, R, E, S> {
+struct Factory<P, R, E, S: 'static> {
     config: SolverSequence<'static, S>,
     run: Box<FactoryRun<P, R, E, S>>,
 }
@@ -78,10 +78,10 @@ struct Factory<P, R, E, S> {
 /// manager.shutdown()?;
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
-pub struct SolverFactory<P, R, E, S = SimpleScore> {
+pub struct SolverFactory<P, R, E, S: 'static = SimpleScore> {
     inner: Arc<Factory<P, R, E, S>>,
 }
-impl<P, R, E, S> Clone for SolverFactory<P, R, E, S> {
+impl<P, R, E, S: 'static> Clone for SolverFactory<P, R, E, S> {
     fn clone(&self) -> Self {
         Self {
             inner: self.inner.clone(),
@@ -128,7 +128,7 @@ impl<
 }
 /// A manager bound to a reusable factory. Existing pool methods are available via
 /// Deref; arbitrary direct submissions still have their original closure contracts.
-pub struct ConfiguredSolverManager<P, R, E, S = SimpleScore> {
+pub struct ConfiguredSolverManager<P, R, E, S: 'static = SimpleScore> {
     pool: SolverManager<R, E>,
     factory: SolverFactory<P, R, E, S>,
 }
@@ -165,11 +165,11 @@ impl<
 /// A normal job handle plus the immutable effective configuration captured at
 /// submission. Settings remain inspectable while queued, after failure/cancellation
 /// and after ID reuse. Deref provides ordinary result/statistics/cancellation APIs.
-pub struct ConfiguredSolverJob<R, E, S = SimpleScore> {
+pub struct ConfiguredSolverJob<R, E, S: 'static = SimpleScore> {
     job: SolverJob<R, E>,
     config: Arc<SolverSequence<'static, S>>,
 }
-impl<R, E, S> Clone for ConfiguredSolverJob<R, E, S> {
+impl<R, E, S: 'static> Clone for ConfiguredSolverJob<R, E, S> {
     fn clone(&self) -> Self {
         Self {
             job: self.job.clone(),
@@ -215,7 +215,7 @@ type Finder<P, E> = Box<dyn FnOnce(u64) -> Result<P, E> + Send>;
 /// explicitly disables that time limit. Factory defaults are never mutated.
 /// Submission and queued cancellation follow SolverJobBuilder's captured-input
 /// semantics, including CancelledBeforeStart rather than returning the input.
-pub struct ConfiguredSolverJobBuilder<'a, P, R, E, S = SimpleScore> {
+pub struct ConfiguredSolverJobBuilder<'a, P, R, E, S: 'static = SimpleScore> {
     manager: &'a ConfiguredSolverManager<P, R, E, S>,
     problem_id: u64,
     finder: Option<Finder<P, E>>,

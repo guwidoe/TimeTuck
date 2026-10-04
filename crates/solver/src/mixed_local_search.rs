@@ -1,9 +1,9 @@
 //! Bounded local search under one objective over basic variables and ordered lists.
 use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
-    Acceptance, AcceptanceError, AdditiveScore, LocalSearchConfig, LocalSearchTermination,
-    MixedAssignment, MixedConstraintNetwork, MixedProblem, MixedScoreDirector, MixedScoringError,
-    MoveOrder, MoveSelection, RejectedMovePolicy, ScoredMixedAssignment,
+    AcceptanceError, AdditiveScore, LocalSearchConfig, LocalSearchTermination, MixedAssignment,
+    MixedConstraintNetwork, MixedProblem, MixedScoreDirector, MixedScoringError, MoveOrder,
+    MoveSelection, RejectedMovePolicy, ScoredMixedAssignment,
 };
 use crate::{
     mixed_neighborhood::{ordered, tabu_keys},
@@ -111,7 +111,7 @@ pub(crate) fn mixed_local_search_from_monitored<B: Eq + Clone, L: Eq + Clone, S:
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-    settings.search.acceptance.validate()?;
+    settings.search.validate_acceptance()?;
     network.validate(problem, &initial)?;
     search_impl_monitored(shared, problem, initial, settings, |initial| {
         MixedScoreDirector::new(problem, network, initial)
@@ -179,7 +179,7 @@ where
     let mut time_budget =
         crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
             .with_shared(shared);
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
@@ -201,7 +201,7 @@ where
         return Ok(result);
     }
     let mut director = make_director(initial)?;
-    let mut acceptor = config.acceptance.start(director.score())?;
+    let mut acceptor = config.start_acceptance(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
@@ -255,10 +255,7 @@ where
             list_order.iter().copied(),
         );
         let current = director.score();
-        let tracks_entities = matches!(
-            config.acceptance,
-            Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
-        );
+        let tracks_entities = config.tracks_variables();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,

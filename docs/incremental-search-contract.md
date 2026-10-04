@@ -1078,3 +1078,41 @@ reset thresholds stop after one step. They now check full history, wraparound,
 global-best improvements, worsening steps, ties, exact tiny decimal differences,
 bendable soft levels, structural exclusion and all six search paths. No new Java
 search-trace or timing claim is made.
+
+## Combining acceptance policies
+
+`LocalSearchConfig::additional_acceptance` borrows an arbitrary-length slice of
+policies. Each candidate must satisfy the primary `acceptance`, then every extra
+policy in order. Trials stop at the first rejection; later children consume no
+random draws or trial counters. A completed step updates every child, including
+those skipped or rejecting that candidate. This also applies when the configured
+best-rejected fallback selects a move. Aspiration only overrides its own child's
+rejection. All policies validate before scoring, graph factories or events, even
+in later phases that would otherwise be skipped. Each phase starts fresh state.
+An empty extra slice preserves the existing single-policy execution path.
+
+Standalone `Acceptor::from_policies` creates an ordered conjunction; an empty
+conjunction accepts everything. `Acceptor::All` permits nested state composition.
+These ordering, empty-identity and state-update contracts are native decisions.
+The adapted CompositeAcceptorTest.isAccepted preserves all five source truth cases;
+the mocked phaseLifecycle method remains pending. No Java callback ordering,
+random sequence or lifecycle equivalence is claimed.
+
+All six basic/list/mixed scoring paths track touched keys when any child uses tabu.
+Original checks exercise short-circuit counters/randomness, rejected fallback state,
+validation precedence, fresh sessions, list entities and disjoint mixed namespaces.
+Backend matrices cover combined policies alongside pins, selection, budgets, fallback,
+shuffled order and joint moves. Owned non-Copy scores retain the same outcomes.
+
+Borrowed extra policies must outlive a scoped solve, reflected by `S: 'c` where
+configuration uses lifetime `'c`. Existing factories store static configurations;
+their policy slices and score types therefore require static lifetimes. Local
+runtime slices work with scoped entry points, not the static factory. Configuration
+remains Copy when its score type is Copy; no Java API/ABI parity is intended.
+
+The combined late-acceptance/tabu benchmark uses history size 3 (native hill-climbing
+shortcut enabled), tabu tenure 2 and global-best aspiration. Both engines use full
+score calculation, deterministic change moves and the same fixed step budget.
+All assignments are independently rescored, scores/score-call counts accompany
+samples, and quality equality is reported separately. This establishes bounded
+workload validity and measurements, not identical internal traces or general speed.

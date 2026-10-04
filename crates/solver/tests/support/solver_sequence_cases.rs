@@ -497,3 +497,36 @@ fn construction_free_shared_budget_prefixes_match_observed_execution() {
         }
     }
 }
+
+#[test]
+fn invalid_additional_policy_in_later_phase_fails_before_factories_scoring_or_events() {
+    const INVALID: [Acceptance; 1] = [Acceptance::VariableTabu {
+        tenure: 0,
+        aspiration: true,
+    }];
+    for mode in 0..6 {
+        let factories = Cell::new(0);
+        let c = sequence(vec![
+            local(),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                acceptance: Acceptance::HillClimbing,
+                additional_acceptance: &INVALID,
+                ..Default::default()
+            }),
+        ]);
+        assert_eq!(
+            run_scored_events(
+                (mode, true, ORDER),
+                c,
+                &factories,
+                None,
+                || panic!("invalid extra policy scored"),
+                SimpleScore::new,
+                None,
+                Some(&mut |_| panic!("invalid extra policy emitted"))
+            ),
+            Err(Failure::Acceptance(1))
+        );
+        assert_eq!(factories.get(), 0);
+    }
+}

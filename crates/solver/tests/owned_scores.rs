@@ -225,6 +225,33 @@ fn policies<S: AdditiveScore>(make: impl Fn(i64, i64) -> S) -> Vec<Acceptance<S>
 }
 #[test]
 fn every_solver_backend_preserves_owned_scores_through_phases_and_budgets() {
+    owned_policy_sequences(false);
+}
+#[test]
+fn every_solver_backend_preserves_owned_scores_with_composite_policies() {
+    owned_policy_sequences(true);
+}
+fn owned_policy_sequences(combined: bool) {
+    let extra_owned = [
+        Acceptance::LateAcceptance {
+            history_size: 2,
+            hill_climbing: true,
+        },
+        Acceptance::VariableTabu {
+            tenure: 1,
+            aspiration: true,
+        },
+    ];
+    let extra_plain = [
+        Acceptance::LateAcceptance {
+            history_size: 2,
+            hill_climbing: true,
+        },
+        Acceptance::VariableTabu {
+            tenure: 1,
+            aspiration: true,
+        },
+    ];
     for mode in 0..6 {
         for initialized in [false, true] {
             for order in [
@@ -245,6 +272,11 @@ fn every_solver_backend_preserves_owned_scores_through_phases_and_budgets() {
                             local_search: vec![
                                 LocalSearchConfig {
                                     acceptance: owned,
+                                    additional_acceptance: if combined {
+                                        &extra_owned
+                                    } else {
+                                        &[]
+                                    },
                                     max_steps: 4,
                                     assert_scores: true,
                                     ..Default::default()
@@ -262,6 +294,11 @@ fn every_solver_backend_preserves_owned_scores_through_phases_and_budgets() {
                             local_search: vec![
                                 LocalSearchConfig {
                                     acceptance: plain,
+                                    additional_acceptance: if combined {
+                                        &extra_plain
+                                    } else {
+                                        &[]
+                                    },
                                     max_steps: 4,
                                     assert_scores: true,
                                     ..Default::default()

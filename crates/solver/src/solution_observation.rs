@@ -143,7 +143,7 @@ pub(crate) fn local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
@@ -235,7 +235,7 @@ pub(crate) fn stream_local_search_from_observed<
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     crate::stream_scoring::validate_source(&graph, &source)?;
     crate::local_search::search_impl_monitored(shared, problem, Some(initial), config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
@@ -348,7 +348,7 @@ pub(crate) fn list_local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     network.validate(problem, &initial)?;
     crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
@@ -433,7 +433,7 @@ pub(crate) fn list_stream_local_search_from_observed<
     config: LocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     sources.validate(&graph)?;
     crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListStreamScoreDirector::new(problem, graph, sources, initial)
@@ -555,7 +555,7 @@ pub(crate) fn mixed_local_search_from_observed<B: Eq + Clone, L: Eq + Clone, S: 
     settings: MixedLocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-    settings.search.acceptance.validate()?;
+    settings.search.validate_acceptance()?;
     network.validate(problem, &initial)?;
     crate::mixed_local_search::search_impl_monitored(
         shared,
@@ -652,7 +652,7 @@ pub(crate) fn mixed_stream_local_search_from_observed<
     settings: MixedLocalSearchConfig<S>,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-    settings.search.acceptance.validate()?;
+    settings.search.validate_acceptance()?;
     sources.validate(&graph)?;
     crate::mixed_local_search::search_impl_monitored(
         shared,

@@ -654,8 +654,7 @@ where
         let SolverPhase::LocalSearch(c) = c else {
             continue;
         };
-        c.acceptance
-            .validate()
+        c.validate_acceptance()
             .map_err(|error| SolverError::InvalidAcceptance {
                 phase: index,
                 error,
@@ -976,7 +975,7 @@ fn custom_output<A, S>(r: CustomPhaseResult<A, S>) -> PhaseOutput<A, S> {
 /// assert_eq!(result.work.evaluations, 5); // Both phase initializations count.
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
-pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -988,7 +987,7 @@ pub fn solve<'c, V: Eq + Clone, S: AdditiveScore>(
 /// the ordinary solve. Notifications are synchronous, suppress cross-phase
 /// duplicates and do not rescore. Observer time belongs to solve/phase limits;
 /// panics propagate. See [`SolverUpdate`] for native phase metadata.
-pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -997,7 +996,7 @@ pub fn solve_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
     solve_impl(p, n, c, Some(PlanCallback::Best(&mut observer)), None)
 }
 /// Observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_with_events<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1005,7 +1004,7 @@ pub fn solve_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     solve_impl(p, n, c, Some(PlanCallback::Events(&mut observer)), None)
 }
-fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
+fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1122,7 +1121,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore>(
     )
 }
 /// Run ordered list phases with shared solve budgets.
-pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1134,7 +1133,7 @@ pub fn solve_list<'c, V: Eq + Clone, S: AdditiveScore>(
 /// the ordinary solve. Notifications are synchronous, suppress cross-phase
 /// duplicates and do not rescore. Observer time belongs to solve/phase limits;
 /// panics propagate. See [`SolverUpdate`] for native phase metadata.
-pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1143,7 +1142,7 @@ pub fn solve_list_with_observer<'c, V: Eq + Clone, S: AdditiveScore>(
     solve_list_impl(p, n, c, Some(PlanCallback::Best(&mut observer)), None)
 }
 /// Observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_list_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_list_with_events<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1151,7 +1150,7 @@ pub fn solve_list_with_events<'c, V: Eq + Clone, S: AdditiveScore>(
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     solve_list_impl(p, n, c, Some(PlanCallback::Events(&mut observer)), None)
 }
-fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
+fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -1269,7 +1268,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore>(
 }
 /// Construct and improve coupled basic/list models. Each phase retains its own
 /// construction order or joint-neighborhood setting.
-pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,
@@ -1281,7 +1280,7 @@ pub fn solve_mixed<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 /// the ordinary solve. Notifications are synchronous, suppress cross-phase
 /// duplicates and do not rescore. Observer time belongs to solve/phase limits;
 /// panics propagate. See [`SolverUpdate`] for native phase metadata.
-pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,
@@ -1290,7 +1289,7 @@ pub fn solve_mixed_with_observer<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveSc
     solve_mixed_impl(p, n, c, Some(PlanCallback::Best(&mut observer)), None)
 }
 /// Observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_mixed_with_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub fn solve_mixed_with_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,
@@ -1298,7 +1297,7 @@ pub fn solve_mixed_with_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScor
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     solve_mixed_impl(p, n, c, Some(PlanCallback::Events(&mut observer)), None)
 }
-fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,
@@ -1988,7 +1987,7 @@ mod observation_tests;
 /// assert_eq!(r.phases[0].termination, PhaseTermination::Custom(CustomPhaseTermination::Completed));
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
-pub fn solve_with_commands<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_with_commands<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -2004,7 +2003,7 @@ pub fn solve_with_commands<'c, V: Eq + Clone, S: AdditiveScore>(
 /// The callback runs once per entered custom phase and cooperates with limits
 /// through its context. All other phases retain their usual behavior.
 /// Also observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_with_commands_and_events<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_with_commands_and_events<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &FiniteProblem<V>,
     n: &ConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -2069,7 +2068,7 @@ pub fn solve_stream_with_commands_and_events<
 /// Execute custom phases using a typed callback dispatched by phase index.
 /// The callback runs once per entered custom phase and cooperates with limits
 /// through its context. All other phases retain their usual behavior.
-pub fn solve_list_with_commands<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_list_with_commands<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -2085,7 +2084,7 @@ pub fn solve_list_with_commands<'c, V: Eq + Clone, S: AdditiveScore>(
 /// The callback runs once per entered custom phase and cooperates with limits
 /// through its context. All other phases retain their usual behavior.
 /// Also observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_list_with_commands_and_events<'c, V: Eq + Clone, S: AdditiveScore>(
+pub fn solve_list_with_commands_and_events<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     p: &ListProblem<V>,
     n: &ListConstraintNetwork<'_, V, S>,
     c: impl Into<SolverSequence<'c, S>>,
@@ -2155,7 +2154,7 @@ pub fn solve_list_stream_with_commands_and_events<
 /// Execute custom phases using a typed callback dispatched by phase index.
 /// The callback runs once per entered custom phase and cooperates with limits
 /// through its context. All other phases retain their usual behavior.
-pub fn solve_mixed_with_commands<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub fn solve_mixed_with_commands<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,
@@ -2171,7 +2170,12 @@ pub fn solve_mixed_with_commands<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveSc
 /// The callback runs once per entered custom phase and cooperates with limits
 /// through its context. All other phases retain their usual behavior.
 /// Also observe retained bests and the initialization boundary. See [`SolverEvent`].
-pub fn solve_mixed_with_commands_and_events<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub fn solve_mixed_with_commands_and_events<
+    'c,
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore + 'c,
+>(
     p: &MixedProblem<B, L>,
     n: &MixedConstraintNetwork<'_, B, L, S>,
     c: impl Into<MixedSolverSequence<'c, S>>,

@@ -421,7 +421,17 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
         }
     }
     let initial = ListAssignment::new(vec![vec![9, 1, 8], vec![2, 7, 3]]);
-    for acceptance in [
+    let extras = [
+        Acceptance::LateAcceptance {
+            history_size: 2,
+            hill_climbing: true,
+        },
+        Acceptance::VariableTabu {
+            tenure: 1,
+            aspiration: true,
+        },
+    ];
+    for (acceptance, additional_acceptance) in [
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {
@@ -443,7 +453,10 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
             seed: 73,
             cooling_steps: 10,
         },
-    ] {
+    ]
+    .into_iter()
+    .flat_map(|a| [(a, &[][..]), (a, &extras[..])])
+    {
         for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
             for max_evaluations in [0, 1, 2, 37, 1000] {
                 for shuffled in [false, true] {
@@ -451,6 +464,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
                         max_evaluations,
                         max_steps: 6,
                         acceptance,
+                        additional_acceptance,
                         selection,
                         neighborhood: Neighborhood::ChangeAndSwap,
                         move_order: if shuffled {

@@ -387,7 +387,7 @@ pub(crate) fn mixed_stream_local_search_from_monitored<
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-    settings.search.acceptance.validate()?;
+    settings.search.validate_acceptance()?;
     sources.validate(&graph)?;
     crate::mixed_local_search::search_impl_monitored(
         shared,

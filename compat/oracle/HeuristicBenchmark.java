@@ -34,7 +34,7 @@ public final class HeuristicBenchmark {
         return copy;
     }
     public static void main(String[] args) throws Exception {
-        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu|step|deluge steps warmup samples");
+        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu|late_tabu|step|deluge steps warmup samples");
         String algorithm = args[0];
         int steps = Integer.parseInt(args[1]), warmup = Integer.parseInt(args[2]), samples = Integer.parseInt(args[3]);
         if (steps < 1 || warmup < 0 || samples < 1) throw new IllegalArgumentException("invalid counts");
@@ -47,6 +47,7 @@ public final class HeuristicBenchmark {
                 rain.setGreatDelugeWaterLevelIncrementScore("0hard/1soft");
                 yield rain;
             }
+            case "late_tabu" -> new LocalSearchAcceptorConfig().withLateAcceptanceSize(3).withEntityTabuSize(2);
             case "tabu" -> new LocalSearchAcceptorConfig().withEntityTabuSize(2);
             default -> throw new IllegalArgumentException("unknown algorithm");
         };

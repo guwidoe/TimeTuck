@@ -12375,6 +12375,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+    },
+    {
+      "id": "CompositeAcceptorTest.isAccepted",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/composite/CompositeAcceptorTest.java",
+      "upstream_test": "isAccepted",
+      "local_path": "crates/solver/tests/composite_acceptance_cases.rs",
+      "local_test": "is_accepted",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all five three-child truth configurations and acceptance assertions. Native HillClimbing/StrictImprovement at tied zero scores replace mocked accepting/rejecting children and explicit score arguments replace mocked step scopes. Short-circuit order, randomness and native step updates have separate original regressions; Java lifecycle callback equivalence is not claimed."
     }
   ],
   "fixtures": [

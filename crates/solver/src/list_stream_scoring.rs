@@ -370,7 +370,7 @@ pub(crate) fn list_stream_local_search_from_monitored<
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     sources.validate(&graph)?;
     crate::list_local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         ListStreamScoreDirector::new(problem, graph, sources, initial)

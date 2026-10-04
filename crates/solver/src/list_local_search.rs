@@ -1,7 +1,7 @@
 //! Bounded local improvement of complete list assignments.
 use crate::list_search_scoring::ListSearchDirector;
 use crate::{
-    Acceptance, AcceptanceError, AdditiveScore, ListAssignment, ListConstraintNetwork, ListProblem,
+    AcceptanceError, AdditiveScore, ListAssignment, ListConstraintNetwork, ListProblem,
     ListScoreDirector, ListScoringError, LocalSearchConfig, LocalSearchTermination, MoveOrder,
     MoveSelection, RejectedMovePolicy, ScoredListAssignment,
 };
@@ -91,7 +91,7 @@ pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     network.validate(problem, &initial)?;
     search_impl_monitored(shared, problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
@@ -146,7 +146,7 @@ where
     let mut time_budget =
         crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
             .with_shared(shared);
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
         return Err(ListLocalSearchError::IncompleteInitialAssignment);
@@ -168,7 +168,7 @@ where
         return Ok(result);
     }
     let mut director = make_director(initial)?;
-    let mut acceptor = config.acceptance.start(director.score())?;
+    let mut acceptor = config.start_acceptance(director.score())?;
     let mut random = match config.move_order {
         MoveOrder::Original => None,
         MoveOrder::ShuffledVariables { seed } | MoveOrder::ShuffledMoves { seed, .. } => {
@@ -218,10 +218,7 @@ where
             order.iter().copied(),
         );
         let current = director.score();
-        let tracks_entities = matches!(
-            config.acceptance,
-            Acceptance::VariableTabu { .. } | Acceptance::FadingVariableTabu { .. }
-        );
+        let tracks_entities = config.tracks_variables();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,

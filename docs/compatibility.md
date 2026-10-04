@@ -1299,3 +1299,14 @@ Java scope/index plumbing. Three index-cache/lifecycle methods remain pending.
 Original failing-before/fixed-after regressions and complete history/search checks
 are recorded in docs/incremental-search-contract.md. No source-method credit is
 claimed for generated histories, decimal extensions or six-backend search checks.
+
+## Composite acceptance
+
+One CompositeAcceptorTest method is adapted with all five truth configurations;
+the separate mocked lifecycle method remains pending. Native ordered conjunctions
+combine primary and additional policies across all six search paths. Short-circuit
+trial state, completed-step broadcasts, validation, owned scores and touched-key
+tracking have original regressions, without extra upstream-method credit.
+Two combined late-acceptance/tabu timing workloads and thirty-two small quality cases
+extend the existing public Community comparison. Validity, equal final scores and
+performance remain distinct; Java lifecycle and internal trace parity are not claimed.

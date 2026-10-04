@@ -353,3 +353,9 @@ search integration and separate reference regressions are independent implementa
 DefaultLevelScoreStateTest methods from the pinned Community revision. Complete
 score fixtures and reset/no-reset expectations are recorded in compat/provenance.json.
 The separate history and search regressions are original and add no source-method credit.
+
+`crates/solver/tests/composite_acceptance_cases.rs` adapts the Apache-2.0
+CompositeAcceptorTest.isAccepted method at the pinned Community revision. All five
+truth configurations retain source attribution in compat/provenance.json. Native
+policy composition, its state regressions and combined heuristic benchmark are
+independent implementations; Java lifecycle callback equivalence is not claimed.

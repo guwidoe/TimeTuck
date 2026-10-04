@@ -346,7 +346,7 @@ fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    config.acceptance.validate()?;
+    config.validate_acceptance()?;
     validate_source(&graph, &source)?;
     crate::local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
