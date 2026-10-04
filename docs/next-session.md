@@ -8508,3 +8508,71 @@ and remaining complete Community selector/lifecycle adaptations. Read pinned tes
 and public API docs only; never upstream production implementations. Existing repair
 model/cache rebuild cost is deliberate and should be measured before optimization.
 The full goal remains active, incomplete and unblocked.
+
+## Dedicated basic-repair measurement increment (verification underway)
+
+Added original RepairBenchmark.java and repair_benchmark.rs adapters, independent
+benchmark_repair.py and six protocol/scope/quality regressions. Public Java basic
+ruin selection compares native standalone basic repair; half/whole fixed groups,
+seed 20261222, eight repairs, step-counting threshold period nine. Worst all-zero initial
+scores guarantee every complete candidate meets the retained initial threshold.
+Java public MOVE_EVALUATION_COUNT is re-registered after solving and checked against
+the requested work, with reachabilityFence; native checks attempts, complete repairs
+and AttemptLimit. Per-runtime score calls are separate, not asserted identical.
+
+The new report/dashboard section shows four timing workloads, actual repair counts,
+score calls and final quality. Small quality fixtures are 32 generated conflict/
+preference cases per mode with exhaustive optima; timed 32/96-variable fixtures have
+planted zero optima. Every result is independently validated; no new adapted fixture
+or upstream credit. Full scope/methodology is in docs/dashboard.md. No production
+implementation was inspected. Upstream/provenance unchanged.
+
+Initial adapter build issues corrected before measurement: config requires clone;
+Micrometer SimpleMeterRegistry needs explicit close; move gauge must be registered
+again after solve. Initial simple probes passed but are not final measurements.
+Full gate runs as handle 61502 into work/repair-benchmark-check.log. Expected counts:
+1,925 Rust, 101 doctests, 229 Python; 887/4,855 methods unchanged. Sources frozen.
+Next run new repair measurements plus all prior 14 jobs sequentially, regenerate
+report, audit 15 current datasets/75 timing workloads, check browser and commit.
+Full goal remains active and incomplete.
+
+The first broader benchmark correctly failed closed: repair-quality-2 required
+14 Java move evaluations for eight late-acceptance steps. Hard-score improvements
+reset late history, so its initial threshold does not persist. Switched both
+adapters to StepCountingHillClimbing STEP with period steps+1; unlike late acceptance,
+this threshold only updates at the configured completed-step boundary. Re-running
+full gate as handle 14559; discard prior probe/failed measurement data. The strict
+Java move count remains required, never relaxed. Six Python benchmark checks pass.
+
+Corrected full gate 14559 completed exit 0: 1,925 Rust tests, 101 doctests and
+229 Python checks, format/Clippy clean. Sequential refresh/audit handle 79918 is
+running; logs work/repair-benchmark-refresh.log and per-job siblings. New repair
+measurements finished: 64 valid cases, 52 equal scores, optima Java 35/Rust 33.
+Four timing workloads all reach planted zero optima. Warmed medians (Rust/Java ms):
+half32 .413/7.224, half96 3.796/18.435, all32 .543/10.859, all96 6.333/24.480.
+These are workload-specific observations with raw ranges, not overall solver speed.
+All measured solves satisfy eight repairs; remaining prior 14 datasets refreshing.
+Do not modify measured sources during refresh; re-poll the existing handle after
+observation timeouts. Audit expects 15 current datasets and 75 timing workloads.
+
+Refresh/audit handle 79918 completed exit 0. All 15 datasets have current measured
+source/verification fingerprints; 75 timing workloads and existing discrepancy,
+quality and counter invariants pass. New independent audit verifies all 64 quality
+cases plus 168 measured runtime samples (84 per runtime) against domains, scores,
+optimum bounds and eight repairs. Native score-call counts also equal the full
+expected repeated reconstruction work, excluding accidental reused solved input.
+
+Browser verification caught omitted repair methodology/environment DOM targets;
+added both in the existing methodology section. A repeated same-URL navigation
+retained old markup; a fresh query URL verified the corrected page. At 1440x900 and
+390x844: content visible, 18.27%, 75 cards/four repair cards, eight repairs per sample,
+52 equal-score quality cases and methodology present; no stale/undefined/error text,
+horizontal overflow or page errors. Browser closed; localhost:8765 stays running.
+No test or benchmark process remains live. Upstream/provenance unchanged.
+
+Next substantive work: expand independent list/mixed/optional repair evidence and
+remaining fully preservable Community selector/lifecycle test adaptations. The new
+basic comparison explicitly retains half-group quality differences (20/32 equal;
+Java 19 optima, Rust 17) while whole-group results agree in 32/32 (16 optima each).
+Do not treat differing random traces or quality as method passes or hide them.
+Full solver rewrite remains active, incomplete and unblocked.

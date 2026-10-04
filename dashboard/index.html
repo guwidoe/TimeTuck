@@ -313,6 +313,46 @@
                 </section>
                 <section
                     class="performance"
+                    aria-labelledby="repair-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="repair-performance-heading">
+                                Repair vs. the original
+                            </h2>
+                            <p>
+                                Half-group and whole-group ruin-and-recreate,
+                                with quality beside every timing.
+                            </p>
+                        </div>
+                        <span class="tag">2 repair configurations</span>
+                    </div>
+                    <div id="repair-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span
+                            ><i class="dot rust"></i>TimeTuck · Rust
+                            release</span
+                        ><span
+                            ><i class="dot java"></i>Timefold · warmed JVM</span
+                        ><span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">
+                        Ratios compare observed median times (Java ÷ Rust).
+                        Compare times together with feasibility and score; differences near 1× may be noise.
+                    </p>
+                    <div id="repair-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="repair-benchmark-caption"></p>
+                        <p>
+                            Both engines recalculate the full score. Java completed steps
+                            and Rust attempts are checked for the requested repair count.
+                            Sampling, reconstruction order and scoring work differ; these
+                            ratios describe the measured configurations. Compare quality too.
+                        </p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
                     aria-labelledby="heuristic-performance-heading"
                 >
                     <div class="section-heading">
@@ -528,6 +568,9 @@
                         <h3>Construction benchmark conditions</h3>
                         <p id="construction-benchmark-method"></p>
                         <pre id="construction-environment"></pre>
+                        <h3>Repair benchmark conditions</h3>
+                        <p id="repair-benchmark-method"></p>
+                        <pre id="repair-environment"></pre>
                         <h3>Heuristic benchmark conditions</h3>
                         <p id="heuristic-benchmark-method"></p>
                         <pre id="heuristic-environment"></pre>

@@ -219,6 +219,7 @@ def build_report(execute=True, test_output=None):
             'list_differential': load_measurement('list-differential', digest),
             'solver_performance': load_measurement('solver-performance', digest),
             'heuristic_performance': load_measurement('heuristic-performance', digest),
+            'repair_performance': load_measurement('repair-performance', digest),
             'construction_performance': load_measurement('construction-performance', digest),
             'list_performance': load_measurement('list-performance', digest),
             'stream_differential': load_measurement('stream-differential', digest),

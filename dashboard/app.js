@@ -110,6 +110,7 @@ function render() {
     renderBenchmarks();
     renderBenchmarks("solver");
     renderBenchmarks("construction");
+    renderBenchmarks("repair");
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
     renderBenchmarks("stream");
@@ -222,7 +223,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction" || kind === "repair";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -290,6 +291,9 @@ function renderBenchmarks(kind = "score") {
             b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. ${optimum}`));
             b.append(node("p", "range", `${kind === "stream" ? "Terminal weighting calls" : "Score calls"} · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
         }
+        if (kind === "repair") {
+            b.append(node("p", "range", `Ruined group: ${n(w.ruined_count)} variables. Repairs · Rust ${n(w.rust.repairs.min)}–${n(w.rust.repairs.max)} · Java ${n(w.java.repairs.min)}–${n(w.java.repairs.max)}. Sampling and scoring work differ.`));
+        }
         box.append(b);
     });
     target("benchmark-caption").textContent = missing
@@ -297,6 +301,9 @@ function renderBenchmarks(kind = "score") {
         : `Medians per ${solver ? "solve" : "iteration"} · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} ${solver ? "solves" : "iterations"}; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Result checksums match.`;
     if (heuristic && !missing) {
         target("benchmark-caption").textContent = `At most ${p.config.steps} completed steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
+    if (kind === "repair" && !missing) {
+        target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Independent assignment, score and quality checks; different PRNGs and reconstruction orders.`;
     }
     if (kind === "construction" && !missing) {
         target("benchmark-caption").textContent = `Complete construction · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every output independently checked; native assignments also match greedy reconstruction.`;
@@ -399,6 +406,7 @@ function renderDifferential() {
             box.append(node("p", "note", `${n(d.failures.length)} discrepancies are recorded in the downloadable report.`));
     }
     for (const [key, label] of [
+        ["repair_performance", " original repair cases return valid, non-regressing solutions."],
         ["construction_performance", " original construction cases return valid complete assignments and scores."],
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
         ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
@@ -467,6 +475,7 @@ async function reload() {
             renderBenchmarks();
             renderBenchmarks("solver");
             renderBenchmarks("construction");
+            renderBenchmarks("repair");
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
             renderBenchmarks("stream");

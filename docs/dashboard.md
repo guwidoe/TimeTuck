@@ -503,3 +503,39 @@ against independent optima, including signed soft preferences with ONLY_DOWN/ANY
 This agreement count adds no timing workloads or adapted-method credit. Run
 `python3 scripts/score_trend_checks.py` for that diagnostic alone; the standard
 solver differential includes it and saves all inputs/results.
+
+## Bounded repair comparisons
+
+`python3 scripts/benchmark_repair.py` produces `work/repair-performance.json`,
+shown in the separate repair section. The original fixtures compare basic required
+variables with full scoring, using fixed half or whole ruined groups, seed 20261222,
+and eight repairs. Every Java solve must expose eight public move evaluations;
+every native solve must complete eight reconstruction attempts. No-op reconstructions
+count as attempts, while native accepted-step history advances only on changed moves.
+
+All initial variables are zero, with maximum graph conflicts and minimum per-variable
+preferences. Thus every complete assignment scores at least as well as the initial
+one. A step-counting threshold period of nine retains that initial threshold throughout the
+bounded run, avoiding rejected-candidate retries. The parser rejects missing or
+excess repair work rather than reporting its timing as a successful sample.
+Java's completed-step limit and native attempt limit remain distinct APIs. Sampling,
+reconstruction order and per-repair scoring work differ; equal seeds do not imply
+identical random traces. Java cannot customize its embedded repair construction.
+
+Every output is independently checked for domains, completeness, recomputed score,
+initial non-regression and the independently known optimum bound. Thirty-two small
+original conflict/preference cases per group mode use exhaustive Python optima;
+32/96-variable timing cases have planted zero optima and nonpositive contributions.
+Valid lower-quality results remain in the report. These checks add no adapted-source
+method credit, and do not establish list, mixed, optional or stream repair parity.
+
+Each timing includes per-solve setup, initial state copying, search and final solution
+validation. Parsing, model/network/factory construction, process startup, registry
+setup, post-solve metric observation and output are excluded. Java's default metric
+collection remains enabled during solving. The adapter re-registers its public
+move-count gauge after solving, keeps the solver reachable through the observation,
+and clears the process-owned registry between solves. Five warmups precede seven
+samples in each of three fresh processes, alternating runtime order. Raw assignments,
+scores, score-call counts, repair counts and time ranges remain downloadable.
+Ratios describe these bounded configurations, not equal scoring work or general
+solver speed. Shared-host allocation, JIT and GC effects may affect the ranges.

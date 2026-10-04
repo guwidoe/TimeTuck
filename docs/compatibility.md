@@ -1543,3 +1543,11 @@ The other list selector methods remain pending because their union selection,
 metrics, timed lifecycle and fixtures are not fully adapted. Original list-repair
 references and boundary tests earn no extra method credit. Mixed/plan integration
 and dedicated public-Java quality/performance evidence remain future work.
+
+Original bounded basic-repair comparisons now have their own runner and dashboard
+section. Fixed half/whole groups and long step-counting threshold periods isolate a specified
+number of repairs; public Java move counts and native complete-attempt counts are
+checked for every solve. Independent assignment, score and enumerated/planted-optimum
+checks remain separate from equal quality and timing. Sampling and reconstruction
+orders differ. This adds no source-method coverage or Java trace, list/mixed/optional
+repair equivalence. See docs/dashboard.md for scope and measurement boundaries.
