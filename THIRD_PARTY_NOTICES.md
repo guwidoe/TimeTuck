@@ -459,3 +459,12 @@ methods from pinned Community UnimprovedTimeMillisSpentScoreDifferenceThresholdT
 assertion remains. Explicit native observations replace mocked scope/clock plumbing;
 paths and substitutions are in compat/provenance.json. The native threshold policy,
 exact arithmetic, ignored suffixes, integration and reference tests are original.
+
+`crates/solver/tests/list_ruin_recreate_cases.rs` now adapts all four methods in
+pinned Community `ListRuinRecreateMoveSelectorTest` (Apache-2.0), its embedded
+required/optional scoring, and `TestdataListSolution`'s generated-name fixture.
+The attributed `tests/fixtures/list-repair-hashes.csv` records public Java hash
+results for all 300 fixture positions. Provenance records native metrics, weighted
+selection and attempt-limit substitutions. The native interleaving engine and
+independent budget, cancellation, history and managed-statistics checks are
+original work; no upstream union-selector lifecycle methods receive credit.

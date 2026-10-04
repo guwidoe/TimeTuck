@@ -21,6 +21,7 @@ impl<A, S> Repair<A, S> {
 }
 pub(crate) trait RepairModel: Sized {
     type Assignment: Clone + Eq;
+    type FineMove;
     type Movement: Clone + Eq;
     type Value: Clone + Eq;
     fn validate_complete(&self, a: &Self::Assignment) -> Result<(), RuinRecreateError>;
@@ -28,6 +29,16 @@ pub(crate) trait RepairModel: Sized {
     fn population(&self) -> usize;
     fn movable(&self, a: &Self::Assignment) -> Vec<usize>;
     fn repair(&self, a: &Self::Assignment, selected: &[usize]) -> Result<Self, RuinRecreateError>;
+    fn fine_moves<'a>(
+        &'a self,
+        a: &'a Self::Assignment,
+        swap: bool,
+    ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError>;
+    fn apply_fine(
+        &self,
+        a: &Self::Assignment,
+        m: &Self::FineMove,
+    ) -> Result<Self::Assignment, RuinRecreateError>;
     fn metadata(
         &self,
         old: &Self::Assignment,
@@ -40,6 +51,8 @@ impl<T> RuinRecreateOutcome<T> {
             best: self.best.map(f),
             evaluations: self.evaluations,
             repair_move_evaluations: self.repair_move_evaluations,
+            fine_move_attempts: self.fine_move_attempts,
+            fine_move_evaluations: self.fine_move_evaluations,
             constraint_evaluations: self.constraint_evaluations,
             attempts: self.attempts,
             complete_reconstructions: self.complete_reconstructions,
@@ -65,6 +78,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
         return Err(RuinRecreateError::InvalidRuinRange);
     }
+    if !config.move_weights.valid() {
+        return Err(RuinRecreateError::InvalidMoveWeights);
+    }
     let policy = config.acceptance.for_population(problem.population());
     policy.validate().map_err(LocalSearchError::from)?;
     let cancelled = || {
@@ -81,6 +97,8 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         best: None,
         evaluations: 0,
         repair_move_evaluations: 0,
+        fine_move_attempts: 0,
+        fine_move_evaluations: 0,
         constraint_evaluations: 0,
         attempts: 0,
         complete_reconstructions: 0,
@@ -135,7 +153,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     let mut movable = problem.movable(&current.0);
     let mut eligible = movable.clone();
     let mut random = crate::random::SplitMix64::new(config.seed);
-    loop {
+    'search: loop {
         let now_eligible = problem.movable(&current.0);
         if now_eligible != eligible {
             movable = now_eligible.clone();
@@ -158,12 +176,11 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             })
         } else if result.evaluations >= config.max_evaluations {
             Some(RuinRecreateTermination::EvaluationLimit)
-        } else if config
-            .max_move_evaluations
-            .is_some_and(|limit| result.repair_move_evaluations >= limit)
-        {
+        } else if config.max_move_evaluations.is_some_and(|limit| {
+            result.repair_move_evaluations + result.fine_move_evaluations >= limit
+        }) {
             Some(RuinRecreateTermination::MoveEvaluationLimit)
-        } else if result.attempts >= config.max_attempts {
+        } else if result.attempts + result.fine_move_attempts >= config.max_attempts {
             Some(RuinRecreateTermination::AttemptLimit)
         } else if config
             .best_score_limit
@@ -175,7 +192,10 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             && result.best.as_ref().expect("initial best").1.is_feasible()
         {
             Some(RuinRecreateTermination::FeasibleScore)
-        } else if movable.is_empty() {
+        } else if movable.is_empty()
+            && config.move_weights.change == 0
+            && config.move_weights.swap == 0
+        {
             Some(RuinRecreateTermination::NoMovableVariables)
         } else {
             None
@@ -184,30 +204,106 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             result.termination = reason;
             return Ok(result);
         }
-        let low = config.minimum_ruined.min(movable.len());
-        let high = config.maximum_ruined.min(movable.len());
-        let count = low + random.below((high - low + 1) as u64) as usize;
-        random.shuffle(&mut movable);
-        let repair = problem.repair(&current.0, &movable[..count])?;
-        result.attempts += 1;
-        let candidate = rebuild(
-            &repair,
-            repair.initial(),
-            ConstructionConfig {
-                max_evaluations: config.max_evaluations - result.evaluations,
-                max_move_evaluations: config
-                    .max_move_evaluations
-                    .map(|limit| limit - result.repair_move_evaluations),
-                max_steps: None,
-                max_time: remaining(),
-                ..construction
+        // Select a family by its fixed weight, then a uniform fine candidate.
+        // Empty families are removed and the remaining weights renormalized.
+        // Repair-only calls consume exactly the historical random sequence.
+        let mut weights = [
+            config.move_weights.change as u64,
+            config.move_weights.swap as u64,
+            if movable.is_empty() {
+                0
+            } else {
+                config.move_weights.repair as u64
             },
-        )?;
+        ];
+        let (family, movement) = loop {
+            let total: u64 = weights.iter().sum();
+            if total == 0 {
+                result.termination = RuinRecreateTermination::NoAvailableMoves;
+                return Ok(result);
+            }
+            let family = if weights[0] == 0 && weights[1] == 0 {
+                2
+            } else {
+                let mut ticket = random.below(total);
+                let mut index = 0;
+                while ticket >= weights[index] {
+                    ticket -= weights[index];
+                    index += 1;
+                }
+                index
+            };
+            if family == 2 {
+                break (family, None);
+            }
+            let mut moves = problem.fine_moves(&current.0, family == 1)?;
+            let mut selected = None;
+            let mut seen = 0_u64;
+            loop {
+                if cancelled()
+                    || remaining().is_some_and(|d| d.is_zero())
+                    || shared.as_mut().is_some_and(|s| s.stop().is_some())
+                {
+                    continue 'search;
+                }
+                let Some(movement) = moves.next() else {
+                    break;
+                };
+                seen += 1;
+                if random.below(seen) == 0 {
+                    selected = Some(movement);
+                }
+            }
+            if selected.is_some() {
+                break (family, selected);
+            }
+            weights[family] = 0;
+        };
+        let candidate = if family == 2 {
+            let low = config.minimum_ruined.min(movable.len());
+            let high = config.maximum_ruined.min(movable.len());
+            let count = low + random.below((high - low + 1) as u64) as usize;
+            random.shuffle(&mut movable);
+            let repair = problem.repair(&current.0, &movable[..count])?;
+            result.attempts += 1;
+            let candidate = rebuild(
+                &repair,
+                repair.initial(),
+                ConstructionConfig {
+                    max_evaluations: config.max_evaluations - result.evaluations,
+                    max_move_evaluations: config.max_move_evaluations.map(|limit| {
+                        limit - result.repair_move_evaluations - result.fine_move_evaluations
+                    }),
+                    max_steps: None,
+                    max_time: remaining(),
+                    ..construction
+                },
+            )?;
+            result.repair_move_evaluations += candidate.evaluations.saturating_sub(1);
+            if candidate.complete && candidate.score.is_some() {
+                result.complete_reconstructions += 1;
+            }
+            candidate
+        } else {
+            let next = problem.apply_fine(&current.0, &movement.expect("selected fine move"))?;
+            result.fine_move_attempts += 1;
+            let candidate = rebuild(
+                problem,
+                next,
+                ConstructionConfig {
+                    max_evaluations: 1,
+                    max_move_evaluations: Some(0),
+                    max_steps: Some(0),
+                    max_time: remaining(),
+                    ..construction
+                },
+            )?;
+            result.fine_move_evaluations += candidate.evaluations;
+            candidate
+        };
         result.evaluations += candidate.evaluations;
-        result.repair_move_evaluations += candidate.evaluations.saturating_sub(1);
         result.constraint_evaluations += candidate.constraint_evaluations;
         if let Some(candidate) = candidate.solution() {
-            result.complete_reconstructions += 1;
             let improved = candidate.1 > result.best.as_ref().expect("initial best").1;
             if improved {
                 result.best = Some(candidate.clone());

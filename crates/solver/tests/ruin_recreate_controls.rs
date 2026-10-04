@@ -63,6 +63,8 @@ fn map<T, U>(r: RuinRecreateOutcome<T>, f: impl FnOnce(T) -> U) -> RuinRecreateO
         best: r.best.map(f),
         evaluations: r.evaluations,
         repair_move_evaluations: r.repair_move_evaluations,
+        fine_move_attempts: r.fine_move_attempts,
+        fine_move_evaluations: r.fine_move_evaluations,
         constraint_evaluations: r.constraint_evaluations,
         attempts: r.attempts,
         complete_reconstructions: r.complete_reconstructions,
@@ -925,6 +927,140 @@ fn sampled_improvements_notify_in_order_and_optional_repairs_notify_complete_nul
                 ]
             );
             assert_eq!(events.last(), r.best.as_ref());
+        }
+    }
+}
+
+#[test]
+fn weighted_moves_share_budgets_scores_and_seeded_results_in_every_backend() {
+    for kind in KINDS {
+        for optional in [false, true] {
+            for seed in 0..4 {
+                for acceptance in [
+                    Acceptance::HillClimbing,
+                    Acceptance::VariableTabu {
+                        tenure: 2,
+                        aspiration: true,
+                    },
+                    Acceptance::MoveTabu {
+                        tenure: 2,
+                        aspiration: true,
+                    },
+                    Acceptance::LateAcceptance {
+                        history_size: 3,
+                        hill_climbing: true,
+                    },
+                ] {
+                    for budget in 0..=12 {
+                        let c = RuinRecreateConfig {
+                            seed,
+                            max_attempts: 8,
+                            max_evaluations: budget,
+                            max_move_evaluations: Some(budget % 7),
+                            acceptance,
+                            move_weights: RepairMoveWeights {
+                                change: 2,
+                                swap: 2,
+                                repair: 1,
+                            },
+                            ..config()
+                        };
+                        let a = run(kind, false, optional, c.clone(), quality);
+                        let b = run(kind, true, optional, c.clone(), quality);
+                        assert_eq!(
+                            (
+                                a.best.clone(),
+                                a.evaluations,
+                                a.repair_move_evaluations,
+                                a.fine_move_evaluations,
+                                a.attempts,
+                                a.fine_move_attempts,
+                                a.complete_reconstructions,
+                                a.accepted_moves,
+                                a.termination
+                            ),
+                            (
+                                b.best,
+                                b.evaluations,
+                                b.repair_move_evaluations,
+                                b.fine_move_evaluations,
+                                b.attempts,
+                                b.fine_move_attempts,
+                                b.complete_reconstructions,
+                                b.accepted_moves,
+                                b.termination
+                            )
+                        );
+                        assert!(a.evaluations <= budget);
+                        assert!(a.repair_move_evaluations + a.fine_move_evaluations <= budget % 7);
+                        assert!(a.attempts + a.fine_move_attempts <= 8);
+                        assert_eq!(a.fine_move_attempts, a.fine_move_evaluations);
+                        assert_eq!(
+                            a.evaluations,
+                            u64::from(budget > 0)
+                                + a.attempts
+                                + a.repair_move_evaluations
+                                + a.fine_move_evaluations
+                        );
+                        assert!(
+                            a.accepted_moves <= a.fine_move_attempts + a.complete_reconstructions
+                        );
+                        if let Some((_, s)) = a.best {
+                            assert!(s >= HardSoftScore::new(-2, 0) && s <= HardSoftScore::ZERO);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+#[test]
+fn fine_only_sampling_preserves_owned_scores_and_strict_notifications() {
+    let low: HardSoftDecimalScore = "-0.000000000000000002hard/9007199254740992soft"
+        .parse()
+        .unwrap();
+    let high: HardSoftDecimalScore = "-0.000000000000000001hard/9007199254740992soft"
+        .parse()
+        .unwrap();
+    for kind in KINDS {
+        for stream in [false, true] {
+            let mut events = Vec::new();
+            let r = run_observed(
+                kind,
+                stream,
+                false,
+                RuinRecreateConfig {
+                    max_attempts: 100,
+                    seed: 42,
+                    best_score_limit: Some(high.clone()),
+                    move_weights: RepairMoveWeights {
+                        change: 1,
+                        swap: 0,
+                        repair: 0,
+                    },
+                    ..config()
+                },
+                |v| {
+                    if v.contains(&Some(1)) {
+                        high.clone()
+                    } else {
+                        low.clone()
+                    }
+                },
+                Some(&mut |_, s| events.push(s)),
+            );
+            assert_eq!(r.termination, RuinRecreateTermination::BestScoreLimit);
+            assert_eq!(events, vec![low.clone(), high.clone()]);
+            assert_eq!(r.best.unwrap().1, high);
+            assert_eq!(
+                (
+                    r.attempts,
+                    r.complete_reconstructions,
+                    r.repair_move_evaluations
+                ),
+                (0, 0, 0)
+            );
+            assert_eq!(r.evaluations, 1 + r.fine_move_evaluations);
         }
     }
 }

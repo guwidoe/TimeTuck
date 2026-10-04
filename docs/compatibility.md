@@ -1564,3 +1564,15 @@ replace Micrometer publication/registration, preserving all three metric inequal
 without claiming Java registry integration or identical numeric counters. Fixtures,
 API substitutions and notices are recorded in provenance. This finishes the four
 methods in that basic selector class, not the remaining list selector/lifecycle work.
+
+The remaining three ListRuinRecreateMoveSelectorTest methods are now adapted in
+both scoring backends. Required cases preserve ten generated values, three empty
+entities, the generated-name Java hash penalty, construction followed by repair,
+full score diagnostics and 1000ms unimproved termination. Public Java Objects/String
+calls independently verify all 300 fixture penalties. Native score/repair counters
+preserve metric inequalities while replacing Micrometer integration. The optional
+case preserves all three scoring terms and the 40/40/20 change/swap/repair union
+through shared native weighted search. Its 100 completed-step cap is represented by
+100 selected native attempts, including rejected/unchanged attempts; random traces
+and acceptance histories are not claimed equivalent. Provenance records all fixture
+and API substitutions. UnionMoveSelectorTest lifecycle assertions remain pending.

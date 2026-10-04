@@ -52,7 +52,7 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Construction is excluded. Later phases/handoffs do not reset the timer.
     /// Only strict retained-best improvement resets it, before expiry.
     pub max_unimproved_time: Option<Duration>,
-    /// Completed local-search steps and accepted changed repairs since the last
+    /// Completed local-search steps and accepted changed repair/fine moves since the last
     /// strict retained-best improvement.
     /// Counts across phases; construction and initialization do not count.
     pub max_unimproved_steps: Option<u64>,
@@ -120,12 +120,14 @@ pub struct SolverWork {
     /// Candidates, including exact assignments; initialization and diagnostics are excluded.
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
-    /// Local-search steps and accepted changed repairs; excludes construction steps.
+    /// Local-search steps and accepted changed repair/fine moves; excludes construction steps.
     pub completed_steps: u64,
     pub accepted_moves: u64,
     /// Started ruin-and-recreate attempts, including incomplete, rejected and unchanged repairs.
     /// Reconstruction candidates are counted separately in `move_evaluations`.
     pub repair_attempts: u64,
+    /// Sampled change/swap attempts interleaved with repair phases.
+    pub fine_move_attempts: u64,
     /// Repair attempts producing a complete scored assignment, including rejected and unchanged results.
     /// Complete does not imply that every reconstruction candidate was evaluated.
     pub complete_reconstructions: u64,
@@ -138,6 +140,7 @@ impl SolverWork {
         self.completed_steps += other.completed_steps;
         self.accepted_moves += other.accepted_moves;
         self.repair_attempts += other.repair_attempts;
+        self.fine_move_attempts += other.fine_move_attempts;
         self.complete_reconstructions += other.complete_reconstructions;
     }
 }
@@ -698,6 +701,12 @@ where
     }
     for (index, c) in local.iter().enumerate() {
         if let SolverPhase::RuinRecreate(c) = c {
+            if !c.move_weights.valid() {
+                return Err(SolverError::Repair {
+                    phase: index,
+                    error: RuinRecreateError::InvalidMoveWeights,
+                });
+            }
             if c.minimum_ruined == 0 || c.minimum_ruined > c.maximum_ruined {
                 return Err(SolverError::Repair {
                     phase: index,
@@ -977,11 +986,12 @@ macro_rules! repaired {
         let r = $r;
         let work = SolverWork {
             evaluations: r.evaluations,
-            move_evaluations: r.repair_move_evaluations,
+            move_evaluations: r.repair_move_evaluations + r.fine_move_evaluations,
             constraint_evaluations: r.constraint_evaluations,
             completed_steps: r.accepted_moves,
             accepted_moves: r.accepted_moves,
             repair_attempts: r.attempts,
+            fine_move_attempts: r.fine_move_attempts,
             complete_reconstructions: r.complete_reconstructions,
         };
         let (assignment, score) = r.best.map_or((None, None), |best| {

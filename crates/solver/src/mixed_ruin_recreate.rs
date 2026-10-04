@@ -24,6 +24,8 @@ impl From<MixedLocalSearchError> for RuinRecreateError {
     }
 }
 /// Sample one joint pool of movable basic slots and list value identities.
+/// Enabled fine families enumerate basic then list moves, changing one component
+/// per attempt. Both components contribute to the coupled score and acceptor.
 /// Ruin counts apply to the combined pool. Pins, unsampled basic values, and
 /// unsampled list owners/relative order are preserved. Missing optional values
 /// are eligible under the same rules as the individual basic/list searches.
@@ -90,7 +92,7 @@ pub(crate) fn ruin_recreate_mixed_search_from_observed<
     })
 }
 /// Stream counterpart, rebuilding the coupled graph for initialization and each
-/// repair. Factory work consumes the cooperative time budget. Validation and
+/// repair or fine-move score. Factory work consumes the cooperative time budget. Validation and
 /// zero-budget/pre-cancellation checks precede factory invocation.
 pub fn ruin_recreate_mixed_stream_search_from<
     'g,
@@ -197,6 +199,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 }
 impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProblem<B, L> {
     type Assignment = MixedAssignment<B, L>;
+    type FineMove = MixedMove<B, L>;
     type Movement = (Move<B>, Vec<(usize, Vec<L>)>);
     type Value = MixedPlanningValue<B, L>;
     fn validate_complete(&self, a: &Self::Assignment) -> Result<(), RuinRecreateError> {
@@ -237,6 +240,38 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
             self.basic().repair(a.basic(), &basics)?,
             self.lists().repair(a.lists(), &lists)?,
         ))
+    }
+    fn fine_moves<'a>(
+        &'a self,
+        a: &'a Self::Assignment,
+        swap: bool,
+    ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError> {
+        let basic = self
+            .basic()
+            .fine_moves(a.basic(), swap)?
+            .map(|basic| MixedMove {
+                basic,
+                lists: ListMove::Composite(vec![]),
+            });
+        let lists = self
+            .lists()
+            .fine_moves(a.lists(), swap)?
+            .map(|lists| MixedMove {
+                basic: Move::Composite(vec![]),
+                lists,
+            });
+        Ok(Box::new(basic.chain(lists)))
+    }
+    fn apply_fine(
+        &self,
+        a: &Self::Assignment,
+        m: &Self::FineMove,
+    ) -> Result<Self::Assignment, RuinRecreateError> {
+        let mut next = a.clone();
+        self.apply(&mut next, m)
+            .map_err(|e| MixedLocalSearchError::from(MixedScoringError::from(e)))?
+            .commit();
+        Ok(next)
     }
     fn metadata(
         &self,

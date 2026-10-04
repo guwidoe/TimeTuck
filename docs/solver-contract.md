@@ -1269,7 +1269,7 @@ complete incumbent. Completing a repair phase never proves optimality.
 Repair total-score and candidate budgets are clipped to solve-wide remaining work.
 Initial scores for the phase and each repair count as scores but not candidates.
 Each phase reports RuinRecreate termination and SolverWork; completed_steps and
-accepted_moves both count accepted *changed* complete repairs. Rejected and unchanged
+accepted_moves both count accepted *changed* complete repairs or enabled fine moves. Rejected and unchanged
 attempts do not count as completed steps, while each started reconstruction consumes
 its own initial score budget. Standalone repair results additionally expose attempt
 and complete-reconstruction counts. A local attempt limit can hand off to another
@@ -1277,19 +1277,19 @@ phase; solve-wide score/candidate/cancellation/time/goal controls remain authori
 
 Shared stagnation starts after initial repair scoring, before the initial callback.
 Strict retained-best improvements reset it only before expiry. Accepted changed
-repairs advance its step count, including equal or worsening acceptance; no-op or
+repairs and fine moves advance its step count, including equal or worsening acceptance; no-op or
 rejected attempts do not. History survives local/repair phase transitions. Shared
 stagnation is checked at reconstruction boundaries; active reconstruction cannot be
 preempted by the monitor. Existing reconstruction time/cancellation/evaluation
 checks still apply internally. Shared stagnation follows cancellation and elapsed
 phase time but precedes remaining budget/attempt/score checks at repair boundaries.
 
-Repair validation checks every configured ruin range and acceptance policy before
+Repair validation checks every configured ruin range, move weights and acceptance policy before
 any phase scoring or factory. Cancellation-token conflicts are rejected up front.
 Runtime model/scoring/factory errors use SolverError::Repair with a phase index and
 typed RuinRecreateError; this avoids recursively nesting native local-search errors.
 Stream repair phases build graphs inside the repair API: one for initialization and
-one per started repair, including factory time in the cooperative budget. Zero score
+one per started repair or fine score, including factory time in the cooperative budget. Zero score
 budget or pre-cancellation invokes no repair graph factory.
 
 Retained-best notifications carry SolverPhaseKind::RuinRecreate and are filtered
@@ -1320,9 +1320,43 @@ not a fabricated successful work report.
 
 These counters survive all six phase adapters, phase aggregation and managed-job
 publication. Non-repair phases contribute zero. They do not change existing
-`move_evaluations` (individual reconstruction candidates), accepted moves, completed
+`move_evaluations` (individual reconstruction candidates and enabled fine scores), accepted moves, completed
 steps or shared termination limits. Managed statistics reject decreasing absolute
 counts and saturate additive overflow with `work_overflowed`, as for other work.
 Original six-path budget-prefix, complete/no-op/rejection and managed monotonicity/
 overflow tests verify the distinction. Public Community basic-repair quality and
 performance evidence is now available separately in docs/dashboard.md.
+
+## Weighted fine moves inside repair phases
+
+`RuinRecreateConfig.move_weights` optionally interleaves ordinary changes, swaps
+and repairs. Positive integer weights select a family (2:2:1 gives 40/40/20 when
+all are available); zero disables it. All-zero weights fail validation before any
+phase scoring. Unavailable families are removed until the next attempt and weights
+renormalized. A fine family is sampled uniformly from its iterator, retaining
+multiplicity of equivalent successor states. Reservoir sampling stores one move
+but scans the entire chosen family. Cancellation, elapsed time and shared stagnation
+are checked between iterator calls; user callbacks and iterator calls are cooperative.
+Default 0:0:1 preserves repair-only behavior and its previous random sequence.
+
+Basic fine moves use existing change/swap providers. Lists use relocation, optional
+assignment/unassignment, swaps and optional replacements. Mixed fine moves change
+one component, enumerating basic then list providers. Existing pins, prefixes and
+ranges remain authoritative. All attempts share the same current solution, best,
+acceptor metadata/history and phase seed. Accepted changed fine moves also advance
+completed steps and shared stagnation. Improvements retain the same notifications.
+
+`max_attempts` caps started repairs plus selected fine moves. Standalone `attempts`
+and plan `repair_attempts` continue to count only reconstructions;
+`fine_move_attempts` records selected fine attempts including interrupted scoring.
+`fine_move_evaluations` records actual fine scores, charged against both total and
+candidate budgets. Each fine score initializes a fresh scoring cache/graph, including
+factory time and enabled diagnostics. This is a correctness baseline with allocation
+and initialization cost, not an incremental fine-search performance claim.
+`NoAvailableMoves` ends a phase whose enabled families are all empty.
+
+Phase aggregation and managed statistics preserve fine counters, reject decreasing
+absolute updates and report saturating-add overflow. Native reference/budget/history/
+notification/decimal/cancellation/managed checks cover all six paths; adapted list
+selector methods add only the documented source-method assertions. Existing Java
+repair timings remain repair-only and do not measure this weighted mode.

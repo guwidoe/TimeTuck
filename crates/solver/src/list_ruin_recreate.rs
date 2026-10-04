@@ -10,7 +10,9 @@ impl From<ListLocalSearchError> for RuinRecreateError {
 fn model_error(e: ListError) -> RuinRecreateError {
     ListLocalSearchError::from(ListScoringError::from(e)).into()
 }
-/// Seeded list-value removal and reconstruction. Full pins and pinned prefixes
+/// Seeded list-value removal and reconstruction, optionally interleaved with
+/// weighted relocations/assignments/unassignments and swaps/replacements.
+/// The following sampling rules apply to repairs. Full pins and pinned prefixes
 /// cannot be sampled. Unassigned optional values with a legal receiver may also
 /// be sampled; other missing values remain unassigned. Unsampled assigned values
 /// retain their owners and relative order, but insertion can change their indices.
@@ -81,7 +83,7 @@ pub(crate) fn ruin_recreate_list_search_from_observed<V: Eq + Clone, S: Additive
         greedy_list_construction_from(p, network, a, c).map_err(ListLocalSearchError::from)
     })
 }
-/// Stream counterpart with a fresh graph for initialization and each repair.
+/// Stream counterpart with a fresh graph for initialization and each repair/fine score.
 /// Factory work is included in the cooperative time budget. No factories run
 /// before validation or when a zero score budget/pre-cancelled token skips scoring.
 pub fn ruin_recreate_list_stream_search_from<
@@ -172,6 +174,7 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
 }
 impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
     type Assignment = ListAssignment<V>;
+    type FineMove = ListMove<V>;
     type Movement = Vec<(usize, Vec<V>)>;
     type Value = V;
     fn validate_complete(&self, a: &ListAssignment<V>) -> Result<(), RuinRecreateError> {
@@ -241,6 +244,28 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
         } else {
             repair
         })
+    }
+    fn fine_moves<'a>(
+        &'a self,
+        a: &'a ListAssignment<V>,
+        swap: bool,
+    ) -> Result<Box<dyn Iterator<Item = ListMove<V>> + 'a>, RuinRecreateError> {
+        if swap {
+            Ok(Box::new(list_swap_moves(self, a).map_err(model_error)?))
+        } else {
+            Ok(Box::new(
+                list_moves(self, a, Neighborhood::Change).map_err(model_error)?,
+            ))
+        }
+    }
+    fn apply_fine(
+        &self,
+        a: &ListAssignment<V>,
+        m: &ListMove<V>,
+    ) -> Result<ListAssignment<V>, RuinRecreateError> {
+        let mut next = a.clone();
+        self.apply(&mut next, m).map_err(model_error)?.commit();
+        Ok(next)
     }
     fn metadata(
         &self,

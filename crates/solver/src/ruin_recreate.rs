@@ -6,7 +6,33 @@ use std::{
     time::{Duration, Instant},
 };
 
-/// Limits include initialization and every reconstruction. Each attempt samples
+/// Relative integer weights for fine changes, fine swaps and reconstruction.
+/// Zero disables a family; at least one weight must be positive. For example,
+/// 2:2:1 represents 40% changes, 40% swaps and 20% repairs when all are available.
+/// An unavailable family is excluded until the next attempt. Within a fine family,
+/// one enumerated move is sampled uniformly, retaining duplicate successor states.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct RepairMoveWeights {
+    pub change: u32,
+    pub swap: u32,
+    pub repair: u32,
+}
+impl Default for RepairMoveWeights {
+    fn default() -> Self {
+        Self {
+            change: 0,
+            swap: 0,
+            repair: 1,
+        }
+    }
+}
+impl RepairMoveWeights {
+    pub(crate) fn valid(self) -> bool {
+        self.change != 0 || self.swap != 0 || self.repair != 0
+    }
+}
+
+/// Limits include initialization, reconstruction and enabled fine moves. Each repair samples
 /// movable basic slots or list values without replacement, then reconstructs in
 /// model order. Basic unsampled values are frozen; list semantics are documented
 /// on `ruin_recreate_list_search_from`.
@@ -16,10 +42,14 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub seed: u64,
     pub minimum_ruined: usize,
     pub maximum_ruined: usize,
+    /// Total selected attempts: reconstructions plus enabled fine moves.
     pub max_attempts: u64,
+    /// Interleave moves within the same current state, acceptor and retained best.
+    /// The default preserves repair-only behavior and its seeded trace.
+    pub move_weights: RepairMoveWeights,
     /// Includes the initial score, reconstruction initial scores and all trials.
     pub max_evaluations: u64,
-    /// Construction candidate scores only; excludes initialization of each repair.
+    /// Fine-move scores and construction candidate scores; excludes repair initialization.
     /// Zero still permits scoring the supplied complete assignment.
     pub max_move_evaluations: Option<u64>,
     /// Checked against retained complete best at attempt boundaries.
@@ -42,6 +72,7 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             minimum_ruined: 5,
             maximum_ruined: 20,
             max_attempts: 100,
+            move_weights: RepairMoveWeights::default(),
             max_evaluations: 10_000,
             max_move_evaluations: None,
             best_score_limit: None,
@@ -67,6 +98,7 @@ pub enum RuinRecreateTermination {
     TimeLimit,
     Cancelled,
     NoMovableVariables,
+    NoAvailableMoves,
 }
 /// Only complete assignments compete for best; interrupted partial repairs are
 /// discarded. A complete interrupted repair may still improve the retained best.
@@ -77,6 +109,10 @@ pub struct RuinRecreateOutcome<T> {
     pub evaluations: u64,
     /// Candidate scores inside construction, excluding each fresh initial score.
     pub repair_move_evaluations: u64,
+    /// Selected ordinary change/swap attempts, including interrupted scoring.
+    pub fine_move_attempts: u64,
+    /// Fine-move scores, each charged as one candidate evaluation.
+    pub fine_move_evaluations: u64,
     pub constraint_evaluations: u128,
     /// Started reconstruction calls, including incomplete and unchanged results.
     pub attempts: u64,
@@ -90,6 +126,7 @@ pub type ListRuinRecreateResult<V, S> = RuinRecreateOutcome<ScoredListAssignment
 #[derive(Debug)]
 pub enum RuinRecreateError {
     InvalidRuinRange,
+    InvalidMoveWeights,
     IncompleteInitialAssignment,
     Search(LocalSearchError),
     ListSearch(ListLocalSearchError),
@@ -98,6 +135,9 @@ pub enum RuinRecreateError {
 impl fmt::Display for RuinRecreateError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidMoveWeights => {
+                f.write_str("at least one move-family weight must be positive")
+            }
             Self::InvalidRuinRange => {
                 f.write_str("ruin counts must satisfy 1 <= minimum <= maximum")
             }
@@ -127,6 +167,10 @@ impl From<LocalSearchError> for RuinRecreateError {
 }
 
 /// Search by repeatedly clearing a random subset and greedily rebuilding it.
+/// Optional weighted change/swap moves share the same current state and acceptor.
+/// Fine sampling scans the selected iterator with constant candidate storage;
+/// cancellation and deadlines are polled between iterator calls. Each fine score
+/// initializes a fresh cache/graph, including full diagnostic work when enabled.
 /// Scoring must support partial assignments. Pins and the caller's initial value
 /// are never mutated. All native acceptance policies are available. Best retention
 /// is strict and independent of acceptance; this method never proves optimality.
@@ -185,7 +229,7 @@ pub(crate) fn ruin_recreate_search_from_observed<V: Eq + Clone, S: AdditiveScore
     })
 }
 
-/// A fresh graph is required for initialization and each attempted reconstruction.
+/// A fresh graph is required for initialization and each repair or fine-move score.
 /// Factory time counts toward the global time limit but not score evaluations.
 /// No factory is invoked with a zero budget or an already cancelled token. Graph
 /// preparation is cooperative; errors propagate and panics leave caller data intact.
@@ -273,6 +317,7 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
 }
 impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
     type Assignment = Assignment<V>;
+    type FineMove = Move<V>;
     type Movement = Move<V>;
     type Value = Option<V>;
     fn validate_complete(&self, a: &Assignment<V>) -> Result<(), RuinRecreateError> {
@@ -319,6 +364,32 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
             })
             .collect();
         Self::new(variables).map_err(|e| LocalSearchError::from(e).into())
+    }
+    fn fine_moves<'a>(
+        &'a self,
+        a: &'a Assignment<V>,
+        swap: bool,
+    ) -> Result<Box<dyn Iterator<Item = Move<V>> + 'a>, RuinRecreateError> {
+        if swap {
+            Ok(Box::new(
+                swap_moves(self, a).map_err(LocalSearchError::from)?,
+            ))
+        } else {
+            Ok(Box::new(
+                change_moves(self, a).map_err(LocalSearchError::from)?,
+            ))
+        }
+    }
+    fn apply_fine(
+        &self,
+        a: &Assignment<V>,
+        m: &Move<V>,
+    ) -> Result<Assignment<V>, RuinRecreateError> {
+        let mut next = a.clone();
+        self.apply(&mut next, m)
+            .map_err(LocalSearchError::from)?
+            .commit();
+        Ok(next)
     }
     fn metadata(
         &self,

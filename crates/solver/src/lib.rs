@@ -415,8 +415,8 @@ mod value_construction_queue;
 mod ruin_engine;
 mod ruin_recreate;
 pub use ruin_recreate::{
-    ListRuinRecreateResult, RuinRecreateConfig, RuinRecreateError, RuinRecreateOutcome,
-    RuinRecreateResult, RuinRecreateTermination, ruin_recreate_search_from,
+    ListRuinRecreateResult, RepairMoveWeights, RuinRecreateConfig, RuinRecreateError,
+    RuinRecreateOutcome, RuinRecreateResult, RuinRecreateTermination, ruin_recreate_search_from,
     ruin_recreate_search_from_with_observer, ruin_recreate_stream_search_from,
     ruin_recreate_stream_search_from_with_observer,
 };

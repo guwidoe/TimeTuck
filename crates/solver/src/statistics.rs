@@ -245,6 +245,7 @@ impl StatisticsState {
                         completed_steps,
                         accepted_moves,
                         repair_attempts,
+                        fine_move_attempts,
                         complete_reconstructions
                     );
                     self.snapshot.work = Some(total);
@@ -255,6 +256,7 @@ impl StatisticsState {
                         || work.completed_steps < old.completed_steps
                         || work.accepted_moves < old.accepted_moves
                         || work.repair_attempts < old.repair_attempts
+                        || work.fine_move_attempts < old.fine_move_attempts
                         || work.complete_reconstructions < old.complete_reconstructions
                     {
                         return false;

@@ -453,3 +453,46 @@ fn repair_statistics_preserve_monotonicity_and_report_overflow() {
     assert_eq!(stats.work.unwrap().complete_reconstructions, u64::MAX);
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn fine_move_statistics_preserve_absolute_updates_and_additive_overflow() {
+    let mut manager = SolverManager::<usize, String>::new(1).unwrap();
+    let job = manager
+        .submit_with_progress(
+            1,
+            |_, p| {
+                let work = SolverWork {
+                    fine_move_attempts: 7,
+                    ..Default::default()
+                };
+                assert!(p.record_work(work));
+                assert!(!p.record_work(SolverWork {
+                    fine_move_attempts: 6,
+                    ..work
+                }));
+                assert!(p.add_work(SolverWork {
+                    fine_move_attempts: 3,
+                    ..Default::default()
+                }));
+                assert!(!p.record_work(SolverWork {
+                    fine_move_attempts: 9,
+                    ..work
+                }));
+                assert!(p.record_work(SolverWork {
+                    fine_move_attempts: 10,
+                    ..work
+                }));
+                assert!(p.add_work(SolverWork {
+                    fine_move_attempts: u64::MAX,
+                    ..Default::default()
+                }));
+                Ok(1)
+            },
+            SolverJobCallbacks::default(),
+        )
+        .unwrap();
+    assert!(job.wait_timeout(WAIT).unwrap().is_ok());
+    assert_eq!(job.statistics().work.unwrap().fine_move_attempts, u64::MAX);
+    assert!(job.statistics().work_overflowed);
+    manager.shutdown().unwrap();
+}

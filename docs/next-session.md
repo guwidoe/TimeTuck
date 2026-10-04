@@ -8628,3 +8628,48 @@ list selector tests and broader native lifecycle/search behavior. Basic repair
 work reporting is complete for successful solver results; failed phases retain
 existing typed-error behavior, without claiming complete partial work telemetry.
 The full solver rewrite remains active, incomplete and unblocked.
+
+
+## Weighted change/swap/repair search (verified)
+
+RepairMoveWeights interleaves change/swap/repair with one shared current state,
+acceptor/history, best and random source across all six model/backend paths. Default
+0:0:1 preserves prior repair-only RNG consumption. Zero disables families; all-zero
+fails up front; empty families renormalize, all-empty yields NoAvailableMoves.
+Fine selection uses reservoir sampling over existing providers (mixed basic then
+lists), preserves pins/ranges and polls cooperative controls between iterator calls.
+Fine scoring initializes a fresh cache/graph; costs are included, with no incremental
+fine-search performance claim. Total attempts combine repair and fine; separate
+fine_move_attempts/fine_move_evaluations distinguish actual work. Candidate caps
+include fine scores but exclude repair initialization. Phase and managed statistics
+preserve counters, monotonicity and additive overflow.
+
+Three more ListRuinRecreateMoveSelectorTest methods adapted: required hash fixture
+and metrics preserve 1000ms unimproved termination, construction and full native
+score diagnostics. Optional scoring preserves squared lengths, five per missing,
+unique assigned same-index pairs and 40/40/20 weights. Native 100 selected attempts
+replace Java completed-step cap; no trace or Micrometer API parity. Attributed Java
+Objects/String oracle verifies all 300 required fixture hash penalties. All four
+list selector methods pass; UnionMoveSelectorTest lifecycle remains pending.
+
+Original regressions cover 2,496 standalone weighted solves across backends/budgets/
+acceptors, 1,014 phase score/candidate prefixes, shared tabu/stagnation, empty families,
+large weights, owned decimals, strict notifications, sampling/factory cancellation,
+phase aggregation, managed publication and counter monotonicity/overflow.
+Full gate passed:1,945 Rust,101 doctests,229 Python; formatting/Clippy clean.
+All58 focused release tests passed. Logs: work/hybrid-check.log, hybrid-release.log,
+hybrid-verify.log, hybrid-refresh-*.log and hybrid-audit.log. No process remains live.
+
+All15 datasets are current,75 timing workloads. Fingerprints and prior invariants
+pass the audit. Coverage893/4,855(raw18.393/UI18.39), pending3680,excluded282,
+failed/unverified0. Moves/selectors132/874(15.10%). Repair quality remains64valid/
+52equal, Java35/Rust33 optima; half20/32equal,whole32/32equal. No new weighted-mode
+Java performance claim. Upstream unchanged.
+
+Browser verified1440x900 and390x844 with fresh query URL:18.39%,893/4,855 methods,
+75 cards; list selector filter shows all four methods passed. No horizontal overflow,
+stale/undefined/NaN text or page errors. Browser closed; localhost:8765 stays running.
+Next work: independent list/mixed/optional and weighted public-Java quality/timing
+comparisons, or remaining fully preservable selector/lifecycle behavior. Any fine
+scoring optimization must preserve budgets, errors/cancellation and actual work.
+Full independent solver rewrite remains active, incomplete and unblocked.
