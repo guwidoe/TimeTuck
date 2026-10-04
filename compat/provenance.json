@@ -12510,6 +12510,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all acceptance assertions, including repeated queries, multi-value steps, null expiry and supplied fading draws. Stable integer/Option identities replace TestdataValue objects and null. Explicit value slices replace mock getPlanningValues; explicit step notifications preserve the source initialized global-best score (mock step scores do not update that scope). Hard/aspiration/null cases use typed ValueAcceptor; supplied fading checks use FadingTabuMemory. No Java lifecycle, live mutable-object identity or native/Java PRNG equivalence is claimed. Original extraction/search regressions are separate from method credit."
+    },
+    {
+      "id": "DiversifiedLateAcceptanceAcceptorTest.acceptanceCriterion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DiversifiedLateAcceptanceAcceptorTest.java",
+      "upstream_test": "acceptanceCriterion",
+      "local_path": "crates/solver/src/lib.rs",
+      "local_test": "diversified_late::cases::acceptance_criterion",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate/current/history fixtures and all assertions in private-state Rust unit tests in src/diversified_late.rs. Native Score replaces fully assigned InnerScore; fresh constructors replace phaseStarted. Preserve deliberately inconsistent cached worst/count injections used by the source tests. Cargo library target and fully qualified names identify actual executions; production state machine is independently implemented."
+    },
+    {
+      "id": "DiversifiedLateAcceptanceAcceptorTest.replacementCriterion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DiversifiedLateAcceptanceAcceptorTest.java",
+      "upstream_test": "replacementCriterion",
+      "local_path": "crates/solver/src/lib.rs",
+      "local_test": "diversified_late::cases::replacement_criterion",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all candidate/current/history fixtures and all assertions in private-state Rust unit tests in src/diversified_late.rs. Native Score replaces fully assigned InnerScore; fresh constructors replace phaseStarted. Preserve deliberately inconsistent cached worst/count injections used by the source tests. Cargo library target and fully qualified names identify actual executions; production state machine is independently implemented."
     }
   ],
   "fixtures": [

@@ -200,6 +200,7 @@ fn raw<S: Score<Level = i64>>(score: &S) -> (i64, Vec<i64>) {
 }
 fn policies<S: AdditiveScore>(make: impl Fn(i64, i64) -> S) -> Vec<Acceptance<S>> {
     vec![
+        Acceptance::DiversifiedLateAcceptance { history_size: 3 },
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {

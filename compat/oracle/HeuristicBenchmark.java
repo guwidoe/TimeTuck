@@ -34,11 +34,13 @@ public final class HeuristicBenchmark {
         return copy;
     }
     public static void main(String[] args) throws Exception {
-        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples");
+        if (args.length != 4) throw new IllegalArgumentException("expected hill|diversified|tabu|move_tabu|value_tabu|late_tabu|step|deluge steps warmup samples");
         String algorithm = args[0];
         int steps = Integer.parseInt(args[1]), warmup = Integer.parseInt(args[2]), samples = Integer.parseInt(args[3]);
         if (steps < 1 || warmup < 0 || samples < 1) throw new IllegalArgumentException("invalid counts");
         var acceptor = switch (algorithm) {
+            case "diversified" -> new LocalSearchAcceptorConfig()
+                .withAcceptorTypeList(List.of(AcceptorType.DIVERSIFIED_LATE_ACCEPTANCE)).withLateAcceptanceSize(3);
             case "hill" -> new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING));
             case "step" -> new LocalSearchAcceptorConfig().withStepCountingHillClimbingSize(7)
                 .withStepCountingHillClimbingType(ai.timefold.solver.core.config.localsearch.decider.acceptor.stepcountinghillclimbing.StepCountingHillClimbingType.STEP);
@@ -59,10 +61,14 @@ public final class HeuristicBenchmark {
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE)
                 .withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
             .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps));
-        var factory = SolverFactory.<SolverOracle.Problem>create(new SolverConfig()
+        var solverConfig = new SolverConfig()
             .withSolutionClass(SolverOracle.Problem.class).withEntityClasses(SolverOracle.Job.class)
             .withEasyScoreCalculatorClass(CountingCalculator.class).withRandomSeed(20261001L)
-            .withEnvironmentMode(EnvironmentMode.NO_ASSERT).withPhases(phase));
+            .withEnvironmentMode(EnvironmentMode.NO_ASSERT).withPhases(phase);
+        if (algorithm.equals("diversified")) {
+            solverConfig.withPreviewFeature(ai.timefold.solver.core.config.solver.PreviewFeature.DIVERSIFIED_LATE_ACCEPTANCE);
+        }
+        var factory = SolverFactory.<SolverOracle.Problem>create(solverConfig);
         try (var input = new BufferedReader(new InputStreamReader(System.in))) {
             for (String line; (line = input.readLine()) != null;) {
                 String[] fields = line.split("\t", -1);

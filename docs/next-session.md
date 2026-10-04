@@ -6782,3 +6782,76 @@ Full gate and staged diff reviewed. This is verification progress; goal remains
 incomplete. Next useful work: ratio-based tabu sizing or diversified late
 acceptance from pinned Community tests/public APIs, or capture optimization
 while preserving independent first-touch contracts and honest Java differences.
+
+## In progress: diversified late acceptance (2026-10-04)
+
+Previous turn was progress: b0c096c, clean at start. Implemented independent
+DiversifiedLateAcceptance using pinned tests/public docs and the linked DLAS
+paper (arxiv1806.09328), without reading production Java acceptor implementation.
+Accepted candidates update current slot under replacement conditions; rejected
+trials do nothing. Completed steps rotate only, including fallback; no reset on
+hard-level improvement. Recompute worst/count after replacement, O(history size).
+Added configuration/Acceptor routing, making policy available in all six paths.
+Ordered conjunction semantics explicit. Five original regressions cover rotating
+multi-level reference, boundaries/repeated trials, order/short-circuit/fallback,
+validation/fresh phase, and independent basic network/stream search selection.
+Existing owned-score six-backend and list-stream matrices include policy.
+
+Both pinned source methods fully adapted in private-state module unit tests,
+including all manually inconsistent worst/count fixtures. Provenance uses
+crates/solver/src/lib.rs plus qualified names diversified_late::cases::...
+Report parser now recognizes only timetuck library executable for those results;
+run_local uses -p timetuck --lib. Existing parser regression expanded to check
+passing, failed, ignored and unrelated library/example boundaries. Notices updated.
+
+Added diversified algorithm to Java/Rust heuristic adapters and driver, public
+Community preview, history3. Three-step/no-warmup smoke:256/256 valid and equal
+final scores,176 optimal/runtime. Not performance evidence. Full defaults still
+needed after gate, expected51 timing cards/16heuristic cards. Focused new unit,
+original regressions, owned-score and list-stream suites passed. Initial original
+test compile errors (untyped config, nonexistent Stop spelling, temporary borrow,
+wrong grouping signature) fixed; full assignment stream uses three filtered joins.
+
+Source frozen. Full gate session95009 running, log work/diversified-check.log.
+Expected1680 Rust tests (836 adapted,768 original integration,76 original unit),
+87 doctests,200 Python. Then focused release as useful, all13 sequential refreshes,
+report/currentness audit, browser test new class2/2 and51cards, inspect and commit.
+
+Initial full gate95009 passed all expected totals and reported836/4855 (17.219%),
+search42/158 (26.582%). Focused release passes2adapted+5original tests. Review
+then scoped the Java preview flag to algorithm=diversified instead of enabling
+it for every benchmark mode. No Rust change. Active refresh42832 correctly
+failed source stability during its first aggregate dataset (exit1); its remaining
+steps did not run. Revalidation and all13 refreshes restarted sequentially in
+session80901, logs work/diversified-final-check.log and diversified-refresh-*.
+Source now frozen again. This is a verified stopped process, not a timeout restart.
+Pinned AcceptorFactoryTest.diversifiedLateAcceptanceAcceptor separately confirms
+that explicit DIVERSIFIED_LATE_ACCEPTANCE plus lateAcceptanceSize produces the
+single diversified acceptor. Read only test assertions; no factory implementation.
+Audit work/diversified-audit.py expects836 coverage,2new class passes,51cards,
+all13 current datasets and unchanged explicit list-value discrepancies.
+
+Corrected-source full gate in80901 completed successfully:1680Rust,87doctests,
+200Python. Sequential measurements now running; aggregate and sequence completed.
+No further source changes. New history has linear recomputation cost, explicitly
+included in its measured solve. Final card/result audit still pending.
+
+Session80901 completed exit0 with all13 refreshed datasets and regenerated report.
+Audit confirms source/report/verification/live hashes,836/4855, new class2/2,
+51 timing cards and preserved list-metadata distinctions. Ephemeral audit copied
+an old count via overbroad string replacement (512 became212); corrected that audit
+literal and reran successfully. No project/source change was involved.
+Default heuristic50steps,5warmups,7samples,3forks:256/256 valid and equal-score
+small cases,210 optimal/runtime. New diversified medians:32variables Rust2.497ms /
+Java13.249ms, both0/0optimal;96variables Rust15.615ms / Java24.279ms, both-44/-22
+infeasible.21samples/runtime/workload, ranges and score-call counts retained.
+These bounded results do not establish general speed or identical Java traces.
+
+Browser QA1440px/390px:17.22%overall,26.58%search,both new methods Passed,
+51cards/16heuristiccards, quality/feasibility/ranges/score calls visible. No errors
+or horizontal overflow. Browser closed; server8765 remains alive. Staged diff,
+provenance, source assertions and final verification reviewed before commit.
+Goal remains active/incomplete. Useful next work: ratio-based tabu sizing from
+EntityRatioTabuSizeStrategyTest and FixedTabuSizeStrategyTest (already read this
+turn); or richer public Java trial/step acceptance evidence. Do not infer Java
+trace parity from the new final-score comparisons. No subagents were used.

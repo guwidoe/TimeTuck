@@ -113,7 +113,8 @@ impl<S: Score, M: Eq + Clone, K: Eq + Clone> ValueAcceptor<S, M, K> {
         })
     }
     /// Values are those assigned/moved by this trial, captured consistently from
-    /// its pre-move state. Unselected trials never age or refresh memory.
+    /// its pre-move state. Unselected trials never age or refresh tabu memory;
+    /// other child policies may update trial counters or diversified history.
     pub fn accepts(
         &mut self,
         current: S,

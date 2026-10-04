@@ -1,7 +1,7 @@
 //! Acceptance configurations and per-search state.
 use crate::{
-    FadingTabuMemory, GreatDeluge, GreatDelugeRise, Score, SimpleScore, SimulatedAnnealing,
-    StepCountingHillClimbing, StepCountingMode, TabuMemory,
+    DiversifiedLateAcceptance, FadingTabuMemory, GreatDeluge, GreatDelugeRise, Score, SimpleScore,
+    SimulatedAnnealing, StepCountingHillClimbing, StepCountingMode, TabuMemory,
 };
 use std::{cmp::Ordering, error::Error, fmt};
 
@@ -61,6 +61,10 @@ pub enum Acceptance<S = SimpleScore> {
         fading_tenure: usize,
         aspiration: bool,
         seed: u64,
+    },
+    /// Accepted trials update history; completed steps advance the history slot.
+    DiversifiedLateAcceptance {
+        history_size: usize,
     },
     LateAcceptance {
         history_size: usize,
@@ -165,10 +169,11 @@ impl<S: Score> Acceptance<S> {
         }
         if matches!(
             self,
-            Self::LateAcceptance {
-                history_size: 0,
-                ..
-            }
+            Self::DiversifiedLateAcceptance { history_size: 0 }
+                | Self::LateAcceptance {
+                    history_size: 0,
+                    ..
+                }
         ) {
             Err(AcceptanceError::EmptyHistory)
         } else {
@@ -233,6 +238,12 @@ impl<S: Score> Acceptance<S> {
                 memory: TabuMemory::new(tenure, aspiration)?,
                 best: initial_best,
             },
+            Self::DiversifiedLateAcceptance { history_size } => {
+                Acceptor::DiversifiedLateAcceptance(DiversifiedLateAcceptance::new(
+                    history_size,
+                    initial_best,
+                )?)
+            }
             Self::LateAcceptance {
                 history_size,
                 hill_climbing,
@@ -254,6 +265,7 @@ pub enum Acceptor<S> {
     SimulatedAnnealing(SimulatedAnnealing<S>),
     StrictImprovement,
     HillClimbing,
+    DiversifiedLateAcceptance(DiversifiedLateAcceptance<S>),
     LateAcceptance(LateAcceptance<S>),
     VariableTabu {
         memory: TabuMemory<usize>,
@@ -311,6 +323,7 @@ impl<S: Score> Acceptor<S> {
     /// Score-only acceptors ignore this slice. Annealing and fading-tabu trial checks may consume
     /// a random draw. Step-counting trial modes count these checks, while only
     /// completed steps replace their threshold or advance cooling/history.
+    /// Diversified late acceptance updates its active slot on accepted trials.
     pub fn accepts(&mut self, current: S, candidate: S, variables: &[usize]) -> bool {
         match self {
             Self::All(children) => children
@@ -321,6 +334,7 @@ impl<S: Score> Acceptor<S> {
             Self::SimulatedAnnealing(state) => state.accepts(current, candidate),
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
+            Self::DiversifiedLateAcceptance(state) => state.accepts(current, candidate),
             Self::LateAcceptance(state) => state.accepts(current, candidate),
             Self::FadingVariableTabu { memory, best } => {
                 memory.accepts(variables, candidate, best.clone())
@@ -341,6 +355,7 @@ impl<S: Score> Acceptor<S> {
             Self::GreatDeluge(state) => state.step_ended(),
             Self::StepCountingHillClimbing(state) => state.step_ended(score),
             Self::SimulatedAnnealing(state) => state.step_ended(),
+            Self::DiversifiedLateAcceptance(state) => state.step_ended(),
             Self::LateAcceptance(state) => state.step_ended(score),
             Self::FadingVariableTabu { memory, best } => {
                 memory.step_ended(variables);

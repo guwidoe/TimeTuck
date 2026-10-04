@@ -432,6 +432,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
         },
     ];
     for (acceptance, additional_acceptance) in [
+        Acceptance::DiversifiedLateAcceptance { history_size: 3 },
         Acceptance::StrictImprovement,
         Acceptance::HillClimbing,
         Acceptance::LateAcceptance {

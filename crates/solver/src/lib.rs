@@ -362,3 +362,6 @@ pub use finishing_collector::{CollectorFinisher, FinishingCollector};
 
 mod sum_collector;
 pub use sum_collector::{SumCollector, SumOverflow};
+
+mod diversified_late;
+pub use diversified_late::DiversifiedLateAcceptance;

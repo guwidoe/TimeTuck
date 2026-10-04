@@ -110,7 +110,8 @@ def run_local(cases, execute):
     for path in sorted({c['local_path'] for c in cases if c['status'] == 'implemented'}):
         if not execute: continue
         target = Path(path).stem
-        command = ['cargo', 'test', '--locked', '--test', target, '--', '--format=pretty', '--color=never']
+        selection = ['-p', 'timetuck', '--lib'] if path == 'crates/solver/src/lib.rs' else ['--test', target]
+        command = ['cargo', 'test', '--locked', *selection, '--', '--format=pretty', '--color=never']
         run = subprocess.run(command, cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         runs.append({'command': command, 'exit_code': run.returncode, 'output': run.stdout})
         if run.returncode != 0:
@@ -140,9 +141,11 @@ def read_test_run(test_output, verified_source):
     results = {}
     current = None
     for line in output.splitlines():
+        if 'Running ' in line: current = None
+        if re.search(r'Running unittests src/lib\.rs \(.*[/]timetuck-[0-9a-f]+\)', line):
+            current = 'crates/solver/src/lib.rs'
         target = re.search(r'Running tests/(\w+)\.rs', line)
         if target: current = f'crates/solver/tests/{target[1]}.rs'
-        if 'Running unittests ' in line or 'Running benches/' in line: current = None
         state = re.match(r'test ([\w:]+) \.\.\. (ok|FAILED|ignored)', line)
         if state and current:
             results[(current, state[1])] = {'ok':'passed', 'FAILED':'failed', 'ignored':'unverified'}[state[2]]

@@ -1208,3 +1208,38 @@ complete change-only assignments, fixed steps and best-rejected fallback. Every
 sample has independent Python validity/rescoring and retained quality/score-call
 counts. Native capture replay cost is timed. This does not establish Java metadata
 parity for arbitrary composites/lists, fading PRNG traces or general performance.
+
+### Diversified late acceptance
+
+`Acceptance::DiversifiedLateAcceptance { history_size }` is available through
+all basic, list and mixed scoring/search paths and ordered policy conjunctions.
+A fresh session fills history with the phase's initial score. A trial is accepted
+when equal to the current score or strictly above the worst history score.
+Accepted trials replace the current slot when below that slot, or when above
+both that slot and the current score. Rejected trials do not change history.
+Completed steps rotate the slot, including selected rejected fallbacks; the
+completed score is not an unconditional history replacement. There is no
+hard/medium-level reset. Worst score and multiplicity are recomputed after each
+replacement, taking linear time in history size. Scores retain full native ordering.
+
+This candidate-evaluation history policy follows the observable pinned tests;
+it is distinct from interpreting each entire multi-candidate scan as one proposal
+in the [published DLAS algorithm](https://arxiv.org/pdf/1806.09328). A queried child
+retains its history updates if a later policy rejects. A child skipped by an
+earlier rejection does not update; all children rotate on completed steps.
+The independent rotating-history regression checks these native rules. Basic
+network/stream searches additionally match independently enumerated selection
+for first/best acceptance, rejected fallback and three history sizes. Existing
+owned-score matrices exercise every backend with decimal and extreme scores;
+list network/stream comparisons include the new policy.
+
+Both pinned DiversifiedLateAcceptanceAcceptorTest methods have full adaptations
+as private-state unit tests, retaining all injected history, cached worst/count
+fixtures and assertions. The provenance identifies the Cargo library target and
+qualified names. Coverage parsing credits only the timetuck library executable,
+keeps ignored cases unverified and excludes unrelated libraries/examples.
+
+The full-scoring heuristic benchmark adds public Community preview configuration
+with history size three on the same complete change-move workloads. Final validity,
+quality, raw scores and score-call counts are measured separately from timings.
+These comparisons do not establish identical Java candidate acceptance or traces.

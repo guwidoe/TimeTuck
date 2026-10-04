@@ -371,3 +371,9 @@ ValueTabuAcceptorTest methods at the pinned Community revision. Repeated queries
 multi-value steps, null identity and fixed fading draws retain attribution in
 compat/provenance.json. Typed value acceptance, metadata capture, search integration,
 original regressions and public Java/native comparisons are independent implementations.
+
+The private-state unit tests in crates/solver/src/diversified_late.rs adapt both
+Apache-2.0 DiversifiedLateAcceptanceAcceptorTest methods at the pinned Community
+revision. The Cargo library test target and fully qualified test identities are
+recorded in compat/provenance.json. All score/state fixtures and assertions retain
+attribution. The acceptance implementation and original regressions are independent.

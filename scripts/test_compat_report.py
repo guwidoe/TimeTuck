@@ -61,6 +61,12 @@ test example ... ok
 test skipped ... ignored
 Running tests/two.rs (target/debug/two)
 test example ... FAILED
+Running unittests src/lib.rs (target/debug/deps/timetuck-abc123)
+test diversified_late::cases::acceptance_criterion ... ok
+test unit_skip ... ignored
+test unit_failure ... FAILED
+Running unittests src/lib.rs (target/debug/deps/another-abc123)
+test not_timetuck ... ok
 Running unittests examples/oracle.rs (target/debug/oracle)
 test unrelated ... ok
 """)
@@ -71,7 +77,10 @@ test unrelated ... ok
             self.assertEqual(results[('crates/solver/tests/one.rs', 'example')], 'passed')
             self.assertEqual(results[('crates/solver/tests/one.rs', 'skipped')], 'unverified')
             self.assertEqual(results[('crates/solver/tests/two.rs', 'example')], 'failed')
-            self.assertEqual(len(results), 3)
+            self.assertEqual(results[('crates/solver/src/lib.rs', 'diversified_late::cases::acceptance_criterion')], 'passed')
+            self.assertEqual(results[('crates/solver/src/lib.rs', 'unit_skip')], 'unverified')
+            self.assertEqual(results[('crates/solver/src/lib.rs', 'unit_failure')], 'failed')
+            self.assertEqual(len(results), 6)
             self.assertEqual(runs[0]['exit_code'], 101)
             with self.assertRaisesRegex(ValueError, 'stale'): read_test_run(path, 'b')
             path.write_text(path.read_text().replace('FAILED', 'ok'))
