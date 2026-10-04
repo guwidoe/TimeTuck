@@ -53,6 +53,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     initial: P::Assignment,
     config: RuinRecreateConfig<S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, P::Assignment, S>,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
     mut rebuild: impl FnMut(
         &P,
         P::Assignment,
@@ -119,6 +120,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     let mut acceptor = policy
         .start_with_values(current.1.clone())
         .map_err(LocalSearchError::from)?;
+    if let Some(shared) = &mut shared {
+        shared.start_search();
+    }
     if let Some(observer) = &mut observer {
         observer(SolutionUpdate {
             assignment: &current.0,
@@ -137,10 +141,21 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             movable = now_eligible.clone();
             eligible = now_eligible;
         }
+        let shared_reason = shared.as_mut().and_then(|s| s.stop());
         let reason = if cancelled() {
             Some(RuinRecreateTermination::Cancelled)
         } else if remaining().is_some_and(|d| d.is_zero()) {
             Some(RuinRecreateTermination::TimeLimit)
+        } else if let Some(reason) = shared_reason {
+            Some(match reason {
+                LocalSearchTermination::UnimprovedTimeLimit => {
+                    RuinRecreateTermination::UnimprovedTimeLimit
+                }
+                LocalSearchTermination::UnimprovedStepLimit => {
+                    RuinRecreateTermination::UnimprovedStepLimit
+                }
+                _ => unreachable!("solve-wide monitor returns only stagnation stops"),
+            })
         } else if result.evaluations >= config.max_evaluations {
             Some(RuinRecreateTermination::EvaluationLimit)
         } else if config
@@ -196,6 +211,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             let improved = candidate.1 > result.best.as_ref().expect("initial best").1;
             if improved {
                 result.best = Some(candidate.clone());
+                if let Some(shared) = &mut shared {
+                    shared.record_improvement();
+                }
             }
             if current.0 != candidate.0 {
                 let (variables, movement, values) = problem.metadata(&current.0, &candidate.0);
@@ -209,6 +227,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                     acceptor.step_ended(candidate.1.clone(), &variables, &movement, &values);
                     current = candidate;
                     result.accepted_moves += 1;
+                    if let Some(shared) = &mut shared {
+                        shared.complete_step(improved);
+                    }
                 }
             }
             if improved && let Some(observer) = &mut observer {

@@ -41,7 +41,7 @@ pub fn ruin_recreate_mixed_search_from<B: Eq + Clone, L: Eq + Clone, S: Additive
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    ruin_recreate_mixed_search_from_observed(problem, network, initial, config, None)
+    ruin_recreate_mixed_search_from_observed(problem, network, initial, config, None, None)
 }
 
 /// Report the initial complete scored solution and each strict retained-best
@@ -61,19 +61,31 @@ pub fn ruin_recreate_mixed_search_from_with_observer<
     config: MixedRuinRecreateConfig<S>,
     mut observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    ruin_recreate_mixed_search_from_observed(problem, network, initial, config, Some(&mut observer))
+    ruin_recreate_mixed_search_from_observed(
+        problem,
+        network,
+        initial,
+        config,
+        Some(&mut observer),
+        None,
+    )
 }
-fn ruin_recreate_mixed_search_from_observed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+pub(crate) fn ruin_recreate_mixed_search_from_observed<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     network
         .validate(problem, &initial)
         .map_err(MixedLocalSearchError::from)?;
-    run(problem, initial, config, observer, |p, a, c| {
+    run(problem, initial, config, observer, shared, |p, a, c| {
         greedy_mixed_construction_from(p, network, a, c).map_err(MixedLocalSearchError::from)
     })
 }
@@ -91,7 +103,7 @@ pub fn ruin_recreate_mixed_stream_search_from<
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    ruin_recreate_mixed_stream_search_from_observed(problem, graph, initial, config, None)
+    ruin_recreate_mixed_stream_search_from_observed(problem, graph, initial, config, None, None)
 }
 
 /// Report the initial complete scored solution and each strict retained-best
@@ -118,9 +130,10 @@ pub fn ruin_recreate_mixed_stream_search_from_with_observer<
         initial,
         config,
         Some(&mut observer),
+        None,
     )
 }
-fn ruin_recreate_mixed_stream_search_from_observed<
+pub(crate) fn ruin_recreate_mixed_stream_search_from_observed<
     'g,
     B: Eq + Clone + 'static,
     L: Eq + Clone + 'static,
@@ -131,8 +144,9 @@ fn ruin_recreate_mixed_stream_search_from_observed<
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    run(problem, initial, config, observer, |p, a, mut c| {
+    run(problem, initial, config, observer, shared, |p, a, mut c| {
         let start = c.construction.max_time.map(|_| Instant::now());
         let (graph, sources) =
             graph().map_err(|e| MixedLocalSearchError::from(MixedStreamScoringError::from(e)))?;
@@ -148,6 +162,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     mut rebuild: impl FnMut(
         &MixedProblem<B, L>,
         MixedAssignment<B, L>,
@@ -159,6 +174,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         initial,
         config.search,
         observer,
+        shared,
         |p, a, construction| {
             let r = rebuild(
                 p,

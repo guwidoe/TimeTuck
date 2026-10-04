@@ -59,6 +59,7 @@ fn run<S: AdditiveScore + 'static>(
                         reason: r.termination,
                     })
                 }
+                Err(SolverError::Repair { .. }) => panic!("fixture has no repair phases"),
                 Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
                 Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
                 Err(SolverError::InvalidOptimisticBound { .. }) => {

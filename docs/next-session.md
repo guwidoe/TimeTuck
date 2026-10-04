@@ -8451,3 +8451,60 @@ phase reports and managed solver factories. Existing private *_observed wrappers
 share optional callbacks; expose crate-level variants as needed rather than duplicate
 validation/scoring logic. Avoid recursive unboxed native/repair error variants.
 Keep goal active: the full Community solver remains incomplete and unblocked.
+
+
+## Repair phase integration (verified)
+
+Added SolverPhase/MixedSolverPhase::RuinRecreate, phase kind/termination metadata,
+SolverError::Repair and six backend dispatch paths. Shared config clipping covers
+score/candidate/time/cancellation/targets/feasibility. Repair factories run inside
+repair API, never as an extra outer graph. All ruin/acceptance/token validation runs
+before phase work. IncompleteHandoffPolicy and first-initialized events now recognize
+repair as an improvement phase. Managed factory validation recognizes repair tokens.
+
+Private repair adapters accept SearchControl. Monitor starts after initial scoring,
+before callbacks; strict bests record improvement, accepted changed repairs complete
+steps. Rejected/no-op attempts do not age steps. Shared stagnation checks at repair
+boundaries, with explicit typed reasons; full contract in docs/solver-contract.md.
+Public standalone observer APIs retain their signatures and pass no shared monitor.
+
+Sixteen focused tests pass; includes 2,016 independent shared-budget prefixes with
+quality, six-path events/handoffs/goals/errors, mixed ordering, decimals, nonzero
+stagnation and managed config/callback delivery. Extracted existing original fixture
+into tests/solver_support/fixture.rs, included by legacy solver.rs and solver_repair.rs;
+legacy method names unchanged. Updated exhaustive matches in original test helpers.
+No upstream production read or new adapted method/fixture. Coverage stays unchanged.
+
+Test setup fixes: explicit SolverSequence avoids SolverPlan's implicit construction;
+flat local-score stagnation fixture explicitly selects HillClimbing because default
+local acceptance is StrictImprovement. Removed obsolete large_enum_variant lint
+expectations (now unfulfilled). Fixed new test type annotations. No production
+assertions were weakened. Clippy passes. Next run full gate then focused release,
+14 measurements, audit, browser checks and commit. Full goal active and incomplete.
+
+Full gate 7007 completed exit 0: 1,925 Rust tests, 101 doctests, 223 Python checks;
+formatting/Clippy clean. Sources frozen. Handle 35700 runs 58 focused release checks,
+then the 14 sequential refresh jobs and work/repair-phase-audit.py. Logs:
+work/repair-phase-release.log, work/repair-phase-verify.log, work/repair-phase-audit.log.
+Expected coverage remains 887/4,855=18.27% with 14 current datasets and 71 timings.
+Re-poll the same live handle after observation timeouts; do not restart timed jobs.
+
+
+Release/refresh/audit handle 35700 completed exit 0. All 58 focused release checks
+passed (16 new phase cases plus existing repair controls/observers/basic/list/mixed).
+All 14 datasets have current source/verification fingerprints, with 71 timing
+workloads and prior quality/work/discrepancy invariants intact. Coverage remains
+887/4,855=18.27%, pending 3,686, excluded 282, failed/unverified 0. No extra method
+credit or dedicated Java repair timing is claimed.
+
+Browser checks passed at 1440x900 and 390x844: 18.27%, 71 cards, no stale/undefined
+text, page errors or horizontal overflow. Browser closed; localhost:8765 remains
+running. No test/measurement process remains live. Upstream and provenance unchanged.
+
+Repair-phase integration is now implemented across all six solver paths, with
+shared controls, initialization/best events and managed configuration/callback tests.
+Next substantive work: dedicated public-Java repair quality/performance evidence
+and remaining complete Community selector/lifecycle adaptations. Read pinned tests
+and public API docs only; never upstream production implementations. Existing repair
+model/cache rebuild cost is deliberate and should be measured before optimization.
+The full goal remains active, incomplete and unblocked.

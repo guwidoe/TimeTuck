@@ -41,7 +41,7 @@ pub fn ruin_recreate_list_search_from<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    ruin_recreate_list_search_from_observed(problem, network, initial, config, None)
+    ruin_recreate_list_search_from_observed(problem, network, initial, config, None, None)
 }
 
 /// Report the initial complete scored solution and each strict retained-best
@@ -57,19 +57,27 @@ pub fn ruin_recreate_list_search_from_with_observer<V: Eq + Clone, S: AdditiveSc
     config: RuinRecreateConfig<S>,
     mut observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    ruin_recreate_list_search_from_observed(problem, network, initial, config, Some(&mut observer))
+    ruin_recreate_list_search_from_observed(
+        problem,
+        network,
+        initial,
+        config,
+        Some(&mut observer),
+        None,
+    )
 }
-fn ruin_recreate_list_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
+pub(crate) fn ruin_recreate_list_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
     network
         .validate(problem, &initial)
         .map_err(ListLocalSearchError::from)?;
-    run(problem, initial, config, observer, |p, a, c| {
+    run(problem, initial, config, observer, shared, |p, a, c| {
         greedy_list_construction_from(p, network, a, c).map_err(ListLocalSearchError::from)
     })
 }
@@ -86,7 +94,7 @@ pub fn ruin_recreate_list_stream_search_from<
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    ruin_recreate_list_stream_search_from_observed(problem, graph, initial, config, None)
+    ruin_recreate_list_stream_search_from_observed(problem, graph, initial, config, None, None)
 }
 
 /// Report the initial complete scored solution and each strict retained-best
@@ -112,9 +120,10 @@ pub fn ruin_recreate_list_stream_search_from_with_observer<
         initial,
         config,
         Some(&mut observer),
+        None,
     )
 }
-fn ruin_recreate_list_stream_search_from_observed<
+pub(crate) fn ruin_recreate_list_stream_search_from_observed<
     'g,
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
@@ -124,8 +133,9 @@ fn ruin_recreate_list_stream_search_from_observed<
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    run(problem, initial, config, observer, |p, a, mut c| {
+    run(problem, initial, config, observer, shared, |p, a, mut c| {
         let start = c.max_time.map(|_| Instant::now());
         let (graph, sources) =
             graph().map_err(|e| ListLocalSearchError::from(ListStreamScoringError::from(e)))?;
@@ -141,13 +151,14 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     mut rebuild: impl FnMut(
         &ListProblem<V>,
         ListAssignment<V>,
         ConstructionConfig,
     ) -> Result<ListConstructionResult<V, S>, ListLocalSearchError>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    crate::ruin_engine::run(problem, initial, config, observer, |p, a, c| {
+    crate::ruin_engine::run(problem, initial, config, observer, shared, |p, a, c| {
         let r = rebuild(p, a, c)?;
         Ok(crate::ruin_engine::Repair {
             assignment: r.assignment,

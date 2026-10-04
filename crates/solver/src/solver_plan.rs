@@ -120,27 +120,23 @@ pub enum ExactPhaseTermination {
     FeasibleScore,
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
-#[expect(
-    clippy::large_enum_variant,
-    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
-)]
 pub enum SolverPhase<'a, S = SimpleScore> {
     /// Fill remaining required values, preserving the preceding phase's assignment.
     Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),
+    /// Reconstruct sampled groups from a complete retained assignment.
+    RuinRecreate(RuinRecreateConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
     /// Run the typed command callback bound to this phase index.
     Custom(CustomPhaseConfig<'a>),
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
-#[expect(
-    clippy::large_enum_variant,
-    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
-)]
 pub enum MixedSolverPhase<'a, S = SimpleScore> {
     /// Resume construction in the configured component order.
     Construction(MixedConstructionConfig<'a>),
     LocalSearch(MixedLocalSearchConfig<'a, S>),
+    /// Reconstruct a sampled basic/list group under the configured component order.
+    RuinRecreate(MixedRuinRecreateConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>),
     /// Run the typed command callback bound to this phase index.
     Custom(CustomPhaseConfig<'a>),
@@ -150,8 +146,15 @@ impl<'a, S: Clone> MixedSolverPhase<'a, S> {
         match self {
             Self::Construction(c) => SolverPhase::Construction(c.construction),
             Self::LocalSearch(c) => SolverPhase::LocalSearch(c.search.clone()),
+            Self::RuinRecreate(c) => SolverPhase::RuinRecreate(c.search.clone()),
             Self::Exact(c) => SolverPhase::Exact(c.clone()),
             Self::Custom(c) => SolverPhase::Custom(*c),
+        }
+    }
+    pub(crate) fn repair(&self) -> &MixedRuinRecreateConfig<'a, S> {
+        match self {
+            Self::RuinRecreate(c) => c,
+            _ => unreachable!("repair request uses a repair phase"),
         }
     }
     pub(crate) fn construction(&self) -> MixedConstructionConfig<'a> {
@@ -163,7 +166,7 @@ impl<'a, S: Clone> MixedSolverPhase<'a, S> {
     pub(crate) fn local(&self) -> &MixedLocalSearchConfig<'a, S> {
         match self {
             Self::LocalSearch(c) => c,
-            Self::Construction(_) | Self::Exact(_) | Self::Custom(_) => {
+            Self::Construction(_) | Self::Exact(_) | Self::Custom(_) | Self::RuinRecreate(_) => {
                 unreachable!("local-search request uses a local-search phase")
             }
         }

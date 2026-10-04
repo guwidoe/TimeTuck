@@ -1253,3 +1253,57 @@ phase starts a fresh queue, preserves existing assignments, and uses the same sh
 budgets and observation pipeline as other construction modes. No optimality proof is
 implied by completing the queue. See the incremental-search contract for optional
 retries, stopping, runtime comparisons and evidence boundaries.
+
+
+## Ruin-and-recreate phases
+
+`SolverPhase::RuinRecreate` runs basic or list repair; the corresponding
+`MixedSolverPhase` retains mixed construction order. Both scoped and stream plans
+support them, including implicit initial construction through SolverPlan and
+explicit ordering through SolverSequence. Repair phases start from retained complete
+best, with a fresh acceptor and configured seed. Required incomplete handoffs obey
+IncompleteHandoffPolicy; the existing IncompleteLocalSearch error identifies the
+following improvement phase, including repair. No partial reconstruction replaces a
+complete incumbent. Completing a repair phase never proves optimality.
+
+Repair total-score and candidate budgets are clipped to solve-wide remaining work.
+Initial scores for the phase and each repair count as scores but not candidates.
+Each phase reports RuinRecreate termination and SolverWork; completed_steps and
+accepted_moves both count accepted *changed* complete repairs. Rejected and unchanged
+attempts do not count as completed steps, while each started reconstruction consumes
+its own initial score budget. Standalone repair results additionally expose attempt
+and complete-reconstruction counts. A local attempt limit can hand off to another
+phase; solve-wide score/candidate/cancellation/time/goal controls remain authoritative.
+
+Shared stagnation starts after initial repair scoring, before the initial callback.
+Strict retained-best improvements reset it only before expiry. Accepted changed
+repairs advance its step count, including equal or worsening acceptance; no-op or
+rejected attempts do not. History survives local/repair phase transitions. Shared
+stagnation is checked at reconstruction boundaries; active reconstruction cannot be
+preempted by the monitor. Existing reconstruction time/cancellation/evaluation
+checks still apply internally. Shared stagnation follows cancellation and elapsed
+phase time but precedes remaining budget/attempt/score checks at repair boundaries.
+
+Repair validation checks every configured ruin range and acceptance policy before
+any phase scoring or factory. Cancellation-token conflicts are rejected up front.
+Runtime model/scoring/factory errors use SolverError::Repair with a phase index and
+typed RuinRecreateError; this avoids recursively nesting native local-search errors.
+Stream repair phases build graphs inside the repair API: one for initialization and
+one per started repair, including factory time in the cooperative budget. Zero score
+budget or pre-cancellation invokes no repair graph factory.
+
+Retained-best notifications carry SolverPhaseKind::RuinRecreate and are filtered
+across phase boundaries using the existing score/completeness rules. FirstInitialized
+is emitted after the phase before the first local *or repair* phase; it does not fire
+for a repair-only sequence lacking a preceding phase. Callback time and cancellation
+remain part of solve controls. Managed factories preserve repair configurations,
+reject template cancellation tokens, and apply independent per-job limits. Published
+best snapshots carry the actual repair origin through existing consumer callbacks.
+
+Sixteen original regressions cover all six model/backend paths, 2,016 independent
+shared-budget combinations with quality references, incomplete/exact/construction
+handoffs, mixed order, goals, cancellation, zero limits, stagnation across phases,
+factory errors, initialization/best events, owned decimal targets and managed jobs.
+The existing six-path solver test fixture is shared between legacy and repair tests.
+No upstream method credit is added. Java repair quality/timing comparisons remain
+separate pending evidence; the standalone reconstruction contracts still apply.

@@ -1704,7 +1704,8 @@ Scoped constraints must support partial assignments. Each stream factory supplie
 fresh empty planning sources and the same deterministic objective; factories run
 for initialization and each attempted repair, not when initial scoring is skipped.
 Per-repair model/cache/graph rebuilding is intentional; this is not an in-place
-incremental repair optimization. SolverPlan integration is not yet implemented.
+incremental repair optimization. Solver-plan integration is described in the solver
+contract.
 List and mixed repair are described below.
 
 The initial score, each repair's initial score and all candidate scores share the
@@ -1777,7 +1778,7 @@ regressions include 1,584 scoped/stream solves against independent full-score in
 boundaries, stable value scopes/shadows, multiple placements and acceptance policies,
 factory timing/cancellation/errors, complete-vs-partial cancellation retention and
 exact decimal ranking. All earlier basic repair checks continue to pass.
-SolverPlan integration and dedicated Java list-repair performance remain pending.
+Dedicated Java list-repair performance remains pending.
 
 ## Mixed ruin-and-recreate search
 
@@ -1809,7 +1810,7 @@ quality differences, single-member samples with pins and optional values, empty 
 fully pinned models, deterministic tabu policies, metadata namespaces, cancellation
 inside reconstruction, skipped factory work, factory elapsed time and typed errors.
 These tests earn no upstream method credit. Repair still rebuilds models and caches;
-SolverPlan integration and dedicated Java repair quality/timing remain pending.
+Dedicated Java repair quality/timing remains pending.
 
 ## Shared repair candidate limits and score goals
 
@@ -1839,8 +1840,8 @@ Seven original regressions cover 2,550 independent score/candidate budget prefix
 (25 score limits x 17 candidate limits x six entry points), exact work/quality at
 cutoffs, optional/required retention, coincident limits, initial and post-repair
 goals, owned decimal thresholds, and 702 placement/early-pick budget combinations.
-Solver-wide stagnation hooks are still needed before phase-plan integration can
-preserve the existing global lifecycle contract. Observation is described below.
+Solver-wide stagnation and phase-plan integration are described in the solver
+contract. Standalone observation is described below.
 
 
 ## Repair solution notifications
@@ -1869,5 +1870,5 @@ Five original regressions add 1,638 observed/unobserved budget pairs across all 
 paths (3,276 solves), exact event/quality/counter equivalence, cancellation from
 initial and improvement callbacks, callback timing, owned decimal scores, skipped
 scoring, panic propagation/reuse, optional unassignment, and successive sampled
-improvements. These checks earn no upstream method credit. Shared stagnation
-control and SolverPlan/managed lifecycle integration remain pending.
+improvements. These checks earn no upstream method credit. Shared stagnation,
+solver-plan and managed lifecycle integration are described in the solver contract.

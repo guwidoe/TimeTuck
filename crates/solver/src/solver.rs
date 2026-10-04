@@ -1,4 +1,4 @@
-//! Ordered construction, local and exact phases under shared controls.
+//! Ordered construction, local, repair and exact phases under shared controls.
 #[path = "solver_bounded.rs"]
 mod bounded;
 #[path = "solver_exact.rs"]
@@ -6,7 +6,7 @@ mod exact;
 use crate::*;
 use std::{error::Error, fmt, time::Duration};
 
-/// Behavior when a phase leaves an incomplete assignment for local search.
+/// Behavior when a phase leaves an incomplete assignment for local or repair search.
 /// Earlier solve-wide stopping reasons take precedence over this policy.
 ///
 /// ```
@@ -52,13 +52,14 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Construction is excluded. Later phases/handoffs do not reset the timer.
     /// Only strict retained-best improvement resets it, before expiry.
     pub max_unimproved_time: Option<Duration>,
-    /// Completed local-search steps since the last strict retained-best improvement.
+    /// Completed local-search steps and accepted changed repairs since the last
+    /// strict retained-best improvement.
     /// Counts across phases; construction and initialization do not count.
     pub max_unimproved_steps: Option<u64>,
     pub cancellation: Option<&'a CancellationToken>,
     pub best_score_limit: Option<S>,
     pub stop_when_feasible: bool,
-    /// Applies only to an incomplete handoff into a following local-search phase.
+    /// Applies to an incomplete handoff into a following local or repair phase.
     /// Final partial results and handoffs into construction/custom/exact remain allowed.
     pub incomplete_handoff: IncompleteHandoffPolicy,
 }
@@ -119,7 +120,7 @@ pub struct SolverWork {
     /// Candidates, including exact assignments; initialization and diagnostics are excluded.
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
-    /// Local-search statistics only; excludes construction's assignment steps.
+    /// Local-search steps and accepted changed repairs; excludes construction steps.
     pub completed_steps: u64,
     pub accepted_moves: u64,
 }
@@ -136,6 +137,7 @@ impl SolverWork {
 pub enum PhaseTermination {
     Construction(ConstructionTermination),
     LocalSearch(LocalSearchTermination),
+    RuinRecreate(RuinRecreateTermination),
     Exact(ExactPhaseTermination),
     Custom(CustomPhaseTermination),
 }
@@ -192,6 +194,10 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    Repair {
+        phase: usize,
+        error: RuinRecreateError,
+    },
     InvalidScoreTrend {
         phase: usize,
         error: ScoreTrendError,
@@ -206,7 +212,7 @@ pub enum SolverError<E> {
     /// Explicit sequences must contain at least one phase.
     EmptyPlan,
     /// The preceding phase completed with a partial retained assignment and no
-    /// earlier shared stopping reason. No local-search scoring/factory ran.
+    /// earlier shared stopping reason. No local/repair scoring or factory ran.
     IncompleteLocalSearch {
         phase: usize,
     },
@@ -245,7 +251,7 @@ impl<E: fmt::Display> fmt::Display for SolverError<E> {
             ),
             Self::IncompleteLocalSearch { phase } => write!(
                 f,
-                "local search phase {phase} needs to start from an initialized solution"
+                "improvement phase {phase} needs to start from an initialized solution"
             ),
             Self::UnboundCustomPhase { phase } => {
                 write!(f, "custom phase {phase} has no command callback")
@@ -260,6 +266,7 @@ impl<E: fmt::Display> fmt::Display for SolverError<E> {
                 "phase {phase} uses a different cancellation token from the solve"
             ),
             Self::Phase { phase, error } => write!(f, "phase {phase} failed: {error}"),
+            Self::Repair { phase, error } => write!(f, "repair phase {phase} failed: {error}"),
         }
     }
 }
@@ -270,6 +277,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::InvalidScoreTrend { error, .. } => Some(error),
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
+            Self::Repair { error, .. } => Some(error),
             Self::EmptyPlan
             | Self::InvalidOptimisticBound { .. }
             | Self::IncompleteLocalSearch { .. }
@@ -280,13 +288,10 @@ impl<E: Error + 'static> Error for SolverError<E> {
 }
 
 #[derive(Clone)]
-#[expect(
-    clippy::large_enum_variant,
-    reason = "Phase configurations are infrequent; keep inline ownership and avoid a boxed public API"
-)]
 enum PhaseRequest<'a, S> {
     Construction(ConstructionConfig<'a>),
     LocalSearch(LocalSearchConfig<'a, S>),
+    RuinRecreate(RuinRecreateConfig<'a, S>),
     Exact(ExactPhaseConfig<'a, S>, Option<S>),
     Custom(CustomPhaseConfig<'a>, Option<S>, bool),
 }
@@ -387,6 +392,7 @@ impl<S> PhaseRequest<'_, S> {
         match &mut self {
             Self::Construction(c) => time.bound(&mut c.max_time),
             Self::LocalSearch(c) => time.bound(&mut c.max_time),
+            Self::RuinRecreate(c) => time.bound(&mut c.max_time),
             Self::Exact(c, _) => time.bound(&mut c.max_time),
             Self::Custom(c, ..) => time.bound(&mut c.max_time),
         }
@@ -412,6 +418,7 @@ pub enum SolverPhaseKind {
     Custom,
     Construction,
     LocalSearch,
+    RuinRecreate,
     Exact,
 }
 /// A synchronous retained-best update from one ordered solve. Phase indices refer
@@ -442,7 +449,7 @@ pub struct SolverUpdate<'a, A, S> {
     pub score: S,
     pub complete: bool,
 }
-/// Origin and completion status of the phase before the first local search.
+/// Origin and completion status of the phase before the first local or repair search.
 /// Early termination and assignment completeness are independent properties.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SolverInitialization {
@@ -451,9 +458,9 @@ pub struct SolverInitialization {
     pub terminated_early: bool,
 }
 /// Synchronous plan notifications. Initialization fires once when the phase
-/// immediately before the first requested local search ends successfully, even
+/// immediately before the first requested local or repair search ends successfully, even
 /// if a limit left it partial or the solve stops at that boundary. It is omitted
-/// when local search has no preceding phase, is absent, or the producer fails. No rescoring is
+/// when improvement has no preceding phase, is absent, or the producer fails. No rescoring is
 /// performed; a zero-work producing phase may have no score. Borrowed assignments
 /// must be cloned for asynchronous delivery. Callback time belongs to solve limits
 /// and panics propagate. Best updates retain their usual duplicate suppression.
@@ -529,7 +536,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
                 SolverPhaseKind::Custom,
                 reason != CustomPhaseTermination::Completed,
             ),
-            PhaseTermination::LocalSearch(_) => {
+            PhaseTermination::LocalSearch(_) | PhaseTermination::RuinRecreate(_) => {
                 unreachable!("initialization precedes first local search")
             }
         };
@@ -572,6 +579,7 @@ impl<S> PhaseRequest<'_, S> {
         match self {
             Self::Construction(_) => SolverPhaseKind::Construction,
             Self::LocalSearch(_) => SolverPhaseKind::LocalSearch,
+            Self::RuinRecreate(_) => SolverPhaseKind::RuinRecreate,
             Self::Exact(..) => SolverPhaseKind::Exact,
             Self::Custom(..) => SolverPhaseKind::Custom,
         }
@@ -668,6 +676,7 @@ where
         .map(|c| match c {
             SolverPhase::Construction(c) => c.cancellation,
             SolverPhase::LocalSearch(c) => c.cancellation,
+            SolverPhase::RuinRecreate(c) => c.cancellation,
             SolverPhase::Exact(c) => c.cancellation,
             SolverPhase::Custom(c) => c.cancellation,
         })
@@ -680,6 +689,20 @@ where
         }
     }
     for (index, c) in local.iter().enumerate() {
+        if let SolverPhase::RuinRecreate(c) = c {
+            if c.minimum_ruined == 0 || c.minimum_ruined > c.maximum_ruined {
+                return Err(SolverError::Repair {
+                    phase: index,
+                    error: RuinRecreateError::InvalidRuinRange,
+                });
+            }
+            c.acceptance
+                .validate()
+                .map_err(|error| SolverError::InvalidAcceptance {
+                    phase: index,
+                    error,
+                })?;
+        }
         let SolverPhase::LocalSearch(c) = c else {
             continue;
         };
@@ -689,9 +712,12 @@ where
                 error,
             })?;
     }
-    let first_local = local
-        .iter()
-        .position(|p| matches!(p, SolverPhase::LocalSearch(_)));
+    let first_local = local.iter().position(|p| {
+        matches!(
+            p,
+            SolverPhase::LocalSearch(_) | SolverPhase::RuinRecreate(_)
+        )
+    });
     let initial = initial();
     let mut result = SolverResult {
         assignment: initial.assignment,
@@ -741,6 +767,20 @@ where
             c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
             c.cancellation = c.cancellation.or(limits.cancellation);
             (PhaseRequest::Construction(c), owned.0, owned.1)
+        } else if let SolverPhase::RuinRecreate(mut c) = local[index].clone() {
+            let owned = (
+                remaining_scores <= c.max_evaluations,
+                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+            );
+            c.max_evaluations = c.max_evaluations.min(remaining_scores);
+            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+            c.cancellation = c.cancellation.or(limits.cancellation);
+            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
+                (Some(a), Some(b)) => Some(a.min(b)),
+                (a, b) => a.or(b),
+            };
+            c.stop_when_feasible |= limits.stop_when_feasible;
+            (PhaseRequest::RuinRecreate(c), owned.0, owned.1)
         } else if let SolverPhase::Custom(mut c) = local[index].clone() {
             let owned = (
                 remaining_scores <= c.max_evaluations,
@@ -813,7 +853,9 @@ where
             score: out.score,
         });
         observation.initialize(index, first_local, r, out.termination);
-        use PhaseTermination::{Construction as C, Custom as U, Exact as X, LocalSearch as L};
+        use PhaseTermination::{
+            Construction as C, Custom as U, Exact as X, LocalSearch as L, RuinRecreate as R,
+        };
         let reason = match out.termination {
             X(ExactPhaseTermination::Exhausted) => Some(if r.complete && r.score.is_some() {
                 SolverTermination::Optimal
@@ -823,11 +865,13 @@ where
             C(ConstructionTermination::NoCompleteAssignment) => {
                 Some(SolverTermination::NoCompleteAssignment)
             }
-            U(CustomPhaseTermination::Cancelled)
+            R(RuinRecreateTermination::Cancelled)
+            | U(CustomPhaseTermination::Cancelled)
             | C(ConstructionTermination::Cancelled)
             | L(LocalSearchTermination::Cancelled)
             | X(ExactPhaseTermination::Cancelled) => Some(SolverTermination::Cancelled),
-            U(CustomPhaseTermination::EvaluationLimit)
+            R(RuinRecreateTermination::EvaluationLimit)
+            | U(CustomPhaseTermination::EvaluationLimit)
             | C(ConstructionTermination::EvaluationLimit)
             | L(LocalSearchTermination::EvaluationLimit)
             | X(ExactPhaseTermination::EvaluationLimit)
@@ -835,7 +879,8 @@ where
             {
                 Some(SolverTermination::EvaluationLimit)
             }
-            U(CustomPhaseTermination::MoveEvaluationLimit)
+            R(RuinRecreateTermination::MoveEvaluationLimit)
+            | U(CustomPhaseTermination::MoveEvaluationLimit)
             | C(ConstructionTermination::MoveEvaluationLimit)
             | L(LocalSearchTermination::MoveEvaluationLimit)
             | X(ExactPhaseTermination::MoveEvaluationLimit)
@@ -849,7 +894,8 @@ where
             {
                 Some(SolverTermination::Cancelled)
             }
-            U(CustomPhaseTermination::TimeLimit)
+            R(RuinRecreateTermination::TimeLimit)
+            | U(CustomPhaseTermination::TimeLimit)
             | C(ConstructionTermination::TimeLimit)
             | L(LocalSearchTermination::TimeLimit)
             | X(ExactPhaseTermination::TimeLimit)
@@ -871,7 +917,10 @@ where
                 ) =>
             {
                 if limits.incomplete_handoff == IncompleteHandoffPolicy::Error
-                    && matches!(local.get(index + 1), Some(SolverPhase::LocalSearch(_)))
+                    && matches!(
+                        local.get(index + 1),
+                        Some(SolverPhase::LocalSearch(_) | SolverPhase::RuinRecreate(_))
+                    )
                 {
                     // A phase-local step/other stop can coincide with exhausting
                     // the shared budget. No following local phase would start.
@@ -913,6 +962,29 @@ where
         }
     }
     Ok(result)
+}
+
+macro_rules! repaired {
+    ($r:expr) => {{
+        let r = $r;
+        let work = SolverWork {
+            evaluations: r.evaluations,
+            move_evaluations: r.repair_move_evaluations,
+            constraint_evaluations: r.constraint_evaluations,
+            completed_steps: r.accepted_moves,
+            accepted_moves: r.accepted_moves,
+        };
+        let (assignment, score) = r.best.map_or((None, None), |best| {
+            (Some(best.assignment), Some(best.score))
+        });
+        PhaseOutput {
+            complete: assignment.is_some(),
+            assignment,
+            score,
+            work,
+            termination: PhaseTermination::RuinRecreate(r.termination),
+        }
+    }};
 }
 
 macro_rules! constructed {
@@ -1063,6 +1135,29 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r = crate::ruin_recreate::ruin_recreate_search_from_observed(
+                    p,
+                    n,
+                    a.expect("repair handoff"),
+                    config,
+                    observed.then_some(&mut notify),
+                    time.monitor(),
+                )
+                .map_err(|error| SolverError::Repair {
+                    phase: index,
+                    error,
+                })?;
+                return Ok(repaired!(r));
+            }
+
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
@@ -1110,7 +1205,9 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             }
             let result: Result<_, LocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
@@ -1230,6 +1327,29 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r = crate::list_ruin_recreate::ruin_recreate_list_search_from_observed(
+                    p,
+                    n,
+                    a.expect("repair handoff"),
+                    config,
+                    observed.then_some(&mut notify),
+                    time.monitor(),
+                )
+                .map_err(|error| SolverError::Repair {
+                    phase: index,
+                    error,
+                })?;
+                return Ok(repaired!(r));
+            }
+
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
@@ -1277,7 +1397,9 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             }
             let result: Result<_, ListLocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
@@ -1399,6 +1521,32 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r = crate::mixed_ruin_recreate::ruin_recreate_mixed_search_from_observed(
+                    p,
+                    n,
+                    a.expect("repair handoff"),
+                    MixedRuinRecreateConfig {
+                        search: config,
+                        order: c.phases[index].repair().order,
+                    },
+                    observed.then_some(&mut notify),
+                    time.monitor(),
+                )
+                .map_err(|error| SolverError::Repair {
+                    phase: index,
+                    error,
+                })?;
+                return Ok(repaired!(r));
+            }
+
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
@@ -1446,7 +1594,9 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
             }
             let result: Result<_, MixedLocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
@@ -1581,6 +1731,29 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r = crate::ruin_recreate::ruin_recreate_stream_search_from_observed(
+                    p,
+                    &mut graph,
+                    a.expect("repair handoff"),
+                    config,
+                    observed.then_some(&mut notify),
+                    time.monitor(),
+                )
+                .map_err(|error| SolverError::Repair {
+                    phase: index,
+                    error,
+                })?;
+                return Ok(repaired!(r));
+            }
+
             let (mut g, s) = graph().map_err(|e| SolverError::Phase {
                 phase: index,
                 error: LocalSearchError::from(StreamScoringError::from(e)),
@@ -1636,7 +1809,9 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
             }
             let result: Result<_, LocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         crate::stream_scoring::validate_source(&g, &s)?;
                         exact::run_observed(
@@ -1769,6 +1944,29 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r = crate::list_ruin_recreate::ruin_recreate_list_stream_search_from_observed(
+                    p,
+                    &mut graph,
+                    a.expect("repair handoff"),
+                    config,
+                    observed.then_some(&mut notify),
+                    time.monitor(),
+                )
+                .map_err(|error| SolverError::Repair {
+                    phase: index,
+                    error,
+                })?;
+                return Ok(repaired!(r));
+            }
+
             let (mut g, s) = graph().map_err(|e| SolverError::Phase {
                 phase: index,
                 error: ListLocalSearchError::from(ListStreamScoringError::from(e)),
@@ -1822,7 +2020,9 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
             }
             let result: Result<_, ListLocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         s.validate(&g)?;
                         exact::run_observed(
@@ -1974,6 +2174,33 @@ fn solve_mixed_stream_impl<
         initial,
         observation,
         |index, a, request, time, observation| {
+            if matches!(request, PhaseRequest::RuinRecreate(_)) {
+                let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
+                    unreachable!()
+                };
+                let observed = observation.callback.is_some();
+                let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                    observation.notify(index, SolverPhaseKind::RuinRecreate, update)
+                };
+                let r =
+                    crate::mixed_ruin_recreate::ruin_recreate_mixed_stream_search_from_observed(
+                        p,
+                        &mut graph,
+                        a.expect("repair handoff"),
+                        MixedRuinRecreateConfig {
+                            search: config,
+                            order: c.phases[index].repair().order,
+                        },
+                        observed.then_some(&mut notify),
+                        time.monitor(),
+                    )
+                    .map_err(|error| SolverError::Repair {
+                        phase: index,
+                        error,
+                    })?;
+                return Ok(repaired!(r));
+            }
+
             let (mut g, s) = graph().map_err(|e| SolverError::Phase {
                 phase: index,
                 error: MixedLocalSearchError::from(MixedStreamScoringError::from(e)),
@@ -2027,7 +2254,9 @@ fn solve_mixed_stream_impl<
             }
             let result: Result<_, MixedLocalSearchError> = (|| {
                 Ok(match request {
-                    PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
+                    PhaseRequest::Custom(..) | PhaseRequest::RuinRecreate(..) => {
+                        unreachable!("handled special phase")
+                    }
                     PhaseRequest::Exact(c, prior) => {
                         s.validate(&g)?;
                         exact::run_observed(

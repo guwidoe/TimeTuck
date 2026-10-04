@@ -43,6 +43,7 @@ fn exercise_scored<'a>(
                 let start = elapsed.get();
                 let clock = || ms(elapsed.get() - start);
                 Ok(match request {
+                    PhaseRequest::RuinRecreate(_) => unreachable!("fixture has no repair phases"),
                     PhaseRequest::Custom(config, target, feasible) => {
                         let r = crate::custom_phase::run_monitored_with_clock(
                             a.unwrap(),

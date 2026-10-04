@@ -243,6 +243,12 @@ fn run(
                         ..Default::default()
                     })
                 }
+                SolverPhase::RuinRecreate(search) => {
+                    MixedSolverPhase::RuinRecreate(MixedRuinRecreateConfig {
+                        search,
+                        ..Default::default()
+                    })
+                }
                 SolverPhase::Exact(c) => MixedSolverPhase::Exact(c),
             })
             .collect(),

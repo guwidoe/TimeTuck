@@ -52,6 +52,7 @@ fn observer_time_preserves_shared_stagnation_in_local_and_exact_phases() {
                     observation.notify(index, kind, u)
                 };
                 Ok(match request {
+                    PhaseRequest::RuinRecreate(_) => unreachable!("fixture has no repair phases"),
                     PhaseRequest::Custom(..) => unreachable!("fixture has no custom phase"),
                     PhaseRequest::Construction(c) => {
                         constructed!(greedy_construction_with_observer(&p, &n, c, &mut notify)?)

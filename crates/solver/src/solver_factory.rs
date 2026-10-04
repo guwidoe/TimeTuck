@@ -37,6 +37,7 @@ fn validate<S>(config: &SolverSequence<'_, S>) -> Result<(), SolverFactoryError>
         let cancellation = match p {
             SolverPhase::Construction(c) => c.cancellation,
             SolverPhase::LocalSearch(c) => c.cancellation,
+            SolverPhase::RuinRecreate(c) => c.cancellation,
             SolverPhase::Exact(c) => c.cancellation,
             SolverPhase::Custom(c) => c.cancellation,
         };
