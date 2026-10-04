@@ -28,6 +28,10 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl {
+    /// Construction does not start/reset search stagnation or advance search steps.
+    fn construction_stopped(&mut self) -> bool {
+        false
+    }
     fn start_search(&mut self);
     fn record_improvement(&mut self);
     fn complete_step(&mut self, improved: bool);

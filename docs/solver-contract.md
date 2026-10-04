@@ -1373,7 +1373,9 @@ The reached expression stays latched, preserving late improvements in the result
 
 Expressions are polled at phase boundaries, within local search, between repair
 attempts, between exact-search candidates/nodes, and by custom-command checks.
-Construction polls at its phase boundary. Elapsed time includes setup/scoring;
+Construction polls between candidates and retains the best evaluated prefix,
+reporting `ConstructionTermination::Condition`. It does not advance search steps
+or start/reset stagnation tracking. Elapsed time includes setup/scoring;
 active callbacks are cooperative and may overshoot. Existing hard budgets and
 cancellation remain independent. `SolverTermination::Condition` identifies this
 stop; phase reports retain the corresponding phase reason. Full exact exhaustion

@@ -345,10 +345,31 @@ pub fn greedy_mixed_stream_construction_from<
     initial: MixedAssignment<B, L>,
     settings: MixedConstructionConfig,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
+    greedy_mixed_stream_construction_from_monitored(
+        None, problem, graph, sources, initial, settings,
+    )
+}
+
+pub(crate) fn greedy_mixed_stream_construction_from_monitored<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
     sources.validate(&graph)?;
-    crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
-        MixedStreamScoreDirector::new(problem, graph, sources, initial)
-    })
+    crate::mixed_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| MixedStreamScoreDirector::new(problem, graph, sources, initial),
+    )
 }
 /// Improve a complete mixed model using the shared neighborhoods, policies and
 /// budgets. Each phase initializes its own director; saved winners install without

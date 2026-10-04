@@ -289,9 +289,23 @@ pub fn greedy_stream_construction_from<V: Eq + Clone + 'static, S: AdditiveScore
     initial: Assignment<V>,
     config: ConstructionConfig,
 ) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+    greedy_stream_construction_from_monitored(None, problem, graph, source, initial, config)
+}
+
+pub(crate) fn greedy_stream_construction_from_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+) -> Result<ConstructionResult<V, S>, StreamScoringError> {
     validate_source(&graph, &source)?;
     problem.validate(&initial)?;
-    crate::construction::construction_impl(problem, initial, config, |initial| {
+    crate::construction::construction_impl_monitored(shared, problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
     })
 }

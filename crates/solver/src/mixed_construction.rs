@@ -110,37 +110,40 @@ pub fn greedy_mixed_construction_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveS
     initial: MixedAssignment<B, L>,
     settings: MixedConstructionConfig,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
+    greedy_mixed_construction_from_monitored(None, problem, network, initial, settings)
+}
+
+pub(crate) fn greedy_mixed_construction_from_monitored<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
     network.validate(problem, &initial)?;
-    construction_impl(problem, initial, settings, |initial| {
+    construction_impl_monitored(shared, problem, initial, settings, |initial| {
         MixedScoreDirector::new(problem, network, initial)
     })
 }
-pub(crate) fn construction_impl<
+
+pub(crate) fn construction_impl_with_clock_monitored<
     B: Eq + Clone,
     L: Eq + Clone,
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    problem: &MixedProblem<B, L>,
-    initial: MixedAssignment<B, L>,
-    settings: MixedConstructionConfig,
-    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
-) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
-    let clock = crate::time_limit::monotonic_clock(settings.construction.max_time.is_some());
-    construction_impl_with_clock(problem, initial, settings, make_director, clock)
-}
-pub(crate) fn construction_impl_with_clock<
-    B: Eq + Clone,
-    L: Eq + Clone,
-    S: AdditiveScore,
-    D: MixedSearchDirector<B, L, S>,
->(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedConstructionConfig,
     make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
+    let mut shared = shared;
     let mut time = crate::time_limit::TimeBudget::new(settings.construction.max_time, None, clock);
     let config = settings.construction;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -202,8 +205,8 @@ pub(crate) fn construction_impl_with_clock<
                 result.termination = ConstructionTermination::Cancelled;
                 break 'phases;
             }
-            if time.expired() {
-                result.termination = ConstructionTermination::TimeLimit;
+            if let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared) {
+                result.termination = reason;
                 break 'phases;
             }
             let previous = director.score();
@@ -232,7 +235,11 @@ pub(crate) fn construction_impl_with_clock<
                     lists: ListMove::Composite(vec![]),
                 });
                 director.select_best(
-                    moves.take_while(|_| !config.cancelled() && !time.expired()),
+                    moves.take_while(|_| {
+                        !config.cancelled()
+                            && crate::construction::construction_stop(&mut time, &mut shared)
+                                .is_none()
+                    }),
                     budget.remaining,
                     false,
                     |movement, score| {
@@ -257,7 +264,11 @@ pub(crate) fn construction_impl_with_clock<
                     break 'phases;
                 }
                 director.select_best(
-                    moves.take_while(|_| !config.cancelled() && !time.expired()),
+                    moves.take_while(|_| {
+                        !config.cancelled()
+                            && crate::construction::construction_stop(&mut time, &mut shared)
+                                .is_none()
+                    }),
                     budget.remaining,
                     false,
                     |movement, score| {
@@ -295,7 +306,14 @@ pub(crate) fn construction_impl_with_clock<
                             lists: ListMove::Composite(vec![]),
                         });
                         director.select_best(
-                            moves.take_while(|_| !config.cancelled() && !time.expired()),
+                            moves.take_while(|_| {
+                                !config.cancelled()
+                                    && crate::construction::construction_stop(
+                                        &mut time,
+                                        &mut shared,
+                                    )
+                                    .is_none()
+                            }),
                             budget.remaining,
                             false,
                             |_, score| !variable.allows_unassigned() || score >= previous,
@@ -327,7 +345,14 @@ pub(crate) fn construction_impl_with_clock<
                                 },
                             });
                         director.select_best(
-                            moves.take_while(|_| !config.cancelled() && !time.expired()),
+                            moves.take_while(|_| {
+                                !config.cancelled()
+                                    && crate::construction::construction_stop(
+                                        &mut time,
+                                        &mut shared,
+                                    )
+                                    .is_none()
+                            }),
                             budget.remaining,
                             false,
                             |_, score| !lists.allows_unassigned() || score >= previous,
@@ -369,8 +394,10 @@ pub(crate) fn construction_impl_with_clock<
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
     }
-    if result.termination == ConstructionTermination::Completed && time.expired() {
-        result.termination = ConstructionTermination::TimeLimit;
+    if result.termination == ConstructionTermination::Completed
+        && let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared)
+    {
+        result.termination = reason;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();
@@ -429,4 +456,20 @@ fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
         MixedConstructionOrder::BasicThenLists => Box::new(basics.chain(list_moves)),
         MixedConstructionOrder::ListsThenBasic => Box::new(list_moves.chain(basics)),
     }
+}
+
+pub(crate) fn construction_impl_monitored<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(settings.construction.max_time.is_some());
+    construction_impl_with_clock_monitored(shared, problem, initial, settings, make_director, clock)
 }

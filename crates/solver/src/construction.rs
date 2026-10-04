@@ -159,6 +159,8 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
+    /// The solve-wide composed condition stopped this scan.
+    Condition,
     /// Another eligible unassigned item remains after the step budget is spent.
     /// The preceding scan's winner is retained without truncating that scan.
     StepLimit,
@@ -244,6 +246,16 @@ pub fn greedy_construction_from<V: Eq + Clone, S: AdditiveScore>(
     initial: Assignment<V>,
     config: ConstructionConfig,
 ) -> Result<ConstructionResult<V, S>, ScoringError> {
+    greedy_construction_from_monitored(None, problem, network, initial, config)
+}
+
+pub(crate) fn greedy_construction_from_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+) -> Result<ConstructionResult<V, S>, ScoringError> {
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
@@ -251,31 +263,24 @@ pub fn greedy_construction_from<V: Eq + Clone, S: AdditiveScore>(
         });
     }
     problem.validate(&initial)?;
-    construction_impl(problem, initial, config, |initial| {
+    construction_impl_monitored(shared, problem, initial, config, |initial| {
         ScoreDirector::new(problem, network, initial)
     })
 }
 
-pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
-    problem: &FiniteProblem<V>,
-    initial: Assignment<V>,
-    config: ConstructionConfig,
-    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
-) -> Result<ConstructionResult<V, S>, D::Error> {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
-    construction_impl_with_clock(problem, initial, config, create, clock)
-}
-pub(crate) fn construction_impl_with_clock<
+pub(crate) fn construction_impl_with_clock_monitored<
     V: Eq + Clone,
     S: AdditiveScore,
     D: SearchDirector<V, S>,
 >(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &FiniteProblem<V>,
     initial: Assignment<V>,
     config: ConstructionConfig,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
+    let mut shared = shared;
     let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let mut result = ConstructionResult {
         complete: problem.is_complete(&initial),
@@ -323,8 +328,8 @@ pub(crate) fn construction_impl_with_clock<
             result.termination = ConstructionTermination::Cancelled;
             break;
         }
-        if time.expired() {
-            result.termination = ConstructionTermination::TimeLimit;
+        if let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared) {
+            result.termination = reason;
             break;
         }
         let eligible = |i: usize| {
@@ -376,7 +381,10 @@ pub(crate) fn construction_impl_with_clock<
             result.evaluations,
         );
         let selection = director.select_best(
-            moves.take_while(|_| !config.cancelled() && !time.expired()),
+            moves.take_while(|_| {
+                !config.cancelled()
+                    && crate::construction::construction_stop(&mut time, &mut shared).is_none()
+            }),
             budget.remaining,
             false,
             |movement, score| {
@@ -412,11 +420,43 @@ pub(crate) fn construction_impl_with_clock<
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
     }
-    if result.termination == ConstructionTermination::Completed && time.expired() {
-        result.termination = ConstructionTermination::TimeLimit;
+    if result.termination == ConstructionTermination::Completed
+        && let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared)
+    {
+        result.termination = reason;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();
     result.score = Some(director.score());
     Ok(result)
+}
+
+pub(crate) fn construction_impl_monitored<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: SearchDirector<V, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+) -> Result<ConstructionResult<V, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    construction_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
+}
+
+/// Preserve independent phase time limits while polling only construction-applicable
+/// shared controls. Never start/reset a search clock or increment search steps.
+pub(crate) fn construction_stop<C: FnMut() -> std::time::Duration>(
+    time: &mut crate::time_limit::TimeBudget<'_, C>,
+    shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
+) -> Option<ConstructionTermination> {
+    if time.expired() {
+        Some(ConstructionTermination::TimeLimit)
+    } else if shared.as_mut().is_some_and(|s| s.construction_stopped()) {
+        Some(ConstructionTermination::Condition)
+    } else {
+        None
+    }
 }

@@ -64,31 +64,35 @@ pub fn greedy_list_construction_from<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: ConstructionConfig,
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
+    greedy_list_construction_from_monitored(None, problem, network, initial, config)
+}
+
+pub(crate) fn greedy_list_construction_from_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     network.validate(problem, &initial)?;
-    construction_impl(problem, initial, config, |initial| {
+    construction_impl_monitored(shared, problem, initial, config, |initial| {
         ListScoreDirector::new(problem, network, initial)
     })
 }
-pub(crate) fn construction_impl<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
-    problem: &ListProblem<V>,
-    initial: ListAssignment<V>,
-    config: ConstructionConfig,
-    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
-) -> Result<ListConstructionResult<V, S>, D::Error> {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
-    construction_impl_with_clock(problem, initial, config, make_director, clock)
-}
-pub(crate) fn construction_impl_with_clock<
+
+pub(crate) fn construction_impl_with_clock_monitored<
     V: Eq + Clone,
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: ConstructionConfig,
     make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<ListConstructionResult<V, S>, D::Error> {
+    let mut shared = shared;
     let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     problem.validate(&initial).map_err(D::Error::from)?;
     let mut result = ListConstructionResult {
@@ -127,8 +131,8 @@ pub(crate) fn construction_impl_with_clock<
                 result.termination = ConstructionTermination::Cancelled;
                 break;
             }
-            if time.expired() {
-                result.termination = ConstructionTermination::TimeLimit;
+            if let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared) {
+                result.termination = reason;
                 break;
             }
             let values: Vec<_> = if config.placement == crate::ConstructionPlacement::Pooled {
@@ -173,7 +177,10 @@ pub(crate) fn construction_impl_with_clock<
                 result.evaluations,
             );
             let selection = director.select_best(
-                moves.take_while(|_| !config.cancelled() && !time.expired()),
+                moves.take_while(|_| {
+                    !config.cancelled()
+                        && crate::construction::construction_stop(&mut time, &mut shared).is_none()
+                }),
                 budget.remaining,
                 false,
                 |_, score| !problem.allows_unassigned() || score >= previous,
@@ -204,11 +211,28 @@ pub(crate) fn construction_impl_with_clock<
     if result.termination == ConstructionTermination::Completed && config.cancelled() {
         result.termination = ConstructionTermination::Cancelled;
     }
-    if result.termination == ConstructionTermination::Completed && time.expired() {
-        result.termination = ConstructionTermination::TimeLimit;
+    if result.termination == ConstructionTermination::Completed
+        && let Some(reason) = crate::construction::construction_stop(&mut time, &mut shared)
+    {
+        result.termination = reason;
     }
     result.complete = problem.is_complete(director.assignment());
     result.assignment = director.assignment().clone();
     result.score = Some(director.score());
     Ok(result)
+}
+
+pub(crate) fn construction_impl_monitored<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: ListSearchDirector<V, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+) -> Result<ListConstructionResult<V, S>, D::Error> {
+    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    construction_impl_with_clock_monitored(shared, problem, initial, config, make_director, clock)
 }

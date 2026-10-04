@@ -22,6 +22,17 @@ fn run(
     hook: impl Fn(),
     clock: impl FnMut() -> Duration,
 ) -> Outcome {
+    run_monitored(None, mode, order, config, hook, clock)
+}
+
+fn run_monitored(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    mode: usize,
+    order: MixedConstructionOrder,
+    config: ConstructionConfig<'_>,
+    hook: impl Fn(),
+    clock: impl FnMut() -> Duration,
+) -> Outcome {
     let score = |v: &[Option<usize>]| {
         hook();
         objective(v)
@@ -63,7 +74,8 @@ fn run(
             })
             .unwrap();
             return outcome!(
-                construction::construction_impl_with_clock(
+                construction::construction_impl_with_clock_monitored(
+                    shared,
                     &p,
                     p.initial_assignment(),
                     config,
@@ -83,7 +95,8 @@ fn run(
         b.score("value", &j, |((_, a), (_, z))| score(&[*a, *z]))
             .unwrap();
         return outcome!(
-            construction::construction_impl_with_clock(
+            construction::construction_impl_with_clock_monitored(
+                shared,
                 &p,
                 p.initial_assignment(),
                 config,
@@ -141,7 +154,8 @@ fn run(
             )
             .unwrap();
             return outcome!(
-                list_construction::construction_impl_with_clock(
+                list_construction::construction_impl_with_clock_monitored(
+                    shared,
                     &p,
                     p.initial_assignment(),
                     config,
@@ -161,7 +175,8 @@ fn run(
         b.score("value", &j, |((_, a), (_, z))| evaluate_lists(a, z))
             .unwrap();
         return outcome!(
-            list_construction::construction_impl_with_clock(
+            list_construction::construction_impl_with_clock_monitored(
+                shared,
                 &p,
                 p.initial_assignment(),
                 config,
@@ -205,7 +220,8 @@ fn run(
         )
         .unwrap();
         return outcome!(
-            mixed_construction::construction_impl_with_clock(
+            mixed_construction::construction_impl_with_clock_monitored(
+                shared,
                 &p,
                 p.initial_assignment(),
                 config,
@@ -227,7 +243,8 @@ fn run(
     })
     .unwrap();
     outcome!(
-        mixed_construction::construction_impl_with_clock(
+        mixed_construction::construction_impl_with_clock_monitored(
+            shared,
             &p,
             p.initial_assignment(),
             config,
@@ -621,6 +638,99 @@ fn pooled_candidate_limits_exclude_initialization_and_match_score_caps() {
                         expected.reason = ConstructionTermination::MoveEvaluationLimit;
                     }
                     assert_eq!(actual, expected, "mode {mode}, {order:?}, cap {cap}");
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn composed_shared_deadlines_keep_candidate_prefixes_across_all_construction_modes() {
+    struct Shared<'a> {
+        elapsed: &'a Cell<u64>,
+        condition: &'a SearchTermination<'a>,
+        stopped: bool,
+    }
+    impl crate::time_limit::SearchControl for Shared<'_> {
+        fn construction_stopped(&mut self) -> bool {
+            self.stopped |= self
+                .condition
+                .status(SearchProgress {
+                    elapsed: Duration::from_millis(self.elapsed.get()),
+                    ..Default::default()
+                })
+                .unwrap()
+                .reached;
+            self.stopped
+        }
+        fn start_search(&mut self) {
+            panic!("construction must not start search stagnation");
+        }
+        fn record_improvement(&mut self) {
+            panic!("construction must not reset search stagnation");
+        }
+        fn complete_step(&mut self, _: bool) {
+            panic!("construction must not advance search steps");
+        }
+        fn stop(&mut self) -> Option<LocalSearchTermination> {
+            panic!("construction must use its own shared hook");
+        }
+    }
+    for mode in 0..6 {
+        for placement in [
+            ConstructionPlacement::Sequential,
+            ConstructionPlacement::Pooled,
+            ConstructionPlacement::ValueQueue,
+        ] {
+            for order in [
+                MixedConstructionOrder::BasicThenLists,
+                MixedConstructionOrder::ListsThenBasic,
+            ] {
+                for cap in 1..9 {
+                    let elapsed = Cell::new(0);
+                    let leaves = [
+                        SearchTermination::Condition(SearchLimit::Time(Duration::from_millis(cap))),
+                        SearchTermination::Condition(SearchLimit::Time(Duration::ZERO)),
+                    ];
+                    let condition = SearchTermination::All(&leaves);
+                    let mut shared = Shared {
+                        elapsed: &elapsed,
+                        condition: &condition,
+                        stopped: false,
+                    };
+                    let mut actual = run_monitored(
+                        Some(&mut shared),
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            placement,
+                            ..Default::default()
+                        },
+                        || elapsed.set(elapsed.get() + 1),
+                        || Duration::ZERO,
+                    );
+                    let mut expected = run(
+                        mode,
+                        order,
+                        ConstructionConfig {
+                            placement,
+                            max_evaluations: cap,
+                            ..Default::default()
+                        },
+                        || {},
+                        || Duration::ZERO,
+                    );
+                    if actual.evaluations == cap {
+                        assert_eq!(actual.reason, ConstructionTermination::Condition);
+                    } else {
+                        assert_eq!(actual.reason, ConstructionTermination::Completed);
+                    }
+                    actual.reason = ConstructionTermination::Completed;
+                    expected.reason = ConstructionTermination::Completed;
+                    assert_eq!(
+                        actual, expected,
+                        "mode {mode}, placement {placement:?}, order {order:?}, cap {cap}"
+                    );
                 }
             }
         }

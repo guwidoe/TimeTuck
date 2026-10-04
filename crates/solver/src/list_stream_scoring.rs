@@ -334,10 +334,28 @@ pub fn greedy_list_stream_construction_from<V: Eq + Clone + 'static, S: Additive
     initial: ListAssignment<V>,
     config: ConstructionConfig,
 ) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
+    greedy_list_stream_construction_from_monitored(None, problem, graph, sources, initial, config)
+}
+
+pub(crate) fn greedy_list_stream_construction_from_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
     sources.validate(&graph)?;
-    crate::list_construction::construction_impl(problem, initial, config, |initial| {
-        ListStreamScoreDirector::new(problem, graph, sources, initial)
-    })
+    crate::list_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        config,
+        |initial| ListStreamScoreDirector::new(problem, graph, sources, initial),
+    )
 }
 /// Improve a complete list assignment with the existing list search policies,
 /// ordering and budgets. Initializes a fresh stream scoring session for this phase.

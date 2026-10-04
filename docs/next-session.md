@@ -9233,3 +9233,19 @@ Coverage943/4855(19.423%); failed/unverified0. Dashboard data/freshness matched.
 Benchmarks remain stale; no benchmark sweep or browser redesign. A single batched
 --no-run Cargo build avoided sequential recompilation during the gate. Full goal
 remains active; extend substantial missing solver behavior next.
+
+## Composite limits inside construction
+
+Construction now polls solve-wide expressions between candidates in all six
+model/scoring paths, including observed entry points. Interrupted scans retain
+the best evaluated prefix and report ConstructionTermination::Condition. Polling
+does not advance search steps or start/reset stagnation tracking. Standalone
+construction signatures and independent hard-limit precedence are preserved.
+Original deterministic regressions compare all three placement modes, both mixed
+orders and eight deadlines across all six backends against candidate-budget
+prefixes. An actual SolveControl fixture checks interrupted domain scans and
+suppression of later phases. No new upstream method credit for these regressions.
+check.sh passed:2051 Rust tests,109 doctests,fmt/Clippy; all46 Python
+file jobs reused their successful results (252 tests). Rust reused73 targets.
+Coverage remains943/4855(19.423%),failed/unverified0; live dashboard freshness
+matched. Benchmarks remain stale. Full rewrite goal remains active.

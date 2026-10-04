@@ -44,7 +44,7 @@ pub enum IncompleteHandoffPolicy {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SolverLimits<'a, S = SimpleScore> {
     /// Composed solve-wide limits, polled within search/custom phases and at
-    /// phase boundaries. Construction evaluates this condition at its boundary.
+    /// phase boundaries and within construction candidate scans.
     pub termination: Option<&'a SearchTermination<'a>>,
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
@@ -363,6 +363,9 @@ impl SolveControl<'_> {
                 .is_some_and(|limit| self.steps.unimproved_steps() >= limit);
         self.steps_expired
     }
+    fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
+        self.condition.is_some().then_some(self)
+    }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
         if self.condition.is_some()
             || self.unimproved_limit.is_some()
@@ -391,6 +394,9 @@ impl SolveControl<'_> {
     }
 }
 impl crate::time_limit::SearchControl for SolveControl<'_> {
+    fn construction_stopped(&mut self) -> bool {
+        self.condition_reached()
+    }
     fn start_search(&mut self) {
         self.started = true;
         if (self.condition.is_some() || self.unimproved_limit.is_some())
@@ -1287,7 +1293,8 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         )?
                     }
                     PhaseRequest::Construction(c) => constructed!(if observed {
-                        greedy_construction_from_with_observer(
+                        crate::solution_observation::greedy_construction_from_with_observer_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1295,7 +1302,8 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                             &mut notify,
                         )
                     } else {
-                        greedy_construction_from(
+                        crate::construction::greedy_construction_from_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1519,7 +1527,8 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         )?
                     }
                     PhaseRequest::Construction(c) => constructed!(if observed {
-                        greedy_list_construction_from_with_observer(
+                        crate::solution_observation::greedy_list_construction_from_with_observer_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1527,7 +1536,8 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                             &mut notify,
                         )
                     } else {
-                        greedy_list_construction_from(
+                        crate::list_construction::greedy_list_construction_from_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1722,7 +1732,8 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                         )?
                     }
                     PhaseRequest::Construction(config) => constructed!(if observed {
-                        greedy_mixed_construction_from_with_observer(
+                        crate::solution_observation::greedy_mixed_construction_from_with_observer_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1733,7 +1744,8 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                             &mut notify,
                         )
                     } else {
-                        greedy_mixed_construction_from(
+                        crate::mixed_construction::greedy_mixed_construction_from_monitored(
+                            time.construction_monitor(),
                             p,
                             n,
                             a.unwrap_or_else(|| p.initial_assignment()),
@@ -1936,7 +1948,8 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                     }
                     PhaseRequest::Construction(c) => {
                         constructed!(if observed {
-                            greedy_stream_construction_from_with_observer(
+                            crate::solution_observation::greedy_stream_construction_from_with_observer_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,
@@ -1945,7 +1958,8 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                                 &mut notify,
                             )
                         } else {
-                            greedy_stream_construction_from(
+                            crate::stream_scoring::greedy_stream_construction_from_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,
@@ -2150,7 +2164,8 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                     }
                     PhaseRequest::Construction(c) => {
                         constructed!(if observed {
-                            greedy_list_stream_construction_from_with_observer(
+                            crate::solution_observation::greedy_list_stream_construction_from_with_observer_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,
@@ -2159,7 +2174,8 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                                 &mut notify,
                             )
                         } else {
-                            greedy_list_stream_construction_from(
+                            crate::list_stream_scoring::greedy_list_stream_construction_from_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,
@@ -2390,7 +2406,8 @@ fn solve_mixed_stream_impl<
                     }
                     PhaseRequest::Construction(config) => {
                         constructed!(if observed {
-                            greedy_mixed_stream_construction_from_with_observer(
+                            crate::solution_observation::greedy_mixed_stream_construction_from_with_observer_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,
@@ -2402,7 +2419,8 @@ fn solve_mixed_stream_impl<
                                 &mut notify,
                             )
                         } else {
-                            greedy_mixed_stream_construction_from(
+                            crate::mixed_stream_scoring::greedy_mixed_stream_construction_from_monitored(
+                                time.construction_monitor(),
                                 p,
                                 g,
                                 s,

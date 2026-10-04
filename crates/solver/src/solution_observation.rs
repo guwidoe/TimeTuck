@@ -108,6 +108,19 @@ pub fn greedy_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<ConstructionResult<V, S>, ScoringError> {
+    greedy_construction_from_with_observer_monitored(
+        None, problem, network, initial, config, observer,
+    )
+}
+
+pub(crate) fn greedy_construction_from_with_observer_monitored<V: Eq + Clone, S: AdditiveScore>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<ConstructionResult<V, S>, ScoringError> {
     if network.variable_count() != problem.variables().len() {
         return Err(ScoringError::VariableCount {
             expected: network.variable_count(),
@@ -115,7 +128,7 @@ pub fn greedy_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
         });
     }
     problem.validate(&initial)?;
-    crate::construction::construction_impl(problem, initial, config, |initial| {
+    crate::construction::construction_impl_monitored(shared, problem, initial, config, |initial| {
         ScoreDirector::new(problem, network, initial)
             .map(|director| Observed { director, observer })
     })
@@ -197,9 +210,26 @@ pub fn greedy_stream_construction_from_with_observer<
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
 ) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+    greedy_stream_construction_from_with_observer_monitored(
+        None, problem, graph, source, initial, config, observer,
+    )
+}
+
+pub(crate) fn greedy_stream_construction_from_with_observer_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, Assignment<V>, S>),
+) -> Result<ConstructionResult<V, S>, StreamScoringError> {
     crate::stream_scoring::validate_source(&graph, &source)?;
     problem.validate(&initial)?;
-    crate::construction::construction_impl(problem, initial, config, |initial| {
+    crate::construction::construction_impl_monitored(shared, problem, initial, config, |initial| {
         StreamScoreDirector::new(problem, graph, source, initial)
             .map(|director| Observed { director, observer })
     })
@@ -319,11 +349,33 @@ pub fn greedy_list_construction_from_with_observer<V: Eq + Clone, S: AdditiveSco
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
+    greedy_list_construction_from_with_observer_monitored(
+        None, problem, network, initial, config, observer,
+    )
+}
+
+pub(crate) fn greedy_list_construction_from_with_observer_monitored<
+    V: Eq + Clone,
+    S: AdditiveScore,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     network.validate(problem, &initial)?;
-    crate::list_construction::construction_impl(problem, initial, config, |initial| {
-        ListScoreDirector::new(problem, network, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::list_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        config,
+        |initial| {
+            ListScoreDirector::new(problem, network, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 /// Improve with synchronous initial-best and strict-best notifications. See
@@ -396,11 +448,34 @@ pub fn greedy_list_stream_construction_from_with_observer<
     config: ConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
 ) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
+    greedy_list_stream_construction_from_with_observer_monitored(
+        None, problem, graph, sources, initial, config, observer,
+    )
+}
+
+pub(crate) fn greedy_list_stream_construction_from_with_observer_monitored<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, ListAssignment<V>, S>),
+) -> Result<ListConstructionResult<V, S>, ListStreamScoringError> {
     sources.validate(&graph)?;
-    crate::list_construction::construction_impl(problem, initial, config, |initial| {
-        ListStreamScoreDirector::new(problem, graph, sources, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::list_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        config,
+        |initial| {
+            ListStreamScoreDirector::new(problem, graph, sources, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 /// Improve with synchronous initial-best and strict-best notifications. See
@@ -526,11 +601,34 @@ pub fn greedy_mixed_construction_from_with_observer<
     settings: MixedConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
+    greedy_mixed_construction_from_with_observer_monitored(
+        None, problem, network, initial, settings, observer,
+    )
+}
+
+pub(crate) fn greedy_mixed_construction_from_with_observer_monitored<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
     network.validate(problem, &initial)?;
-    crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
-        MixedScoreDirector::new(problem, network, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::mixed_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| {
+            MixedScoreDirector::new(problem, network, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 /// Improve with synchronous initial-best and strict-best notifications. See
@@ -611,11 +709,35 @@ pub fn greedy_mixed_stream_construction_from_with_observer<
     settings: MixedConstructionConfig,
     observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
 ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
+    greedy_mixed_stream_construction_from_with_observer_monitored(
+        None, problem, graph, sources, initial, settings, observer,
+    )
+}
+
+pub(crate) fn greedy_mixed_stream_construction_from_with_observer_monitored<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedConstructionConfig,
+    observer: impl FnMut(SolutionUpdate<'_, MixedAssignment<B, L>, S>),
+) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
     sources.validate(&graph)?;
-    crate::mixed_construction::construction_impl(problem, initial, settings, |initial| {
-        MixedStreamScoreDirector::new(problem, graph, sources, initial)
-            .map(|director| Observed { director, observer })
-    })
+    crate::mixed_construction::construction_impl_monitored(
+        shared,
+        problem,
+        initial,
+        settings,
+        |initial| {
+            MixedStreamScoreDirector::new(problem, graph, sources, initial)
+                .map(|director| Observed { director, observer })
+        },
+    )
 }
 
 /// Improve with synchronous initial-best and strict-best notifications. See
@@ -676,7 +798,8 @@ mod tests {
         let n = ConstraintNetwork::<i32, SimpleScore>::new(1);
         let now = Cell::new(Duration::ZERO);
         let count = Cell::new(0);
-        let r = crate::construction::construction_impl_with_clock(
+        let r = crate::construction::construction_impl_with_clock_monitored(
+            None,
             &p,
             p.initial_assignment(),
             ConstructionConfig {

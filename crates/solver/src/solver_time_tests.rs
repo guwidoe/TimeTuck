@@ -18,9 +18,23 @@ fn exercise_scored<'a>(
     factory_cost: u64,
     score: impl Fn(usize) -> i64,
 ) -> SolverResult<Assignment<usize>, SimpleScore> {
+    exercise_variable(c, factory_cost, score, true)
+}
+fn exercise_variable<'a>(
+    c: impl Into<SolverSequence<'a>>,
+    factory_cost: u64,
+    score: impl Fn(usize) -> i64,
+    initialized: bool,
+) -> SolverResult<Assignment<usize>, SimpleScore> {
     let c = c.into();
     let elapsed = Cell::new(0);
-    let p = FiniteProblem::new(vec![Variable::new(vec![0usize, 1, 2]).with_initial(0)]).unwrap();
+    let variable = Variable::new(vec![0usize, 1, 2]);
+    let p = FiniteProblem::new(vec![if initialized {
+        variable.with_initial(0)
+    } else {
+        variable
+    }])
+    .unwrap();
     run_with_clock_observed(
         c.limits,
         &c.phases,
@@ -101,7 +115,8 @@ fn exercise_scored<'a>(
                         }
                     }
                     PhaseRequest::Construction(c) => {
-                        constructed!(crate::construction::construction_impl_with_clock(
+                        constructed!(crate::construction::construction_impl_with_clock_monitored(
+                            time.construction_monitor(),
                             &p,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             c,
@@ -1044,5 +1059,44 @@ fn composed_elapsed_limits_stop_inside_exact_and_custom_phases() {
             PhaseTermination::Exact(ExactPhaseTermination::Condition)
                 | PhaseTermination::Custom(CustomPhaseTermination::Condition)
         ));
+    }
+}
+
+#[test]
+fn composed_limits_interrupt_construction_before_finishing_the_domain() {
+    for cap in 1..=3 {
+        let children = [
+            SearchTermination::Condition(SearchLimit::Time(ms(cap))),
+            SearchTermination::Condition(SearchLimit::Time(ms(1))),
+        ];
+        let condition = SearchTermination::All(&children);
+        let r = exercise_variable(
+            SolverConfig {
+                limits: SolverLimits {
+                    termination: Some(&condition),
+                    ..Default::default()
+                },
+                ..plan()
+            },
+            0,
+            |v| v as i64,
+            false,
+        );
+        assert_eq!(r.termination, SolverTermination::Condition);
+        assert_eq!(r.phases.len(), 1);
+        assert_eq!(r.work.evaluations, cap);
+        assert_eq!(r.work.move_evaluations, cap - 1);
+        assert_eq!(
+            r.phases[0].termination,
+            PhaseTermination::Construction(ConstructionTermination::Condition)
+        );
+        assert_eq!(
+            r.assignment.values(),
+            &[if cap == 1 {
+                None
+            } else {
+                Some((cap - 2) as usize)
+            }]
+        );
     }
 }
