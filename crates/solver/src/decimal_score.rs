@@ -103,6 +103,11 @@ macro_rules! decimal_score {
             const ZERO:Self=Self::ZERO;
             fn with_structural(self,s:i64)->Self {self.with_structural(s)}
         }
+        impl crate::DecimalWeightedScore for $name {
+            fn multiply_exact(&self, factor: &Decimal) -> Result<Self, DecimalArithmeticError> {
+                self.try_map(|value| value.multiply_exact(factor))
+            }
+        }
         impl ops::Add for $name {type Output=Self;fn add(self,o:Self)->Self {Self::normalized(std::array::from_fn(|i|self.levels[i].add(&o.levels[i])))}}
         impl ops::Sub for $name {type Output=Self;fn sub(self,o:Self)->Self {Self::normalized(std::array::from_fn(|i|self.levels[i].subtract(&o.levels[i])))}}
         impl ops::Neg for $name {type Output=Self;fn neg(self)->Self {if self.is_zero() {self} else {Self::ZERO-self}}}

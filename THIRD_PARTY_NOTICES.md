@@ -532,3 +532,9 @@ The explanation implementation and separate incremental regressions are original
 solution and entity fixtures. Apache-2.0 attribution, exact revision and all native
 substitutions are recorded in `compat/provenance.json`. The weighting and pruning
 implementation and separate regressions are original.
+
+`crates/solver/tests/decimal_weight_cases.rs` adapts all sixteen methods in the
+Simple, HardSoft, HardMediumSoft and Bendable BigDecimal `ScoreInlinerTest` classes
+from pinned Timefold Community, with their singleton-constraint and bendable-score
+helpers (Apache-2.0). Exact paths and substitutions are in provenance. The exact
+weighting implementation and fractional-impact regressions are original.

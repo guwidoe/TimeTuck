@@ -14565,6 +14565,246 @@
       "upstream_test": "duplicateConstraintId",
       "local_test": "duplicate_constraint_id",
       "modifications": "Preserve rejection of two constraints named duplicateConstraintName through the native typed graph error. Native builder registration replaces Java score-director construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SimpleBigDecimalScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleBigDecimalScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "simple_default_score",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SimpleBigDecimalScoreInlinerTest.impact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impact",
+      "local_test": "simple_impact",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftBigDecimalScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "hard_soft_default_score",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftBigDecimalScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "hard_soft_impact_hard",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftBigDecimalScoreInlinerTest.impactSoft",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactSoft",
+      "local_test": "hard_soft_impact_soft",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardSoftBigDecimalScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "hard_soft_impact_all",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftBigDecimalScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "hard_medium_soft_default_score",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftBigDecimalScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "hard_medium_soft_impact_hard",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftBigDecimalScoreInlinerTest.impactMedium",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactMedium",
+      "local_test": "hard_medium_soft_impact_medium",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftBigDecimalScoreInlinerTest.impactSoft",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactSoft",
+      "local_test": "hard_medium_soft_impact_soft",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HardMediumSoftBigDecimalScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "hard_medium_soft_impact_all",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.defaultScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "defaultScore",
+      "local_test": "bendable_default_score",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.impactHard",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactHard",
+      "local_test": "bendable_impact_hard",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.impactSoft1",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactSoft1",
+      "local_test": "bendable_impact_soft1",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.impactSoft2",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactSoft2",
+      "local_test": "bendable_impact_soft2",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.impactAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "impactAll",
+      "local_test": "bendable_impact_all",
+      "modifications": "Preserve the empty-score assertion or all four complete score states after the two weighted impacts and their reverse-order undo. Native decimal-weighted graph source occurrences replace Java impact handles; retractions perform the asserted contribution undo. Exact decimal score families replace Java score objects; Bendable uses native compile-time dimensions 1 hard/2 soft. No Java internal object, scope or match-policy lifecycle parity claimed."
     }
   ],
   "fixtures": [
@@ -17427,6 +17667,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
       "upstream_test": "stringProperty initializer",
       "modifications": "Preserve the empty default stringProperty of generated entities; explicit custom entity properties come from the test method."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractScoreInlinerTest.buildScoreImpacter.decimal_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/AbstractScoreInlinerTest.java",
+      "upstream_test": "buildScoreImpacter",
+      "modifications": "Preserve the singleton Test Constraint and supplied score weight. Native weighted graph construction replaces test constraint factory, score inliner and impact context objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/decimal_weight_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BendableBigDecimalScoreInlinerTest.buildScore.decimal_weights",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableBigDecimalScoreInlinerTest.java",
+      "upstream_test": "buildScore",
+      "modifications": "Preserve the ordered one-hard/two-soft dimension mapping and all explicitly supplied integer-to-decimal values using native score strings."
     }
   ]
 }

@@ -72,6 +72,10 @@ pub enum GraphError {
     },
     UnweightedConstraintOverride(String),
     StructuralConstraintWeight(String),
+    DecimalWeightArithmetic {
+        constraint: String,
+        error: crate::DecimalArithmeticError,
+    },
     StructuralContribution(String),
     FailedTransaction,
     Dependency(String),
@@ -87,6 +91,10 @@ impl fmt::Display for GraphError {
             Self::UnweightedConstraintOverride(name) => {
                 write!(f, "constraint {name:?} has no configurable weight")
             }
+            Self::DecimalWeightArithmetic { constraint, error } => write!(
+                f,
+                "constraint {constraint:?} decimal impact failed: {error}"
+            ),
             Self::StructuralConstraintWeight(name) => {
                 write!(f, "constraint {name:?} has a structural weight component")
             }
@@ -105,7 +113,14 @@ impl fmt::Display for GraphError {
         }
     }
 }
-impl std::error::Error for GraphError {}
+impl std::error::Error for GraphError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::DecimalWeightArithmetic { error, .. } => Some(error),
+            _ => None,
+        }
+    }
+}
 
 /// A typed output port, tied to one builder/graph. Reusing it explicitly shares
 /// its node; closure equivalence is not used to discover implicit sharing.
@@ -654,11 +669,12 @@ where
     }
 }
 
+type WeightedImpact<'a, T, S> = dyn Fn(&T, &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
 enum TerminalEvaluation<'a, T, S> {
     Direct(Box<dyn Fn(&T) -> S + 'a>),
     Weighted {
         weight: S,
-        factor: Box<dyn Fn(&T) -> i64 + 'a>,
+        impact: Box<WeightedImpact<'a, T, S>>,
     },
 }
 struct Terminal<'a, I, T, S> {
@@ -719,12 +735,19 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
-        let contribution = change.value.as_ref().map(|value| match &self.evaluate {
-            TerminalEvaluation::Direct(evaluate) => evaluate(value),
-            TerminalEvaluation::Weighted { weight, factor } => {
-                crate::constraint_weights::scale(weight, factor(value))
-            }
-        });
+        let contribution = change
+            .value
+            .as_ref()
+            .map(|value| match &self.evaluate {
+                TerminalEvaluation::Direct(evaluate) => Ok(evaluate(value)),
+                TerminalEvaluation::Weighted { weight, impact } => {
+                    impact(value, weight).map_err(|error| GraphError::DecimalWeightArithmetic {
+                        constraint: self.name.clone(),
+                        error,
+                    })
+                }
+            })
+            .transpose()?;
         if contribution
             .as_ref()
             .is_some_and(|score| score.structural() != 0)
@@ -1619,8 +1642,59 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         weight: S,
         factor: impl Fn(&T) -> i64 + 'a,
     ) -> Result<StreamConstraint<I, T>, GraphError> {
+        self.register_weighted(
+            name.into(),
+            input,
+            weight,
+            Box::new(move |value, weight| {
+                Ok(crate::constraint_weights::scale(weight, factor(value)))
+            }),
+        )
+    }
+
+    /// Exact fractional match impacts for decimal score families. Product scales
+    /// add; no rounding or floating-point conversion is performed. Arithmetic
+    /// errors poison the current transaction, which rolls back when dropped.
+    /// Named overrides and zero-weight pruning behave as for integer factors.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let mut b = StreamGraphBuilder::<SimpleDecimalScore>::new();
+    /// let source = b.source::<usize, Decimal>();
+    /// b.score_weighted_decimal("fraction", source.port(), "0.1".parse().unwrap(), Clone::clone)?;
+    /// let mut g = b.build();
+    /// let mut tx = g.transaction();
+    /// tx.apply(&source, TupleChange::put(0, "0.025".parse().unwrap()))?;
+    /// tx.commit()?;
+    /// assert_eq!(g.score(), "0.0025".parse().unwrap());
+    /// # Ok::<(), GraphError>(())
+    /// ```
+    pub fn score_weighted_decimal<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        name: impl Into<String>,
+        input: &StreamPort<I, T>,
+        weight: S,
+        factor: impl Fn(&T) -> crate::Decimal + 'a,
+    ) -> Result<StreamConstraint<I, T>, GraphError>
+    where
+        S: crate::DecimalWeightedScore,
+    {
+        self.register_weighted(
+            name.into(),
+            input,
+            weight,
+            Box::new(move |value, weight| weight.multiply_exact(&factor(value))),
+        )
+    }
+
+    fn register_weighted<I: Ord + Clone + 'static, T: Clone + 'static>(
+        &mut self,
+        name: String,
+        input: &StreamPort<I, T>,
+        weight: S,
+        impact: Box<WeightedImpact<'a, T, S>>,
+    ) -> Result<StreamConstraint<I, T>, GraphError> {
         self.validate(input)?;
-        let name = name.into();
         if self.constraints.contains_key(&name) {
             return Err(GraphError::DuplicateConstraint(name));
         }
@@ -1628,10 +1702,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             return Err(GraphError::StructuralConstraintWeight(name));
         }
         let out = self.push(Terminal::<I, T, S> {
-            evaluate: TerminalEvaluation::Weighted {
-                weight,
-                factor: Box::new(factor),
-            },
+            evaluate: TerminalEvaluation::Weighted { weight, impact },
             total: S::ZERO,
             name: name.clone(),
             matches: SnapshotMap::new(),

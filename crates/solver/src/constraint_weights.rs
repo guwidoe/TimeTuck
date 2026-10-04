@@ -53,3 +53,14 @@ pub(crate) fn scale<S: AdditiveScore>(weight: &S, factor: i64) -> S {
     }
     if factor < 0 { S::ZERO - result } else { result }
 }
+
+/// Score families supporting exact decimal match impacts. This operation clears
+/// structural state and preserves the full product precision. It differs from
+/// decimal score `multiply`, which floors at the weight's original scale.
+/// User-defined additive scores can implement this trait for the same graph API.
+pub trait DecimalWeightedScore: AdditiveScore {
+    fn multiply_exact(
+        &self,
+        factor: &crate::Decimal,
+    ) -> Result<Self, crate::DecimalArithmeticError>;
+}

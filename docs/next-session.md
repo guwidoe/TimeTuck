@@ -9296,3 +9296,24 @@ check.sh passed:2091 Rust tests,111 doctests,fmt/Clippy. Python jobs
 reused matching successful results. Coverage971/4855(20.000%),failed/unverified0.
 Live dashboard data/freshness matched. Benchmark datasets remain stale; no sweep.
 Full rewrite goal remains active.
+
+
+## Exact decimal match weights and selective facade inputs
+
+Added Decimal::multiply_exact and DecimalWeightedScore for all four native decimal
+score families; score_weighted_decimal accepts exact fractional factors. Products
+retain full precision instead of flooring at the weight scale. Integer/decimal
+weighted terminals share registration, overrides and zero-branch pruning. Scale
+sum overflow is a typed GraphError with the underlying cause; failed transactions
+remain poisoned until dropped, restoring all earlier routed changes.
+Sixteen decimal ScoreInliner methods adapted with all score/undo assertions and
+helper provenance. Six original regressions cover fractional products, representation,
+overflow, cross-node rollback, explanations, overrides/pruning and optimal solves.
+Verification keys now project lib.rs onto referenced modules/reexports while retaining
+crate attributes and other root code. Unrelated public exports no longer invalidate
+all targets. Three focused cache tests cover unrelated additions, alias retargeting,
+and root code/attributes; this remains a development heuristic, not a Rust parser.
+The dashboard server was restarted with the updated Python input logic.
+check.sh passed:2113 Rust tests,112 doctests,255 Python checks,fmt/Clippy.
+Coverage987/4855(20.33%),pending3586,excluded282,failed/unverified0.
+Benchmark datasets remain stale; no timing sweep. Full rewrite goal remains active.

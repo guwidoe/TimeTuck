@@ -20,7 +20,7 @@ impl fmt::Display for DecimalArithmeticError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
             Self::DivisionByZero => "decimal division by zero",
-            Self::ScaleOverflow => "decimal scale adjustment exceeds u32",
+            Self::ScaleOverflow => "decimal scale exceeds the supported range",
         })
     }
 }
@@ -113,6 +113,16 @@ impl Decimal {
             i64::from(self.scale()) - (digits.len() - significant.len()) as i64,
         )
             .hash(state);
+    }
+    /// Multiply without rounding; retain the sum of the two operand scales.
+    /// Return ScaleOverflow when that sum does not fit i32, including for zero.
+    /// Coefficient size is limited only by available memory.
+    pub fn multiply_exact(&self, factor: &Self) -> Result<Self, DecimalArithmeticError> {
+        let scale = self
+            .scale()
+            .checked_add(factor.scale())
+            .ok_or(DecimalArithmeticError::ScaleOverflow)?;
+        Ok(Self::new(self.coefficient() * factor.coefficient(), scale))
     }
     pub(crate) fn multiply_floor(&self, factor: &Self) -> Result<Self, DecimalArithmeticError> {
         let scale = self.scale().max(0);

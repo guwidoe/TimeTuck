@@ -1421,8 +1421,8 @@ integer match factor; positive factors reward and negative factors penalize.
 Scaling uses exact additive score arithmetic, preserving integer wrapping and
 arbitrary-precision decimals without floating-point conversion. Factors include
 the full i64 range. Signed ordinary weights are permitted by the native API;
-structural weight components are rejected. Fractional match factors are not yet
-part of this API (fractional decimal score weights are supported).
+structural weight components are rejected. Fractional decimal weights work with
+integer factors; use `score_weighted_decimal` for fractional match factors.
 
 `ConstraintWeightOverrides` distinguishes missing names from explicit zero and
 iterates in sorted name order. `build_with_weights` resolves overrides once before
@@ -1445,3 +1445,27 @@ are replaced by explicit native maps and graph reconstruction; inherited-solutio
 annotation rejection remains pending. Independent regressions cover pruning,
 shared branches, dead joins, frozen overrides, rejected configuration, arithmetic,
 rollback, explanations and optimum changes across all three stream solve paths.
+
+
+## Exact fractional match impacts
+
+`score_weighted_decimal` supports all four native decimal score families through
+`DecimalWeightedScore`, including bendable scores of arbitrary dimensions. Each
+level multiplies the weight and match-factor coefficients and adds their scales.
+It does not floor at the old weight scale, unlike the existing decimal score
+`multiply` operation. `Decimal::multiply_exact` also exposes the scalar operation.
+Structural components are cleared by score arithmetic; graph weights still reject
+structural state. Native zero normalization follows each score family's existing
+rules. Scale sums outside i32 return ScaleOverflow, including zero products.
+
+Integer and decimal weighted terminals share override resolution, disabled-branch
+pruning and retained match accounting. An arithmetic failure identifies the
+constraint and carries its underlying error. The current graph transaction becomes
+unusable; dropping it restores every affected source, operator and terminal, including
+updates routed before the error. Explanations retain the exact weighted contribution.
+
+Sixteen complete decimal ScoreInliner methods preserve empty scores and all impact/
+undo states. Native source occurrences and retractions replace Java impact handles;
+no Java object/match-policy lifecycle equivalence is claimed. Separate regressions
+cover genuinely fractional products, long coefficients, scale boundaries, rollback,
+overrides, pruning and exact optimum selection in all three stream solve paths.

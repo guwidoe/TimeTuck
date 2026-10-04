@@ -311,3 +311,9 @@ impl<const H: usize, const S: usize> ops::Neg for BendableDecimalScore<H, S> {
         self.map(|v| Decimal::new(-v.coefficient(), v.scale()))
     }
 }
+
+impl<const H: usize, const S: usize> crate::DecimalWeightedScore for BendableDecimalScore<H, S> {
+    fn multiply_exact(&self, factor: &Decimal) -> Result<Self, DecimalArithmeticError> {
+        self.try_map(|value| value.multiply_exact(factor))
+    }
+}
