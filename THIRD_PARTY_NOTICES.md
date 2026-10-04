@@ -544,3 +544,8 @@ from the pinned Simple, HardSoft, HardMediumSoft and Bendable `ScoreInlinerTest`
 classes and their singleton-constraint/bendable-score helpers (Apache-2.0).
 Exact paths, revision and native substitutions appear in `compat/provenance.json`.
 The scoped weighting implementation and separate regression tests are original.
+
+`crates/solver/tests/constraint_match_total_cases.rs` adapts the complete
+`ConstraintMatchTotalTest.getScoreTotal` method from pinned Timefold Community
+(Apache-2.0). Exact identity, revision and native substitutions are in provenance.
+Scoped explanation construction, snapshot comparison and their regressions are original.

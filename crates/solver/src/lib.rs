@@ -467,8 +467,9 @@ pub use composite_termination::{
 
 mod score_explanation;
 pub use score_explanation::{
-    ConstraintExplanation, ConstraintMatchRef, DefaultJustification, ExplainedMatch, Indictment,
-    ScoreExplanation,
+    ConstraintExplanation, ConstraintExplanationChange, ConstraintMatchRef, DefaultJustification,
+    ExplainedMatch, ExplanationChange, Indictment, ScopedScoreExplanation, ScoreExplanation,
+    ScoreExplanationDiff,
 };
 
 mod constraint_weights;

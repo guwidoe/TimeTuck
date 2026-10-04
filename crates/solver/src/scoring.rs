@@ -364,6 +364,75 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     pub fn score(&self) -> S {
         self.score.clone()
     }
+    /// Explain each retained scoped contribution without rescoring. The callback
+    /// receives name, ordered scope, current facts and the cached weighted score.
+    /// Each active constraint has one aggregate match (ID 0); disabled weighted
+    /// constraints have no matches and do not invoke the callback. This does not
+    /// invent individual matches inside a caller's aggregate scoring function.
+    /// The returned full score includes structural incompleteness separately from
+    /// ordinary contributions. Snapshots are owned and survive commits/rollback.
+    pub fn explain<J, F: Ord + Clone>(
+        &self,
+        mut explain: impl FnMut(&str, &[usize], &[Option<&V>], &S) -> (J, Vec<F>),
+    ) -> crate::ScopedScoreExplanation<S, J, F> {
+        let mut matches = crate::ScoreExplanation::default();
+        for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
+            let explanation = if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+                None
+            } else {
+                let facts: Vec<_> = constraint
+                    .scope
+                    .iter()
+                    .map(|&i| self.assignment.values()[i].as_ref())
+                    .collect();
+                Some(explain(&constraint.name, &constraint.scope, &facts, score))
+            };
+            matches
+                .add_constraint(crate::score_explanation::scoped_contribution(
+                    &constraint.name,
+                    score.clone(),
+                    explanation,
+                ))
+                .expect("network constraint names are unique");
+        }
+        crate::ScopedScoreExplanation {
+            score: self.score.clone(),
+            matches,
+        }
+    }
+    /// Keep the ordered fact identities as the default justification while
+    /// deduplicating each match's blamed facts. No scoring callbacks are invoked.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![1, 2]).with_initial(1)])?;
+    /// let mut n = ConstraintNetwork::new(1);
+    /// n.add_weighted_constraint("cost", vec![0], SimpleScore::new(-3),
+    ///     |values| values[0].copied().unwrap_or(0))?;
+    /// let mut director = ScoreDirector::new(&p, &n, p.initial_assignment())?;
+    /// let before = director.explain_default(|_, scope, _| scope.to_vec());
+    /// director.apply(&Move::Change { variable: 0, value: Some(2) })?.commit();
+    /// let after = director.explain_default(|_, scope, _| scope.to_vec());
+    /// let diff = after.matches.diff(&before.matches);
+    /// assert_eq!(diff.score_delta, SimpleScore::new(-3));
+    /// assert_eq!(diff.indictments[&0].score_delta, SimpleScore::new(-3));
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn explain_default<F: Ord + Clone>(
+        &self,
+        mut facts: impl FnMut(&str, &[usize], &[Option<&V>]) -> Vec<F>,
+    ) -> crate::ScopedScoreExplanation<S, crate::DefaultJustification<S, F>, F> {
+        self.explain(|name, scope, values, score| {
+            let facts = facts(name, scope, values);
+            (
+                crate::DefaultJustification {
+                    score: score.clone(),
+                    facts: facts.clone(),
+                },
+                facts,
+            )
+        })
+    }
     /// Evaluate against one unchanged base, retaining the configured best
     /// accepted candidates. The saved assignment and sparse cache updates stay inside this
     /// exclusive director borrow. Installing them does not invoke callbacks again.

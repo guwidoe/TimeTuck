@@ -9337,3 +9337,22 @@ check.sh passed:2133 Rust tests,113 doctests,fmt/Clippy;255 Python checks
 reused.217 Rust targets ran and77 reused matching successful evidence.
 Coverage1003/4855(20.659%),pending3570,excluded282,failed/unverified0.
 Benchmark datasets remain stale; no timing sweep.
+
+
+## Scoped score explanations and snapshot comparison
+
+All three scoped directors now expose explain/explain_default over cached weighted
+contributions and current scoped facts; scoring callbacks are not invoked. Each
+active scope is one aggregate match, disabled weights have none. Custom/default
+justifications and deduplicated per-fact contributions use existing explanation types.
+ScopedScoreExplanation separates full structural score from ordinary matches.score.
+ScoreExplanation::diff compares current against baseline, retaining only changed
+constraint/indictment before/after snapshots and exact score deltas. Zero-delta
+metadata/identity changes are retained; additions/removals are explicit Options.
+IDs must be aligned across compared reports. One upstream ConstraintMatchTotal method
+adapted; seven original regressions cover scoped snapshots and comparisons.
+Full rewrite goal remains active.
+check.sh passed:2141 Rust tests,114 doctests,fmt/Clippy;255 Python checks
+reused.244 Rust targets ran and53 reused matching successful evidence.
+Coverage1004/4855(20.680%),pending3569,excluded282,failed/unverified0.
+Benchmark datasets remain stale; no timing sweep.

@@ -400,6 +400,73 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             score,
         })
     }
+    /// Explain each retained scoped contribution without rescoring. The callback
+    /// receives name, ordered scope, current facts and the cached weighted score.
+    /// Each active constraint has one aggregate match (ID 0); disabled weighted
+    /// constraints have no matches and do not invoke the callback. This does not
+    /// invent individual matches inside a caller's aggregate scoring function.
+    /// The returned full score includes structural incompleteness separately from
+    /// ordinary contributions. Snapshots are owned and survive commits/rollback.
+    pub fn explain<J, F: Ord + Clone>(
+        &self,
+        mut explain: impl FnMut(&str, &[MixedScope], &[MixedFact<'_, B, L>], &S) -> (J, Vec<F>),
+    ) -> crate::ScopedScoreExplanation<S, J, F> {
+        let mut matches = crate::ScoreExplanation::default();
+        for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
+            let explanation = if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+                None
+            } else {
+                let facts: Vec<_> = constraint
+                    .scope
+                    .iter()
+                    .map(|scope| match *scope {
+                        MixedScope::Basic(i) => {
+                            MixedFact::Basic(self.assignment.basic().values()[i].as_ref())
+                        }
+                        MixedScope::ListEntity(i) => {
+                            MixedFact::ListEntity(&self.assignment.lists().lists()[i])
+                        }
+                        MixedScope::ListValue(i) => {
+                            let value = &self.problem.lists().values()[i];
+                            MixedFact::ListValue {
+                                value,
+                                element: self.assignment.lists().element(value),
+                            }
+                        }
+                    })
+                    .collect();
+                Some(explain(&constraint.name, &constraint.scope, &facts, score))
+            };
+            matches
+                .add_constraint(crate::score_explanation::scoped_contribution(
+                    &constraint.name,
+                    score.clone(),
+                    explanation,
+                ))
+                .expect("network constraint names are unique");
+        }
+        crate::ScopedScoreExplanation {
+            score: self.score.clone(),
+            matches,
+        }
+    }
+    /// Keep the ordered fact identities as the default justification while
+    /// deduplicating each match's blamed facts. No scoring callbacks are invoked.
+    pub fn explain_default<F: Ord + Clone>(
+        &self,
+        mut facts: impl FnMut(&str, &[MixedScope], &[MixedFact<'_, B, L>]) -> Vec<F>,
+    ) -> crate::ScopedScoreExplanation<S, crate::DefaultJustification<S, F>, F> {
+        self.explain(|name, scope, values, score| {
+            let facts = facts(name, scope, values);
+            (
+                crate::DefaultJustification {
+                    score: score.clone(),
+                    facts: facts.clone(),
+                },
+                facts,
+            )
+        })
+    }
     // Save assignments/cache updates inside this exclusive borrow. All scans
     // use one unchanged base; selection failure cannot install an earlier winner.
     pub(crate) fn select_best(

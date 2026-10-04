@@ -1,4 +1,4 @@
-//! Owned explanations of retained stream matches, built only when requested.
+//! Owned explanations of retained scoped and stream contributions, built on demand.
 use crate::{AdditiveScore, GraphError, StreamConstraint, StreamGraph};
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -217,4 +217,115 @@ impl<S: AdditiveScore + 'static> StreamGraph<'_, S> {
             )
         })
     }
+}
+
+/// A complete scoped director snapshot. `score` includes structural state;
+/// `matches.score` sums only ordinary constraint contributions. Each active scoped
+/// callback is represented by one aggregate match, not inferred inner matches.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ScopedScoreExplanation<S, J, F> {
+    pub score: S,
+    pub matches: ScoreExplanation<usize, S, J, F>,
+}
+
+pub(crate) fn scoped_contribution<S: AdditiveScore, J, F: Ord + Clone>(
+    name: &str,
+    score: S,
+    explanation: Option<(J, Vec<F>)>,
+) -> ConstraintExplanation<usize, S, J, F> {
+    let mut matches = BTreeMap::new();
+    let mut indictments = BTreeMap::new();
+    if let Some((justification, facts)) = explanation {
+        let facts: BTreeSet<_> = facts.into_iter().collect();
+        for fact in &facts {
+            indictments.insert(
+                fact.clone(),
+                Indictment {
+                    score: score.clone(),
+                    matches: BTreeSet::from([0]),
+                },
+            );
+        }
+        matches.insert(
+            0,
+            ExplainedMatch {
+                score: score.clone(),
+                justification,
+                indicted_facts: facts,
+            },
+        );
+    }
+    ConstraintExplanation {
+        name: name.to_owned(),
+        score,
+        matches,
+        indictments,
+    }
+}
+
+/// Before/after snapshots distinguish additions and removals from changes whose
+/// score delta is zero (for example a changed justification or set of blamed facts).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ExplanationChange<T, S> {
+    pub before: Option<T>,
+    pub after: Option<T>,
+    pub score_delta: S,
+}
+
+/// A retained before/after change to one constraint.
+pub type ConstraintExplanationChange<I, S, J, F> =
+    ExplanationChange<ConstraintExplanation<I, S, J, F>, S>;
+
+/// Difference from a baseline to a current explanation. Only changed constraints
+/// and indictments are retained. There is no rescoring or callback invocation.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ScoreExplanationDiff<I, S, J, F> {
+    pub score_delta: S,
+    pub constraints: BTreeMap<String, ConstraintExplanationChange<I, S, J, F>>,
+    pub indictments: BTreeMap<F, ExplanationChange<Indictment<ConstraintMatchRef<I>, S>, S>>,
+}
+impl<I: Ord + Clone, S: AdditiveScore, J: Clone + PartialEq, F: Ord + Clone>
+    ScoreExplanation<I, S, J, F>
+{
+    /// Compare `self` against `baseline`; deltas are current minus baseline.
+    /// Match IDs must retain the same meaning across snapshots. Independently
+    /// indexed reports should first align their original identities. Differences
+    /// include justification/blame/occurrence changes even when scores agree.
+    pub fn diff(&self, baseline: &Self) -> ScoreExplanationDiff<I, S, J, F> {
+        ScoreExplanationDiff {
+            score_delta: self.score.clone() - baseline.score.clone(),
+            constraints: changed_entries(&baseline.constraints, &self.constraints, |c| {
+                c.score.clone()
+            }),
+            indictments: changed_entries(&baseline.indictments, &self.indictments, |i| {
+                i.score.clone()
+            }),
+        }
+    }
+}
+fn changed_entries<K: Ord + Clone, T: Clone + PartialEq, S: AdditiveScore>(
+    before: &BTreeMap<K, T>,
+    after: &BTreeMap<K, T>,
+    score: impl Fn(&T) -> S,
+) -> BTreeMap<K, ExplanationChange<T, S>> {
+    before
+        .keys()
+        .chain(after.keys())
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .filter_map(|key| {
+            let old = before.get(key);
+            let new = after.get(key);
+            (old != new).then(|| {
+                (
+                    key.clone(),
+                    ExplanationChange {
+                        before: old.cloned(),
+                        after: new.cloned(),
+                        score_delta: new.map_or(S::ZERO, &score) - old.map_or(S::ZERO, &score),
+                    },
+                )
+            })
+        })
+        .collect()
 }

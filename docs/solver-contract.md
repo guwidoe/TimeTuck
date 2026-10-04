@@ -1395,8 +1395,8 @@ fact justifications, exact match scores and deduplicated per-fact indictments.
 `explain_constraint` accepts a custom justification and independently selected
 blame facts. Both read retained terminal matches without evaluating score callbacks;
 explanation callbacks run only on request. Basic/list/mixed stream directors expose
-the graph, including transactional candidate views. Standalone scoped networks do
-not yet expose match justifications.
+the graph, including transactional candidate views. Scoped directors expose aggregate
+contribution justifications through the APIs described below.
 
 Equal payloads at distinct tuple IDs remain distinct matches. Repeated blame facts
 within one match count once; matches blaming multiple facts contribute their full
@@ -1502,3 +1502,41 @@ Original regressions cover all three networks, atomic invalid overrides, disabli
 and reactivation, callback counts, decimal failure/panic rollback and fractional
 optima under both exact solving and construction/local search. These original
 regressions add no upstream method credit.
+
+
+## Scoped explanations and snapshot differences
+
+`ScoreDirector`, `ListScoreDirector` and `MixedScoreDirector` expose `explain` and
+`explain_default`. Callbacks receive the constraint name, declared scope in order,
+current scoped facts and the retained weighted score. They do not invoke scoring,
+weight-factor or graph callbacks. Each active scoped constraint produces one
+aggregate match (ID zero); the API cannot infer inner matches from an opaque
+aggregate callback. Zero-weight disabled constraints remain visible with no matches
+and never invoke the explanation callback. Ordinary zero contributions retain their
+match. Custom justification data and blamed fact identities are independent.
+Default justifications preserve fact order/repetitions; indictment scores count each
+fact only once per match and aggregate across constraints by qualified identity.
+
+`ScopedScoreExplanation.score` preserves the director's structural component.
+Its `matches` member contains the ordinary contribution report, whose score excludes
+structural incompleteness. Thus a model initialization change can change the full
+score while leaving the contribution report unchanged. Owned reports remain valid
+across later moves, rejected trials, reweighting and destruction of the director.
+An explanation callback panic leaves director values and caches unchanged.
+
+`current.diff(&baseline)` on `ScoreExplanation` returns current-minus-baseline
+ordinary score deltas, changed constraints and changed indictments. Each entry
+retains its before/after snapshot; `None` distinguishes addition/removal from an
+existing zero-score entry. Changes to justifications, blame or match occurrence
+identity are retained even when the score delta is zero. Unchanged entries are
+omitted. Match IDs must mean the same thing in both reports; separately indexed
+heterogeneous stream reports must align original identities before comparison.
+The operation clones changed snapshots and performs no rescoring.
+
+One complete upstream ConstraintMatchTotal method preserves the initial zero and
+all six impact/removal totals. Native string fact identities and graph occurrences
+replace Java entities and match handles; Java equality/hash/order methods remain
+pending. Seven original scoped/difference regressions cover all three model types,
+callback counts/panics, disabled and empty constraints, structural state, exact
+fractions, zero-delta changes, rollback and owned snapshot independence. They add
+no upstream method credit.

@@ -15045,6 +15045,21 @@
       "upstream_test": "impactAll",
       "local_test": "bendable_impact_all",
       "modifications": "Preserve the empty score or all four full score states after two weighted impacts and reverse-order undo. Two native optional variables represent impact occurrence slots; assignment and unassignment replace Java impact handles. A single scoped factor sums the active occurrence weights. Native score types replace Java objects; bendable dimensions are 1 hard/2 soft. No Java object or notification lifecycle equivalence claimed. Separate overflow methods remain pending: native integer score arithmetic wraps."
+    },
+    {
+      "id": "ConstraintMatchTotalTest.getScoreTotal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTotalTest.java",
+      "upstream_test": "getScoreTotal",
+      "local_path": "crates/solver/tests/constraint_match_total_cases.rs",
+      "local_test": "get_score_total",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the initial zero and all six contribution/removal totals, with e1/e2/e3 represented by stable string identities. Typed graph occurrence IDs replace Java match handles; ordered default justifications retain the reversed e2/e1 tuple. Native retained explanation snapshots replace the Java mutable total object. Additional snapshot-difference arithmetic assertions are original; Java equality/hash/order methods remain pending."
     }
   ],
   "fixtures": [
