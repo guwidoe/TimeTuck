@@ -8068,3 +8068,73 @@ This turn made verified progress toward the full rewrite. The goal remains activ
 incomplete and unblocked. Queue lifecycle/copy method adaptations, broader construction
 ordering and remaining Community behavior remain pending. New generated cases and
 original regressions earn no additional upstream-method credit.
+
+## 2026-10-04: Dedicated construction performance and quality evidence
+
+Previous goal turn made verified progress in 19789db. This increment extends the
+requested performance dashboard to the three implemented basic construction modes:
+Sequential, Pooled and ValueQueue. The solver library algorithms are unchanged.
+New native construction_benchmark example and public-Java ConstructionBenchmark
+measure complete per-solve construction with full scoring, result validation and
+independent score-call counters. Parsing, network/factory construction, process startup
+and output encoding remain outside timing; per-solve setup remains inside. Only
+public pinned Community configuration is used, not production implementation source.
+
+benchmark_construction.py has 67 original small cases per mode with independent
+optima and greedy references (201 comparisons), plus shared planted-optimum timing
+inputs at 32 and 96 variables. Native assignments must match independent reference
+reconstruction; Java results are validated independently and quality/identity equality
+is counted separately. Five new Python checks reject corrupt timing/result/pin/score
+evidence, distinguish validity/equality/optimality, check reference order and prove
+that planted scores attain zero while all contributions are nonpositive.
+
+Pilot handle 94835 completed exit 0: 201 valid/equal-score/equal-assignment/native
+reference cases; 122 optima each. Both engines reach zero on sequential/pooled timing
+inputs, but value queue yields -3hard/-17soft at 32 variables and -16hard/-7soft at 96.
+These are one-warmup/one-sample/one-fork pilot observations, not final timing evidence.
+
+The report gains construction_performance as its 14th measured dataset. Dashboard
+uses existing timing cards with quality, feasibility, known optimum and score-call
+ranges. Six new cards bring the expected total to 71. Metadata, refresh behavior,
+methodology and original-case diagnostics include construction. Original comparisons
+confer no upstream method credit. UI edits do not change the report fingerprint.
+
+Full gate 16813 completed exit 0 (work/construction-benchmark-check.log): 1,861 Rust
+tests, 98 doctests, 223 Python tests, formatting/Clippy clean. Coverage remains
+885/4,855=18.229%, pending 3,688/excluded 282/failed 0/unverified 0. Sources are frozen
+for the 14-job sequential refresh in work/construction-benchmark-refresh.sh; its
+log is work/construction-benchmark-refresh.log, with per-job logs. The final audit is
+work/construction-benchmark-audit.py. Full rewrite remains active/incomplete/unblocked.
+
+Sequential refresh runs under handle 26926. Re-poll this same handle after observation
+timeouts; do not restart a still-live measurement. The planned full construction
+measurement uses five warmups, seven samples and three fresh processes per runtime.
+
+Refresh handle 26926 completed exit 0. All 14 datasets are current; 71 timing
+workloads include six new construction cards. Final construction evidence uses the
+default 5 warmups / 7 samples / 3 fresh processes, with 21 samples per runtime per
+workload (252 measured runtime samples). Audit 29234 exited 0 and independently
+rechecked inputs, output scores/assignments, small optima and all measured call counts.
+All 201 small comparisons agree in assignments/scores and native references, with
+122 enumerated optima each. Existing comparison invariants remain unchanged.
+
+Observed construction medians in ms (Rust / Java): Sequential32 0.053216 / 3.566291,
+Sequential96 0.709755 / 4.869291; Pooled32 0.875619 / 6.049585, Pooled96 25.871895 /
+41.708188; ValueQueue32 0.287323 / 4.192019, ValueQueue96 7.938188 / 14.065829.
+These are workload-specific, end-to-end full-scoring results, not universal speedups.
+Sequential/pooled reach the known zero optimum; queue returns the same infeasible
+scores in both engines. All measured score-call counts retain full construction work
+across repeated samples; Java calls are two above native on these selected inputs.
+
+Browser checks passed at 1440x1000 and 390x844: all six new cards, 71 overall,
+18.23% coverage, 201/201 construction diagnostic with 122/201 optima, current-state
+indicator, exact returned scores, known optima and 3x7/5-warmup caption. No page errors,
+undefined text or horizontal overflow. Inspected work/construction-benchmark-
+{desktop,phone,phone-quality}.png; reload keeps the new cards current. Browser closed;
+localhost:8765 server remains running. No test/measurement process remains live.
+Staged benchmark code, validation, report wiring and documentation were reviewed.
+
+This turn made verified progress on the explicitly requested performance dashboard.
+The full solver rewrite remains active, incomplete and unblocked. No adapted-method
+credit was added. Remaining Community behavior and Java lifecycle/copy semantics still
+need implementation and verification; do not mark the goal complete at this milestone.

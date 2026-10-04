@@ -1620,3 +1620,32 @@ graph cases agree on final assignments and independently recomputed scores; both
 runtimes reach 24 enumerated optima. Native assignments also match independent Python
 receiver reconstruction. The generated comparison does not establish Java internal
 traces, heterogeneous/optional/list/mixed parity or dedicated performance results.
+
+## Measured basic construction strategies
+
+scripts/benchmark_construction.py provides dedicated end-to-end construction timing
+for Sequential, Pooled and ValueQueue on homogeneous required basic-variable graph
+models. Java uses only pinned Community public construction configuration, original
+entity/value order and NEVER early picks. Both engines perform full score calculation:
+one global native constraint and a Java EasyScoreCalculator. Neither incremental
+stream behavior nor list/mixed/optional models are represented by these timings.
+
+Each sample measures solver/director setup, initial scoring, complete construction
+and returned assignment/score validation. Input parsing, model/network/factory setup,
+process startup and output encoding are excluded. Factories/networks are reused;
+per-solve state is fresh. Score-call counters exclude the final independent validation
+recomputation while its time remains included. Counters need not agree between engines.
+Warmups precede measured samples and fresh processes alternate runtime order. Timing
+ranges include shared-host scheduling, allocation and JVM garbage collection effects.
+
+There are 67 original small cases per strategy (201 total) with independent enumerated
+optima, plus two timing sizes (32/96 variables) per strategy. Every returned assignment
+is independently checked for completeness, domains, pins and score; each native
+assignment also matches Python greedy reconstruction. The larger cases have known
+zero optima: every contribution is nonpositive and a planted coloring attains zero.
+The dashboard reports runtime, score/feasibility, known optimum and score-call range.
+Agreement and optimum attainment are separate: a completed construction phase need
+not return an optimal or even hard-feasible result. No upstream-method credit comes
+from these original comparisons. Run the script with default warmup/sample/fork
+settings for the full comparison; pilot runs with smaller counts are not equivalent
+measurement evidence.

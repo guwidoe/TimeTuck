@@ -1505,3 +1505,12 @@ regressions and 67 public-Java/Python graph comparisons establish separate evide
 Final assignments and scores agree in all 67 cases, with 24 enumerated optima each.
 Native heterogeneous, optional, mixed and budget semantics have original regressions;
 the Java comparison covers homogeneous required basic variables only.
+
+Dedicated basic-construction performance evidence is now produced separately by
+scripts/benchmark_construction.py for sequential, pooled and cycling-value placement.
+It validates all returned assignments and scores, checks each native result against
+independent greedy reconstruction, and records small-case enumerated optima separately
+from equality. Larger timing cases have independently justified planted optima. The
+scope is full-scoring homogeneous required basic variables with pins; it does not
+extend the earlier comparisons to Java list/mixed/optional or incremental-stream
+construction. Original benchmark cases confer no adapted-method credit.

@@ -109,6 +109,7 @@ function render() {
     renderDetail();
     renderBenchmarks();
     renderBenchmarks("solver");
+    renderBenchmarks("construction");
     renderBenchmarks("heuristic");
     renderBenchmarks("list");
     renderBenchmarks("stream");
@@ -221,7 +222,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "stream" || kind === "construction";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -296,6 +297,9 @@ function renderBenchmarks(kind = "score") {
         : `Medians per ${solver ? "solve" : "iteration"} · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} ${solver ? "solves" : "iterations"}; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Result checksums match.`;
     if (heuristic && !missing) {
         target("benchmark-caption").textContent = `At most ${p.config.steps} completed steps · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
+    }
+    if (kind === "construction" && !missing) {
+        target("benchmark-caption").textContent = `Complete construction · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmup solves per process. Measured ${timestamp(p.generated_at)}. Every output independently checked; native assignments also match greedy reconstruction.`;
     }
     if (kind === "list" && !missing) {
         target("benchmark-caption").textContent = `Construction completes all insertions; route search uses at most ${p.config.steps} steps${p.config.two_opt_score_limit ? `; two-opt also has a ${n(p.config.two_opt_score_limit)} score-evaluation budget` : ""} · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups per process. Measured ${timestamp(p.generated_at)}. Every returned assignment independently checked.`;
@@ -395,6 +399,7 @@ function renderDifferential() {
             box.append(node("p", "note", `${n(d.failures.length)} discrepancies are recorded in the downloadable report.`));
     }
     for (const [key, label] of [
+        ["construction_performance", " original construction cases return valid complete assignments and scores."],
         ["heuristic_performance", " original heuristic cases return valid, non-regressing solutions."],
         ["stream_performance", " original incremental-stream search cases return valid, non-regressing solutions."],
         ["list_performance", " original list-solving cases return valid complete solutions; local search retains at least its initial quality."],
@@ -404,6 +409,13 @@ function renderDifferential() {
             const v = h.validation, p = node("p");
             p.append(node("strong", "", `${n(v.passed)} / ${n(v.total)}`), document.createTextNode(label));
             box.append(p, node("p", "note", `${n(v.equal_scores)} cases have equal Java/Rust scores. Independently proven optima reached: Rust ${n(v.optimal.rust)}, Java ${n(v.optimal.java)}. No additional upstream coverage credit.`));
+            if (key === "construction_performance") {
+                box.append(node("p", "note", `${n(v.native_reference_passed)} native assignments match independent greedy reconstruction; ${n(v.equal_assignments)} assignments match Community. No new upstream-method credit.`));
+                const names = {sequential: "Sequential", pooled: "Pooled cheapest insertion", "value-queue": "Cycling value queue"};
+                for (const [mode, detail] of Object.entries(v.by_algorithm || {})) {
+                    box.append(node("p", "note", `${names[mode] || mode}: ${n(detail.equal_scores)} / ${n(detail.total)} equal-score cases; optima reached by Rust ${n(detail.optimal.rust)}, Java ${n(detail.optimal.java)}.`));
+                }
+            }
             if (key === "list_performance" && v.by_mode) {
                 const names = {construct: "Construction", hill: "Relocation hill climbing", "two-opt": "Two-opt"};
                 for (const [mode, detail] of Object.entries(v.by_mode)) {
@@ -454,6 +466,7 @@ async function reload() {
         } else {
             renderBenchmarks();
             renderBenchmarks("solver");
+            renderBenchmarks("construction");
             renderBenchmarks("heuristic");
             renderBenchmarks("list");
             renderBenchmarks("stream");

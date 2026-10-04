@@ -154,7 +154,8 @@ phases. A separate significant-improvement limit requires a configured score gai
 within each window, with exact arithmetic and optional ignored lower score levels. Greedy construction can visit one item at a time or use pooled cheapest
 insertion across all eligible missing items. Value-queue construction cycles through
 basic values and chooses their best unassigned receivers; `local_search_from` improves
-the resulting assignment.
+the resulting assignment. The dashboard compares all three basic construction
+strategies with score quality and known optima beside the timings.
 For ordered lists, `greedy_list_construction` inserts missing required values and
 `list_local_search_from` improves a complete assignment with lazy relocation,
 assignment, unassignment, swap and replacement moves. See
@@ -191,6 +192,7 @@ python3 scripts/differential_solver.py
 python3 scripts/differential_lists.py
 python3 scripts/benchmark_solver.py
 python3 scripts/benchmark_heuristics.py
+python3 scripts/benchmark_construction.py
 python3 scripts/benchmark_lists.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
