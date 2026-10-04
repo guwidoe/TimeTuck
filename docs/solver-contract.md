@@ -248,7 +248,8 @@ controls as local search. The phase retains the earlier complete best as incumbe
 it enumerates the full model space independently of movable initial assignments.
 Basic domains, optional unassignment, list order, ranges and pins keep the standalone
 exact-search semantics. Mixed enumeration visits each list assignment and then all
-basic assignments. This is exhaustive enumeration, not branch-and-bound.
+basic assignments. This default Enumerate strategy retains its original behavior;
+bounded tree exploration is opt-in as described below.
 
 An exact phase can follow incomplete construction, including construction with a
 zero phase-local budget. A zero-work exact phase may pass that partial state to
@@ -1122,3 +1123,57 @@ queued inspection/metadata, no eager lookup, validation and gradient boundary ca
 The source unimproved override method still requires a Java static-factory interaction
 and inspection of its raw override object; the native effective-settings interface
 has a different contract and does not earn that method yet.
+
+
+## Bounded exact phases
+
+`ExactPhaseConfig.strategy` now accepts `ExactSearchStrategy::BranchAndBound` with
+`BoundedPhaseConfig`; Enumerate remains the default. The same independent tree
+engine serves basic, list and mixed models in both scoped and stream scoring.
+Four exploration orders and a maximum queued-node count are configurable. Frozen
+values, movable initial resets, list insertion/optional decisions and mixed
+list-then-basic branching retain the standalone bounded-search contracts.
+
+`PartialScoreBound::Unknown` is the safe default and supplies no bound.
+`NonIncreasing` is an explicit caller assertion: each partial ordinary score,
+with structural state cleared to zero, must dominate EVERY eligible completion
+under full score ordering. This includes optional omissions, later list insertions,
+coupled constraints and actual arithmetic, including integer wrapping. Negative
+weights alone do not establish this property. It is not an automatic inference or
+per-level initializing-score-trend implementation. A visited eligible leaf exceeding
+an ancestor bound returns `SolverError::InvalidOptimisticBound` with phase index
+and diagnostic score/bound strings. Pruned branches cannot validate the assertion;
+optimality remains conditional on its validity. Scoring errors retain their original
+typed Phase error and index; they are never converted into synthetic scores or panics.
+
+Every successfully scored node, including the root and partial assignments, counts
+as one evaluation AND one move_evaluation. Constraint work counts actual callbacks;
+no local-search steps or accepted moves are added. A prior complete scored incumbent
+survives handoff and participates in pruning without rescoring. Initial model values
+alone are not a scored incumbent. Ties preserve the earlier complete assignment.
+Partial tree nodes are never published as complete solutions or retained in place
+of an earlier phase's partial construction result.
+
+The common solve clips phase score/move/time budgets and binds cancellation/goals.
+Bounded phases poll score budget, move budget, cancellation, elapsed/shared
+stagnation, score target and feasibility in that order. Strict best improvements
+reset shared stagnation and notify observers; late improvements cannot revive an
+expired shared limit. Preparation, scoring and observations consume elapsed time.
+Finishing the final leaf or proving every remaining branch dominated wins over
+controls reached by that callback. FrontierLimit is a local phase stop, never an
+optimality proof; later construction/custom/exact phases can finish partial work.
+A following local-search phase still obeys the existing incomplete-handoff policy.
+
+Scoped phases fully calculate every node. Stream phases use one graph per phase
+and existing transactional candidate scoring, restoring empty planning rows while
+retaining immutable facts. No incremental tree-scoring performance claim is made.
+Configured/managed jobs copy the strategy with their phase vector and preserve
+per-job overrides and cancellation ownership. Existing Exact observation and
+initialization-event semantics are unchanged.
+
+Ten original six-backend integration/regression methods, five controlled-clock
+methods and a managed-job override check cover budgets, bound use and violations,
+incumbents, handoffs, goals, callback errors, cancellation, exact decimal scores,
+factory timing and stagnation. Standalone and legacy enumeration regressions remain
+required. These native extensions earn no new upstream-method credit or dedicated
+phase timing comparison.

@@ -71,8 +71,9 @@ each visited partial state. All four policies recover the independently establis
 counts include partial states. These counts are correctness evidence, not timings.
 Additional independent product/table checks cover coupled mixed-sign objectives,
 every budget prefix, observations, resource limits, decimal precision and panics.
-These original checks add no upstream-method coverage. Automatic bounds and
-ordered solver-phase integration remain pending.
+These original checks add no upstream-method coverage. Ordered Exact phases now
+support all exploration orders with unknown bounds or an explicit non-increasing
+score assumption; see solver-contract.md. Automatic bound inference remains pending.
 
 Eight original regression methods test atomic commit/undo, invalid starts, later
 component failure, panic rollback, nested composites, pins and ranges. Independent

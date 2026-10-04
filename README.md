@@ -87,12 +87,14 @@ factory for each phase. Results include partial progress, retained solutions and
 per-phase work. See [the solver contract](docs/solver-contract.md) for configuration,
 error behavior and limits; `mixed_routes` exercises both scoring backends.
 
-Basic, list and mixed models also support standalone branch-and-bound, with four exploration
+Basic, list and mixed models also support branch-and-bound, with four exploration
 orders, optional optimistic bounds, best-solution observations and bounded search
 controls. Exhaustion proves optimality when supplied bounds are admissible; unknown
 bounds keep branches open. `branch_and_bound`, `branch_and_bound_lists` and
 `branch_and_bound_mixed` share pruning and controls; mixed search evaluates the
-coupled objective. The `mixed_routes` example demonstrates a metric-distance bound.
+coupled objective. Ordered Exact phases accept the same exploration strategies
+with unknown bounds or an explicit non-increasing-score assumption. The
+`mixed_routes` example demonstrates a metric-distance bound for standalone search.
 See [the planning contract](docs/planning-contract.md)
 for callback semantics, validation and limits. The dashboard compares all four
 orders with Community on independently verified small exact-search workloads.

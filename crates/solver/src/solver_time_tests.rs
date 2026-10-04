@@ -36,7 +36,7 @@ fn exercise_scored<'a>(
                 let s = b.source::<usize, (usize, Option<usize>)>();
                 b.score("value", s.port(), |(_, v)| {
                     elapsed.set(elapsed.get() + 1);
-                    SimpleScore::new(score(v.unwrap()))
+                    SimpleScore::new(score(v.unwrap_or(0)))
                 })
                 .unwrap();
                 let request = request.with_time(time);
@@ -72,14 +72,34 @@ fn exercise_scored<'a>(
                     }
                     PhaseRequest::Exact(c, prior) => {
                         let mut g = b.build();
-                        exact::run_with_clock(
-                            c,
-                            prior,
-                            time,
-                            |visit| crate::search::visit_assignments(&p, visit),
-                            |a| exact::score_basic(&p, &mut g, &s, a),
-                            clock,
-                        )?
+                        if matches!(c.strategy, ExactSearchStrategy::BranchAndBound(_)) {
+                            bounded::run_with_clock(
+                                c,
+                                prior,
+                                time,
+                                || crate::branch_tree::BasicTree::new(&p),
+                                |a| exact::score_basic(&p, &mut g, &s, a),
+                                None,
+                                clock,
+                            )
+                            .map_err(|e| match e {
+                                crate::branch_and_bound::TreeSearchError::Evaluation(e) => {
+                                    LocalSearchError::from(e)
+                                }
+                                crate::branch_and_bound::TreeSearchError::Bound(e) => {
+                                    panic!("unknown-bound fixture: {e}")
+                                }
+                            })?
+                        } else {
+                            exact::run_with_clock(
+                                c,
+                                prior,
+                                time,
+                                |visit| crate::search::visit_assignments(&p, visit),
+                                |a| exact::score_basic(&p, &mut g, &s, a),
+                                clock,
+                            )?
+                        }
                     }
                     PhaseRequest::Construction(c) => {
                         constructed!(crate::construction::construction_impl_with_clock(
@@ -816,4 +836,74 @@ fn custom_stagnation_spans_phases_and_initial_scoring_does_not_reset_it() {
             }
         );
     }
+}
+
+#[test]
+fn bounded_phases_share_deadlines_and_stagnation_through_factory_handoffs() {
+    let bounded = || {
+        SolverPhase::Exact(ExactPhaseConfig {
+            strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+            ..Default::default()
+        })
+    };
+    for limit in [2, 3] {
+        let r = exercise_scored(
+            SolverSequence {
+                phases: vec![bounded()],
+                limits: SolverLimits {
+                    max_time: Some(ms(limit)),
+                    ..Default::default()
+                },
+            },
+            2,
+            |v| v as i64,
+        );
+        assert_eq!(r.termination, SolverTermination::TimeLimit);
+        assert_eq!(r.work.evaluations, limit - 2);
+        assert_eq!(r.score, None);
+    }
+    let mut first = bounded();
+    let SolverPhase::Exact(ref mut c) = first else {
+        unreachable!()
+    };
+    c.max_time = Some(ms(1));
+    let r = exercise_scored(
+        SolverSequence {
+            phases: vec![first, bounded()],
+            limits: SolverLimits {
+                max_time: Some(ms(5)),
+                ..Default::default()
+            },
+        },
+        2,
+        |v| v as i64,
+    );
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    assert_eq!(r.phases.len(), 2);
+    assert_eq!(r.phases[0].work.evaluations, 1);
+    assert_eq!(r.phases[1].work.evaluations, 0);
+    let mut first = bounded();
+    let SolverPhase::Exact(ref mut c) = first else {
+        unreachable!()
+    };
+    c.max_evaluations = 2;
+    let r = exercise_scored(
+        SolverSequence {
+            phases: vec![first, bounded()],
+            limits: SolverLimits {
+                max_unimproved_time: Some(ms(3)),
+                ..Default::default()
+            },
+        },
+        2,
+        |v| v as i64,
+    );
+    assert_eq!(r.termination, SolverTermination::UnimprovedTimeLimit);
+    assert_eq!(r.phases.len(), 2);
+    assert_eq!(r.work.evaluations, 3);
+    assert_eq!(r.score, Some(SimpleScore::new(0))); // First domain value is zero.
+    assert_eq!(
+        r.phases[1].termination,
+        PhaseTermination::Exact(ExactPhaseTermination::UnimprovedTimeLimit)
+    );
 }

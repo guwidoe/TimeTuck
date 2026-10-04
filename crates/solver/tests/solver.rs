@@ -13,6 +13,7 @@ struct Outcome {
 }
 #[derive(Debug, PartialEq)]
 enum Failure {
+    Bound(usize),
     Empty,
     Incomplete(usize),
     Acceptance(usize),
@@ -166,6 +167,9 @@ fn run_scored_events<'a>(
                     })
                 }
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
+                Err(SolverError::InvalidOptimisticBound { phase, .. }) => {
+                    Err(Failure::Bound(phase))
+                }
                 Err(SolverError::IncompleteLocalSearch { phase }) => {
                     Err(Failure::Incomplete(phase))
                 }
@@ -1435,3 +1439,6 @@ mod sequence_cases;
 
 #[path = "support/solver_incomplete_handoff_cases.rs"]
 mod incomplete_handoff_cases;
+
+#[path = "support/solver_bounded_cases.rs"]
+mod bounded_cases;

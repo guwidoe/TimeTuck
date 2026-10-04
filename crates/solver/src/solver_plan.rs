@@ -2,12 +2,78 @@
 use crate::*;
 use std::time::Duration;
 
+/// Assumption used to derive a bound from a partial score. Never inferred from
+/// the constraint names or sign of weights; the caller must establish it.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum PartialScoreBound {
+    /// No bound; explore the complete tree subject to configured controls.
+    #[default]
+    Unknown,
+    /// Clearing structural incompleteness from the partial score gives an upper
+    /// bound for EVERY eligible completion under full score ordering. This must
+    /// hold for optional omissions, later list insertions, coupled constraints
+    /// and the actual arithmetic (including integer wrapping). Visited leaves
+    /// can disprove this assertion; pruned branches cannot validate it.
+    NonIncreasing,
+}
+/// Bounded exact-search settings for any basic, list or mixed solver phase.
+/// Limits and observations come from the surrounding ExactPhaseConfig/solve.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![0_i64, 1, 2]); 3])?;
+/// let mut n = ConstraintNetwork::new(3);
+/// n.add_constraint("penalty", vec![0, 1, 2], |v| {
+///     SimpleScore::new(-v.iter().filter_map(|v| v.copied()).sum::<i64>())
+/// })?;
+/// let r = solve(&p, &n, SolverSequence {
+///     phases: vec![SolverPhase::Exact(ExactPhaseConfig {
+///         strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig {
+///             bound: PartialScoreBound::NonIncreasing,
+///             ..Default::default()
+///         }),
+///         ..Default::default()
+///     })],
+///     ..Default::default()
+/// })?;
+/// assert!(r.is_optimal());
+/// assert_eq!(r.score, Some(SimpleScore::ZERO));
+/// assert!(r.work.evaluations < 40); // Root + all partial and complete nodes.
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct BoundedPhaseConfig {
+    pub exploration: NodeExploration,
+    pub max_frontier: usize,
+    pub bound: PartialScoreBound,
+}
+impl Default for BoundedPhaseConfig {
+    fn default() -> Self {
+        Self {
+            exploration: NodeExploration::DepthFirst,
+            max_frontier: 10_000,
+            bound: PartialScoreBound::Unknown,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ExactSearchStrategy {
+    #[default]
+    Enumerate,
+    BranchAndBound(BoundedPhaseConfig),
+}
+
 /// Enumerate complete assignments using the solve's objective and shared controls.
 /// Each candidate counts as one score and one move evaluation; there is no initial
 /// rescore and no local-search step. Polling is cooperative between assignments.
 /// Only exhausting the full space proves optimality. Runtime can be factorial.
+/// With BranchAndBound, root and partial nodes also count as one score and move
+/// evaluation each. An earlier phase's eligible best score is retained for pruning;
+/// initial model values alone are not a scored incumbent. Bound admissibility is
+/// required for an optimality claim. FrontierLimit ends only this phase.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ExactPhaseConfig<'a, S = SimpleScore> {
+    pub strategy: ExactSearchStrategy,
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
     pub max_time: Option<Duration>,
@@ -18,6 +84,7 @@ pub struct ExactPhaseConfig<'a, S = SimpleScore> {
 impl<S> Default for ExactPhaseConfig<'_, S> {
     fn default() -> Self {
         Self {
+            strategy: ExactSearchStrategy::Enumerate,
             max_evaluations: 10_000,
             max_move_evaluations: None,
             max_time: None,
@@ -40,6 +107,7 @@ impl<'a, S> From<ExactSearchConfig<'a>> for ExactPhaseConfig<'a, S> {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ExactPhaseTermination {
     Exhausted,
+    FrontierLimit,
     EvaluationLimit,
     MoveEvaluationLimit,
     TimeLimit,

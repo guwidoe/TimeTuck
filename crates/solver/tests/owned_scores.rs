@@ -60,6 +60,9 @@ fn run<S: AdditiveScore + 'static>(
                     })
                 }
                 Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
+                Err(SolverError::InvalidOptimisticBound { .. }) => {
+                    panic!("fixture has no bounded phases")
+                }
                 Err(SolverError::IncompleteLocalSearch { .. }) => {
                     panic!("fixture returns partials")
                 }

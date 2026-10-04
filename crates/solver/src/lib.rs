@@ -256,8 +256,9 @@ mod timed_exact_tests;
 
 mod solver_plan;
 pub use solver_plan::{
-    ExactPhaseConfig, ExactPhaseTermination, MixedSolverPhase, MixedSolverPlan,
-    MixedSolverSequence, SolverPhase, SolverPlan, SolverSequence,
+    BoundedPhaseConfig, ExactPhaseConfig, ExactPhaseTermination, ExactSearchStrategy,
+    MixedSolverPhase, MixedSolverPlan, MixedSolverSequence, PartialScoreBound, SolverPhase,
+    SolverPlan, SolverSequence,
 };
 
 mod step_counting;

@@ -1,4 +1,6 @@
 //! Ordered construction, local and exact phases under shared controls.
+#[path = "solver_bounded.rs"]
+mod bounded;
 #[path = "solver_exact.rs"]
 mod exact;
 use crate::*;
@@ -150,7 +152,8 @@ pub struct PhaseReport<S> {
 pub enum SolverTermination {
     /// All planned phases ended, possibly at their own limits. Not optimality.
     PlanCompleted,
-    /// A complete scored solution and an exhausted exact assignment space.
+    /// A complete scored solution and an exhausted exact search. Pruned branches
+    /// count as exhausted only under the configured caller bound contract.
     Optimal,
     EvaluationLimit,
     MoveEvaluationLimit,
@@ -189,6 +192,13 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// A visited eligible leaf exceeded a declared ancestor bound. Scores are
+    /// retained as Debug strings so the scoring error type remains unchanged.
+    InvalidOptimisticBound {
+        phase: usize,
+        score: String,
+        bound: String,
+    },
     /// Explicit sequences must contain at least one phase.
     EmptyPlan,
     /// The preceding phase completed with a partial retained assignment and no
@@ -220,6 +230,14 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidOptimisticBound {
+                phase,
+                score,
+                bound,
+            } => write!(
+                f,
+                "phase {phase}: complete score {score} exceeds optimistic bound {bound}"
+            ),
             Self::IncompleteLocalSearch { phase } => write!(
                 f,
                 "local search phase {phase} needs to start from an initialized solution"
@@ -247,6 +265,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::EmptyPlan
+            | Self::InvalidOptimisticBound { .. }
             | Self::IncompleteLocalSearch { .. }
             | Self::ConflictingCancellation { .. }
             | Self::UnboundCustomPhase { .. } => None,
@@ -1058,6 +1077,27 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
             }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                n.validate(p, a.as_ref().expect("initial state"))
+                    .map_err(|error| SolverError::Phase {
+                        phase: index,
+                        error: LocalSearchError::from(error),
+                    })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::BasicTree::new(p),
+                    |a| {
+                        n.calculate(p, a)
+                            .map(|score| (score, n.constraint_count() as u128))
+                    },
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
+            }
             let result: Result<_, LocalSearchError> = (|| {
                 Ok(match request {
                     PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
@@ -1203,6 +1243,27 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 )
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
+            }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                n.validate(p, a.as_ref().expect("initial state"))
+                    .map_err(|error| SolverError::Phase {
+                        phase: index,
+                        error: ListLocalSearchError::from(error),
+                    })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::ListTree::new(p),
+                    |a| {
+                        n.calculate(p, a)
+                            .map(|score| (score, n.constraint_count() as u128))
+                    },
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
             }
             let result: Result<_, ListLocalSearchError> = (|| {
                 Ok(match request {
@@ -1351,6 +1412,27 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                 )
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
+            }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                n.validate(p, a.as_ref().expect("initial state"))
+                    .map_err(|error| SolverError::Phase {
+                        phase: index,
+                        error: MixedLocalSearchError::from(error),
+                    })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::MixedTree::new(p),
+                    |a| {
+                        n.calculate(p, a)
+                            .map(|score| (score, n.constraint_count() as u128))
+                    },
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
             }
             let result: Result<_, MixedLocalSearchError> = (|| {
                 Ok(match request {
@@ -1523,6 +1605,25 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
             }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                crate::stream_scoring::validate_source(&g, &s).map_err(|error| {
+                    SolverError::Phase {
+                        phase: index,
+                        error: LocalSearchError::from(error),
+                    }
+                })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::BasicTree::new(p),
+                    |a| exact::score_basic(p, &mut g, &s, a),
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
+            }
             let result: Result<_, LocalSearchError> = (|| {
                 Ok(match request {
                     PhaseRequest::Custom(..) => unreachable!("handled custom phase"),
@@ -1691,6 +1792,23 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                 )
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
+            }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                s.validate(&g).map_err(|error| SolverError::Phase {
+                    phase: index,
+                    error: ListLocalSearchError::from(error),
+                })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::ListTree::new(p),
+                    |a| exact::score_list(p, &mut g, &s, a),
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
             }
             let result: Result<_, ListLocalSearchError> = (|| {
                 Ok(match request {
@@ -1879,6 +1997,23 @@ fn solve_mixed_stream_impl<
                 )
                 .map_err(|e| custom_error(index, e))?;
                 return Ok(custom_output(r));
+            }
+            if let PhaseRequest::Exact(config, prior) = &request
+                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+            {
+                s.validate(&g).map_err(|error| SolverError::Phase {
+                    phase: index,
+                    error: MixedLocalSearchError::from(error),
+                })?;
+                return bounded::run(
+                    config.clone(),
+                    prior.clone(),
+                    time,
+                    || crate::branch_tree::MixedTree::new(p),
+                    |a| exact::score_mixed(p, &mut g, &s, a),
+                    observed.then_some(&mut notify),
+                )
+                .map_err(|e| bounded::error(index, e));
             }
             let result: Result<_, MixedLocalSearchError> = (|| {
                 Ok(match request {

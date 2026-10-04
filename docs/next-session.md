@@ -7622,3 +7622,83 @@ Screenshots work/joint-branch-{desktop,phone}.png were visually inspected. Brows
 closed; localhost:8765 server remains running. No test/measurement process remains
 live. All staged implementation, example, tests and documentation diffs reviewed.
 This turn made verified progress; the full goal remains active and incomplete.
+
+## 2026-10-04: Bounded search in ordered solver phases
+
+Previous goal turn made verified progress in b880153. This increment connects the
+shared bounded tree engine to Exact phases in all six basic/list/mixed scoped/stream
+entry points. ExactSearchStrategy defaults to Enumerate; BranchAndBound accepts
+BoundedPhaseConfig with four orders, frontier cap and PartialScoreBound. Unknown
+supplies no bound. NonIncreasing is an explicit caller assertion that each partial
+score with structural state cleared dominates every eligible completion, including
+optional omissions, later list insertions, coupling and actual wrapping arithmetic.
+No inferred bounds or per-level InitializingScoreTrend implementation is claimed.
+
+The engine now has a fallible internal BranchContext and retains eligible prior
+phase scores for pruning/tie preservation. Scoring errors keep their typed phase
+error; visited bound violations return phase index and diagnostic score/bound strings.
+Every scored root/partial/leaf counts once toward both score and move budgets;
+there are no local steps. Shared elapsed/stagnation, cancellation, goals and
+observations retain their contracts. Final exhaustion/proven pruning wins over
+controls reached by the final callback. FrontierLimit ends only the current phase.
+Default enumeration and standalone APIs retain their existing behavior.
+
+Ten original integration methods cover all six backends and four orders, budget
+prefixes, prior incumbents, partial handoffs, limits, cancellation, errors, decimal
+precision and final-exhaustion precedence. Five controlled-clock tests cover model
+preparation, callbacks/observers, factory time, shared deadlines and sticky
+stagnation across handoffs. A managed-job regression checks per-job strategy
+copying/overrides. No copied tests or provenance changes; coverage stays 872/4,855.
+The first observer test incorrectly expected an initialization event without a
+following local phase; the fixture now includes that phase, preserving the existing
+contract. An exhaustive fixture error match needed the new bound-error arm.
+
+Focused debug checks, all-target clippy and managed-job session 4228 passed; logs
+work/phase-branch-{matrix,time,global-time,managed,standalone,clippy}.log. The full
+repository gate is session 98226, work/phase-branch-check.log; re-poll the live handle
+rather than restarting on timeout. Expected counts are 1,800 Rust tests, 94 doctests
+and 211 Python checks. Source is frozen pending final capture and measurements.
+work/phase-branch-refresh.sh refreshes 13 datasets sequentially; the matching audit
+checks current fingerprints, method coverage, new test names and 65 timing cards.
+The full goal remains active and incomplete, with concrete progress this turn.
+
+Full gate 98226 completed exit 0: 1,800 all-target Rust tests, 94 doctests, 211 Python
+checks. Coverage 872/4,855=17.96%, Search 67/158, pending 3,701, excluded 282 and
+failed/unverified 0. Focused optimized checks run sequentially in session 8104,
+work/phase-branch-release.log. The complete upstream submodule remains clean at
+8b815bc6b5f3eb81feedc94dea0885a93b267762. No sources changed after capture.
+
+Optimized session 8104 completed exit 0: 85 solver integration tests, 13 basic branch,
+10 joint branch, 4 comparator, 4 private bounded clock, 1 shared handoff clock and
+1 managed-job test. The solver integration target compiled in 6m 32s; no timeout or
+restart occurred. Work/phase-branch-release.log records all outcomes. Sequential
+13-dataset refresh now runs work/phase-branch-refresh.sh with per-job logs; do not
+run competing CPU work while timing. No unrelated heavy process was active at start.
+
+Refresh handle is 67765; combined progress log work/phase-branch-refresh.log.
+Solver differential passed 128/128; oscillation 4499/4824 agreements, 325 recorded
+differences and 0 failures. Exact/heuristic/pillar timing and final audit remain
+pending until that same refresh handle exits successfully.
+
+
+Refresh 67765 completed exit 0. Final work/phase-branch-audit.log passed: all 13
+measurement datasets and the live freshness endpoint match the current source and
+verification fingerprints; 65 timing cards, including 10 exact and 22 heuristic
+workloads. All new tests are present in the full capture. Exact samples match
+independent optima; heuristic validation has 352 valid/equal-score cases and 300
+optima per runtime. Oscillation differences remain 325, with 24/24 forced-GC metric
+checks. Coverage remains 872/4,855 (17.96%), Search 67/158 (42.41%), pending 3,701,
+excluded 282 and zero failed/unverified methods.
+
+Browser checks passed at 1440x1000 and 390x844: correct coverage, 65 cards, ten exact
+and 22 heuristic cards, four passed NodeComparatorTest methods when filtering Search,
+no page errors, stale-data warning or horizontal overflow. Visually checked screenshots
+work/phase-branch-{desktop,phone,phone-timing}.png. The final timing screenshot waited
+for report loading before scrolling; initial immediate captures were superseded.
+Browser closed; localhost:8765 server remains running. No test/measurement process
+remains live. Staged implementation, tests and documentation reviewed.
+
+This turn made verified progress. The full rewrite remains active and incomplete;
+automatic per-level initializing-score-trend bounds and broader Community behavior
+remain pending. Unknown bounds and the explicit caller assertion are the currently
+supported ordered-phase choices; do not claim generic automatic bound inference.

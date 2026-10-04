@@ -433,3 +433,51 @@ fn time_gradients_handle_or_zero_disabled_and_large_durations_without_job_clock_
         .unwrap();
     assert!((mid - 0.5).abs() < 1e-15);
 }
+
+#[test]
+fn managed_jobs_preserve_bounded_strategy_and_isolate_per_job_overrides() {
+    let config = SolverSequence::<SimpleScore> {
+        phases: vec![SolverPhase::Exact(ExactPhaseConfig {
+            strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+            ..Default::default()
+        })],
+        ..Default::default()
+    };
+    let factory = SolverFactory::new(config, execute).unwrap();
+    let mut manager = factory.build_manager(1).unwrap();
+    let normal = manager
+        .job_builder(501)
+        .with_problem(problem())
+        .run()
+        .unwrap();
+    let bounded = manager
+        .job_builder(502)
+        .with_problem(problem())
+        .with_phases(vec![SolverPhase::Exact(ExactPhaseConfig {
+            strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig {
+                bound: PartialScoreBound::NonIncreasing,
+                ..Default::default()
+            }),
+            ..Default::default()
+        })])
+        .run()
+        .unwrap();
+    for (job, expected) in [(&normal, 7), (&bounded, 4)] {
+        let result = job.wait_timeout(WAIT).unwrap();
+        let result = result.as_ref().as_ref().unwrap();
+        assert!(result.is_optimal());
+        assert_eq!(result.score, Some(SimpleScore::ZERO));
+        assert_eq!(result.work.evaluations, expected);
+        assert_eq!(result.work.move_evaluations, expected);
+        assert_eq!(job.statistics().work, Some(result.work));
+    }
+    assert_ne!(
+        normal.configuration().phases,
+        bounded.configuration().phases
+    );
+    assert_eq!(
+        factory.configuration().phases,
+        normal.configuration().phases
+    );
+    manager.shutdown().unwrap();
+}

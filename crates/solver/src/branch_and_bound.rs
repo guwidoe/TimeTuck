@@ -122,6 +122,14 @@ pub enum BranchTermination {
     FrontierLimit,
     Cancelled,
     TimeLimit,
+    /// Shared or phase-local move budget (ordered solver phases only).
+    MoveEvaluationLimit,
+    /// Shared solve stagnation controls (ordered solver phases only).
+    UnimprovedTimeLimit,
+    UnimprovedStepLimit,
+    /// Retained-score goals (ordered solver phases only).
+    BestScoreLimit,
+    FeasibleScore,
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BoundedSearchResult<R> {
@@ -279,18 +287,94 @@ impl<V, S> Retained<Assignment<V>, S> for ScoredAssignment<V, S> {
     }
 }
 
+#[derive(Debug)]
+pub(crate) enum TreeSearchError<E, S> {
+    Evaluation(E),
+    Bound(InvalidOptimisticBound<S>),
+}
+pub(crate) trait BranchContext<A, S, R> {
+    type Error;
+    fn evaluate(
+        &mut self,
+        assignment: &A,
+        depth: usize,
+    ) -> Result<BranchEvaluation<S>, Self::Error>;
+    fn stop(&mut self, evaluations: u64, best: Option<&S>) -> Option<BranchTermination>;
+    fn improved(&mut self, best: &R);
+}
+struct StandaloneContext<'a, 'm, F, O, C> {
+    evaluate: F,
+    observer: O,
+    config: BranchAndBoundConfig<'a>,
+    time: crate::time_limit::TimeBudget<'m, C>,
+}
+impl<A, S, R, F, O, C> BranchContext<A, S, R> for StandaloneContext<'_, '_, F, O, C>
+where
+    F: FnMut(&A, usize) -> BranchEvaluation<S>,
+    O: FnMut(&R),
+    C: FnMut() -> Duration,
+{
+    type Error = std::convert::Infallible;
+    fn evaluate(
+        &mut self,
+        assignment: &A,
+        depth: usize,
+    ) -> Result<BranchEvaluation<S>, Self::Error> {
+        Ok((self.evaluate)(assignment, depth))
+    }
+    fn stop(&mut self, evaluations: u64, _: Option<&S>) -> Option<BranchTermination> {
+        stop(self.config, evaluations, &mut self.time)
+    }
+    fn improved(&mut self, best: &R) {
+        (self.observer)(best);
+    }
+}
 pub(crate) fn search_tree<T, S, R>(
     tree: &T,
     root: Option<T::Assignment>,
-    mut evaluate: impl FnMut(&T::Assignment, usize) -> BranchEvaluation<S>,
+    evaluate: impl FnMut(&T::Assignment, usize) -> BranchEvaluation<S>,
     config: BranchAndBoundConfig<'_>,
-    mut observer: impl FnMut(&R),
-    mut time: crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration>,
+    observer: impl FnMut(&R),
+    time: crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration>,
 ) -> Result<BoundedSearchResult<R>, InvalidOptimisticBound<S>>
 where
     T: crate::branch_tree::BranchTree,
     S: Score,
     R: Retained<T::Assignment, S>,
+{
+    let mut context = StandaloneContext {
+        evaluate,
+        observer,
+        config,
+        time,
+    };
+    match run_tree(
+        tree,
+        root,
+        config.exploration,
+        config.max_frontier,
+        None,
+        &mut context,
+    ) {
+        Ok(r) => Ok(r),
+        Err(TreeSearchError::Bound(e)) => Err(e),
+        Err(TreeSearchError::Evaluation(e)) => match e {},
+    }
+}
+
+pub(crate) fn run_tree<T, S, R, C>(
+    tree: &T,
+    root: Option<T::Assignment>,
+    exploration: NodeExploration,
+    max_frontier: usize,
+    prior: Option<S>,
+    context: &mut C,
+) -> Result<BoundedSearchResult<R>, TreeSearchError<C::Error, S>>
+where
+    T: crate::branch_tree::BranchTree,
+    S: Score,
+    R: Retained<T::Assignment, S>,
+    C: BranchContext<T::Assignment, S, R>,
 {
     let mut result = BoundedSearchResult {
         best: None,
@@ -306,18 +390,21 @@ where
     };
     let mut frontier = BinaryHeap::new();
     // Each call scores a new node and either saves its leaf or queues its subtree.
-    let mut visit = |assignment: T::Assignment,
-                     depth: usize,
-                     breadth: u64,
-                     parent_breadth: u64,
-                     inherited: Option<&S>,
-                     result: &mut BoundedSearchResult<R>,
-                     frontier: &mut BinaryHeap<Node<T::Assignment, S>>|
-     -> Result<bool, InvalidOptimisticBound<S>> {
+    let visit = |assignment: T::Assignment,
+                 depth: usize,
+                 breadth: u64,
+                 parent_breadth: u64,
+                 inherited: Option<&S>,
+                 result: &mut BoundedSearchResult<R>,
+                 frontier: &mut BinaryHeap<Node<T::Assignment, S>>,
+                 context: &mut C|
+     -> Result<bool, TreeSearchError<C::Error, S>> {
         let BranchEvaluation {
             score,
             optimistic_bound,
-        } = evaluate(&assignment, depth);
+        } = context
+            .evaluate(&assignment, depth)
+            .map_err(TreeSearchError::Evaluation)?;
         let serial = result.evaluations;
         result.evaluations += 1;
         let path_bound = match (inherited, optimistic_bound.as_ref()) {
@@ -329,24 +416,29 @@ where
             result.complete_evaluations += 1;
             if score.structural() >= 0 {
                 if let Some(bound) = path_bound.as_ref().filter(|b| score > **b) {
-                    return Err(InvalidOptimisticBound {
+                    return Err(TreeSearchError::Bound(InvalidOptimisticBound {
                         score,
                         bound: bound.clone(),
-                    });
+                    }));
                 }
                 if result
                     .best
                     .as_ref()
-                    .is_none_or(|best| score > *best.score())
+                    .map(R::score)
+                    .or(prior.as_ref())
+                    .is_none_or(|best| score > *best)
                 {
                     result.best = Some(R::new(assignment, score));
-                    observer(result.best.as_ref().unwrap());
+                    context.improved(result.best.as_ref().unwrap());
                 }
             }
-        } else if dominated(path_bound.as_ref(), result.best.as_ref().map(R::score)) {
+        } else if dominated(
+            path_bound.as_ref(),
+            result.best.as_ref().map(R::score).or(prior.as_ref()),
+        ) {
             result.pruned_branches += 1;
         } else {
-            if frontier.len() >= config.max_frontier {
+            if frontier.len() >= max_frontier {
                 result.termination = BranchTermination::FrontierLimit;
                 return Ok(false);
             }
@@ -361,28 +453,43 @@ where
                 },
                 path_bound,
                 serial,
-                exploration: config.exploration,
+                exploration,
             });
             result.peak_frontier = result.peak_frontier.max(frontier.len());
         }
         Ok(true)
     };
-    if let Some(reason) = stop(config, result.evaluations, &mut time) {
+    if let Some(reason) = context.stop(
+        result.evaluations,
+        result.best.as_ref().map(R::score).or(prior.as_ref()),
+    ) {
         result.termination = reason;
         return Ok(result);
     }
-    if !visit(assignment, 0, 0, 0, None, &mut result, &mut frontier)? {
+    if !visit(
+        assignment,
+        0,
+        0,
+        0,
+        None,
+        &mut result,
+        &mut frontier,
+        context,
+    )? {
         return Ok(result);
     }
     while let Some(parent) = frontier.pop() {
         if dominated(
             parent.path_bound.as_ref(),
-            result.best.as_ref().map(R::score),
+            result.best.as_ref().map(R::score).or(prior.as_ref()),
         ) {
             result.pruned_branches += 1;
             continue;
         }
-        if let Some(reason) = stop(config, result.evaluations, &mut time) {
+        if let Some(reason) = context.stop(
+            result.evaluations,
+            result.best.as_ref().map(R::score).or(prior.as_ref()),
+        ) {
             result.termination = reason;
             return Ok(result);
         }
@@ -392,12 +499,15 @@ where
         for breadth in 0..choice_count {
             if dominated(
                 parent.path_bound.as_ref(),
-                result.best.as_ref().map(R::score),
+                result.best.as_ref().map(R::score).or(prior.as_ref()),
             ) {
                 result.pruned_branches += (choice_count - breadth) as u128;
                 break;
             }
-            if let Some(reason) = stop(config, result.evaluations, &mut time) {
+            if let Some(reason) = context.stop(
+                result.evaluations,
+                result.best.as_ref().map(R::score).or(prior.as_ref()),
+            ) {
                 result.termination = reason;
                 return Ok(result);
             }
@@ -414,6 +524,7 @@ where
                 parent.path_bound.as_ref(),
                 &mut result,
                 &mut frontier,
+                context,
             )? {
                 return Ok(result);
             }

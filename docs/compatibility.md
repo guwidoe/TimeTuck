@@ -1424,7 +1424,11 @@ search and result validation; node counts and traces are not asserted equal. Lis
 and mixed bounded search now share the same independent engine, with original
 subset/permutation/product reference tests and a metric routing example. Those
 extensions add no adapted-method coverage or new Java timing workloads. Ordered
-solver-phase integration and automatic bounds remain pending.
+solver phases now use the same engine across all six model/scoring paths, retaining
+shared controls, typed errors, prior incumbents and observations. Unknown bounds
+remain safe; non-increasing partial scores require an explicit caller assertion.
+Automatic per-level score-trend inference remains pending. The native phase tests
+and managed-job checks add no source-method credit or phase-trace parity claim.
 
 The oscillation diagnostic keeps the Java solver strongly reachable through all
 STEP_SCORE and move-count reads using Reference.reachabilityFence. A forced-GC
