@@ -29,6 +29,7 @@ pub enum MoveOrder {
 
 #[derive(Debug)]
 pub enum LocalSearchError {
+    DiminishedReturns(crate::DiminishedReturnsError),
     Scoring(ScoringError),
     StreamScoring(crate::StreamScoringError),
     Acceptance(AcceptanceError),
@@ -40,6 +41,7 @@ impl fmt::Display for LocalSearchError {
             Self::Scoring(e) => e.fmt(f),
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
+            Self::DiminishedReturns(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("local search requires a complete initial assignment")
             }
@@ -52,6 +54,7 @@ impl Error for LocalSearchError {
             Self::Scoring(e) => e,
             Self::StreamScoring(e) => e,
             Self::Acceptance(e) => e,
+            Self::DiminishedReturns(e) => e,
             Self::IncompleteInitialAssignment => return None,
         })
     }
@@ -160,6 +163,8 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     /// Cooperative time since initialization or the last strict best improvement.
     /// Initial scoring is excluded. None disables; zero stops before any move.
     pub max_unimproved_time: Option<std::time::Duration>,
+    /// Phase-local sliding-window slowdown policy; initialization is excluded.
+    pub diminished_returns: Option<crate::DiminishedReturnsConfig>,
     /// Completed steps since the last strict global-best improvement. None disables.
     pub max_unimproved_steps: Option<u64>,
     /// Stop at a step boundary when the retained best score is at least this value.
@@ -193,6 +198,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             max_steps: 1_000,
             max_time: None,
             max_unimproved_time: None,
+            diminished_returns: None,
             max_unimproved_steps: None,
             best_score_limit: None,
             stop_when_feasible: false,
@@ -338,6 +344,7 @@ impl<S: crate::Score> LocalSearchConfig<'_, S> {
 /// best improvement resets it. Expiry latches; total time wins simultaneous expiry.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum LocalSearchTermination {
+    DiminishedReturns,
     /// An unevaluated candidate remains after the candidate-only budget is spent.
     MoveEvaluationLimit,
     /// The external cancellation token was observed. Does not prove optimality.
@@ -452,7 +459,9 @@ where
     LocalSearchError: From<D::Error>,
 {
     let clock = crate::time_limit::monotonic_clock(
-        config.max_time.is_some() || config.max_unimproved_time.is_some(),
+        config.max_time.is_some()
+            || config.max_unimproved_time.is_some()
+            || config.diminished_returns.is_some(),
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
 }
@@ -486,9 +495,7 @@ pub(crate) fn search_impl_with_clock_monitored<
 where
     LocalSearchError: From<D::Error>,
 {
-    let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
-            .with_shared(shared);
+    let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     if let Some(initial) = &initial {
         problem.validate(initial)?;
@@ -558,7 +565,7 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -592,7 +599,10 @@ where
                 random.as_mut(),
                 budget.remaining,
             )
-            .take_while(|_| !config.cancelled() && !time_budget.expired()),
+            .take_while(|_| {
+                !config.cancelled()
+                    && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
+            }),
             budget.remaining,
             config.forager(
                 current.clone(),
@@ -646,7 +656,7 @@ where
             acceptor.step_ended(director.score(), &variables, movement, &values);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
-            time_budget.complete_step(improved);
+            time_budget.complete_step(improved, &result.best.as_ref().expect("initial best").score);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
@@ -664,7 +674,7 @@ where
             result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -679,5 +689,11 @@ impl<V, S> LocalSearchResult<V, S> {
     /// Candidate evaluations, including rejected trials; initialization excluded.
     pub fn move_evaluations(&self) -> u64 {
         self.evaluations.saturating_sub(1)
+    }
+}
+
+impl From<crate::DiminishedReturnsError> for LocalSearchError {
+    fn from(e: crate::DiminishedReturnsError) -> Self {
+        Self::DiminishedReturns(e)
     }
 }

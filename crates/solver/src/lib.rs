@@ -399,3 +399,6 @@ mod score_trend;
 pub use score_trend::{
     InitializingScoreBound, InitializingScoreTrend, InitializingScoreTrendLevel, ScoreTrendError,
 };
+
+mod diminished_returns;
+pub use diminished_returns::{DiminishedReturns, DiminishedReturnsConfig, DiminishedReturnsError};

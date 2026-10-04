@@ -1459,3 +1459,18 @@ remain fixed. This establishes neither internal bound representation nor travers
 list/mixed Java trend support, timing equivalence or additional adapted-method credit.
 Raw inputs and results are in work/oracle/score-trend-cases.json; differential_solver
 includes this check, and the dashboard displays its separate agreement count.
+
+
+All eight pinned DiminishedReturnsTerminationTest methods now have complete native
+adaptations, retaining every score, query and grace/reset assertion. Explicit
+Duration inputs and native lifecycle calls replace Java nanosecond constants and
+mock scopes; structural -1 represents one unassigned variable. Provenance records
+the substitutions. Backward source timestamps remain in order with native monotonic
+clamping. No internal ring-buffer storage tests are credited.
+
+An independently implemented exact rational-rate policy integrates into all six
+local-search paths and ordered phases. Sparse-history references, arithmetic
+boundaries, injected clocks and delayed factory/handoff tests are original evidence.
+Native multi-level reset rules, sticky expiry and late-grace behavior are documented
+in the incremental-search contract; Java timed traces and a dedicated rate-policy
+performance comparison are not claimed.

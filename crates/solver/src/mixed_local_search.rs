@@ -29,6 +29,7 @@ impl<S> Default for MixedLocalSearchConfig<'_, S> {
 }
 #[derive(Debug)]
 pub enum MixedLocalSearchError {
+    DiminishedReturns(crate::DiminishedReturnsError),
     Scoring(MixedScoringError),
     StreamScoring(crate::MixedStreamScoringError),
     Acceptance(AcceptanceError),
@@ -40,6 +41,7 @@ impl fmt::Display for MixedLocalSearchError {
             Self::Scoring(e) => e.fmt(f),
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
+            Self::DiminishedReturns(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("mixed local search requires a complete initial assignment")
             }
@@ -52,6 +54,7 @@ impl Error for MixedLocalSearchError {
             Self::Scoring(e) => Some(e),
             Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
+            Self::DiminishedReturns(e) => Some(e),
             Self::IncompleteInitialAssignment => None,
         }
     }
@@ -134,7 +137,9 @@ where
     MixedLocalSearchError: From<D::Error>,
 {
     let clock = crate::time_limit::monotonic_clock(
-        settings.search.max_time.is_some() || settings.search.max_unimproved_time.is_some(),
+        settings.search.max_time.is_some()
+            || settings.search.max_unimproved_time.is_some()
+            || settings.search.diminished_returns.is_some(),
     );
     search_impl_with_clock_monitored(shared, problem, initial, settings, make_director, clock)
 }
@@ -176,9 +181,7 @@ where
 {
     let config = settings.search;
     let joint_moves = settings.joint_moves;
-    let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
-            .with_shared(shared);
+    let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
@@ -236,7 +239,7 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -267,7 +270,10 @@ where
         );
         let selection = director.select_best(
             crate::random::order_moves(moves, config.move_order, random.as_mut(), budget.remaining)
-                .take_while(|_| !config.cancelled() && !time_budget.expired()),
+                .take_while(|_| {
+                    !config.cancelled()
+                        && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
+                }),
             budget.remaining,
             config.forager(
                 current.clone(),
@@ -320,7 +326,7 @@ where
             acceptor.step_ended(director.score(), &keys, movement, &values);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
-            time_budget.complete_step(improved);
+            time_budget.complete_step(improved, &result.best.as_ref().expect("initial best").score);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
@@ -338,7 +344,7 @@ where
             result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -353,5 +359,11 @@ impl<B, L, S> MixedLocalSearchResult<B, L, S> {
     /// Candidate evaluations, including rejected trials; initialization excluded.
     pub fn move_evaluations(&self) -> u64 {
         self.evaluations.saturating_sub(1)
+    }
+}
+
+impl From<crate::DiminishedReturnsError> for MixedLocalSearchError {
+    fn from(e: crate::DiminishedReturnsError) -> Self {
+        Self::DiminishedReturns(e)
     }
 }

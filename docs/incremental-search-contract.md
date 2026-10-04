@@ -1420,3 +1420,53 @@ checks additionally cover generated eager-reference histories, generation rollov
 100,000-slot clone counts, concurrent cache initialization, independent copies and
 injected clone/equality failures. These deterministic cost checks do not establish
 a wall-clock speedup or Java internal allocation equivalence.
+
+## Diminished returns
+
+LocalSearchConfig::diminished_returns optionally stops a phase when the recent
+retained-best improvement rate falls strictly below a configured fraction of its
+initial rate. DiminishedReturnsConfig::new takes a positive Duration and positive
+u64 numerator/denominator; equality continues and ratios above one are supported.
+There is no default guessed from Java or floating-point conversion. The option is
+disabled by default. All six basic/list/mixed and scoped/stream search paths share
+the policy and report LocalSearchTermination::DiminishedReturns.
+
+The first candidate-boundary poll arms the grace period after initial scoring and
+its notification. No improvement by grace completion stops the phase. Otherwise,
+the initial softest-level gain divided by the actual elapsed grace duration is
+the reference rate; a late first poll therefore lengthens that reference period.
+Later polls compare the softest-level gain over the configured trailing window.
+The predecessor is the latest observed score at or before the window cutoff;
+scores are piecewise constant, with no interpolation. Step completion and polls
+observe retained best scores, including repeated timestamps. History coalesces
+same-time updates and retains changes inside the window plus one predecessor.
+Space depends on improvements within the window, not total elapsed steps.
+
+A structural improvement or improvement in the lexicographic prefix containing
+all hard levels and every level above the softest resets grace and history. This
+includes the medium level and earlier soft levels for multi-level native scores;
+all-hard scores reset on every best improvement. These are explicit native
+generalizations, not claims of Java multi-level equivalence. Built-in i64/Decimal
+scores use exact widened differences and BigInt cross-products. Custom scores
+require numeric lexicographic ordering and exact_decimal arithmetic; unsupported
+level types and zero-width scores return typed errors before scoring. Large
+Decimal scale gaps retain the normal Decimal arithmetic allocation cost.
+
+Expiry latches until an explicit restart. A candidate selected before an expiry
+poll is still committed and retained; it cannot revive an already expired phase.
+A higher-priority improvement observed before the first expiry poll may reset
+grace. Timers are cooperative and do not preempt callbacks. Existing cancellation,
+count/step controls and total/unimproved/shared time checks retain their order.
+A zero evaluation budget never samples a clock. Disabling diminished returns adds
+no clock reads. This option is phase-local; later solver phases may continue.
+
+The public deterministic DiminishedReturns API separates phase_started (unarmed)
+from step_started, supports explicit start and clamps backward time observations.
+All eight pinned DiminishedReturnsTerminationTest methods are fully adapted and
+attributed. Five original regressions cover full-width arithmetic, exact decimal
+boundaries, large durations, history retention, level resets and 512 sparse traces
+(51,200 events) against an untrimmed reference. Four injected-clock tests exercise
+all six actual search paths; another checks phase handoff and a 50-second factory
+initialization delay. These original checks earn no extra source-method credit.
+Java wall-clock traces, internal ring-buffer storage and dedicated performance
+comparisons for diminished returns are not claimed.

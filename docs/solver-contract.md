@@ -1213,3 +1213,13 @@ leaf checks validate the inherited full optimistic bound, not every independent
 trend assertion; OnlyUp/Any levels may make some assertions unobservable. Original
 checks cover all six paths/four orders, every unknown-budget prefix, decimal
 precision, invalid widths and independent two/three-level bound references.
+
+## Phase-local diminished returns
+
+LocalSearchConfig::diminished_returns works in every ordered local phase for all
+six model/scoring paths. It starts after phase initialization and ends only that
+phase; SolverLimits has no shared rate-history control. Phase reports retain the
+DiminishedReturns reason, and later phases may run or prove optimality. Stream
+factory preparation is excluded from this grace period while remaining part of
+any shared elapsed-time budget. Existing shared stop reasons retain precedence.
+See the incremental-search contract for the exact rational-rate and reset rules.

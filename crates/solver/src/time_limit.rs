@@ -68,6 +68,10 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
         // Also protect tests with injected clocks against backwards samples.
         self.last = self.last.max((self.clock)());
     }
+    pub(crate) fn elapsed(&mut self) -> Duration {
+        self.sample();
+        self.last
+    }
     pub(crate) fn start_search(&mut self) {
         if let Some(shared) = &mut self.shared {
             shared.start_search();

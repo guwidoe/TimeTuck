@@ -432,3 +432,10 @@ pinned Community `InitializingScoreTrendTest`. All ordered tokens and predicate
 assertions are retained; native parsing/predicates replace Java APIs. Revision,
 source paths and substitutions are recorded in `compat/provenance.json`. The
 symbolic bounds, engine integration and reference regressions are original work.
+
+`crates/solver/tests/diminished_returns_cases.rs` adapts all eight Apache-2.0
+methods in pinned Community `DiminishedReturnsTerminationTest`. Score fixtures,
+query sequences and assertions are retained. Native explicit time and lifecycle
+methods replace Java scopes; provenance records each substitution. The native
+sliding-window policy, search integration and independent regressions are original
+work. No production implementation or internal ring-buffer tests were ported.

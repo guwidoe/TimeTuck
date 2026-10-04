@@ -10,6 +10,7 @@ use std::{error::Error, fmt};
 
 #[derive(Debug)]
 pub enum ListLocalSearchError {
+    DiminishedReturns(crate::DiminishedReturnsError),
     Scoring(ListScoringError),
     StreamScoring(crate::ListStreamScoringError),
     Acceptance(AcceptanceError),
@@ -21,6 +22,7 @@ impl fmt::Display for ListLocalSearchError {
             Self::Scoring(e) => e.fmt(f),
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
+            Self::DiminishedReturns(e) => e.fmt(f),
             Self::IncompleteInitialAssignment => {
                 f.write_str("list local search requires a complete initial assignment")
             }
@@ -33,6 +35,7 @@ impl Error for ListLocalSearchError {
             Self::Scoring(e) => Some(e),
             Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
+            Self::DiminishedReturns(e) => Some(e),
             Self::IncompleteInitialAssignment => None,
         }
     }
@@ -112,7 +115,9 @@ where
     ListLocalSearchError: From<D::Error>,
 {
     let clock = crate::time_limit::monotonic_clock(
-        config.max_time.is_some() || config.max_unimproved_time.is_some(),
+        config.max_time.is_some()
+            || config.max_unimproved_time.is_some()
+            || config.diminished_returns.is_some(),
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, make_director, clock)
 }
@@ -146,9 +151,7 @@ pub(crate) fn search_impl_with_clock_monitored<
 where
     ListLocalSearchError: From<D::Error>,
 {
-    let mut time_budget =
-        crate::time_limit::TimeBudget::new(config.max_time, config.max_unimproved_time, clock)
-            .with_shared(shared);
+    let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
     if !problem.is_complete(&initial) {
@@ -203,7 +206,7 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -230,7 +233,10 @@ where
         );
         let selection = director.select_best(
             crate::random::order_moves(moves, config.move_order, random.as_mut(), budget.remaining)
-                .take_while(|_| !config.cancelled() && !time_budget.expired()),
+                .take_while(|_| {
+                    !config.cancelled()
+                        && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
+                }),
             budget.remaining,
             config.forager(
                 current.clone(),
@@ -283,7 +289,7 @@ where
             acceptor.step_ended(director.score(), &keys, movement, &values);
             result.accepted_moves += u64::from(selection.selected_accepted);
             progress.complete_step(improved);
-            time_budget.complete_step(improved);
+            time_budget.complete_step(improved, &result.best.as_ref().expect("initial best").score);
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
@@ -301,7 +307,7 @@ where
             result.termination = LocalSearchTermination::Cancelled;
             return Ok(result);
         }
-        if let Some(reason) = time_budget.stop() {
+        if let Some(reason) = time_budget.stop(&result.best.as_ref().expect("initial best").score) {
             result.termination = reason;
             return Ok(result);
         }
@@ -316,5 +322,11 @@ impl<V, S> ListLocalSearchResult<V, S> {
     /// Candidate evaluations, including rejected trials; initialization excluded.
     pub fn move_evaluations(&self) -> u64 {
         self.evaluations.saturating_sub(1)
+    }
+}
+
+impl From<crate::DiminishedReturnsError> for ListLocalSearchError {
+    fn from(e: crate::DiminishedReturnsError) -> Self {
+        Self::DiminishedReturns(e)
     }
 }

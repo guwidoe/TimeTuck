@@ -13125,6 +13125,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt all source assertions and ordered trend tokens to native InitializingScoreTrend parsing and predicates. Native symbolic bounds and solver integration are original work; no Java internal bound or trace parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testNoImprovementInGraceTerminates",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testNoImprovementInGraceTerminates",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "no_improvement_in_grace_terminates",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testTerminatesWhenScoreDoesNotImprove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testTerminatesWhenScoreDoesNotImprove",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "terminates_when_score_does_not_improve",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testTerminatesWhenImprovementDoesNotMeetCriteria",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testTerminatesWhenImprovementDoesNotMeetCriteria",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "terminates_when_improvement_does_not_meet_criteria",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testImprovementInInitScoreResetsGrace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testImprovementInInitScoreResetsGrace",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "improvement_in_init_score_resets_grace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testImprovementInHardScoreResetsGrace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testImprovementInHardScoreResetsGrace",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "improvement_in_hard_score_resets_grace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testImprovementInHardScoreDuringGrace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testImprovementInHardScoreDuringGrace",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "improvement_in_hard_score_during_grace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testImprovementInInitScoreDuringGrace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testImprovementInInitScoreDuringGrace",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "improvement_in_init_score_during_grace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
+    },
+    {
+      "id": "DiminishedReturnsTerminationTest.testGracePeriodAndLongInitializationPeriod",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsTerminationTest.java",
+      "upstream_test": "testGracePeriodAndLongInitializationPeriod",
+      "local_path": "crates/solver/tests/diminished_returns_cases.rs",
+      "local_test": "grace_period_and_long_initialization_period",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain every score, timestamp sequence and termination/reset assertion through native deterministic policy methods. Duration replaces nanosecond constants; ratio 1 becomes exact 1/1; unassigned count 1 becomes structural -1. Shared native helpers preserve repeated assertions. Backward source step timestamps remain in order; native time clamps monotonically. Mock phase/step scopes become explicit phase_started/step_started/step calls with a 50000 ms clock origin for long initialization; no Java wall-clock or scope identity parity claimed."
     }
   ],
   "fixtures": [

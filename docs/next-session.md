@@ -7783,3 +7783,64 @@ This goal turn made verified progress. Full Community behavior remains incomplet
 declared-trend bound derivation now exists, while automatic constraint analysis is
 not implemented or claimed. Future work should advance remaining solver behavior
 and its complete pinned tests, keeping native semantics and Java boundaries explicit.
+
+## 2026-10-04: Phase-local diminished returns
+
+Previous goal turn made verified progress in 5c2401b. This increment independently
+implements sliding-window improvement-rate termination from pinned Community tests
+and public documentation, without inspecting or translating production sources.
+Read diminished_returns.rs and the new incremental-search-contract section.
+
+DiminishedReturnsConfig uses a positive Duration and exact positive rational ratio;
+LocalSearchConfig optionally enables it across six search paths. A native policy
+retains changed best scores plus a cutoff predecessor, measures the softest level,
+and resets grace on structural/hard/higher-priority improvements. Widened Decimal
+and BigInt arithmetic preserve integer extremes and sub-float differences. Backward
+times clamp; expiry latches; initial scoring and factory work are excluded. Later
+ordered phases may continue. Existing budgets, time controls and cancellation retain
+their ordering, and disabled rate checks add no clock reads. No Java timed-trace or
+internal ring-buffer representation parity is claimed.
+
+All eight DiminishedReturnsTerminationTest methods retain complete assertions with
+individual provenance and notices. Five original regressions include 512 sparse
+traces / 51,200 observations against untrimmed integer reference histories, decimal
+and Duration extremes, retention, resets and invalid configuration. Four native
+clock tests exercise all six search paths, plus one stream solver handoff test
+compares zero and 50-second preparation. Focused debug tests passed in 88488 and
+31127. A first test-only unsigned-negation compile error was corrected before the
+successful reference run; no implementation workaround.
+
+Full gate is work/diminished-check.log (handle 37490 while running). Expected totals
+are 1,831 Rust tests, 96 doctests and 211 Python checks; do not treat estimates as
+verified until exit 0. Focused release and sequential 13-dataset refresh follow;
+work/diminished-refresh.sh and work/diminished-audit.py are prepared. Source and
+provenance are frozen for capture. Full rewrite remains active and incomplete.
+
+Full gate 37490 completed exit 0: 1,831 Rust tests, 96 doctests and 211 Python tests.
+Coverage 883/4,855=18.187%; Solver lifecycle 59/379=15.567%; pending 3,690, excluded
+282, failed/unverified zero. Release checks and then the sequential refresh run
+under handle 7678 with set -e; logs work/diminished-release.log and
+work/diminished-refresh.log. Re-poll that same handle if interrupted. No Rust,
+Python or provenance edits after capture. The existing 65 timing workloads will
+be refreshed; this feature adds no dedicated diminished-returns timing claim.
+
+Release and refresh handle 7678 completed exit 0. All 18 new focused tests passed
+in release. Final work/diminished-audit.log confirms matching source/verification
+fingerprints and live freshness, all 13 current datasets, 65 timing cards (10 exact,
+22 heuristic), 512 trend optimum agreements and 128 baseline solver agreements.
+Heuristic validation retains 352 valid/equal-score cases and 300 optima per runtime.
+Existing oscillation differences remain 325 with 24/24 forced-GC metric checks.
+No new diminished-returns Java timed-trace or dedicated timing claim.
+
+Browser verification passed at 1440x1000 and 390x844: 18.19% overall, 59/379 solver
+lifecycle methods, eight passed DiminishedReturnsTerminationTest rows and all 65
+timing cards, with no visible stale warning, page errors or horizontal overflow.
+Visually inspected work/diminished-{desktop,phone,phone-tests}.png. Browser closed;
+localhost:8765 remains running. No test/measurement process remains live. Upstream
+checkout remains clean and pinned. Implementation, tests, attribution and docs
+reviewed for the milestone commit.
+
+This goal turn made verified progress. The Community rewrite remains active,
+incomplete and unblocked. Continue substantive solver behavior from remaining
+pinned Community tests/public docs; do not infer coverage from internal storage
+checks, generated diagnostics or benchmark success.

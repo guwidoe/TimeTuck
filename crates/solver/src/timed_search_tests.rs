@@ -487,3 +487,98 @@ fn first_observed_candidate_limit_distinguishes_time_move_and_score_caps() {
         assert_eq!(r.reason, Stop::EvaluationLimit);
     }
 }
+
+#[test]
+fn diminished_grace_excludes_initialization_and_preserves_a_selected_prefix() {
+    let c = LocalSearchConfig {
+        diminished_returns: Some(
+            DiminishedReturnsConfig::new(Duration::from_millis(2), 1, 1).unwrap(),
+        ),
+        acceptance: Acceptance::HillClimbing,
+        selection: MoveSelection::BestAccepted,
+        ..Default::default()
+    };
+    for r in run_all(
+        c,
+        |_| HardSoftScore::ZERO,
+        || {
+            let mut n = 499;
+            move || {
+                n += 1;
+                Duration::from_millis(n)
+            }
+        },
+    ) {
+        assert_eq!(
+            r,
+            Outcome {
+                evaluations: 2,
+                steps: 1,
+                unimproved: 1,
+                accepted: 1,
+                best: Some(HardSoftScore::ZERO),
+                reason: Stop::DiminishedReturns
+            }
+        );
+    }
+}
+#[test]
+fn diminished_window_observes_the_retained_best_in_all_six_paths() {
+    let c = LocalSearchConfig {
+        diminished_returns: Some(
+            DiminishedReturnsConfig::new(Duration::from_millis(3), 1, 1).unwrap(),
+        ),
+        ..Default::default()
+    };
+    for r in run_all(c, score, ticking) {
+        assert_eq!(
+            r,
+            Outcome {
+                evaluations: 2,
+                steps: 1,
+                unimproved: 0,
+                accepted: 1,
+                best: Some(score(1)),
+                reason: Stop::DiminishedReturns
+            }
+        );
+    }
+}
+#[test]
+fn hard_improvements_extend_diminished_grace_for_all_backends() {
+    let c = LocalSearchConfig {
+        diminished_returns: Some(
+            DiminishedReturnsConfig::new(Duration::from_millis(6), 1, 1).unwrap(),
+        ),
+        ..Default::default()
+    };
+    for r in run_all(c, |v| HardSoftScore::new(v as i64, 0), ticking) {
+        assert_eq!(r.best, Some(HardSoftScore::new(2, 0)));
+        assert!(r.steps >= 2);
+        assert!(matches!(
+            r.reason,
+            Stop::NoAcceptedMove | Stop::DiminishedReturns
+        ));
+    }
+}
+#[test]
+fn elapsed_limit_precedes_diminished_returns_and_zero_budget_never_starts_it() {
+    let mut c = LocalSearchConfig {
+        max_time: Some(Duration::from_millis(3)),
+        diminished_returns: Some(
+            DiminishedReturnsConfig::new(Duration::from_millis(2), 1, 1).unwrap(),
+        ),
+        ..Default::default()
+    };
+    for r in run_all(c, score, ticking) {
+        assert_eq!(r.reason, Stop::TimeLimit);
+        assert_eq!(r.evaluations, 1);
+        assert_eq!(r.steps, 0);
+    }
+    c.max_time = None;
+    c.max_evaluations = 0;
+    for r in run_all(c, score, || || panic!("zero budget has no search clock")) {
+        assert_eq!(r.reason, Stop::EvaluationLimit);
+        assert_eq!(r.evaluations, 0);
+    }
+}
