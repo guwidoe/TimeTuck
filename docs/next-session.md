@@ -10268,3 +10268,36 @@ progressed viad6dafec; this batch adds bounded independent product composition.
 Full independent solver rewrite remains active.
 Dashboard freshness session67483 exited0 and matched report digest. All batch
 process handles are terminal.
+
+## Prefix-dependent traversal and bounded conditional sampling
+
+DependentSelectionIter now traverses prefix-dependent candidate trees depth-first,
+reopening suffixes after earlier choices change. Empty suffixes prune only their
+branch; ignored empty levels retain explicit None slots. Total child polls bound
+work, including None/exhaustion probes, with distinct Exhausted/PollLimit stats.
+Zero budgets do not open factories. Non-Clone prefix Arcs can be captured by suffix
+cursors and retained in completed rows. DependentSelection supplies current context
+and an explicit lifecycle hook; sample_with conditionally samples one fresh-prefix
+path under a total collection budget. Empty samples reject only that attempt, not
+the tree; conditional uniform sampling is not necessarily uniform over complete rows.
+Two complete original-order mimic-product methods and six helpers are attributed.
+The random mimic fixture expects b->1+a->9 on one row plus size24; those two methods
+remain pending rather than claiming fresh-prefix sampling matches stale replay.
+Six original regressions cover recursive reference trees, empty-branch recovery,
+infinite rejection/zero budgets, ownership, conditional errors/budgets and correlated
+composite solving in both backends. Factory/next callbacks remain cooperative.
+Initial focused session35734 exited101 for test-only expression attributes; explicit
+panic-closure return types fixed that. Focused session36219 exited0 (2 adapted+6
+original). Prebuild20.04s; gate69941 exited101 for public signature type complexity.
+Added DependentPrefix alias; final gate43530 exited0:2672 Rust tests,139 doctests,
+fmt/Clippy;3 Rust targets ran,355 reused;46 Python jobs reused. Aggregate exit0
+and equal before/after source verified:
+12c51f6c4e10c6df4a2575da17195b74e72799be2a7c26965f561849b72ad739.
+Coverage1354/4855(27.889%),pending3219,excluded282,failed/unverified0. Logs:
+work/dependent-selection-focused-final.log,work/dependent-selection-build.log,
+work/dependent-selection-check.log(lint failure),work/dependent-selection-final-check.log.
+No browser/release/benchmark sweep; old performance evidence remains stale.
+Previous goal turn progressed via391c26d; this batch adds bounded dependent choices.
+Full independent solver rewrite remains active and incomplete.
+Dashboard freshness session30947 exited0 and matched report digest. All batch
+process handles are terminal.

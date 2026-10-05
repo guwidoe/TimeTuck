@@ -1698,7 +1698,8 @@ retains only current child items/iterators; input sequences are not materialized
 Four CartesianProductMoveSelector test helpers supply attributed partial enumeration
 fixtures, which earn no method credit by themselves. Independent-product lifecycle,
 size and random contracts are completed by the later SelectionProduct adaptation
-below; dependent mimic contracts remain pending. Original state-space and
+below; original dependent mimic behavior is adapted separately, while random mimic
+contracts remain pending. Original state-space and
 solver-trap checks establish native behavior separately.
 
 Custom MoveProvider implementations now supply candidates to six local-search
@@ -2039,5 +2040,22 @@ each nonempty child, retaining original child indices in injected draw callbacks
 Six original regressions cover exhaustive small products, enormous indexed counts,
 collection/metadata failures, non-Clone sharing, seeded/scripted sampling and
 composite-move solving in both basic backends. Captured child pools are independent;
-context-dependent suffixes and the four mimic-product methods remain pending.
+context-dependent suffixes are supported by DependentSelection below. The two
+random mimic-product methods remain pending.
 No Java PRNG trace or new performance comparison is claimed.
+
+The two original-order mimic-product methods now preserve both complete twelve-row
+sequences, finite exhaustion and all three source lifecycle counts across two steps.
+DependentSelection exposes prefix-aware factories and a lifecycle hook. Its lazy
+traversal backtracks after empty suffixes, preserves omitted level positions and
+bounds total source polls, reporting exhausted versus work-limited termination.
+Shared non-Clone prefix items may be retained by returned suffix cursors or rows.
+Conditional sampling uses the current prefix and bounded child collection; an empty
+sample rejects only that attempted path, and conditional uniform choices are not
+necessarily uniform over complete rows. Six original regressions cover recursive
+reference trees, empty-branch recovery, infinite rejection bounds, ownership,
+conditional sampling/errors and correlated composite moves in both basic backends.
+The upstream random mimic fixture includes a stale secondary entity on one row
+(b->1+a->9). These two methods remain pending; native conditional sampling always
+uses its current prefix and does not claim that legacy interleaving or size24.
+No Java factory/threading/PRNG or new performance equivalence is claimed.

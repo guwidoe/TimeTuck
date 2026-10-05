@@ -617,3 +617,10 @@ helpers (Apache-2.0). Exact paths, revision and native snapshot/randomness
 substitutions are in `compat/provenance.json`. Earlier MoveProduct fixtures retain
 their separate partial attribution. Snapshot composition and additional regressions
 are independently implemented.
+
+`crates/solver/tests/dependent_selection_cases.rs` adapts both original-order mimic
+methods and their helper from pinned Community `CartesianProductMoveSelectorTest`,
+with `PlannerAssert` sequence/lifecycle helpers (Apache-2.0). Exact paths, revision
+and native explicit-prefix substitutions are recorded in `compat/provenance.json`.
+Dependent traversal, bounded conditional sampling and separate regressions are
+independently implemented; random mimic methods remain pending.

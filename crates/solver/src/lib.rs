@@ -618,3 +618,9 @@ mod selection_product;
 pub use selection_product::{
     ProductSelectionIter, ProductSnapshot, SelectionProduct, SelectionProductError,
 };
+
+mod dependent_selection;
+pub use dependent_selection::{
+    DependentPrefix, DependentRow, DependentSampleError, DependentSelection,
+    DependentSelectionIter, DependentSelectionStats, DependentStop,
+};
