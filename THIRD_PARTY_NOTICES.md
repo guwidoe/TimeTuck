@@ -683,3 +683,10 @@ pinned Community `AbstractUniConstraintStreamTest` and `AbstractBiConstraintStre
 `AbstractConstraintStreamTest`, `TestdataLavishSolution` and `TestdataObject`.
 Exact identities, revision and native substitutions are in `compat/provenance.json`.
 Flat tuple collectors, distinct counting and additional regressions are independent.
+
+`crates/solver/tests/grouped_multiway_cases.rs` adapts twenty grouping methods from
+pinned Community `AbstractTriConstraintStreamTest` and `AbstractQuadConstraintStreamTest`
+(Apache-2.0), plus assertion/fixture/code helpers from `AbstractConstraintStreamTest`,
+`TestdataLavishSolution` and `TestdataObject`. Source helper membership semantics,
+including its disregard for justification order/multiplicity, are preserved and
+recorded with the exact source identities in `compat/provenance.json`.

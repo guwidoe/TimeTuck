@@ -2171,3 +2171,15 @@ unused value-group facts, reflection metadata and random unused properties are
 omitted. Five original regressions cover four-field and nested composition,
 non-Clone inputs, duplicate/null counting, specialized arithmetic, atomic failure
 and 500 incremental graph trials without additional upstream method credit.
+
+Twenty additional three-/four-fact grouping methods now exercise actual chained
+joins over explicit entity/group/value sources, unique-pair self-reference joins,
+distinct-third-entity filtering and extra same-group joins. They preserve every
+source match assertion, count/extremum/set aggregate, penalty and specified removal.
+The existing Rust graph supports these combinations without an engine change.
+Match comparison follows the source helper's score/length/containsAll semantics:
+justification positions and duplicate-field multiplicities are not asserted by that
+helper. This distinction matters for the three-fact four-key and four-fact three-key
+no-collector fixtures; their literal expected fields are retained. Native code IDs
+represent generated entity codes bijectively; group/value fact IDs remain typed.
+These are additional composition coverage, not a Java reflection/event-order claim.

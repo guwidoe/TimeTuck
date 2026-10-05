@@ -21225,6 +21225,306 @@
       "upstream_test": "groupBy_4Mapping0Collector",
       "local_test": "bi_group_by_4_mapping_0_collector",
       "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "tri_group_by_1_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "tri_group_by_1_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_1Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping2Collector",
+      "local_test": "tri_group_by_1_mapping_2_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_1Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping3Collector",
+      "local_test": "tri_group_by_1_mapping_3_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_2Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping0Collector",
+      "local_test": "tri_group_by_2_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_2Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping1Collector",
+      "local_test": "tri_group_by_2_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_2Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping2Collector",
+      "local_test": "tri_group_by_2_mapping_2_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_3Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping0Collector",
+      "local_test": "tri_group_by_3_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_3Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping1Collector",
+      "local_test": "tri_group_by_3_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.groupBy_4Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "groupBy_4Mapping0Collector",
+      "local_test": "tri_group_by_4_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "quad_group_by_1_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "quad_group_by_1_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_1Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping2Collector",
+      "local_test": "quad_group_by_1_mapping_2_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_1Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping3Collector",
+      "local_test": "quad_group_by_1_mapping_3_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_2Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping0Collector",
+      "local_test": "quad_group_by_2_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_2Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping1Collector",
+      "local_test": "quad_group_by_2_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_2Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping2Collector",
+      "local_test": "quad_group_by_2_mapping_2_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_3Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping0Collector",
+      "local_test": "quad_group_by_3_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_3Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping1Collector",
+      "local_test": "quad_group_by_3_mapping_1_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.groupBy_4Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "groupBy_4Mapping0Collector",
+      "local_test": "quad_group_by_4_mapping_0_collector",
+      "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
     }
   ],
   "fixtures": [
@@ -26765,6 +27065,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
       "upstream_test": "toString",
       "modifications": "Generated fixtures preserve entity count, modulo group/value membership and exact Generated Entity codes. Extra MyEntity codes and group/value identities are explicit; code strings replace toString. Unused value-group objects, reflection annotations and random long properties are omitted; extrema cases explicitly use MAX/MIN. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertScore.grouped_multiway",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore",
+      "modifications": "Native match helper preserves score/length/containsAll comparison, both missing/excess checks, total score and count. Fields carry typed group/value/code/set identities. Ordered tuple equality would incorrectly strengthen the source helper for some fixtures; no field-multiplicity claim. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertMatchWithScore.grouped_multiway",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertMatchWithScore",
+      "modifications": "Native match helper preserves score/length/containsAll comparison, both missing/excess checks, total score and count. Fields carry typed group/value/code/set identities. Ordered tuple equality would incorrectly strengthen the source helper for some fixtures; no field-multiplicity claim. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.AssertableMatch.isEqualTo.grouped_multiway",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "AssertableMatch.isEqualTo",
+      "modifications": "Native match helper preserves score/length/containsAll comparison, both missing/excess checks, total score and count. Fields carry typed group/value/code/set identities. Ordered tuple equality would incorrectly strengthen the source helper for some fixtures; no field-multiplicity claim. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.grouped_multiway",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain three entities, modulo group/value memberships and distinct fact identities; native Code(id) represents Generated Entity id bijectively in code equality/grouping. Joinable group/value facts are explicit sources. Unused value-group objects, annotations and random long properties are omitted; extrema cases set MAX/MIN. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_multiway_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.toString.grouped_multiway",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "toString",
+      "modifications": "Retain three entities, modulo group/value memberships and distinct fact identities; native Code(id) represents Generated Entity id bijectively in code equality/grouping. Joinable group/value facts are explicit sources. Unused value-group objects, annotations and random long properties are omitted; extrema cases set MAX/MIN. Helper attribution adds no method credit."
     }
   ]
 }

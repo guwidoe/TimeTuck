@@ -10683,3 +10683,33 @@ Logs:work/tuple-group-cases.log,-regression.log,-build.log,-check.log and
 -final-check.log (tuple-group prefix). All processes terminal. No benchmarks,
 release tests or browser sweep; old timings remain stale. Previous turn progressed
 via c810df5. Full solver rewrite remains active and unfinished.
+
+## Grouped three- and four-fact join coverage
+
+Twenty full upstream Tri/Quad grouping methods now run through actual native join
+chains: explicit entity/group/value sources, identity joins back to unique-pair
+members, distinct-third-entity filtering and a same-group fourth-entity join.
+Preserve all source fixture cardinalities/modulo membership, aggregate fields,
+count penalties, MAX/MIN extrema, entity-set identities and specified removals.
+All passed against the existing graph; no engine behavior change was necessary.
+Code(id) represents Generated Entity id bijectively. Unused value-group facts and
+random long fields are omitted. Native counters retain independent collector state.
+
+The source AssertableMatch.isEqualTo helper compares equal scores/field counts and
+expected.containsAll(actual), ignoring positions and duplicate-field multiplicity.
+The adapter preserves that helper, its missing/excess checks, score/count and
+literal source expectations. This is material to Tri groupBy_4Mapping0Collector
+and Quad groupBy_3Mapping0Collector; do not reinterpret these fixtures as exact
+ordered tuple assertions. Helper/provenance entries explicitly record the scope.
+Earlier grouped_tuple_cases use stronger exact equality and already pass.
+
+Focused82897 passed20 cases. Final gate70013 exited0:2831 Rust tests;one Rust target
+ran,378 reused;144-doctest evidence and46 Python jobs reused;fmt/Clippy passed.
+Aggregate exit0 and equal before/after source verified:
+2168a253dd760928eb1801498dca749ad7cd0e1189479f9fd1f20fbbb4ddbc28.
+Coverage1435/4855(29.557%),pending3138,excluded282,failed/unverified0.
+Dashboard freshness94975 exited0 and matched report digest
+bf86f6f8f8fb537486f52f395e31bb7ffcb75e56055dfd1ab666c0640d543c42.
+Logs:work/grouped-multiway-cases.log and work/grouped-multiway-check.log.
+All processes terminal. No failure, benchmark, release or browser sweep in this
+batch. Previous goal turn progressed via67b29a0; full rewrite remains active.
