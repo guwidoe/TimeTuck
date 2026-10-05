@@ -30,6 +30,8 @@
 //! ```
 
 mod dataset;
+mod precompute;
+pub use precompute::SharedPrecompute;
 mod shared_sets;
 pub use shared_sets::{SharedConcat, SharedDistinct, SharedPaddedConcat};
 mod shared_aggregation;

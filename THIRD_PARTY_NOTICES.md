@@ -721,3 +721,10 @@ absence, other-entity and including-unassigned node-sharing methods plus setup
 helpers from pinned Community `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest`
 (Apache-2.0). Exact identities, explicit native scopes and the unary mixed-mode
 fixture are documented in `compat/provenance.json`. Runtime comparisons are original.
+
+`crates/solver/tests/precompute_filter_cases.rs` adapts thirteen pinned Community
+precompute filter/lifecycle and fact-removal methods, including two unique-pair
+methods, with Lavish fixture and Tri/Quad helper attribution (Apache-2.0).
+`compat/provenance.json` records exact methods and the explicit fact-key/live-join
+substitutions. The precompute cache, graph integration and runtime regressions
+are independently implemented.

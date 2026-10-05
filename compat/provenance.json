@@ -24765,6 +24765,201 @@
       "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentFilter",
       "local_test": "quad_if_not_exists_including_unassigned_same_parent_different_filter",
       "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.filter_0_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_0_changed",
+      "local_test": "uni_filter_0_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.forEachUnfiltered_fact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "forEachUnfiltered_fact",
+      "local_test": "uni_for_each_unfiltered_fact",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.filter_0_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_0_changed",
+      "local_test": "bi_filter_0_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.filter_1_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_1_changed",
+      "local_test": "bi_filter_1_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.filter_0_changed_forEachUnfilteredUniquePair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_0_changed_forEachUnfilteredUniquePair",
+      "local_test": "bi_filter_0_changed_for_each_unfiltered_unique_pair",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.filter_1_changed_forEachUnfilteredUniquePair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_1_changed_forEachUnfilteredUniquePair",
+      "local_test": "bi_filter_1_changed_for_each_unfiltered_unique_pair",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.filter_0_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_0_changed",
+      "local_test": "tri_filter_0_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.filter_1_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_1_changed",
+      "local_test": "tri_filter_1_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.filter_2_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_2_changed",
+      "local_test": "tri_filter_2_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.filter_0_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_0_changed",
+      "local_test": "quad_filter_0_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.filter_1_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_1_changed",
+      "local_test": "quad_filter_1_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.filter_2_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_2_changed",
+      "local_test": "quad_filter_2_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.filter_3_changed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "filter_3_changed",
+      "local_test": "quad_filter_3_changed",
+      "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
     }
   ],
   "fixtures": [
@@ -30643,6 +30838,45 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
       "upstream_test": "setup",
       "modifications": "Explicit all-fact source, assigned filter and zero through three Cartesian assigned-entity self-joins replace source discovery and the base forEach join topology. Native Fact IDs, code strings and Option assignment represent entity metadata. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.assertPrecomputeFilterChanged.native",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecomputeFilterChanged",
+      "modifications": "Preserve the helper's default/generated and added fixture cardinalities, entity-position permutations, all five score/match states and callback at-least-once/never assertions. Native typed IDs and live hydration joins replace mutable object references; exact ordered tuple sets replace AssertableMatch membership semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.assertPrecomputeFilterChanged.native",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecomputeFilterChanged",
+      "modifications": "Preserve the helper's default/generated and added fixture cardinalities, entity-position permutations, all five score/match states and callback at-least-once/never assertions. Native typed IDs and live hydration joins replace mutable object references; exact ordered tuple sets replace AssertableMatch membership semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.precompute_filter",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Default fixture uses two value groups, five values, three entity groups and seven entities, with matching modulo group and value membership. Native IDs preserve identities. Additional custom facts follow each source method. Unique-pair cases omit unused fact sources. Unused random long properties and reflection annotations are omitted."
     }
   ]
 }

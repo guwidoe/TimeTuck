@@ -10896,3 +10896,46 @@ b1b00d4d2a7bdd4ee851a1db0de9f69a70433d1d10f5b9b2fbc0f9cdf07eb632.
 Logs:work/shared-existence-scope-cases.log,-regression.log and-check.log
 (shared-existence-scope prefix). All processes terminal. Previous goal turn
 progressed via bbbb157; the full rewrite remains active.
+
+## Fact-key precomputation and live value resolution
+
+PrecomputeNode and builder.precompute cache one output per input ID and explicit
+fact key. The cheap key selector runs on every put; computation and downstream
+fact-pipeline updates occur only on a new ID or changed key. Equal keys retain the
+same cached output object. Retraction releases its entry without callbacks;
+reinsertion computes again. Keys at different IDs do not merge rows. Keys must
+include all computation dependencies and omit no mutable captured facts. Cached
+outputs are immutable fact data/IDs; join back to a live source for current planning
+values. No reflection, global invalidation or property-event classification is added.
+SharedPrecompute definitions/clones reuse one cache per parent/builder, using the
+existing weak registry. Graph checkpoints and source replay integrate the cache
+with rollback and diagnostic rebuilds; rebuilds intentionally rerun computation.
+
+Thirteen full upstream methods preserve pure-fact removal, every filter entity
+position across four arities, and both unique-pair changed-variable positions.
+Real Cartesian fact joins and live identity joins retain all score/match states
+through variable changes, fact changes, removal and reinsertion. Generated fixture
+cardinalities/modulo membership are retained where consumed; unique-pair fixtures
+omit unused fact sources. Typed IDs replace entity/fact identities. Mockito group-
+getter assertions become precomputed predicate/index at-least-once/never counters;
+the cheap native fact-key selector still runs on each put. Provenance states this
+boundary explicitly, with Lavish generation and Tri/Quad helper attribution.
+Five original regressions cover600 standalone cache edits and600 graph edits,
+retained output identity/release, key/computation/terminal panics, rollback, shared
+identity/lifetime, and native basic-variable move scoring with no fact recomputation.
+
+Focused cases41298 passed13; regressions23001 passed5. An initial use of is_some
+on SnapshotMap.remove's bool result was corrected. The unary fixture's unused value
+and value-group source counts were subsequently aligned to its original defaults.
+Early Clippy90502 passed in20.35s before the all-target build. No performance,
+release or browser sweep; cached performance evidence remains unchanged.
+Final broad build23468 exited0 in1m35s. Gate44967 exited0:3090 Rust tests,
+149 doctests,fmt/Clippy;335 Rust targets ran,56 reused;46 Python jobs reused.
+Aggregate exit0 and equal before/after source verified:
+2069346010e2489aae9f3a29d42bec154cf927757e06238a1310894af4594e64.
+Coverage1664/4855(34.274%),pending2909,excluded282,failed/unverified0.
+Dashboard freshness64131 exited0 and matched report verification digest
+c33eece686e0f3b89e33fd042d74976f9c5bbc2010f5a4ebe702c1693a29ac65.
+Logs:work/precompute-filter-cases.log,work/precompute-regression.log,
+work/precompute-clippy.log,work/precompute-build.log and work/precompute-check.log.
+All processes terminal. Previous turn progressed via4e649e7; full goal stays active.

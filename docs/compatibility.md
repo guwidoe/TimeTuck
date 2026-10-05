@@ -2229,3 +2229,15 @@ mode and parent differences are preserved. These methods add identity coverage t
 existing operators. Original generated assignment/update comparisons separately
 verify complete tuple payloads, visibility, absence, scores and rollback across all
 arities; no new engine behavior or precompute compatibility is claimed.
+
+Thirteen precompute methods now retain all filter variable positions across four
+arities, both unique-pair variable positions, and pure-fact removal. They preserve
+initial, variable-only, fact-change, remove and reinsert scores/matches. Explicit
+native fact keys and identity joins replace Java mutable entity references and
+property notifications; precomputed predicate/index callback counts represent the
+source Mockito group-getter assertions. Cheap fact-key selection still runs on each
+put, so no zero-metadata-read or reflection equivalence is claimed. Generated fixture
+cardinalities and memberships are retained; unused random properties are omitted.
+Five original regressions additionally verify invalidation, cached object retention,
+transaction failure/rollback, shared definitions and native basic move integration.
+Other precompute operators and factory/retrieval identity methods remain pending.

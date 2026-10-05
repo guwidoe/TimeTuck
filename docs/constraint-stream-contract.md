@@ -1791,3 +1791,32 @@ compare all output fields and scores for four arities, assigned/all right scopes
 Exists/NotExists and optional self-exclusion through committed and rolled-back
 changes. This is integration evidence for existing operators, not a new implicit
 entity-discovery or callback-interning mechanism.
+
+## Precomputed fact pipelines
+
+`PrecomputeNode` and `StreamGraphBuilder::precompute` cache one computed output per
+input ID and explicit fact key. The key selector runs on every put. A new ID or
+changed key computes and emits a new output; an equal key retains the previous
+output object and emits nothing downstream. Removal discards its cached entry and
+emits a retraction without callbacks; reinsertion computes again. Equal keys at
+different IDs never merge occurrences. Keys must include every dependency of the
+computation. Planning variables omitted from the key must not influence that output.
+Keys, outputs and captured fact dependencies must remain immutable.
+
+Build fact-only joins, filtering and aggregation after this boundary. To use current
+planning values downstream, retain stable IDs in cached output and join back to a
+live source. This separates static membership from current assignments without
+freezing planning values or using interior-mutability aliases. Fact-key selection
+is explicit; no reflection, dependency discovery or global property notifications
+are supplied. Related fact changes must update the relevant key or their own source.
+
+`SharedPrecompute` reuses one boundary/cache per definition and parent within each
+builder. Clones share identity; new definitions/parents/builders remain independent.
+Registrations are weak and pruned on application. The built graph owns callback
+references independently of the definition. Cache state uses persistent maps and
+participates in graph rollback, saved candidate restoration and diagnostic rebuilds.
+Standalone ordinary callback/key-equality/clone failures leave its state unchanged;
+normal graph transaction failure and destructor/interior-mutation limits still apply.
+Diagnostic rebuilds deliberately rerun precomputation. No throughput comparison is
+claimed. Original move-scoring integration verifies current assignments and unchanged
+fact-computation counts during native basic-variable trials and rollback.

@@ -682,3 +682,7 @@ pub use stream_graph::{
 };
 
 pub use stream_graph::{SharedConcat, SharedDistinct, SharedPaddedConcat};
+
+mod precompute_stream;
+pub use precompute_stream::PrecomputeNode;
+pub use stream_graph::SharedPrecompute;
