@@ -1810,3 +1810,19 @@ does not add Java reflection or arbitrary dynamic model mutation. All twelve rem
 UniEnumeratingStreamTest enumeration methods retain their full ordered assertions.
 Original regressions cover null/duplicate distinctions, callback-free reads, foreign
 graphs, pin updates, panics/rollback, sampling and basic/list/mixed director moves.
+
+BoundedFilter now distinguishes a retryable per-probe budget miss from permanent
+source exhaustion. RetiringRandom draws live occurrences with replacement and
+removes only the latest drawn occurrence on explicit retirement, including sparse
+slots and duplicate/null payloads. RetiringPairs selects a live left occurrence,
+retries a caller-supplied right probe up to an explicit nonzero budget, and retires
+that left after repeated failure. Productive lefts remain available; consumers must
+bound potentially infinite productive streams. Empty/all-rejected pools terminate
+within left-count times attempt-count callback calls. Callbacks must themselves
+finish promptly. Bounded probes can miss rare matches; exhaustive scans remain
+available when necessary. Left-row fairness is distinct from uniform pair sampling.
+Seven retiring-iterator, four filtering, two retiring-walk and three paired-iterator
+liveness methods retain their assertions. Native attempt configuration replaces the
+upstream symbolic retry constant; its Java value and PRNG traces are not claimed.
+Six original checks cover exact consumption, duplicates/holes, demand-driven clones,
+seeded distributions, bounded dead-pool work and provider solving in both backends.

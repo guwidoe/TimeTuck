@@ -539,3 +539,8 @@ pub use dataset_enumeration::{
     BasicEntityDataset, DatasetEnumerationOptions, EnumeratedDataset, ListEntityDataset,
     basic_entity_dataset, list_entity_dataset, list_value_dataset,
 };
+
+mod retiring_sampling;
+pub use retiring_sampling::{
+    BoundedFilter, FilterProbe, NoDrawToRetire, RetiringPairs, RetiringRandom,
+};

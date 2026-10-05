@@ -17115,6 +17115,246 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.emptySet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "emptySet",
+      "local_test": "empty_set",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.singleElementSetPickAndRetire",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "singleElementSetPickAndRetire",
+      "local_test": "single_element_set_pick_and_retire",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.multipleElementSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "multipleElementSet",
+      "local_test": "multiple_element_set",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.pickDoesNotModifySet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "pickDoesNotModifySet",
+      "local_test": "pick_does_not_modify_set",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.retireAllElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "retireAllElements",
+      "local_test": "retire_all_elements",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.retireAllElementsAcrossUpgradeThreshold",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "retireAllElementsAcrossUpgradeThreshold",
+      "local_test": "retire_all_elements_across_upgrade_threshold",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultRetiringRandomIteratorTest.drainSkipsGapsAndReturnsEveryLiveElementOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRetiringRandomIteratorTest.java",
+      "upstream_test": "drainSkipsGapsAndReturnsEveryLiveElementOnce",
+      "local_test": "drain_skips_gaps_and_returns_every_live_element_once",
+      "modifications": "Preserve every membership, retirement, exhaustion, non-destructive draw and physical-gap assertion. Option::None and typed NoDrawToRetire replace Java next/retire exceptions. Native owned slots plus live indices replace ElementAwareArrayList and internal sparse/dense representation. The 100-member case preserves complete draining, not a Java storage-upgrade claim. Native seeded randomness is reproducible; Java draw traces are not asserted.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "FilteringIteratorTest.noBailOut_behavesLikeAFilteredFiniteIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/FilteringIteratorTest.java",
+      "upstream_test": "noBailOut_behavesLikeAFilteredFiniteIterator",
+      "local_test": "no_bail_out_behaves_like_a_filtered_finite_iterator",
+      "modifications": "Preserve finite filtering, infinite rejecting-source termination, accepted random values and exact 1000-item per-call retry behavior. Explicit native Found/BudgetExhausted/SourceExhausted probe results replace Java hasNext buffering and next exceptions. A successful probe consumes its returned value directly. The finite unbounded case uses usize::MAX budget; native randomness replaces java.util.Random without trace parity.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "FilteringIteratorTest.bailOut_rejectingFilterOnNeverEndingDelegateStillTerminates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/FilteringIteratorTest.java",
+      "upstream_test": "bailOut_rejectingFilterOnNeverEndingDelegateStillTerminates",
+      "local_test": "bail_out_rejecting_filter_on_never_ending_delegate_still_terminates",
+      "modifications": "Preserve finite filtering, infinite rejecting-source termination, accepted random values and exact 1000-item per-call retry behavior. Explicit native Found/BudgetExhausted/SourceExhausted probe results replace Java hasNext buffering and next exceptions. A successful probe consumes its returned value directly. The finite unbounded case uses usize::MAX budget; native randomness replaces java.util.Random without trace parity.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "FilteringIteratorTest.bailOut_acceptingFilterStillFindsItsMatch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/FilteringIteratorTest.java",
+      "upstream_test": "bailOut_acceptingFilterStillFindsItsMatch",
+      "local_test": "bail_out_accepting_filter_still_finds_its_match",
+      "modifications": "Preserve finite filtering, infinite rejecting-source termination, accepted random values and exact 1000-item per-call retry behavior. Explicit native Found/BudgetExhausted/SourceExhausted probe results replace Java hasNext buffering and next exceptions. A successful probe consumes its returned value directly. The finite unbounded case uses usize::MAX budget; native randomness replaces java.util.Random without trace parity.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "FilteringIteratorTest.bailOut_resetsOnEveryHasNextCall",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/FilteringIteratorTest.java",
+      "upstream_test": "bailOut_resetsOnEveryHasNextCall",
+      "local_test": "bail_out_resets_on_every_probe_call",
+      "modifications": "Preserve finite filtering, infinite rejecting-source termination, accepted random values and exact 1000-item per-call retry behavior. Explicit native Found/BudgetExhausted/SourceExhausted probe results replace Java hasNext buffering and next exceptions. A successful probe consumes its returned value directly. The finite unbounded case uses usize::MAX budget; native randomness replaces java.util.Random without trace parity.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "RetiringBiWalkTest.aLeftIsRetriedUpToProbeAttemptCountBeforeGivingUp",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/RetiringBiWalkTest.java",
+      "upstream_test": "aLeftIsRetriedUpToProbeAttemptCountBeforeGivingUp",
+      "local_test": "a_left_is_retried_up_to_probe_attempt_count_before_giving_up",
+      "modifications": "Preserve retry-until-last-probe success, no retirement of a successful left, complete dead-left retirement and exact probes-per-left multiplication. Explicit native attempt configuration (8) replaces the symbolic upstream PROBE_ATTEMPT_COUNT; no claim about the Java constant value. An Option-returning right probe replaces creating a short iterator; remaining_lefts verifies that the exhaustion hook was not reached.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "RetiringBiWalkTest.aLeftWithNoMatchIsRetiredAfterExactlyProbeAttemptCountProbes",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/RetiringBiWalkTest.java",
+      "upstream_test": "aLeftWithNoMatchIsRetiredAfterExactlyProbeAttemptCountProbes",
+      "local_test": "a_left_with_no_match_is_retired_after_exactly_probe_attempt_count_probes",
+      "modifications": "Preserve retry-until-last-probe success, no retirement of a successful left, complete dead-left retirement and exact probes-per-left multiplication. Explicit native attempt configuration (8) replaces the symbolic upstream PROBE_ATTEMPT_COUNT; no claim about the Java constant value. An Option-returning right probe replaces creating a short iterator; remaining_lefts verifies that the exhaustion hook was not reached.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiRandomMoveIteratorLivenessTest.emptyRightDataset_terminates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/BiRandomMoveIteratorLivenessTest.java",
+      "upstream_test": "emptyRightDataset_terminates",
+      "local_test": "empty_right_dataset_terminates",
+      "modifications": "Preserve all three immediate no-move/termination assertions over three entities and values. Native finite problems, immutable datasets, bounded filter probes and retiring pairs replace reflective stream factories and the Java tester. A native change mapper is never invoked for rejected pairs. Explicit attempts replace the Java internal constant; no Java lifecycle/PRNG parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiRandomMoveIteratorLivenessTest.emptyLeftDataset_terminates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/BiRandomMoveIteratorLivenessTest.java",
+      "upstream_test": "emptyLeftDataset_terminates",
+      "local_test": "empty_left_dataset_terminates",
+      "modifications": "Preserve all three immediate no-move/termination assertions over three entities and values. Native finite problems, immutable datasets, bounded filter probes and retiring pairs replace reflective stream factories and the Java tester. A native change mapper is never invoked for rejected pairs. Explicit attempts replace the Java internal constant; no Java lifecycle/PRNG parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiRandomMoveIteratorLivenessTest.filteringJoinerRejectsEveryPair_terminates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/BiRandomMoveIteratorLivenessTest.java",
+      "upstream_test": "filteringJoinerRejectsEveryPair_terminates",
+      "local_test": "filtering_joiner_rejects_every_pair_terminates",
+      "modifications": "Preserve all three immediate no-move/termination assertions over three entities and values. Native finite problems, immutable datasets, bounded filter probes and retiring pairs replace reflective stream factories and the Java tester. A native change mapper is never invoked for rejected pairs. Explicit attempts replace the Java internal constant; no Java lifecycle/PRNG parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -20570,6 +20810,84 @@
       "modifications": "Retain two values/two entities or five values/three list entities, modulo initialization, explicit list overrides and pin flags/prefixes. Native IDs, typed sources, transaction commit and ListProblem-derived shadow positions replace Java descriptors, sessions and solution traversal. Fixture/helper attribution only; no extra method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/dataset_enumeration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "AbstractIndexerTest.toEntries.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "toEntries",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "RetiringBiWalkTest.NonAcceptingRetiringBiWalk.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/RetiringBiWalkTest.java",
+      "upstream_test": "NonAcceptingRetiringBiWalk",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "RetiringBiWalkTest.NoRightValueRetiringBiWalk.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/RetiringBiWalkTest.java",
+      "upstream_test": "NoRightValueRetiringBiWalk",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiRandomMoveIteratorLivenessTest.assertNeverHangs.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/BiRandomMoveIteratorLivenessTest.java",
+      "upstream_test": "assertNeverHangs",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiRandomMoveIteratorLivenessTest.PickEntityAndValue.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/BiRandomMoveIteratorLivenessTest.java",
+      "upstream_test": "PickEntityAndValue",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataSolution.generateSolution.retiring_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

@@ -9700,3 +9700,33 @@ work/dataset-enumeration-regression.log. The initial original-regression compile
 needed its list_moves neighborhood/result arguments corrected; the final check
 includes the completed ChangeAndSwap optional-list variant. All jobs are complete.
 The full rewrite goal remains active.
+
+## Bounded probes and retiring pair sampling
+
+Added BoundedFilter with distinct Found/BudgetExhausted/SourceExhausted outcomes;
+retry gets a fresh budget, successful probes have no lookahead, and true source
+exhaustion fuses even non-fused inputs. RetiringRandom owns physical optional slots
+and a live-index pool, draws occurrences with replacement, and retires only the
+latest unretired draw. Borrowed draws need no Clone; owned iteration clones on
+demand. Duplicate/null payloads remain separate from holes. RetiringPairs chooses
+a live left, invokes a caller-supplied right probe up to a nonzero attempt limit,
+and permanently retires repeatedly unproductive lefts. Productive pools require
+bounded consumers; callbacks must return promptly. Bounded probes may miss rare
+matches; callers can exhaustively scan the right side instead. Selection is fair
+over live left occurrences, not over all matching pairs. Reopen on new snapshots.
+16 upstream methods are adapted (DefaultRetiringRandomIterator7,FilteringIterator4,
+RetiringBiWalk2,BiRandomMoveIteratorLiveness3), with6 fixture/helper attributions.
+Explicit native attempt count8 substitutes for the symbolic upstream retry constant;
+its Java value/internal storage thresholds and PRNG traces are not claimed. Six
+original regressions cover bounded consumption/retirement, duplicate/null slots,
+demand-driven cloning, deterministic distributions, exact dead-pool call counts and
+pair-provider solving in scoped/stream local search. Focused cases/regressions passed.
+Final check.sh passed:2362 Rust tests,128 doctests,fmt/Clippy;46 Python jobs reused.
+Only3 Rust targets ran (lib and two new suites),319 reused unchanged evidence.
+Affected executable prebuild took21.39s. Source digest:
+8e0cea2a16ddc89b673d0f726a53062117ce5be7194d0727b8e0bef6ff34fe09.
+Coverage1157/4855(23.831%),pending3416,excluded282,failed/unverified0. Live dashboard
+freshness matches. No UI/browser, benchmark sweep or release rerun; old measurements
+remain stale. Logs:work/retiring-sampling-build.log,work/retiring-sampling-check.log,
+work/retiring-sampling-focused.log,work/retiring-sampling-regression.log. All build,
+check and freshness jobs are complete. Full rewrite goal remains active.
