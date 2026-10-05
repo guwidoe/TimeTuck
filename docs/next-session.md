@@ -10646,3 +10646,40 @@ Dashboard freshness39050 exited0 and matched report digest
 Logs:work/unique-pair-focused.log,-build.log,-check.log (unique-pair prefix).
 All processes terminal. No benchmark/release/browser sweep; old timing evidence
 remains stale. Previous goal turn progressed via8a9c5b8; full rewrite stays active.
+
+## Flat collector tuples and compound grouping
+
+Native tuples of two,three,four ReversibleCollectors now aggregate corresponding
+flat inputs to flat outputs; nested tuples remain supported. Each mutation stages
+all delegates before installation; failed later removal/replacement or ordinary
+panic preserves prior components. Specialized replace delegates unchanged, including
+SumCollector's checked intermediate difference. No input Clone bound is added.
+DistinctCountCollector<V> retains persistent multiplicities, releases a key on final
+removal and finishes in constant time to native usize; Option keys count null
+explicitly. Graph grouping/conditional/finishing adapters use these without new
+builder methods. Direct mutation inputs must identify actual captured occurrences.
+
+Eight unary and ten binary upstream methods now preserve compound keys, multiple
+aggregates, all exact match fields, codes/set identities, count-weighted penalties,
+MAX/MIN extrema, filtered counts, removals, group changes and duplicate-group
+survival. Binary cases use live unique pairs from c810df5. Fixture/assertion/code
+helpers are attributed; unused reflection/value-group/random properties omitted.
+Five original regressions cover duplicate/null counts and snapshots, atomic late
+failure, specialized overflow, non-Clone/nested tuples, four-collector groups in
+500 graph trials and downstream overflow rollback. No extra method credit.
+
+Focused93702 passed18 adaptations. Initial regression16614 failed to compile a
+snapshot equality assertion; changed to comparing snapshot rows, and corrected a
+positive replacement fixture to respect checked difference arithmetic. Regression
+43638 passed5 tests. Prebuild74242 exited0. Initial gate14606 passed Rust/lint but
+failed the new doctest's generic counter input inference; explicit Input fixed it.
+Final gate52215 exited0:2811 Rust tests,144 doctests,fmt/Clippy;3 Rust targets ran,
+375 reused;46 Python jobs reused. Aggregate exit0 and equal before/after source:
+c998e9633c16e8ab44b92d24a318f1c6927078c8cfa3ca6199e790fe1b84a6ac.
+Coverage1415/4855(29.145%),pending3158,excluded282,failed/unverified0.
+Dashboard freshness93368 exited0 and matched report digest
+a2a188dd7b611124896ac88e0081535f45db8dc99306cb4a9d79f49dbc52be7d.
+Logs:work/tuple-group-cases.log,-regression.log,-build.log,-check.log and
+-final-check.log (tuple-group prefix). All processes terminal. No benchmarks,
+release tests or browser sweep; old timings remain stale. Previous turn progressed
+via c810df5. Full solver rewrite remains active and unfinished.

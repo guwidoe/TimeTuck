@@ -676,3 +676,10 @@ implemented.
 from `AbstractConstraintStreamTest` and `TestdataLavishSolution` (Apache-2.0).
 Exact identities and native substitutions are recorded in `compat/provenance.json`.
 The indexed unique-pair implementation and additional regressions are independent.
+
+`crates/solver/tests/grouped_tuple_cases.rs` adapts eighteen grouping methods from
+pinned Community `AbstractUniConstraintStreamTest` and `AbstractBiConstraintStreamTest`
+(Apache-2.0), plus assertion/set/fixture/code helpers from
+`AbstractConstraintStreamTest`, `TestdataLavishSolution` and `TestdataObject`.
+Exact identities, revision and native substitutions are in `compat/provenance.json`.
+Flat tuple collectors, distinct counting and additional regressions are independent.

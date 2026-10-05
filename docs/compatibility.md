@@ -2160,3 +2160,14 @@ planning-ID discovery. Unused fixture groups/values are omitted, all source
 entities are assigned, and native stream filtering remains explicit. Indexed
 updates, shared graph branches, rollback, callback failures and composite
 planning moves have original regressions with no additional method credit.
+
+Eighteen additional unary/binary grouping methods preserve one through four keys,
+zero through three collectors, complete match fields/sets, count-based penalties,
+filtered counts, MAX/MIN extrema, duplicate-group survival, removals and key changes.
+Binary cases use live unique-pair streams. Flat native tuple collectors and
+DistinctCountCollector replace Java arity overloads; integer count widths are
+native usize. Generated group/value membership and entity codes remain exact;
+unused value-group facts, reflection metadata and random unused properties are
+omitted. Five original regressions cover four-field and nested composition,
+non-Clone inputs, duplicate/null counting, specialized arithmetic, atomic failure
+and 500 incremental graph trials without additional upstream method credit.

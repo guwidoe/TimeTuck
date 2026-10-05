@@ -20955,6 +20955,276 @@
       "upstream_test": "forEachUniquePair_1Equals",
       "local_test": "for_each_unique_pair_1_equals",
       "modifications": "Native code-keyed fact occurrences replace Java entity discovery and planning IDs. Preserve insertion order B,A,C; exact A/B/C pair orientation, complete match sets, per-match penalties and total scores. Equality fixture preserves keys 2,2,10 and incremental B-to-10 replacement with pair AB changing to BC. Unused generated value/group facts are omitted; every entity is assigned in the source fixtures. No reflection or Java listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping2Collector",
+      "local_test": "uni_group_by_1_mapping_2_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping3Collector",
+      "local_test": "uni_group_by_1_mapping_3_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_2Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping0Collector",
+      "local_test": "uni_group_by_2_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_2Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping1Collector",
+      "local_test": "uni_group_by_2_mapping_1_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_2Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping2Collector",
+      "local_test": "uni_group_by_2_mapping_2_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_3Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping0Collector",
+      "local_test": "uni_group_by_3_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_3Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping1Collector",
+      "local_test": "uni_group_by_3_mapping_1_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_4Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_4Mapping0Collector",
+      "local_test": "uni_group_by_4_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "bi_group_by_1_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "bi_group_by_1_mapping_1_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_1Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping2Collector",
+      "local_test": "bi_group_by_1_mapping_2_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_1Mapping3Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping3Collector",
+      "local_test": "bi_group_by_1_mapping_3_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_2Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping0Collector",
+      "local_test": "bi_group_by_2_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_2Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping1Collector",
+      "local_test": "bi_group_by_2_mapping_1_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_2Mapping2Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_2Mapping2Collector",
+      "local_test": "bi_group_by_2_mapping_2_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_3Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping0Collector",
+      "local_test": "bi_group_by_3_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_3Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_3Mapping1Collector",
+      "local_test": "bi_group_by_3_mapping_1_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.groupBy_4Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "groupBy_4Mapping0Collector",
+      "local_test": "bi_group_by_4_mapping_0_collector",
+      "modifications": "Native immutable entity records/occurrence IDs preserve generated entity count, modulo group/value assignment and exact codes. Compound tuple keys and flat reversible collector tuples replace Java arity overloads; native usize counts replace Java integer/long counts. Tests retain every source before/after match field, set identity, count/extremum, penalty and total, all source removals/group changes, duplicate-group survival and filter thresholds. Binary streams use live indexed unique pairs in planning-code order. Unused value-group facts/annotations/random long fields are omitted or set to zero; binary extrema explicitly retain i64 MAX/MIN. No Java object-discovery or listener API equivalence."
     }
   ],
   "fixtures": [
@@ -26430,6 +26700,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "The two source tests request zero generated entities then append B,A,C. Native rows retain those entities and used integer properties; unrelated generated values/groups and reflection metadata are omitted. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertScore.grouped_tuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore",
+      "modifications": "Native expected field rows preserve exact match sets, entity-set identities, named constraint totals, per-match penalties and total scores. Set member order is normalized. Java policy modes and wrappers are not reproduced; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertMatchWithScore.grouped_tuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertMatchWithScore",
+      "modifications": "Native expected field rows preserve exact match sets, entity-set identities, named constraint totals, per-match penalties and total scores. Set member order is normalized. Java policy modes and wrappers are not reproduced; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.asSet.grouped_tuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "asSet",
+      "modifications": "Native expected field rows preserve exact match sets, entity-set identities, named constraint totals, per-match penalties and total scores. Set member order is normalized. Java policy modes and wrappers are not reproduced; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.grouped_tuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Generated fixtures preserve entity count, modulo group/value membership and exact Generated Entity codes. Extra MyEntity codes and group/value identities are explicit; code strings replace toString. Unused value-group objects, reflection annotations and random long properties are omitted; extrema cases explicitly use MAX/MIN. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/grouped_tuple_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.toString.grouped_tuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "toString",
+      "modifications": "Generated fixtures preserve entity count, modulo group/value membership and exact Generated Entity codes. Extra MyEntity codes and group/value identities are explicit; code strings replace toString. Unused value-group objects, reflection annotations and random long properties are omitted; extrema cases explicitly use MAX/MIN. Helper attribution adds no method credit."
     }
   ]
 }

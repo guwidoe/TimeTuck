@@ -671,3 +671,6 @@ pub use unique_sampling::{
 
 mod unique_pair_stream;
 pub use unique_pair_stream::UniquePairNode;
+
+mod tuple_collector;
+pub use tuple_collector::DistinctCountCollector;

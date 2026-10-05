@@ -1658,3 +1658,24 @@ normal graph journal covers downstream callback failure, rollback, accepted
 moves, shared branches and diagnostic rebuilds. IDs/keys must be immutable with
 consistent ordering; callbacks must be deterministic without external effects.
 No timing or Java internal event-order equivalence is claimed.
+
+## Flat multiple-collector groups
+
+Native tuples of two, three or four `ReversibleCollector` implementations collect
+corresponding flat input fields and return flat output tuples. Use these directly
+with `group_collect_with`, `collect`, conditional collectors or finishing adapters;
+compound tuple group keys are independent of collector count. Nested tuples remain
+valid for larger shapes. Each mutation clones the tuple, invokes each component
+in field order and installs all components together. Missing removal/replacement
+or ordinary callback/clone/arithmetic panic leaves the prior tuple intact, assuming
+delegates obey the collector contract. Specialized `replace` is preserved, including
+checked intermediate sum arithmetic. Composition adds no input Clone requirement.
+Pure finish runs each delegate; graph transactions cover downstream failures.
+
+`DistinctCountCollector<V>` retains persistent value multiplicities and returns
+native usize distinct count in constant time. Empty finish is zero; final duplicate
+removal releases its key. Clone shares roots with isolated later mutation. Stable
+Ord defines distinctness; explicit Option values can represent a counted null.
+As with all captured collectors, direct removals must identify an actual captured
+occurrence. Empty graph groups disappear; standalone empty results do not invent
+an output row. No new timing measurement accompanies this addition.
