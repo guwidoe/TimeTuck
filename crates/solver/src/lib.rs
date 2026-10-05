@@ -656,3 +656,9 @@ pub use provider_construction::{
     list_stream_construction_from_with_provider, mixed_construction_from_with_provider,
     mixed_stream_construction_from_with_provider, stream_construction_from_with_provider,
 };
+
+mod placement_queue;
+pub use placement_queue::{
+    PlacementError, PlacementFn, PlacementOrder, PlacementQueue, PlacementSnapshot,
+    PlacementSource, PooledPlacements, SinglePlacementKey, UngroupedPlacement, pooled_placements,
+};

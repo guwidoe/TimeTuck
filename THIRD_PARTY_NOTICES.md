@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/placement_queue_cases.rs` adapts five methods from
+  `QueuedEntityPlacerTest`, `QueuedValuePlacerTest` and `PooledEntityPlacerTest`,
+  with `PlacementAssertions` and `PlannerAssert` helper assertions. Native keys,
+  candidate snapshots and explicit lifecycle events replace Java selector mocks.
+
 - `crates/solver/tests/list_ruin_recreate_cases.rs` adapts the complete
   `ListRuinRecreateMoveSelectorTest.testRuiningOnlyOneAssignedValues` method,
   its list-size penalty and the optional list solution-generator fixture. The

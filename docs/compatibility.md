@@ -2140,3 +2140,10 @@ parity are claimed. The contract is in `incremental-search-contract.md`.
 Full solver plans now support construction-provider bindings across all six
 model/scoring paths, retaining shared controls, events and partial handoffs. This
 is additional native integration evidence, not new upstream method coverage.
+
+Five complete queued-entity, queued-value and pooled-placement methods now preserve
+all ordered candidate pools, finite/cyclic behavior, phase restarts and lifecycle
+counts. Native PlacementQueue/PlacementSource and immutable snapshots replace Java
+mimic selectors and runtime move casts. Factory copy methods remain pending. The
+native construction-provider integration is tested separately; automatic source
+lifecycle dispatch is not claimed.

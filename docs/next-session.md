@@ -10540,3 +10540,42 @@ visibly stale. The broader final gate passed after the lint repair.
 Dashboard freshness52822 exited0 and matched report digest
 461a73115537818e037dd4b57e89a0278a92251505f8267ff6bcf70d45c5e042.
 All batch processes are terminal.
+
+## Queued and pooled construction placements
+
+PlacementQueue captures bounded phase keys, visits children in key-major order
+once or cyclically, and builds each finite candidate pool against current context.
+PlacementSource supports lazy sources; PlacementFn wraps vector callbacks.
+pooled_placements adapts a regular source to repeated unit-key placements.
+PlacementSnapshot shares immutable non-Clone keys/moves and survives later phases.
+Passive has_next does not open sources or promise a nonempty candidate pool. Empty
+keys/children exhaust; empty pools still count as placements. A caller scanning a
+cycle for nonempty pools must impose its own placement bound. Composite candidates
+can use SelectionProduct. Lifecycle remains explicit, not automatic solver wiring.
+Invalid events forward nothing; failures/panics invalidate the phase until normal
+closure/restart. Ordinary key-build errors still notify child scopes; partial panic
+side effects remain the caller's responsibility. Held snapshots stay usable.
+
+Five full upstream queued-entity/value/pooled methods plus seven assertion helper
+attributions preserve every pool, finite/cyclic availability, phase restart and
+lifecycle callback count. Java factory-copy methods remain pending. Seven original
+regressions cover live context versus phase keys, duplicates, empty collections,
+non-Clone ownership, bounded/unbounded/mismatched/panicking sources, recovery, and
+actual two-variable joint placements through full plans in both basic backends.
+Focused cases49578 passed five adaptations. Initial native test compilation6512
+needed separate SolverExtensions values for scoped/stream error types; fixed;
+84261 passed six regressions. Initial gate76256 passed. Final review then found a
+child-lifecycle imbalance after an ordinary key-build error; fixed event forwarding
+and added the seventh targeted regression before final verification. Previous goal
+turn progressed via14461c2; this increment adds reusable placement scheduling.
+No benchmark, release or browser sweep; old performance evidence remains stale.
+The full rewrite remains active and unfinished.
+Final gate99949 exited0: 2768 Rust tests,141 doctests,fmt/Clippy;3 Rust targets ran,
+369 reused;46 Python jobs reused. Aggregate exit0 and equal before/after source:
+ec91cfa330d4f2d5d381b20b2db2930ab0c21f996398080ad6d50af4b73b02be.
+Coverage1390/4855(28.63%),pending3183,excluded282,failed/unverified0. Logs:
+work/placement-queue-cases.log, -regression-passed.log, -recovery.log,
+-final-build.log and -final-check.log (same placement-queue prefix).
+Dashboard freshness26608 exited0 and matched report digest
+35f4ac99e22b1b12c77fd6cd7810fef8bbe27e4c54562ec5febe2b5cca9e959e.
+All batch processes are terminal.

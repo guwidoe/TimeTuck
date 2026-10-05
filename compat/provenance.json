@@ -20775,6 +20775,81 @@
       "upstream_test": "indexedListIteratorWithRandomSelection",
       "local_test": "random_indexed_list_iterator_rejected",
       "modifications": "Preserve rejection of ordinary/indexed list access under random selection before lifecycle initialization. Native RandomListAccess replaces Java IllegalStateException; no descriptor reflection is reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedEntityPlacerTest.oneMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerTest.java",
+      "upstream_test": "oneMoveSelector",
+      "local_test": "queued_entity_one_move_selector",
+      "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedEntityPlacerTest.multiQueuedMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerTest.java",
+      "upstream_test": "multiQueuedMoveSelector",
+      "local_test": "queued_entity_multi_queued_move_selector",
+      "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedEntityPlacerTest.cartesianProductMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerTest.java",
+      "upstream_test": "cartesianProductMoveSelector",
+      "local_test": "queued_entity_cartesian_product_move_selector",
+      "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedValuePlacerTest.oneMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedValuePlacerTest.java",
+      "upstream_test": "oneMoveSelector",
+      "local_test": "queued_value_one_move_selector",
+      "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PooledEntityPlacerTest.oneMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PooledEntityPlacerTest.java",
+      "upstream_test": "oneMoveSelector",
+      "local_test": "pooled_one_move_selector",
+      "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
     }
   ],
   "fixtures": [
@@ -26094,6 +26169,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfNeverEndingIterator",
       "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlacementAssertions.assertEntityPlacement.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PlacementAssertions.java",
+      "upstream_test": "assertEntityPlacement",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlacementAssertions.assertValuePlacement.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PlacementAssertions.java",
+      "upstream_test": "assertValuePlacement",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlacementAssertions.adapt.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PlacementAssertions.java",
+      "upstream_test": "adapt",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/placement_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCode.placement_queue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCode",
+      "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
     }
   ]
 }
