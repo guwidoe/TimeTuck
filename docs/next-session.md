@@ -9669,3 +9669,34 @@ measurements remain stale. Logs:work/verification-speed-build.log and
 work/verification-speed-check.log. Both compilation/check and timing sessions are
 complete; do not restart them. The full rewrite goal remains active. Resume solver
 implementation, reusing this successful baseline for unchanged inputs.
+
+## Typed planning dataset enumeration
+
+Added EnumeratedDataset captures with DatasetEnumerationOptions, borrowed ordered
+iteration and owned sampling/join snapshots. A permanent synthetic null member is
+separate from unassigned row payloads and is not inserted into the scoring graph.
+Pin filtering runs on delivered tuple updates; reads do not rerun predicates.
+basic_entity_dataset, list_entity_dataset and list_value_dataset bind fixed model
+pins to score-director sources. Whole-entity list pins remove entities/values;
+prefix pins remove only the corresponding values. Unassigned entities/registered
+values remain included. Custom streams support explicit insertion/retraction/pin
+payload updates; native model membership/pin metadata stays fixed during sessions.
+All12 remaining UniEnumeratingStreamTest enumeration methods are adapted, with9
+fixture/helper attributions. Native ascending IDs replace Java object identity/order;
+reflection and arbitrary dynamic model mutation are not claimed. Six original
+regressions cover null/duplicate distinctions, foreign handles, callback-free reads,
+pin transitions/panics, sampling and basic/list/mixed transactional moves. Every
+generated single list move (including optional unassignments/swaps) is compared with
+independent assignment-derived positions/neighbors and checked after rollback.
+Final check.sh passed:2340 Rust tests,127 doctests,fmt/Clippy;46 Python jobs reused.
+Only3 Rust targets ran (lib and two new suites),317 reused unchanged evidence.
+Affected executable compilation took19.26s. Source digest:
+ebbb149956507a4f77455335656ad3e370ec614994b3c5805367ce3a8b945286.
+Coverage1141/4855(23.502%),pending3432,excluded282,failed/unverified0. Live dashboard
+freshness matches the report. No UI/browser, benchmark sweep or release rerun;
+older measurements remain stale. Logs:work/dataset-enumeration-build.log,
+work/dataset-enumeration-check.log,work/dataset-enumeration-focused.log and
+work/dataset-enumeration-regression.log. The initial original-regression compile
+needed its list_moves neighborhood/result arguments corrected; the final check
+includes the completed ChangeAndSwap optional-list variant. All jobs are complete.
+The full rewrite goal remains active.

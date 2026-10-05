@@ -1792,7 +1792,21 @@ score-director graph access exposes these datasets to callers managing search st
 Eight UniEnumeratingStreamTest and five BiEnumeratingStreamTest methods preserve
 concatenation (including self-duplicates and padding), grouping, custom collector,
 reassignment/retraction and mapper-call assertions. The twelve uni enumeration
-methods involving source discovery, optional null rows and pin filtering remain
-pending. Seven original checks cover sharing/foreign handles, disabled branches,
+methods involving source discovery, optional null rows and pin filtering are
+covered by the typed views below. Seven original checks cover sharing/foreign handles, disabled branches,
 failures/rebuild diagnostics, held snapshots, saved candidates and all three stream
 score-director model families.
+
+Typed EnumeratedDataset views now optionally prepend one permanent null member and
+filter pinned rows before capture. Native basic/list entity and list-value adapters
+bind those views to existing score-director sources. Unassigned entities/registered
+values remain present; a null member is distinct from an entity with a null value.
+Whole list pins exclude entities, while prefix pins exclude only the corresponding
+values. Borrowed iteration uses ascending native identity order without cloning;
+owned snapshots support existing sampling and joins. Null is a dataset-view member,
+not a scoring-graph tuple. Native problem membership/pin metadata is fixed during a
+session; custom streams can explicitly insert/retract/update typed payloads. This
+does not add Java reflection or arbitrary dynamic model mutation. All twelve remaining
+UniEnumeratingStreamTest enumeration methods retain their full ordered assertions.
+Original regressions cover null/duplicate distinctions, callback-free reads, foreign
+graphs, pin updates, panics/rollback, sampling and basic/list/mixed director moves.
