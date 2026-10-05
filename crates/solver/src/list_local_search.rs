@@ -157,10 +157,11 @@ where
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
-    config
-        .neighborhood
-        .validate_list(problem)
-        .map_err(D::Error::from)?;
+    for (neighborhood, _) in config.neighborhoods() {
+        neighborhood
+            .validate_list(problem)
+            .map_err(D::Error::from)?;
+    }
     if !problem.is_complete(&initial) {
         return Err(ListLocalSearchError::IncompleteInitialAssignment);
     }
@@ -224,12 +225,9 @@ where
         {
             random.shuffle(&mut order);
         }
-        let moves = ordered(
-            problem,
-            &snapshot,
-            config.neighborhood.at_step(progress.completed_steps()),
-            order.iter().copied(),
-        );
+        let moves = config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+            ordered(problem, &snapshot, neighborhood, order.iter().copied())
+        });
         let current = director.score();
         let tracks_entities = config.tracks_variables();
         let tracks_values = config.tracks_values();

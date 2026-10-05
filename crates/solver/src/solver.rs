@@ -1346,13 +1346,14 @@ fn validate_basic_phase_neighborhoods<V: Eq, S, E>(
 ) -> Result<(), SolverError<E>> {
     for (phase, config) in phases.iter().enumerate() {
         if let SolverPhase::LocalSearch(config) = config {
-            config
-                .neighborhood
-                .validate_basic(problem)
-                .map_err(|e| SolverError::Phase {
-                    phase,
-                    error: error(e),
-                })?;
+            for (neighborhood, _) in config.neighborhoods() {
+                neighborhood
+                    .validate_basic(problem)
+                    .map_err(|e| SolverError::Phase {
+                        phase,
+                        error: error(e),
+                    })?;
+            }
         }
     }
     Ok(())
@@ -1364,13 +1365,14 @@ fn validate_list_phase_neighborhoods<V: Eq + Clone, S, E>(
 ) -> Result<(), SolverError<E>> {
     for (phase, config) in phases.iter().enumerate() {
         if let SolverPhase::LocalSearch(config) = config {
-            config
-                .neighborhood
-                .validate_list(problem)
-                .map_err(|e| SolverError::Phase {
-                    phase,
-                    error: error(e),
-                })?;
+            for (neighborhood, _) in config.neighborhoods() {
+                neighborhood
+                    .validate_list(problem)
+                    .map_err(|e| SolverError::Phase {
+                        phase,
+                        error: error(e),
+                    })?;
+            }
         }
     }
     Ok(())

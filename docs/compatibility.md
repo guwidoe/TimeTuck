@@ -1672,3 +1672,17 @@ case. Native evaluators replace Java mocks and solver/phase scope objects; the
 shared applicability helper is attributed. This establishes expression behavior,
 not Java lifecycle or object API equivalence. Independent six-path orchestration
 and controlled-clock checks cover the new solve-wide count/time expressions.
+
+Weighted neighborhood unions now compose existing move families in basic, list and
+mixed local search with both scoped and stream scoring. Sequential selection drains
+children in order; seeded random selection draws a child per move in proportion to
+positive integer weights. Zero weights disable children, including validation.
+Swap-only neighborhoods allow changes and swaps to be weighted independently.
+Unions preserve each child's order and duplicates and exhaust finite children once;
+consumer budgets bound infinite generic iterators. Seeds vary per search step.
+Two UniformRandomUnionMoveIterator methods retain their full observable assertions.
+The Java polling/priming method remains pending: native unions deliberately do no
+polling at construction and Rust iterators have no separate hasNext protocol.
+Original regressions exercise weight proportions, laziness, exhaustion, disabled
+validation, all six solver paths and escaping a single-move local optimum using
+combined single/group changes. No Java lifecycle/PRNG trace parity is claimed.

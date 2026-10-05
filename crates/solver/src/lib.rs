@@ -480,3 +480,6 @@ pub use scoped_weights::ConstraintWeightError;
 
 mod scoring_arithmetic;
 pub use scoring_arithmetic::{ScoreOverflow, ScoringArithmetic};
+
+mod move_union;
+pub use move_union::{MoveUnion, NeighborhoodUnion, UnionOrder};

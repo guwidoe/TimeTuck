@@ -172,6 +172,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+    if neighborhood == Neighborhood::Swap {
+        return Box::new(swaps(p, a, order));
+    }
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
     if let Neighborhood::RepartitionKOpt(config) = neighborhood {

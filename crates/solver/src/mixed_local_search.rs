@@ -185,16 +185,16 @@ where
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
-    config
-        .neighborhood
-        .validate_basic(problem.basic())
-        .map_err(crate::MixedError::Basic)
-        .map_err(D::Error::from)?;
-    config
-        .neighborhood
-        .validate_list(problem.lists())
-        .map_err(crate::MixedError::Lists)
-        .map_err(D::Error::from)?;
+    for (neighborhood, _) in config.neighborhoods() {
+        neighborhood
+            .validate_basic(problem.basic())
+            .map_err(crate::MixedError::Basic)
+            .map_err(D::Error::from)?;
+        neighborhood
+            .validate_list(problem.lists())
+            .map_err(crate::MixedError::Lists)
+            .map_err(D::Error::from)?;
+    }
     if !problem.is_complete(&initial) {
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
     }
@@ -263,14 +263,16 @@ where
             random.shuffle(&mut basic_order);
             random.shuffle(&mut list_order);
         }
-        let moves = ordered(
-            problem,
-            &snapshot,
-            config.neighborhood.at_step(progress.completed_steps()),
-            joint_moves,
-            basic_order.iter().copied(),
-            list_order.iter().copied(),
-        );
+        let moves = config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+            ordered(
+                problem,
+                &snapshot,
+                neighborhood,
+                joint_moves,
+                basic_order.iter().copied(),
+                list_order.iter().copied(),
+            )
+        });
         let current = director.score();
         let tracks_entities = config.tracks_variables();
         let tracks_values = config.tracks_values();

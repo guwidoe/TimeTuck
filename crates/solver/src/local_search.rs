@@ -108,6 +108,8 @@ pub enum Neighborhood {
         max_size: usize,
     },
     Change,
+    /// Only swaps; useful as an independently weighted union child.
+    Swap,
     ChangeAndSwap,
     /// Move whole equal-value groups of unpinned basic slots. Lists retain
     /// ordinary changes and optional swaps; mixed joint moves use both sets.
@@ -205,6 +207,8 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     /// Stop at a step boundary when the retained best satisfies Score::is_feasible.
     pub stop_when_feasible: bool,
     pub neighborhood: Neighborhood,
+    /// When present, replaces `neighborhood`; random unions vary their seed per step.
+    pub neighborhood_union: Option<&'a crate::NeighborhoodUnion<'a>>,
     pub acceptance: Acceptance<S>,
     /// Additional required policies, evaluated in this order after `acceptance`.
     /// Empty preserves the single-policy path. Borrowing permits arbitrary
@@ -238,6 +242,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             best_score_limit: None,
             stop_when_feasible: false,
             neighborhood: Neighborhood::ChangeAndSwap,
+            neighborhood_union: None,
             acceptance: Acceptance::StrictImprovement,
             additional_acceptance: &[],
             move_order: MoveOrder::Original,
@@ -542,7 +547,9 @@ where
 {
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
-    config.neighborhood.validate_basic(problem)?;
+    for (neighborhood, _) in config.neighborhoods() {
+        neighborhood.validate_basic(problem)?;
+    }
     if let Some(initial) = &initial {
         problem.validate(initial)?;
         if !problem.is_complete(initial) {
@@ -624,12 +631,9 @@ where
         {
             random.shuffle(&mut order);
         }
-        let candidates = neighborhood::ordered(
-            problem,
-            &snapshot,
-            config.neighborhood,
-            order.iter().copied(),
-        );
+        let candidates = config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+            neighborhood::ordered(problem, &snapshot, neighborhood, order.iter().copied())
+        });
         let current = director.score();
         let tracks_variables = config.tracks_variables();
         let tracks_values = config.tracks_values();

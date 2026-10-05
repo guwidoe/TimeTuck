@@ -15180,6 +15180,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/UniformRandomUnionMoveIteratorTest.java",
+      "local_path": "crates/solver/tests/move_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniformRandomUnionMoveIteratorTest.drawsFromEveryIteratorWithinOneRun",
+      "status": "implemented",
+      "upstream_test": "drawsFromEveryIteratorWithinOneRun",
+      "local_test": "draws_from_every_iterator_within_one_run",
+      "modifications": "Preserve seed 0, three labeled infinite children, 30 draws and all-three-label assertion. Native SplitMix64 replaces Java Random; no trace equality claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/UniformRandomUnionMoveIteratorTest.java",
+      "local_path": "crates/solver/tests/move_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniformRandomUnionMoveIteratorTest.exhaustsEveryIteratorExactlyOnce",
+      "status": "implemented",
+      "upstream_test": "exhaustsEveryIteratorExactlyOnce",
+      "local_test": "exhausts_every_iterator_exactly_once",
+      "modifications": "Preserve seed 0 and labeled finite lengths 3/1/5; compare all label counts and exhaustion. Rust Iterator None replaces Java NoSuchElementException."
     }
   ],
   "fixtures": [
@@ -18120,6 +18150,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain the Test Constraint name/supplied weight and ordered 1-hard/2-soft bendable values. Native graph registration and score strings replace Java factory, descriptor, context and helper objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/UniformRandomUnionMoveIteratorTest.java",
+      "local_path": "crates/solver/tests/move_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniformRandomUnionMoveIteratorTest.NeverEndingMoveIterator.native_union",
+      "upstream_test": "NeverEndingMoveIterator",
+      "modifications": "Native repeat/repeat_n iterators and integer labels replace Java helper iterators and unused move execution wrapper; identity and finite cardinalities retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/UniformRandomUnionMoveIteratorTest.java",
+      "local_path": "crates/solver/tests/move_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniformRandomUnionMoveIteratorTest.FiniteMoveIterator.native_union",
+      "upstream_test": "FiniteMoveIterator",
+      "modifications": "Native repeat/repeat_n iterators and integer labels replace Java helper iterators and unused move execution wrapper; identity and finite cardinalities retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/UniformRandomUnionMoveIteratorTest.java",
+      "local_path": "crates/solver/tests/move_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniformRandomUnionMoveIteratorTest.LabeledMove.native_union",
+      "upstream_test": "LabeledMove",
+      "modifications": "Native repeat/repeat_n iterators and integer labels replace Java helper iterators and unused move execution wrapper; identity and finite cardinalities retained."
     }
   ]
 }

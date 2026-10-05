@@ -27,6 +27,15 @@ impl SplitMix64 {
             }
         }
     }
+    pub(crate) fn below_wide(&mut self, bound: u128) -> u128 {
+        let threshold = bound.wrapping_neg() % bound;
+        loop {
+            let value = (u128::from(self.next()) << 64) | u128::from(self.next());
+            if value >= threshold {
+                return value % bound;
+            }
+        }
+    }
     pub(crate) fn shuffle<T>(&mut self, values: &mut [T]) {
         for i in (1..values.len()).rev() {
             let j = self.below(i as u64 + 1) as usize;

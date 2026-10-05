@@ -9379,3 +9379,29 @@ The broad run exposed one additional legacy snapshot test that expected wrapping
 its builder now selects Wrapping. The follow-up reran that one Rust target and reused
 298 matching successful targets. Coverage1012/4855(20.844%),pending3561,
 excluded282,failed/unverified0. Benchmark datasets remain stale.
+
+## Weighted neighborhood unions
+
+LocalSearchConfig.neighborhood_union borrows a NeighborhoodUnion and replaces the
+single neighborhood when set. Positive u32 child weights support sequential or
+seeded weighted random traversal; zero weights disable validation and enumeration.
+Swap-only selection lets change/swap families receive independent weights. All
+three models and both scoring backends share the selector, including solver-phase
+prevalidation. Per-step seeds wrap-add the completed step count, independently of
+existing move/tie ordering. Mixed joint moves remain within each selected child.
+MoveUnion is also a public generic lazy iterator; it never polls at construction,
+removes exhausted children, retains duplicates, and fuses exhaustion. Integer u128
+sampling avoids floating-point weight rounding. The ordinary single-family path
+still directly consumes its iterator without allocating a union.
+Two upstream UniformRandomUnionMoveIterator methods and three helper substitutions
+are recorded; hasNextOnlyPollsTheDrawnIterator remains pending because native Rust
+has no separate polling/priming protocol. Five original regressions cover weighted
+selection, laziness, disabled validation, all six solver paths and a local trap
+requiring both group and single moves. Full rewrite goal remains active.
+Final check.sh passed:2163 Rust tests,116 doctests,fmt/Clippy;255 Python checks
+reused.222 affected Rust targets ran and79 reused matching successful evidence.
+Rust source digest:bf7055038dd9cedaf56e3c0e371ce004e6e305505e5d31129406be0fda793a2a.
+Coverage1014/4855(20.886%),pending3559,excluded282,failed/unverified0.
+Live dashboard freshness matches the report. Benchmark datasets remain stale;
+no benchmark or release-mode rerun. Logs:work/move-union-check.log,
+work/move-union-test-build.log,work/move-union-lint-final.log.
