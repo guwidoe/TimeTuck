@@ -2136,3 +2136,7 @@ both scoring backends, including atomic multi-item initialization, preservation 
 existing assignments, bounded scans and useful partial results. This is native
 integration coverage only: no additional pinned methods or Java construction-trace
 parity are claimed. The contract is in `incremental-search-contract.md`.
+
+Full solver plans now support construction-provider bindings across all six
+model/scoring paths, retaining shared controls, events and partial handoffs. This
+is additional native integration evidence, not new upstream method coverage.

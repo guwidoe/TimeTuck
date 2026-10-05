@@ -1939,7 +1939,8 @@ opens a fresh pool against an immutable snapshot of the committed assignment.
 Candidates can initialize multiple basic variables and list values atomically.
 Stable ties keep the first best candidate; the saved winner installs without
 replaying scoring callbacks. The result can be resumed or, once complete, supplied
-to local search. These standalone calls are not yet SolverPlan provider phases.
+to local search. Full solver plans also accept providers bound to construction
+phases through `SolverExtensions`; see `solver-contract.md`.
 
 Provider construction only extends assignments. Existing basic values remain
 unchanged; each existing list stays a subsequence of the same owner's new list.

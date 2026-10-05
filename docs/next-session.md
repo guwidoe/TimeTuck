@@ -10499,3 +10499,44 @@ before this implementation. The full rewrite remains active and unfinished.
 Dashboard freshness10991 exited0 and matched report digest
 111e190201ac667413835654bb52b3718281ad2b7d67d4dc5f194d544f20bae7.
 All batch processes are terminal.
+
+## Construction providers in complete solver plans
+
+PhaseMoveProviders now accepts construction and local-search bindings in all six
+solver paths. Bound construction replaces placement and mixed component order with
+provider pools, preserving other construction controls. max_construction_scans
+(default 100,000) resets per bound construction phase. Scoring adapters now support
+Observed directors and shared construction-condition polling. They publish initial
+scores and committed winners only; construction neither advances shared search steps
+nor starts/resets stagnation. New ConstructionTermination::NoCandidates/ScanLimit
+retain honest phase-local reasons. Partial results can continue through construction
+or exact phases; incomplete local/repair handoff policy remains enforced. Existing
+provider state persists and step indices restart at zero in every entered phase.
+
+Seven new integration tests exercise all six paths, including repeated bindings,
+partial/complete handoffs, budgets, event cancellation, initialization boundaries,
+raw-scan limits, empty-pool exact completion and invalid binding preflight. A new
+controlled shared-condition unit test verifies prefix retention and no search-only
+monitor calls. One usage doctest added. Existing provider plans now reject custom
+and missing bindings instead of rejecting newly-supported construction bindings.
+First focused run63199 had one wrong test expectation: an incomplete model still
+prepares/validates its graph at zero score budget. Corrected the expectation without
+changing that solver contract. Focused7983 passed 7 new + 14 standalone + 6 existing
+provider tests; controlled unit65608 passed. Initial broad prebuild took3m54s;
+gate1223 stopped at two mixed-context type-complexity lints. Added a local type alias;
+final prebuild took37.34s. No new upstream adaptation credit or performance claim.
+Explicit SelectionSource lifecycle integration remains open. Previous goal turn
+made progress via cc95ebc; this increment integrates that feature into full solves.
+The full rewrite remains active and unfinished.
+Final gate55431 exited0: 2756 Rust tests,141 doctests,fmt/Clippy;314 Rust targets ran,
+56 reused;46 Python jobs reused. Broad coverage reflects shared solver changes.
+Aggregate exit0 and equal before/after source verified:
+9b1bfc43849a8a99c4b9016a4a4491bfc95fd63575e92c0acd400bdedb727657.
+Coverage remains1385/4855(28.527%),pending3188,excluded282,failed/unverified0.
+Logs: work/construction-provider-plan-focused-passed.log, -control.log,
+-final-build.log and -final-check.log (same construction-provider-plan prefix).
+No release, benchmark or browser sweep; existing performance measurements remain
+visibly stale. The broader final gate passed after the lint repair.
+Dashboard freshness52822 exited0 and matched report digest
+461a73115537818e037dd4b57e89a0278a92251505f8267ff6bcf70d45c5e042.
+All batch processes are terminal.

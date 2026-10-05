@@ -1712,3 +1712,35 @@ Original checks include thousand-digit offsets, huge strides, maximum counts,
 negative and extreme i32 scales, independent small progressions and a two-variable
 exact decimal optimization with optimum0.06. No new performance measurement or
 Java mismatched-scale/unsupported-sort behavior is claimed by this increment.
+
+
+## Construction providers in complete plans
+
+`SolverExtensions.move_providers.bind(index, provider)` now accepts construction
+as well as local-search phases in all six solver entry points. Bindings to exact,
+custom, repair or missing phases are rejected before factories, scores or events.
+Construction providers replace built-in placement and mixed component ordering
+with their candidate pools; the existing construction config still controls
+optional assignments, early picking, score/move/step/time limits and assertions.
+`max_construction_scans` bounds raw proposals independently in every bound
+construction phase (default 100,000); it does not change local-search providers.
+Provider state persists across phases/solves, while step indices restart at zero.
+
+These phases use the same assignment-preservation and validation rules as the
+standalone provider constructor. They emit the initial scored state and committed
+placements through the plan's existing best/initialization event machinery, never
+trial candidates. Shared score/move budgets include provider work. Cancellation and
+composed conditions keep the evaluated-prefix winner. Construction does not advance
+search step counters or start/reset stagnation. `NoCandidates` and `ScanLimit` remain
+honest phase-local reasons; neither proves infeasibility. A following construction
+or exact phase can complete partial work. Local/repair handoffs retain the configured
+incomplete-handoff policy. Graph factories remain subject to the existing validation
+contract: an incomplete initial model can prepare a graph at zero score budget,
+but no scoring, provider or event callback runs.
+
+Original tests exercise partial and complete handoffs, two provider phases with
+reset step indices, shared budgets, cancellation from events, scan limits, exact
+completion after empty pools, initialization boundaries, and validation across all
+six paths. A controlled shared-condition test checks prefix retention and excludes
+search-only control calls. These tests add no upstream method credit; provider
+SelectionSource lifecycle events still need explicit wiring by callers.

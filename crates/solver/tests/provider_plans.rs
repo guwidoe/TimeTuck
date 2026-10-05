@@ -103,12 +103,12 @@ macro_rules! exercise {
             assert_eq!($calls.get(), 0);
         }
         // Binding validation precedes scoring, graph factories and callbacks.
-        for index in [0,3] {
+        for index in [2,3] {
             $calls.set(0);
             let mut provider=|_:&$P,_:&$A,_|->Vec<$M>{panic!("invalid binding invoked provider")};
             let mut events=|_:SolverEvent<'_,$A,SimpleScore>|panic!("invalid binding invoked events");
             let mut extensions=SolverExtensions::default();extensions.move_providers.bind(index,&mut provider);extensions.events=Some(&mut events);
-            let plan=$Plan{phases:vec![$construction,phase(LocalSearchConfig::default())],..Default::default()};
+            let plan=$Plan{phases:vec![$construction,phase(LocalSearchConfig::default()),$custom],..Default::default()};
             assert!(matches!($solve(&p,$objective,plan,extensions),Err(SolverError::InvalidMoveProviderPhase{phase}) if phase==index));
             assert_eq!($calls.get(),0);
         }

@@ -179,6 +179,11 @@ pub enum ConstructionTermination {
     /// the resulting assignment may be either partial or complete.
     EvaluationLimit,
     NoCompleteAssignment,
+    /// A bound construction provider supplied no accepted initialization.
+    /// This does not prove that completing the assignment is impossible.
+    NoCandidates,
+    /// A bound provider reached its raw-proposal limit, including rejected moves.
+    ScanLimit,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]

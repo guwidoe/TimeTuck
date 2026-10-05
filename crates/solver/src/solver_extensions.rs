@@ -3,16 +3,21 @@ use crate::{CustomPhaseContext, CustomPhaseError, MoveProvider, SolverError, Sol
 use std::collections::BTreeMap;
 
 /// Mutable providers keyed by zero-based index in the full solver phase plan.
-/// Only local-search phases can be bound. Other local phases retain their normal
-/// neighborhoods. Provider state is retained across steps and repeated solves;
-/// step indices restart at zero in each entered local phase.
+/// Construction and local-search phases can be bound. Other phases retain their
+/// built-in selection. A construction provider replaces placement/component order
+/// with one candidate pool per step. Provider state survives repeated phases/solves;
+/// step indices restart at zero in each phase. Callers own provider resets.
 pub struct PhaseMoveProviders<'a, P, A, M> {
+    /// Maximum raw proposals per bound construction phase, including rejected
+    /// moves. Defaults to 100,000. Does not affect local-search providers.
+    pub max_construction_scans: u64,
     bindings: BTreeMap<usize, &'a mut dyn MoveProvider<P, A, M>>,
 }
 impl<P, A, M> Default for PhaseMoveProviders<'_, P, A, M> {
     fn default() -> Self {
         Self {
             bindings: BTreeMap::new(),
+            max_construction_scans: 100_000,
         }
     }
 }
@@ -70,6 +75,22 @@ pub type SolverEventCallback<'a, A, S> = dyn FnMut(SolverEvent<'_, A, S>) + 'a;
 /// extensions.move_providers.bind(1, &mut provider);
 /// let result = solve_with_extensions(&p, &n, SolverConfig::default(), extensions)?;
 /// assert_eq!(result.score, Some(SimpleScore::new(2)));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+///
+/// Bind phase zero to customize construction, then use the normal local phase:
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1_i32, 2])])?;
+/// let n = ConstraintNetwork::<_, SimpleScore>::new(1);
+/// let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64|
+///     vec![Move::Change { variable: 0, value: Some(2) }];
+/// let mut extensions = SolverExtensions::default();
+/// extensions.move_providers.bind(0, &mut provider);
+/// extensions.move_providers.max_construction_scans = 100;
+/// let r = solve_with_extensions(&p, &n, SolverConfig::default(), extensions)?;
+/// assert!(r.complete);
+/// assert_eq!(r.assignment.values(), &[Some(2)]);
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
 pub struct SolverExtensions<'a, P, A, M, S, E> {

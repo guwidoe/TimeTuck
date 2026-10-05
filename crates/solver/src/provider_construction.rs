@@ -56,6 +56,8 @@ impl Default for ProviderConstructionConfig<'_> {
 pub enum ProviderConstructionTermination {
     /// No eligible missing items remain; this does not assert hard feasibility.
     Completed,
+    /// A solve-wide construction condition stopped this phase.
+    Condition,
     NoCandidates,
     EvaluationLimit,
     MoveEvaluationLimit,
@@ -232,6 +234,7 @@ trait Engine<A, M, S> {
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
     fn initial_evaluations(&self) -> u128;
+    fn notify_best(&mut self, complete: impl FnOnce(&A) -> bool);
     fn assert_consistent(&mut self) -> Result<(), Self::Error>;
     fn select(
         &mut self,
@@ -249,6 +252,7 @@ macro_rules! engine {
             fn assignment(&self) -> &$assignment { self.0.assignment() }
             fn score(&self) -> S { self.0.score() }
             fn initial_evaluations(&self) -> u128 { self.0.initial_constraint_evaluations() }
+            fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) { self.0.notify_best(complete); }
             fn assert_consistent(&mut self) -> Result<(), Self::Error> { self.0.assert_consistent() }
             fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig) -> Result<Selected, Self::Error> {
                 let previous = self.0.score();
@@ -277,11 +281,14 @@ engine!(MixedEngine, MixedSearchDirector, [B, L], MixedAssignment<B, L>, MixedMo
 fn interruption(
     c: ProviderConstructionConfig,
     start: Instant,
+    shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Option<ProviderConstructionTermination> {
     if c.cancellation.is_some_and(CancellationToken::is_cancelled) {
         Some(ProviderConstructionTermination::Cancelled)
     } else if c.max_time.is_some_and(|limit| start.elapsed() >= limit) {
         Some(ProviderConstructionTermination::TimeLimit)
+    } else if shared.as_mut().is_some_and(|s| s.construction_stopped()) {
+        Some(ProviderConstructionTermination::Condition)
     } else {
         None
     }
@@ -309,6 +316,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     config: ProviderConstructionConfig,
     provider: Provider<'_, F>,
     create: impl FnOnce(F::Assignment) -> Result<D, D::Error>,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<Outcome<F, S>, D::Error> {
     use ProviderConstructionTermination as Stop;
     let start = Instant::now();
@@ -326,7 +334,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    if let Some(reason) = interruption(config, start) {
+    if let Some(reason) = interruption(config, start, &mut shared) {
         result.termination = reason;
         return Ok(result);
     }
@@ -336,8 +344,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     if config.assert_scores {
         director.assert_consistent()?;
     }
+    director.notify_best(|a| shape.complete(a));
     result.termination = loop {
-        if let Some(reason) = interruption(config, start) {
+        if let Some(reason) = interruption(config, start, &mut shared) {
             break reason;
         }
         if shape.remaining(director.assignment(), config.optional) == 0 {
@@ -366,7 +375,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 return None;
             }
             loop {
-                stopped = interruption(config, start);
+                stopped = interruption(config, start, &mut shared);
                 if stopped.is_none() && emitted == budget {
                     stopped = Some(budget_reason);
                 }
@@ -382,7 +391,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                     return None;
                 };
                 result.scanned_moves += 1;
-                if let Some(reason) = interruption(config, start) {
+                if let Some(reason) = interruption(config, start, &mut shared) {
                     stopped = Some(reason);
                     ended = true;
                     return None;
@@ -401,7 +410,10 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         if config.assert_scores {
             director.assert_consistent()?;
         }
-        if let Some(reason) = stopped.or_else(|| interruption(config, start)) {
+        if selection.installed {
+            director.notify_best(|a| shape.complete(a));
+        }
+        if let Some(reason) = stopped.or_else(|| interruption(config, start, &mut shared)) {
             break reason;
         }
         if !selection.installed {
@@ -447,10 +459,55 @@ pub fn construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
 ) -> Result<ProviderConstructionResult<Assignment<V>, S>, ScoringError> {
+    basic(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        FiniteProblem<V>,
+        Assignment<V>,
+        Move<V>,
+        S,
+    >,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, ScoringError> {
     network.validate(problem, &initial)?;
-    construct(BasicShape(problem), initial, config, provider, |a| {
-        ScoreDirector::new(problem, network, a).map(BasicEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                ScoreDirector::new(problem, network, a)
+                    .map(|d| BasicEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| ScoreDirector::new(problem, network, a).map(BasicEngine),
+            context.control,
+        )
+    }
 }
 
 /// Provider construction with transactional streams; same controls and
@@ -467,11 +524,58 @@ pub fn stream_construction_from_with_provider<
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
 ) -> Result<ProviderConstructionResult<Assignment<V>, S>, StreamScoringError> {
+    basic_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        FiniteProblem<V>,
+        Assignment<V>,
+        Move<V>,
+        S,
+    >,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, StreamScoringError> {
     crate::stream_scoring::validate_source(&graph, &sources)?;
     problem.validate(&initial)?;
-    construct(BasicShape(problem), initial, config, provider, |a| {
-        StreamScoreDirector::new(problem, graph, sources, a).map(BasicEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                StreamScoreDirector::new(problem, graph, sources, a)
+                    .map(|d| BasicEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| StreamScoreDirector::new(problem, graph, sources, a).map(BasicEngine),
+            context.control,
+        )
+    }
 }
 
 /// Build an assignment using a custom candidate pool and scoped list scoring.
@@ -486,10 +590,55 @@ pub fn list_construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
 ) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListScoringError> {
+    list(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        ListProblem<V>,
+        ListAssignment<V>,
+        ListMove<V>,
+        S,
+    >,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListScoringError> {
     network.validate(problem, &initial)?;
-    construct(ListShape(problem), initial, config, provider, |a| {
-        ListScoreDirector::new(problem, network, a).map(ListEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                ListScoreDirector::new(problem, network, a)
+                    .map(|d| ListEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| ListScoreDirector::new(problem, network, a).map(ListEngine),
+            context.control,
+        )
+    }
 }
 
 /// Provider construction with transactional streams; same controls and
@@ -506,11 +655,58 @@ pub fn list_stream_construction_from_with_provider<
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
 ) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError> {
+    list_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+pub(crate) fn list_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        ListProblem<V>,
+        ListAssignment<V>,
+        ListMove<V>,
+        S,
+    >,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError> {
     sources.validate(&graph)?;
     problem.validate(&initial)?;
-    construct(ListShape(problem), initial, config, provider, |a| {
-        ListStreamScoreDirector::new(problem, graph, sources, a).map(ListEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                ListStreamScoreDirector::new(problem, graph, sources, a)
+                    .map(|d| ListEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| ListStreamScoreDirector::new(problem, graph, sources, a).map(ListEngine),
+            context.control,
+        )
+    }
 }
 
 /// Build an assignment using a custom candidate pool and scoped mixed scoring.
@@ -525,10 +721,56 @@ pub fn mixed_construction_from_with_provider<B: Eq + Clone, L: Eq + Clone, S: Ad
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
 ) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedScoringError> {
+    mixed(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+type MixedContext<'a, B, L, S> = crate::provider_search::ProviderContext<
+    'a,
+    MixedProblem<B, L>,
+    MixedAssignment<B, L>,
+    MixedMove<B, L>,
+    S,
+>;
+pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    context: MixedContext<'_, B, L, S>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedScoringError> {
     network.validate(problem, &initial)?;
-    construct(MixedShape(problem), initial, config, provider, |a| {
-        MixedScoreDirector::new(problem, network, a).map(MixedEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                MixedScoreDirector::new(problem, network, a)
+                    .map(|d| MixedEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| MixedScoreDirector::new(problem, network, a).map(MixedEngine),
+            context.control,
+        )
+    }
 }
 
 /// Provider construction with transactional streams; same controls and
@@ -546,9 +788,125 @@ pub fn mixed_stream_construction_from_with_provider<
     config: ProviderConstructionConfig,
     provider: &mut dyn MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
 ) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError> {
+    mixed_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider,
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+pub(crate) fn mixed_stream<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    context: MixedContext<'_, B, L, S>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError> {
     sources.validate(&graph)?;
     problem.validate(&initial)?;
-    construct(MixedShape(problem), initial, config, provider, |a| {
-        MixedStreamScoreDirector::new(problem, graph, sources, a).map(MixedEngine)
-    })
+    if let Some(observer) = context.observer {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                MixedStreamScoreDirector::new(problem, graph, sources, a)
+                    .map(|d| MixedEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| MixedStreamScoreDirector::new(problem, graph, sources, a).map(MixedEngine),
+            context.control,
+        )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::time_limit::SearchControl;
+    struct Control {
+        polls: usize,
+    }
+    impl SearchControl for Control {
+        fn construction_stopped(&mut self) -> bool {
+            self.polls += 1;
+            self.polls >= 5
+        }
+        fn start_search(&mut self) {
+            panic!("construction started stagnation clock");
+        }
+        fn record_improvement(&mut self) {
+            panic!("construction reset stagnation");
+        }
+        fn complete_step(&mut self, _: bool) {
+            panic!("construction consumed search step");
+        }
+        fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
+            panic!("construction polled search-only stop");
+        }
+    }
+    #[test]
+    fn shared_condition_keeps_scored_prefix_and_observes_only_commits() {
+        let p = FiniteProblem::new(vec![crate::Variable::new(vec![1, 2]); 2]).unwrap();
+        let n = ConstraintNetwork::<_, crate::SimpleScore>::new(2);
+        let mut control = Control { polls: 0 };
+        let mut calls = 0;
+        let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64| {
+            calls += 1;
+            vec![
+                Move::Change {
+                    variable: 0,
+                    value: Some(1),
+                },
+                Move::Change {
+                    variable: 0,
+                    value: Some(2),
+                },
+            ]
+        };
+        let mut updates = vec![];
+        let mut observer = |u: crate::SolutionUpdate<'_, Assignment<i32>, crate::SimpleScore>| {
+            updates.push((u.assignment.clone(), u.complete));
+        };
+        let r = basic(
+            &p,
+            &n,
+            p.initial_assignment(),
+            ProviderConstructionConfig::default(),
+            crate::provider_search::ProviderContext {
+                provider: &mut provider,
+                control: Some(&mut control),
+                observer: Some(&mut observer),
+            },
+        )
+        .unwrap();
+        assert_eq!(r.termination, ProviderConstructionTermination::Condition);
+        assert_eq!(r.assignment.values(), &[Some(1), None]);
+        assert_eq!((r.evaluations, r.scanned_moves, calls), (2, 1, 1));
+        assert_eq!(
+            updates,
+            vec![(p.initial_assignment(), false), (r.assignment, false)]
+        );
+        assert_eq!(control.polls, 5);
+    }
 }
