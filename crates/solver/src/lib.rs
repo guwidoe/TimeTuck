@@ -662,3 +662,9 @@ pub use placement_queue::{
     PlacementError, PlacementFn, PlacementOrder, PlacementQueue, PlacementSnapshot,
     PlacementSource, PooledPlacements, SinglePlacementKey, UngroupedPlacement, pooled_placements,
 };
+
+mod unique_sampling;
+pub use unique_sampling::{
+    UniqueIndices, UniqueRangeSamples, UniqueSampleError, UniqueSliceSamples, unique_indices,
+    unique_range_samples, unique_slice_samples,
+};

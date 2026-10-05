@@ -20850,6 +20850,81 @@
       "upstream_test": "oneMoveSelector",
       "local_test": "pooled_one_move_selector",
       "modifications": "Native phase-scoped key queues and keyed candidate sources replace mocked Java descriptors, mimic recorders/replayers and Placement iterators. Preserve every placement sequence, per-key/per-child ordering, finite exhaustion or cycling availability, phase restart, and exact solve/phase/step event counts for every key/value/move child. Native SelectionProduct composes the two-variable placement. Immutable owned snapshots replace Java runtime move casts. No Java factory-copy or automatic solver-listener wiring parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultUniqueRandomIteratorTest.drawsEveryElementExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultUniqueRandomIteratorTest.java",
+      "upstream_test": "drawsEveryElementExactlyOnce",
+      "local_test": "draws_every_element_exactly_once",
+      "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultUniqueRandomIteratorTest.forEachRemainingDrainsEveryElementExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultUniqueRandomIteratorTest.java",
+      "upstream_test": "forEachRemainingDrainsEveryElementExactlyOnce",
+      "local_test": "for_each_remaining_drains_every_element_exactly_once",
+      "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultUniqueRandomIteratorTest.emptySource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultUniqueRandomIteratorTest.java",
+      "upstream_test": "emptySource",
+      "local_test": "unique_empty_source",
+      "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultRepeatingRandomIteratorTest.neverEnds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRepeatingRandomIteratorTest.java",
+      "upstream_test": "neverEnds",
+      "local_test": "repeating_never_ends",
+      "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultRepeatingRandomIteratorTest.singleElementRepeats",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRepeatingRandomIteratorTest.java",
+      "upstream_test": "singleElementRepeats",
+      "local_test": "single_element_repeats",
+      "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
     }
   ],
   "fixtures": [
@@ -26260,6 +26335,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCode",
       "modifications": "Native string-coded moves and explicit lifecycle counters preserve ordered placement contents, iterator exhaustion and every lifecycle callback count. Rust types replace Java runtime casts/non-null checks. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.toEntries.unique_sampling",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "toEntries",
+      "modifications": "Rust arrays/EnumeratedValueRange preserve the ordered test payload occurrences without the Java ElementAwareArrayList wrapper. Helper attribution earns no additional method credit."
     }
   ]
 }

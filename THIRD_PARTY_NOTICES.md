@@ -15,6 +15,11 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/unique_sampling_cases.rs` adapts five methods from
+  `DefaultUniqueRandomIteratorTest` and `DefaultRepeatingRandomIteratorTest`,
+  plus `AbstractIndexerTest.toEntries`. Native iterators preserve occurrence
+  membership, bounded repeating draws and exhaustion; Java PRNG traces differ.
+
 - `crates/solver/tests/placement_queue_cases.rs` adapts five methods from
   `QueuedEntityPlacerTest`, `QueuedValuePlacerTest` and `PooledEntityPlacerTest`,
   with `PlacementAssertions` and `PlannerAssert` helper assertions. Native keys,

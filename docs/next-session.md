@@ -10579,3 +10579,35 @@ work/placement-queue-cases.log, -regression-passed.log, -recovery.log,
 Dashboard freshness26608 exited0 and matched report digest
 35f4ac99e22b1b12c77fd6cd7810fef8bbe27e4c54562ec5febe2b5cca9e959e.
 All batch processes are terminal.
+
+## Lazy unique sampling over indexed occurrences
+
+UniqueIndices uses a sparse shrinking-prefix remapping table to sample without
+replacement, with u128 ranks/counts and storage proportional to consumed draws.
+unique_indices/unique_slice_samples/unique_range_samples provide seeded cursors;
+injected-draw constructors support deterministic rank choices. Slice sampling
+borrows non-Clone payloads; range sampling fetches only chosen values and supports
+ValueRange trait objects. Duplicates at separate positions stay separate occurrences.
+Empty/singleton pools do not draw; availability is passive. Invalid draws/missing
+values yield one error then exhaust. Draw panics precede mapping mutation; callback
+side effects remain external. Fallible size hints use only a one-item lower bound,
+and exhausted tables may retain allocated capacity. No Java random trace parity.
+
+Three unique and two repeating upstream methods plus toEntries helper attribution
+preserve exact membership, repeated draining/exhaustion, 300 repeating draws and ten
+singleton repeats. Java remove/unsupported bulk-drain methods remain pending. Seven
+original regressions exhaust all draw paths through length six (bijective permutation
+coverage), test u128::MAX bounds/storage, non-Clone/optional/duplicate payloads,
+seed repeatability, invalid/panicking draws, indexed failures and lazy candidate
+construction with both scoring backends (128 distinct candidates,129 evaluations).
+Focused44575 and14710 exited0 (five adaptations/seven originals). Final gate20984
+exited0:2780 Rust tests,142 doctests,fmt/Clippy;3 Rust targets ran,371 reused;46 Python
+jobs reused. Aggregate exit0 and equal before/after source verified:
+4655008aaf3698d4bba43191bd08975fa722ac73ce468d39553b560917776173.
+Coverage1395/4855(28.733%),pending3178,excluded282,failed/unverified0. Logs:
+work/unique-sampling-cases.log, -regression.log, -build.log and -check.log (same
+unique-sampling prefix). No benchmark/release/browser sweep or new timing claim.
+Previous goal turn progressed via380080c. The full rewrite remains active.
+Dashboard freshness96637 exited0 and matched report digest
+3344c179a74b2bf1c49a4ab812a07ee1b2129c8baddb674741fd777538e30172.
+All batch processes are terminal.

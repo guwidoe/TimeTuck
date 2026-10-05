@@ -2147,3 +2147,8 @@ counts. Native PlacementQueue/PlacementSource and immutable snapshots replace Ja
 mimic selectors and runtime move casts. Factory copy methods remain pending. The
 native construction-provider integration is tested separately; automatic source
 lifecycle dispatch is not claimed.
+
+Three unique-random iterator methods and two repeating-random methods now preserve
+all occurrence membership and exhaustion assertions. Unique sampling is lazy over
+u128 indices and integrates with native construction providers. Java PRNG traces
+are not matched; remove/unsupported bulk-drain exception tests remain pending.

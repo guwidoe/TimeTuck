@@ -2005,3 +2005,37 @@ wiring or Java factory-copy implementation. Five complete upstream placement met
 preserve sequence, exhaustion, phase restart and all lifecycle counts; original
 regressions cover limits, failures, ownership and two-variable joint placements
 inside full solver plans with both basic scoring backends.
+
+
+## Lazy sampling without replacement
+
+`unique_indices`, `unique_slice_samples` and `unique_range_samples` provide seeded
+uniform occurrence sampling without replacement. Injected-draw constructors on
+UniqueIndices/UniqueSliceSamples/UniqueRangeSamples make selection reproducible
+under caller-supplied draws. A sparse remapping table represents a shrinking live
+prefix; each draw swaps in its final occurrence. Sampling k entries therefore
+stores at most k remappings, without expanding the declared range. Counts/ranks
+use u128, including ranges larger than addressable memory. This is separate from
+full-cache shuffling and from repeated weighted sampling.
+
+Slice sampling borrows payloads and needs neither Clone nor Eq. Range sampling
+uses the immutable ValueRange contract and fetches only selected entries, including
+through trait objects. Equal payloads at distinct indices remain distinct; this
+does not deduplicate values. Passive availability/remaining queries draw nothing,
+and empty/singleton pools do not call the random source. Native seeds are stable
+without matching Java traces. The table's hashing order is never used for drawing.
+
+An invalid injected draw or missing indexed value yields one typed error and ends
+the cursor. A draw callback panic precedes mapping mutation; external callback
+effects cannot be undone. Fallible size hints do not promise the entire remaining
+count as a lower bound, and no ExactSizeIterator is claimed. Exhaustion removes
+mapping entries but may retain allocated table capacity. Callers must bound
+consumption when sampling only a small part of a huge range.
+
+Three unique and two repeating upstream methods preserve all membership, repeated
+drain/exhaustion, 300 repeating draws and singleton assertions. Unsupported Java
+remove/bulk-drain exception methods remain pending. Original checks exhaust every
+small draw path to prove a one-to-one mapping to permutations, cover u128 counts,
+non-Clone/duplicate/optional payloads, callback failures and seeded reproducibility,
+and initialize with unique lazy candidates through both scoring backends. There
+is no new timing benchmark or full-source materialization in the sampler.
