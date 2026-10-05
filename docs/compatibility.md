@@ -2152,3 +2152,11 @@ Three unique-random iterator methods and two repeating-random methods now preser
 all occurrence membership and exhaustion assertions. Unique sampling is lazy over
 u128 indices and integrates with native construction providers. Java PRNG traces
 are not matched; remove/unsupported bulk-drain exception tests remain pending.
+
+Two additional `AbstractUniConstraintStreamTest` unique-pair methods preserve
+B/A/C insertion, ID-oriented exact pair sets, unit penalties, total scores and
+an incremental equality-key change from AB to BC. Native IDs replace Java
+planning-ID discovery. Unused fixture groups/values are omitted, all source
+entities are assigned, and native stream filtering remains explicit. Indexed
+updates, shared graph branches, rollback, callback failures and composite
+planning moves have original regressions with no additional method credit.

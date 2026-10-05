@@ -20925,6 +20925,36 @@
       "upstream_test": "singleElementRepeats",
       "local_test": "single_element_repeats",
       "modifications": "Native borrowed occurrence sampling replaces Java entry-list iterators; ordinary Iterator draining preserves exact membership and repeated exhaustion. None replaces NoSuchElementException at exhaustion. Existing indexed-range random iteration preserves 300 repeating membership draws and ten singleton repeats; Peekable expresses availability. Native seed zero does not claim Java PRNG traces. Java remove/unsupported bulk-drain exception methods remain pending rather than being credited from API absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.forEachUniquePair_0",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEachUniquePair_0",
+      "local_test": "for_each_unique_pair_0",
+      "modifications": "Native code-keyed fact occurrences replace Java entity discovery and planning IDs. Preserve insertion order B,A,C; exact A/B/C pair orientation, complete match sets, per-match penalties and total scores. Equality fixture preserves keys 2,2,10 and incremental B-to-10 replacement with pair AB changing to BC. Unused generated value/group facts are omitted; every entity is assigned in the source fixtures. No reflection or Java listener API equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.forEachUniquePair_1Equals",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEachUniquePair_1Equals",
+      "local_test": "for_each_unique_pair_1_equals",
+      "modifications": "Native code-keyed fact occurrences replace Java entity discovery and planning IDs. Preserve insertion order B,A,C; exact A/B/C pair orientation, complete match sets, per-match penalties and total scores. Equality fixture preserves keys 2,2,10 and incremental B-to-10 replacement with pair AB changing to BC. Unused generated value/group facts are omitted; every entity is assigned in the source fixtures. No reflection or Java listener API equivalence."
     }
   ],
   "fixtures": [
@@ -26348,6 +26378,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
       "upstream_test": "toEntries",
       "modifications": "Rust arrays/EnumeratedValueRange preserve the ordered test payload occurrences without the Java ElementAwareArrayList wrapper. Helper attribution earns no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertScore.unique_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore",
+      "modifications": "Native check helper compares exact pair identities and payloads, all unit penalties, named constraint totals and total score. No Java justification-policy modes. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertMatch.unique_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertMatch",
+      "modifications": "Native check helper compares exact pair identities and payloads, all unit penalties, named constraint totals and total score. No Java justification-policy modes. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertMatchWithScore.unique_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertMatchWithScore",
+      "modifications": "Native check helper compares exact pair identities and payloads, all unit penalties, named constraint totals and total score. No Java justification-policy modes. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/unique_pair_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.unique_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "The two source tests request zero generated entities then append B,A,C. Native rows retain those entities and used integer properties; unrelated generated values/groups and reflection metadata are omitted. Helper attribution adds no method credit."
     }
   ]
 }

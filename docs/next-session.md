@@ -10611,3 +10611,38 @@ Previous goal turn progressed via380080c. The full rewrite remains active.
 Dashboard freshness96637 exited0 and matched report digest
 3344c179a74b2bf1c49a4ab812a07ee1b2129c8baddb674741fd777538e30172.
 All batch processes are terminal.
+
+## Indexed unique-pair scoring
+
+UniquePairNode retains persistent source rows and equality buckets, emitting each
+pair once in stable ID order (smaller, larger). No self pairs/reversed duplicates;
+equal payloads at distinct IDs still pair. Updates visit only old/new bucket peers;
+same-key replacement refreshes surviving payloads, key changes retract then put,
+and removals use captured keys without projecting. Linear retained index state;
+dense output/downstream matches can remain quadratic. Candidate roots/output are
+prepared before installation, preserving standalone state on ordinary panics.
+StreamGraphBuilder::unique_pairs and unique_pairs_equal route each source update
+once and use the normal checkpoint journal, shared branches and rebuild machinery.
+Tuple equality keys and downstream filters compose; unassigned filtering stays
+explicit. Native ID orientation differs from eager stream position orientation.
+
+Two full upstream methods preserve B/A/C insertion, all three unordered pairs,
+equality keys 2/2/10, AB-to-BC update, exact match payloads and unit/total penalties.
+Assertion and zero-entity fixture helpers are attributed. Six original regressions
+cover 2,000 indexed edits vs complete enumeration, sparse bucket updates/callback
+counts, duplicate payloads, panic recovery, 500 multi-edit graph trials with shared
+score/filter/dataset branches, foreign ports, rebuilds and composite planning
+transactions. No Java reflection, event-order or throughput parity claimed.
+
+Initial focused47641 failed to compile a test helper's elided string lifetimes;
+explicit static occurrence IDs fixed it. Focused66103 passed all eight tests.
+Broad prebuild20839 exited0 (2m22s). Final gate96288 exited0:2788 Rust tests,
+143 doctests,fmt/Clippy;320 Rust targets ran,56 reused;46 Python jobs reused.
+Aggregate exit0 and equal before/after source verified:
+3655c46b545cca3d4c3078b443c7ecc36164bd88c2f00d8ea80a573a4161d4f0.
+Coverage1397/4855(28.774%),pending3176,excluded282,failed/unverified0.
+Dashboard freshness39050 exited0 and matched report digest
+98e9d9bc40e84597f3eab0a1ab566f33a94f5ff416f195532e39621e282e0ae0.
+Logs:work/unique-pair-focused.log,-build.log,-check.log (unique-pair prefix).
+All processes terminal. No benchmark/release/browser sweep; old timing evidence
+remains stale. Previous goal turn progressed via8a9c5b8; full rewrite stays active.

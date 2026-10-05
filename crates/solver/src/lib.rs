@@ -668,3 +668,6 @@ pub use unique_sampling::{
     UniqueIndices, UniqueRangeSamples, UniqueSampleError, UniqueSliceSamples, unique_indices,
     unique_range_samples, unique_slice_samples,
 };
+
+mod unique_pair_stream;
+pub use unique_pair_stream::UniquePairNode;

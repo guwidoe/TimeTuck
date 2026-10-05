@@ -30,6 +30,7 @@
 //! ```
 
 mod dataset;
+mod unique_pairs;
 pub use dataset::StreamDataset;
 
 use crate::{

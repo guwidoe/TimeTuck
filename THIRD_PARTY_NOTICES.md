@@ -670,3 +670,9 @@ sequence/metadata helpers (Apache-2.0). Exact paths, revision and native revisio
 lifecycle and scripted-random substitutions are recorded in `compat/provenance.json`.
 Revision-aware snapshot selection and additional regression tests are independently
 implemented.
+
+`crates/solver/tests/unique_pair_cases.rs` adapts two methods from pinned Community
+`AbstractUniConstraintStreamTest`, with assertion and zero-entity fixture helpers
+from `AbstractConstraintStreamTest` and `TestdataLavishSolution` (Apache-2.0).
+Exact identities and native substitutions are recorded in `compat/provenance.json`.
+The indexed unique-pair implementation and additional regressions are independent.

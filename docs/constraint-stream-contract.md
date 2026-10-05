@@ -1632,3 +1632,29 @@ from the Java/Rust dashboard timings; they do not establish elapsed-time speedup
 allocation reduction or general solver performance. Raw inputs, binaries, profiles,
 checksums and runner are in work/profiling/value-replacement/. The dashboard uses
 fresh uninstrumented comparisons, with shared-host timing limitations unchanged.
+
+## Incremental unique pairs
+
+`UniquePairNode` and graph `unique_pairs`/`unique_pairs_equal` compare distinct
+occurrences once, oriented by stable native ID (`smaller, larger`). Unlike the
+eager snapshot API's position order, graph orientation survives insertion order,
+updates and trial rollback. Equal payloads at distinct IDs still pair; no self or
+reversed pair is generated. Input filtering, including exclusion of unassigned
+facts, remains explicit. Tuple keys express several equality requirements; a
+following filter can express asymmetric predicates on the ID-oriented payloads.
+
+Each source change reaches the graph node once. Persistent rows and equality
+buckets require linear retained index state; no pair adjacency table is stored.
+An update projects its new key once and visits only old/new bucket peers. A
+same-key update emits one put for every surviving pair, refreshing payloads and
+subsequent predicates. A key change retracts old pairs before putting new ones;
+retraction uses the captured key, never rerunning the projection. Within each
+set, peer ID determines output order. Dense output and downstream match storage
+can still be quadratic. Inspection enumerates pairs and is not a cached view.
+
+Standalone operations prepare outputs and candidate roots before installation,
+so ordinary projection, comparison and clone panics preserve prior state. The
+normal graph journal covers downstream callback failure, rollback, accepted
+moves, shared branches and diagnostic rebuilds. IDs/keys must be immutable with
+consistent ordering; callbacks must be deterministic without external effects.
+No timing or Java internal event-order equivalence is claimed.
