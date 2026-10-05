@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 from verification_cache import run_job, run_measurement
 from verification_inputs import digest, measurement_digest, rust_test_inputs, report_digest, doctest_inputs
+from verification_inputs import library_symbol_owners, dependency_words
 
 
 class InputTests(unittest.TestCase):
@@ -65,6 +66,56 @@ class InputTests(unittest.TestCase):
         (self.root / 'crates/solver/src/score.rs').write_text('pub struct Score { value: i64 }')
         self.assertNotEqual(before[0], self.key(a))
         self.assertEqual(before[1], self.key(b))
+
+    def test_dependency_parsing_is_shared_across_targets_without_hiding_edits(self):
+        library_symbol_owners.cache_clear()
+        dependency_words.cache_clear()
+        a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
+        for entry in [a, b]:
+            (self.root / entry).write_text('use timetuck::score::Score;')
+        before = self.key(a), self.key(b)
+        self.assertEqual(library_symbol_owners.cache_info().misses, 1)
+        self.assertEqual(library_symbol_owners.cache_info().hits, 1)
+        self.assertGreater(dependency_words.cache_info().hits, 0)
+        # Same-length edit with the original mtime: contents, not metadata, win.
+        score = self.root / 'crates/solver/src/score.rs'
+        stamp = score.stat()
+        score.write_text('pub struct Other;')
+        import os
+        os.utime(score, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+        self.assertNotEqual(before, (self.key(a), self.key(b)))
+        self.assertEqual(library_symbol_owners.cache_info().misses, 2)
+
+    def test_cached_index_rediscovers_modules_and_out_of_line_implementations(self):
+        a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
+        (self.root / a).write_text('use timetuck::Score;')
+        (self.root / b).write_text('use timetuck::search::Search;')
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; pub mod search; mod extension; pub use score::Score;')
+        (self.root / 'crates/solver/src/search.rs').write_text(
+            'pub struct Search;\npub fn compute() {}')
+        before = self.key(a), self.key(b)
+        extension = self.root / 'crates/solver/src/extension.rs'
+        extension.write_text('use crate::*;\nimpl Score { fn probe() { compute(); } }')
+        self.assertNotEqual(before[0], self.key(a))
+        self.assertEqual(before[1], self.key(b))
+        self.assertIn('@rust-library:crates/solver/src/search.rs', rust_test_inputs(a, self.root))
+        extension.write_text('use crate::*;\nimpl Other { fn probe() { compute(); } }')
+        self.assertEqual(before[0], self.key(a))
+        extension.unlink()
+        self.assertEqual(before, (self.key(a), self.key(b)))
+
+    def test_cached_dependency_words_follow_changed_target_and_library_calls(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::*; fn probe() { compute(); }')
+        (self.root / 'crates/solver/src/search.rs').write_text('pub fn compute() {}')
+        before = self.key(entry)
+        (self.root / 'crates/solver/src/search.rs').write_text(
+            'use crate::Score;\npub fn compute() { let _ = Score; }')
+        self.assertNotEqual(before, self.key(entry))
+        self.assertIn('@rust-library:crates/solver/src/score.rs', rust_test_inputs(entry, self.root))
+        (self.root / entry).write_text('use timetuck::*; fn probe(_: Score) {}')
+        self.assertNotIn('@rust-library:crates/solver/src/search.rs', rust_test_inputs(entry, self.root))
 
     def test_benchmark_dependencies_are_separate_from_tests_and_other_adapters(self):
         score = measurement_digest('performance', self.root)

@@ -9639,3 +9639,33 @@ Experiment log:work/solver-no-debug-build.log; both builds and final checks fini
 Dependency selection also rebuilds the same symbol-owner index for each target;
 content-keyed reuse of that index could reduce check overhead without broadening
 result reuse. Avoid repeating these measurements merely on a new turn.
+
+## Reduce build and dependency-scan overhead
+
+Development/test profiles now disable debug symbols while retaining debug assertions
+and overflow checks. Set CARGO_PROFILE_DEV_DEBUG=2 or CARGO_PROFILE_TEST_DEBUG=2 when
+symbols are needed. The measured symbols-off experiment above supports this choice;
+release configuration is unchanged. Dependency owner indexes, dependency-word scans
+and module/include parsing now reuse immutable results keyed by actual source text.
+Files and module existence are still read on each scan; no timestamp/commit shortcut
+or old-result relabeling was introduced. The existing selective dependency heuristic
+is unchanged. Nineteen focused cache tests passed, including new same-mtime edits,
+module addition/removal, out-of-line implementation and changed-call regressions.
+Dependency selections match the previous code for solver, stream-dataset regression
+and score-benchmark targets. One 318-target scan took53.03s alongside compilation
+(previous observed scans were roughly3min, not a controlled benchmark). The owner
+index was built once and reused319 times; word scans had31,464 hits and479 misses.
+Logs:work/verification-parsing-tests.log,work/verification-parsing-timing.log.
+The fresh build of all targets completed in6m04s; the solver target itself took
+239.63s and produced a266.1MiB executable. This differs in build conditions from
+the earlier17m57s broad build, so it is an observation, not a controlled speedup.
+Final check.sh passed:2322 Rust tests,126 doctests,263 Python tests,fmt/Clippy.
+All318 Rust targets and46 Python jobs ran for the changed profile/cache baseline.
+Source digest:61bc4df1ba10cecf16bf339d35c909cfc59696596fb8772d55bcf15d0e0e2898.
+Coverage remains1129/4855(23.254%),pending3444,excluded282,failed/unverified0.
+Live dashboard freshness matches the report; server handle75340 loaded the new
+verification code. No benchmark sweep, release-mode or browser rerun. Older
+measurements remain stale. Logs:work/verification-speed-build.log and
+work/verification-speed-check.log. Both compilation/check and timing sessions are
+complete; do not restart them. The full rewrite goal remains active. Resume solver
+implementation, reusing this successful baseline for unchanged inputs.

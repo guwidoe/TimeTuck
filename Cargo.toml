@@ -13,3 +13,12 @@ unsafe_code = "forbid"
 
 [workspace.lints.clippy]
 all = "warn"
+
+# Large generic integration targets spend most of their build time emitting
+# debug symbols. Keep debug assertions/overflow checks; opt in to symbols with
+# CARGO_PROFILE_DEV_DEBUG=2 or CARGO_PROFILE_TEST_DEBUG=2 when debugging.
+[profile.dev]
+debug = 0
+
+[profile.test]
+debug = 0

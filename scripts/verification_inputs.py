@@ -5,6 +5,7 @@ from functools import lru_cache
 import json
 from pathlib import Path
 import re
+from types import MappingProxyType
 
 ROOT = Path(__file__).resolve().parents[1]
 # name: (runner, native entry points, Java entry points). Differential runners
@@ -187,33 +188,28 @@ def library_inputs(root=ROOT):
     return cargo_inputs(root) | files('crates/*/src/**/*', root)
 
 
-def selected_library_inputs(entries, root=ROOT):
-    """Development dependency scan, at module granularity (not a Rust compiler).
+@lru_cache(maxsize=8)
+def library_symbol_owners(texts, facade_source):
+    """Reuse parsing across targets, keyed by source contents and module names.
 
-    Follow named types/functions/modules and out-of-line implementations. Glob
-    imports resolve against identifiers used in the target. Facade inputs include
-    referenced declarations/reexports and other root code, excluding unrelated exports.
+    Callers still read the files and rediscover modules on every scan; this cache
+    cannot hide an edit, added/removed module, or changed export in this process.
+    Cached results are immutable so one target cannot affect another's inputs.
     """
-    facade = 'crates/solver/src/lib.rs'
-    sources = {p for p in rust_entry_inputs(facade, root, include_test_items=False) if p.endswith('.rs')}
-    if facade in entries:
-        return library_inputs(root)
-    owners, texts = {}, {}
-    for name in sources - {facade}:
-        source = rust_dependencies_text(production_rust((root / name).read_text()))
-        texts[name] = source
+    owners = {}
+    sources = {name for name, _ in texts}
+    for name, source in texts:
         symbols = {Path(name).stem}
         symbols.update(re.findall(r'^pub(?:\([^)]*\))?\s+(?:struct|enum|trait|type)\s+(\w+)', source, re.M))
         symbols.update(re.findall(r'^pub(?:\([^)]*\))?\s+(?:async\s+)?fn\s+(\w+)', source, re.M))
         for symbol in symbols:
             owners.setdefault(symbol, set()).add(name)
-    if (root / facade).is_file():
-        for module, exports in re.findall(r'pub use (\w+)::([^;]+);', (root / facade).read_text()):
-            for symbol in re.findall(r'\b\w+\b', exports):
-                owner = f'crates/solver/src/{module}.rs'
-                if owner in sources: owners.setdefault(symbol, set()).add(owner)
+    for module, exports in re.findall(r'pub use (\w+)::([^;]+);', facade_source):
+        for symbol in re.findall(r'\b\w+\b', exports):
+            owner = f'crates/solver/src/{module}.rs'
+            if owner in sources: owners.setdefault(symbol, set()).add(owner)
     # Inherent/trait implementations may live outside their type's module.
-    for name, source in texts.items():
+    for name, source in texts:
         for header in re.findall(r'^impl\b([^{}]+)\{', source, re.M):
             header = header.strip()
             if header.startswith('<'):
@@ -228,6 +224,37 @@ def selected_library_inputs(entries, root=ROOT):
             symbol = re.match(r'(?:&\s*)?(\w+)', target)
             if symbol and symbol[1] in owners:
                 owners[symbol[1]].add(name)
+    return MappingProxyType({symbol: frozenset(paths) for symbol, paths in owners.items()})
+
+
+@lru_cache(maxsize=2048)
+def dependency_words(source):
+    imports = ' '.join(re.findall(r'\buse\s+(?:crate|super|timetuck)::([^;]+);', source))
+    words = set(re.findall(r'\b\w+\b', imports))
+    words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
+    words.update(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', source))
+    if re.search(r'\buse\s+(?:crate|timetuck|super)\b[^;]*\*', source):
+        calls = set(re.findall(r'(?<![.\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', source))
+        local = set(re.findall(r'\bfn\s+(\w+)', source))
+        words.update(calls - local)
+    return frozenset(words)
+
+
+def selected_library_inputs(entries, root=ROOT):
+    """Development dependency scan, at module granularity (not a Rust compiler).
+
+    Follow named types/functions/modules and out-of-line implementations. Glob
+    imports resolve against identifiers used in the target. Facade inputs include
+    referenced declarations/reexports and other root code, excluding unrelated exports.
+    """
+    facade = 'crates/solver/src/lib.rs'
+    if facade in entries:
+        return library_inputs(root)
+    sources = {p for p in rust_entry_inputs(facade, root, include_test_items=False) if p.endswith('.rs')}
+    texts = {name: rust_dependencies_text(production_rust((root / name).read_text()))
+             for name in sorted(sources - {facade})}
+    facade_source = (root / facade).read_text() if (root / facade).is_file() else ''
+    owners = library_symbol_owners(tuple(texts.items()), facade_source)
     selected, pending, referenced = set(), list(entries), set()
     while pending:
         name = pending.pop()
@@ -235,14 +262,7 @@ def selected_library_inputs(entries, root=ROOT):
         selected.add(name)
         pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
         source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())
-        imports = ' '.join(re.findall(r'\buse\s+(?:crate|super|timetuck)::([^;]+);', source))
-        words = set(re.findall(r'\b\w+\b', imports))
-        words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
-        words.update(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', source))
-        if re.search(r'\buse\s+(?:crate|timetuck|super)\b[^;]*\*', source):
-            calls = set(re.findall(r'(?<![.\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', source))
-            local = set(re.findall(r'\bfn\s+(\w+)', source))
-            words.update(calls - local)
+        words = dependency_words(source)
         referenced.update(words)
         for word in words:
             pending.extend(owners.get(word, set()) - selected)
@@ -250,6 +270,12 @@ def selected_library_inputs(entries, root=ROOT):
     referenced.update(Path(p).stem for p in modules)
     projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
     return cargo_inputs(root) | {projected} | {LIBRARY_INPUT + p if p.endswith('.rs') else p for p in modules}
+
+
+@lru_cache(maxsize=2048)
+def rust_file_references(source):
+    return (tuple(re.findall(r'\bmod\s+(\w+)\s*;', source)),
+            tuple(re.findall(r'(?:include(?:_str|_bytes)?!\s*\(\s*|#\[path\s*=\s*)"([^"]+)"', source)))
 
 
 def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
@@ -267,10 +293,11 @@ def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
         if not include_test_items:
             source = production_rust(source)
         base = path.parent if path.name in ('mod.rs', 'lib.rs') or path.parent.name in ('tests', 'examples') else path.with_suffix('')
-        for module in re.findall(r'\bmod\s+(\w+)\s*;', source):
+        modules, literals = rust_file_references(source)
+        for module in modules:
             for child in [base / f'{module}.rs', base / module / 'mod.rs']:
                 if child.is_file(): pending.append(child.relative_to(root).as_posix())
-        for literal in re.findall(r'(?:include(?:_str|_bytes)?!\s*\(\s*|#\[path\s*=\s*)"([^"]+)"', source):
+        for literal in literals:
             pending.append((path.parent / literal).resolve().relative_to(root.resolve()).as_posix())
     return found
 
