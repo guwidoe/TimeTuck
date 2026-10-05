@@ -1758,3 +1758,21 @@ Twenty-four SamplersTest and nine SampleTest methods retain all assertions using
 native APIs. Java mutable-alias wrap methods remain pending. Original checks cover
 boundary sizes, duplicate consumption, keyed lifecycle, rejection bounds, stop-only
 semantics and sampled composite providers in scoped and stream local search.
+
+Neighborhood datasets now provide immutable shared snapshots, identity-indexed input
+stores, seeded exhaustive permutations, with-replacement draws and lazy repeated
+sampling. Repeated sampling opens a fresh source per attempt, yields sampler errors
+once, and permanently ends on an absent sample. Filtered joins exhaust their right
+source as needed, so rare matching members are not dropped by a retry limit.
+Materialized joins index per-left slices; explicit refresh from new source snapshots
+replaces all indexes atomically. Store batches are likewise atomic, and held samples,
+dataset snapshots and owned sampling iterators remain unchanged by later updates.
+Native ownership requires immutable fact values; cloning shared mutable interiors
+is not an isolation guarantee. Java session/settle is represented by explicit tuple
+change propagation and cache refresh, not automatic reflective synchronization.
+Thirteen SamplingIteratorTest, six DatasetTest and four PillarDatasetTest methods
+retain their assertions. The Java random iterator's unsupported forEachRemaining
+exception remains pending; native random iterators use normal Rust consumers and
+therefore require a bound. Six original regressions check lazy/fused consumption,
+repeatability, duplicate identities, rollback on panics, cache refresh and sampled
+custom providers in both scoped and stream local search.

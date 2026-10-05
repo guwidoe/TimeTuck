@@ -9584,3 +9584,27 @@ backend data/freshness inspected, no UI changes or browser rerun. Saved benchmar
 measurements remain stale; no benchmark sweep or release-mode rerun.
 Logs:work/neighborhood-sample-check.log,work/neighborhood-sample-build.log,
 work/neighborhood-sample-tests.log. Dashboard server handle46628 remains live.
+
+## Neighborhood datasets and repeated sampling
+
+Added lazy repeated/keyed sampling, immutable NeighborhoodDataset snapshots,
+identity-indexed stores accepting TupleChange batches, seeded permutations/random
+row draws, filtered joins and indexed CachedNeighborhoodJoin slices. Missing samples
+or one yielded sampler error fuse repeated iteration. Source factories reopen for
+each attempt; filtered slices scan exhaustively as needed. Stores cache unchanged
+snapshots; held rows/samples and owned sample iterators survive updates. Batch changes
+and explicit join-cache refresh are atomic on ordinary panics. Source facts must be
+immutable; updates require explicit propagation/refresh, not reflective Java sessions.
+23 complete upstream methods (SamplingIterator13,Dataset6,PillarDataset4) and6 fixture
+helpers are attributed. The unbounded Java iterator consumer-exception method remains
+pending. Six original tests cover consumption/seed behavior, atomicity, duplicate/null
+rows, rare slices and lazy sampled providers in both solver scoring backends.
+Final check.sh passed:2302 Rust tests,125 doctests,fmt/Clippy;46 Python jobs reused.
+Three Rust targets ran,313 reused unchanged evidence. Compilation took23.86s.
+Source digest:22f50a05d46d8201c660cbe29a9108b98cee2f15247bfc983e874d459119955b.
+Coverage1116/4855(22.987%),pending3457,excluded282,failed/unverified0. Live dashboard
+freshness matches. No UI/browser, benchmark sweep or release-mode rerun; older
+benchmark measurements remain stale. Logs:work/neighborhood-dataset-check.log,
+work/neighborhood-dataset-build.log,work/neighborhood-dataset-tests-final.log.
+Initial focused compilation exposed test-only string dereference/result-access
+mistakes; those were fixed before the final successful check. Goal remains active.

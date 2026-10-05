@@ -16395,6 +16395,351 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "SamplingIteratorTest.samplingIteratorDrainsSourceWhenSamplerNeverStops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "samplingIteratorDrainsSourceWhenSamplerNeverStops",
+      "local_test": "sampling_iterator_drains_source_when_sampler_never_stops",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.emptyDatasetHasNoNextSample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "emptyDatasetHasNoNextSample",
+      "local_test": "empty_dataset_has_no_next_sample",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.samplerResetAndDecideAreCalledCorrectly",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "samplerResetAndDecideAreCalledCorrectly",
+      "local_test": "sampler_reset_and_decide_are_called_correctly",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.sampleContainsNoDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "sampleContainsNoDuplicates",
+      "local_test": "sample_contains_no_duplicates",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.sampleCanContainAndCheckForNullability",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "sampleCanContainAndCheckForNullability",
+      "local_test": "sample_can_contain_and_check_for_nullability",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.samplerMinimumSizeIsCheckedAfterDeduplication",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "samplerMinimumSizeIsCheckedAfterDeduplication",
+      "local_test": "sampler_minimum_size_is_checked_after_deduplication",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.duplicateCandidateDoesNotEndSampleBelowMinimumSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "duplicateCandidateDoesNotEndSampleBelowMinimumSize",
+      "local_test": "duplicate_candidate_does_not_end_sample_below_minimum_size",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorEmptySliceHasNoNextSample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorEmptySliceHasNoNextSample",
+      "local_test": "bi_sampling_iterator_empty_slice_has_no_next_sample",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorDrainsSliceWhenSamplerNeverStops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorDrainsSliceWhenSamplerNeverStops",
+      "local_test": "bi_sampling_iterator_drains_slice_when_sampler_never_stops",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorReachesAllMatchingMembersWithFilteredJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorReachesAllMatchingMembersWithFilteredJoin",
+      "local_test": "bi_sampling_iterator_reaches_all_matching_members_with_filtered_join",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorDrainsCachedDatasetSliceWhenSamplerNeverStops",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorDrainsCachedDatasetSliceWhenSamplerNeverStops",
+      "local_test": "bi_sampling_iterator_drains_cached_dataset_slice_when_sampler_never_stops",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorPillarSamplerReceivesTheSliceSelectorAsKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorPillarSamplerReceivesTheSliceSelectorAsKey",
+      "local_test": "bi_sampling_iterator_pillar_sampler_receives_the_slice_selector_as_key",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplingIteratorTest.biSamplingIteratorEndsWhenSamplerRefusesBelowMinimumSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/dataset/sample/SamplingIteratorTest.java",
+      "upstream_test": "biSamplingIteratorEndsWhenSamplerRefusesBelowMinimumSize",
+      "local_test": "bi_sampling_iterator_ends_when_sampler_refuses_below_minimum_size",
+      "modifications": "Retain all sample sizes/membership, repeated draws, reset/decision order, deduplication, nullability, empty/minimum and keyed-slice assertions. Native immutable datasets, filtered joins, keyed rules and peekable Rust iterators replace Java dataset sessions and hasNext. Integer/string identities replace fixture objects; seeded native randomness does not promise Java traces.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.asCachedDatasetUni_sizeAndIteratorsVisitEveryElementExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "asCachedDatasetUni_sizeAndIteratorsVisitEveryElementExactlyOnce",
+      "local_test": "as_cached_dataset_uni_size_and_iterators_visit_every_element_exactly_once",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.asCachedDatasetSameStreamTwice_sharesOneDataset",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "asCachedDatasetSameStreamTwice_sharesOneDataset",
+      "local_test": "as_cached_dataset_same_stream_twice_shares_one_dataset",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.cachedAndJustInTimeJoin_agreeOnEveryRow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "cachedAndJustInTimeJoin_agreeOnEveryRow",
+      "local_test": "cached_and_just_in_time_join_agree_on_every_row",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.cachedJoin_perALookupOnSkewedBucketsAlwaysFindsItsMatch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "cachedJoin_perALookupOnSkewedBucketsAlwaysFindsItsMatch",
+      "local_test": "cached_join_per_a_lookup_on_skewed_buckets_always_finds_its_match",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.cachedJoin_lessThanProducesPairsOrderedLeftBeforeRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "cachedJoin_lessThanProducesPairsOrderedLeftBeforeRight",
+      "local_test": "cached_join_less_than_produces_pairs_ordered_left_before_right",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.justInTimeJoin_lessThanProducesPairsOrderedLeftBeforeRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "justInTimeJoin_lessThanProducesPairsOrderedLeftBeforeRight",
+      "local_test": "just_in_time_join_less_than_produces_pairs_ordered_left_before_right",
+      "modifications": "Retain all cardinality, row/keyed lookup, cache sharing, rare-bucket draw and invalidation assertions using immutable native snapshots, lazy joins and indexed cached joins. Explicit store changes and cache.refresh replace session retraction/settle. Stable integer/tuple IDs replace generated entities and distinguish same-code value objects. Same-stream cache sharing is represented by repeated snapshots of one input store. Java random-iterator forEachRemaining exception behavior remains pending separately.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.oneRowPerDistinctValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "oneRowPerDistinctValue",
+      "local_test": "one_row_per_distinct_value",
+      "modifications": "Retain all row counts, member sets, held-snapshot identity/immutability and empty-group assertions. Native CollectNode with ListCollector and FinishingCollector produces owned NeighborhoodSample outputs into NeighborhoodDatasetStore. Explicit propagation of tuple changes replaces Java session update/settle; IDs 0,1,2 and group keys 0,1 replace entities/value objects.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.pillarHeldAcrossASettleDoesNotChange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "pillarHeldAcrossASettleDoesNotChange",
+      "local_test": "pillar_held_across_a_settle_does_not_change",
+      "modifications": "Retain all row counts, member sets, held-snapshot identity/immutability and empty-group assertions. Native CollectNode with ListCollector and FinishingCollector produces owned NeighborhoodSample outputs into NeighborhoodDatasetStore. Explicit propagation of tuple changes replaces Java session update/settle; IDs 0,1,2 and group keys 0,1 replace entities/value objects.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.emptyGroupProducesNoPillarRow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "emptyGroupProducesNoPillarRow",
+      "local_test": "empty_group_produces_no_pillar_row",
+      "modifications": "Retain all row counts, member sets, held-snapshot identity/immutability and empty-group assertions. Native CollectNode with ListCollector and FinishingCollector produces owned NeighborhoodSample outputs into NeighborhoodDatasetStore. Explicit propagation of tuple changes replaces Java session update/settle; IDs 0,1,2 and group keys 0,1 replace entities/value objects.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.lastMemberRetractionDoesNotBuildAnEmptyPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "lastMemberRetractionDoesNotBuildAnEmptyPillar",
+      "local_test": "last_member_retraction_does_not_build_an_empty_pillar",
+      "modifications": "Retain all row counts, member sets, held-snapshot identity/immutability and empty-group assertions. Native CollectNode with ListCollector and FinishingCollector produces owned NeighborhoodSample outputs into NeighborhoodDatasetStore. Explicit propagation of tuple changes replaces Java session update/settle; IDs 0,1,2 and group keys 0,1 replace entities/value objects.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -19512,6 +19857,84 @@
       "modifications": "Native integer ranges retain sourceOf sizes/order; seed zero is retained with the independent native PRNG. Helper attribution only, no method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.collectPairs.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "collectPairs",
+      "modifications": "Adapt helper setup and collection of rows/slices to native snapshots, explicit incremental collectors/store changes and Rust sets. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DatasetTest.collectValues.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "collectValues",
+      "modifications": "Adapt helper setup and collection of rows/slices to native snapshots, explicit incremental collectors/store changes and Rust sets. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.factory.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "factory",
+      "modifications": "Adapt helper setup and collection of rows/slices to native snapshots, explicit incremental collectors/store changes and Rust sets. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.buildInstance.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "buildInstance",
+      "modifications": "Adapt helper setup and collection of rows/slices to native snapshots, explicit incremental collectors/store changes and Rust sets. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PillarDatasetTest.rowsOf.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/PillarDatasetTest.java",
+      "upstream_test": "rowsOf",
+      "modifications": "Adapt helper setup and collection of rows/slices to native snapshots, explicit incremental collectors/store changes and Rust sets. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataSolution.generateSolution.neighborhood_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve generated value/entity counts and modulo initial values as native stable integer/tuple identities. Cases with explicit codes retain those strings and unique value IDs. Fixture attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
