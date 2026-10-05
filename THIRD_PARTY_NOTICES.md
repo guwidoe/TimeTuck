@@ -554,3 +554,9 @@ Scoped explanation construction, snapshot comparison and their regressions are o
 ScoreInliner overflow methods from pinned Timefold Community (Apache-2.0), with
 singleton-constraint and bendable helper attribution in `compat/provenance.json`.
 Checked scoring policies, widened arithmetic and separate regressions are original.
+
+`crates/solver/tests/temporal_range_cases.rs` adapts twenty-one methods from the
+pinned Community `TemporalValueRangeTest` and two `PlannerAssert` iterator helpers
+(Apache-2.0). Exact revision, paths, identities and native substitutions are in
+`compat/provenance.json`. Civil calendar arithmetic, temporal ranges and the separate
+regressions are independently implemented; no production implementation was used.

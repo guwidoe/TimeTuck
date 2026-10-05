@@ -9978,3 +9978,38 @@ Logs:work/exact-range-focused.log,work/exact-range-build.log,
 work/exact-range-first-check.log (doctest failure),work/exact-range-check.log
 (successful final gate). All jobs completed. Previous goal turn made progress and
 committed4874128; this batch implements numeric ranges. Full rewrite remains active.
+
+## Gregorian calendar and temporal value ranges
+
+Added validated CivilDate, CivilTime, CivilDateTime and CalendarYear values plus
+TemporalValueRange over the existing indexed range API. Independent Gregorian
+arithmetic supports year zero and ±999999999; bounded binary search inverts day
+numbers. Local clock values retain nanosecond precision. Supported units span
+nanoseconds through millennia where meaningful for the value type. Positive steps,
+ordered bounds, supported units and exactly reachable endpoints are enforced.
+Month/year increments anchor to the original start and clamp month ends without
+cumulative drift. Wide counts/indexes, membership, sampling and reverse iteration
+stay lazy; bounded materialization integrates date domains into finite solving.
+No timezone/DST/Java API parity or new performance result is claimed.
+Twenty-one complete TemporalValueRangeTest methods and two iterator helpers are
+attributed. Four Java mock-unit/negative-index/unsupported-sort cases remain pending.
+Seven original regressions cover three complete 400-year calendar cycles including
+negative years, leap-century/day boundaries, huge nanosecond counts, checked
+arithmetic, unsupported units, invalid dates/clocks, intersections/optional ranges
+and a real date-domain appointment solve. No upstream production implementation read.
+Initial test-adaptation script stopped on multiline whitespace before writing the
+first ten methods; corrected that test-only converter. A focused regression compile
+then caught an i32 cast against native i64 scores; removed the unnecessary cast.
+Final focused suites passed. Final check.sh exited zero: 2527 Rust tests,
+136 doctests,fmt/Clippy; 46 Python jobs reused. Only 3 Rust targets ran
+(lib/two new suites), 337 reused unchanged successful results. Affected
+executable prebuild45.09s. Verified aggregate exit0 and matching before/after source:
+0fd45ac5408a2cd4929586229d25706adfb61187122ac0eb56a7bf026e589b64.
+Coverage1263/4855(26.014%),pending3310,excluded282,failed/unverified0. Live dashboard
+verification digest matches report. No browser/release/benchmark sweep; older
+performance evidence stays stale. Logs: work/temporal-range-focused-final.log,
+work/temporal-range-build.log,work/temporal-range-check.log. Gate session60086 and
+freshness session46025 finished successfully; no batch process remains running.
+Previous turn answered a timing question without implementation progress; this
+turn resumed the next safe implementation and delivered verified calendar behavior.
+The full independent solver rewrite remains active and incomplete.

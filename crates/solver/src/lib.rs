@@ -577,3 +577,9 @@ pub use common_values::{
 
 mod exact_value_range;
 pub use exact_value_range::{BigIntegerValueRange, DecimalValueRange, ExactRangeError};
+
+mod temporal_value_range;
+pub use temporal_value_range::{
+    CalendarYear, CivilDate, CivilDateTime, CivilTime, TemporalRangeError, TemporalUnit,
+    TemporalValue, TemporalValueRange,
+};

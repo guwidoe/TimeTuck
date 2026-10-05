@@ -1924,3 +1924,16 @@ finite-domain conversion. Seven original regressions cover huge offsets/steps,
 u128 count overflow, nondividing steps, extreme scales and an exact decimal solve.
 Decimal scales must match explicitly in this native API; unsupported-sort exception
 methods and broader Java scale/constructor-validation parity remain pending.
+
+Twenty-one TemporalValueRangeTest methods now retain local date/date-time/year
+bounds, units and strides, counts, indexed values, membership, exact iterators,
+scripted random prefixes, extreme ranges and invalid/alignment cases. Native civil
+values use the proleptic Gregorian calendar including year zero; month/year values
+are anchored to the original start and clamp at month end without cumulative drift.
+Temporal ends must be exactly reachable by whole positive steps. Seven original
+regressions cover complete positive/negative leap cycles, clock precision, huge
+nanosecond ranges, invalid inputs/overflow, range intersection and calendar-domain
+solving. Java mock-unit, negative-index and unsupported-sort methods remain pending.
+Timezones, daylight-saving transitions and Java temporal API parity are not claimed.
+Indexed ranges stay lazy; solver domains still use bounded explicit materialization.
+No performance comparison is added by this batch.
