@@ -1857,3 +1857,21 @@ rollback and saved-candidate installation. A failed or panicking activation pois
 the transaction; dropping it restores the preceding plan and caches without running
 callbacks. Diagnostic rebuilds honor the captured plan and restore all original
 state on return. Captured datasets count as observers even without scoring sinks.
+
+## First-occurrence expansion representatives
+
+FlatMapNode::new_canonical and StreamGraphBuilder::flat_map_canonical accept a
+mapper and explicit equivalence-key projection. Within each input expansion,
+every output with the same key is replaced by a clone of the first output for
+that key. Occurrence count, iterator order and positional IDs are preserved;
+Rc/Arc outputs share that representative's allocation. Keys must include every
+payload distinction that the caller intends to retain, including varying tuple
+prefixes. This is an opt-in operation; ordinary flat_map remains unchanged.
+
+Representatives are local to one input expansion and are chosen afresh on each
+replacement. Reordering can change the selected object. There is no global cache
+or identity guarantee across updates. Retraction uses stored lengths without
+running mapper/key callbacks. Mapping, key extraction, cloning and iterator work
+finish before state installation; failure leaves node/graph state unchanged under
+the existing transaction contract. Key callbacks and mapping must be pure. Work
+is O(n log d) for n expanded occurrences and d keys. No throughput claim is made.

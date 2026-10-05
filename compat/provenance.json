@@ -26775,6 +26775,321 @@
       "upstream_test": "reusedStreamsInJoin",
       "local_test": "reused_streams_in_join",
       "modifications": "Adapt the complete source method with fixture entity/group/value counts, every weighted score and match assertion, and source removal order. Native map/distinct implements key-only grouping; reversible count/set/list/map/sum collectors and actual unique-pair/join/existence operators implement the nested pipeline. Stable integer IDs replace Java object references; exact generated group strings and MyEntity code predicates are retained. Native source events replace Java before/after notifications. Normalize top-level justification field order per the source helper while retaining exact field multiplicity and nested collection contents. No Java reflection, notification scheduling or automatic callback interning parity is claimed. Reuse the same native filtered port as both join inputs, preserving the four ordered occurrences including two self pairs. Normalized match membership retains duplicates. An original 3600-trial comparison covers 20 shapes, both activity modes, insert/remove/group/value/code changes, empty inputs and rollback against independent set/count/combination enumeration; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.mapToBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToBi",
+      "local_test": "uni_map_to_bi",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.mapToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToTri",
+      "local_test": "uni_map_to_tri",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.mapToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "mapToQuad",
+      "local_test": "uni_map_to_quad",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.mapToBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToBi",
+      "local_test": "bi_map_to_bi",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.mapToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToTri",
+      "local_test": "bi_map_to_tri",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.mapToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "mapToQuad",
+      "local_test": "bi_map_to_quad",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.mapToBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToBi",
+      "local_test": "tri_map_to_bi",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.mapToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToTri",
+      "local_test": "tri_map_to_tri",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.mapToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "mapToQuad",
+      "local_test": "tri_map_to_quad",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.mapToBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToBi",
+      "local_test": "quad_map_to_bi",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.mapToTri",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToTri",
+      "local_test": "quad_map_to_tri",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.mapToQuad",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "mapToQuad",
+      "local_test": "quad_map_to_quad",
+      "modifications": "Preserve complete tuple mapping across the specified input/output arities, all initial matches, and first-entity removal. Unique pairs and distinct third-entity guards generate the original tuple multiplicities; quad inputs join actual entity-group sources for both group identities/code strings. Expected mapped fields are independently literal for deterministic property fixtures. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.joinAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "joinAfterGroupBy",
+      "local_test": "uni_join_after_group_by",
+      "modifications": "Preserve one/two/three independent distinct-value collectors, then Cartesian join the two extra facts. Preserve all six source output tuples across initial shared value, second entity reassignment to a distinct value, and removal; equal count fields remain separate duplicate fields. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.joinAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "joinAfterGroupBy",
+      "local_test": "bi_join_after_group_by",
+      "modifications": "Preserve one/two/three independent distinct-value collectors, then Cartesian join the two extra facts. Preserve all six source output tuples across initial shared value, second entity reassignment to a distinct value, and removal; equal count fields remain separate duplicate fields. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.joinAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "joinAfterGroupBy",
+      "local_test": "tri_join_after_group_by",
+      "modifications": "Preserve one/two/three independent distinct-value collectors, then Cartesian join the two extra facts. Preserve all six source output tuples across initial shared value, second entity reassignment to a distinct value, and removal; equal count fields remain separate duplicate fields. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping0Collect_filtered",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collect_filtered",
+      "local_test": "group_by_1_mapping_0_collect_filtered",
+      "modifications": "Preserve the ten-entity fixture, generated group count8 and added group count2, filtering on keys/counts or joined entities, and exact weighted primitive-key counts (8,1,1). The three filtered cases have initial-only source assertions; primitive grouping also removes the entity with integerProperty3. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping1Collect_filtered",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collect_filtered",
+      "local_test": "group_by_1_mapping_1_collect_filtered",
+      "modifications": "Preserve the ten-entity fixture, generated group count8 and added group count2, filtering on keys/counts or joined entities, and exact weighted primitive-key counts (8,1,1). The three filtered cases have initial-only source assertions; primitive grouping also removes the entity with integerProperty3. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_joinedAndFiltered",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_joinedAndFiltered",
+      "local_test": "group_by_joined_and_filtered",
+      "modifications": "Preserve the ten-entity fixture, generated group count8 and added group count2, filtering on keys/counts or joined entities, and exact weighted primitive-key counts (8,1,1). The three filtered cases have initial-only source assertions; primitive grouping also removes the entity with integerProperty3. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.groupBy_1Mapping1Collector_groupingOnPrimitives",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector_groupingOnPrimitives",
+      "local_test": "group_by_1_mapping_1_collector_grouping_on_primitives",
+      "modifications": "Preserve the ten-entity fixture, generated group count8 and added group count2, filtering on keys/counts or joined entities, and exact weighted primitive-key counts (8,1,1). The three filtered cases have initial-only source assertions; primitive grouping also removes the entity with integerProperty3. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamTest.flattenLastWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithDuplicates",
+      "local_test": "uni_flatten_last_with_duplicates",
+      "modifications": "Two separate Rc pair allocations have equal values but different identities. Native flat_map_canonical keys by pair value, preserving all occurrences while selecting the first representative per input expansion. Retain the actual Rc identity filter and all source five/four/two match multisets after value change and removal. Ordinary flat_map remains positional and unchanged. No cross-input or cross-update canonical allocation identity is claimed. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.flattenLastWithDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "flattenLastWithDuplicates",
+      "local_test": "bi_flatten_last_with_duplicates",
+      "modifications": "Preserve the source literal expected lists including their differing duplicate frequencies. The source assertScore helper checks bidirectional justification support and total score/count, not per-justification multiplicity: native actual expansion produces entity0 group0/group1 counts3/3 and entity1 counts2/1, while source literals list4/2 and1/2. Execute actual last-field expansion [b.group,group0,group1]; retain every source membership/score assertion without changing those literals. Add exact independent native multiset assertions before and after removing entity0. These assertions do not claim equality of the source literal duplicate frequencies. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
     }
   ],
   "fixtures": [
@@ -33082,6 +33397,58 @@
       "id": "AbstractConstraintStreamTest.assertMatchWithScore.native_advanced_grouping",
       "upstream_test": "assertMatchWithScore",
       "modifications": "Preserve per-match penalty and unordered top-level justification membership. Sort typed top-level fields while retaining duplicates, strengthening source containsAll. Nested list/map/set contents remain exact, including list order. All matches belong to the single configured constraint; no general custom Java justification API is implemented. No helper method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.native_projection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve all selected entity/group/value counts and round-robin assignments, generated entity/group codes and explicit MyEntity additions. Replace unused random longProperty generation with deterministic 11/23/37, preserving every selected property/sum assertion. Integer properties default1; primitive grouping additions set1/2/3. Unused value-group metadata omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.integerProperty.native_projection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "integerProperty field initializer",
+      "modifications": "Preserve default integerProperty=1 for the seven generated entities in primitive-key grouping. No reflection annotations copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertScore.native_projection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore",
+      "modifications": "Preserve both-direction justification membership, total penalty and enabled match count for Bi flattenLastWithDuplicates. This helper does not compare the multiplicity of each distinct justification; literal expected and actual frequencies differ while satisfying all its assertions. Other cases strengthen membership to exact normalized multisets. No helper credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_projection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertMatchWithScore.native_projection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertMatchWithScore",
+      "modifications": "Top-level field order is irrelevant in source matching; sort typed fields while preserving duplicates. Retain each match penalty; stable IDs replace Java reference equality. No helper credit."
     }
   ]
 }

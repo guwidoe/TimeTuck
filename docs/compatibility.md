@@ -2310,3 +2310,19 @@ and the two-group list order remain exact. The construction-only method retains
 its actual build assertion; an original 3,600-trial comparison additionally executes
 all twenty shapes through incremental changes and rollback with both activity modes,
 using independently calculated results. No new Java lifecycle or throughput claim.
+
+Twenty-one more stream methods now preserve mapping to two/three/four fields from
+all four input arities, joins after one/two/three distinct-count collectors,
+filtered and primitive-key grouping, and uni/bi duplicate flattening. Native
+canonical expansion preserves equal-value representative identity without removing
+occurrences; the uni fixture retains its actual pointer-identity filter. Random
+properties use deterministic values within their original range.
+
+The bi duplicate-flatten fixture's literal expected frequencies differ from the
+pipeline's actual expansion. Its assertScore helper checks total score/count and
+bidirectional justification membership, so it does not distinguish those frequency
+distributions. The adaptation preserves those exact source assertions and literals,
+and separately checks the actual native multiset. It does not claim equality of
+the literal per-justification frequencies. Four original canonical-expansion tests
+cover pointer identity, per-input/per-update scope, key panic, checked-overflow
+rollback and 320 incremental graph trials in both activity modes.

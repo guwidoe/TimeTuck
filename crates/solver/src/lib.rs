@@ -214,6 +214,7 @@ pub use mixed_stream_scoring::{
     mixed_stream_local_search_from,
 };
 
+mod canonical_flat_map;
 mod flat_map_stream;
 pub use flat_map_stream::FlatMapNode;
 

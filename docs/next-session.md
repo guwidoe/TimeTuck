@@ -11210,3 +11210,64 @@ AbstractUniConstraintStreamTest: joinAfterGroupBy line390; filtered group cases
 The three filtered methods have initial-only assertions: groups0/1 counts8/2;
 filter group1 yields one group or two joined entities. No incremental assertions
 in those source methods. Corresponding bi/tri/quad cases may support a wider batch.
+
+## Canonical expansion and cross-arity projection coverage
+
+Added FlatMapNode::new_canonical and StreamGraphBuilder::flat_map_canonical in
+canonical_flat_map.rs. They expand using an explicit equivalence key, replacing
+each equal-key payload by a clone of its expansion's first representative while
+retaining all positional occurrences. Rc/Arc clones retain actual pointer identity.
+Selection is per input expansion and refreshed on each replacement; no shared
+cache or cross-update allocation identity. Ordinary flat_map behavior is unchanged.
+A local BTreeMap gathers representatives inside the callback; existing flat-map
+state and graph checkpoints handle atomicity/rollback. Keys must include any
+varying retained prefixes. O(n log d) mapping work; no timing claim.
+
+Twenty-one Community methods adapted: mapToBi/Tri/Quad for all four input arities
+(12); joinAfterGroupBy for uni/bi/tri collectors (3); three filtered-group methods
+and primitive-key grouping (4); uni/bi flattenLastWithDuplicates (2). Real joins,
+unique pairs and all three distinct-count collectors preserve the original graph.
+Native exact match fields retain duplicates, normalized for source unordered
+justification membership. Deterministic long properties 11/23/37 replace original
+random values within their allowed range; expected sums 34/48/60/71 are literal.
+
+Uni duplicate fixture retains separate equal-value Rc allocations and actual
+Rc::ptr_eq guards; canonical expansion is necessary for all 5 initial matches.
+Bi duplicate fixture has an important source-helper limitation: literal expected
+counts by entity/group are 4/2 and 1/2, while expansion of b.group produces 3/3
+and 2/1. Source assertScore checks bidirectional justification membership and total
+score/count, not per-justification frequency. Preserve its literal lists and all
+helper assertions; separately check exact actual native multiset, including after
+removal. Do not claim equality of those literal duplicate frequencies or rewrite
+the mapper to force them. This nuance is in provenance and compatibility docs.
+
+Four original canonical regressions cover per-input/per-update representative
+identity, positional reordering, no callbacks on retract, key panic before state
+installation, checked-overflow rollback and 320 graph trials with both activity
+modes. Focused 2005 passed 4. Initial projection compile 96246 failed because an
+imported Field::Entity shadowed the Entity struct; qualify self::Entity. Focused
+87752 passed all 21 cases. Clippy 43032 passed in 27.61s. Gate 3710 exited 0. Adding the
+public StreamGraphBuilder extension invalidated broad stream inputs; build 83804
+was launched after this became visible and completed in 1m38s, allowing the existing
+gate to use compiled targets. No gate restart or repeat test execution.
+Final evidence: 3254 Rust tests and 152 doctests; 347 Rust targets ran,
+56 reused; 46 Python jobs reused. Aggregate exit 0 and equal source-before/after:
+cf5118c9c5c1dc7983a0bdb0449612a9763d854f67ce84d23d4e3f331255638d.
+Coverage 1806/4855 (37.199%), pending 2767, excluded 282, failed/unverified 0.
+Dashboard freshness matched report digest:
+fdfc55adb5f72df7da4880014f5a5b7b1f090eacaf68af2bb6445b00ec745ad3.
+Logs: work/stream-projection-canonical.log, work/stream-projection-focused.log,
+work/stream-projection-clippy.log, work/stream-projection-build.log,
+work/stream-projection-check.log. No benchmark/release/browser sweep.
+All processes terminal. Previous goal turn progressed via 8237b22; full goal active.
+
+Next useful broad batch: pending weighted/unweighted penalty/reward/impact tests
+and default/custom justification cases across bi/tri/quad (and any uni pending).
+Read only Bi source 2738-2821 and 2970-3058 so far. Bi default 7 entities generate 21
+unique pairs: penalties -21 or -42. Helpers assert a sole named constraint, 21 matches
+and justification type/two facts for the first 7 matches. Custom justification retains
+score and pair facts. Existing score_explanation.rs exposes explain_constraint and
+explain_constraint_default (lines 142-225 read), and graph score_weighted/decimal
+exist; use actual native explanation APIs, not stand-in constants. Read all chosen
+methods/helpers/decimal fixtures first. Multiple-registration errors or lifecycle
+requirements may need new support and must not be silently reduced to snapshots.
