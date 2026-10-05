@@ -645,3 +645,6 @@ pub use assignment_selection::{
     BasicValueSource, GatedSelectionSource, ListSelectionContext, ListValueSelection,
     ListValueSource,
 };
+
+mod revision_selection;
+pub use revision_selection::{RevisionRefresh, RevisionSelectionIter, RevisionedSelection};

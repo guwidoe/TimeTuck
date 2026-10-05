@@ -20625,6 +20625,156 @@
       "upstream_test": "requireEndingChildValueSelector",
       "local_test": "require_ending_child_value_selector",
       "modifications": "Preserve rejection of a declared never-ending child before size/open calls. Native SelectionCache, which supplies the finite unassigned-value snapshot, rejects the source with UnboundedSource instead of Java IllegalArgumentException."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.originalWithoutEntityListDirtyAndMinimumCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "originalWithoutEntityListDirtyAndMinimumCacheTypePhase",
+      "local_test": "original_phase",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.originalWithoutEntityListDirtyAndMinimumCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "originalWithoutEntityListDirtyAndMinimumCacheTypeStep",
+      "local_test": "original_step",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.originalWithoutEntityListDirtyAndMinimumCacheTypeJustInTime",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "originalWithoutEntityListDirtyAndMinimumCacheTypeJustInTime",
+      "local_test": "original_just_in_time",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.originalWithEntityListDirty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "originalWithEntityListDirty",
+      "local_test": "original_dirty",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.randomWithoutEntityListDirtyAndMinimumCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "randomWithoutEntityListDirtyAndMinimumCacheTypePhase",
+      "local_test": "random_phase",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.randomWithoutEntityListDirtyAndMinimumCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "randomWithoutEntityListDirtyAndMinimumCacheTypeStep",
+      "local_test": "random_step",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.randomWithoutEntityListDirtyAndMinimumCacheTypeJustInTime",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "randomWithoutEntityListDirtyAndMinimumCacheTypeJustInTime",
+      "local_test": "random_just_in_time",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.randomWithEntityListDirty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "randomWithEntityListDirty",
+      "local_test": "random_dirty",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.listIteratorWithRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "listIteratorWithRandomSelection",
+      "local_test": "random_list_iterator_rejected",
+      "modifications": "Preserve rejection of ordinary/indexed list access under random selection before lifecycle initialization. Native RandomListAccess replaces Java IllegalStateException; no descriptor reflection is reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.indexedListIteratorWithRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "indexedListIteratorWithRandomSelection",
+      "local_test": "random_indexed_list_iterator_rejected",
+      "modifications": "Preserve rejection of ordinary/indexed list access under random selection before lifecycle initialization. Native RandomListAccess replaces Java IllegalStateException; no descriptor reflection is reproduced."
     }
   ],
   "fixtures": [
@@ -25827,6 +25977,123 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfIterator",
       "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.runOriginalWithoutEntityListDirtyAndMinimumCacheType.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "runOriginalWithoutEntityListDirtyAndMinimumCacheType",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FromSolutionEntitySelectorTest.runRandomWithoutEntityListDirtyAndMinimumCacheType.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/FromSolutionEntitySelectorTest.java",
+      "upstream_test": "runRandomWithoutEntityListDirtyAndMinimumCacheType",
+      "modifications": "Native explicit lifecycle and Eq revision tokens replace Java entity descriptors, mocked score-director revisions and dirty flags. Preserve every candidate sequence across five steps/two phases, source cardinality, finite/repeating metadata, exhaustion/availability and exact source extraction counts (two unchanged, four with revision changes). Phase requests use native phase refresh; step and just-in-time requests use step-boundary revision checks. Scripted random integer indices are expressed as equivalent unit draws; availability probes do not consume draws. No Java PRNG trace parity or implicit solver lifecycle wiring is claimed. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfEntitySelector.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfEntitySelector",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingOfEntitySelector.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingOfEntitySelector",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingIterableSelector.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterableSelector",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/revision_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingIterator.revision_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterator",
+      "modifications": "Preserve exact sequences, source size, finite/repeating metadata and repeated exhaustion or passive availability. Native string rows and injected unit draws replace Java object codes and TestRandom integer draws. Helper attribution earns no extra credit."
     }
   ]
 }

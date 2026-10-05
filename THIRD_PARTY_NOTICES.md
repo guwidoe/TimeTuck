@@ -653,3 +653,10 @@ plus `PlannerAssert` sequence/metadata/lifecycle helpers (Apache-2.0). Exact pat
 revision and native context/gate/snapshot substitutions are recorded in
 `compat/provenance.json`. Native assignment sources, gating and additional regression
 tests are independently implemented.
+
+`crates/solver/tests/revision_selection_cases.rs` adapts ten methods and two fixture
+helpers from pinned Community `FromSolutionEntitySelectorTest`, plus `PlannerAssert`
+sequence/metadata helpers (Apache-2.0). Exact paths, revision and native revision-token,
+lifecycle and scripted-random substitutions are recorded in `compat/provenance.json`.
+Revision-aware snapshot selection and additional regression tests are independently
+implemented.

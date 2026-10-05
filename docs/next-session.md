@@ -10426,3 +10426,34 @@ performance measurements stay stale. Previous goal turn progressed via62dd282;
 this batch adds usable current-assignment sources. Full rewrite remains active.
 Dashboard freshness session5524 exited0 and matched the report digest. All batch
 process handles are terminal.
+
+## Revision-aware candidate snapshots
+
+RevisionedSelection captures a bounded finite source once per phase and optionally
+checks an Eq token at each step start. Unchanged tokens reuse the snapshot; changed
+tokens rebuild. Phase policy ignores mid-phase changes. Callers own revision
+correctness, including changes made through source_mut; no automatic model counter.
+Original/indexed list traversal and seeded/injected random cursors preserve metadata;
+passive has_next does not draw. Invalid draws emit one error and fuse that cursor.
+Random list access rejects even before lifecycle initialization. Failed/panicking
+builds expose no snapshot; held non-Clone snapshots survive rebuild/release. Valid
+lifecycle events advance before callbacks; close failed scopes normally; step policy
+can rebuild at a later step. Ten complete FromSolutionEntitySelectorTest methods and
+nine helpers preserve all five-step/two-phase sequences and exact extraction counts:
+two for unchanged sources, four for dirty sources. Java step/JIT cases map to native
+step-boundary checks. Six original regressions cover scope policy, metadata/limit/
+panic failures and recovery, invalid events, non-Clone snapshots, empty/unbounded
+sources, passive/invalid/seeded draws, indexed views and both basic scoring backends.
+Focused34917 exited0 (10 adaptations+6 originals); prebuild12.03s. Gate74476 exited101
+for an unnecessary explicit drop on a test cursor; removed it, with no implementation
+change. Final gate74698 exited0:2734 Rust tests,139 doctests,fmt/Clippy;3 Rust targets
+ran,365 reused;46 Python jobs reused. Aggregate exit0 and equal before/after source:
+ec48f5c3ce6ef62e2597c46448f7207a26a029c57ec33142bab5afae8085b6be.
+Coverage1385/4855(28.527%),pending3188,excluded282,failed/unverified0. Logs:
+work/revision-selection-focused.log,work/revision-selection-build.log,
+work/revision-selection-check.log(lint failure),work/revision-selection-final-check.log.
+No browser/release/benchmark sweep; previous performance measurements stay stale.
+Previous goal turn progressed via214aaec; this batch adds revision-aware candidate
+reuse. Full solver rewrite remains active and unfinished.
+Dashboard freshness session33231 exited0 and matched the report digest. All batch
+process handles are terminal.

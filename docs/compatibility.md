@@ -2116,3 +2116,17 @@ penalties until completion. Local search still requires complete initial assignm
 these sources do not add a generic construction-provider entry point or automatic
 solver lifecycle wiring. Revision-aware entity-list caching remains separate work.
 No new performance comparison is claimed.
+
+Ten entity-selector methods now preserve ordered/random sequences, finite/repeating
+metadata, indexed-list restrictions and exact extraction counts across phases and
+revision changes. RevisionedSelection captures a finite phase snapshot under a
+collection bound and optionally checks an Eq revision at each step start. Equal
+revisions reuse the snapshot; each phase start always extracts again. Callers must
+change revisions for every fact affecting candidates. Step/just-in-time source
+fixtures map to native step-boundary checks; phase policy retains its phase snapshot.
+Failed or panicking builds publish no current snapshot, while held non-Clone
+snapshots remain valid. Six original regressions cover refresh policy, mismatch/
+limit/panic recovery, invalid transitions, empty and unbounded sources, passive
+random availability, invalid draws, indexed views, snapshot ownership and both
+basic scoring backends. No automatic model revision counter, Java PRNG trace parity
+or new timing comparison is claimed.
