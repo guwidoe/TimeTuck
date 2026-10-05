@@ -2085,3 +2085,18 @@ and non-fused sources, lifecycle/size/early-drop behavior, seeded repeatability 
 basic solving through both backends. Nearby mixed-model configuration and Java
 PRNG traces remain unclaimed. Existing integer MoveUnion/ProviderUnion paths are
 unchanged; no new benchmark comparison is claimed.
+
+Six iterable entity-range/filtering-range selector methods now preserve every
+sorted candidate sequence across five steps/two phases at solve, phase and step
+cache scopes. ReachabilityCache composes the existing lifecycle/collection cache
+with an inverse-domain index; BasicRangeSource and ListRangeSource supply native
+model ranges. All/entity/co-value queries produce independent immutable finite
+views with explicit random sampling available on the returned WeightedSelection.
+Full source cardinality remains separate from a filtered view's length. Failed
+builds expose no old index; externally held snapshots survive release/rebuild.
+Six original regressions exercise actual scope refreshes, duplicate/error/panic
+recovery, bounded collection, optionality/shared domains, native model changes,
+seeded view sampling and basic solving in both backends. Java manual mimic state
+is replaced by explicit current-origin queries. Pins/positions and dynamic model
+changes still require normal provider checks and an appropriate cache scope.
+No new performance comparison is claimed.

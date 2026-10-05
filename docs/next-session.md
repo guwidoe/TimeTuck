@@ -10364,3 +10364,31 @@ progress viaa710019; this batch adds usable lifecycle-aware candidate compositio
 Full solver rewrite remains active and unfinished.
 Dashboard freshness session40675 exited0 and matched the report digest. All batch
 process handles are terminal.
+
+## Scoped domain caches and related-value selection
+
+ReachabilityCache composes SelectionCache and ReachableValues, rebuilding only at
+its solve/phase/step start. BasicRangeSource/ListRangeSource capture native domains;
+All/Entity/CoValues queries return independent sorted distinct WeightedSelection
+views. source_size is full distinct universe size, separate from filtered length.
+Optional transitions remain available on index().destinations(); source range
+collection is bounded by maximum_entities, with finite materialized per-row vectors.
+Failed/duplicate/panicking builds expose no old index; held snapshots remain usable.
+Pins/current assignment/list positions remain provider responsibilities. Explicit
+origin queries replace the Java manual mimic recorder in filtering adaptations.
+Six complete upstream methods (three iterable entity-range + three filtering-range)
+and seven helper attributions preserve all repeated five-step/two-phase sequences.
+Six original regressions cover actual rebuild boundaries, held snapshots, failed
+and panicking source recovery, invalid events, bounded collection, shared/optional
+ranges, seeded views, native model changes and both basic scoring backends.
+Focused34115 exited0 (twelve tests); prebuild10.52s; final gate86034 exited0:
+2708 Rust tests,139 doctests,fmt/Clippy;3 Rust targets ran,361 reused;46 Python jobs
+reused. Aggregate exit0 and equal before/after source verified:
+3c27f5d3b4d877f481b5715e0e1ec923166e88d5a034128b54907dca65670a6a.
+Coverage1371/4855(28.239%),pending3202,excluded282,failed/unverified0. Logs:
+work/reachability-cache-focused.log,work/reachability-cache-build.log,
+work/reachability-cache-check.log. No browser/release/benchmark sweep; old performance
+evidence remains stale. Previous goal turn made progress via99ef767; this batch
+adds lifecycle-scoped domain selection. Full solver rewrite remains active.
+Dashboard freshness session68398 exited0 and matched the report digest. All batch
+process handles are terminal.

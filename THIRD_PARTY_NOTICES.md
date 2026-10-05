@@ -638,3 +638,11 @@ metadata and lifecycle helpers (Apache-2.0). Exact source identities and native
 scripted-draw substitutions are recorded in `compat/provenance.json`. Lifecycle
 union composition, fractional stream interleaving and regression tests are
 independently implemented.
+
+`crates/solver/tests/reachability_cache_cases.rs` adapts six methods and two fixture
+helpers from pinned Community `IterableFromEntityPropertyValueSelectorTest` and
+`FilteringValueRangeSelectorTest`, plus `PlannerAssert` sequence/metadata helpers
+and the ascending comparator intent of `TestdataObjectSorter` (Apache-2.0).
+Exact source identities and native lifecycle/query substitutions are recorded in
+`compat/provenance.json`. Cache/index composition, native domain sources and
+additional regressions are independently written.

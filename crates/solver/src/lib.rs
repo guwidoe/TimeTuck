@@ -632,3 +632,9 @@ pub use reachable_values::{
 
 mod selection_union;
 pub use selection_union::{SelectionUnion, SelectionUnionIter, WeightedInterleave};
+
+mod reachability_cache;
+pub use reachability_cache::{
+    BasicRangeSource, ListRangeSource, ReachabilityCache, ReachabilityCacheError,
+    ReachabilityQuery, ReachabilityRange,
+};

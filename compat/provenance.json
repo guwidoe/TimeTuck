@@ -20475,6 +20475,96 @@
       "upstream_test": "emptyBiasedRandomSelection",
       "local_test": "empty_biased_random_selection",
       "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IterableFromEntityPropertyValueSelectorTest.originalSelectionCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/IterableFromEntityPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeSolver",
+      "local_test": "iterable_solve",
+      "modifications": "Retain all five step repetitions across two phases, all exact sorted global/per-entity value sequences, full source cardinality and repeated exhaustion. Native basic domains replace Java descriptors and explicit cache events replace mocked scopes. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IterableFromEntityPropertyValueSelectorTest.originalSelectionCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/IterableFromEntityPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypePhase",
+      "local_test": "iterable_phase",
+      "modifications": "Retain all five step repetitions across two phases, all exact sorted global/per-entity value sequences, full source cardinality and repeated exhaustion. Native basic domains replace Java descriptors and explicit cache events replace mocked scopes. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IterableFromEntityPropertyValueSelectorTest.originalSelectionCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/IterableFromEntityPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeStep",
+      "local_test": "iterable_step",
+      "modifications": "Retain all five step repetitions across two phases, all exact sorted global/per-entity value sequences, full source cardinality and repeated exhaustion. Native basic domains replace Java descriptors and explicit cache events replace mocked scopes. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringValueRangeSelectorTest.originalSelectionCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/FilteringValueRangeSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeSolver",
+      "local_test": "filtering_solve",
+      "modifications": "Retain all six origin-dependent value sequences at every one of five steps across two phases, full source cardinality six despite two filtered candidates, and repeated exhaustion. Native list domains and explicit cache events replace Java descriptors/scopes; CoValues query arguments replace setting a manual mimic recorder and reading replayed values. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringValueRangeSelectorTest.originalSelectionCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/FilteringValueRangeSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypePhase",
+      "local_test": "filtering_phase",
+      "modifications": "Retain all six origin-dependent value sequences at every one of five steps across two phases, full source cardinality six despite two filtered candidates, and repeated exhaustion. Native list domains and explicit cache events replace Java descriptors/scopes; CoValues query arguments replace setting a manual mimic recorder and reading replayed values. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringValueRangeSelectorTest.originalSelectionCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/FilteringValueRangeSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeStep",
+      "local_test": "filtering_step",
+      "modifications": "Retain all six origin-dependent value sequences at every one of five steps across two phases, full source cardinality six despite two filtered candidates, and repeated exhaustion. Native list domains and explicit cache events replace Java descriptors/scopes; CoValues query arguments replace setting a manual mimic recorder and reading replayed values. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
     }
   ],
   "fixtures": [
@@ -25508,6 +25598,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfIterator",
       "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IterableFromEntityPropertyValueSelectorTest.runOriginalSelection.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/IterableFromEntityPropertyValueSelectorTest.java",
+      "upstream_test": "runOriginalSelection",
+      "modifications": "Retain all five step repetitions across two phases, all exact sorted global/per-entity value sequences, full source cardinality and repeated exhaustion. Native basic domains replace Java descriptors and explicit cache events replace mocked scopes. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringValueRangeSelectorTest.runOriginalSelection.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/FilteringValueRangeSelectorTest.java",
+      "upstream_test": "runOriginalSelection",
+      "modifications": "Retain all six origin-dependent value sequences at every one of five steps across two phases, full source cardinality six despite two filtered candidates, and repeated exhaustion. Native list domains and explicit cache events replace Java descriptors/scopes; CoValues query arguments replace setting a manual mimic recorder and reading replayed values. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfValueSelector.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelector",
+      "modifications": "Preserve exact sequences, repeated exhaustion, full source cardinality and finite selection using native string snapshots. Filtering retains full source size separately from selected length. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Preserve exact sequences, repeated exhaustion, full source cardinality and finite selection using native string snapshots. Filtering retains full source size separately from selected length. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Preserve exact sequences, repeated exhaustion, full source cardinality and finite selection using native string snapshots. Filtering retains full source size separately from selected length. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Preserve exact sequences, repeated exhaustion, full source cardinality and finite selection using native string snapshots. Filtering retains full source size separately from selected length. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachability_cache_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObjectSorter.sort.reachability_cache",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
+      "upstream_test": "sort",
+      "modifications": "Native ordered value-code identities replace ascending Java test-object code comparison. No sorter identity caching or extra method credit."
     }
   ]
 }
