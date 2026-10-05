@@ -9553,3 +9553,34 @@ Source digest:a652920dc03d9805191a7abb88ac0a5cba2b1c1b97b8cae90bd65180fd367939.
 Coverage unchanged at1060/4855(21.833%). No benchmark/release/browser rerun.
 Logs:work/unit-isolation-check.log,work/unit-isolation-audit.log.
 The full rewrite remains active; reusable neighborhood samplers are the next batch.
+
+## Reusable neighborhood samplers
+
+Added NeighborhoodSample, SampleRandom, SizeSampler, Sampler/KeyedSampler,
+PillarSampler and ordinary/keyed assembly. Fixed/bounded/draining sizes share a
+nonempty minimum contract; custom rules accept, reject, accept-and-stop or stop
+without accepting. Reset precedes validation; explicit stops below the floor error,
+while source exhaustion below it returns None. Target sizes are hints, never eager
+allocation sizes. Samples own distinct members, iterate in encounter order and
+compare/hash without order. Bounded random sizes advance a caller-owned seeded RNG.
+Sources supply member order and group membership; no Java PRNG or uniform-member
+selection claim. Accepted duplicates skip rule evaluation. Infinite rejecting or
+draining sources need an explicit caller bound.
+All24 SamplersTest and9 SampleTest methods are attributed, plus2 helper fixtures.
+The four decision variants were checked from pinned artifact public enum signatures
+only; no production bytecode or source implementation was inspected. Mutable-alias
+wrap methods remain pending. Six original regressions cover boundary sizes, exact
+consumption, keyed/dynamic rule contracts, reproducibility, stop-only behavior and
+sampled composite move providers with both scoped and stream solver scoring.
+The cache change is committed as03f716b. The full rewrite goal remains active.
+Final check.sh passed:2273 Rust tests,123 doctests,fmt/Clippy;46 Python jobs reused.
+Only3 Rust targets ran (lib and two sampler suites),311 reused unchanged results.
+Affected executable compilation took30s. Source digest:
+d1f74d700ccafa10619ba9271c30dfac14ea4378f07a0e0188cacea91554653c.
+Coverage1093/4855(22.513%),pending3480,excluded282,failed/unverified0.
+SamplersTest24/24;SampleTest9/12. Live dashboard freshness matches the report.
+The dashboard process was restarted to load the changed verification-input code;
+backend data/freshness inspected, no UI changes or browser rerun. Saved benchmark
+measurements remain stale; no benchmark sweep or release-mode rerun.
+Logs:work/neighborhood-sample-check.log,work/neighborhood-sample-build.log,
+work/neighborhood-sample-tests.log. Dashboard server handle46628 remains live.

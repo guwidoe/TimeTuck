@@ -15900,6 +15900,501 @@
       "upstream_test": "undoRestoresOriginalValue",
       "local_test": "pillar_unassign_undo",
       "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "id": "SamplersTest.exactlyYieldsExactSizeOnALargerSource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "exactlyYieldsExactSizeOnALargerSource",
+      "local_test": "exactly_yields_exact_size_on_a_larger_source",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.exactlyReturnsNullWhenSourceIsSmallerThanMinimum",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "exactlyReturnsNullWhenSourceIsSmallerThanMinimum",
+      "local_test": "exactly_returns_null_when_source_is_smaller_than_minimum",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.betweenReturnsNullWhenSourceIsSmallerThanMinimum",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "betweenReturnsNullWhenSourceIsSmallerThanMinimum",
+      "local_test": "between_returns_null_when_source_is_smaller_than_minimum",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.upToAndAllHaveNoFloorAndStayProductiveOnAShortSource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "upToAndAllHaveNoFloorAndStayProductiveOnAShortSource",
+      "local_test": "up_to_and_all_have_no_floor_and_stay_productive_on_a_short_source",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.exactlyOneStopsAtTheFirstCandidate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "exactlyOneStopsAtTheFirstCandidate",
+      "local_test": "exactly_one_stops_at_the_first_candidate",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.exactlyOneConsumesOnlyOneElementFromTheSource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "exactlyOneConsumesOnlyOneElementFromTheSource",
+      "local_test": "exactly_one_consumes_only_one_element_from_the_source",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.upToStaysWithinRangeAndVaries",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "upToStaysWithinRangeAndVaries",
+      "local_test": "up_to_stays_within_range_and_varies",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.betweenStaysWithinRangeAndVaries",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "betweenStaysWithinRangeAndVaries",
+      "local_test": "between_stays_within_range_and_varies",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.betweenMinimumSizeIsTheDeclaredFloorNotTheDrawnTarget",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "betweenMinimumSizeIsTheDeclaredFloorNotTheDrawnTarget",
+      "local_test": "between_minimum_size_is_the_declared_floor_not_the_drawn_target",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.allDrainsTheSource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "allDrainsTheSource",
+      "local_test": "all_drains_the_source",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.constructorGuardsRejectInvalidSizes",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "constructorGuardsRejectInvalidSizes",
+      "local_test": "constructor_guards_reject_invalid_sizes",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.evaluateSeesTheFirstCandidateAtSizeZero",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "evaluateSeesTheFirstCandidateAtSizeZero",
+      "local_test": "evaluate_sees_the_first_candidate_at_size_zero",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.rejectAtSizeZeroKeepsDrawingForAFirstMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "rejectAtSizeZeroKeepsDrawingForAFirstMember",
+      "local_test": "reject_at_size_zero_keeps_drawing_for_a_first_member",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.resetRunsBeforeTheFirstEvaluateCall",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "resetRunsBeforeTheFirstEvaluateCall",
+      "local_test": "reset_runs_before_the_first_evaluate_call",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.minimumSizeBelowOneThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "minimumSizeBelowOneThrows",
+      "local_test": "minimum_size_below_one_throws",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.samplerStoppingBelowItsOwnMinimumSizeThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "samplerStoppingBelowItsOwnMinimumSizeThrows",
+      "local_test": "sampler_stopping_below_its_own_minimum_size_throws",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.dryStopWithoutSamplerStopReturnsNullNotAnException",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "dryStopWithoutSamplerStopReturnsNullNotAnException",
+      "local_test": "dry_stop_without_sampler_stop_returns_null_not_an_exception",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.pillarForwardsResetToTheWrappedSampler",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "pillarForwardsResetToTheWrappedSampler",
+      "local_test": "pillar_forwards_reset_to_the_wrapped_sampler",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.pillarForwardsEvaluateDecisionsUnchanged",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "pillarForwardsEvaluateDecisionsUnchanged",
+      "local_test": "pillar_forwards_evaluate_decisions_unchanged",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.pillarForwardsMinimumSizeAndEnforcesItThroughTheKeyedAssemble",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "pillarForwardsMinimumSizeAndEnforcesItThroughTheKeyedAssemble",
+      "local_test": "pillar_forwards_minimum_size_and_enforces_it_through_the_keyed_assemble",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.allReportsAnExpectedSizeWhenGivenOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "allReportsAnExpectedSizeWhenGivenOne",
+      "local_test": "all_reports_an_expected_size_when_given_one",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.betweenReportsItsDrawnTargetSizeAfterReset",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "betweenReportsItsDrawnTargetSizeAfterReset",
+      "local_test": "between_reports_its_drawn_target_size_after_reset",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.pillarForwardsTargetSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "pillarForwardsTargetSize",
+      "local_test": "pillar_forwards_target_size",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.assembleRejectsASamplerWhoseTargetSizeIsBelowItsMinimum",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "assembleRejectsASamplerWhoseTargetSizeIsBelowItsMinimum",
+      "local_test": "assemble_rejects_a_sampler_whose_target_size_is_below_its_minimum",
+      "modifications": "Preserve every size, membership, variation, consumption, ordering, forwarding and validation assertion using native Rust samplers, owned samples, Option, typed errors and seeded SampleRandom. Java PRNG traces and API parity are not claimed. Error wording is translated while retaining the specific invalid size contract.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.ofRemovesDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "ofRemovesDuplicates",
+      "local_test": "of_removes_duplicates",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.ofCopiesSoLaterMutationDoesNotLeak",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "ofCopiesSoLaterMutationDoesNotLeak",
+      "local_test": "of_copies_so_later_mutation_does_not_leak",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.ofAlwaysCopiesEvenASequencedSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "ofAlwaysCopiesEvenASequencedSet",
+      "local_test": "of_always_copies_even_a_sequenced_set",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.nullIsALegalMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "nullIsALegalMember",
+      "local_test": "null_is_a_legal_member",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.equalityIsOrderInsensitive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "equalityIsOrderInsensitive",
+      "local_test": "equality_is_order_insensitive",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.equalityToleratesNullMembers",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "equalityToleratesNullMembers",
+      "local_test": "equality_tolerates_null_members",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.differentMembersAreNotEqual",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "differentMembersAreNotEqual",
+      "local_test": "different_members_are_not_equal",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.equalityHoldsAcrossSetImplementations",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "equalityHoldsAcrossSetImplementations",
+      "local_test": "equality_holds_across_set_implementations",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SampleTest.equalityHoldsAcrossSetImplementationsAboveTheListThreshold",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "equalityHoldsAcrossSetImplementationsAboveTheListThreshold",
+      "local_test": "equality_holds_across_set_implementations_above_the_list_threshold",
+      "modifications": "Preserve membership, copying, equality and hash-consistency assertions using an owned native sample. Option replaces null; standard Rust set/vector inputs replace Java set implementations. No mutable aliasing or Java collection implementation parity is claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -18996,6 +19491,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "Retain ranges {1,2}/{1,3} and two initially null slots. Integer identities and native model setup replace Java entities, value codes and metamodel; fixture attribution only, no method credit."
+    },
+    {
+      "id": "SamplersTest.sourceOf.neighborhood_samples",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "sourceOf",
+      "modifications": "Native integer ranges retain sourceOf sizes/order; seed zero is retained with the independent native PRNG. Helper attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SamplersTest.seededRandom.neighborhood_samples",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SamplersTest.java",
+      "upstream_test": "seededRandom",
+      "modifications": "Native integer ranges retain sourceOf sizes/order; seed zero is retained with the independent native PRNG. Helper attribution only, no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ]
 }

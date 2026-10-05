@@ -1742,3 +1742,19 @@ provider methods retain their membership, validation, homogeneity and rollback
 assertions. Enumeration is finite and deterministic; Java random traces and provider
 retirement mechanics are not replicated. The retirement regression retains its
 observable distinct legal move set. Existing general pillar APIs remain unchanged.
+
+Reusable neighborhood sampling now supports fixed sizes, inclusive random bounds,
+source-draining rules, keyed resets and custom accept/reject/stop decisions.
+NeighborhoodSample owns distinct members, preserves encounter order for iteration,
+and compares/hashes without regard to order. Option represents nullable members.
+The assembler resets before validation/evaluation, reports explicit premature stops
+as errors, and returns None on source exhaustion below the declared minimum.
+Target size is a hint/contract; all-with-expected-size still drains the source.
+No hint-sized allocation or lookahead after a stop is performed. Accepted duplicates
+are ignored before evaluation; custom rejecting/draining rules require a bounded
+source when termination is required. Native seeded randomness is repeatable but
+neither Java PRNG traces nor unbiased member selection from ordered sources is claimed.
+Twenty-four SamplersTest and nine SampleTest methods retain all assertions using
+native APIs. Java mutable-alias wrap methods remain pending. Original checks cover
+boundary sizes, duplicate consumption, keyed lifecycle, rejection bounds, stop-only
+semantics and sampled composite providers in scoped and stream local search.

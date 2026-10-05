@@ -520,3 +520,9 @@ mod assignment_neighborhood;
 pub use assignment_neighborhood::{
     PillarChangeConfig, assign_moves, pillar_change_moves, pillar_unassign_moves, unassign_moves,
 };
+
+mod neighborhood_sample;
+pub use neighborhood_sample::{
+    KeyedSampler, NeighborhoodSample, PillarSampler, SampleDecision, SampleError, SampleRandom,
+    Sampler, SizeSampler, assemble_keyed_sample, assemble_sample,
+};
