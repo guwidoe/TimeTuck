@@ -1903,3 +1903,14 @@ lookup/sampling; variable_from_range explicitly materializes under a caller
 limit because the current solver still stores finite domains. Seven original checks
 cover overflow, wide double-ended skipping, rejected allocations, nested optional
 layers, stable snapshots, occurrence sampling and actual exact solving.
+
+Nine SampleValueRangesTest methods and two SampleValueRangesBiasIT methods now
+preserve membership across every selected domain, absence/exclusion rules,
+shared-range single lookup, identity-set equality, overflow-safe probe budgeting,
+exact empty-intersection results and random target validity. Both bias methods
+retain both parameter sets, 200000 trials per set and the original 5-sigma
+binomial threshold using root-seeded native randomness; Java traces are not
+compared. Six original regressions add exhaustive small intersections, operation
+budgets, exact fallback, stable identities, pin/no-op validation and group-change
+provider solving through both basic scoring backends. Scan exhaustion is a distinct
+error, never an empty-intersection claim. No new performance result is claimed.

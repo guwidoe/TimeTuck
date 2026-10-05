@@ -568,3 +568,9 @@ pub use value_range::{
     BooleanValueRange, CompositeValueRange, EnumeratedValueRange, IntegerValueRange,
     OptionalValueRange, ValueRange, ValueRangeError, ValueRangeIter, variable_from_range,
 };
+
+mod common_values;
+pub use common_values::{
+    CommonValueBudget, CommonValueError, CommonValueRanges, SharedValueRange,
+    intersection_probe_budget, sample_common_change,
+};

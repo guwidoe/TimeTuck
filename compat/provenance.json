@@ -18315,6 +18315,171 @@
       "upstream_test": "getIndexGreaterThanSize",
       "local_test": "boolean_get_index_greater_than_size",
       "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.of_sampleBased_excludesNullAndChecksLegalityAcrossEveryMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "of_sampleBased_excludesNullAndChecksLegalityAcrossEveryMember",
+      "local_test": "of_sample_based_excludes_null_and_checks_legality_across_every_member",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.of_solutionScoped_readsOneRangeForTheWholeSample",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "of_solutionScoped_readsOneRangeForTheWholeSample",
+      "local_test": "of_solution_scoped_reads_one_range_for_the_whole_sample",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.bailOutSizeOf_clampsHugeSizeInsteadOfOverflowing",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "bailOutSizeOf_clampsHugeSizeInsteadOfOverflowing",
+      "local_test": "bail_out_size_of_clamps_huge_size_instead_of_overflowing",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.pickExactly_returnsNullWhenIntersectionIsEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "pickExactly_returnsNullWhenIntersectionIsEmpty",
+      "local_test": "pick_exactly_returns_null_when_intersection_is_empty",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.pickExactly_excludesTheGivenValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "pickExactly_excludesTheGivenValue",
+      "local_test": "pick_exactly_excludes_the_given_value",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.findDestination_singleRangeReturnsAMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "findDestination_singleRangeReturnsAMember",
+      "local_test": "find_destination_single_range_returns_a_member",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.findDestination_singleRangeExcludesTheGivenValueEvenAsTheOnlyCandidate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "findDestination_singleRangeExcludesTheGivenValueEvenAsTheOnlyCandidate",
+      "local_test": "find_destination_single_range_excludes_the_given_value_even_as_the_only_candidate",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.findDestination_multiRangeReturnsAnIntersectionMemberOrNullWhenDisjoint",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "findDestination_multiRangeReturnsAnIntersectionMemberOrNullWhenDisjoint",
+      "local_test": "find_destination_multi_range_returns_an_intersection_member_or_null_when_disjoint",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.equals_ignoresOrderButNotMembership",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "equals_ignoresOrderButNotMembership",
+      "local_test": "equals_ignores_order_but_not_membership",
+      "modifications": "Retain all common-membership, null rejection, exclusion, disjoint/intersection, positive huge-budget and order-independent input-set equality assertions. Native borrowed variable domains replace entity meta-model lookups; an explicit shared-range fetch callback replaces one solution-wide MoveDirector lookup and its spy assertion. Arc identities preserve reused range objects; native None replaces Java null. Huge-size probing uses the same Long.MAX_VALUE count with saturating native u64 budgeting. Exact fallback limits are explicit native additions; Java API and PRNG trace parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesBiasIT.pickExactlyIsUniformOverTheIntersection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesBiasIT.java",
+      "upstream_test": "pickExactlyIsUniformOverTheIntersection",
+      "local_test": "pick_exactly_is_uniform_over_the_intersection",
+      "modifications": "Retain both exclusion parameter sets, exact source/expected memberships, 200000 trials per parameter set, reachability of every expected category and maximum 5-sigma binomial deviation. Root-seeded native IntegerValueRange random draws supply independent trial seeds in place of Java Random splitFrom; seeded traces are not compared. Native explicit fallback scan budget covers each finite fixture; the sampling path permits the original 100 rejection draws. Unexpected/out-of-intersection draws additionally fail. No additional method credit for parameter rows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesBiasIT.findDestinationIsUniformOverTheIntersectionViaSampling",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesBiasIT.java",
+      "upstream_test": "findDestinationIsUniformOverTheIntersectionViaSampling",
+      "local_test": "find_destination_is_uniform_over_the_intersection_via_sampling",
+      "modifications": "Retain both exclusion parameter sets, exact source/expected memberships, 200000 trials per parameter set, reachability of every expected category and maximum 5-sigma binomial deviation. Root-seeded native IntegerValueRange random draws supply independent trial seeds in place of Java Random splitFrom; seeded traces are not compared. Native explicit fallback scan budget covers each finite fixture; the sampling path permits the original 100 rejection draws. Unexpected/out-of-intersection draws additionally fail. No additional method credit for parameter rows."
     }
   ],
   "fixtures": [
@@ -22126,6 +22291,110 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
       "upstream_test": "createValueRange",
       "modifications": "Native test helpers retain complete ordered values, repeated exhaustion as None, bounded scripted draws and ordered child-list composition. Java exhausted-next exceptions become the Rust Iterator None contract. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesTest.HugeValueRange.getSize.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesTest.java",
+      "upstream_test": "HugeValueRange.getSize",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesBiasIT.pickExactlyArguments.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesBiasIT.java",
+      "upstream_test": "pickExactlyArguments",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleValueRangesBiasIT.findDestinationArguments.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SampleValueRangesBiasIT.java",
+      "upstream_test": "findDestinationArguments",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiasIT.splitFrom.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/AbstractBiasIT.java",
+      "upstream_test": "splitFrom",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BiasReport.tally.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "tally",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BiasReport.expectUniform.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectUniform",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BiasReport.assertWithinSigma.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "assertWithinSigma",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/common_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BiasReport.deviations.common_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "deviations",
+      "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
     }
   ]
 }

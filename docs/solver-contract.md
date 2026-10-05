@@ -1658,3 +1658,34 @@ explicit. It does not turn the solver into a lazy-domain engine. Duplicate value
 remain for FiniteProblem's ordinary validation to reject. An original exact-solve
 case verifies a combined arithmetic/explicit domain and an independently calculated
 optimum. Large-range support does not imply a new end-to-end performance result.
+
+## Common destinations for variable groups
+
+CommonValueRanges retains immutable shared range handles, deduplicating Arc
+identities without scanning values. Equality ignores handle order but preserves
+identity membership; equal contents in separate allocations do not imply equality.
+The first smallest range supplies candidate occurrences. for_variables borrows
+selected domains, deduplicating content-equal ordered slices and rejecting empty,
+repeated or invalid member IDs. from_shared_with performs one explicit fetch for a
+caller-established solution-wide range. Optional variables contribute assigned
+values only; absent destinations are rejected.
+
+pick_exact uses reservoir sampling over admissible occurrences of the smallest
+range, applying every domain and the optional excluded value. Distinct destinations
+are uniform for a unique source; duplicate source occurrences preserve their weight.
+A caller scan limit is checked before reading source values. find_target first
+performs bounded rejection draws, then the same exact scan. Its probe budget is
+capped by both the caller limit and a saturating ten-times-source-count bound.
+A ScanLimit error means search was inconclusive; Ok(None) means the admissible
+intersection was proven empty. A zero-size source needs neither probes nor reads.
+Native default limits are 64 random draws and 100000 exact source entries.
+Callbacks remain cooperative; these are operation bounds, not wall-clock deadlines.
+
+sample_common_change builds one ordinary Change or Composite for a selected group,
+including groups with different or unassigned starting values. It excludes a shared
+current value, rejects pinned members, checks model/domain/member validity, and
+preserves caller member order. It proposes assigned destinations only; existing
+unassignment neighborhoods handle null destinations separately. Generate it anew
+for each provider snapshot and let the existing model/score-director transaction
+handle evaluation, acceptance and rollback. An integration case escapes a local
+optimum requiring simultaneous changes through scoped and stream scoring.

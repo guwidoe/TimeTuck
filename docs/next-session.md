@@ -9908,3 +9908,40 @@ work/value-range-build.log,work/value-range-check.log. The interrupted intermedi
 check is retained in work/value-range-constructor-check.log. Final checks and
 freshness jobs completed. Previous turn made progress and committed e224515;
 this turn adds working range capabilities. The full rewrite goal remains active.
+
+## Common-value selection and sampled group changes
+
+Added CommonValueRanges over shared immutable indexed range handles. Arc identity
+sets deduplicate without traversing values; equality ignores handle order. Borrowed
+variable-domain construction deduplicates content-equal ordered slices and validates
+member IDs. Explicit solution-wide fetch runs once. Assigned destinations must
+belong to every input; absent destinations and excluded values are rejected.
+Exact selection uses a uniform reservoir over legal occurrences of the smallest
+source, with a preflight scan limit. Bounded rejection probes use the same source
+and fall back to an exact scan; oversized scans return ScanLimit rather than a
+false empty result. Ten-times-size probe budgets saturate at u64::MAX. Defaults
+are64 random draws and100000 exact entries. Duplicate source occurrences retain
+their weight; unique-source destinations are uniform. User range operations remain
+cooperative. Native seeds do not reproduce Java random traces.
+sample_common_change produces native Change/Composite moves for selected members,
+including heterogeneous/unassigned starting states. It excludes whole-group no-ops,
+rejects pins, and preserves member order. Model/director application and rollback
+remain unchanged. Both scoped and stream provider searches escape the tested
+single-change local optimum using the same sampled group change.
+Nine upstream unit methods and two parameterized bias methods are attributed,
+with eight helpers/fixtures. Bias tests retain both parameter rows each,200000
+trials per row, complete category reachability and the original5-sigma threshold.
+Root-seeded native trial draws replace Java splitFrom. Six original regressions
+cover exhaustive small intersections, exact/probe budgets and fallback, valid huge
+constant-value ranges, immutable identity boundaries, bad IDs, pins, rollback and
+actual provider solving. Focused checks passed; no production implementation read.
+Final check.sh exited zero:2482 Rust tests,134 doctests,fmt/Clippy;46 Python jobs
+reused. Only3 Rust targets ran (lib/two new suites),333 reused unchanged evidence.
+Affected executable prebuild20.92s. Source digest:
+331eb23362fa4cf285c0c848eba09ce859d3dcc6384aa02186320ade847a3fc9.
+Coverage1232/4855(25.376%),pending3341,excluded282,failed/unverified0. Live dashboard
+verification digest matches. No browser, release run or benchmark sweep; older
+performance measurements remain stale. Logs:work/common-values-focused.log,
+work/common-values-build.log,work/common-values-check.log. All jobs completed.
+Previous goal turn made verified progress and committed4f060ab. This batch adds
+usable intersection/group-move behavior; the full rewrite goal remains active.
