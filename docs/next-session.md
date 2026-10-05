@@ -10392,3 +10392,37 @@ evidence remains stale. Previous goal turn made progress via99ef767; this batch
 adds lifecycle-scoped domain selection. Full solver rewrite remains active.
 Dashboard freshness session68398 exited0 and matched the report digest. All batch
 process handles are terminal.
+
+## Assignment-aware sources and initialization gates
+
+GatedSelectionSource checks a context predicate before child size/open calls and
+forwards all lifecycle events. BasicSelectionContext/ListSelectionContext validate
+current assignments before borrowing them. BasicEntitySource selects all/movable/
+uninitialized indices; BasicValueSource retains domain order and optional None.
+Required, unassigned and unpinned variables need initialization; optional None is
+complete. ListValueSource selects all/assigned/unassigned/movable values in registry
+order, honoring whole-list/prefix pins for the movable mode. Destinations and no-op
+legality remain provider responsibilities. Four complete upstream reinitialization/
+unassigned-list methods and six PlannerAssert helpers are attributed. Six original
+regressions cover assignment changes, invalid contexts, unknown variables, disabled
+child calls and scored basic/list initialization in both backends. Generic construction
+providers, automatic lifecycle wiring and revision-aware entity-list caching remain
+separate work; local search still requires a complete starting assignment.
+Focused26813 failed for a missing native list Clone bound;81055 failed on a test
+ListFact tuple variant. Focused12958 passed four adaptations but integration tests
+incorrectly used local search with incomplete assignments. Reworked those tests to
+apply initialization moves through both score directors;34277 exposed missing
+structural penalties in expected intermediate scores. Corrected expectations;
+40866 passed all six regressions. No local-search semantics changed.
+Prebuild11.23s; final gate71740 exited0:2718 Rust tests,139 doctests,fmt/Clippy;
+3 Rust targets ran,363 reused;46 Python jobs reused. Aggregate exit0 and equal
+before/after source verified:
+2306a77a42191d49b669973392cd08ca57eb6aba04089453f5d87f99eb297ccd.
+Coverage1375/4855(28.321%),pending3198,excluded282,failed/unverified0. Logs:
+work/assignment-selection-focused-passed.log(adaptations pass, old integrations fail),
+work/assignment-selection-regression-passed.log,work/assignment-selection-build.log,
+work/assignment-selection-check.log. No browser/release/benchmark sweep; previous
+performance measurements stay stale. Previous goal turn progressed via62dd282;
+this batch adds usable current-assignment sources. Full rewrite remains active.
+Dashboard freshness session5524 exited0 and matched the report digest. All batch
+process handles are terminal.

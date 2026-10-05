@@ -20565,6 +20565,66 @@
       "upstream_test": "originalSelectionCacheTypeStep",
       "local_test": "filtering_step",
       "modifications": "Retain all six origin-dependent value sequences at every one of five steps across two phases, full source cardinality six despite two filtered candidates, and repeated exhaustion. Native list domains and explicit cache events replace Java descriptors/scopes; CoValues query arguments replace setting a manual mimic recorder and reading replayed values. Solve/phase/step cache boundaries are preserved. Native finite snapshot iterators express ending selection; lexical value-code ordering replaces TestdataObjectSorter. No Java object/reflection or random trace parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReinitializeVariableValueSelectorTest.oneVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/ReinitializeVariableValueSelectorTest.java",
+      "upstream_test": "oneVariable",
+      "local_test": "one_variable",
+      "modifications": "Preserve all four steps across two phases, entity-specific assignment changes, exact values/empty results, exact sizes, finite/repeated exhaustion, every child lifecycle count and at-most-four child size/open calls. Native indexed assignment context and a whole-source predicate replace Java variable descriptors; initialized targets never open the child."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReinitializeVariableValueSelectorTest.multiVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/ReinitializeVariableValueSelectorTest.java",
+      "upstream_test": "multiVariable",
+      "local_test": "multi_variable",
+      "modifications": "Preserve all four steps across two phases, independent primary/secondary assignments, exact secondary-value sequences, exact sizes, finite/repeated exhaustion, child lifecycle counts and at-most-four child size/open calls. Native primary/secondary slots replace Java descriptors; the target secondary variable alone gates selection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignedListValueSelectorTest.filterOutAssignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/UnassignedListValueSelectorTest.java",
+      "upstream_test": "filterOutAssignedValues",
+      "local_test": "filter_out_assigned_values",
+      "modifications": "Preserve five registered values with 1 and 3 assigned, selecting exactly 2,4,5 in registry order with size three and finite/repeated exhaustion. Native current list ownership replaces updated Java shadow fields. A step-scoped SelectionCache of ListValueSource provides equivalent global, entity-independent and ending immutable views; no entity-specific filter is introduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignedListValueSelectorTest.requireEndingChildValueSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/UnassignedListValueSelectorTest.java",
+      "upstream_test": "requireEndingChildValueSelector",
+      "local_test": "require_ending_child_value_selector",
+      "modifications": "Preserve rejection of a declared never-ending child before size/open calls. Native SelectionCache, which supplies the finite unassigned-value snapshot, rejects the source with UnboundedSource instead of Java IllegalArgumentException."
     }
   ],
   "fixtures": [
@@ -25689,6 +25749,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
       "upstream_test": "sort",
       "modifications": "Native ordered value-code identities replace ascending Java test-object code comparison. No sorter identity caching or extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfValueSelectorForEntity.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelectorForEntity",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfValueSelector.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelector",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.assignment_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Native string candidates and explicit event counters preserve sequence, cardinality, finite/repeated exhaustion and lifecycle assertions. Helpers earn no extra method credit."
     }
   ]
 }

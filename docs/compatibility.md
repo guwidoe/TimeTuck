@@ -2100,3 +2100,19 @@ seeded view sampling and basic solving in both backends. Java manual mimic state
 is replaced by explicit current-origin queries. Pins/positions and dynamic model
 changes still require normal provider checks and an appropriate cache scope.
 No new performance comparison is claimed.
+
+Four reinitialization/unassigned-list selector methods now preserve all target-only
+initialization checks, finite values and sizes, lifecycle forwarding, child call
+bounds and rejection of repeating children for a finite snapshot. GatedSelectionSource
+suppresses child size/open calls when its context predicate is false. Validated
+BasicSelectionContext/ListSelectionContext expose current assignments; native
+sources select all/movable/uninitialized basic entities, ordered basic domain
+values (including optional None), and all/assigned/unassigned/movable list values.
+Uninitialized means required, unassigned and unpinned; optional None is complete.
+Whole-list/prefix pins affect movable list values. Six original regressions check
+current-state changes, invalid contexts, disabled children and initialization via
+scoring transactions in both backends for basic/list models, including structural
+penalties until completion. Local search still requires complete initial assignments;
+these sources do not add a generic construction-provider entry point or automatic
+solver lifecycle wiring. Revision-aware entity-list caching remains separate work.
+No new performance comparison is claimed.

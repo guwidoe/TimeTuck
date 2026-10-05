@@ -638,3 +638,10 @@ pub use reachability_cache::{
     BasicRangeSource, ListRangeSource, ReachabilityCache, ReachabilityCacheError,
     ReachabilityQuery, ReachabilityRange,
 };
+
+mod assignment_selection;
+pub use assignment_selection::{
+    BasicEntitySelection, BasicEntitySource, BasicSelectionContext, BasicValueContext,
+    BasicValueSource, GatedSelectionSource, ListSelectionContext, ListValueSelection,
+    ListValueSource,
+};

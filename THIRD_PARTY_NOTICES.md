@@ -646,3 +646,10 @@ and the ascending comparator intent of `TestdataObjectSorter` (Apache-2.0).
 Exact source identities and native lifecycle/query substitutions are recorded in
 `compat/provenance.json`. Cache/index composition, native domain sources and
 additional regressions are independently written.
+
+`crates/solver/tests/assignment_selection_cases.rs` adapts four methods from pinned
+Community `ReinitializeVariableValueSelectorTest` and `UnassignedListValueSelectorTest`,
+plus `PlannerAssert` sequence/metadata/lifecycle helpers (Apache-2.0). Exact paths,
+revision and native context/gate/snapshot substitutions are recorded in
+`compat/provenance.json`. Native assignment sources, gating and additional regression
+tests are independently implemented.
