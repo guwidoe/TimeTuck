@@ -19980,6 +19980,306 @@
       "upstream_test": "originalSelection",
       "local_test": "value_original_selection",
       "modifications": "Retain all three codes, the precise interleaving of recording/replay availability and next calls, duplicate availability checks, temporary replay exhaustion, final repeated exhaustion, finite metadata, both size3 assertions, all lifecycle forwarding counts across two phases/three steps and exactly three child iterator openings. Native string codes replace Java test objects; one recording owner forwards lifecycle events while replay views share invalidation, instead of receiving separate Java callbacks. Rust availability prefetches one unpublished source item; publication occurs only on recording next. Child metadata is captured/refreshed explicitly; no Java iterator API or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelectionNotIgnoringEmpty",
+      "local_test": "original_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelectionIgnoringEmpty",
+      "local_test": "original_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyFirstOriginSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyFirstOriginSelectionNotIgnoringEmpty",
+      "local_test": "empty_first_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyFirstOriginSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyFirstOriginSelectionIgnoringEmpty",
+      "local_test": "empty_first_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptySecondOriginSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptySecondOriginSelectionNotIgnoringEmpty",
+      "local_test": "empty_second_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptySecondOriginSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptySecondOriginSelectionIgnoringEmpty",
+      "local_test": "empty_second_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyAllOriginSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyAllOriginSelectionNotIgnoringEmpty",
+      "local_test": "empty_all_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyAllOriginSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyAllOriginSelectionIgnoringEmpty",
+      "local_test": "empty_all_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "local_test": "original_three_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelection3ChildMoveSelectorsIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection3ChildMoveSelectorsIgnoringEmpty",
+      "local_test": "original_three_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "local_test": "empty_original_three_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection3ChildMoveSelectorsIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection3ChildMoveSelectorsIgnoringEmpty",
+      "local_test": "empty_original_three_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Original traversal retains last-child-fastest order and repeated exhaustion; indexed immutable pools replace restartable Java child iterators."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.classicRandomSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "classicRandomSelectionNotIgnoringEmpty",
+      "local_test": "random_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.classicRandomSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "classicRandomSelectionIgnoringEmpty",
+      "local_test": "random_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelectionNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelectionNotIgnoringEmpty",
+      "local_test": "empty_random_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelectionIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelectionIgnoringEmpty",
+      "local_test": "empty_random_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.randomSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "randomSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "local_test": "random_three_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.randomSelection3ChildMoveSelectorsIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "randomSelection3ChildMoveSelectorsIgnoringEmpty",
+      "local_test": "random_three_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelection3ChildMoveSelectorsNotIgnoringEmpty",
+      "local_test": "empty_random_three_not_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelection3ChildMoveSelectorsIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelection3ChildMoveSelectorsIgnoringEmpty",
+      "local_test": "empty_random_three_ignoring",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Independent per-child scripted index cycles reproduce the mocked selector sequences. Native random sampling supports injected bounded indices and seeded uniform child draws, without Java PRNG trace parity."
     }
   ],
   "fixtures": [
@@ -22971,7 +23271,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit. Complete independent-product behavior is now adapted separately in selection_product_cases.rs; the original fixture still earns no additional method credit."
     },
     {
       "id": "CartesianProductMoveSelectorTest.emptyOriginSelection.enumeration_fixture",
@@ -22984,7 +23284,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit. Complete independent-product behavior is now adapted separately in selection_product_cases.rs; the original fixture still earns no additional method credit."
     },
     {
       "id": "CartesianProductMoveSelectorTest.originSelection3ChildMoveSelectors.enumeration_fixture",
@@ -22997,7 +23297,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit. Complete independent-product behavior is now adapted separately in selection_product_cases.rs; the original fixture still earns no additional method credit."
     },
     {
       "id": "CartesianProductMoveSelectorTest.emptyOriginSelection3ChildMoveSelectors.enumeration_fixture",
@@ -23010,7 +23310,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit. Complete independent-product behavior is now adapted separately in selection_product_cases.rs; the original fixture still earns no additional method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -24610,6 +24910,240 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCode",
       "modifications": "Retain exact lifecycle event counts and code equality. Native shared lifecycle invalidation and string comparisons replace Java mocks/CodeAssertable conversion; this helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelection.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.originSelection3ChildMoveSelectors.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection3ChildMoveSelectors",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection3ChildMoveSelectors.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection3ChildMoveSelectors",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.classicRandomSelection.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "classicRandomSelection",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelection.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelection",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.randomSelection3ChildMoveSelectors.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "randomSelection3ChildMoveSelectors",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.emptyRandomSelection3ChildMoveSelectors.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyRandomSelection3ChildMoveSelectors",
+      "modifications": "Preserve every exact code sequence/prefix, empty-child policy, cardinality, original/repeating metadata and child lifecycle forwarding assertion. Native explicit events replace Java mocks/scopes; finite child snapshots are bounded and combinations remain lazy. Helper attribution earns no additional method credit; dependent mimic helpers are not adapted in this file."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfMoveSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfMoveSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingMoveSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertEmptyNeverEndingMoveSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertEmptyNeverEndingMoveSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingIterableSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterableSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingIterator.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterator",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_product_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertEmptyNeverEndingIterableSelector.selection_product",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertEmptyNeverEndingIterableSelector",
+      "modifications": "Preserve sequence/exhaustion, repeating/finite metadata, cardinality and lifecycle counts with native source events and composite joined string codes. Helper attribution earns no extra method credit."
     }
   ]
 }

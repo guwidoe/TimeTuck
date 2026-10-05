@@ -613,3 +613,8 @@ pub use selection_replay::{
     RecordingSelection, RecordingSelectionIter, ReplayingSelection, SelectionReplayCursor,
     SelectionReplayError,
 };
+
+mod selection_product;
+pub use selection_product::{
+    ProductSelectionIter, ProductSnapshot, SelectionProduct, SelectionProductError,
+};

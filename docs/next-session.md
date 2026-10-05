@@ -10235,3 +10235,36 @@ measurements remain stale. Previous goal turn progressed via53c728c; this batch
 adds shared dependent-choice coordination. Full solver rewrite remains active.
 Dashboard freshness session88709 exited0 and matched report digest. All batch
 process handles are terminal.
+
+## Bounded independent selection products and random composite rows
+
+SelectionProduct now forwards child lifecycle events and captures each independent
+finite child under an explicit per-child limit. ProductSnapshot shares non-Clone
+occurrences, preserves duplicate identity and lazily enumerates/indexes combinations
+with checked u128 cardinality. Seeded or injected sampling draws independently from
+each nonempty child; injected callbacks retain original child indices. Empty-child
+policies include zero/all-empty products, and repeating metadata remains true for
+empty random iteration. Source collection/metadata errors publish no snapshot;
+callback side effects are not rolled back. Existing MoveProduct remains the lazy
+restartable-factory API. Dependent suffixes/four mimic-product methods stay pending.
+Twenty independent upstream product methods and eighteen helpers are attributed;
+earlier enumeration fixtures keep their partial attribution without duplicate credit.
+Six original regressions compare all small products with the independent iterator,
+index 2^100 combinations, reject cardinality overflow and source bounds/mismatches,
+verify non-Clone ownership and seeded/scripted sampling, and solve composite moves
+through both basic backends in ordered/random modes. The first focused integration
+run selected the first improving move under default policy; set BestAccepted for
+the test's best-of-product assertion. No production correction was required.
+Focused cases passed in session51463 (aggregate101 due to that assertion); corrected
+regressions passed in session35765. Prebuild14.41s; final gate27816 exited0:
+2664 Rust tests,139 doctests,fmt/Clippy;3 Rust targets ran,353 reused;46 Python jobs
+reused. Aggregate exit0 and equal before/after source verified:
+77f7b736b2d92ae1dce1de79df5cd74c1279d8cc50a3a5f17a209dc46d4d9196.
+Coverage1352/4855(27.848%),pending3221,excluded282,failed/unverified0. Logs:
+work/selection-product-focused.log,work/selection-product-regression-final.log,
+work/selection-product-build.log,work/selection-product-check.log. No browser/release/
+benchmark sweep; older performance evidence remains stale. Previous goal turn
+progressed viad6dafec; this batch adds bounded independent product composition.
+Full independent solver rewrite remains active.
+Dashboard freshness session67483 exited0 and matched report digest. All batch
+process handles are terminal.

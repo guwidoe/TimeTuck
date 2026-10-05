@@ -609,3 +609,11 @@ and `MimicReplayingValueSelectorTest`, with `PlannerAssert` lifecycle/code helpe
 (Apache-2.0). Exact paths, revision and native lifecycle/iterator substitutions
 appear in `compat/provenance.json`. The shared publication channel, recording/replay
 API and separate regression tests are independently written.
+
+`crates/solver/tests/selection_product_cases.rs` adapts twenty independent-product
+methods and eight fixture helpers from pinned Community
+`CartesianProductMoveSelectorTest`, plus `PlannerAssert` sequence/metadata/lifecycle
+helpers (Apache-2.0). Exact paths, revision and native snapshot/randomness
+substitutions are in `compat/provenance.json`. Earlier MoveProduct fixtures retain
+their separate partial attribution. Snapshot composition and additional regressions
+are independently implemented.

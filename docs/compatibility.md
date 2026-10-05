@@ -1696,9 +1696,10 @@ MoveProduct exposes the underlying lazy generic product with restartable indepen
 child factories, last-child-fastest ordering and explicit empty-child policy. It
 retains only current child items/iterators; input sequences are not materialized.
 Four CartesianProductMoveSelector test helpers supply attributed partial enumeration
-fixtures. Their Java lifecycle, selector size/countability, random and mimic contracts
-remain unadapted; this increment earns no additional upstream-method coverage.
-Original state-space and solver-trap checks establish native behavior separately.
+fixtures, which earn no method credit by themselves. Independent-product lifecycle,
+size and random contracts are completed by the later SelectionProduct adaptation
+below; dependent mimic contracts remain pending. Original state-space and
+solver-trap checks establish native behavior separately.
 
 Custom MoveProvider implementations now supply candidates to six local-search
 entry points (basic/list/mixed, scoped/stream scoring). Providers receive a read-only
@@ -2027,3 +2028,16 @@ ownership and scope invalidation, abandoned lookahead, source unwinding and repl
 coordinated composite moves in both basic backends. Channels are thread-local and
 parent lifecycle remains explicit. No Java PRNG, threading or performance claim
 is introduced.
+
+Twenty independent Cartesian-product selector methods now preserve all ordered
+and scripted random sequences, zero/empty-child policies, cardinality and every
+child lifecycle count. This completes the behavior left partial in the earlier
+MoveProduct enumeration fixtures. SelectionProduct bounds finite child collection
+and returns immutable shared occurrence pools; combinations stay lazy, with u128
+cardinality/indexing and explicit overflow errors. Random rows independently sample
+each nonempty child, retaining original child indices in injected draw callbacks.
+Six original regressions cover exhaustive small products, enormous indexed counts,
+collection/metadata failures, non-Clone sharing, seeded/scripted sampling and
+composite-move solving in both basic backends. Captured child pools are independent;
+context-dependent suffixes and the four mimic-product methods remain pending.
+No Java PRNG trace or new performance comparison is claimed.
