@@ -39,6 +39,7 @@ fn exercise_variable<'a>(
         c.limits,
         &c.phases,
         || InitialState {
+            movable: true,
             assignment: p.initial_assignment(),
             complete: p.is_complete(&p.initial_assignment()),
         },

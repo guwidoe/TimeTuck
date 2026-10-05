@@ -82,7 +82,10 @@ impl<S> Default for SolverLimits<'_, S> {
         }
     }
 }
-/// Always construct first, then run the listed local-search phases in order.
+/// For movable models, construct first, then run local-search phases in order.
+/// Models with no unpinned basic variables or list entities only score their
+/// initial state; ordinary phases, commands and providers are skipped. Explicit
+/// exact-search plans still execute to retain their exhaustion/optimality contract.
 /// Each improvement phase starts from the retained best complete assignment,
 /// with fresh acceptor state and its configured random seed. Empty local_search
 /// means construction only. A shared deadline can bound every phase.
@@ -119,7 +122,7 @@ impl<S> Default for MixedSolverConfig<'_, S> {
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct SolverWork {
-    /// Includes construction/local-search initialization; exact candidates need no rescore.
+    /// Includes initial-only scoring and phase initialization; exact candidates need no rescore.
     pub evaluations: u64,
     /// Candidates, including exact assignments; initialization and diagnostics are excluded.
     pub move_evaluations: u64,
@@ -169,7 +172,8 @@ pub struct PhaseReport<S> {
 pub enum SolverTermination {
     /// The configured solve-wide expression became true.
     Condition,
-    /// All planned phases ended, possibly at their own limits. Not optimality.
+    /// All planned phases ended, or were skipped for a model without movable
+    /// entities. This does not establish optimality.
     PlanCompleted,
     /// A complete scored solution and an exhausted exact search. Pruned branches
     /// count as exhausted only under the configured caller bound contract.
@@ -211,6 +215,10 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// Scoring or graph preparation failed before any configured phase ran.
+    InitialScoring {
+        error: E,
+    },
     Repair {
         phase: usize,
         error: RuinRecreateError,
@@ -261,6 +269,7 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InitialScoring { error } => write!(f, "initial scoring failed: {error}"),
             Self::InvalidScoreTrend { phase, error } => write!(f, "phase {phase}: {error}"),
             Self::InvalidOptimisticBound {
                 phase,
@@ -298,6 +307,7 @@ impl<E: fmt::Display> fmt::Display for SolverError<E> {
 impl<E: Error + 'static> Error for SolverError<E> {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::InitialScoring { error } => Some(error),
             Self::InvalidAcceptance { error, .. } => Some(error),
             Self::InvalidScoreTrend { error, .. } => Some(error),
             Self::Phase { error, .. } => Some(error),
@@ -474,6 +484,9 @@ fn smaller(a: Option<u64>, b: Option<u64>) -> Option<u64> {
 /// Native origin of a retained-best update within a solve plan.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolverPhaseKind {
+    /// Initial score only: no configured phase ran because every entity is pinned
+    /// or absent. The accompanying phase index is zero.
+    Initial,
     Custom,
     Construction,
     LocalSearch,
@@ -482,6 +495,7 @@ pub enum SolverPhaseKind {
 }
 /// A synchronous retained-best update from one ordered solve. Phase indices refer
 /// to the explicit sequence; converted plans prepend construction at zero.
+/// Initial-only scoring uses index zero and kind Initial, with no phase report.
 /// Equal or worse phase-initial scores are suppressed across phase boundaries.
 /// Native phase metadata is not a Java event-producer identity. Borrowed state
 /// must be cloned for asynchronous publication. Observers must not mutate facts.
@@ -560,6 +574,7 @@ struct PlanObservation<'a, A, S> {
     callback: PlanObserver<'a, A, S>,
     score: Option<S>,
     complete: bool,
+    initial_only: bool,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn new(callback: PlanObserver<'a, A, S>) -> Self {
@@ -567,6 +582,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             callback,
             score: None,
             complete: false,
+            initial_only: false,
         }
     }
     fn initialize(
@@ -621,7 +637,11 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             self.complete = update.complete;
             let update = SolverUpdate {
                 phase,
-                kind,
+                kind: if self.initial_only {
+                    SolverPhaseKind::Initial
+                } else {
+                    kind
+                },
                 assignment: update.assignment,
                 score: update.score,
                 complete: update.complete,
@@ -648,6 +668,7 @@ impl<S> PhaseRequest<'_, S> {
 struct InitialState<A> {
     assignment: A,
     complete: bool,
+    movable: bool,
 }
 fn run<A, S: AdditiveScore, E>(
     limits: SolverLimits<'_, S>,
@@ -796,6 +817,85 @@ where
         phases: Vec::new(),
         termination: SolverTermination::PlanCompleted,
     };
+    if !initial.movable && !local.iter().any(|p| matches!(p, SolverPhase::Exact(_))) {
+        // Reuse the score-director initialization kernel with no user command.
+        // This is not an entered custom phase and therefore produces no phase
+        // report or FirstInitialized event. All plan validation above still runs.
+        if time.condition_reached() {
+            result.termination = SolverTermination::Condition;
+            return Ok(result);
+        }
+        if result.complete && limits.max_evaluations == 0 {
+            result.termination = SolverTermination::EvaluationLimit;
+            return Ok(result);
+        }
+        if result.complete
+            && limits
+                .cancellation
+                .is_some_and(CancellationToken::is_cancelled)
+        {
+            result.termination = SolverTermination::Cancelled;
+            return Ok(result);
+        }
+        observation.initial_only = true;
+        let out = phase(
+            0,
+            Some(result.assignment.clone()),
+            PhaseRequest::Custom(
+                CustomPhaseConfig {
+                    // A frozen incomplete assignment cannot become complete.
+                    // Still validate the score binding, before budget/cancel gates,
+                    // using the director kernel's unscored entry path.
+                    max_evaluations: if result.complete {
+                        limits.max_evaluations
+                    } else {
+                        0
+                    },
+                    max_move_evaluations: limits.max_move_evaluations,
+                    cancellation: limits.cancellation,
+                    max_time: None,
+                },
+                limits.best_score_limit.clone(),
+                limits.stop_when_feasible,
+            ),
+            &mut time,
+            observation,
+        )
+        .map_err(|error| match error {
+            SolverError::Custom {
+                error: CustomPhaseError::Scoring(error),
+                ..
+            }
+            | SolverError::Phase { error, .. } => SolverError::InitialScoring { error },
+            other => other,
+        })?;
+        result.assignment = out.assignment.expect("initial scoring retains assignment");
+        result.complete = out.complete;
+        result.score = out.score;
+        result.work = out.work;
+        if !result.complete {
+            result.termination = SolverTermination::NoCompleteAssignment;
+            return Ok(result);
+        }
+        let PhaseTermination::Custom(reason) = out.termination else {
+            unreachable!("initial scoring uses the custom director kernel")
+        };
+        use CustomPhaseTermination as C;
+        result.termination = match reason {
+            C::Completed if result.complete => SolverTermination::PlanCompleted,
+            C::Completed => SolverTermination::NoCompleteAssignment,
+            C::EvaluationLimit => SolverTermination::EvaluationLimit,
+            C::MoveEvaluationLimit => SolverTermination::MoveEvaluationLimit,
+            C::TimeLimit => SolverTermination::TimeLimit,
+            C::Cancelled => SolverTermination::Cancelled,
+            C::UnimprovedTimeLimit => SolverTermination::UnimprovedTimeLimit,
+            C::UnimprovedStepLimit => SolverTermination::UnimprovedStepLimit,
+            C::Condition => SolverTermination::Condition,
+            C::BestScoreLimit => SolverTermination::BestScoreLimit,
+            C::FeasibleScore => SolverTermination::FeasibleScore,
+        };
+        return Ok(result);
+    }
     for index in 0..local.len() {
         if time.condition_reached() {
             result.termination = SolverTermination::Condition;
@@ -1224,6 +1324,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.variables().iter().any(|v| !v.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -1260,6 +1361,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -1272,7 +1374,13 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config,
                     |a| p.is_complete(a),
                     |a| ScoreDirector::new(p, n, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,
@@ -1502,6 +1610,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -1538,6 +1647,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -1550,7 +1660,13 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config,
                     |a| p.is_complete(a),
                     |a| ListScoreDirector::new(p, n, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,
@@ -1728,6 +1844,8 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.basic().variables().iter().any(|v| !v.is_pinned())
+                || p.lists().entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -1780,6 +1898,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -1792,7 +1911,13 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                     config,
                     |a| p.is_complete(a),
                     |a| MixedScoreDirector::new(p, n, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,
@@ -2000,6 +2125,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.variables().iter().any(|v| !v.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -2040,6 +2166,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -2058,7 +2185,13 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                     config,
                     |a| p.is_complete(a),
                     |a| StreamScoreDirector::new(p, g, s, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,
@@ -2262,6 +2395,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -2302,6 +2436,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -2320,7 +2455,13 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                     config,
                     |a| p.is_complete(a),
                     |a| ListStreamScoreDirector::new(p, g, s, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,
@@ -2532,6 +2673,8 @@ fn solve_mixed_stream_impl<
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            movable: p.basic().variables().iter().any(|v| !v.is_pinned())
+                || p.lists().entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
         }
@@ -2589,6 +2732,7 @@ fn solve_mixed_stream_impl<
             let request = request.with_time(time);
             let observed = observation.callback.is_some();
             let kind = request.kind();
+            let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                 observation.notify(index, kind, update)
             };
@@ -2607,7 +2751,13 @@ fn solve_mixed_stream_impl<
                     config,
                     |a| p.is_complete(a),
                     |a| MixedStreamScoreDirector::new(p, g, s, a),
-                    |context| command.as_mut().expect("validated custom callback")(index, context),
+                    |context| {
+                        if initial_only {
+                            Ok(())
+                        } else {
+                            command.as_mut().expect("validated custom callback")(index, context)
+                        }
+                    },
                     &mut notify,
                     time.monitor(),
                     target,

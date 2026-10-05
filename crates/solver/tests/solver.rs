@@ -392,14 +392,15 @@ fn impossible_models_and_invalid_networks_keep_their_reasons_at_zero_budget() {
         },
     )
     .unwrap();
-    for (reason, work, count) in [
-        (b.termination, b.work, b.phases.len()),
-        (l.termination, l.work, l.phases.len()),
-        (m.termination, m.work, m.phases.len()),
+    for (reason, work, count, expected_phases) in [
+        (b.termination, b.work, b.phases.len(), 1),
+        // The empty list model now fails initialization without entering construction.
+        (l.termination, l.work, l.phases.len(), 0),
+        (m.termination, m.work, m.phases.len(), 1),
     ] {
         assert_eq!(reason, SolverTermination::NoCompleteAssignment);
         assert_eq!(work, SolverWork::default());
-        assert_eq!(count, 1);
+        assert_eq!(count, expected_phases);
     }
     assert!(matches!(
         solve(p.basic(), &ConstraintNetwork::new(0), c.clone()),
@@ -407,7 +408,7 @@ fn impossible_models_and_invalid_networks_keep_their_reasons_at_zero_budget() {
     ));
     assert!(matches!(
         solve_list(p.lists(), &ListConstraintNetwork::new(1, 1), c.clone()),
-        Err(SolverError::Phase { phase: 0, .. })
+        Err(SolverError::InitialScoring { .. })
     ));
     assert!(matches!(
         solve_mixed(

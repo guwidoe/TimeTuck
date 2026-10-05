@@ -61,6 +61,9 @@ fn run<S: AdditiveScore + 'static>(
                 }
                 Err(SolverError::Repair { .. }) => panic!("fixture has no repair phases"),
                 Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
+                Err(SolverError::InitialScoring { .. }) => {
+                    panic!("fixture models have movable entities")
+                }
                 Err(SolverError::InvalidMoveProviderPhase { .. }) => {
                     panic!("fixture has no provider bindings")
                 }

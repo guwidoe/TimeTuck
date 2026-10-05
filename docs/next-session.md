@@ -9810,3 +9810,32 @@ remain stale. Logs:work/list-move-builder-focused.log,work/list-move-builder-bui
 work/list-move-builder-check.log. All jobs completed; no failures remained.
 The previous turn made verified implementation progress and committed568629c.
 This batch also makes implementation progress; the full rewrite remains active.
+
+## Frozen-model solver lifecycle
+
+Ordinary solve plans now skip phases when no basic variable or list entity is
+movable, across all six backends. Complete initial assignments score once, emit
+an Initial best event, and run no user commands/providers or FirstInitialized
+notification. Explicit exact-search plans remain unchanged to preserve native
+exhaustion/optimality. Prefix-pinned lists remain movable; either movable mixed
+component preserves normal phase execution. Incomplete frozen lists validate
+score bindings and return NoCompleteAssignment unscored, ahead of evaluation and
+cancellation gates. Complete frozen models honor those gates before initialization.
+Initialization errors use InitialScoring rather than claiming a phase ran.
+Three complete DefaultSolverTest methods and five test helpers are attributed.
+Nine original regressions cover actual scores, all backends, mobility, limits,
+callbacks, bindings and failures. No production implementation was consulted.
+The first broad run found three existing regressions in exact empty models and
+zero-budget impossible models; production behavior was corrected, preserving
+optimality/reason/work assertions. Only the ordinary empty-list phase/error
+metadata expectation changed to reflect the new initialization boundary.
+Final check.sh exited zero:2412 Rust tests,131 doctests,fmt/Clippy;46 Python jobs
+reused. Shared solver changes ran276 Rust targets;54 reused successful evidence.
+The final affected executable prebuild took3m08s. Source digest:
+5e6a1dd067f69ebdf2a5e3a78a5e26678e1c6d89f366435550acd7bed11fe79a.
+Coverage1183/4855(24.367%),pending3390,excluded282,failed/unverified0.
+Logs:work/frozen-solver-build.log,work/frozen-solver-check.log. Earlier failed runs
+are superseded by this successful final state; aggregate Rust metadata exit0 was
+checked explicitly. Live dashboard verification digest matches the generated report.
+No browser, benchmark sweep or release rerun; older performance measurements remain
+stale. Full rewrite remains active.

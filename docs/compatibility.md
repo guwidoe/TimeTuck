@@ -1867,3 +1867,15 @@ directors are replaced by draft construction plus stream-director replay/rollbac
 Notification-specific replacement/shift methods remain pending. Four original
 regressions cover exhaustive small indices, failed/panicking edits, draft forks,
 compound score consistency and local-search solving in both scoring backends.
+
+Ordinary empty and fully pinned solves now score their initial state without
+entering configured phases, commands or providers, across all six scoring paths.
+Explicit exact-search plans retain their phase/exhaustion/optimality contract. Mixed
+models require both components to be frozen; prefix-pinned lists remain movable.
+Initial events, work counts, global limits and initialization errors are explicit;
+incomplete frozen lists validate bindings and report NoCompleteAssignment before
+budget gates, without scoring or claiming a complete/optimal solution. Three
+DefaultSolverTest empty/pinned methods retain every
+assertion and helper-required event check, mapping solvingStarted to native Initial.
+Nine original checks exercise model/backend coverage and lifecycle boundaries.
+See solver-contract.md for validation, limits and event semantics.

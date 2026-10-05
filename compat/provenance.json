@@ -17700,6 +17700,51 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "DefaultSolverTest.solveEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveEmptyEntityList",
+      "local_test": "solve_empty_entity_list",
+      "modifications": "Preserve empty/all-pinned entity fixtures, non-invocation of the failing custom command, initialized/result-score assertions, and helper-required best-event presence. For the exact event case, native Initial origin and zero score replace the Java solvingStarted event. Native basic domains belong to variables; the empty-entity fixture has no native global registry for its two unused Java values. Empty and pinned solves return a native scored result without phase reports; Java event class/reflection parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultSolverTest.solveEmptyEntityListAndEmptyValueList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveEmptyEntityListAndEmptyValueList",
+      "local_test": "solve_empty_entity_list_and_empty_value_list",
+      "modifications": "Preserve empty/all-pinned entity fixtures, non-invocation of the failing custom command, initialized/result-score assertions, and helper-required best-event presence. For the exact event case, native Initial origin and zero score replace the Java solvingStarted event. Native basic domains belong to variables; the empty-entity fixture has no native global registry for its two unused Java values. Empty and pinned solves return a native scored result without phase reports; Java event class/reflection parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultSolverTest.solvePinnedEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solvePinnedEntityList",
+      "local_test": "solve_pinned_entity_list",
+      "modifications": "Preserve empty/all-pinned entity fixtures, non-invocation of the failing custom command, initialized/result-score assertions, and helper-required best-event presence. For the exact event case, native Initial origin and zero score replace the Java solvingStarted event. Native basic domains belong to variables; the empty-entity fixture has no native global registry for its two unused Java values. Empty and pinned solves return a native scored result without phase reports; Java event class/reflection parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -21350,6 +21395,71 @@
       "modifications": "Retain initialized modulo assignment for three values/two basic slots and round-robin six values/two lists using native integer IDs and explicit initial assignments. Native models replace Java descriptors and shadow initialization. Helper attribution only; no additional method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultSolverTest.FailCommand.changeWorkingSolution.frozen_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "FailCommand.changeWorkingSolution",
+      "modifications": "Native custom-only plan, a throwing callback and zero-score network retain the fixtures: no movable entity must invoke the callback; successful solves require best-event presence, with exact initial event comparison where requested. Default construction/local phases are replaced by the custom-only phase override used by these tests. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PlannerTestUtils.buildSolverConfig.frozen_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig",
+      "modifications": "Native custom-only plan, a throwing callback and zero-score network retain the fixtures: no movable entity must invoke the callback; successful solves require best-event presence, with exact initial event comparison where requested. Default construction/local phases are replaced by the custom-only phase override used by these tests. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PlannerTestUtils.solve.frozen_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Native custom-only plan, a throwing callback and zero-score network retain the fixtures: no movable entity must invoke the callback; successful solves require best-event presence, with exact initial event comparison where requested. Default construction/local phases are replaced by the custom-only phase override used by these tests. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "PlannerTestUtils.solveAssertingEvents.frozen_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solveAssertingEvents",
+      "modifications": "Native custom-only plan, a throwing callback and zero-score network retain the fixtures: no movable entity must invoke the callback; successful solves require best-event presence, with exact initial event comparison where requested. Default construction/local phases are replaced by the custom-only phase override used by these tests. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DummySimpleScoreEasyScoreCalculator.calculateScore.frozen_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Native custom-only plan, a throwing callback and zero-score network retain the fixtures: no movable entity must invoke the callback; successful solves require best-event presence, with exact initial event comparison where requested. Default construction/local phases are replaced by the custom-only phase override used by these tests. Helper attribution only; no extra method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/frozen_solver_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

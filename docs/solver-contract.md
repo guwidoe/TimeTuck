@@ -1582,3 +1582,45 @@ order, modular collisions during diagnostics, all scoped models, and exact/const
 error propagation through all six solving paths. Existing modular regressions select
 Wrapping explicitly. No release-mode or timing rerun is needed for these explicit
 checked/wrapping operations; benchmark datasets remain stale.
+
+## Models without movable entities
+
+After the existing entry validation, ordinary solve plans skip their configured
+phases when all basic variables and list entities are absent or fully pinned.
+Plans containing an explicit exact-search phase still run normally, preserving
+their one-candidate empty/fixed search space and exhaustion/optimality contract.
+A mixed model skips only when both components meet the frozen condition.
+A prefix-pinned list is still movable: it can accept appended values, so a full
+current prefix must not trigger the shortcut. Other causes of an empty move
+neighborhood (ranges or scores) do not trigger this structural check.
+
+A complete initial assignment is scored once using the ordinary score director,
+without invoking user commands or move providers. A completed initial score records
+one evaluation and zero moves/steps; phases is empty. Stream factories run once to
+prepare or validate the binding. For complete models, zero evaluation budgets and
+early cancellation skip the factory too; impossible models still validate bindings.
+The best update has native kind Initial and index zero. No FirstInitialized event
+is emitted because no construction/custom/exact phase ran. Initial scoring and
+graph/source-validation failures use SolverError::InitialScoring. This changes the
+origin and work counts for empty and fully pinned solves, while movable models
+retain their prior phase behavior.
+
+Global evaluation/cancellation/expression gates can prevent scoring entirely.
+Other global limits and score targets retain the director kernel's precedence,
+including one initialization score with a zero candidate budget. Phase-local
+limits are not entered. Complete unrestricted results end with PlanCompleted;
+incomplete frozen lists validate their score binding and end with
+NoCompleteAssignment without scoring. This impossibility check precedes evaluation
+budget/cancellation gates, retaining native precedence and zero work. No new
+optimality claim is made by the shortcut. Empty plans, missing command
+bindings and invalid provider bindings still fail before the shortcut. Existing
+entry checks for cancellation consistency and local-search policies also run;
+phase-specific checks inside skipped phases are not entered.
+
+Three complete DefaultSolverTest methods retain empty/pinned fixtures, failing
+command non-invocation, score assertions and initial-best event behavior. Native
+Initial replaces the Java solvingStarted event origin. Native variable-owned
+domains have no separate unused global registry for the empty-entity fixture.
+Nine original checks cover all six backends, empty and pinned models, mixed
+component mobility, budgets/cancellation/targets, missing required list values,
+prefix appending, provider non-invocation, plan errors and initialization failures.
