@@ -509,3 +509,9 @@ pub use solver::{
     solve_mixed_stream_with_extensions, solve_mixed_with_extensions, solve_stream_with_extensions,
     solve_with_extensions,
 };
+
+mod list_sublist;
+pub use list_sublist::{
+    SubListChangeConfig, SubListSize, SubListSwapConfig, list_sublist_change_moves_with_config,
+    list_sublist_swap_moves_with_config, list_sublist_unassign_moves,
+};

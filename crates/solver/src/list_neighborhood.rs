@@ -172,6 +172,18 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+    match neighborhood {
+        Neighborhood::SubListChange(c) => {
+            return Box::new(crate::list_sublist::changes(p, a, c, order));
+        }
+        Neighborhood::SubListSwap(c) => {
+            return Box::new(crate::list_sublist::swaps(p, a, c, order));
+        }
+        Neighborhood::SubListUnassign(size) => {
+            return Box::new(crate::list_sublist::unassigns(p, a, size, order));
+        }
+        _ => {}
+    }
     if neighborhood == Neighborhood::Swap {
         return Box::new(swaps(p, a, order));
     }

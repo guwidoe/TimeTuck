@@ -1720,3 +1720,14 @@ Unbound phases retain built-in validation and neighborhoods. Shared limits, reta
 best handoffs and cancellation use the existing plan controls. Six original full-plan
 regressions cover composition and stopping behavior; no additional upstream-method
 credit is claimed for this integration.
+
+Configurable sublist neighborhoods add independently bounded swap sides, minimum
+relocation/unassignment lengths, reversal controls and model-aware unassignment.
+SubListChange, SubListSwap and SubListUnassign integrate with list/mixed scoped and
+stream search and weighted unions. Generators are lazy and deterministic, preserve
+pins and destination ranges, omit forward relocation no-ops and symmetric swap
+repeats, and never reverse a singleton/singleton swap. Twenty-one Community provider
+methods retain their observable assertions using native configuration and move
+metadata. Random distributions/lifecycle are not established. The default-maximum
+method remains pending: native defaults have no implicit sampling cap. Existing
+max-length-only sublist APIs retain their original enumeration contracts.

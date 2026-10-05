@@ -82,6 +82,13 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Configurable list-span relocations and optional unassignments.
+    /// Basic variables retain changes/swaps; mixed joint generation uses both.
+    SubListChange(crate::SubListChangeConfig),
+    /// Disjoint list-span exchanges with independently bounded sides.
+    SubListSwap(crate::SubListSwapConfig),
+    /// Contiguous unassignments of at least two values; requires optional lists.
+    SubListUnassign(crate::SubListSize),
     /// Bounded combined-cycle k-opt with sampled destination lengths.
     RepartitionKOpt(crate::ListKOptSampling),
     /// Bounded seeded cyclic k-opt proposals; search varies the seed per step.

@@ -9480,3 +9480,29 @@ Live dashboard freshness matches the report. Benchmark datasets remain stale;
 no benchmark, release-mode or browser rerun. Logs:work/provider-plans-check.log,
 work/provider-plans-test-build.log,work/provider-plans-lint-final.log,
 work/provider-plans-focused-final.log. Broad test compilation took5m56s.
+
+## Configurable sublist neighborhoods
+
+Added SubListSize, SubListChangeConfig and SubListSwapConfig with lazy typed APIs
+and SubListChange/SubListSwap/SubListUnassign neighborhood variants. Relocation and
+unassignment require minimum two; swaps allow singleton sides and independent
+bounds. Reversal is configurable; singleton/singleton swaps never reverse. Default
+unassignment follows the model; explicit true on required lists is rejected, as
+is standalone sublist unassignment on required lists. Default native maxima are
+unbounded, with bounds clamped to actual lists. No implicit sampling cap is claimed.
+Asymmetric swaps retain both physical placements and deduplicate symmetric pairs
+only when both orientations satisfy the bounds. Existing max-only APIs unchanged.
+Twenty-one full provider-method adaptations are attributed; default-maximum remains
+pending. Four original regressions cover independent state spaces, pins/ranges,
+rollback, all four list/mixed search backends and early validation at zero budget.
+The full rewrite goal remains active.
+Final check.sh passed:2207 Rust tests,121 doctests,fmt/Clippy;46 Python jobs reused.
+230 affected Rust targets ran and80 reused matching successful evidence.
+Rust source digest:173c648a562bae19e1850a991857c73461bc00fb861071768add1b8696520658.
+Coverage1037/4855(21.359%),pending3536,excluded282,failed/unverified0.
+Sublist provider families:change9/10,swap7/7,unassign5/5. Live dashboard freshness
+matches the report. Benchmark datasets remain stale; no benchmark, release-mode or
+browser rerun. Logs:work/sublist-controls-check.log,
+work/sublist-controls-test-build.log,work/sublist-controls-focused.log.
+Broad test compilation took10m21s. The initial lint clone-on-Copy warning was fixed;
+final check.sh includes the successful Clippy run.
