@@ -1879,3 +1879,15 @@ DefaultSolverTest empty/pinned methods retain every
 assertion and helper-required event check, mapping solvingStarted to native Initial.
 Nine original checks exercise model/backend coverage and lifecycle boundaries.
 See solver-contract.md for validation, limits and event semantics.
+
+Four RandomSubListSelectorTest methods now retain all span sequences, counts,
+prefix/unassigned fixtures and injected random bounds. The native index orders
+spans by entity, descending length and ascending start; repeated draws retain the
+source snapshot. Original checks cover multiple entities, exhaustive small rank
+spaces, large catalogs without value cloning, sampled relocation/exchange validity,
+rollback and provider solving with both list scoring backends. Native random
+sampling is uniform over eligible spans; multi-entity Java sampling probabilities
+and PRNG traces are not claimed. Empty-selection assertions are adapted as a
+fixture but that upstream method remains pending because Java never-ending metadata
+has no direct native property. Constructor-message and lifecycle methods remain
+pending. This batch adds no new performance measurements.

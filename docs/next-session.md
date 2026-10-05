@@ -9839,3 +9839,35 @@ are superseded by this successful final state; aggregate Rust metadata exit0 was
 checked explicitly. Live dashboard verification digest matches the generated report.
 No browser, benchmark sweep or release rerun; older performance measurements remain
 stale. Full rewrite remains active.
+
+## Direct random list-segment neighborhoods
+
+Added SubListSelection: per-entity count blocks index all movable nonempty ranges
+without value clones or a quadratic catalog. Ranks use entity order, descending
+length and ascending start. Whole pins, prefixes, optional missing values and
+inclusive bounds are handled. Lookup is logarithmic in entity/length counts after
+ordinary model validation. Immutable indices retain their source coordinates.
+Seeded or injected rank draws repeat with replacement; empty sources do no draws.
+Added sampled_sublist_change_moves and sampled_sublist_swap_moves for lazy, bounded
+relocation/reversal/unassignment and unequal-length exchanges. Separate attempt
+limits include range/overlap/no-op rejections; duplicates remain. Sampling is not
+uniform over legal moves. Search providers rebuild these from each step snapshot.
+Four complete upstream methods and four helper/partial-fixture entries are
+attributed. The empty-selection method stays pending because Java never-ending
+metadata has no direct native property; constructor/lifecycle methods also remain
+pending. No Java multi-entity distribution or PRNG trace parity is claimed.
+Five adapted local cases and seven original regressions cover exact rank spaces,
+large index/no cloning, laziness/reproducibility, snapshot retention, invalid and
+impossible sources, sampled-vs-enumerated neighborhoods, rollback, and actual
+provider solving with scoped and stream scoring. Initial focused compilation
+caught two test API mistakes; both were repaired before final verification.
+Final check.sh exited zero:2424 Rust tests,132 doctests,fmt/Clippy;46 Python jobs
+reused. Only3 Rust targets ran (lib/two new suites),329 reused unchanged evidence.
+Affected executable prebuild took7.49s. Source digest:
+b9504a08469dd6a223562b7f8da9aeffec38aacdb7178a48ea3d84cd4e3f0fc1.
+Coverage1187/4855(24.449%),pending3386,excluded282,failed/unverified0. Live dashboard
+verification digest matches. No browser, release run or benchmark sweep; older
+performance measurements remain stale. Logs:work/sublist-sampling-focused.log,
+work/sublist-sampling-build.log,work/sublist-sampling-check.log. All jobs completed.
+Previous goal turn made verified progress and committed d4f26b5; this turn adds
+usable sampling implementations. The full rewrite goal remains active.

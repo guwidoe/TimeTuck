@@ -781,3 +781,38 @@ Fifteen complete Community assignment methods preserve lists, element positions,
 unassigned states, errors and undo. Notification-specific shift/replacement methods
 remain pending. Original exhaustive small-index checks, failed-edit/panic recovery,
 branching drafts, both score-director paths and provider solving are separate.
+
+## Direct span sampling
+
+SubListSelection indexes movable nonempty ranges using one count block per eligible
+entity, without cloning values or enumerating every span. Whole pins are excluded;
+prefixes shift the first eligible start. Size bounds are inclusive and clamp to
+each movable suffix. Counts are u128. Ranks follow entity order, descending length,
+then ascending start; out-of-range ranks return None. After ordinary model
+validation, indexing uses O(entities) memory/time; lookup uses binary searches over
+entities and length groups. Coordinates describe the original snapshot. Rebuild
+after committing a change, while held indices retain their original coordinates.
+
+random_iter samples ranks uniformly with replacement using native seeded randomness.
+random_iter_with accepts externally supplied bounded ranks for replay/testing and
+panics on an invalid draw. Empty indices never invoke the source; nonempty indices
+repeat until the consumer stops. Unassigned values are not spans. These semantics
+are independent of Java random sources and multi-entity selection probabilities.
+
+sampled_sublist_change_moves samples spans and post-removal destination slots,
+including optional unassignment and reversals according to SubListChangeConfig.
+sampled_sublist_swap_moves samples independent left/right spans with asymmetric
+bounds, canonicalizes interchangeable sides, rejects overlaps and optionally
+reverses both sides. Receiving ranges are checked before yielding. Both APIs are
+lazy after building their span indices and take an explicit attempt limit. Rejected
+pairs, invalid receiving ranges and no-op relocations consume attempts. Duplicate
+proposals remain. These are proposal distributions, not a promise of uniformity
+over legal moves. A short sample can find no moves despite a nonempty neighborhood.
+
+Use the returned iterators in a MoveProvider, rebuilding them from the immutable
+assignment supplied at every committed step. Advance the seed across steps when
+new draws are desired. The search engine still handles scores, acceptance, rollback
+and evaluation budgets; the separate attempt limit bounds unscored rejection work.
+Original integration checks solve an ordering problem through both list scoring
+backends with score consistency checks enabled. No timing advantage is claimed
+without a deliberate benchmark; existing performance reports remain stale.

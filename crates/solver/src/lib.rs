@@ -557,3 +557,8 @@ pub use value_exchange::{
 
 mod list_move_builder;
 pub use list_move_builder::{ListEditError, ListMoveBuilder};
+
+mod sublist_sampling;
+pub use sublist_sampling::{
+    SubListSelection, sampled_sublist_change_moves, sampled_sublist_swap_moves,
+};
