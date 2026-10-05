@@ -107,6 +107,9 @@ pub enum Neighborhood {
     Gather {
         max_size: usize,
     },
+    /// Independent destinations for selected basic slots. Lists keep changes/swaps;
+    /// mixed joint moves combine each basic product with a list move.
+    ChangeProduct(crate::SubPillarSelection),
     Change,
     /// Only swaps; useful as an independently weighted union child.
     Swap,

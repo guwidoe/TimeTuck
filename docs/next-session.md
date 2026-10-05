@@ -9405,3 +9405,27 @@ Coverage1014/4855(20.886%),pending3559,excluded282,failed/unverified0.
 Live dashboard freshness matches the report. Benchmark datasets remain stale;
 no benchmark or release-mode rerun. Logs:work/move-union-check.log,
 work/move-union-test-build.log,work/move-union-lint-final.log.
+
+## Independent-destination change products
+
+Neighborhood::ChangeProduct(SubPillarSelection) and change_product_moves enumerate
+subsets of eligible basic variables with a separate legal destination per member.
+Each selected slot changes. Pins/no-alternative slots are excluded; optional null
+destinations come last; required null starts can be assigned but never cleared.
+Consecutive selection follows eligible variable order, including search shuffling.
+Lists retain change/swap behavior; mixed joint moves combine a basic product with
+one list move. Existing union composition, budgets and both scoring backends work.
+Public MoveProduct lazily builds Cartesian products from stable restartable child
+factories without caching all choices. Last child varies fastest; empty children
+are rejected or omitted, and zero/all-empty children yield no moves. Infinite
+suffixes starve preceding children; consumers need a budget. No Java mimic/lifecycle
+or random-selector equivalence is claimed. Four attributed helper fixtures preserve
+ordered/empty enumeration only, with no upstream-method credit. Six original tests
+cover independent state-space references, laziness, immutable/required slots,
+weighted union and four basic/mixed solver paths. Full rewrite goal remains active.
+Final check.sh passed:2170 Rust tests,118 doctests,fmt/Clippy;255 Python checks
+reused.225 affected Rust targets ran and79 reused matching successful evidence.
+Rust source digest:53c25e70e401288827f84719b748f1f24ddbad9c53b65ae52f505eb4f4ac4b39.
+Coverage stays1014/4855(20.886%),pending3559,excluded282,failed/unverified0.
+No benchmark or release-mode rerun. Logs:work/change-product-check.log,
+work/change-product-test-build.log,work/change-product-focused-final.log.

@@ -483,3 +483,8 @@ pub use scoring_arithmetic::{ScoreOverflow, ScoringArithmetic};
 
 mod move_union;
 pub use move_union::{MoveUnion, NeighborhoodUnion, UnionOrder};
+
+mod move_product;
+pub use move_product::MoveProduct;
+mod change_product;
+pub use change_product::change_product_moves;

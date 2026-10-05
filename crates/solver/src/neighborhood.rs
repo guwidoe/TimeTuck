@@ -85,6 +85,11 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: crate::Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    if let crate::Neighborhood::ChangeProduct(selection) = neighborhood {
+        return Box::new(crate::change_product::ordered(
+            problem, assignment, selection, order,
+        ));
+    }
     if neighborhood == crate::Neighborhood::Swap {
         return Box::new(swap_moves_ordered(problem, assignment, order));
     }

@@ -1686,3 +1686,16 @@ polling at construction and Rust iterators have no separate hasNext protocol.
 Original regressions exercise weight proportions, laziness, exhaustion, disabled
 validation, all six solver paths and escaping a single-move local optimum using
 combined single/group changes. No Java lifecycle/PRNG trace parity is claimed.
+
+Independent-destination basic change products now enumerate bounded variable subsets
+and all combinations of their alternative values, preserving pins, domains and null
+optionality. Each selected slot changes, so redundant writes do not duplicate
+successor states. Neighborhood::ChangeProduct works with both basic scoring backends,
+weighted unions, mixed joint list moves and existing search budgets/order policies.
+MoveProduct exposes the underlying lazy generic product with restartable independent
+child factories, last-child-fastest ordering and explicit empty-child policy. It
+retains only current child items/iterators; input sequences are not materialized.
+Four CartesianProductMoveSelector test helpers supply attributed partial enumeration
+fixtures. Their Java lifecycle, selector size/countability, random and mimic contracts
+remain unadapted; this increment earns no additional upstream-method coverage.
+Original state-space and solver-trap checks establish native behavior separately.

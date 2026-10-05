@@ -18189,6 +18189,58 @@
       "id": "UniformRandomUnionMoveIteratorTest.LabeledMove.native_union",
       "upstream_test": "LabeledMove",
       "modifications": "Native repeat/repeat_n iterators and integer labels replace Java helper iterators and unused move execution wrapper; identity and finite cardinalities retained."
+    },
+    {
+      "id": "CartesianProductMoveSelectorTest.originSelection.enumeration_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection",
+      "local_path": "crates/solver/tests/move_product_fixtures.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+    },
+    {
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection.enumeration_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection",
+      "local_path": "crates/solver/tests/move_product_fixtures.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+    },
+    {
+      "id": "CartesianProductMoveSelectorTest.originSelection3ChildMoveSelectors.enumeration_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "originSelection3ChildMoveSelectors",
+      "local_path": "crates/solver/tests/move_product_fixtures.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+    },
+    {
+      "id": "CartesianProductMoveSelectorTest.emptyOriginSelection3ChildMoveSelectors.enumeration_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection3ChildMoveSelectors",
+      "local_path": "crates/solver/tests/move_product_fixtures.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
     }
   ]
 }
