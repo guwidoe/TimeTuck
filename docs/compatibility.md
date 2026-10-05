@@ -2278,3 +2278,13 @@ flattening and surviving/disappearing groups. Typed IDs and immutable shadow
 snapshots replace Java object references; lifecycle notification ordering and JVM
 deferral are not claimed. An original 2,400-move comparison checks two-owner lists,
 rollback and pruning on/off against independent assignments and match enumeration.
+
+Eight additional BavetRegression methods preserve basic-variable null transitions
+through self-joins, semi/anti joins, distinct assigned-filter paths, identity maps
+and concatenation. Real required-variable moves preserve the source update order,
+all score/match observations and duplicate occurrences; complete current payloads
+and native structural penalties are checked separately. An original 2,048-trial
+regression enumerates three-entity assignments across eight shapes and both activity
+modes with rollback. Native eager immutable updates do not establish Java deferred
+event or mutable-alias behavior. clearEvents remains pending: clearing a deferred
+shadow-update queue is not supported by the existing eager native cascade cache.

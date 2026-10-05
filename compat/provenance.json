@@ -26340,6 +26340,126 @@
       "upstream_test": "filteringJoinNullConflictThroughLargeGroupUnassignAll",
       "local_test": "filtering_join_null_conflict_through_large_group_unassign_all",
       "modifications": "Native ListProblem with optional assignment and ListStreamScoreDirector execute actual assign, composite replace, unassign and swap moves; final owner/index/previous/next source views are checked independently. Preserve fixture value/entity counts, all explicit list states, every expected match and duplicate multiplicity, join keys, map depths, grouping and non-null guards. Shape LargeGroup(false); change sequence DropAll. Stable value/entity IDs replace Java identity and immutable ListValueRow snapshots replace mutable aliases. Explicit assigned filtering precedes joins; unindexed variants use constant keys. Flat maps append the source value, value grouping uses stable ID plus a retained representative, and owner groups use counted membership or full lists as specified. Native source callbacks replace Java before/after lifecycle events; reversed after-event ordering and JVM deferral scheduling are not claimed. Exact sorted match multisets strengthen source justification membership checks. Final diagnostic rebuild and original 2400 cross-owner trial/rollback states add no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringJoinNullConflict",
+      "status": "implemented",
+      "upstream_test": "filteringJoinNullConflict",
+      "local_test": "filtering_join_null_conflict",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfExistsNullConflict",
+      "status": "implemented",
+      "upstream_test": "filteringIfExistsNullConflict",
+      "local_test": "filtering_if_exists_null_conflict",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfNotExistsNullConflict",
+      "status": "implemented",
+      "upstream_test": "filteringIfNotExistsNullConflict",
+      "local_test": "filtering_if_not_exists_null_conflict",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringJoinNullConflictDifferentNodes",
+      "status": "implemented",
+      "upstream_test": "filteringJoinNullConflictDifferentNodes",
+      "local_test": "filtering_join_null_conflict_different_nodes",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Distinct native filter nodes preserve the separate assigned retrieval and explicit including-unassigned/filter paths. Exists and absent retain value inequality, including the source empty-match existence assertions. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfExistsNullConflictDifferentNodes",
+      "status": "implemented",
+      "upstream_test": "filteringIfExistsNullConflictDifferentNodes",
+      "local_test": "filtering_if_exists_null_conflict_different_nodes",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Distinct native filter nodes preserve the separate assigned retrieval and explicit including-unassigned/filter paths. Exists and absent retain value inequality, including the source empty-match existence assertions. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfNotExistsNullConflictDifferentNodes",
+      "status": "implemented",
+      "upstream_test": "filteringIfNotExistsNullConflictDifferentNodes",
+      "local_test": "filtering_if_not_exists_null_conflict_different_nodes",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Distinct native filter nodes preserve the separate assigned retrieval and explicit including-unassigned/filter paths. Exists and absent retain value inequality, including the source empty-match existence assertions. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.mapPlanningEntityChanges",
+      "status": "implemented",
+      "upstream_test": "mapPlanningEntityChanges",
+      "local_test": "map_planning_entity_changes",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Identity map precedes assigned filtering; preserve one assigned entity, switched assignment, and both assigned results. Dataset comparison checks current mapped values as well as entity IDs. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.concatSameTupleDeadAndAlive",
+      "status": "implemented",
+      "upstream_test": "concatSameTupleDeadAndAlive",
+      "local_test": "concat_same_tuple_dead_and_alive",
+      "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Values 0/1 represent codes A/B; retain both branch occurrences, all four score/multiset observations, and both variable update orders. Preserve the unobserved intermediate undo state; native eager propagation does not claim Java deferred queue scheduling. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
     }
   ],
   "fixtures": [
@@ -32569,6 +32689,19 @@
       "id": "TestdataAllowsUnassignedValuesListSolution.generateSolution.native_list_null",
       "upstream_test": "generateSolution",
       "modifications": "Generate the specified number of empty list entities and initially unassigned values (2/1, 10/1 or 10/2). ListProblem.allowing_unassigned preserves optional list assignment. Stable integer IDs replace generated strings and Java objects; reflection annotations are omitted. No helper method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "local_path": "crates/solver/tests/basic_stream_null_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.native_basic_null",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve two-entity fixtures with one or two values, round-robin initial assignment for concat, and explicit null assignment overrides for other cases. Native required variables retain uninitialized states; integer IDs replace generated names and Java references. Values 0/1 represent explicit concat codes A/B. No helper method credit."
     }
   ]
 }

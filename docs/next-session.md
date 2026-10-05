@@ -11086,3 +11086,39 @@ full rewrite remains active. Remaining BavetRegression methods include six basic
 variable null-conflict cases plus mapPlanningEntityChanges, concatSameTupleDeadAndAlive
 and clearEvents. Their sources have not been adapted in this batch.
 All processes are terminal.
+
+## Basic-variable null transitions and concat recovery
+
+Eight BavetRegression methods now execute actual required-variable moves through
+self joins, existence/absence, separate assigned-filter paths, identity mapping
+and concat. All original states, predicates, non-null guards, score/match sets and
+duplicate occurrences are preserved. Current payloads and native structural scores
+are checked separately. The concat undo state remains unobserved as upstream;
+native eager updates do not claim Java deferred queue or mutable-alias semantics.
+An original regression enumerates all 64 three-entity assignments forward/backward
+across eight shapes and both activity modes (2048 trials), with rollback and
+independent enumeration. Composite move input order reverses on the second pass;
+internal native delivery remains sorted by touched variable.
+
+Focused 69611 passed 9 tests. Final gate 84639 exited 0: 3200 Rust tests; one new
+Rust target ran, 397 reused; 150-doctest and 46 Python job evidence reused; fmt and
+Clippy passed. Equal source-before/after and aggregate exit 0 verified:
+059d5dbe6da01ce9a915ff934448854c0ddaae74f5a0748adb01d62c627f0dbf.
+Coverage 1764/4855 (36.334%), pending 2809, excluded 282, failed/unverified 0.
+Dashboard freshness matched report digest:
+9de382c6ed2d698d7fb0f1b821adf8e7a328c1fd1c091637783bc2f75c39c571.
+Logs: work/basic-stream-null-cases.log, work/basic-stream-null-check.log.
+No engine changes, benchmark/release/browser sweep. All processes terminal.
+The preceding timing-answer turn made no implementation progress; this turn
+revalidated the worktree and completed the next cases. Full goal remains active.
+
+BavetRegression clearEvents remains pending. Read its test and testdomain helpers:
+TestdataListMultipleShadowVariableSolution.generateSolution(2,1) assigns only
+value0 to entity0; value1 remains unassigned. Both cascade fields start null;
+getCascadeValue returns 2 for null. updateCascadeValue sets index+10. The test
+loads without shadow initialization, clears pending shadow updates, and checks
+both getters remain 2. ListCascadeCache.from_values can import uninitialized
+shadows but has no deferred update queue; new/update/apply evaluate eagerly.
+NodeOrderQueue.clear exists as a generic scheduling primitive, not a score-director
+shadow cancellation operation. Do not credit static getters or eager execution
+as clearEvents compatibility. No upstream production implementation was read.
