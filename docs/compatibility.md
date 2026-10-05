@@ -2012,3 +2012,18 @@ and actual one-scored-move solving in both basic backends. Existing BoundedFilte
 continues to provide retryable probes. Java termination polling cadence, ordered
 list-iterator forwarding and random ending-iterator behavior remain pending.
 No benchmark or automatic Java lifecycle equivalence is claimed.
+
+Both entity/value mimic-replay original-selection methods now retain every
+record/replay availability and selection assertion, temporary/final exhaustion,
+size/finite metadata, lifecycle counts and child iterator openings.
+RecordingSelection publishes shared non-Clone items to independent replay cursors.
+Availability prefetches one Rust item; replay cannot consume it until recording
+next publishes it. Each reader consumes each publication once; slow readers see
+the latest choice rather than a backlog. Opening a new recording or delivering a
+lifecycle event invalidates old cursors, with explicit stale/not-recorded errors.
+One owner forwards lifecycle events; replay views observe shared invalidation.
+Six original regressions cover passive probes, multiple readers/duplicates,
+ownership and scope invalidation, abandoned lookahead, source unwinding and replay-
+coordinated composite moves in both basic backends. Channels are thread-local and
+parent lifecycle remains explicit. No Java PRNG, threading or performance claim
+is introduced.

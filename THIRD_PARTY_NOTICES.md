@@ -602,3 +602,10 @@ Community entity/move/value `Filtering*SelectorTest` and
 with filtering/lifecycle/sequence helpers (Apache-2.0). Exact paths, identities,
 revision and native substitutions are in `compat/provenance.json`. Source wrappers,
 provider filtering/statistics and separate regressions are independently written.
+
+`crates/solver/tests/selection_replay_cases.rs` adapts original-selection methods
+and assertion helpers from pinned Community `MimicReplayingEntitySelectorTest`
+and `MimicReplayingValueSelectorTest`, with `PlannerAssert` lifecycle/code helpers
+(Apache-2.0). Exact paths, revision and native lifecycle/iterator substitutions
+appear in `compat/provenance.json`. The shared publication channel, recording/replay
+API and separate regression tests are independently written.

@@ -607,3 +607,9 @@ pub use selection_filters::{
     CandidateFilterStats, CandidateFilterStop, FilteredMoveProvider, FilteredSelectionSource,
     LimitedSelectionSource,
 };
+
+mod selection_replay;
+pub use selection_replay::{
+    RecordingSelection, RecordingSelectionIter, ReplayingSelection, SelectionReplayCursor,
+    SelectionReplayError,
+};

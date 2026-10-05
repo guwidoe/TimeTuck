@@ -10207,3 +10207,31 @@ work/selection-filter-check.log(lint failure),work/selection-filter-final-check.
 No browser/release/benchmark sweep; older performance evidence remains stale.
 Previous goal turn progressed via8e138a7; this batch adds usable filtered candidate
 exploration with bounded work. Full independent solver rewrite remains active.
+
+## Recording and replay for dependent selections
+
+RecordingSelection now owns a source and publishes selected occurrences through
+shared Arc payloads to independent ReplayingSelection cursors. Availability
+prefetches one Rust item but does not publish it; next publishes, and each reader
+consumes that publication once. Repeated availability probes do not advance the
+source. Slow readers skip superseded choices. New recording traversals and every
+explicit lifecycle event invalidate old cursors; stale and unrecorded choices
+have distinct errors. One owner forwards events, avoiding duplicate child calls.
+Channels are thread-local. Non-Clone payloads may outlive the owner, while dropping
+unpublished lookahead clears availability. Source callback effects are not undone.
+Two complete entity/value mimic methods and four helpers are attributed, retaining
+all interleaved assertions, metadata, lifecycle counts and child iterator openings.
+Six original regressions cover passive probes, independent readers/duplicates,
+shared ownership/stale scopes, lookahead abandonment, source unwinding and two
+replay consumers constructing a composite move that solves through both backends.
+Focused session36002 exited0 (2 adapted+6 original,compile16.03s). Prebuild16.95s;
+final gate3520 exited0:2638 Rust tests,139 doctests,fmt/Clippy;3 Rust targets ran,
+351 reused;46 Python jobs reused. Aggregate exit0 and unchanged source verified:
+06a1102e9e83297faca1be7b0e013e4da09ddc1fc67fe6948082d7248262487b.
+Coverage1332/4855(27.436%),pending3241,excluded282,failed/unverified0. Logs:
+work/selection-replay-focused.log,work/selection-replay-build.log,
+work/selection-replay-check.log. No browser/release/benchmark sweep; older performance
+measurements remain stale. Previous goal turn progressed via53c728c; this batch
+adds shared dependent-choice coordination. Full solver rewrite remains active.
+Dashboard freshness session88709 exited0 and matched report digest. All batch
+process handles are terminal.
