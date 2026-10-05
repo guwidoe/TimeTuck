@@ -10175,3 +10175,35 @@ performance measurements remain stale. Previous goal turn made progress via4471d
 this turn adds usable ordered candidate exploration. Full rewrite remains active.
 Dashboard freshness session77074 exited0 with matching report digest. All batch
 process handles are terminal.
+
+## Composable filtering and independent candidate work caps
+
+Added FilteredSelectionSource and LimitedSelectionSource. Both forward lifecycle
+events, and lazily preserve accepted occurrence order. Filtering reports unknown
+exact count and a separately labelled child upper bound; scoped caching materializes
+matches. Limits before filtering cap inspected inputs, limits after filtering cap
+accepted outputs; the latter alone cannot bound infinitely rejected work.
+FilteredMoveProvider works through the native generic provider API, opening its
+child lazily and applying separate per-step scan/selection caps. Stats distinguish
+scanned/rejected/yielded counts and source exhaustion/scan/selection stops. A cursor
+dropped early has no false exhaustion reason. Work inside an individual child or
+predicate callback remains cooperative. Existing BoundedFilter retains retryable
+probe semantics; no duplicate probing implementation was added.
+Twenty-one complete upstream filtering/count-limit methods and eleven helpers are
+attributed, retaining cache scope rebuilds, entity contexts and lifecycle counts.
+Ordered list-iterator forwarding, random ending traversal and Java termination
+polling cadence remain pending. Six original regressions exercise zero budgets,
+early drop, changing contexts/stat reset, finite exhaustion, bounded rejection,
+source composition/cache refresh and one-evaluation solving in both basic backends.
+Focused sessions54543/58289 exited0 (final21 adapted+6 original). Prebuild17.11s;
+first gate58250 exited101 for test-only manual_is_multiple_of lint. Corrected the
+predicate and final gate74954 exited0:2630 Rust tests,139 doctests,fmt/Clippy;
+3 Rust targets ran,349 reused;46 Python jobs reused. Aggregate exit0 and identical
+before/after source verified:3598d10e4d79596eae696a76cdadea152b849ddc09c442a0eb493bc17ef9cfa2.
+Coverage1330/4855(27.394%),pending3243,excluded282,failed/unverified0. Freshness
+session77599 exited0 and matched report digest. All process handles are terminal.
+Logs:work/selection-filter-focused-final.log,work/selection-filter-build.log,
+work/selection-filter-check.log(lint failure),work/selection-filter-final-check.log.
+No browser/release/benchmark sweep; older performance evidence remains stale.
+Previous goal turn progressed via8e138a7; this batch adds usable filtered candidate
+exploration with bounded work. Full independent solver rewrite remains active.

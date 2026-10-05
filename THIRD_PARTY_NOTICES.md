@@ -595,3 +595,10 @@ helpers, `PlannerAssert` helpers and the list overloads of `TestdataObjectSorter
 and `CodeAssertableSorter` (Apache-2.0). Exact revision, identities and native
 substitutions are in `compat/provenance.json`. Ordered snapshots and native
 cache ordering are independently implemented; separate regressions are original.
+
+`crates/solver/tests/selection_filter_cases.rs` adapts twenty-one methods from pinned
+Community entity/move/value `Filtering*SelectorTest` and
+`SelectedCountLimit*SelectorTest` classes, plus `IterableFilteringValueSelectorTest`,
+with filtering/lifecycle/sequence helpers (Apache-2.0). Exact paths, identities,
+revision and native substitutions are in `compat/provenance.json`. Source wrappers,
+provider filtering/statistics and separate regressions are independently written.

@@ -601,3 +601,9 @@ pub use selection_cache::{
 
 mod ordered_selection;
 pub use ordered_selection::{OrderedSelection, OrderedSelectionCache, OrderedSelectionError};
+
+mod selection_filters;
+pub use selection_filters::{
+    CandidateFilterStats, CandidateFilterStop, FilteredMoveProvider, FilteredSelectionSource,
+    LimitedSelectionSource,
+};

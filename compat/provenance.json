@@ -19635,6 +19635,321 @@
       "upstream_test": "cacheTypeStep",
       "local_test": "shuffle_move_step",
       "modifications": "Native explicitly delivered events replace mocked Java scopes/directors; strings preserve fixture codes. Retain each injected integer draw and every exact code permutation, complete traversal/exhaustion, size/finite metadata, constructor child metadata query, lifecycle counts across two phases/three steps and source iterator/size rebuild counts 1/2/3. Shuffling updates the prior permutation at each step; source rebuild resets it at its configured boundary. Injected draws preserve bounded index semantics; no Java seeded PRNG parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filterCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filterCacheTypeSolver",
+      "local_test": "filter_entity_solve",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filterCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filterCacheTypePhase",
+      "local_test": "filter_entity_phase",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filterCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filterCacheTypeStep",
+      "local_test": "filter_entity_step",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filterCacheTypeJustInTime",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filterCacheTypeJustInTime",
+      "local_test": "filter_entity_uncached",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain rejection/order/exhaustion, unfiltered size4 metadata, finite metadata and every lifecycle/open/size count across two phases/five steps. Native upper_bound labels the original getSize value honestly; filtered exact size remains unknown before consumption. No caching is introduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringMoveSelectorTest.filterCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "filterCacheTypeSolver",
+      "local_test": "filter_move_solve",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringMoveSelectorTest.filterCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "filterCacheTypePhase",
+      "local_test": "filter_move_phase",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringMoveSelectorTest.filterCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "filterCacheTypeStep",
+      "local_test": "filter_move_step",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all four input codes, rejection of the third, ordered full traversal/exhaustion, materialized size3, finite metadata, all lifecycle forwarding counts across two phases/five steps and exact child open/size rebuild counts1/2/5. Native SelectionCache surrounds the lazy filter; filtering is applied only when its configured cache rebuilds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringMoveSelectorTest.filterCacheTypeJustInTime",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "filterCacheTypeJustInTime",
+      "local_test": "filter_move_uncached",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain rejection/order/exhaustion, unfiltered size4 metadata, finite metadata and every lifecycle/open/size count across two phases/five steps. Native upper_bound labels the original getSize value honestly; filtered exact size remains unknown before consumption. No caching is introduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IterableFilteringValueSelectorTest.filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/IterableFilteringValueSelectorTest.java",
+      "upstream_test": "filter",
+      "local_test": "filter_iterable_value",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain v1/v2/v4 after rejection of v3 at each of five steps, full exhaustion, finite metadata, unfiltered size4 as an explicit upper bound, all lifecycle forwarding counts and five child opens/size queries. Native explicit context replaces Java entity-specific iterator arguments where applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringValueSelectorTest.filterEntityDependent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/FilteringValueSelectorTest.java",
+      "upstream_test": "filterEntityDependent",
+      "local_test": "filter_entity_dependent_value",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain v1/v2/v4 after rejection of v3 at each of five steps, full exhaustion, finite metadata, unfiltered size4 as an explicit upper bound, all lifecycle forwarding counts and five child opens/size queries. Native explicit context replaces Java entity-specific iterator arguments where applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitEntitySelectorTest.selectSizeLimitLowerThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/SelectedCountLimitEntitySelectorTest.java",
+      "upstream_test": "selectSizeLimitLowerThanSelectorSize",
+      "local_test": "limit_entity_lower",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitEntitySelectorTest.selectSizeLimitHigherThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/SelectedCountLimitEntitySelectorTest.java",
+      "upstream_test": "selectSizeLimitHigherThanSelectorSize",
+      "local_test": "limit_entity_higher",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitMoveSelectorTest.selectSizeLimitLowerThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/SelectedCountLimitMoveSelectorTest.java",
+      "upstream_test": "selectSizeLimitLowerThanSelectorSize",
+      "local_test": "limit_move_lower",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitMoveSelectorTest.selectSizeLimitHigherThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/SelectedCountLimitMoveSelectorTest.java",
+      "upstream_test": "selectSizeLimitHigherThanSelectorSize",
+      "local_test": "limit_move_higher",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitValueSelectorTest.selectSizeLimitLowerThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/SelectedCountLimitValueSelectorTest.java",
+      "upstream_test": "selectSizeLimitLowerThanSelectorSize",
+      "local_test": "limit_value_lower",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitValueSelectorTest.selectSizeLimitHigherThanSelectorSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/SelectedCountLimitValueSelectorTest.java",
+      "upstream_test": "selectSizeLimitHigherThanSelectorSize",
+      "local_test": "limit_value_higher",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain the complete five- or three-item fixture with limit3 or5 respectively, exactly the first three codes, exhaustion, size3/finite metadata and all lifecycle forwarding plus five child iterator/size calls over two phases/five steps. The native source limits each independently opened traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitValueSelectorTest.selectSizeLimitLowerThanSelectorSizeEntityDependent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/SelectedCountLimitValueSelectorTest.java",
+      "upstream_test": "selectSizeLimitLowerThanSelectorSizeEntityDependent",
+      "local_test": "limit_entity_dependent_value_lower",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all entity-dependent v1..v5 or v1..v3 fixtures with limit3 or5, complete ordered prefix/exhaustion, size3/finite metadata, all lifecycle forwarding and five child opens/size calls using entity e1 context."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitValueSelectorTest.selectSizeLimitHigherThanSelectorSizeEntityDependent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/decorator/SelectedCountLimitValueSelectorTest.java",
+      "upstream_test": "selectSizeLimitHigherThanSelectorSizeEntityDependent",
+      "local_test": "limit_entity_dependent_value_higher",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all entity-dependent v1..v5 or v1..v3 fixtures with limit3 or5, complete ordered prefix/exhaustion, size3/finite metadata, all lifecycle forwarding and five child opens/size calls using entity e1 context."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitEntitySelectorTest.isNeverEnding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/SelectedCountLimitEntitySelectorTest.java",
+      "upstream_test": "isNeverEnding",
+      "local_test": "limit_entity_is_never_ending",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain false repetition metadata for limit5 before traversal."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitEntitySelectorTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/SelectedCountLimitEntitySelectorTest.java",
+      "upstream_test": "getSize",
+      "local_test": "limit_entity_size",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain all child size1/5/10 inputs and resulting limited sizes1/5/5."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectedCountLimitEntitySelectorTest.endingIteratorOriginalOrder",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/SelectedCountLimitEntitySelectorTest.java",
+      "upstream_test": "endingIteratorOriginalOrder",
+      "local_test": "limit_entity_ending_original",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain four source codes and the complete e1/e2 original-order ending traversal with limit2. Native bounded open is the original-order ending traversal; random ending-iterator behavior remains pending."
     }
   ],
   "fixtures": [
@@ -24070,6 +24385,149 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfIterator",
       "modifications": "Native explicitly delivered events replace mocked Java scopes/directors; strings preserve fixture codes. Adapt lifecycle/rebuild counts, code order, iterator exhaustion and finite-size metadata; helper attribution earns no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filter.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filter",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.verifyStep.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "verifyStep",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringMoveSelectorTest.filter.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "filter",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfEntitySelector.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfEntitySelector",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfMoveSelector.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfMoveSelector",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfValueSelector.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelector",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfValueSelectorForEntity.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelectorForEntity",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.selection_filters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Native lifecycle forwarding and string codes replace Java mocks/scopes. Entity-dependent traversals pass the e1 context to both size and open calls. Retain ordered code and exhaustion assertions, size/upper-bound metadata, finite status and lifecycle/rebuild counts. Only ordinary iterator branches are adapted; ordered list-iterator verification remains pending. Helper attribution earns no extra method credit."
     }
   ]
 }

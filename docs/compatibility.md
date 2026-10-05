@@ -1996,3 +1996,19 @@ seeded repeatability/bounds and sorted/shuffled providers in both basic backends
 Native lifecycle events remain explicit. SortingMoveSelectorTest.applySorting
 remains pending because Java comparator-class/factory configuration is not adapted.
 No Java PRNG trace, automatic parent lifecycle, or new performance claim is made.
+
+Twenty-one filtering/count-limit selector methods now retain ordered accepted
+prefixes, exhaustion, finite metadata, lifecycle forwarding and exact child
+open/size counts, including entity-dependent values and cached filtering.
+FilteredSelectionSource reports unknown exact size and an explicit child upper
+bound; a surrounding SelectionCache knows the materialized match count.
+LimitedSelectionSource composes before filtering to bound inspected work or after
+filtering to bound accepted items. A post-filter limit alone cannot bound an
+endlessly rejected source. FilteredMoveProvider supplies separate total scan and
+selection limits per step, lazy factory opening and inspected/rejected/yielded
+counts with distinct stop reasons. Six original regressions cover empty budgets,
+early drop, per-step context/count reset, exhaustion, cache refresh, composition
+and actual one-scored-move solving in both basic backends. Existing BoundedFilter
+continues to provide retryable probes. Java termination polling cadence, ordered
+list-iterator forwarding and random ending-iterator behavior remain pending.
+No benchmark or automatic Java lifecycle equivalence is claimed.
