@@ -9756,3 +9756,30 @@ freshness matches. No UI/browser, benchmark sweep or release rerun; older measur
 remain stale. Logs:work/destination-union-build.log,work/destination-union-check.log,
 work/destination-union-focused.log,work/destination-union-regression.log. All jobs
 completed. Full rewrite remains active.
+
+## Value-label exchange neighborhoods
+
+Added value_exchange_moves and value_exchange_moves_in_order with bounded
+contiguous or arbitrary subset selection, unused domain labels and explicit optional
+unassignment. Custom orders are checked for duplicate/out-of-range IDs. Selection
+bounds include pinned/unchanged slots; touched pins and incompatible receiving
+domains reject the whole candidate. Empty/no-op exchanges are omitted, singleton
+writes are Change, and multiwrites are Composite. Iterators clone only yielded
+writes and integrate through existing custom providers without shared engine edits.
+Three preview example methods are adapted: code-range value exchanges, restricted
+block relocation and common-cut tail swaps (the latter two use existing generators).
+Four fixture helpers are attributed; Java API/custom move metadata parity is not
+claimed. Five original regressions cover independent exhaustive small-case states,
+rollback, custom order/pins/errors, lazy cloning and escaping a single-change local
+optimum in both scoring backends. Initial focused compilation required correcting
+two regression API calls; all focused cases and final checks then passed.
+Final check.sh passed:2381 Rust tests,130 doctests,fmt/Clippy;46 Python jobs reused.
+Three Rust targets ran (lib and two new suites);323 reused unchanged results.
+Affected prebuild13.63s; final check pipeline about2m42s elapsed (log timestamps),
+including selection/report overhead, not just test execution. Source digest:
+5ea15043affa7b47a05d171f45120462bab8a061e06281de7ef6f182d991486d.
+Coverage1165/4855(23.996%),pending3408,excluded282,failed/unverified0. Live dashboard
+freshness matches. No UI/browser, benchmark sweep or release rerun; older measurements
+remain stale. Logs:work/value-exchange-build.log,work/value-exchange-check.log,
+work/value-exchange-focused.log. All build/check/freshness jobs completed.
+The full rewrite goal remains active.

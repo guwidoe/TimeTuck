@@ -1840,3 +1840,17 @@ and duplicates are preserved; empty provider lists are rejected. The three
 DefaultMoveStreamFactoryTest and two DefaultNeighborhoodTest methods are adapted.
 Six original checks cover destination states/validation, lazy factories and cursor
 drop, disabled/nested providers, seeded weights and all six solver backend paths.
+
+Value-label exchanges now operate over bounded contiguous windows or arbitrary
+subsets in model/custom variable order. Unused domain values participate, optional
+unassignment is explicit, and touched pins or disallowed destinations reject the
+whole candidate. Unchanged slots remain part of selection bounds. Empty exchanges
+are omitted; single writes are plain Change moves. Enumeration clones only yielded
+writes and can be supplied through the existing custom-provider search API.
+Three preview example methods now retain their exact move membership/exclusion
+assertions: value swaps within a code range, restricted-range block relocation,
+and same-cut tail swaps. Native ordered slots/ranges replace Java metadata and
+custom move objects; full example-provider/API equivalence is not claimed. Five
+original regressions compare independent small-case successor sets and rollback,
+order validation, pins, clone counts, and escape from a single-change local optimum
+in both scoped and stream search. They earn no additional upstream method credit.

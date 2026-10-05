@@ -17430,6 +17430,51 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "SwapValuesInCodeRangeMoveProviderTest.producesASwapWithinTheOnlyRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/example/SwapValuesInCodeRangeMoveProviderTest.java",
+      "upstream_test": "producesASwapWithinTheOnlyRange",
+      "local_test": "produces_a_swap_within_the_only_range",
+      "modifications": "Preserve the three-value/two-entity initialized fixture, exact unused-value Change membership, singleton composition normalization and both no-op exclusions. Native ordered slot IDs and a size-two contiguous selection replace entity code ordering and Java neighborhood sessions; value-label exchanges use native Move values.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "RelocateValueBlockMoveProviderTest.producesExactRelocationInRangeAndNoneOutOfRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/example/RelocateValueBlockMoveProviderTest.java",
+      "upstream_test": "producesExactRelocationInRangeAndNoneOutOfRange",
+      "local_test": "produces_exact_relocation_in_range_and_none_out_of_range",
+      "modifications": "Preserve both entity value ranges, initial lists, exact two-value block relocation inclusion and exclusion of the block containing the out-of-range value. Native SubListChange start/end coordinates replace the Java custom move start/length coordinates and descriptor/session plumbing. Existing lazy sublist generation provides the tested membership; Java custom move metadata/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "SwapEntityTailsMoveProviderTest.producesExactSwapAtAKnownCutAndNoneForACutPastTheSharedLength",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/example/SwapEntityTailsMoveProviderTest.java",
+      "upstream_test": "producesExactSwapAtAKnownCutAndNoneForACutPastTheSharedLength",
+      "local_test": "produces_exact_swap_at_a_known_cut_and_none_past_shared_length",
+      "modifications": "Preserve round-robin six-value/two-entity lists, exact tail exchange at shared cut one, and exclusion of empty tails at cut three. Filter native lazy tail swaps to equal cuts and compare native SubListSwap ranges; Java custom move/session API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -21028,6 +21073,58 @@
       "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataSolution.generateSolution.value_exchange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain initialized modulo assignment for three values/two basic slots and round-robin six values/two lists using native integer IDs and explicit initial assignments. Native models replace Java descriptors and shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.generateInitializedSolution.value_exchange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateInitializedSolution",
+      "modifications": "Retain initialized modulo assignment for three values/two basic slots and round-robin six values/two lists using native integer IDs and explicit initial assignments. Native models replace Java descriptors and shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.generateSolution.value_exchange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain initialized modulo assignment for three values/two basic slots and round-robin six values/two lists using native integer IDs and explicit initial assignments. Native models replace Java descriptors and shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.initialize.value_exchange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "initialize",
+      "modifications": "Retain initialized modulo assignment for three values/two basic slots and round-robin six values/two lists using native integer IDs and explicit initial assignments. Native models replace Java descriptors and shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_exchange_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
