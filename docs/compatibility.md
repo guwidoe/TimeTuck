@@ -2298,3 +2298,15 @@ source method contains no score calculation/assertion. General deferred stream
 event propagation and reflection parity are not claimed. Seven original cases
 cover queue accumulation, cancellation/repair, eager updates, move rollback,
 retry after panic, immutable snapshots and incremental scoring integration.
+
+All twenty AbstractAdvancedGroupByConstraintStreamTest methods now have native
+adaptations. Nested grouping/collection, unique-pair expansion through four tuple
+positions, regrouping by exact group names, existence before/after grouping and
+shared-input joins preserve the source scores, match contents and removals. Native
+map/distinct expresses grouping without collectors. Typed stable identities replace
+Java references; top-level match fields follow the source unordered-membership
+contract, with stricter duplicate multiplicity checks. Nested collection contents
+and the two-group list order remain exact. The construction-only method retains
+its actual build assertion; an original 3,600-trial comparison additionally executes
+all twenty shapes through incremental changes and rollback with both activity modes,
+using independently calculated results. No new Java lifecycle or throughput claim.

@@ -11169,3 +11169,44 @@ and recollection into lists/maps/sets, incremental entity removals. Finish readi
 the methods and fixture/helper specifications before adapting. Also pending uni
 stream methods include joinAfterGroupBy, filtered grouping, mapToBi/Tri/Quad and
 flattenLastWithDuplicates; unsupported Java descriptor cases need separate scope.
+
+## Advanced grouping, recollection and shared joins
+
+All 20 AbstractAdvancedGroupByConstraintStreamTest methods now have complete
+native adaptations, preserving fixture counts, codes/group strings, all weighted
+matches, nested collection contents and incremental removals. Actual native
+unique pairs expand through three/four fields, with all distinct-entity guards
+and original multiplicities (3 tri or 12 quad per full group). Key-only grouping
+is map/distinct. Global list/map/set/sum collectors and successive groups operate
+on live output updates. Existence-before/after grouping removes group facts
+without removing entities. PairExists intentionally pairs across groups, then gates
+by first-entity group. SharedJoin reuses one filtered port as both inputs.
+The construction-only case remains a real build assertion; extra regression
+executes it on populated streams. Typed match fields normalize unordered source
+justifications while preserving duplicates and nested list order. FilteredPairs
+keeps the source literal (MyEntity3, GeneratedEntity0) expectation; its membership
+helper accepts native reverse pair field order, while the first-entity predicate
+is preserved. Fixture, getter and assertion-helper provenance recorded.
+
+One original 3600-trial check spans all 20 shapes in both activity modes, checks
+insertions/removals, group/value/code changes, group-fact gating, empty sources and
+rollback against independent counts/sets/combination formulas (no rebuilt oracle).
+Focused 46160 passed the first 20 cases; 41267 passed final 21 including original
+regression (0.58s). Gate 53634 exited 0: 3229 Rust tests; 1 new Rust target ran,
+400 reused; 151-doctest and 46 Python job evidence reused; fmt/Clippy passed.
+No production changes, benchmark/release/browser sweep. Equal source-before/after
+and aggregate exit 0 verified:
+26608dc10b199f47a12b0be5b95ef4cf46bc146b83ec9d107a99aede1bdeb33a.
+Coverage 1785/4855 (36.766%), pending 2788, excluded 282, failed/unverified 0.
+Dashboard freshness matched report digest:
+2f26d2b5154ec52db979090ab16dd74d83b7f62a5e75bf056f8420d6a228e3b0.
+Logs: work/advanced-grouping-focused.log, work/advanced-grouping-check.log.
+All processes terminal. Previous goal turn progressed via 2e12204; full goal active.
+
+Next batch: remaining uni stream operator cases. Located source methods in
+AbstractUniConstraintStreamTest: joinAfterGroupBy line390; filtered group cases
+1390,1414,1440 (read 1386-1478 already); primitive grouping1712; mapToBi/Tri/Quad
+2145,2177,2212; flattenLastWithDuplicates2344. Read full cases before adapting.
+The three filtered methods have initial-only assertions: groups0/1 counts8/2;
+filter group1 yields one group or two joined entities. No incremental assertions
+in those source methods. Corresponding bi/tri/quad cases may support a wider batch.
