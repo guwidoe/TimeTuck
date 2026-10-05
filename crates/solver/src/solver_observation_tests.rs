@@ -197,12 +197,20 @@ fn initialization_callback_time_stops_the_solve_before_local_search() {
             let PhaseRequest::Construction(c) = request.with_time(time) else {
                 panic!("only construction can run");
             };
-            Ok(constructed!(greedy_construction(&p, &n, c).map_err(
-                |error| SolverError::Phase {
+            Ok(constructed!(
+                crate::construction::construction_impl_with_clock_monitored(
+                    None,
+                    &p,
+                    p.initial_assignment(),
+                    c,
+                    |a| ScoreDirector::new(&p, &n, a),
+                    || ms(elapsed.get()),
+                )
+                .map_err(|error| SolverError::Phase {
                     phase: index,
                     error
-                }
-            )?))
+                })?
+            ))
         },
         &mut || ms(elapsed.get()),
     )
@@ -250,12 +258,20 @@ fn initialization_callback_elapsed_time_precedes_strict_partial_handoff_rejectio
             let PhaseRequest::Construction(c) = request.with_time(time) else {
                 panic!("construction only");
             };
-            Ok(constructed!(greedy_construction(&p, &n, c).map_err(
-                |error| SolverError::Phase {
+            Ok(constructed!(
+                crate::construction::construction_impl_with_clock_monitored(
+                    None,
+                    &p,
+                    p.initial_assignment(),
+                    c,
+                    |a| ScoreDirector::new(&p, &n, a),
+                    || ms(elapsed.get()),
+                )
+                .map_err(|error| SolverError::Phase {
                     phase: index,
                     error
-                }
-            )?))
+                })?
+            ))
         },
         &mut || ms(elapsed.get()),
     )

@@ -1731,3 +1731,14 @@ methods retain their observable assertions using native configuration and move
 metadata. Random distributions/lifecycle are not established. The default-maximum
 method remains pending: native defaults have no implicit sampling cap. Existing
 max-length-only sublist APIs retain their original enumeration contracts.
+
+Explicit Assign and Unassign neighborhoods now select only missing or assigned
+optional basic slots, respectively. PillarChange applies configurable null crossing
+to whole groups of at least two members; PillarUnassign clears assigned groups,
+including singletons. All four preserve pins and entity-dependent ranges and work
+with basic/mixed scoped and stream search. An attached PillarSchema retains tuple
+homogeneity and changes one selected column at a time. Twenty-three Community
+provider methods retain their membership, validation, homogeneity and rollback
+assertions. Enumeration is finite and deterministic; Java random traces and provider
+retirement mechanics are not replicated. The retirement regression retains its
+observable distinct legal move set. Existing general pillar APIs remain unchanged.

@@ -9506,3 +9506,34 @@ browser rerun. Logs:work/sublist-controls-check.log,
 work/sublist-controls-test-build.log,work/sublist-controls-focused.log.
 Broad test compilation took10m21s. The initial lint clone-on-Copy warning was fixed;
 final check.sh includes the successful Clippy run.
+
+## Explicit assignment and whole-pillar policies
+
+Added assign_moves/unassign_moves and Assign/Unassign neighborhoods for optional
+basic slots, plus PillarChangeConfig, pillar_change_moves/pillar_unassign_moves and
+matching neighborhood variants. Whole-pillar changes require two members; unassignment
+allows singleton groups. Default null crossing follows optionality, false excludes
+null sources/destinations, and explicit true requires all model slots optional.
+Pillar changes reject groups containing missing required selected slots. Schema
+rows retain tuple grouping and one-column writes; selected pins exclude whole rows.
+Shared schema enumeration is reused, with non-null domain scans disabled for
+unassignment. Basic-only families retain ordinary list neighborhoods in mixed search.
+Twenty-three full provider-method adaptations and four fixture helpers are attributed.
+Four original tests check successor sets/rollback, schema member counts/columns/pins,
+basic/mixed scoped/stream solving (including joint candidates), and zero-budget early
+validation. Existing general pillar and mass move contracts are unchanged.
+Full rewrite goal remains active.
+Final check.sh passed:2234 Rust tests,122 doctests,fmt/Clippy;46 Python jobs reused.
+232 affected Rust targets ran and80 reused matching successful evidence.
+Rust source digest:159fc372da1994a45529adef983c0fddd705d484ab2e9dc6bb887193159895cd.
+Coverage1060/4855(21.833%),pending3513,excluded282,failed/unverified0.
+Assign4/4,Unassign5/5,PillarChange9/9,PillarUnassign5/5. Live dashboard freshness
+matches the report. Benchmark datasets remain stale; no benchmark/release/browser
+rerun. Logs:work/assignment-controls-check-final.log,
+work/assignment-controls-test-build.log,work/assignment-controls-focused.log,
+work/assignment-controls-regression.log. Broad compilation took6m27s.
+The first gate exposed an existing observer timing test mixing a simulated solve
+clock with a real 5ms construction timer. Both matching fixtures now inject the
+same controlled clock into construction, preserving all assertions. The final
+gate passed. That test-only edit still invalidated232 integration/lib/example job
+keys; test-module dependency isolation remains an opportunity for selective reuse.

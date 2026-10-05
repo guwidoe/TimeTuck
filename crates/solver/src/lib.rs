@@ -515,3 +515,8 @@ pub use list_sublist::{
     SubListChangeConfig, SubListSize, SubListSwapConfig, list_sublist_change_moves_with_config,
     list_sublist_swap_moves_with_config, list_sublist_unassign_moves,
 };
+
+mod assignment_neighborhood;
+pub use assignment_neighborhood::{
+    PillarChangeConfig, assign_moves, pillar_change_moves, pillar_unassign_moves, unassign_moves,
+};

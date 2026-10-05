@@ -15555,6 +15555,351 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt all observable assertions and fixture sizes/pins to native integer identities and lazy deterministic enumeration, retaining original stream caps. Native configuration/entry validation replaces Java provider-constructor validation. Default native maximum is unbounded; the separate upstream default-maximum method remains pending. No random draw distribution, PRNG trace, Java metamodel or object lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AssignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/AssignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_test": "assign_required_rejected",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AssignMoveProviderTest.pinnedEntitySkipped",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/AssignMoveProviderTest.java",
+      "upstream_test": "pinnedEntitySkipped",
+      "local_test": "assign_pinned_skipped",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AssignMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/AssignMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_test": "assign_entity_ranges",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AssignMoveProviderTest.fromSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/AssignMoveProviderTest.java",
+      "upstream_test": "fromSolution",
+      "local_test": "assign_shared_range",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignMoveProviderTest.pinnedEntitySkipped",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/UnassignMoveProviderTest.java",
+      "upstream_test": "pinnedEntitySkipped",
+      "local_test": "unassign_pinned_skipped",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignMoveProviderTest.unassignedEntitySkipped",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/UnassignMoveProviderTest.java",
+      "upstream_test": "unassignedEntitySkipped",
+      "local_test": "unassign_missing_skipped",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignMoveProviderTest.allEntitiesAssigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/UnassignMoveProviderTest.java",
+      "upstream_test": "allEntitiesAssigned",
+      "local_test": "unassign_all_assigned",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignMoveProviderTest.noAssignedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/UnassignMoveProviderTest.java",
+      "upstream_test": "noAssignedEntities",
+      "local_test": "unassign_none_assigned",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnassignMoveProviderTest.failsOnNonNullableVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/UnassignMoveProviderTest.java",
+      "upstream_test": "failsOnNonNullableVariable",
+      "local_test": "unassign_required_rejected",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.homogeneityAndNoOpExcluded",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "homogeneityAndNoOpExcluded",
+      "local_test": "pillar_change_homogeneous_and_no_noops",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.pinnedEntityExcludedFromPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "pinnedEntityExcludedFromPillar",
+      "local_test": "pillar_change_pinned_excluded",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.entityDependentRangeRejectsOutOfRangeDestination",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "entityDependentRangeRejectsOutOfRangeDestination",
+      "local_test": "pillar_change_entity_ranges",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.retirementLeavesOnlyTheLegalPillarsMoves",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "retirementLeavesOnlyTheLegalPillarsMoves",
+      "local_test": "pillar_change_retirement",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.lowLegalFractionDestinationIsStillFound",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "lowLegalFractionDestinationIsStillFound",
+      "local_test": "pillar_change_rare_destination",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.crossingNullDefaultTrueAlsoUnassignsPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullDefaultTrueAlsoUnassignsPillar",
+      "local_test": "pillar_change_default_null",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.crossingNullFalseNeverUnassignsPillar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullFalseNeverUnassignsPillar",
+      "local_test": "pillar_change_disabled_null",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.emptyIntersectionStillYieldsNullDestination",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "emptyIntersectionStillYieldsNullDestination",
+      "local_test": "pillar_change_null_only_destination",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarChangeMoveProviderTest.constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarChangeMoveProviderTest.java",
+      "upstream_test": "constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "local_test": "pillar_change_required_null_rejected",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarUnassignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarUnassignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_test": "pillar_unassign_required_rejected",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarUnassignMoveProviderTest.onlyDrawsAssignedEntitiesAndAlwaysAssignsNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarUnassignMoveProviderTest.java",
+      "upstream_test": "onlyDrawsAssignedEntitiesAndAlwaysAssignsNull",
+      "local_test": "pillar_unassign_assigned_only",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarUnassignMoveProviderTest.pinnedEntityNeverUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarUnassignMoveProviderTest.java",
+      "upstream_test": "pinnedEntityNeverUnassigned",
+      "local_test": "pillar_unassign_pinned_excluded",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarUnassignMoveProviderTest.unassignPillarIsHomogeneous",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarUnassignMoveProviderTest.java",
+      "upstream_test": "unassignPillarIsHomogeneous",
+      "local_test": "pillar_unassign_homogeneous",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarUnassignMoveProviderTest.undoRestoresOriginalValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarUnassignMoveProviderTest.java",
+      "upstream_test": "undoRestoresOriginalValue",
+      "local_test": "pillar_unassign_undo",
+      "modifications": "Retain every move membership/exclusion, homogeneity, cardinality, null destination, validation and undo assertion using native slot identities and composite writes. Finite deterministic enumeration replaces random provider draws; original stream caps are retained where specified, and retirement is checked through the same distinct legal move set. Entry validation replaces Java constructor checks. No PRNG, sampling distribution or Java lifecycle equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -18599,6 +18944,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "Retain the two-value/two-entity initialized fixture: initial values follow i modulo value count. Rust slot IDs and integer order replace generated Java entity/value codes and solution container."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.assignment_controls",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Initialized shared-range fixtures are set to the same post-customization values and group sizes. Integer identities and native model setup replace Java entities, value codes and metamodel; fixture attribution only, no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSolution.generateSolution.assignment_controls",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "The two-slot fixture keeps first null and second value1; larger fixtures retain the explicitly assigned 0,0,1,null states. Integer identities and native model setup replace Java entities, value codes and metamodel; fixture attribution only, no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedSolution.generateSolution.assignment_controls",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Keep the two-value shared range and modulo-initialized slots, then apply the same pin and null customizations. Integer identities and native model setup replace Java entities, value codes and metamodel; fixture attribution only, no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/assignment_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.generateSolution.assignment_controls",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain ranges {1,2}/{1,3} and two initially null slots. Integer identities and native model setup replace Java entities, value codes and metamodel; fixture attribution only, no method credit."
     }
   ]
 }

@@ -118,6 +118,12 @@ impl<V: Clone> MassChange<V> {
 }
 impl Neighborhood {
     pub(crate) fn validate_basic<V: Eq>(self, p: &FiniteProblem<V>) -> Result<(), ModelError> {
+        if matches!(self, Self::Assign | Self::Unassign | Self::PillarUnassign) {
+            crate::mass_assignment::validate_unassignment(p)?;
+        }
+        if let Self::PillarChange(c) = self {
+            c.validate(p)?;
+        }
         if let Self::MassChange(c) = self {
             c.validate(p)?;
         }

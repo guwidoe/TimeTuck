@@ -85,6 +85,31 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: crate::Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    match neighborhood {
+        crate::Neighborhood::Assign | crate::Neighborhood::Unassign => {
+            return Box::new(crate::assignment_neighborhood::single(
+                problem,
+                assignment,
+                matches!(neighborhood, crate::Neighborhood::Unassign),
+                order,
+            ));
+        }
+        crate::Neighborhood::PillarChange(config) => {
+            return Box::new(crate::assignment_neighborhood::pillars(
+                problem, assignment, config, false, order,
+            ));
+        }
+        crate::Neighborhood::PillarUnassign => {
+            return Box::new(crate::assignment_neighborhood::pillars(
+                problem,
+                assignment,
+                crate::PillarChangeConfig::default(),
+                true,
+                order,
+            ));
+        }
+        _ => {}
+    }
     if let crate::Neighborhood::ChangeProduct(selection) = neighborhood {
         return Box::new(crate::change_product::ordered(
             problem, assignment, selection, order,

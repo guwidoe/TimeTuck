@@ -82,6 +82,14 @@ impl From<AcceptanceError> for LocalSearchError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
+    /// Assign missing optional basic slots; lists retain changes/swaps.
+    Assign,
+    /// Clear assigned optional basic slots; lists retain changes/swaps.
+    Unassign,
+    /// Whole basic pillars of at least two members with null-crossing controls.
+    PillarChange(crate::PillarChangeConfig),
+    /// Clear assigned whole basic pillars, including singleton groups.
+    PillarUnassign,
     /// Configurable list-span relocations and optional unassignments.
     /// Basic variables retain changes/swaps; mixed joint generation uses both.
     SubListChange(crate::SubListChangeConfig),
