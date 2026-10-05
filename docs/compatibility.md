@@ -2209,3 +2209,13 @@ Java callback and stream identity. Count/distinct-count and list/distinct-count
 remain distinct collector implementations. Original runtime regressions separately
 cover grouped tuple collectors, global sums, distinct keys, ordered lists, updates,
 empty removal, snapshot retention and rollback; they add no upstream method credit.
+
+Fifty-seven additional node-sharing methods preserve unary/binary/ternary expansion,
+binary/ternary/quaternary mapping and flatten-last, binary/ternary flatten, and all
+four arities' distinct/concatenation identities and padding differences. Tri's two
+same-result mapping callbacks remain distinct, and source filter true/false choices
+are retained. Native explicit definitions, scalar entity IDs, Option nulls and ordered
+field vectors replace Java callbacks/reflection/tuple overloads. Precompute remains
+pending. Original runtime comparisons separately cover multiset/set updates, sharing
+padding across different opposite parents, representative changes, duplicate positions,
+prefix preservation, self-concatenation and rollback without upstream method credit.

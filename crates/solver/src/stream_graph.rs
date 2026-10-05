@@ -30,6 +30,8 @@
 //! ```
 
 mod dataset;
+mod shared_sets;
+pub use shared_sets::{SharedConcat, SharedDistinct, SharedPaddedConcat};
 mod shared_aggregation;
 pub use shared_aggregation::{
     SharedCollect, SharedCollectList, SharedGroup, SharedGroupKeys, SharedGroupList,

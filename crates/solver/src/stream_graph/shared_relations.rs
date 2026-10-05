@@ -9,9 +9,13 @@ struct Registration {
     output: usize,
 }
 #[derive(Clone, Default)]
-struct Registrations(Rc<RefCell<Vec<Registration>>>);
+pub(super) struct Registrations(Rc<RefCell<Vec<Registration>>>);
 impl Registrations {
-    fn find<I, T>(&self, owner: &Rc<()>, parents: [usize; 2]) -> Option<StreamPort<I, T>> {
+    pub(super) fn find<I, T>(
+        &self,
+        owner: &Rc<()>,
+        parents: [usize; 2],
+    ) -> Option<StreamPort<I, T>> {
         let mut entries = self.0.borrow_mut();
         entries.retain(|e| e.owner.strong_count() != 0);
         let identity = Rc::downgrade(owner);
@@ -24,7 +28,7 @@ impl Registrations {
                 marker: PhantomData,
             })
     }
-    fn remember<I, T>(&self, parents: [usize; 2], out: &StreamPort<I, T>) {
+    pub(super) fn remember<I, T>(&self, parents: [usize; 2], out: &StreamPort<I, T>) {
         self.0.borrow_mut().push(Registration {
             owner: Rc::downgrade(&out.owner),
             parents,

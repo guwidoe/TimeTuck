@@ -10821,3 +10821,44 @@ Dashboard freshness43042 exited0 and matched report verification digest
 Logs:work/shared-aggregation-cases.log,-regression.log,-build.log,-check.log and
 -final-check.log (shared-aggregation prefix). All processes terminal. Previous
 turn progressed via37627db; the full goal remains active.
+
+## Shared distinct and concatenation pipelines
+
+SharedDistinct reuses the distinct occurrence index per definition/parent;
+SharedConcat reuses a routing node per definition/ordered parent pair while
+preserving branch tags, duplicate rows and both sides of self-concatenation.
+SharedPaddedConcat composes two SharedMap definitions with SharedConcat: each
+side's mapping remains shared even when paired with different opposite parents.
+Both parents validate before any topology changes. Pure mappings run on puts;
+retractions use captured outputs. Existing weak registration helpers are reused.
+Built nodes own callbacks; definitions retain no graph state and prune dead owners.
+
+Fifty-seven full upstream node-sharing methods add Uni/Bi/Tri expansion,
+Bi/Tri/Quad mapping/flatten-last, Bi/Tri flatten and all four arities' distinct,
+concatenation and padding assertions. Preserve Tri's two first-fact mappers and
+Tri/Quad true/false source-filter choices. Actual Cartesian self-join bases and
+adjacent-arity padding sources remain; native IDs/Option/ordered field vectors
+replace entities/null/Java tuple overloads. Four setup helpers and each method
+have provenance. Precompute remains pending; no automatic interning claim.
+Five original runtime tests cover 800 multiset/set differential trials, 200
+prefix-preserving tuple expansion/flattening trials, duplicate positional IDs,
+one padding call across opposite parents, self-concat, representative updates,
+callback failure rollback and shared scoring consumers. One private unit checks
+foreign inputs before mutation and weak cleanup over 100 builders.
+Focused cases89822 passed57; regressions74262 passed5. A lifetime-elision edit
+initially left two undeclared lifetime names; corrected before the regression pass.
+No benchmark, release or browser sweep; existing performance evidence unchanged.
+Broad build68559 exited0 in2m36s. Gate75468 stopped at Clippy's type_complexity
+warning on the three-parameter PhantomData marker; introduced a private type alias
+without changing behavior. For subsequent new shared APIs, checking Clippy before
+the all-target compilation can catch such declaration issues before code generation.
+Final build47769 exited0 in1m32s. Gate71398 exited0:2998 Rust tests,148 doctests,
+fmt/Clippy passed;331 Rust targets ran,56 reused;46 Python jobs reused.
+Aggregate exit0 and equal before/after source verified:
+772be5f1d0f7424f7dae694bec6a8804356e6ec9a39ee060651f9426f2fe2477.
+Coverage1579/4855(32.523%),pending2994,excluded282,failed/unverified0.
+Dashboard freshness48471 exited0 and matched report verification digest
+31b03d4f6ff4ab5b437843b88a9ee9d2f684deb0351e65572cd59a9842e1c758.
+Logs:work/shared-set-cases.log,-regression.log,-build.log,-check.log,
+-final-build.log and-final-check.log (shared-set prefix). All processes terminal.
+Previous goal turn progressed via8ec1ece; the full rewrite remains active.

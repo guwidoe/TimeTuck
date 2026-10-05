@@ -22830,6 +22830,861 @@
       "upstream_test": "sameParentSameCollectorGroupBy",
       "local_test": "quad_same_parent_same_collector_group_by",
       "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionExpand",
+      "local_test": "uni_different_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionExpand",
+      "local_test": "uni_same_parent_different_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionExpand",
+      "local_test": "uni_same_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentDistinct",
+      "local_test": "uni_different_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDistinct",
+      "local_test": "uni_same_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentFirstSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentFirstSourceConcat",
+      "local_test": "uni_different_first_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentSecondSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentSecondSourceConcat",
+      "local_test": "uni_different_second_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameSourcesConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameSourcesConcat",
+      "local_test": "uni_same_sources_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentPaddingFunctionConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentPaddingFunctionConcat",
+      "local_test": "uni_different_padding_function_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionExpand",
+      "local_test": "bi_different_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionExpand",
+      "local_test": "bi_same_parent_different_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionExpand",
+      "local_test": "bi_same_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionMap",
+      "local_test": "bi_different_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionMap",
+      "local_test": "bi_same_parent_different_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionMap",
+      "local_test": "bi_same_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentSameFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlatten",
+      "local_test": "bi_different_parent_same_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlatten",
+      "local_test": "bi_same_parent_different_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlatten",
+      "local_test": "bi_same_parent_same_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlattenLast",
+      "local_test": "bi_different_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlattenLast",
+      "local_test": "bi_same_parent_different_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlattenLast",
+      "local_test": "bi_same_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentDistinct",
+      "local_test": "bi_different_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDistinct",
+      "local_test": "bi_same_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentFirstSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentFirstSourceConcat",
+      "local_test": "bi_different_first_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentSecondSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentSecondSourceConcat",
+      "local_test": "bi_different_second_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameSourcesConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameSourcesConcat",
+      "local_test": "bi_same_sources_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentPaddingFunctionConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentPaddingFunctionConcat",
+      "local_test": "bi_different_padding_function_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionExpand",
+      "local_test": "tri_different_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionExpand",
+      "local_test": "tri_same_parent_different_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameFunctionExpand",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionExpand",
+      "local_test": "tri_same_parent_same_function_expand",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionMap",
+      "local_test": "tri_different_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionMap",
+      "local_test": "tri_same_parent_different_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionMap",
+      "local_test": "tri_same_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentSameFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlatten",
+      "local_test": "tri_different_parent_same_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlatten",
+      "local_test": "tri_same_parent_different_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameFunctionFlatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlatten",
+      "local_test": "tri_same_parent_same_function_flatten",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlattenLast",
+      "local_test": "tri_different_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlattenLast",
+      "local_test": "tri_same_parent_different_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlattenLast",
+      "local_test": "tri_same_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentDistinct",
+      "local_test": "tri_different_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDistinct",
+      "local_test": "tri_same_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentFirstSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentFirstSourceConcat",
+      "local_test": "tri_different_first_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentSecondSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentSecondSourceConcat",
+      "local_test": "tri_different_second_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameSourcesConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameSourcesConcat",
+      "local_test": "tri_same_sources_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentPaddingFunctionConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentPaddingFunctionConcat",
+      "local_test": "tri_different_padding_function_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionMap",
+      "local_test": "quad_different_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDifferentFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionMap",
+      "local_test": "quad_same_parent_different_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionMap",
+      "local_test": "quad_same_parent_same_function_map",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlattenLast",
+      "local_test": "quad_different_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlattenLast",
+      "local_test": "quad_same_parent_different_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlattenLast",
+      "local_test": "quad_same_parent_same_function_flatten_last",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentDistinct",
+      "local_test": "quad_different_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDistinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDistinct",
+      "local_test": "quad_same_parent_distinct",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentFirstSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentFirstSourceConcat",
+      "local_test": "quad_different_first_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentSecondSourceConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentSecondSourceConcat",
+      "local_test": "quad_different_second_source_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameSourcesConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameSourcesConcat",
+      "local_test": "quad_same_sources_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentPaddingFunctionConcat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentPaddingFunctionConcat",
+      "local_test": "quad_different_padding_function_concat",
+      "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
     }
   ],
   "fixtures": [
@@ -28604,6 +29459,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
       "upstream_test": "setup",
       "modifications": "Explicit native entity source and zero through three Cartesian self-joins reproduce base stream topology. Scalar IDs replace reflected entity identities. Source methods insert no facts and compare node identity only; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.setup.shared_sets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce base stream topology; adjacent-arity padding fixtures use the same joined sources. IDs replace Java entity identity. Source methods assert node identity without inserting facts. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.setup.shared_sets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce base stream topology; adjacent-arity padding fixtures use the same joined sources. IDs replace Java entity identity. Source methods assert node identity without inserting facts. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.setup.shared_sets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce base stream topology; adjacent-arity padding fixtures use the same joined sources. IDs replace Java entity identity. Source methods assert node identity without inserting facts. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_set_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.setup.shared_sets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce base stream topology; adjacent-arity padding fixtures use the same joined sources. IDs replace Java entity identity. Source methods assert node identity without inserting facts. Helper adds no method credit."
     }
   ]
 }

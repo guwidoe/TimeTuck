@@ -709,3 +709,9 @@ node-sharing methods and four setup helpers from pinned Community
 `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest` (Apache-2.0). Exact methods
 and native substitutions are recorded in `compat/provenance.json`. The aggregation
 definitions and runtime regression cases are independently implemented.
+
+`crates/solver/tests/shared_set_cases.rs` adapts fifty-seven transformation,
+distinct and concatenation node-sharing methods plus setup helpers from pinned
+Community `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest` (Apache-2.0).
+Exact methods and substitutions are recorded in `compat/provenance.json`.
+Shared set/concatenation definitions and runtime comparisons are independent.

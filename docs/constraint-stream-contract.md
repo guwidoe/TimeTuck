@@ -1752,3 +1752,26 @@ on application, and retain no graph state. Built nodes own their mapping callbac
 `StreamPort::same_node` compares graph/node identity across payload types without
 comparing rows or inferring equivalence. Ordinary builder calls are unchanged.
 No throughput comparison or Java automatic-interning guarantee is claimed.
+
+## Shared distinct and concatenation pipelines
+
+`SharedDistinct` reuses one distinct occurrence index for a definition/clone and
+parent. Ord determines value classes, with the lowest input ID supplying each
+representative payload. `SharedConcat` reuses one routing node for a definition
+and ordered parent pair. It preserves duplicate occurrences with branch-tagged IDs,
+including both branches of self-concatenation, without intermediate mapping nodes.
+Fresh definitions, different parents and different builders remain independent.
+
+`SharedPaddedConcat` converts each side to one common payload type using two pure,
+deterministic mappings. Option fields express null padding. Each side's mapping
+is itself shared, so pairing one parent with several opposite parents does not
+repeat its conversion work. Both parents validate before topology changes, mapping
+runs only on puts, and retraction uses captured outputs. Runtime graph checkpoints
+restore all shared branches and score consumers on rollback or callback failure.
+Definitions retain only weak builder registrations and mapping callbacks; dead
+registrations prune on apply and built nodes retain callbacks independently.
+
+Existing SharedMap can append fields or map multi-fact tuples; SharedFlatMap can
+flatten whole tuples or retain a prefix while flattening the final field. Positional
+IDs preserve duplicates. Native arity is expressed by Rust payload types rather
+than Java overloads. No throughput or automatic lambda-interning claim is added.

@@ -680,3 +680,5 @@ pub use stream_graph::{SharedExistence, SharedJoin};
 pub use stream_graph::{
     SharedCollect, SharedCollectList, SharedGroup, SharedGroupKeys, SharedGroupList,
 };
+
+pub use stream_graph::{SharedConcat, SharedDistinct, SharedPaddedConcat};
