@@ -562,3 +562,9 @@ mod sublist_sampling;
 pub use sublist_sampling::{
     SubListSelection, sampled_sublist_change_moves, sampled_sublist_swap_moves,
 };
+
+mod value_range;
+pub use value_range::{
+    BooleanValueRange, CompositeValueRange, EnumeratedValueRange, IntegerValueRange,
+    OptionalValueRange, ValueRange, ValueRangeError, ValueRangeIter, variable_from_range,
+};

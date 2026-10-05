@@ -1624,3 +1624,37 @@ domains have no separate unused global registry for the empty-entity fixture.
 Nine original checks cover all six backends, empty and pinned models, mixed
 component mobility, budgets/cancellation/targets, missing required list values,
 prefix appending, provider non-invocation, plan errors and initialization failures.
+
+## Indexed value ranges
+
+ValueRange is an immutable, object-safe sequence of value occurrences with u128
+counts, indexed access and membership. Implementations must keep their order/count
+stable and provide every in-range value. Iterators traverse lazily in either
+direction; nth/nth_back skip directly by rank. Counts exceeding usize remain valid,
+so iterators do not implement ExactSizeIterator. Random iterators select uniform
+occurrence ranks with replacement; empty ranges terminate without drawing. Injected
+rank sources permit deterministic replay and panic on an out-of-bound rank. Native
+seeds are reproducible, without Java PRNG parity.
+
+IntegerValueRange uses a signed i64 half-open interval and a positive u64 step,
+with widened arithmetic for both endpoints. A nondividing step includes the final
+progression member below the upper endpoint; no Java validation parity is claimed
+for such bounds. EnumeratedValueRange retains ordered duplicate occurrences in
+shared immutable storage. BooleanValueRange orders false then true. CompositeValueRange
+concatenates heterogeneous child ranges using checked prefix counts, preserving
+empty children and duplicates. OptionalValueRange prefixes one None, with checked
+count growth; nested wrappers preserve distinct Option layers.
+
+materialize and sorted_by require explicit element limits before reading values.
+They are not byte limits or allocation guarantees. Sorting creates a stable copy;
+sorted_present_by on optional ranges preserves None first even when descending.
+Ordinary indexed arithmetic/boolean ranges also support a bounded sorted copy;
+Java unsupported-sort exception behavior is not claimed. Out-of-range indices yield
+None. Negative indices do not exist in this native API. contains_assignment(None)
+rejects an absent assignment; an optional range member is explicitly Some(&None).
+
+variable_from_range makes bounded conversion into the existing finite solver
+explicit. It does not turn the solver into a lazy-domain engine. Duplicate values
+remain for FiniteProblem's ordinary validation to reject. An original exact-solve
+case verifies a combined arithmetic/explicit domain and an independently calculated
+optimum. Large-range support does not imply a new end-to-end performance result.

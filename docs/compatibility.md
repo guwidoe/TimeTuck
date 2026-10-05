@@ -1891,3 +1891,15 @@ and PRNG traces are not claimed. Empty-selection assertions are adapted as a
 fixture but that upstream method remains pending because Java never-ending metadata
 has no direct native property. Constructor-message and lifecycle methods remain
 pending. This batch adds no new performance measurements.
+
+Thirty-four indexed value-range methods now retain integer/long boundary fixtures,
+explicit list/composite/optional/boolean values, counts, membership, exact iteration,
+injected random draws and supported sorting assertions. Native signed i64 arithmetic
+covers both int and long fixtures with their distinct original limits. None represents
+missing values and out-of-range lookup; negative indices are unrepresentable. Native
+stable copies and captured comparators replace sorter/factory wrappers. Unsupported
+sort and negative-index exception methods remain pending. Huge lazy ranges support
+lookup/sampling; variable_from_range explicitly materializes under a caller
+limit because the current solver still stores finite domains. Seven original checks
+cover overflow, wide double-ended skipping, rejected allocations, nested optional
+layers, stable snapshots, occurrence sampling and actual exact solving.

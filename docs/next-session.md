@@ -9871,3 +9871,40 @@ performance measurements remain stale. Logs:work/sublist-sampling-focused.log,
 work/sublist-sampling-build.log,work/sublist-sampling-check.log. All jobs completed.
 Previous goal turn made verified progress and committed d4f26b5; this turn adds
 usable sampling implementations. The full rewrite goal remains active.
+
+## Indexed planning value ranges
+
+Added object-safe ValueRange with u128 occurrence counts and immutable Integer,
+Enumerated, Boolean, Composite and Optional range implementations. Integer ranges
+use widened i64 endpoint arithmetic and positive u64 steps, including nondividing
+steps under the documented native half-open contract. Composite ranges route ranks
+through checked prefix counts without flattening; optional wrappers prepend None.
+Lazy double-ended iterators skip by rank. Uniform occurrence draws repeat with
+native seeds or injected ranks; duplicates retain their sampling weight. Stable
+sorted copies preserve held snapshots, and optional present-value sorting keeps
+None first. Materialization requires a caller limit before reading values.
+variable_from_range provides bounded conversion to the existing finite solver;
+this does not introduce lazy domains into solver storage/search.
+Thirty-four complete upstream methods and three helpers are attributed. Int/long
+fixtures retain distinct original boundaries using native i64; missing values and
+invalid indices/exhaustion use Option. Negative-index and unsupported-sort methods
+remain pending. Seven original regressions cover arithmetic extremes, counts above
+usize, composite/optional overflow, lazy skipping and sampling, rejected allocations,
+stable sorting and a real exact solve with combined domains/known optimum.
+Focused cases/regressions passed; two initial parentheses warnings were removed.
+A first check began broad reruns because an inherent Variable constructor made the
+new module a dependency of the shared type. That run was explicitly terminated
+(process group22479, terminal session60286 exit143) before moving the bridge to
+standalone variable_from_range. No hashes/evidence were relabeled. Final check.sh
+exited zero:2465 Rust tests,133 doctests,fmt/Clippy;46 Python jobs reused.25 Rust
+targets ran (including22 cache records refreshed after the bridge adjustment),309
+reused unchanged results. Future isolated edits need only their affected inputs.
+Final affected executable prebuild21.77s. Source digest:
+9558210af31ba224e25e5d65eb619b9762a0d110a39847132dac78191b56e0a5.
+Coverage1221/4855(25.149%),pending3352,excluded282,failed/unverified0. Live dashboard
+verification digest matches. No browser, release tests or benchmark sweep; older
+performance measurements remain stale. Logs:work/value-range-focused.log,
+work/value-range-build.log,work/value-range-check.log. The interrupted intermediate
+check is retained in work/value-range-constructor-check.log. Final checks and
+freshness jobs completed. Previous turn made progress and committed e224515;
+this turn adds working range capabilities. The full rewrite goal remains active.

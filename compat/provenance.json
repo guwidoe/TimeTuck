@@ -17805,6 +17805,516 @@
       "upstream_test": "randomWithSubListSizeBounds",
       "local_test": "random_with_sub_list_size_bounds",
       "modifications": "Retain every source list, prefix/unassigned fixture, exact descending-length/ascending-start span sequence, total count and requested random bound. Injected native rank draws replace TestRandom; an additional draw after all distinct spans preserves repeated/nonexhausting selection behavior. Native validated immutable indices replace mocked descriptors, shadow updates and lifecycle setup. These fixtures have one nonempty movable entity; no multi-entity distribution or Java PRNG/lifecycle parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IntValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "int_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IntValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "int_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IntValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "int_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IntValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "int_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IntValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "int_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "long_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "long_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "long_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "long_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "long_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "list_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "list_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "list_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "list_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "list_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/ListValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_test": "list_sort",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "composite_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "composite_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "composite_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "composite_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "composite_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_test": "composite_sort",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "optional_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "optional_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "optional_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "optional_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "optional_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NullAllowingValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/NullAllowingValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_test": "optional_sort",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "boolean_get_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "boolean_get",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "boolean_contains",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "boolean_original_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "boolean_random_iterator",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BooleanValueRangeTest.getIndexGreaterThanSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "getIndexGreaterThanSize",
+      "local_test": "boolean_get_index_greater_than_size",
+      "modifications": "Retain every fixture, count, indexed value, membership result, ordered iteration and injected random draw. Native i64 covers both original int and long fixtures, retaining their distinct boundary constants. Java null uses Option; contains_assignment(None) rejects an absent nonoptional value. Out-of-range get and exhausted iteration use None instead of Java exceptions. Boolean draws map false/true to ranks 0/1. Stable sorted copies and captured comparators preserve direct/factory ascending/descending assertions; optional sorting fixes None at rank zero. No Java API/PRNG or unsupported-sort/negative-index-method parity is claimed."
     }
   ],
   "fixtures": [
@@ -21577,6 +22087,45 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertEmptyNeverEndingIterableSelector",
       "modifications": "Retain zero count and exhausted iterator behavior; Java never-ending metadata is not implemented and earns no method credit. Helper/fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllElementsOfIterator.value_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllElementsOfIterator",
+      "modifications": "Native test helpers retain complete ordered values, repeated exhaustion as None, bounded scripted draws and ordered child-list composition. Java exhausted-next exceptions become the Rust Iterator None contract. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertElementsOfIterator.value_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertElementsOfIterator",
+      "modifications": "Native test helpers retain complete ordered values, repeated exhaustion as None, bounded scripted draws and ordered child-list composition. Java exhausted-next exceptions become the Rust Iterator None contract. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/value_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeValueRangeTest.createValueRange.value_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/CompositeValueRangeTest.java",
+      "upstream_test": "createValueRange",
+      "modifications": "Native test helpers retain complete ordered values, repeated exhaustion as None, bounded scripted draws and ordered child-list composition. Java exhausted-next exceptions become the Rust Iterator None contract. Helper attribution only; no additional method credit."
     }
   ]
 }
