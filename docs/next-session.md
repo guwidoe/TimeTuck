@@ -10457,3 +10457,45 @@ Previous goal turn progressed via214aaec; this batch adds revision-aware candida
 reuse. Full solver rewrite remains active and unfinished.
 Dashboard freshness session33231 exited0 and matched the report digest. All batch
 process handles are terminal.
+
+## Custom provider construction across all six scoring/model paths
+
+ProviderConstructionConfig and six *_construction_from_with_provider entry points
+now build partial assignments using the existing MoveProvider interface. Pools are
+reopened on the committed snapshot each step; composites can initialize multiple
+basic/list items jointly. A shared loop delegates to existing select_best engines,
+keeping stable ties and installing cached winners without rescoring. Existing basic
+values and same-owner list subsequences are preserved. Domain/pin/ownership-invalid,
+non-progressing and preservation-violating moves are counted and skipped before
+scoring. Optional values default to Preserve; optional-only additions need a
+non-worsening score. Required progress wins structurally, including atomic mixed
+moves. Explicit raw-scan bounds stop infinite unusable providers; score/move/step/
+time/cancellation bounds preserve the evaluated-prefix winner. Exact limits avoid
+extra lookahead, so a bounded result can be complete. NoCandidates never claims
+infeasibility. Zero score/time/pre-cancellation avoids all score/provider callbacks;
+zero move/step/scan permits initial scoring. All entry points validate first.
+
+Fourteen original regressions cover actual selection-source-driven construction,
+local-search handoff, joint/composite candidates, stable ties/no winner rescoring,
+existing values/list order/owners/pins/ranges, optional policies, empty providers,
+infinite invalid sources, partial resume, limits across all six paths, cancellation
+and no early-pick prefetch. One new usage doctest. No upstream methods adapted or
+provenance credit added. This closes the standalone provider-construction gap;
+SolverPlan provider construction phases and automatic SelectionSource lifecycle
+wiring remain open. Legality uses clone/preview validation, not optimized deltas.
+
+Final focused94207 exited0 (14 tests); prebuild11.00s; final gate99191 exited0:
+2748 Rust tests,140 doctests,fmt/Clippy;2 Rust targets ran,367 reused;46 Python jobs
+reused. Aggregate exit0 and equal before/after source verified:
+6fe473b0d3c470c8cc96592ef246d9cf3551a8c82d32d9f1f89262eba2084b33.
+Coverage remains1385/4855(28.527%),pending3188,excluded282,failed/unverified0.
+Logs: work/provider-construction-final-focused.log,provider-construction-build.log,
+provider-construction-check.log (all under work/). Test compilation initially
+needed native ListPosition fields, correct step-limit type and explicit graph score
+type; fixed before final tests. No implementation/gate failures. No repeated browser,
+release or benchmark sweep; previous performance evidence remains stale. The prior
+question-only turn made no implementation progress; current clean state was inspected
+before this implementation. The full rewrite remains active and unfinished.
+Dashboard freshness10991 exited0 and matched report digest
+111e190201ac667413835654bb52b3718281ad2b7d67d4dc5f194d544f20bae7.
+All batch processes are terminal.

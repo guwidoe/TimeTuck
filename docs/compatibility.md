@@ -2130,3 +2130,9 @@ limit/panic recovery, invalid transitions, empty and unbounded sources, passive
 random availability, invalid draws, indexed views, snapshot ownership and both
 basic scoring backends. No automatic model revision counter, Java PRNG trace parity
 or new timing comparison is claimed.
+
+Custom move providers can now construct basic, list and mixed assignments with
+both scoring backends, including atomic multi-item initialization, preservation of
+existing assignments, bounded scans and useful partial results. This is native
+integration coverage only: no additional pinned methods or Java construction-trace
+parity are claimed. The contract is in `incremental-search-contract.md`.

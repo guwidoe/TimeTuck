@@ -648,3 +648,11 @@ pub use assignment_selection::{
 
 mod revision_selection;
 pub use revision_selection::{RevisionRefresh, RevisionSelectionIter, RevisionedSelection};
+
+mod provider_construction;
+pub use provider_construction::{
+    ProviderConstructionConfig, ProviderConstructionResult, ProviderConstructionTermination,
+    construction_from_with_provider, list_construction_from_with_provider,
+    list_stream_construction_from_with_provider, mixed_construction_from_with_provider,
+    mixed_stream_construction_from_with_provider, stream_construction_from_with_provider,
+};

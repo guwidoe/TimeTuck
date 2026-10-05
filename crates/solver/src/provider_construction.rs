@@ -1,0 +1,554 @@
+//! Construction from custom move providers. Providers propose a pool at each
+//! assignment boundary; construction accepts only monotonic initialization.
+//! Unlike provider local search, malformed or non-initializing proposals are
+//! skipped and counted. No exhaustion of a custom pool proves infeasibility.
+use std::time::{Duration, Instant};
+
+use crate::list_search_scoring::ListSearchDirector;
+use crate::mixed_search_scoring::MixedSearchDirector;
+use crate::search_scoring::SearchDirector;
+use crate::{
+    AdditiveScore, Assignment, CancellationToken, ConstraintNetwork, ConstructionPickEarly,
+    FiniteProblem, ListAssignment, ListConstraintNetwork, ListMove, ListProblem, ListScoreDirector,
+    ListScoringError, ListStreamScoreDirector, ListStreamScoringError, ListStreamSources,
+    MixedAssignment, MixedConstraintNetwork, MixedMove, MixedProblem, MixedScoreDirector,
+    MixedScoringError, MixedStreamScoreDirector, MixedStreamScoringError, MixedStreamSources, Move,
+    MoveProvider, OptionalConstruction, PlanningStreamSource, ScoreDirector, ScoringError,
+    StreamGraph, StreamScoreDirector, StreamScoringError,
+};
+
+/// Controls for pooled provider construction. Providers determine ordering and
+/// may propose composite moves initializing several items atomically.
+///
+/// Bounds are per call. Score evaluations include initialization; move and scan
+/// bounds do not. Scan bounds count every raw proposal, including invalid moves.
+/// Factory/iterator/scoring callbacks must return promptly: stopping is cooperative.
+#[derive(Clone, Copy, Debug)]
+pub struct ProviderConstructionConfig<'a> {
+    pub max_evaluations: u64,
+    pub max_move_evaluations: Option<u64>,
+    pub max_steps: Option<u64>,
+    pub max_scanned_moves: u64,
+    pub optional: OptionalConstruction,
+    pub pick_early: ConstructionPickEarly,
+    pub cancellation: Option<&'a CancellationToken>,
+    pub max_time: Option<Duration>,
+    pub assert_scores: bool,
+}
+impl Default for ProviderConstructionConfig<'_> {
+    fn default() -> Self {
+        Self {
+            max_evaluations: 10_000,
+            max_move_evaluations: None,
+            max_steps: None,
+            max_scanned_moves: 100_000,
+            optional: OptionalConstruction::Preserve,
+            pick_early: ConstructionPickEarly::Never,
+            cancellation: None,
+            max_time: None,
+            assert_scores: false,
+        }
+    }
+}
+/// Why provider construction stopped. NoCandidates may leave a partial assignment
+/// even when legal completions exist; it is not an infeasibility certificate.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ProviderConstructionTermination {
+    /// No eligible missing items remain; this does not assert hard feasibility.
+    Completed,
+    NoCandidates,
+    EvaluationLimit,
+    MoveEvaluationLimit,
+    ScanLimit,
+    StepLimit,
+    Cancelled,
+    TimeLimit,
+}
+/// The last committed assignment, including useful partial construction.
+#[derive(Clone, Debug)]
+pub struct ProviderConstructionResult<A, S> {
+    pub assignment: A,
+    pub score: Option<S>,
+    pub complete: bool,
+    pub evaluations: u64,
+    pub constraint_evaluations: u128,
+    /// Scans with at least one score evaluation, including all-rejected scans.
+    pub completed_steps: u64,
+    pub scanned_moves: u64,
+    /// Invalid, non-progressing or preservation-violating proposals. Score-based
+    /// rejection of an optional initialization is not included here.
+    pub rejected_moves: u64,
+    pub termination: ProviderConstructionTermination,
+}
+
+trait Shape {
+    type Problem;
+    type Assignment: Clone;
+    type Move;
+    fn problem(&self) -> &Self::Problem;
+    fn complete(&self, a: &Self::Assignment) -> bool;
+    fn remaining(&self, a: &Self::Assignment, optional: OptionalConstruction) -> usize;
+    fn extends(&self, a: &Self::Assignment, m: &Self::Move, optional: OptionalConstruction)
+    -> bool;
+}
+struct BasicShape<'a, V>(&'a FiniteProblem<V>);
+struct ListShape<'a, V>(&'a ListProblem<V>);
+struct MixedShape<'a, B, L>(&'a MixedProblem<B, L>);
+
+fn basic_remaining<V: Eq>(
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+    o: OptionalConstruction,
+) -> usize {
+    p.variables()
+        .iter()
+        .zip(a.values())
+        .filter(|(v, value)| {
+            value.is_none()
+                && !v.is_pinned()
+                && (!v.allows_unassigned() || o == OptionalConstruction::NonWorsening)
+        })
+        .count()
+}
+fn basic_preserved<V: Eq>(
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+    b: &Assignment<V>,
+    o: OptionalConstruction,
+) -> bool {
+    p.variables()
+        .iter()
+        .zip(a.values().iter().zip(b.values()))
+        .all(|(v, (old, new))| {
+            if old.is_some() || (v.allows_unassigned() && o == OptionalConstruction::Preserve) {
+                old == new
+            } else {
+                true
+            }
+        })
+}
+fn list_remaining<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    a: &ListAssignment<V>,
+    o: OptionalConstruction,
+) -> usize {
+    if p.allows_unassigned() && o == OptionalConstruction::Preserve {
+        0
+    } else {
+        p.values().len() - a.lists().iter().map(Vec::len).sum::<usize>()
+    }
+}
+fn list_preserved<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    a: &ListAssignment<V>,
+    b: &ListAssignment<V>,
+    o: OptionalConstruction,
+) -> bool {
+    if p.allows_unassigned() && o == OptionalConstruction::Preserve {
+        return a == b;
+    }
+    // Every old list remains a subsequence of the same owner's new list.
+    // New insertions may shift positions, but cannot relocate or reorder old values.
+    a.lists().iter().zip(b.lists()).all(|(old, new)| {
+        let mut remaining = new.iter();
+        old.iter().all(|value| remaining.any(|next| next == value))
+    })
+}
+impl<V: Eq + Clone> Shape for BasicShape<'_, V> {
+    type Problem = FiniteProblem<V>;
+    type Assignment = Assignment<V>;
+    type Move = Move<V>;
+    fn problem(&self) -> &Self::Problem {
+        self.0
+    }
+    fn complete(&self, a: &Self::Assignment) -> bool {
+        self.0.is_complete(a)
+    }
+    fn remaining(&self, a: &Self::Assignment, o: OptionalConstruction) -> usize {
+        basic_remaining(self.0, a, o)
+    }
+    fn extends(&self, a: &Self::Assignment, m: &Self::Move, o: OptionalConstruction) -> bool {
+        let mut b = a.clone();
+        let Ok(tx) = self.0.apply(&mut b, m) else {
+            return false;
+        };
+        tx.commit();
+        basic_preserved(self.0, a, &b, o) && self.remaining(&b, o) < self.remaining(a, o)
+    }
+}
+impl<V: Eq + Clone> Shape for ListShape<'_, V> {
+    type Problem = ListProblem<V>;
+    type Assignment = ListAssignment<V>;
+    type Move = ListMove<V>;
+    fn problem(&self) -> &Self::Problem {
+        self.0
+    }
+    fn complete(&self, a: &Self::Assignment) -> bool {
+        self.0.is_complete(a)
+    }
+    fn remaining(&self, a: &Self::Assignment, o: OptionalConstruction) -> usize {
+        list_remaining(self.0, a, o)
+    }
+    fn extends(&self, a: &Self::Assignment, m: &Self::Move, o: OptionalConstruction) -> bool {
+        let mut b = a.clone();
+        let Ok(tx) = self.0.apply(&mut b, m) else {
+            return false;
+        };
+        tx.commit();
+        list_preserved(self.0, a, &b, o) && self.remaining(&b, o) < self.remaining(a, o)
+    }
+}
+impl<B: Eq + Clone, L: Eq + Clone> Shape for MixedShape<'_, B, L> {
+    type Problem = MixedProblem<B, L>;
+    type Assignment = MixedAssignment<B, L>;
+    type Move = MixedMove<B, L>;
+    fn problem(&self) -> &Self::Problem {
+        self.0
+    }
+    fn complete(&self, a: &Self::Assignment) -> bool {
+        self.0.is_complete(a)
+    }
+    fn remaining(&self, a: &Self::Assignment, o: OptionalConstruction) -> usize {
+        basic_remaining(self.0.basic(), a.basic(), o) + list_remaining(self.0.lists(), a.lists(), o)
+    }
+    fn extends(&self, a: &Self::Assignment, m: &Self::Move, o: OptionalConstruction) -> bool {
+        let mut b = a.clone();
+        let Ok(tx) = self.0.apply(&mut b, m) else {
+            return false;
+        };
+        tx.commit();
+        basic_preserved(self.0.basic(), a.basic(), b.basic(), o)
+            && list_preserved(self.0.lists(), a.lists(), b.lists(), o)
+            && self.remaining(&b, o) < self.remaining(a, o)
+    }
+}
+struct Selected {
+    installed: bool,
+    evaluations: u64,
+    constraint_evaluations: u128,
+}
+trait Engine<A, M, S> {
+    type Error;
+    fn assignment(&self) -> &A;
+    fn score(&self) -> S;
+    fn initial_evaluations(&self) -> u128;
+    fn assert_consistent(&mut self) -> Result<(), Self::Error>;
+    fn select(
+        &mut self,
+        moves: impl Iterator<Item = M>,
+        limit: u64,
+        config: ProviderConstructionConfig,
+    ) -> Result<Selected, Self::Error>;
+}
+// Wrappers keep this entry point independent of existing search engine behavior.
+macro_rules! engine {
+    ($wrapper:ident, $search:ident, [$($v:ident),+], $assignment:ty, $movement:ty) => {
+        struct $wrapper<D>(D);
+        impl<$($v: Eq + Clone,)+ S: AdditiveScore, D: $search<$($v,)+ S>> Engine<$assignment, $movement, S> for $wrapper<D> {
+            type Error = D::Error;
+            fn assignment(&self) -> &$assignment { self.0.assignment() }
+            fn score(&self) -> S { self.0.score() }
+            fn initial_evaluations(&self) -> u128 { self.0.initial_constraint_evaluations() }
+            fn assert_consistent(&mut self) -> Result<(), Self::Error> { self.0.assert_consistent() }
+            fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig) -> Result<Selected, Self::Error> {
+                let previous = self.0.score();
+                // Required initialization improves structural score even when the
+                // ordinary score worsens; optional-only moves must not worsen it.
+                let selection = self.0.select_best(moves, limit, false,
+                    |_, score| score >= previous,
+                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    config.assert_scores)?;
+                Ok(Selected { installed: selection.selected.is_some(), evaluations: selection.evaluations,
+                    constraint_evaluations: selection.constraint_evaluations })
+            }
+        }
+    }
+}
+engine!(BasicEngine, SearchDirector, [V], Assignment<V>, Move<V>);
+engine!(
+    ListEngine,
+    ListSearchDirector,
+    [V],
+    ListAssignment<V>,
+    ListMove<V>
+);
+engine!(MixedEngine, MixedSearchDirector, [B, L], MixedAssignment<B, L>, MixedMove<B, L>);
+
+fn interruption(
+    c: ProviderConstructionConfig,
+    start: Instant,
+) -> Option<ProviderConstructionTermination> {
+    if c.cancellation.is_some_and(CancellationToken::is_cancelled) {
+        Some(ProviderConstructionTermination::Cancelled)
+    } else if c.max_time.is_some_and(|limit| start.elapsed() >= limit) {
+        Some(ProviderConstructionTermination::TimeLimit)
+    } else {
+        None
+    }
+}
+fn score_budget(
+    c: ProviderConstructionConfig,
+    evaluations: u64,
+) -> (u64, ProviderConstructionTermination) {
+    let scores = c.max_evaluations.saturating_sub(evaluations);
+    let moves = c.max_move_evaluations.map_or(u64::MAX, |n| {
+        n.saturating_sub(evaluations.saturating_sub(1))
+    });
+    if moves < scores {
+        (moves, ProviderConstructionTermination::MoveEvaluationLimit)
+    } else {
+        (scores, ProviderConstructionTermination::EvaluationLimit)
+    }
+}
+type Outcome<F, S> = ProviderConstructionResult<<F as Shape>::Assignment, S>;
+type Provider<'a, F> =
+    &'a mut dyn MoveProvider<<F as Shape>::Problem, <F as Shape>::Assignment, <F as Shape>::Move>;
+fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
+    shape: F,
+    initial: F::Assignment,
+    config: ProviderConstructionConfig,
+    provider: Provider<'_, F>,
+    create: impl FnOnce(F::Assignment) -> Result<D, D::Error>,
+) -> Result<Outcome<F, S>, D::Error> {
+    use ProviderConstructionTermination as Stop;
+    let start = Instant::now();
+    let mut result = ProviderConstructionResult {
+        complete: shape.complete(&initial),
+        assignment: initial,
+        score: None,
+        evaluations: 0,
+        constraint_evaluations: 0,
+        completed_steps: 0,
+        scanned_moves: 0,
+        rejected_moves: 0,
+        termination: Stop::EvaluationLimit,
+    };
+    if config.max_evaluations == 0 {
+        return Ok(result);
+    }
+    if let Some(reason) = interruption(config, start) {
+        result.termination = reason;
+        return Ok(result);
+    }
+    let mut director = create(result.assignment.clone())?;
+    result.evaluations = 1;
+    result.constraint_evaluations = director.initial_evaluations();
+    if config.assert_scores {
+        director.assert_consistent()?;
+    }
+    result.termination = loop {
+        if let Some(reason) = interruption(config, start) {
+            break reason;
+        }
+        if shape.remaining(director.assignment(), config.optional) == 0 {
+            break Stop::Completed;
+        }
+        if config
+            .max_steps
+            .is_some_and(|limit| result.completed_steps >= limit)
+        {
+            break Stop::StepLimit;
+        }
+        let (budget, budget_reason) = score_budget(config, result.evaluations);
+        if budget == 0 {
+            break budget_reason;
+        }
+        if result.scanned_moves == config.max_scanned_moves {
+            break Stop::ScanLimit;
+        }
+        let base = director.assignment().clone();
+        let mut proposals = provider.moves(shape.problem(), &base, result.completed_steps);
+        let mut stopped = None;
+        let mut emitted = 0;
+        let mut ended = false;
+        let candidates = std::iter::from_fn(|| {
+            if ended {
+                return None;
+            }
+            loop {
+                stopped = interruption(config, start);
+                if stopped.is_none() && emitted == budget {
+                    stopped = Some(budget_reason);
+                }
+                if stopped.is_none() && result.scanned_moves == config.max_scanned_moves {
+                    stopped = Some(Stop::ScanLimit);
+                }
+                if stopped.is_some() {
+                    ended = true;
+                    return None;
+                }
+                let Some(movement) = proposals.next() else {
+                    ended = true;
+                    return None;
+                };
+                result.scanned_moves += 1;
+                if let Some(reason) = interruption(config, start) {
+                    stopped = Some(reason);
+                    ended = true;
+                    return None;
+                }
+                if shape.extends(&base, &movement, config.optional) {
+                    emitted += 1;
+                    return Some(movement);
+                }
+                result.rejected_moves += 1;
+            }
+        });
+        let selection = director.select(candidates, budget, config)?;
+        result.evaluations += selection.evaluations;
+        result.constraint_evaluations += selection.constraint_evaluations;
+        result.completed_steps += u64::from(selection.evaluations > 0);
+        if config.assert_scores {
+            director.assert_consistent()?;
+        }
+        if let Some(reason) = stopped.or_else(|| interruption(config, start)) {
+            break reason;
+        }
+        if !selection.installed {
+            break Stop::NoCandidates;
+        }
+    };
+    result.complete = shape.complete(director.assignment());
+    result.assignment = director.assignment().clone();
+    result.score = Some(director.score());
+    Ok(result)
+}
+
+/// Build an assignment using a custom candidate pool and scoped basic scoring.
+/// Existing assignments are preserved; list insertions may shift old indices.
+/// Stable ties keep the first candidate. The best evaluated prefix is committed
+/// when interrupted. No additional provider pull is made to prove exhaustion at
+/// an exact limit, so a limit result may itself contain a complete assignment.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1_i32, 2]); 2])?;
+/// let mut n = ConstraintNetwork::new(2);
+/// n.add_constraint("sum", vec![0, 1], |v| {
+///     SimpleScore::new(v.iter().filter_map(|v| v.copied()).map(i64::from).sum())
+/// })?;
+/// let mut provider = |p: &FiniteProblem<i32>, a: &Assignment<i32>, _: u64| {
+///     a.values().iter().enumerate().filter(|(_, v)| v.is_none())
+///         .flat_map(|(variable, _)| p.variables()[variable].domain().iter()
+///             .map(move |value| Move::Change { variable, value: Some(*value) }))
+///         .collect()
+/// };
+/// let r = construction_from_with_provider(&p, &n, p.initial_assignment(),
+///     ProviderConstructionConfig::default(), &mut provider)?;
+/// assert!(r.complete);
+/// assert_eq!(r.assignment.values(), &[Some(2), Some(2)]);
+/// assert_eq!(r.score, Some(SimpleScore::new(4)));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub fn construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, ScoringError> {
+    network.validate(problem, &initial)?;
+    construct(BasicShape(problem), initial, config, provider, |a| {
+        ScoreDirector::new(problem, network, a).map(BasicEngine)
+    })
+}
+
+/// Provider construction with transactional streams; same controls and
+/// preservation rules as [`construction_from_with_provider`].
+/// Model and source ownership validate even at zero score budget.
+pub fn stream_construction_from_with_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, StreamScoringError> {
+    crate::stream_scoring::validate_source(&graph, &sources)?;
+    problem.validate(&initial)?;
+    construct(BasicShape(problem), initial, config, provider, |a| {
+        StreamScoreDirector::new(problem, graph, sources, a).map(BasicEngine)
+    })
+}
+
+/// Build an assignment using a custom candidate pool and scoped list scoring.
+/// Existing assignments are preserved; list insertions may shift old indices.
+/// Stable ties keep the first candidate. The best evaluated prefix is committed
+/// when interrupted. No additional provider pull is made to prove exhaustion at
+/// an exact limit, so a limit result may itself contain a complete assignment.
+pub fn list_construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListScoringError> {
+    network.validate(problem, &initial)?;
+    construct(ListShape(problem), initial, config, provider, |a| {
+        ListScoreDirector::new(problem, network, a).map(ListEngine)
+    })
+}
+
+/// Provider construction with transactional streams; same controls and
+/// preservation rules as [`list_construction_from_with_provider`].
+/// Model and source ownership validate even at zero score budget.
+pub fn list_stream_construction_from_with_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError> {
+    sources.validate(&graph)?;
+    problem.validate(&initial)?;
+    construct(ListShape(problem), initial, config, provider, |a| {
+        ListStreamScoreDirector::new(problem, graph, sources, a).map(ListEngine)
+    })
+}
+
+/// Build an assignment using a custom candidate pool and scoped mixed scoring.
+/// Existing assignments are preserved; list insertions may shift old indices.
+/// Stable ties keep the first candidate. The best evaluated prefix is committed
+/// when interrupted. No additional provider pull is made to prove exhaustion at
+/// an exact limit, so a limit result may itself contain a complete assignment.
+pub fn mixed_construction_from_with_provider<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedScoringError> {
+    network.validate(problem, &initial)?;
+    construct(MixedShape(problem), initial, config, provider, |a| {
+        MixedScoreDirector::new(problem, network, a).map(MixedEngine)
+    })
+}
+
+/// Provider construction with transactional streams; same controls and
+/// preservation rules as [`mixed_construction_from_with_provider`].
+/// Model and source ownership validate even at zero score budget.
+pub fn mixed_stream_construction_from_with_provider<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError> {
+    sources.validate(&graph)?;
+    problem.validate(&initial)?;
+    construct(MixedShape(problem), initial, config, provider, |a| {
+        MixedStreamScoreDirector::new(problem, graph, sources, a).map(MixedEngine)
+    })
+}

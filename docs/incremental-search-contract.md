@@ -1929,3 +1929,44 @@ local search and joint moves. List-only search retains changes/swaps. Existing
 shared controls, scoring rollback and observation apply. Invalid unassignment
 models are rejected before any basic/mixed phase scores or graph factory runs.
 These providers have no dedicated Java/Rust performance comparison yet.
+
+## Construction from custom providers
+
+`construction_from_with_provider`, `list_construction_from_with_provider` and
+`mixed_construction_from_with_provider`, plus their `*_stream_*` counterparts,
+accept a partial assignment and the existing `MoveProvider` interface. Each step
+opens a fresh pool against an immutable snapshot of the committed assignment.
+Candidates can initialize multiple basic variables and list values atomically.
+Stable ties keep the first best candidate; the saved winner installs without
+replaying scoring callbacks. The result can be resumed or, once complete, supplied
+to local search. These standalone calls are not yet SolverPlan provider phases.
+
+Provider construction only extends assignments. Existing basic values remain
+unchanged; each existing list stays a subsequence of the same owner's new list.
+Insertions may shift positions but cannot relocate or reorder existing values.
+Model validation enforces domains, ownership, and prefix/whole pins. Invalid,
+non-progressing, or preservation-violating proposals are skipped before scoring
+and counted in `rejected_moves`. This differs from provider local search, where
+invalid moves are errors. Scoring errors still propagate. Validation currently
+previews a cloned assignment; this is not an optimized incremental legality filter.
+
+`ProviderConstructionConfig` has pooled selection, optional early picking, and
+per-call score, move, step, raw-scan, elapsed-time and cancellation controls.
+Required initialization improves structural score; optional-only initialization
+must not worsen the score. Optional values remain untouched by default; use
+`OptionalConstruction::NonWorsening` to consider filling them. A joint move is
+accepted by its whole score, including structural progress. Score counts include
+initialization, move counts exclude it, and diagnostic checks count toward neither.
+`scanned_moves` includes every proposal, including rejected ones; its default
+100,000 bound also stops an infinite stream of unusable candidates. Every callback
+must return promptly. No additional provider pull proves exhaustion at an exact
+limit, so a limit result may contain a complete assignment. Limits and cancellation
+retain the best candidate already evaluated in the current scan.
+
+`NoCandidates` reports a pool without an accepted initialization; it never proves
+infeasibility. `complete` is independent of the stopping reason, and does not assert
+hard feasibility or optimality. An empty optional-only pool may leave a complete
+assignment. Zero score budget, pre-cancellation and zero time avoid score/provider
+callbacks, after validating model and source ownership. Zero step/move/scan limits
+permit initial scoring but do not open the provider. Original integration tests
+cover all six entry points; they add no upstream compatibility-method credit.
