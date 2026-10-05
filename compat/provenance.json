@@ -15210,6 +15210,36 @@
       "upstream_test": "exhaustsEveryIteratorExactlyOnce",
       "local_test": "exhausts_every_iterator_exactly_once",
       "modifications": "Preserve seed 0 and labeled finite lengths 3/1/5; compare all label counts and exhaustion. Rust Iterator None replaces Java NoSuchElementException."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/move_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PickGreatestValueMoveProviderTest.buildMoveStream_customScoringRuleNotExpressibleAsAJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/example/PickGreatestValueMoveProviderTest.java",
+      "upstream_test": "buildMoveStream_customScoringRuleNotExpressibleAsAJoin",
+      "local_test": "custom_scoring_rule_selects_the_greatest_value",
+      "modifications": "Preserve two variables/two ordered values and both positive/negative move assertions, including a greatest-value no-op. Native slot IDs and 0/1 ordered values replace Java identities/codes. A custom MoveProvider closure computes each greatest domain value; no production provider code used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/move_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapNearbyValuesMoveProviderTest.producesNearbySwapAndNoneAcrossADistanceOfTwo",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/example/SwapNearbyValuesMoveProviderTest.java",
+      "upstream_test": "producesNearbySwapAndNoneAcrossADistanceOfTwo",
+      "local_test": "produces_nearby_swap_and_none_across_a_distance_of_two",
+      "modifications": "Retain a0..a2/b0..b2 lists, both entity-specific ranges and asserted (1,0) allowed/(0,2) forbidden swaps. A lazy custom MoveProvider filters legal native cross-owner swaps by index distance <=1. Native immutable snapshots replace NeighborhoodTester/meta-model wiring."
     }
   ],
   "fixtures": [
@@ -18241,6 +18271,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain ordered label products and empty-child outcomes in both ignore-empty modes. Rust iterator factories replace Java selectors. Lifecycle, selector countability/size and Java API assertions are not adapted; partial fixture only, no upstream-method coverage credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/move_provider_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.custom_provider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain the two-value/two-entity initialized fixture: initial values follow i modulo value count. Rust slot IDs and integer order replace generated Java entity/value codes and solution container."
     }
   ]
 }

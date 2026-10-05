@@ -9429,3 +9429,29 @@ Rust source digest:53c25e70e401288827f84719b748f1f24ddbad9c53b65ae52f505eb4f4ac4
 Coverage stays1014/4855(20.886%),pending3559,excluded282,failed/unverified0.
 No benchmark or release-mode rerun. Logs:work/change-product-check.log,
 work/change-product-test-build.log,work/change-product-focused-final.log.
+
+## Custom move providers
+
+MoveProvider<P,A,M>::moves borrows a model/current committed snapshot and receives
+the completed-step count. Six *_local_search_from_with_provider entry points use
+the shared basic/list/mixed engines with scoped or stream scoring. Vec-returning
+closures have a blanket adapter; trait implementations can return lazy borrowed
+iterators. Built-in neighborhood/union configuration and mixed joint generation
+are replaced; irrelevant built-in validation/order arrays are skipped. Existing
+acceptance, tabu, foraging, candidate shuffling, scoring, rollback and stopping rules
+remain in effect. Providers are cooperative; candidate-only budget probing pulls
+one additional unevaluated item and shuffling can prefetch a bounded window.
+The provider callback itself must return promptly. Invalid moves propagate existing
+model/scoring errors. Source/model validation runs before a zero-budget early exit.
+Two upstream custom-provider methods and TestdataSolution.generateSolution helper
+are attributed. Four original tests cover all six paths, stateful snapshots,
+infinite iterators, limits/prefetch/cancellation, prevalidation and invalid moves.
+Remaining integration: typed providers are currently available through standalone
+local-search entry points, not SolverSequence phase plans. Full rewrite goal active.
+Final check.sh passed:2176 Rust tests,119 doctests,fmt/Clippy;255 Python checks
+reused.227 affected Rust targets ran and80 reused matching successful evidence.
+Rust source digest:94287a578742a57a41070d41f326fc25da7d375a7c7d7ce6ab0c76a03ecdb445.
+Coverage1016/4855(20.927%),pending3557,excluded282,failed/unverified0.
+Live dashboard freshness matches the report; benchmark datasets remain stale.
+No benchmark or release-mode rerun. Logs:work/move-provider-check.log,
+work/move-provider-test-build.log,work/move-provider-lint-final.log.

@@ -488,3 +488,11 @@ mod move_product;
 pub use move_product::MoveProduct;
 mod change_product;
 pub use change_product::change_product_moves;
+
+mod move_provider;
+pub use move_provider::{
+    MoveProvider, list_local_search_from_with_provider,
+    list_stream_local_search_from_with_provider, local_search_from_with_provider,
+    mixed_local_search_from_with_provider, mixed_stream_local_search_from_with_provider,
+    stream_local_search_from_with_provider,
+};

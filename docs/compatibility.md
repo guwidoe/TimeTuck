@@ -1699,3 +1699,17 @@ Four CartesianProductMoveSelector test helpers supply attributed partial enumera
 fixtures. Their Java lifecycle, selector size/countability, random and mimic contracts
 remain unadapted; this increment earns no additional upstream-method coverage.
 Original state-space and solver-trap checks establish native behavior separately.
+
+Custom MoveProvider implementations now supply candidates to six local-search
+entry points (basic/list/mixed, scoped/stream scoring). Providers receive a read-only
+committed snapshot and completed-step index and may return lazy borrowed iterators
+or use the Vec-returning closure adapter. They replace built-in neighborhoods/unions
+and mixed joint generation; candidate shuffling and existing acceptance, tabu,
+foraging, score checks and termination remain in the shared engine. Model/source
+prevalidation still runs with zero budgets. Invalid candidates retain typed errors.
+Generation is cooperative and unscored; a bounded window may prefetch candidates.
+PickGreatestValueMoveProviderTest and SwapNearbyValuesMoveProviderTest assertions
+are fully adapted with native slot/value identities and explicit range preservation.
+Original checks cover snapshot progression, infinite iterators/budgets/prefetch,
+prestart cancellation, early validation and invalid proposals across all six paths.
+These entry points do not yet attach providers to SolverSequence phase plans.

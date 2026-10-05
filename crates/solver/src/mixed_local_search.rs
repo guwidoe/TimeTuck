@@ -180,20 +180,53 @@ pub(crate) fn search_impl_with_clock_monitored<
 where
     MixedLocalSearchError: From<D::Error>,
 {
+    search_impl_with_provider(
+        shared,
+        problem,
+        initial,
+        settings,
+        make_director,
+        clock,
+        None,
+    )
+}
+
+type Provider<'a, B, L> = dyn crate::MoveProvider<MixedProblem<B, L>, crate::MixedAssignment<B, L>, crate::MixedMove<B, L>>
+    + 'a;
+
+pub(crate) fn search_impl_with_provider<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    settings: MixedLocalSearchConfig<S>,
+    make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+    mut provider: Option<&mut Provider<'_, B, L>>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError>
+where
+    MixedLocalSearchError: From<D::Error>,
+{
     let config = settings.search;
     let joint_moves = settings.joint_moves;
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
-    for (neighborhood, _) in config.neighborhoods() {
-        neighborhood
-            .validate_basic(problem.basic())
-            .map_err(crate::MixedError::Basic)
-            .map_err(D::Error::from)?;
-        neighborhood
-            .validate_list(problem.lists())
-            .map_err(crate::MixedError::Lists)
-            .map_err(D::Error::from)?;
+    if provider.is_none() {
+        for (neighborhood, _) in config.neighborhoods() {
+            neighborhood
+                .validate_basic(problem.basic())
+                .map_err(crate::MixedError::Basic)
+                .map_err(D::Error::from)?;
+            neighborhood
+                .validate_list(problem.lists())
+                .map_err(crate::MixedError::Lists)
+                .map_err(D::Error::from)?;
+        }
     }
     if !problem.is_complete(&initial) {
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
@@ -255,24 +288,42 @@ where
             return Ok(result);
         }
         let snapshot = director.assignment().clone();
-        let mut basic_order: Vec<_> = (0..problem.basic().variables().len()).collect();
-        let mut list_order: Vec<_> = (0..problem.lists().entities().len()).collect();
+        let mut basic_order: Vec<_> = if provider.is_none() {
+            (0..problem.basic().variables().len()).collect()
+        } else {
+            Vec::new()
+        };
+        let mut list_order: Vec<_> = if provider.is_none() {
+            (0..problem.lists().entities().len()).collect()
+        } else {
+            Vec::new()
+        };
         if matches!(config.move_order, MoveOrder::ShuffledVariables { .. })
             && let Some(random) = &mut random
         {
             random.shuffle(&mut basic_order);
             random.shuffle(&mut list_order);
         }
-        let moves = config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
-            ordered(
+        let moves = match provider.as_deref_mut() {
+            Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
                 problem,
                 &snapshot,
-                neighborhood,
-                joint_moves,
-                basic_order.iter().copied(),
-                list_order.iter().copied(),
-            )
-        });
+                progress.completed_steps(),
+            )),
+            None => crate::move_provider::ProvidedMoves::BuiltIn(config.select_neighborhoods(
+                progress.completed_steps(),
+                |neighborhood| {
+                    ordered(
+                        problem,
+                        &snapshot,
+                        neighborhood,
+                        joint_moves,
+                        basic_order.iter().copied(),
+                        list_order.iter().copied(),
+                    )
+                },
+            )),
+        };
         let current = director.score();
         let tracks_entities = config.tracks_variables();
         let tracks_values = config.tracks_values();

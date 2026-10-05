@@ -154,13 +154,36 @@ pub(crate) fn search_impl_with_clock_monitored<
 where
     ListLocalSearchError: From<D::Error>,
 {
+    search_impl_with_provider(shared, problem, initial, config, make_director, clock, None)
+}
+
+pub(crate) fn search_impl_with_provider<
+    V: Eq + Clone,
+    S: AdditiveScore,
+    D: ListSearchDirector<V, S>,
+>(
+    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+    clock: impl FnMut() -> std::time::Duration,
+    mut provider: Option<
+        &mut dyn crate::MoveProvider<ListProblem<V>, crate::ListAssignment<V>, crate::ListMove<V>>,
+    >,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
+where
+    ListLocalSearchError: From<D::Error>,
+{
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
-    for (neighborhood, _) in config.neighborhoods() {
-        neighborhood
-            .validate_list(problem)
-            .map_err(D::Error::from)?;
+    if provider.is_none() {
+        for (neighborhood, _) in config.neighborhoods() {
+            neighborhood
+                .validate_list(problem)
+                .map_err(D::Error::from)?;
+        }
     }
     if !problem.is_complete(&initial) {
         return Err(ListLocalSearchError::IncompleteInitialAssignment);
@@ -219,15 +242,28 @@ where
             return Ok(result);
         }
         let snapshot = director.assignment().clone();
-        let mut order: Vec<_> = (0..problem.entities().len()).collect();
+        let mut order: Vec<_> = if provider.is_none() {
+            (0..problem.entities().len()).collect()
+        } else {
+            Vec::new()
+        };
         if matches!(config.move_order, MoveOrder::ShuffledVariables { .. })
             && let Some(random) = &mut random
         {
             random.shuffle(&mut order);
         }
-        let moves = config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
-            ordered(problem, &snapshot, neighborhood, order.iter().copied())
-        });
+        let moves = match provider.as_deref_mut() {
+            Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
+                problem,
+                &snapshot,
+                progress.completed_steps(),
+            )),
+            None => crate::move_provider::ProvidedMoves::BuiltIn(
+                config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+                    ordered(problem, &snapshot, neighborhood, order.iter().copied())
+                }),
+            ),
+        };
         let current = director.score();
         let tracks_entities = config.tracks_variables();
         let tracks_values = config.tracks_values();
