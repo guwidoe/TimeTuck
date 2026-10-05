@@ -16740,6 +16740,201 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.concat_uniUni",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "concat_uniUni",
+      "local_test": "uni_concat_uni_uni",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.concat_selfProducesDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "concat_selfProducesDuplicates",
+      "local_test": "uni_concat_self_produces_duplicates",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "uni_group_by_1_mapping_0_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "uni_group_by_1_mapping_1_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.groupBy_0Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_0Mapping1Collector",
+      "local_test": "uni_group_by_0_mapping_1_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "distinct",
+      "local_test": "uni_distinct",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.groupBy_1Mapping1Collector_customCollector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector_customCollector",
+      "local_test": "uni_group_by_1_mapping_1_collector_custom_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.groupBy_1Mapping0Collector_solutionView",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector_solutionView",
+      "local_test": "uni_group_by_1_mapping_0_collector_solution_view",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.concat_biBi",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "concat_biBi",
+      "local_test": "bi_concat_bi_bi",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.concat_uniToBiWithPadding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "concat_uniToBiWithPadding",
+      "local_test": "bi_concat_uni_to_bi_with_padding",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.concat_biToUniWithPadding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "concat_biToUniWithPadding",
+      "local_test": "bi_concat_bi_to_uni_with_padding",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.groupBy_1Mapping0Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping0Collector",
+      "local_test": "bi_group_by_1_mapping_0_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.groupBy_1Mapping1Collector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "groupBy_1Mapping1Collector",
+      "local_test": "bi_group_by_1_mapping_1_collector",
+      "modifications": "Preserve every row, multiplicity, group cardinality, incremental update/retraction and mapper-invocation assertion using native StreamGraph datasets, typed joins/concatenation/list collectors and explicit transactions. Native (ID,value) tuples replace Java entity identity/current values; source insertion and transaction commit replace reflective visitAll/session.settle. Map+distinct provides grouping without collectors. Solution-view access uses captured immutable native facts and a diagnostic callback counter; no reflection/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -19935,6 +20130,149 @@
       "modifications": "Preserve generated value/entity counts and modulo initial values as native stable integer/tuple identities. Cases with explicit codes retain those strings and unique value IDs. Fixture attribution only, no method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/neighborhood_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.factory.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "factory",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.entityStream.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "entityStream",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.createSession.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "createSession",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.getInstance.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "getInstance",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "UniEnumeratingStreamTest.NeighborhoodsUniCountCollector.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/UniEnumeratingStreamTest.java",
+      "upstream_test": "NeighborhoodsUniCountCollector",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.factory.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "factory",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.entityStream.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "entityStream",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.createSession.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "createSession",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.getInstance.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "getInstance",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "BiEnumeratingStreamTest.getBiInstance.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/enumerating/BiEnumeratingStreamTest.java",
+      "upstream_test": "getBiInstance",
+      "modifications": "Native builder/source/load/row helpers replace test session setup and typed tuple extraction. CustomCount retains the custom collector increment/decrement/finish behavior. Fixture attribution only; no method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataSolution.generateSolution.stream_datasets",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain two generated values and modulo-initialized entity IDs for 2/3/4 entity cases, plus explicitly inserted/reassigned/retracted entities. Native IDs replace object identity and value codes remain in output labels. Fixture attribution only.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/stream_dataset_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

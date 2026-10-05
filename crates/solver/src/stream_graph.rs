@@ -29,6 +29,9 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod dataset;
+pub use dataset::StreamDataset;
+
 use crate::{
     AdditiveScore, CollectNode, DistinctNode, ExistenceMode, ExistsEqualNode, ExistsNode,
     FilterNode, FlatMapNode, GroupNode, IntSummary, JoinComparison, JoinNode, ListCollector,
@@ -113,7 +116,7 @@ impl fmt::Display for GraphError {
                 write!(f, "stream constraint {name} has a structural contribution")
             }
             Self::CorruptedScore => {
-                f.write_str("cached stream matches or total differ from a fresh rebuild")
+                f.write_str("cached stream matches, datasets or total differ from a fresh rebuild")
             }
             Self::FailedTransaction => {
                 f.write_str("stream transaction failed; drop it to roll back")
@@ -202,6 +205,9 @@ trait Node<S: AdditiveScore> {
     ) -> Result<Outputs, GraphError>;
     fn score(&self) -> S {
         S::ZERO
+    }
+    fn dataset_rows(&self) -> Option<&dyn Any> {
+        None
     }
     fn source_rows(&self) -> Option<&dyn Any> {
         None
@@ -915,6 +921,7 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
+    datasets: BTreeMap<usize, usize>,
     arithmetic: crate::ScoringArithmetic,
 }
 impl<S: AdditiveScore + 'static> Default for StreamGraphBuilder<'_, S> {
@@ -929,6 +936,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             nodes: Vec::new(),
             edges: Vec::new(),
             constraints: BTreeMap::new(),
+            datasets: BTreeMap::new(),
             arithmetic: crate::ScoringArithmetic::default(),
         }
     }
@@ -1898,7 +1906,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         }) {
             return;
         }
-        let mut needed = vec![false; self.nodes.len()];
+        let mut needed: Vec<_> = self
+            .nodes
+            .iter()
+            .map(|node| node.dataset_rows().is_some())
+            .collect();
         for &id in self.constraints.values() {
             needed[id] = self.nodes[id]
                 .constraint_weight()
@@ -1994,7 +2006,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         }
     }
     /// Rebuild from source rows with empty operator caches and compare every
-    /// terminal match ID/score and the total. Original state is restored even on
+    /// terminal match ID/score, captured dataset rows and the total. Original state is restored even on
     /// failure/unwind. Diagnostic callback work is excluded from search counters.
     pub fn assert_consistent(&mut self) -> Result<(), GraphError> {
         let events: Vec<_> = self

@@ -9608,3 +9608,34 @@ benchmark measurements remain stale. Logs:work/neighborhood-dataset-check.log,
 work/neighborhood-dataset-build.log,work/neighborhood-dataset-tests-final.log.
 Initial focused compilation exposed test-only string dereference/result-access
 mistakes; those were fixed before the final successful check. Goal remains active.
+
+## Incremental stream dataset capture
+
+Added typed StreamDataset handles and builder.dataset capture, shared per input port.
+Captures use the graph journal for commit/undo/saved candidates; disabled score
+pruning preserves live dataset branches. Consistency rebuilds compare dataset payloads
+as well as scores. Persistent dataset_rows snapshots avoid materialization;
+dataset_snapshot explicitly clones values for neighborhood sampling. Source facts and
+payload equality must be immutable/stable/reflexive. Basic/list/mixed stream directors
+expose committed and trial captures through graph(); MoveProvider inputs are unchanged.
+13 full upstream methods (UniEnumerating8,BiEnumerating5) plus11 fixture helpers are
+attributed. The12 uni source-discovery/null/pin methods remain pending. Seven original
+checks cover transaction errors/panics, snapshots, pruning, rebuild diagnostics,
+saved candidate installation and all three stream score-director model families.
+Final check.sh passed:2322 Rust tests,126 doctests,fmt/Clippy;46 Python jobs reused.
+264 affected Rust targets ran,54 reused unchanged evidence. Source digest:
+f76a90dad53baf6629f740717366a354fb666c78ea6325ef7af7f46ae31dcf40.
+Coverage1129/4855(23.254%),pending3444,excluded282,failed/unverified0. Live dashboard
+freshness matches. No benchmark/release/browser rerun; older measurements stay stale.
+Logs:work/stream-dataset-check.log,work/stream-dataset-build.log,
+work/stream-dataset-tests-final.log. Full rewrite goal remains active.
+Broad compilation took17m57s, dominated by tests/solver.rs. An isolated symbols-off
+build (same source, CARGO_PROFILE_TEST_DEBUG=0, separate work/no-debug-target) passed
+compilation in6m15s. Cargo invoked.timestamp to executable mtime measured the solver
+target itself at730.78s with debug symbols versus328.05s without; executable sizes
+1916.8MiB versus266.1MiB. These were not controlled identical build conditions, but
+suggest a useful development build improvement. No profile configuration was changed.
+Experiment log:work/solver-no-debug-build.log; both builds and final checks finished.
+Dependency selection also rebuilds the same symbol-owner index for each target;
+content-keyed reuse of that index could reduce check overhead without broadening
+result reuse. Avoid repeating these measurements merely on a new turn.

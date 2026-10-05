@@ -1776,3 +1776,23 @@ exception remains pending; native random iterators use normal Rust consumers and
 therefore require a bound. Six original regressions check lazy/fused consumption,
 repeatability, duplicate identities, rollback on panics, cache refresh and sampled
 custom providers in both scoped and stream local search.
+
+StreamGraphBuilder.dataset now captures any typed stream port as a live incremental
+terminal. Repeated capture of the same port shares one node; distinct ports remain
+separate. Captured rows follow transactions, rollback, saved-candidate installation
+and committed basic/list/mixed score-director moves. Dataset branches remain live
+when adjacent weighted scoring constraints are disabled. Consistency diagnostics
+rebuild and compare complete captured rows, including graphs without scores.
+StreamGraph.dataset_rows exposes persistent snapshots; dataset_snapshot materializes
+owned values for neighborhood sampling. Capturing data does not count as a scoring
+callback. Captured payload equality must be stable/reflexive, and facts immutable.
+Unlike the standalone snapshot join cache, graph captures need no manual refresh
+once source changes are delivered. Existing MoveProvider inputs remain unchanged;
+score-director graph access exposes these datasets to callers managing search steps.
+Eight UniEnumeratingStreamTest and five BiEnumeratingStreamTest methods preserve
+concatenation (including self-duplicates and padding), grouping, custom collector,
+reassignment/retraction and mapper-call assertions. The twelve uni enumeration
+methods involving source discovery, optional null rows and pin filtering remain
+pending. Seven original checks cover sharing/foreign handles, disabled branches,
+failures/rebuild diagnostics, held snapshots, saved candidates and all three stream
+score-director model families.
