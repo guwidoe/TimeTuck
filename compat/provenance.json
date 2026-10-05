@@ -20385,6 +20385,96 @@
       "upstream_test": "sortDescendingReachableValues",
       "local_test": "sort_descending_reachable_values",
       "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Ascending/descending code comparators replace TestdataObjectSorter; exact native order strengthens source any-order assertions. Retain the repeated V1 assertion in the descending case. Sorter identity caching is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.originSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "originSelection",
+      "local_test": "original_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.emptyOriginSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "emptyOriginSelection",
+      "local_test": "empty_original_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.biasedRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "biasedRandomSelection",
+      "local_test": "biased_random_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.uniformRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "uniformRandomSelection",
+      "local_test": "uniform_random_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.emptyUniformRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "emptyUniformRandomSelection",
+      "local_test": "empty_uniform_random_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.emptyBiasedRandomSelection",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "emptyBiasedRandomSelection",
+      "local_test": "empty_biased_random_selection",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Weighted cases retain 1000:20 weights and original unit draws; uniform integer child choices are expressed as equivalent unit positions. Finite sources retire before the next draw; empty sources consume no draws. Native seeded draws are not claimed to match Java PRNG traces. Nearby mixed-model configuration is not adapted."
     }
   ],
   "fixtures": [
@@ -25353,6 +25443,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
       "upstream_test": "sort",
       "modifications": "Both overloads specify ascending/descending code comparison. Native callbacks sort independent co-value views; Java list/set containers and sorter object identity are not reproduced. Helper attribution earns no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.selection_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfMoveSelector.selection_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfMoveSelector",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterableSelector.selection_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterableSelector",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfIterator.selection_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfIterator",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selection_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfIterator.selection_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator",
+      "modifications": "Preserve every exact sequence, repeated exhaustion, finite metadata, total child cardinality and each child solve/phase/step lifecycle count. Native explicit SelectionSource events replace mocked Java scopes. Native string rows replace dummy-move code conversion; helper attribution earns no extra method credit."
     }
   ]
 }

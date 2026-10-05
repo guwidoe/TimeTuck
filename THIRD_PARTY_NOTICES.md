@@ -631,3 +631,10 @@ code-comparator behavior of test helper `TestdataObjectSorter` (Apache-2.0).
 `compat/provenance.json` records exact paths, revision, substitutions and omitted
 runtime-type assertions. The inverse-domain implementation and additional regression
 tests are independently written.
+
+`crates/solver/tests/selection_union_cases.rs` adapts six methods from pinned
+Community `UnionMoveSelectorTest`, with `PlannerAssert` sequence/exhaustion,
+metadata and lifecycle helpers (Apache-2.0). Exact source identities and native
+scripted-draw substitutions are recorded in `compat/provenance.json`. Lifecycle
+union composition, fractional stream interleaving and regression tests are
+independently implemented.

@@ -2071,3 +2071,17 @@ candidates in both scoring backends for basic and list solving. One entity-membe
 fixture is partial because Java runtime type discrimination is omitted; multipleSorters
 identity/cache behavior also remains pending. No dynamic domain update or new
 performance comparison is claimed.
+
+Six UnionMoveSelector methods now retain finite concatenation, weighted/uniform
+interleaving, empty behavior, size/exhaustion and child lifecycle forwarding.
+SelectionUnion forwards explicit events and lazily opens ordered sources;
+WeightedInterleave mixes finite/infinite child streams with fractional weights,
+one buffered item per enabled child and permanent exhaustion retirement. Zero
+weights disable opening/polling; events still reach every child. Random family
+weights do not change internal child order. Invalid weights/draws are explicit
+errors; consumers must bound infinite streams. Six original regressions check
+occurrence/order preservation, fractional boundaries, non-Clone ownership, disabled
+and non-fused sources, lifecycle/size/early-drop behavior, seeded repeatability and
+basic solving through both backends. Nearby mixed-model configuration and Java
+PRNG traces remain unclaimed. Existing integer MoveUnion/ProviderUnion paths are
+unchanged; no new benchmark comparison is claimed.

@@ -10333,3 +10333,34 @@ Some work overlaps commands, so this is approximate process time versus turn tim
 not an exclusive effort accounting. No timing infrastructure was added.
 Dashboard freshness session70682 exited0 and matched the report digest. All batch
 process handles are terminal.
+
+## Lifecycle unions and fractional stream interleaving
+
+SelectionUnion forwards explicit lifecycle events to all children and sums enabled
+size metadata with unknown/overflow represented as None. Ordered cursors open
+children lazily; WeightedInterleave buffers at most one item per enabled child,
+preserves each child order and retires exhausted children before drawing again.
+Fractional weights use existing WeightedSelection validation/normalization. Zero
+weights disable opening/polling; invalid draws produce one error then terminate.
+Finite unions terminate even in random mode; repeating children require consumer
+limits. Non-Clone items work; each next polls at most once per active child, but
+individual callbacks are cooperative. Integer MoveUnion/ProviderUnion are unchanged.
+Six complete UnionMoveSelector methods and five PlannerAssert helpers attributed;
+nearby mixed-model configuration and Java PRNG parity remain unclaimed. Six original
+regressions cover 200 finite schedules, fractional boundaries, disabled/non-fused/
+infinite sources, non-Clone ownership, errors, lifecycle metadata, early drop,
+seeded repeatability and basic solving in both backends. Initial focused66749
+passed six adaptations but failed one incorrect precision-loss fixture; putting the
+huge cumulative weight before the tiny one corrected that fixture. Focused60643
+passed all six regressions. Prebuild10.47s; final gate66935 exited0:2696 Rust tests,
+139 doctests,fmt/Clippy;3 Rust targets ran,359 reused;46 Python jobs reused.
+Aggregate exit0 and equal before/after source verified:
+7b3e8332c5b6dc8b2d87b4eb5dccced705f2ad67e09ab0ed30883a012e799f6c.
+Coverage1365/4855(28.115%),pending3208,excluded282,failed/unverified0. Logs:
+work/selection-union-focused.log,work/selection-union-regression-final.log,
+work/selection-union-build.log,work/selection-union-check.log. No browser/release/
+benchmark sweep; older performance evidence stays stale. Previous goal turn made
+progress viaa710019; this batch adds usable lifecycle-aware candidate composition.
+Full solver rewrite remains active and unfinished.
+Dashboard freshness session40675 exited0 and matched the report digest. All batch
+process handles are terminal.
