@@ -10939,3 +10939,39 @@ c33eece686e0f3b89e33fd042d74976f9c5bbc2010f5a4ebe702c1693a29ac65.
 Logs:work/precompute-filter-cases.log,work/precompute-regression.log,
 work/precompute-clippy.log,work/precompute-build.log and work/precompute-check.log.
 All processes terminal. Previous turn progressed via4e649e7; full goal stays active.
+
+## Precomputed collection and tuple operators
+
+Forty-two complete upstream precompute methods now exercise existence/absence,
+grouping, flatten/flattenLast with fresh ValueHolder allocations, map, concat,
+distinct and complement across arities one through four. Together with the
+previous thirteen cases, this completes all 55 methods in the four abstract
+precompute operator classes. Separate node-sharing/retrieval and Bavet lifecycle
+cases remain pending; this is not whole-precompute or whole-solver completion.
+Native fact-key caches feed actual joins/collectors/operators; live assigned
+entities drive the helper's final existence gate. Preserve initial empty scores,
+all final matches, duplicate mapped rows, padded nulls and Tri complement's
+trailing distinct. Bi/Tri flatten literally expect entityWithoutGroup in the
+second field of the entityWithGroup row. Preserve that source fixture and its
+AssertableMatch expected.containsAll(actual) semantics, including missing/excess
+checks, field counts and total penalties; do not silently rewrite the expected
+row or claim positional/multiplicity equality. All cases and helpers attributed.
+Additional native checks deactivate/reactivate assignment gates without fact
+recomputation and retain identical Rc holder allocations. One original 600-update
+regression compares grouped counts, list flattening and live complement rows
+against independent maps after fact/group edits, assignment changes, removal and
+trial rollback. No production source changed.
+
+Focused cases 79148 passed 42 after an explicit collect::<Vec<_>>() type annotation
+fixed initial inference failure; expanded target 70039 passed 43 including runtime
+regression. Final gate 46090 exited 0: 3133 Rust tests, 149-doctest evidence reused,
+fmt/Clippy passed; one new Rust target ran, 391 reused; 46 Python jobs reused.
+No benchmark/release/browser sweep. Performance evidence remains unchanged.
+Aggregate exit 0 and equal before/after source verified:
+8052ac917ef02a6b8a50ce2202b73cd6d8a9184cf90df3f2ea96f3ce88f227d2.
+Coverage 1706/4855(35.139%), pending 2867, excluded 282, failed/unverified 0.
+Dashboard freshness 65485 exited 0 and matched report verification digest
+2e002b94730ea8856489c221448a56da086894578ee5b562548d3887c5513568.
+Logs:work/precompute-operator-cases.log and work/precompute-operator-check.log.
+All processes terminal. Previous timing-only reply made no implementation change;
+this goal turn advances verified compatibility. Full goal stays active.

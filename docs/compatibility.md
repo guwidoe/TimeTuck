@@ -2240,4 +2240,15 @@ put, so no zero-metadata-read or reflection equivalence is claimed. Generated fi
 cardinalities and memberships are retained; unused random properties are omitted.
 Five original regressions additionally verify invalidation, cached object retention,
 transaction failure/rollback, shared definitions and native basic move integration.
-Other precompute operators and factory/retrieval identity methods remain pending.
+Factory/retrieval identity methods remain pending; further operator coverage follows below.
+
+Forty-two additional precompute operator methods preserve assigned-entity gating,
+grouping/counts, list flattening, fresh value-equal holders, mapping multiplicity,
+concatenation, distinct and complement padding across four tuple arities. All 55
+methods in the four abstract precompute operator classes now have adaptations;
+separate precompute node-sharing/retrieval/lifecycle cases remain pending.
+Bi/Tri flatten's literal expected fields rely on the source match helper's
+containsAll semantics (equal field count but no field-order or duplicate-field
+multiplicity comparison); this behavior and its helper attribution are retained.
+Native allocation-retention checks and 600 changing-fact/rollback states supplement
+these source fixtures without earning additional upstream method credit.

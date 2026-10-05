@@ -24960,6 +24960,636 @@
       "upstream_test": "filter_3_changed",
       "local_test": "quad_filter_3_changed",
       "modifications": "Native explicit fact keys memoize entity ID/group projections; live identity joins supply current planning values after the cached pipeline. Preserve all initial/variable-change/fact-change/removal/reinsertion match identities, counts and penalties, including both unique-pair variable positions and the second fixture changing both entity3 group and value. Real Cartesian fact joins retain entity positions for arities one through four. Generated entity/value/group cardinalities and modulo membership are retained where consumed; unique-pair cases omit unused fact sources. Stable typed IDs replace Java objects/codes, Option replaces assignments/null groups, exact ordered tuple sets strengthen the source match helper. Mockito at-least-once/never group-getter assertions become precomputed predicate/index callback counts. The cheap explicit fact-key selector still runs on each put; reflective getter interception and automatic property-change classification are not claimed. Unused random long properties are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.ifExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifExists",
+      "local_test": "uni_if_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.ifNotExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifNotExists",
+      "local_test": "uni_if_not_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.groupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "groupBy",
+      "local_test": "uni_group_by",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flatten",
+      "local_test": "uni_flatten",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.flattenNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenNewInstances",
+      "local_test": "uni_flatten_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.flattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLast",
+      "local_test": "uni_flatten_last",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.flattenLastNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLastNewInstances",
+      "local_test": "uni_flatten_last_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.map",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "map",
+      "local_test": "uni_map",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.concat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "concat",
+      "local_test": "uni_concat",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "distinct",
+      "local_test": "uni_distinct",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "complement",
+      "local_test": "uni_complement",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.ifExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifExists",
+      "local_test": "bi_if_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.ifNotExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifNotExists",
+      "local_test": "bi_if_not_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.groupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "groupBy",
+      "local_test": "bi_group_by",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flatten",
+      "local_test": "bi_flatten",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed. Preserve the literal entityWithoutGroup second-field expectation for entityWithGroup; source containsAll semantics allow the actual duplicated entityWithGroup row to match it."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.flattenNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenNewInstances",
+      "local_test": "bi_flatten_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.flattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLast",
+      "local_test": "bi_flatten_last",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.flattenLastNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLastNewInstances",
+      "local_test": "bi_flatten_last_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.map",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "map",
+      "local_test": "bi_map",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.concat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "concat",
+      "local_test": "bi_concat",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "distinct",
+      "local_test": "bi_distinct",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "complement",
+      "local_test": "bi_complement",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.ifExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifExists",
+      "local_test": "tri_if_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.ifNotExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifNotExists",
+      "local_test": "tri_if_not_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.groupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "groupBy",
+      "local_test": "tri_group_by",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flatten",
+      "local_test": "tri_flatten",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed. Preserve the literal entityWithoutGroup second-field expectation for entityWithGroup; source containsAll semantics allow the actual duplicated entityWithGroup row to match it."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.flattenNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenNewInstances",
+      "local_test": "tri_flatten_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.flattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLast",
+      "local_test": "tri_flatten_last",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.flattenLastNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLastNewInstances",
+      "local_test": "tri_flatten_last_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.map",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "map",
+      "local_test": "tri_map",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.concat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "concat",
+      "local_test": "tri_concat",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "distinct",
+      "local_test": "tri_distinct",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "complement",
+      "local_test": "tri_complement",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed. Preserve the trailing distinct operator unique to the Tri fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.ifExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifExists",
+      "local_test": "quad_if_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.ifNotExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "ifNotExists",
+      "local_test": "quad_if_not_exists",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.groupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "groupBy",
+      "local_test": "quad_group_by",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.flattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLast",
+      "local_test": "quad_flatten_last",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.flattenLastNewInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "flattenLastNewInstances",
+      "local_test": "quad_flatten_last_new_instances",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.map",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "map",
+      "local_test": "quad_map",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.concat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "concat",
+      "local_test": "quad_concat",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.distinct",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "distinct",
+      "local_test": "quad_distinct",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.complement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "complement",
+      "local_test": "quad_complement",
+      "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
     }
   ],
   "fixtures": [
@@ -30877,6 +31507,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "Default fixture uses two value groups, five values, three entity groups and seven entities, with matching modulo group and value membership. Native IDs preserve identities. Additional custom facts follow each source method. Unique-pair cases omit unused fact sources. Unused random long properties and reflection annotations are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.assertPrecompute.native_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecompute",
+      "modifications": "Native graph source changes replace setWorkingSolution and variable callbacks. Preserve initial empty matches, assigning each entity to the sole value, the assigned-entity existence gate and all final score/match assertions. Extra native checks deactivate/reactivate this gate without recomputing fact projections and retain Rc holder allocations. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamPrecomputeTest.assertPrecomputeBi.native_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecomputeBi",
+      "modifications": "Native graph source changes replace setWorkingSolution and variable callbacks. Preserve initial empty matches, assigning each entity to the sole value, the assigned-entity existence gate and all final score/match assertions. Extra native checks deactivate/reactivate this gate without recomputing fact projections and retain Rc holder allocations. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamPrecomputeTest.assertPrecompute.native_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecompute",
+      "modifications": "Native graph source changes replace setWorkingSolution and variable callbacks. Preserve initial empty matches, assigning each entity to the sole value, the assigned-entity existence gate and all final score/match assertions. Extra native checks deactivate/reactivate this gate without recomputing fact projections and retain Rc holder allocations. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamPrecomputeTest.assertPrecompute.native_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecompute",
+      "modifications": "Native graph source changes replace setWorkingSolution and variable callbacks. Preserve initial empty matches, assigning each entity to the sole value, the assigned-entity existence gate and all final score/match assertions. Extra native checks deactivate/reactivate this gate without recomputing fact projections and retain Rc holder allocations. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamPrecomputeTest.assertPrecompute.native_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamPrecomputeTest.java",
+      "upstream_test": "assertPrecompute",
+      "modifications": "Native graph source changes replace setWorkingSolution and variable callbacks. Preserve initial empty matches, assigning each entity to the sole value, the assigned-entity existence gate and all final score/match assertions. Extra native checks deactivate/reactivate this gate without recomputing fact projections and retain Rc holder allocations. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.assertScore.precompute_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore",
+      "modifications": "Preserve equal field count, expected.containsAll(actual), both missing and excess membership checks and summed unit penalties for one named constraint. Native dataset rows stand in for constraint match justifications. Duplicate-field multiplicity and field positions remain ignored as in source, including the Bi/Tri flatten fixture oddity. Every terminal evaluates the same -1 score. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/precompute_operator_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.AssertableMatch.isEqualTo.precompute_operators",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "AssertableMatch.isEqualTo",
+      "modifications": "Preserve equal field count, expected.containsAll(actual), both missing and excess membership checks and summed unit penalties for one named constraint. Native dataset rows stand in for constraint match justifications. Duplicate-field multiplicity and field positions remain ignored as in source, including the Bi/Tri flatten fixture oddity. Every terminal evaluates the same -1 score. Helper adds no method credit."
     }
   ]
 }
