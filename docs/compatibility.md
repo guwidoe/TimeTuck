@@ -1914,3 +1914,13 @@ compared. Six original regressions add exhaustive small intersections, operation
 budgets, exact fallback, stable identities, pin/no-op validation and group-change
 provider solving through both basic scoring backends. Scan exhaustion is a distinct
 error, never an empty-intersection claim. No new performance result is claimed.
+
+Ten BigIntegerValueRangeTest/BigDecimalValueRangeTest methods now retain all default
+and explicit step fixtures, counts, exact indexed values, membership, complete and
+prefix-only traversal, and scripted random draws. Decimal comparisons retain every
+asserted scale. Native BigIntegerValueRange and DecimalValueRange integrate with
+indexed composition, optional ranges, common-destination selection and bounded
+finite-domain conversion. Seven original regressions cover huge offsets/steps,
+u128 count overflow, nondividing steps, extreme scales and an exact decimal solve.
+Decimal scales must match explicitly in this native API; unsupported-sort exception
+methods and broader Java scale/constructor-validation parity remain pending.

@@ -1689,3 +1689,26 @@ unassignment neighborhoods handle null destinations separately. Generate it anew
 for each provider snapshot and let the existing model/score-director transaction
 handle evaluation, acceptance and rollback. An integration case escapes a local
 optimum requiring simultaneous changes through scoped and stream scoring.
+
+## Exact numeric ranges
+
+BigIntegerValueRange stores arbitrary-precision start/end/step values and a checked
+u128 occurrence count. The default step is one; explicit steps must be positive.
+Bounds are half-open and ascending (equal endpoints form an empty range). A step
+need not divide the interval: the final included member is strictly below the end.
+Counts larger than u128 are rejected before publishing a range. Lookup, membership,
+iteration and random sampling use exact integer arithmetic without materialization.
+
+DecimalValueRange indexes BigInt coefficients at one fixed Decimal scale. The
+default step is one coefficient unit at that scale, including negative scales.
+Both endpoints and any explicit step must share their representation scale; a
+mismatch is rejected before alignment/padding. Membership includes scale equality,
+consistent with native Decimal Eq. Thus 1.0 and 1.00 remain distinct domain members.
+Neither range uses floating-point arithmetic. Existing ValueRange combinators,
+common-value selection, bounded materialization and variable_from_range work with
+both. The solver itself still uses explicitly materialized finite domains.
+
+Original checks include thousand-digit offsets, huge strides, maximum counts,
+negative and extreme i32 scales, independent small progressions and a two-variable
+exact decimal optimization with optimum0.06. No new performance measurement or
+Java mismatched-scale/unsupported-sort behavior is claimed by this increment.

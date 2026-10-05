@@ -9945,3 +9945,36 @@ performance measurements remain stale. Logs:work/common-values-focused.log,
 work/common-values-build.log,work/common-values-check.log. All jobs completed.
 Previous goal turn made verified progress and committed4f060ab. This batch adds
 usable intersection/group-move behavior; the full rewrite goal remains active.
+
+## Arbitrary-precision numeric value ranges
+
+Added BigIntegerValueRange and DecimalValueRange over the indexed ValueRange API.
+Arbitrary-precision endpoints and positive steps use exact half-open arithmetic;
+counts must fit u128. Default decimal steps are one coefficient unit at the fixed
+input scale. Decimal endpoints/explicit steps must share that scale and membership
+preserves representation equality. Mismatches reject before any scale-padding
+allocation. Bounds need not divide the stride under the documented native contract.
+Existing composition, optional wrappers, common-destination selection and bounded
+finite-domain conversion work with both new types. Solver domains remain explicit.
+Ten upstream methods and two iterator helpers are attributed. Every default/explicit
+step, count, indexed value, membership/null assertion, prefix versus complete
+iteration and scripted draw is retained, including exact decimal scales. Two
+unsupported-sort methods and broader Java constructor/scale behavior remain pending.
+Seven original regressions cover independent small progressions, thousand-digit
+offsets/huge steps, maximum/overflowing counts, extreme i32 scales, common-value
+intersection, optional/composite ranges and an exact decimal solve with optimum0.06.
+Focused tests and first Rust pass succeeded. The new doctest initially assumed
+plain Decimal Display output; the existing type prints102e-2. The example was
+corrected to compare exact Decimal values, leaving production behavior unchanged.
+Final check.sh exited zero:2499 Rust tests,135 doctests,fmt/Clippy;46 Python jobs
+reused. First run executed3 Rust targets and reused335; after the documentation fix,
+only lib ran and337 targets reused successful results. Initial affected executable
+prebuild43.38s. Final source digest:
+1fddb8abdb431d980a864722815d7e5acdab9e7f957d6dc510d94cc1ab61cb1e.
+Coverage1242/4855(25.582%),pending3331,excluded282,failed/unverified0. Live dashboard
+freshness is verified (same digest reuses its earlier successful response). No
+browser, release suite or benchmark sweep; older measurements remain stale.
+Logs:work/exact-range-focused.log,work/exact-range-build.log,
+work/exact-range-first-check.log (doctest failure),work/exact-range-check.log
+(successful final gate). All jobs completed. Previous goal turn made progress and
+committed4874128; this batch implements numeric ranges. Full rewrite remains active.

@@ -18480,6 +18480,156 @@
       "upstream_test": "findDestinationIsUniformOverTheIntersectionViaSampling",
       "local_test": "find_destination_is_uniform_over_the_intersection_via_sampling",
       "modifications": "Retain both exclusion parameter sets, exact source/expected memberships, 200000 trials per parameter set, reachability of every expected category and maximum 5-sigma binomial deviation. Root-seeded native IntegerValueRange random draws supply independent trial seeds in place of Java Random splitFrom; seeded traces are not compared. Native explicit fallback scan budget covers each finite fixture; the sampling path permits the original 100 rejection draws. Unexpected/out-of-intersection draws additionally fail. No additional method credit for parameter rows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigIntegerValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "big_integer_get_size",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigIntegerValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "big_integer_get",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigIntegerValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "big_integer_contains",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigIntegerValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "big_integer_original_iterator",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigIntegerValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "big_integer_random_iterator",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigDecimalValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_test": "decimal_get_size",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigDecimalValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "get",
+      "local_test": "decimal_get",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigDecimalValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_test": "decimal_contains",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigDecimalValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "decimal_original_iterator",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BigDecimalValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_test": "decimal_random_iterator",
+      "modifications": "Retain every bound, explicit/default step, count, indexed value, membership/null result, complete or prefix-only iterator assertion and injected rank-3/rank-0 random draw. Native BigInt/Decimal replace Java BigInteger/BigDecimal; decimal comparisons retain representation scale. Rust None replaces null and exhausted-next exceptions. Native counts use checked u128; decimal endpoints/steps require one shared scale. Mismatched-scale behavior, nondividing-bound validation and unsupported-sort exceptions are not claimed by these adaptations."
     }
   ],
   "fixtures": [
@@ -22395,6 +22545,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "deviations",
       "modifications": "Retain huge range size where used, both bias parameter tables, root-seeded trial generation, complete category tallies, per-category binomial deviation and the original 5-sigma threshold. Native seeded random draws replace Java splitFrom; diagnostic strings are native. Huge range operations unused by its budget assertion are not reproduced. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllElementsOfIterator.exact_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllElementsOfIterator",
+      "modifications": "Retain ordered value comparisons and distinguish complete traversal from a tested prefix. Completed native iterators are checked for repeated None instead of Java exhausted-next exceptions. Decimal expected values are parsed with their original representation scales. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/exact_range_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertElementsOfIterator.exact_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertElementsOfIterator",
+      "modifications": "Retain ordered value comparisons and distinguish complete traversal from a tested prefix. Completed native iterators are checked for repeated None instead of Java exhausted-next exceptions. Decimal expected values are parsed with their original representation scales. Helper attribution only; no additional method credit."
     }
   ]
 }

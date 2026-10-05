@@ -574,3 +574,6 @@ pub use common_values::{
     CommonValueBudget, CommonValueError, CommonValueRanges, SharedValueRange,
     intersection_probe_budget, sample_common_change,
 };
+
+mod exact_value_range;
+pub use exact_value_range::{BigIntegerValueRange, DecimalValueRange, ExactRangeError};
