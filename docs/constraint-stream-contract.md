@@ -1679,3 +1679,28 @@ Ord defines distinctness; explicit Option values can represent a counted null.
 As with all captured collectors, direct removals must identify an actual captured
 occurrence. Empty graph groups disappear; standalone empty results do not invent
 an output row. No new timing measurement accompanies this addition.
+
+## Reusable transform definitions
+
+`SharedFilter`, `SharedMap` and `SharedFlatMap` define reusable callback identity.
+Applying a definition or its clone to the same parent in the same builder returns
+the same graph node. Fresh definitions, different parents and different builders
+remain separate, even for callbacks with equal bodies/results. Ordinary builder
+filter/map/flat_map calls retain their existing behavior. This is explicit reusable
+identity, not automatic Rust closure equivalence or Java lambda discovery.
+
+Definitions invoke no user callbacks during construction/application. At runtime,
+a shared node processes each incoming change once and fans its output to every
+consumer. Each consumer still contributes its own score. Existing journals handle
+shared-node rollback, callback failures, diagnostic rebuilds and duplicate expanded
+occurrences. An expansion collects a finite IntoIterator into owned positional
+outputs; prefix retention is expressed in the mapping. Retractions do not rerun
+mappings. Functions must be deterministic with no external side effects.
+
+Clones share callback and registration storage. Graph nodes retain the callback,
+so definitions may be dropped after construction. Registrations hold weak graph
+identity and node numbers, not graph state; dead identities are pruned on the next
+application. Lookup scans the definition's active registrations. A foreign input
+port is rejected before registration lookup/creation. No global registry or
+cross-thread graph sharing is introduced. Callback-count tests demonstrate work
+sharing; no new throughput comparison is claimed.

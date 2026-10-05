@@ -10713,3 +10713,40 @@ bf86f6f8f8fb537486f52f395e31bb7ffcb75e56055dfd1ab666c0640d543c42.
 Logs:work/grouped-multiway-cases.log and work/grouped-multiway-check.log.
 All processes terminal. No failure, benchmark, release or browser sweep in this
 batch. Previous goal turn progressed via67b29a0; full rewrite remains active.
+
+## Shared reusable stream transforms
+
+SharedFilter/SharedMap/SharedFlatMap retain callback identity and weak registrations
+of builder owner,parent node,output node. Reapplying a definition/clone to the same
+parent returns the same node; fresh definitions, parents and builders remain separate.
+Ordinary builder calls remain independent. Foreign input rejects before lookup;
+construction/application runs no callback. Graph nodes capture only the callback,
+so definitions can be dropped after building; registrations retain no graph state
+and prune dead identities on next application. Lookup is linear in registrations.
+FlatMap accepts finite IntoIterator, preserving positional duplicate occurrences.
+Callbacks remain pure/deterministic; no cross-thread/global registry is added.
+
+Eighteen full upstream node-sharing methods cover all four filter arities plus
+unary mapping/flatten-last, with explicit source/self-join setup attribution.
+Canonical dataset identity checks node identity. Five original regressions verify
+one filter/map/expansion callback per change across multiple scoring consumers,
+distinct definitions/parents, cross-builder and cross-score isolation, callback
+lifetime, downstream panic rollback, rebuild and duplicate/shrinking expansions.
+One private unit checks weak owner cleanup across100 builder lifecycles. No timing
+benchmark or automatic Java lambda-equivalence claim accompanies this increment.
+
+Focused79925 passed18 cases;20877 exited0 with one pruning unit and five runtime
+regressions (the unit-filtered regression invocation had zero selected tests; the
+following unfiltered invocation ran all five). Final gate93494 exited0. Broad
+build5454 exited0 in2m28s while the same gate waited on Cargo's build lock; it was
+not restarted. Shared graph export edits invalidated325 targets; prebuild affected
+shared-API batches before starting their final gate to avoid serial compilation.
+Final verification:2855 Rust tests,145 doctests,fmt/Clippy;325 Rust targets ran,
+56 reused;46 Python jobs reused. Aggregate exit0 and equal before/after source:
+8bfd71ea4c0c425db52c3438deb49b557930090d6c401ccb38fb1c4e00d33094.
+Coverage1453/4855(29.928%),pending3120,excluded282,failed/unverified0.
+Dashboard freshness85681 exited0 and matched report digest
+00110d4f061b9d9f8945f81595510d0681705140c6f119b1ac1c084f291483e8.
+Logs:work/shared-transform-cases.log,-pruning.log,-regression.log,-build.log and
+-check.log (shared-transform prefix). All processes terminal. No failure, release,
+benchmark or browser sweep. Previous turn progressed via d9d3d9e; goal stays active.

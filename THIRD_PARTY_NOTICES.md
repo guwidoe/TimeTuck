@@ -690,3 +690,9 @@ pinned Community `AbstractTriConstraintStreamTest` and `AbstractQuadConstraintSt
 `TestdataLavishSolution` and `TestdataObject`. Source helper membership semantics,
 including its disregard for justification order/multiplicity, are preserved and
 recorded with the exact source identities in `compat/provenance.json`.
+
+`crates/solver/tests/shared_transform_cases.rs` adapts eighteen node-sharing methods
+and setup helpers from pinned Community `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest`
+(Apache-2.0). Exact identities and the native reusable-definition/canonical-handle
+substitutions are recorded in `compat/provenance.json`. Shared transform definitions,
+weak registration storage and additional runtime regressions are independent.

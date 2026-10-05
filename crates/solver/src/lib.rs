@@ -163,8 +163,8 @@ pub use incremental_stream::{
 pub mod stream_graph;
 pub use stream_graph::{
     ConcatId, ConcatenatedStreamPort, GraphError, GraphTransaction, GroupedListStreamPort,
-    JoinedStreamPort, StreamConstraint, StreamDataset, StreamGraph, StreamGraphBuilder, StreamPort,
-    StreamSource,
+    JoinedStreamPort, SharedFilter, SharedFlatMap, SharedMap, StreamConstraint, StreamDataset,
+    StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
 };
 
 pub mod stream_scoring;

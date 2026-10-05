@@ -21525,6 +21525,276 @@
       "upstream_test": "groupBy_4Mapping0Collector",
       "local_test": "quad_group_by_4_mapping_0_collector",
       "modifications": "Native entity/group/value occurrence IDs replace Java objects; Code(id) is a bijective representation of generated entity codes. Preserve full live multiway join topology, equality/identity/filtering conditions, source cardinalities and modulo membership, optional extra same-group join, unique-pair orientation and all specified removals. Native flat collector tuples retain independent counts, extrema MAX/MIN and set identities. Expected fields and penalties are literal source assertions. Match comparison preserves AbstractConstraintStreamTest.AssertableMatch.isEqualTo: same score/length and expected.containsAll(actual), checked in both coverage directions, plus total/count. It intentionally does not claim ordered-slot or duplicate-field multiplicity equality; this matters for Tri four-key and Quad three-key no-collector assertions. Native usize counts replace Java integer/long counts. Unused value-group objects and random long fields are omitted; no reflection/listener equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFilter",
+      "local_test": "uni_different_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFilter",
+      "local_test": "uni_same_parent_different_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFilter",
+      "local_test": "uni_same_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionMap",
+      "local_test": "uni_different_parent_same_function_map",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionMap",
+      "local_test": "uni_same_parent_different_function_map",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameFunctionMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionMap",
+      "local_test": "uni_same_parent_same_function_map",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFunctionFlattenLast",
+      "local_test": "uni_different_parent_same_function_flatten_last",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFunctionFlattenLast",
+      "local_test": "uni_same_parent_different_function_flatten_last",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameFunctionFlattenLast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFunctionFlattenLast",
+      "local_test": "uni_same_parent_same_function_flatten_last",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFilter",
+      "local_test": "bi_different_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFilter",
+      "local_test": "bi_same_parent_different_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFilter",
+      "local_test": "bi_same_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFilter",
+      "local_test": "tri_different_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFilter",
+      "local_test": "tri_same_parent_different_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFilter",
+      "local_test": "tri_same_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentSameFilter",
+      "local_test": "quad_different_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentFilter",
+      "local_test": "quad_same_parent_different_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameFilter",
+      "local_test": "quad_same_parent_same_filter",
+      "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
     }
   ],
   "fixtures": [
@@ -27130,6 +27400,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
       "upstream_test": "toString",
       "modifications": "Retain three entities, modulo group/value memberships and distinct fact identities; native Code(id) represents Generated Entity id bijectively in code equality/grouping. Joinable group/value facts are explicit sources. Unused value-group objects, annotations and random long properties are omitted; extrema cases set MAX/MIN. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.setup.shared_transform",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce the base topology used by the node-identity assertions. No fixture rows are needed by these source tests; integer payloads/nested tuples replace reflected entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.setup.shared_transform",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce the base topology used by the node-identity assertions. No fixture rows are needed by these source tests; integer payloads/nested tuples replace reflected entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.setup.shared_transform",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce the base topology used by the node-identity assertions. No fixture rows are needed by these source tests; integer payloads/nested tuples replace reflected entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_transform_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.setup.shared_transform",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Native source and zero through three Cartesian self-joins reproduce the base topology used by the node-identity assertions. No fixture rows are needed by these source tests; integer payloads/nested tuples replace reflected entity types. Helper attribution adds no method credit."
     }
   ]
 }

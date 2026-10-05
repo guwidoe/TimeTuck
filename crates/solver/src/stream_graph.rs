@@ -30,6 +30,8 @@
 //! ```
 
 mod dataset;
+mod shared;
+pub use shared::{SharedFilter, SharedFlatMap, SharedMap};
 mod unique_pairs;
 pub use dataset::StreamDataset;
 

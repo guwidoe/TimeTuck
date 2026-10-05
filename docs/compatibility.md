@@ -2183,3 +2183,12 @@ helper. This distinction matters for the three-fact four-key and four-fact three
 no-collector fixtures; their literal expected fields are retained. Native code IDs
 represent generated entity codes bijectively; group/value fact IDs remain typed.
 These are additional composition coverage, not a Java reflection/event-order claim.
+
+Eighteen additional node-sharing methods preserve unary through quaternary filter
+identity assertions, plus unary mapping/flatten-last identity assertions. Native
+reusable definitions replace Java callback object identity; canonical dataset
+handles verify graph node identity. Base stream topology retains Cartesian joins,
+true/false predicates, identity/None mappings and empty list/set expansions. Ordinary
+builder operations are not automatically interned. Runtime regressions separately
+verify one callback per incoming change across consumers, rollback, duplicate
+expansions, different definitions/parents/builders and release of graph state.
