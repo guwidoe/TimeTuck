@@ -17355,6 +17355,81 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "DefaultMoveStreamFactoryTest.forEachDestination_valueAndEndOfListPositions",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultMoveStreamFactoryTest.java",
+      "upstream_test": "forEachDestination_valueAndEndOfListPositions",
+      "local_test": "for_each_destination_value_and_end_of_list_positions",
+      "modifications": "Preserve every exact insertion-position set and unique unassigned member. Native ListPosition and Option replace Java PositionInList/ElementPosition; an incremental entity-row flat map and captured dataset replace reflective source discovery/session setup. Explicit native registry/entity ranges preserve round-robin and disjoint-range fixtures. Also check the direct immutable-assignment iterator against the same expected sets; no Java object/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultMoveStreamFactoryTest.forEachDestination_entityProvidedDisjointValueRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultMoveStreamFactoryTest.java",
+      "upstream_test": "forEachDestination_entityProvidedDisjointValueRanges",
+      "local_test": "for_each_destination_entity_provided_disjoint_value_ranges",
+      "modifications": "Preserve every exact insertion-position set and unique unassigned member. Native ListPosition and Option replace Java PositionInList/ElementPosition; an incremental entity-row flat map and captured dataset replace reflective source discovery/session setup. Explicit native registry/entity ranges preserve round-robin and disjoint-range fixtures. Also check the direct immutable-assignment iterator against the same expected sets; no Java object/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultMoveStreamFactoryTest.forEachDestinationIncludingUnassigned_addsExactlyOneUnassignedRow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultMoveStreamFactoryTest.java",
+      "upstream_test": "forEachDestinationIncludingUnassigned_addsExactlyOneUnassignedRow",
+      "local_test": "for_each_destination_including_unassigned_adds_exactly_one_unassigned_row",
+      "modifications": "Preserve every exact insertion-position set and unique unassigned member. Native ListPosition and Option replace Java PositionInList/ElementPosition; an incremental entity-row flat map and captured dataset replace reflective source discovery/session setup. Explicit native registry/entity ranges preserve round-robin and disjoint-range fixtures. Also check the direct immutable-assignment iterator against the same expected sets; no Java object/API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultNeighborhoodTest.rejectsEmptyMoveProviderList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultNeighborhoodTest.java",
+      "upstream_test": "rejectsEmptyMoveProviderList",
+      "local_test": "rejects_empty_move_provider_list",
+      "modifications": "Preserve empty-list rejection and required message substring, plus exact retained provider identity without invoking its throwing factory. Native borrowed trait-object providers, a typed EmptyMoveProviders error and weight-one sequential union replace Java list/exception/configuration objects; no Java API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultNeighborhoodTest.acceptsNonEmptyMoveProviderList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultNeighborhoodTest.java",
+      "upstream_test": "acceptsNonEmptyMoveProviderList",
+      "local_test": "accepts_nonempty_move_provider_list_without_calling_it",
+      "modifications": "Preserve empty-list rejection and required message substring, plus exact retained provider identity without invoking its throwing factory. Native borrowed trait-object providers, a typed EmptyMoveProviders error and weight-one sequential union replace Java list/exception/configuration objects; no Java API parity claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
@@ -20888,6 +20963,71 @@
       "modifications": "Native pool construction, explicit counter closures and the assert_terminates helper retain the source data/probe outcomes and three-value/three-entity modulo fixture. Native typed APIs replace Java entries, records and descriptor/session setup. Helper attribution only; no extra method credit.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "local_path": "crates/solver/tests/retiring_sampling_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "DefaultMoveStreamFactoryTest.createSession.destination_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/stream/DefaultMoveStreamFactoryTest.java",
+      "upstream_test": "createSession",
+      "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.generateInitializedSolution.destination_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateInitializedSolution",
+      "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.generateSolution.destination_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListSolution.initialize.destination_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "initialize",
+      "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TestdataListEntityProvidingSolution.generateSolution.destination_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain four-value/two-entity modulo initialization and two-value/two-entity disjoint ranges with explicit initial lists. Native ListProblem, stream score director and captured rows replace Java solution descriptors and session/shadow initialization. Helper attribution only; no additional method credit.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/destination_union_cases.rs",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

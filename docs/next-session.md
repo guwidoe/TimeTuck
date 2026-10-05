@@ -9730,3 +9730,29 @@ freshness matches. No UI/browser, benchmark sweep or release rerun; old measurem
 remain stale. Logs:work/retiring-sampling-build.log,work/retiring-sampling-check.log,
 work/retiring-sampling-focused.log,work/retiring-sampling-regression.log. All build,
 check and freshness jobs are complete. Full rewrite goal remains active.
+
+## List destinations and custom provider unions
+
+Added list_destinations (lazy immutable-assignment slots) and live
+list_destination_dataset. Whole pins exclude entities; prefix pins retain the
+boundary/end slots. Optional lists can include exactly one unassignment member.
+Slots use pre-removal indices and are independent of receiving value ranges;
+providers must adjust/check their own concrete moves. Live views follow journaled
+list/mixed source updates and preserve held snapshots through rollback.
+ProviderUnion borrows weighted providers, defers each factory until first selection,
+skips zero weights entirely, and reopens children with each committed step snapshot.
+Sequential/random ordering, wrapping step seeds, nested unions and duplicates work
+through the existing six provider-enabled backends. Empty child lists are rejected;
+all-disabled lists are valid empty neighborhoods. Infinite children need consumer
+budgets. Five upstream methods and five helpers are attributed. Six original tests
+cover dynamic destination/reference comparisons, validation, lazy factories/cursor
+drop, disabled/nested children, weights/seeds and all six solver paths.
+Final check.sh passed:2373 Rust tests,129 doctests,fmt/Clippy;46 Python jobs reused.
+Three Rust targets ran (lib and two new suites);321 reused unchanged results.
+Affected prebuild took13.90s. Source digest:
+0c2fc51dc810d1b1e5d5d16b59cfc3206c5f392615a061bc34f17f5f9ae21dd9.
+Coverage1162/4855(23.934%),pending3411,excluded282,failed/unverified0. Live dashboard
+freshness matches. No UI/browser, benchmark sweep or release rerun; older measurements
+remain stale. Logs:work/destination-union-build.log,work/destination-union-check.log,
+work/destination-union-focused.log,work/destination-union-regression.log. All jobs
+completed. Full rewrite remains active.

@@ -1826,3 +1826,17 @@ liveness methods retain their assertions. Native attempt configuration replaces 
 upstream symbolic retry constant; its Java value and PRNG traces are not claimed.
 Six original checks cover exact consumption, duplicates/holes, demand-driven clones,
 seeded distributions, bounded dead-pool work and provider solving in both backends.
+
+List insertion destinations now have direct lazy enumeration and live captured
+dataset forms. Each unpinned entity contributes its insertion slots at/after the
+pinned prefix, including the end slot; an optional-list view can prepend exactly
+one unassignment member. Ranges do not multiply/filter value-independent slots;
+providers must check their own receiving values and adjust same-list destinations
+after source removal. The stream form follows ordinary director trials/rollback.
+ProviderUnion composes borrowed custom providers with sequential or weighted seeded
+selection. Factories open only when selected, disabled children remain inactive,
+and each step gets fresh child cursors over its committed snapshot. Nested unions
+and duplicates are preserved; empty provider lists are rejected. The three
+DefaultMoveStreamFactoryTest and two DefaultNeighborhoodTest methods are adapted.
+Six original checks cover destination states/validation, lazy factories and cursor
+drop, disabled/nested providers, seeded weights and all six solver backend paths.

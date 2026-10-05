@@ -544,3 +544,8 @@ mod retiring_sampling;
 pub use retiring_sampling::{
     BoundedFilter, FilterProbe, NoDrawToRetire, RetiringPairs, RetiringRandom,
 };
+
+mod list_destinations;
+pub use list_destinations::{ListDestinationDataset, list_destination_dataset, list_destinations};
+mod provider_union;
+pub use provider_union::{EmptyMoveProviders, ProviderUnion, WeightedMoveProvider};
