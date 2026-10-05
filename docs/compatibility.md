@@ -1854,3 +1854,16 @@ custom move objects; full example-provider/API equivalence is not claimed. Five
 original regressions compare independent small-case successor sets and rollback,
 order validation, pins, clone counts, and escape from a single-change local optimum
 in both scoped and stream search. They earn no additional upstream method credit.
+
+ListMoveBuilder now constructs compound list moves using a validated isolated draft.
+It supports assignment, ordered batch insertion, assignment with displacement,
+replacement of an existing element, signed shifts, block relocation/exchange and
+unassignment. Each edit is atomic; cloning forks the draft and finish returns a
+native move usable through either scoring backend and existing providers. Full
+snapshot editing is a correctness baseline, without an incremental cost claim.
+Fifteen MoveDirectorTest assignment methods preserve all list/position/unassignment,
+already-assigned rejection and rollback assertions. Java descriptors and ephemeral
+directors are replaced by draft construction plus stream-director replay/rollback.
+Notification-specific replacement/shift methods remain pending. Four original
+regressions cover exhaustive small indices, failed/panicking edits, draft forks,
+compound score consistency and local-search solving in both scoring backends.

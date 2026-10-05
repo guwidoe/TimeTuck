@@ -747,3 +747,37 @@ validate sampled successor sets, payloads, pins, ranges, empty destinations,
 large cuts, seed/budget prefixes and cross-owner list/mixed search. Existing
 single-list regressions still cover the extracted shared graph and draw helpers.
 The current Java/Rust timing section remains limited to single-route k-opt.
+
+## Compound move drafts
+
+ListMoveBuilder owns an isolated draft initialized from a validated assignment.
+Each successful edit appends an ordinary ListMove and updates that draft. All
+coordinates refer to the current draft; relocation destinations are post-removal.
+assign and assign_many insert unassigned values, preserving input order. Duplicate,
+already-assigned, unknown or disallowed values fail atomically. Empty assign_many
+validates its destination but adds no step. set_unassigned displaces the current
+slot (returning its value), or appends at the end (returning None).
+replace moves an existing element into another element's position, unassigning
+and returning the displaced element; it adjusts same-list source/destination
+indices internally. Equal source/replacement positions fail. shift takes a signed,
+nonzero offset, rejects overflow/out-of-bounds results, and returns the moved value.
+relocate_span, swap_spans and unassign require nonempty valid spans.
+
+Each edit validates the resulting model, including pins and receiving ranges.
+Failed calls and ordinary unwinding retain the earlier draft and recorded steps.
+push accepts arbitrary native moves/composites; an explicit composite can make
+intermediate changes to pinned/range-restricted lists provided the final state
+satisfies the model. Missing required values remain valid intermediate state;
+model completeness and structural score are separate checks. Cloning the builder
+forks an independent draft. It uses full model snapshots, so no constant-time or
+incremental draft-edit performance is claimed.
+
+finish returns a plain move for one edit, or a Composite for multiple/zero edits.
+Replay against the same starting state reproduces the draft and can use either
+list score director, custom move providers, or mixed moves. Final scoring sees the
+compound result, not intermediate states. The builder does not bind the finished
+move to its original assignment or provide Java notification/lifecycle semantics.
+Fifteen complete Community assignment methods preserve lists, element positions,
+unassigned states, errors and undo. Notification-specific shift/replacement methods
+remain pending. Original exhaustive small-index checks, failed-edit/panic recovery,
+branching drafts, both score-director paths and provider solving are separate.

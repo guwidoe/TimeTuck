@@ -9783,3 +9783,30 @@ freshness matches. No UI/browser, benchmark sweep or release rerun; older measur
 remain stale. Logs:work/value-exchange-build.log,work/value-exchange-check.log,
 work/value-exchange-focused.log. All build/check/freshness jobs completed.
 The full rewrite goal remains active.
+
+## Compound list move builder
+
+Added ListMoveBuilder with an isolated validated draft and recorded native moves.
+Supports single/batch assignment, unassigned-value replacement, existing-element
+replacement with index adjustment, signed shifts, relocation, block exchange and
+unassignment. Each method is atomic; failed calls/input-iterator panic leave prior
+edits intact. Cloning forks a draft. push(Composite) permits temporary intermediate
+pin/range violations when the final state is valid. finish normalizes one step and
+preserves multi/empty composites, for replay against the same starting state.
+The implementation uses full model snapshots; no incremental-edit performance claim.
+Fifteen complete MoveDirectorTest assignment methods retain lists, all asserted
+positions/unassigned states, errors and undo through native stream-director replay.
+Java notifications/lifecycle semantics are not claimed; notification-specific shift
+and replacement methods remain pending. Four original tests cover exhaustive small
+replacement/shift indices and rollback, failure/panic recovery, forked drafts,
+compound scoring and provider solving through both list scoring backends.
+Final check.sh passed:2400 Rust tests,131 doctests,fmt/Clippy;46 Python jobs reused.
+Three Rust targets ran (lib/two new suites);325 reused unchanged evidence.
+Affected prebuild11.32s; final pipeline about1m19s by log timestamps. Source digest:
+550f506c9afa0f6062faba8476fe92d52e1eefccdbcec4f87a17e2dcdb833b73.
+Coverage1180/4855(24.305%),pending3393,excluded282,failed/unverified0. Live dashboard
+freshness matches. No UI/browser, benchmark sweep or release rerun; old measurements
+remain stale. Logs:work/list-move-builder-focused.log,work/list-move-builder-build.log,
+work/list-move-builder-check.log. All jobs completed; no failures remained.
+The previous turn made verified implementation progress and committed568629c.
+This batch also makes implementation progress; the full rewrite remains active.

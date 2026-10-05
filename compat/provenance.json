@@ -17475,6 +17475,231 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndSetInMiddle",
+      "status": "implemented",
+      "upstream_test": "assignValueAndSetInMiddle",
+      "local_test": "assign_value_and_set_in_middle",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndSetAtStart",
+      "status": "implemented",
+      "upstream_test": "assignValueAndSetAtStart",
+      "local_test": "assign_value_and_set_at_start",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndSetAtEnd",
+      "status": "implemented",
+      "upstream_test": "assignValueAndSetAtEnd",
+      "local_test": "assign_value_and_set_at_end",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndSetOnEmptyList",
+      "status": "implemented",
+      "upstream_test": "assignValueAndSetOnEmptyList",
+      "local_test": "assign_value_and_set_on_empty_list",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndAddToEmptyList",
+      "status": "implemented",
+      "upstream_test": "assignValueAndAddToEmptyList",
+      "local_test": "assign_value_and_add_to_empty_list",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndAddAtStart",
+      "status": "implemented",
+      "upstream_test": "assignValueAndAddAtStart",
+      "local_test": "assign_value_and_add_at_start",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndAddInMiddle",
+      "status": "implemented",
+      "upstream_test": "assignValueAndAddInMiddle",
+      "local_test": "assign_value_and_add_in_middle",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndAddAtEnd",
+      "status": "implemented",
+      "upstream_test": "assignValueAndAddAtEnd",
+      "local_test": "assign_value_and_add_at_end",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValuesAndAddToEmptyList",
+      "status": "implemented",
+      "upstream_test": "assignValuesAndAddToEmptyList",
+      "local_test": "assign_values_and_add_to_empty_list",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValuesAndAddAtStart",
+      "status": "implemented",
+      "upstream_test": "assignValuesAndAddAtStart",
+      "local_test": "assign_values_and_add_at_start",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValuesAndAddInMiddle",
+      "status": "implemented",
+      "upstream_test": "assignValuesAndAddInMiddle",
+      "local_test": "assign_values_and_add_in_middle",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValuesAndAddAtEnd",
+      "status": "implemented",
+      "upstream_test": "assignValuesAndAddAtEnd",
+      "local_test": "assign_values_and_add_at_end",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndAddFailsWhenValueAlreadyAssigned",
+      "status": "implemented",
+      "upstream_test": "assignValueAndAddFailsWhenValueAlreadyAssigned",
+      "local_test": "assign_value_and_add_fails_when_value_already_assigned",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValuesAndAddFailsWhenValueAlreadyAssigned",
+      "status": "implemented",
+      "upstream_test": "assignValuesAndAddFailsWhenValueAlreadyAssigned",
+      "local_test": "assign_values_and_add_fails_when_value_already_assigned",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "MoveDirectorTest.assignValueAndSetFailsWhenValueAlreadyAssigned",
+      "status": "implemented",
+      "upstream_test": "assignValueAndSetFailsWhenValueAlreadyAssigned",
+      "local_test": "assign_value_and_set_fails_when_value_already_assigned",
+      "modifications": "Preserve explicit lists, insertion/replacement index, unassigned input identities, exact resulting lists, all asserted positions/unassigned states and rollback or already-assigned rejection. Native integer IDs, ListMoveBuilder draft operations and a stream score-director trial replace Java descriptors and ephemeral MoveDirector; typed AlreadyAssigned replaces IllegalStateException. Check all registered positions, including after rollback. Native draft creation does not mutate the supplied assignment; final move replay uses the same initial state. Java reflection/API parity is not claimed.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "local_path": "crates/solver/tests/list_move_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ],
   "fixtures": [
