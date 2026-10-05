@@ -1704,3 +1704,30 @@ application. Lookup scans the definition's active registrations. A foreign input
 port is rejected before registration lookup/creation. No global registry or
 cross-thread graph sharing is introduced. Callback-count tests demonstrate work
 sharing; no new throughput comparison is claimed.
+
+## Reusable relation definitions
+
+`SharedJoin` and `SharedExistence` share one relation for each definition identity,
+ordered parent pair and builder. Clones retain identity; fresh definitions and
+changes to either parent stay distinct. A join can use any JoinComparison and an
+optional post-join predicate. An existence definition has a fixed Exists/NotExists
+mode; without a predicate it uses the equality-count index, and with a predicate
+it uses the indexed predicate relation. Constant keys express a Cartesian join or
+unrestricted right-side presence; stable-ID inequality expresses self-exclusion.
+Filtering unassigned facts remains explicit.
+
+`with_filter` consumes a definition and returns a fresh registration identity with
+the new predicate. It leaves prior clones and already-built nodes unchanged; it
+replaces any prior predicate rather than composing predicates. Apply validates both
+parents before looking up the registration, and runs no callbacks. Shared relation
+outputs fan out to independent scoring constraints without repeating projections
+per consumer. Self joins still receive one update per side of their relation.
+
+Callbacks must be deterministic and inspect immutable inputs. Definitions retain
+weak builder identities and callbacks; built graph nodes keep callbacks alive if
+definitions are dropped. Dead registration owners are pruned on the next apply;
+lookup scans active bindings. Graph checkpoints restore shared indexes, filtered
+outputs and downstream consumers together after trials or ordinary callback failure.
+Runtime comparisons against independent nested enumeration cover all ordered join
+comparisons, filtered/unfiltered existence and absence, and changing facts/removals.
+No throughput ratio or Java automatic-node-interning guarantee is claimed.

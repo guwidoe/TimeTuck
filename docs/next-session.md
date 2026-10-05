@@ -10750,3 +10750,34 @@ Dashboard freshness85681 exited0 and matched report digest
 Logs:work/shared-transform-cases.log,-pruning.log,-regression.log,-build.log and
 -check.log (shared-transform prefix). All processes terminal. No failure, release,
 benchmark or browser sweep. Previous turn progressed via d9d3d9e; goal stays active.
+
+## Shared indexed relation definitions
+
+SharedJoin/SharedExistence reuse nodes by definition identity, ordered parent pair
+and builder. Clones share registrations; changed parents and fresh definitions
+remain distinct. Joins support all five key comparisons and optional post-filtering;
+existence/absence uses equality counts unless a predicate requires indexed matching.
+with_filter replaces the predicate with a fresh definition identity and preserves
+prior clones/nodes. Both parents validate before lookup; construction runs no
+callback. Weak owner registrations release graph state and prune on application.
+Ordinary builder calls remain independent; unassigned filtering stays explicit.
+
+Forty-five full upstream node-sharing methods cover Uni/Bi/Tri joins and
+Uni/Bi/Tri/Quad existence/absence. Native definition and canonical dataset identity
+replace Java callback/node identity; exact source methods and setup helpers are
+recorded in provenance. Five original regressions compare 2,000 ordered join edits
+and 800 existence edits with independent enumeration, plus callback counts, changed
+filters/parent order, self-exclusion, panic recovery and rollback. One private unit
+checks weak cleanup across 100 builders and foreign-parent validation.
+Focused cases passed45; runtime regressions passed5; pruning unit passed1.
+No benchmark, release or browser sweep; no new timing ratio claimed.
+Final broad build50969 exited0 in2m31s. Gate55802 exited0:2906 Rust tests and
+146 doctests;327 Rust targets ran,56 reused;46 Python jobs reused;fmt/Clippy passed.
+Aggregate exit0 and equal before/after source verified:
+aaf8cd90b36ece12c915601f804674a30f1e2d423387c56769a7b8a9e9235a7c.
+Coverage1498/4855(30.855%),pending3075,excluded282,failed/unverified0.
+Dashboard freshness24467 exited0 and matched report verification digest
+8a765c052736efb60fd1e9dcc57d57ca532cf565b16ceee2d594e2546d615638.
+Logs:work/shared-relation-cases.log,-regression.log,-pruning.log,-build.log and
+-check.log (shared-relation prefix). All processes terminal. Previous goal turn
+progressed via8526c2a; the full rewrite remains active.

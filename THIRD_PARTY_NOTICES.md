@@ -696,3 +696,10 @@ and setup helpers from pinned Community `AbstractUni/Bi/Tri/QuadConstraintStream
 (Apache-2.0). Exact identities and the native reusable-definition/canonical-handle
 substitutions are recorded in `compat/provenance.json`. Shared transform definitions,
 weak registration storage and additional runtime regressions are independent.
+
+`crates/solver/tests/shared_relation_cases.rs` adapts forty-five join/existence
+node-sharing methods and setup helpers from pinned Community
+`AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest`, with code-projection semantics
+from `TestdataObject.toString` (Apache-2.0). Exact identities and native substitutions
+are in `compat/provenance.json`. Reusable relation definitions and runtime regression
+cases are independently implemented.

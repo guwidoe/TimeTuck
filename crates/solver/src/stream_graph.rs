@@ -30,6 +30,8 @@
 //! ```
 
 mod dataset;
+mod shared_relations;
+pub use shared_relations::{SharedExistence, SharedJoin};
 mod shared;
 pub use shared::{SharedFilter, SharedFlatMap, SharedMap};
 mod unique_pairs;

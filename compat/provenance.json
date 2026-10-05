@@ -21795,6 +21795,681 @@
       "upstream_test": "sameParentSameFilter",
       "local_test": "quad_same_parent_same_filter",
       "modifications": "Native reusable transform definitions represent callback object identity; clones share identity, fresh definitions do not. Preserve all same/different node assertions, true/false filters, identity/null mappings and empty-list/empty-set expansions. Explicit sources and repeated Cartesian self-joins reproduce unary/binary/ternary/quaternary parent topology. Existing canonical dataset handles expose node identity for assertions. Native Option replaces Java null. Automatic lambda equivalence and Java entity discovery are not claimed; ordinary builder calls remain independent."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentLeftParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentLeftParentJoin",
+      "local_test": "uni_different_left_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentRightParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentRightParentJoin",
+      "local_test": "uni_different_right_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentsDifferentIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentIndexerJoin",
+      "local_test": "uni_same_parents_different_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentsDifferentFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentFilteringJoin",
+      "local_test": "uni_same_parents_different_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentsJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsJoin",
+      "local_test": "uni_same_parents_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentsSameIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameIndexerJoin",
+      "local_test": "uni_same_parents_same_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentsSameFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameFilteringJoin",
+      "local_test": "uni_same_parents_same_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsDifferentParent",
+      "local_test": "uni_if_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameIndexer",
+      "local_test": "uni_if_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameFilter",
+      "local_test": "uni_if_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsDifferentParent",
+      "local_test": "uni_if_not_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameIndexer",
+      "local_test": "uni_if_not_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameFilter",
+      "local_test": "uni_if_not_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentLeftParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentLeftParentJoin",
+      "local_test": "bi_different_left_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentRightParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentRightParentJoin",
+      "local_test": "bi_different_right_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentsDifferentIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentIndexerJoin",
+      "local_test": "bi_same_parents_different_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentsDifferentFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentFilteringJoin",
+      "local_test": "bi_same_parents_different_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentsJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsJoin",
+      "local_test": "bi_same_parents_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentsSameIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameIndexerJoin",
+      "local_test": "bi_same_parents_same_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentsSameFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameFilteringJoin",
+      "local_test": "bi_same_parents_same_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsDifferentParent",
+      "local_test": "bi_if_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameIndexer",
+      "local_test": "bi_if_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameFilter",
+      "local_test": "bi_if_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsDifferentParent",
+      "local_test": "bi_if_not_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameIndexer",
+      "local_test": "bi_if_not_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameFilter",
+      "local_test": "bi_if_not_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentLeftParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentLeftParentJoin",
+      "local_test": "tri_different_left_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentRightParentJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentRightParentJoin",
+      "local_test": "tri_different_right_parent_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentsDifferentIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentIndexerJoin",
+      "local_test": "tri_same_parents_different_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentsDifferentFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsDifferentFilteringJoin",
+      "local_test": "tri_same_parents_different_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentsJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsJoin",
+      "local_test": "tri_same_parents_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentsSameIndexerJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameIndexerJoin",
+      "local_test": "tri_same_parents_same_indexer_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentsSameFilteringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentsSameFilteringJoin",
+      "local_test": "tri_same_parents_same_filtering_join",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsDifferentParent",
+      "local_test": "tri_if_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameIndexer",
+      "local_test": "tri_if_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameFilter",
+      "local_test": "tri_if_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsDifferentParent",
+      "local_test": "tri_if_not_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameIndexer",
+      "local_test": "tri_if_not_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameFilter",
+      "local_test": "tri_if_not_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsDifferentParent",
+      "local_test": "quad_if_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameIndexer",
+      "local_test": "quad_if_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentSameFilter",
+      "local_test": "quad_if_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsDifferentParent",
+      "local_test": "quad_if_not_exists_different_parent",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameIndexer",
+      "local_test": "quad_if_not_exists_same_parent_same_indexer",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentSameFilter",
+      "local_test": "quad_if_not_exists_same_parent_same_filter",
+      "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
     }
   ],
   "fixtures": [
@@ -27452,6 +28127,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
       "upstream_test": "setup",
       "modifications": "Native source and zero through three Cartesian self-joins reproduce the base topology used by the node-identity assertions. No fixture rows are needed by these source tests; integer payloads/nested tuples replace reflected entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.setup.shared_relation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity/value sources and zero through three Cartesian entity self-joins reproduce the source base topology. Source tests assert identities without inserting facts. Fact IDs and codes replace reflected Java entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.setup.shared_relation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity/value sources and zero through three Cartesian entity self-joins reproduce the source base topology. Source tests assert identities without inserting facts. Fact IDs and codes replace reflected Java entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.setup.shared_relation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity/value sources and zero through three Cartesian entity self-joins reproduce the source base topology. Source tests assert identities without inserting facts. Fact IDs and codes replace reflected Java entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.setup.shared_relation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity/value sources and zero through three Cartesian entity self-joins reproduce the source base topology. Source tests assert identities without inserting facts. Fact IDs and codes replace reflected Java entity types. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_relation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.toString.shared_relation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "toString",
+      "modifications": "Native Fact.code represents both getCode and the code-returning toString projection in the unary different-indexer fixture; distinct definitions preserve the two callback identities despite equal results. Helper attribution adds no method credit."
     }
   ]
 }

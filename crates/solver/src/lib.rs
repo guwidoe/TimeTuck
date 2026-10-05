@@ -674,3 +674,5 @@ pub use unique_pair_stream::UniquePairNode;
 
 mod tuple_collector;
 pub use tuple_collector::DistinctCountCollector;
+
+pub use stream_graph::{SharedExistence, SharedJoin};

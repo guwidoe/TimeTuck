@@ -2192,3 +2192,12 @@ true/false predicates, identity/None mappings and empty list/set expansions. Ord
 builder operations are not automatically interned. Runtime regressions separately
 verify one callback per incoming change across consumers, rollback, duplicate
 expansions, different definitions/parents/builders and release of graph state.
+
+Forty-five additional node-sharing methods cover joins from unary/binary/ternary
+parents and existence/absence from all four arities. They retain changed-left/right
+parent assertions, different/same indexers and filters, no-joiner reuse, scalar
+code/toString equivalence and first-vs-second fact projections. Native reusable
+definitions and canonical dataset handles express callback and node identities;
+ordinary builder calls remain independent. Original generated runtime comparisons
+cover ordered relations, filters, right-side changes, rollback, self-exclusion and
+callback counts without adding upstream method credit.
