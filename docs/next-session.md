@@ -10052,3 +10052,34 @@ focused-final.log,work/list-cascade-build.log,work/list-cascade-check.log(interr
 work/list-cascade-resumed-check.log(success). All batch jobs are terminal.
 Previous goal turn made progress via f2635e1; this turn adds usable incremental
 cascade callbacks and atomic list trials. Full solver rewrite remains active.
+
+## Dependency-order work queue integrated with derived-value propagation
+
+Added NodeOrderQueue over shared immutable ranks: offer deduplicates pending IDs,
+pop permits reoffering, equal ranks break ties by ID, and invalid IDs fail without
+mutation. Peek, clear, independent clones and partial fused drains are supported.
+Heap/membership storage grows with offered work; rank snapshots can be shared.
+DependencyCache now caches ranks in each immutable plan and uses the queue for
+value propagation. Value-only updates still avoid scanning the node universe;
+edge edits build new rank snapshots before propagation. No performance claim made.
+Eight complete NodeTopologicalOrderQueueTest methods and two helpers are attributed.
+The native random workload retains 50x1000 operations,200 nodes,50 possible ranks,
+seed0; an ordered-set reference replaces Java PriorityQueue with deterministic ties.
+Three original regressions cover snapshots/partial drains/invalid IDs, topology
+snapshot isolation and converging dependencies with edge reversal/cycle recovery.
+Existing exhaustive dependency-cache tests also passed in focused development.
+Diff review caught a collision with the existing node_order_cases.rs comparator
+suite. Stopped prebuild group20256/session20627 (exit143), restored that file exactly
+from HEAD and moved new cases/regressions to dependency_queue_*.rs. No old tests
+were removed. Corrected prebuild36.11s. Shared propagation changed broad job inputs;
+batched remaining executable compilation completed in5m51s (session26003 exit0).
+Final check.sh session59752 exited0: 2548 Rust tests,138 doctests,fmt/Clippy;
+291 Rust targets ran,53 reused;46 Python jobs reused. Verified aggregate exit0 and
+matching before/after source: 63889fb33a0e90f28d99acff3b73b2f77c5212bae3ce1b5ea20d46ccd3d95416.
+Coverage1275/4855(26.262%),pending3298,excluded282,failed/unverified0. Live freshness
+session36474 exited0 with digest matching report. No browser/release/benchmark sweep;
+older performance evidence remains stale. Logs:work/node-order-focused.log,
+work/node-order-regression.log,work/dependency-queue-build.log,
+work/dependency-queue-remaining-build.log,work/dependency-queue-check.log. All jobs
+are terminal. Previous goal turn made progress via6803562; this turn adds a reusable
+scheduler and verifies its shared-cache integration. Full rewrite remains active.

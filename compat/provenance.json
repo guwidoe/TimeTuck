@@ -19005,6 +19005,126 @@
       "upstream_test": "stopUpdateNextValues",
       "local_test": "distinct_stop_update_next_values",
       "modifications": "Retain the three values/two entities, every asserted derived field and callback count, preseeded second value, and independent stopping of distinct cascades. Explicit native callbacks replace Java reflective methods/notifications. The partial-notification stop fixture imports the final list with its existing shadows and explicitly dirties the first value; this substitutes for the manually prepopulated Java owner/previous fields. No reflection or Java notification lifecycle parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.emptyQueue",
+      "status": "implemented",
+      "upstream_test": "emptyQueue",
+      "local_test": "empty_queue",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.pollsInTopologicalOrderRegardlessOfInsertionOrder",
+      "status": "implemented",
+      "upstream_test": "pollsInTopologicalOrderRegardlessOfInsertionOrder",
+      "local_test": "polls_in_topological_order_regardless_of_insertion_order",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.drainsOnlyTheNodesThatWereOffered",
+      "status": "implemented",
+      "upstream_test": "drainsOnlyTheNodesThatWereOffered",
+      "local_test": "drains_only_the_nodes_that_were_offered",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.offeringANodeAlreadyInTheQueueDoesNothing",
+      "status": "implemented",
+      "upstream_test": "offeringANodeAlreadyInTheQueueDoesNothing",
+      "local_test": "offering_a_node_already_in_the_queue_does_nothing",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.aNodeCanBeOfferedAgainOnceItHasBeenPolled",
+      "status": "implemented",
+      "upstream_test": "aNodeCanBeOfferedAgainOnceItHasBeenPolled",
+      "local_test": "a_node_can_be_offered_again_once_it_has_been_polled",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.holdsEveryNodeAtOnce",
+      "status": "implemented",
+      "upstream_test": "holdsEveryNodeAtOnce",
+      "local_test": "holds_every_node_at_once",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.nodesSharingATopologicalOrderComeOutTogether",
+      "status": "implemented",
+      "upstream_test": "nodesSharingATopologicalOrderComeOutTogether",
+      "local_test": "nodes_sharing_a_topological_order_come_out_together",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.matchesAPriorityQueueOnRandomWorkloads",
+      "status": "implemented",
+      "upstream_test": "matchesAPriorityQueueOnRandomWorkloads",
+      "local_test": "matches_a_priority_queue_on_random_workloads",
+      "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
     }
   ],
   "fixtures": [
@@ -23063,6 +23183,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/distinct/TestdataDifferentCascadingSolution.java",
       "upstream_test": "generateSolution",
       "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.graphWithOrders.node_order",
+      "upstream_test": "graphWithOrders",
+      "modifications": "Native rank-snapshot queue and Vec collection replace graph mock and repeated Java polling. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/NodeTopologicalOrderQueueTest.java",
+      "local_path": "crates/solver/tests/dependency_queue_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NodeTopologicalOrderQueueTest.drain.node_order",
+      "upstream_test": "drain",
+      "modifications": "Native rank-snapshot queue and Vec collection replace graph mock and repeated Java polling. Helper attribution only; no additional method credit."
     }
   ]
 }

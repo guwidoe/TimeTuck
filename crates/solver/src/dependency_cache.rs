@@ -1,10 +1,11 @@
 //! Incremental derived values over explicit mutable dependencies.
-use crate::{DependencyError, DependencyTopology, DerivedValue, SnapshotMap};
+use crate::{DependencyError, DependencyTopology, DerivedValue, NodeOrderQueue, SnapshotMap};
 use std::{collections::BTreeSet, sync::Arc};
 
 struct Plan<K> {
     topology: DependencyTopology<K>,
     consumers: Vec<Vec<usize>>,
+    order: Arc<[usize]>,
 }
 impl<K: Ord + Clone> Plan<K> {
     fn new(topology: DependencyTopology<K>) -> Self {
@@ -14,9 +15,13 @@ impl<K: Ord + Clone> Plan<K> {
                 consumers[dependency].push(index);
             }
         }
+        let order = (0..topology.keys().len())
+            .map(|i| topology.rank_at(i))
+            .collect();
         Self {
             topology,
             consumers,
+            order,
         }
     }
     fn derive<V>(
@@ -53,7 +58,7 @@ impl<K: Ord + Clone> Plan<K> {
         }
     }
     fn rank(&self, index: usize) -> usize {
-        self.topology.rank_at(index)
+        self.order[index]
     }
 }
 
@@ -158,17 +163,20 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
                 plan = Arc::new(Plan::new(topology));
             }
         }
-        let mut ready: BTreeSet<_> = roots.into_iter().map(|i| (plan.rank(i), i)).collect();
+        let mut ready = NodeOrderQueue::new(plan.order.clone());
+        for index in roots {
+            ready.offer(index).expect("validated dependency node");
+        }
         let mut values = self.values.clone();
         let mut changed = BTreeSet::new();
-        while let Some((_, index)) = ready.pop_first() {
+        while let Some(index) = ready.pop() {
             let key = &plan.topology.keys()[index];
             let value = plan.derive(index, &values, &mut evaluate);
             if values[key] != value {
                 values.insert(key.clone(), value);
                 changed.insert(index);
                 for &consumer in &plan.consumers[index] {
-                    ready.insert((plan.rank(consumer), consumer));
+                    ready.offer(consumer).expect("validated consumer node");
                 }
             }
         }

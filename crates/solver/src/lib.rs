@@ -586,3 +586,6 @@ pub use temporal_value_range::{
 
 mod list_cascade;
 pub use list_cascade::{ListCascadeCache, ListCascadeContext, ListCascadeError, ListCascadeMove};
+
+mod node_order_queue;
+pub use node_order_queue::{NodeOrderQueue, UnknownOrderNode};

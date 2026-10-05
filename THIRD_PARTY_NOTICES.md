@@ -566,3 +566,8 @@ regressions are independently implemented; no production implementation was used
 with their solution-generation and value-update fixtures (Apache-2.0). Exact paths,
 revision and substitutions are recorded in `compat/provenance.json`. The native
 list cascade cache, transactions and separate regressions are independently written.
+
+`crates/solver/tests/dependency_queue_cases.rs` adapts all eight methods and two helpers
+from the pinned Community `NodeTopologicalOrderQueueTest` (Apache-2.0). Provenance
+records exact identities and native randomness/tie-breaking substitutions. The
+heap-based queue and its derived-value cache integration are independently written.

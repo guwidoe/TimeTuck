@@ -1949,3 +1949,12 @@ inspects the whole assignment; only callback propagation is selective. Six origi
 regressions cover every small partial assignment, native moves/undo, explicit facts,
 pins/errors/unwinding, non-Clone snapshots, grouped fields and an arrival-time solve.
 This adds no Java lifecycle or new performance equivalence claim.
+
+All eight NodeTopologicalOrderQueueTest methods now retain order, subset selection,
+deduplication/reoffering, capacity workload and equal-rank assertions. The randomized
+priority-reference check preserves workload sizes with native seeded draws and
+node-ID tie breaking. NodeOrderQueue captures shared immutable ranks and stores only
+offered work. DependencyCache now uses this queue, caching rank snapshots with each
+topology plan; value-only invalidation does not scan the node universe. Existing
+exhaustive dependency regressions and new fan-in/edge-reversal/cycle-recovery tests
+verify integration. No new timing or Java allocation-strategy equivalence is claimed.
