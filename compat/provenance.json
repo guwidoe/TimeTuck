@@ -23685,6 +23685,1086 @@
       "upstream_test": "differentPaddingFunctionConcat",
       "local_test": "quad_different_padding_function_concat",
       "modifications": "Explicit reusable definitions/clones replace Java stream/callback identity. Preserve every same/different-node assertion, source parent, true/false and entity-identity filters, first/second projections, identity/null expansion, empty-list/set flattening, ordered concatenation parents and first-fact/null padding. Tri different-function map retains two callbacks that both select the first fact. Native scalar IDs represent entities, Option represents null, and Vec of fields represents ordered projected tuple payloads. Actual Cartesian self-joins retain base arities. Flatten-last preserves its prefix; ordinary builder operations are not automatically interned. Precompute and source-discovery semantics are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherDifferentParent",
+      "local_test": "uni_if_exists_other_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherSameParentDifferentIndexer",
+      "local_test": "uni_if_exists_other_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherSameParentDifferentFilter",
+      "local_test": "uni_if_exists_other_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherSameParentSameIndexer",
+      "local_test": "uni_if_exists_other_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherDifferentParent",
+      "local_test": "uni_if_not_exists_other_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed. Preserve the literal fixture quirk: the first stream uses ifExistsOther and the filtered second stream uses ifNotExistsOther, so both parent and mode differ."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherSameParentDifferentIndexer",
+      "local_test": "uni_if_not_exists_other_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherSameParentDifferentFilter",
+      "local_test": "uni_if_not_exists_other_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherSameParentSameIndexer",
+      "local_test": "uni_if_not_exists_other_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherIncludingUnassignedDifferentParent",
+      "local_test": "uni_if_exists_other_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "uni_if_exists_other_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "uni_if_exists_other_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsOtherIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsOtherIncludingUnassignedSameParentSameIndexer",
+      "local_test": "uni_if_exists_other_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherIncludingUnassignedDifferentParent",
+      "local_test": "uni_if_not_exists_other_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "uni_if_not_exists_other_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "uni_if_not_exists_other_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsOtherIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsOtherIncludingUnassignedSameParentSameIndexer",
+      "local_test": "uni_if_not_exists_other_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedDifferentParent",
+      "local_test": "uni_if_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedDifferentParent",
+      "local_test": "uni_if_not_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "uni_if_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "uni_if_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "uni_if_not_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "uni_if_not_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentIndexer",
+      "local_test": "uni_if_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentFilter",
+      "local_test": "uni_if_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentIndexer",
+      "local_test": "uni_if_not_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentFilter",
+      "local_test": "uni_if_not_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "uni_if_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "uni_if_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "uni_if_not_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "uni_if_not_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedDifferentParent",
+      "local_test": "bi_if_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedDifferentParent",
+      "local_test": "bi_if_not_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "bi_if_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "bi_if_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "bi_if_not_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "bi_if_not_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentIndexer",
+      "local_test": "bi_if_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentFilter",
+      "local_test": "bi_if_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentIndexer",
+      "local_test": "bi_if_not_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentFilter",
+      "local_test": "bi_if_not_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "bi_if_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "bi_if_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "bi_if_not_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "bi_if_not_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedDifferentParent",
+      "local_test": "tri_if_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedDifferentParent",
+      "local_test": "tri_if_not_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "tri_if_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "tri_if_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "tri_if_not_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "tri_if_not_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentIndexer",
+      "local_test": "tri_if_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentFilter",
+      "local_test": "tri_if_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentIndexer",
+      "local_test": "tri_if_not_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentFilter",
+      "local_test": "tri_if_not_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "tri_if_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "tri_if_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "tri_if_not_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "tri_if_not_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedDifferentParent",
+      "local_test": "quad_if_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedDifferentParent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedDifferentParent",
+      "local_test": "quad_if_not_exists_including_unassigned_different_parent",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "quad_if_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "quad_if_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameIndexer",
+      "local_test": "quad_if_not_exists_including_unassigned_same_parent_same_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentSameFilter",
+      "local_test": "quad_if_not_exists_including_unassigned_same_parent_same_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentIndexer",
+      "local_test": "quad_if_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsSameParentDifferentFilter",
+      "local_test": "quad_if_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentIndexer",
+      "local_test": "quad_if_not_exists_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsSameParentDifferentFilter",
+      "local_test": "quad_if_not_exists_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "quad_if_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "quad_if_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentIndexer",
+      "local_test": "quad_if_not_exists_including_unassigned_same_parent_different_indexer",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "ifNotExistsIncludingUnassignedSameParentDifferentFilter",
+      "local_test": "quad_if_not_exists_including_unassigned_same_parent_different_filter",
+      "modifications": "Native SharedExistence definitions/clones and same_node preserve every same/different node assertion. Explicit Option assignment filtering selects assigned left Cartesian tuples and assigned/all right facts. Stable IDs replace Java entity identity; code strings retain the alternate unary indexer. Preserve first-vs-second left identity projections, equality/inequality predicates (higher arities compare the first two left facts), Exists/NotExists modes, and Other self-exclusion. Native callbacks combine the supplied predicate with ID inequality for Other. Changed parents retain true filters. Source methods assert identity without inserting facts; runtime assignment behavior is checked separately. Reflection, automatic lambda equivalence and precompute are not claimed."
     }
   ],
   "fixtures": [
@@ -29511,6 +30591,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
       "upstream_test": "setup",
       "modifications": "Native source and zero through three Cartesian self-joins reproduce base stream topology; adjacent-arity padding fixtures use the same joined sources. IDs replace Java entity identity. Source methods assert node identity without inserting facts. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.setup.shared_existence_scope",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit all-fact source, assigned filter and zero through three Cartesian assigned-entity self-joins replace source discovery and the base forEach join topology. Native Fact IDs, code strings and Option assignment represent entity metadata. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.setup.shared_existence_scope",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit all-fact source, assigned filter and zero through three Cartesian assigned-entity self-joins replace source discovery and the base forEach join topology. Native Fact IDs, code strings and Option assignment represent entity metadata. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.setup.shared_existence_scope",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit all-fact source, assigned filter and zero through three Cartesian assigned-entity self-joins replace source discovery and the base forEach join topology. Native Fact IDs, code strings and Option assignment represent entity metadata. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_existence_scope_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.setup.shared_existence_scope",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit all-fact source, assigned filter and zero through three Cartesian assigned-entity self-joins replace source discovery and the base forEach join topology. Native Fact IDs, code strings and Option assignment represent entity metadata. Helper attribution adds no method credit."
     }
   ]
 }

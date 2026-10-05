@@ -1775,3 +1775,19 @@ Existing SharedMap can append fields or map multi-fact tuples; SharedFlatMap can
 flatten whole tuples or retain a prefix while flattening the final field. Positional
 IDs preserve duplicates. Native arity is expressed by Rust payload types rather
 than Java overloads. No throughput or automatic lambda-interning claim is added.
+
+## Assignment scope in shared existence relations
+
+Assignment scope belongs to the input port: an explicit assigned filter supplies
+ordinary left/right streams, while an all-fact source supplies an unassigned-inclusive
+right stream. Applying the same SharedExistence definition to these different right
+parents produces separate relation nodes. Including unassigned right facts does not
+change left-stream assignment filtering. Self-exclusion compares stable fact IDs
+independently of equality keys; equal-code facts with different IDs can match.
+
+When one source feeds both sides or several positions in a Cartesian left tuple,
+assignment changes propagate through every role. Original full-enumeration checks
+compare all output fields and scores for four arities, assigned/all right scopes,
+Exists/NotExists and optional self-exclusion through committed and rolled-back
+changes. This is integration evidence for existing operators, not a new implicit
+entity-discovery or callback-interning mechanism.

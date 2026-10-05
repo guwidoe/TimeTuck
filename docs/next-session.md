@@ -10862,3 +10862,37 @@ Dashboard freshness48471 exited0 and matched report verification digest
 Logs:work/shared-set-cases.log,-regression.log,-build.log,-check.log,
 -final-build.log and-final-check.log (shared-set prefix). All processes terminal.
 Previous goal turn progressed via8ec1ece; the full rewrite remains active.
+
+## Existence sharing with assignment scope and self-exclusion
+
+Seventy-two full upstream node-sharing methods now cover the remaining existence,
+absence, Other and IncludingUnassigned identity assertions across four arities.
+All execute against existing native operators; no production source changed.
+Preserve identity/code and first/second-fact indexers, equality/inequality predicates,
+true parent filters, explicit assigned-left and assigned/all-right scopes, and
+self-exclusion independent of equality keys. Higher-arity predicates compare the
+first two left facts. The literal unary ifNotExistsOtherDifferentParent fixture
+starts with ExistsOther and compares a filtered NotExistsOther; preserve both
+mode and parent differences rather than silently correcting its name/body mismatch.
+Four setup helpers retain Cartesian self-join topology and explicit native assignment
+filtering; provenance records each adaptation. Precompute/retrieval cases remain.
+
+Two original regressions exercise all four arities with 400 source edits each,
+including assignment/unassignment, code changes, removal and rollback. Each update
+compares complete output payloads, cardinalities and scores against independent
+Cartesian enumeration for assigned/all right scopes, existence/absence and optional
+self-exclusion (eight combinations), with two scoring consumers per shared relation.
+A concrete same-definition/different-right-scope case checks exact scores through
+assignment changes. Focused cases94951 passed72; regressions40353 passed2 in13.29s.
+The runtime helper initially lacked the PartialEq bound required by dataset(); it
+was added before the passing run. No engine failure, benchmark or browser sweep.
+Final gate70797 exited0:3072 Rust tests;two new Rust targets ran and387 reused;
+148-doctest evidence and46 Python jobs reused;fmt/Clippy passed. Aggregate exit0
+and equal before/after source verified:
+e384cafc49b75ba14752838bfb8ac5ecba58a0436086bcca149b507a91c0cb20.
+Coverage1651/4855(34.006%),pending2922,excluded282,failed/unverified0.
+Dashboard freshness80382 exited0 and matched report verification digest
+b1b00d4d2a7bdd4ee851a1db0de9f69a70433d1d10f5b9b2fbc0f9cdf07eb632.
+Logs:work/shared-existence-scope-cases.log,-regression.log and-check.log
+(shared-existence-scope prefix). All processes terminal. Previous goal turn
+progressed via bbbb157; the full rewrite remains active.

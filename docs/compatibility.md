@@ -2219,3 +2219,13 @@ field vectors replace Java callbacks/reflection/tuple overloads. Precompute rema
 pending. Original runtime comparisons separately cover multiset/set updates, sharing
 padding across different opposite parents, representative changes, duplicate positions,
 prefix preservation, self-concatenation and rollback without upstream method credit.
+
+Seventy-two additional existence node-sharing methods preserve unassigned-inclusive
+right scopes, self-excluding Other relations, changed parents, different/same indexes
+and predicates across all four arities. Assignment discovery is replaced by explicit
+Option filters over native fact sources. The unary ifNotExistsOtherDifferentParent
+fixture literally compares an Exists stream with a filtered NotExists stream; both
+mode and parent differences are preserved. These methods add identity coverage to
+existing operators. Original generated assignment/update comparisons separately
+verify complete tuple payloads, visibility, absence, scores and rollback across all
+arities; no new engine behavior or precompute compatibility is claimed.

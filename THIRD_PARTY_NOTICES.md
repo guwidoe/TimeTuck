@@ -715,3 +715,9 @@ distinct and concatenation node-sharing methods plus setup helpers from pinned
 Community `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest` (Apache-2.0).
 Exact methods and substitutions are recorded in `compat/provenance.json`.
 Shared set/concatenation definitions and runtime comparisons are independent.
+
+`crates/solver/tests/shared_existence_scope_cases.rs` adapts seventy-two existence,
+absence, other-entity and including-unassigned node-sharing methods plus setup
+helpers from pinned Community `AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest`
+(Apache-2.0). Exact identities, explicit native scopes and the unary mixed-mode
+fixture are documented in `compat/provenance.json`. Runtime comparisons are original.
