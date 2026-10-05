@@ -587,3 +587,11 @@ Community `CachingEntitySelectorTest`, `CachingValueSelectorTest`,
 substitutions are recorded in `compat/provenance.json`. This completes the two
 previously partial weighted-sequence methods in a separate lifecycle adaptation.
 The native cache implementation and additional regressions are independently written.
+
+`crates/solver/tests/ordered_selection_cases.rs` adapts thirteen methods from pinned
+Community `SortingEntitySelectorTest`, `SortingMoveSelectorTest`,
+`ShufflingEntitySelectorTest` and `ShufflingMoveSelectorTest`, with their lifecycle
+helpers, `PlannerAssert` helpers and the list overloads of `TestdataObjectSorter`
+and `CodeAssertableSorter` (Apache-2.0). Exact revision, identities and native
+substitutions are in `compat/provenance.json`. Ordered snapshots and native
+cache ordering are independently implemented; separate regressions are original.

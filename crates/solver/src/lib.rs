@@ -598,3 +598,6 @@ pub use selection_cache::{
     CachedSelectionIter, CachedSelectionOrder, SelectionCache, SelectionCacheError,
     SelectionCacheScope, SelectionCacheState, SelectionLifecycleEvent, SelectionSource,
 };
+
+mod ordered_selection;
+pub use ordered_selection::{OrderedSelection, OrderedSelectionCache, OrderedSelectionError};

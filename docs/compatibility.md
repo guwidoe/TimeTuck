@@ -1983,3 +1983,16 @@ collection bounds, unwinding, non-Clone snapshots and step-scoped move-provider
 solving with both basic backends. Parent lifecycle delivery remains explicit;
 automatic global solver-listener wiring and Java runtime class identity are not
 claimed. No benchmark refresh or new performance comparison accompanies this batch.
+
+Thirteen sorting/shuffling selector methods now preserve ordered fixtures,
+exhaustion, size/finite metadata, cache rejection, all child lifecycle counts and
+exact source rebuild counts. OrderedSelectionCache sorts stably once per source
+cache boundary, or shuffles each step without replacement, retaining the prior
+permutation until that source cache rebuilds. Immutable indexed snapshots share
+non-Clone candidates and survive future reorders/releases. Six original regressions
+cover stable ties/context capture, every draw combination through six items,
+invalid events/draws and comparator unwinding, duplicate occurrences/lazy cloning,
+seeded repeatability/bounds and sorted/shuffled providers in both basic backends.
+Native lifecycle events remain explicit. SortingMoveSelectorTest.applySorting
+remains pending because Java comparator-class/factory configuration is not adapted.
+No Java PRNG trace, automatic parent lifecycle, or new performance claim is made.

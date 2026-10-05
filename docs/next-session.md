@@ -10148,3 +10148,30 @@ revalidated the worktree and completed the pending cache implementation batch.
 Full independent solver rewrite remains active and incomplete.
 Dashboard freshness session53699 exited0 and matched the current report digest.
 All batch process handles are terminal.
+
+## Stable sorted and step-shuffled selection snapshots
+
+OrderedSelectionCache wraps native scoped candidate caching with stable sorting
+at source rebuild or a fresh finite permutation at each step. Shuffles retain
+previous order until the source scope rebuilds. Immutable indexed snapshots share
+non-Clone candidates, retain duplicates and outlive cache release; owned traversal
+clones only yielded items. Invalid events preserve current order; failed ordering
+or comparator unwinding makes order unavailable until the next configured rebuild.
+Callbacks are owned, parent events explicit, and callback side effects irreversible.
+Thirteen sorting/shuffling selector methods and eleven helpers are attributed.
+Java comparator class/factory configuration (applySorting) remains pending.
+Six original regressions cover scope/context, stable ties, all bounded draw
+combinations through six items, failure/recovery, ownership/lazy cloning, seeded
+repeatability, collection limits and actual provider solving in both basic backends.
+A sorted provider selects the optimum with only one candidate evaluation.
+Focused session61295 exited0 (13 adapted+6 original,compile15.12s). Final prebuild
+14.40s and check session61001 exited0:2603 Rust tests,139 doctests,fmt/Clippy;
+3 Rust targets ran,347 reused;46 Python jobs reused. Aggregate exit0 and equal
+before/after source verified:e815df52baa03d426e1e9a5a3ea13b46d713441d8bb333724f1795237129526a.
+Coverage1309/4855(26.962%),pending3264,excluded282,failed/unverified0. Logs:
+work/ordered-selection-focused.log,work/ordered-selection-build.log,
+work/ordered-selection-check.log. No browser/release/benchmark sweep; previous
+performance measurements remain stale. Previous goal turn made progress via4471dca;
+this turn adds usable ordered candidate exploration. Full rewrite remains active.
+Dashboard freshness session77074 exited0 with matching report digest. All batch
+process handles are terminal.
