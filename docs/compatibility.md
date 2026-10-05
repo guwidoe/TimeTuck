@@ -2261,5 +2261,12 @@ existence/absence changes and null-key self-joins, with independent graph rebuil
 at the specified states. Native immutable snapshots replace mutable object aliases;
 Java deferral scheduling is not claimed. An original 1,800-update enumeration check
 covers all six graph shapes through changing facts, removal and rollback.
-Bavet whole-network activity/deactivation tests remain pending: the native engine
-has static zero-weight pruning but no settled dynamic activity tracking.
+Ten Bavet network activity methods now have complete native adaptations using
+opt-in dynamic source-emptiness pruning. Source facts remain available while dead
+branches skip work; changed activity plans rebuild caches transactionally. Joins,
+anti-joins, concat, optional references and captured datasets have distinct input
+and observer rules. An 800-update eager/pruned comparison, panic/overflow rollback
+and saved-candidate tests supplement the source cases. The chain method asserting
+Java FILTER-node absence remains pending: native filters are explicit graph nodes.
+Predicates and key matches are not used to infer emptiness. Whole-cache rebuild cost
+and recreated precomputed objects make pruning opt-in; no throughput claim is made.

@@ -1820,3 +1820,40 @@ normal graph transaction failure and destructor/interior-mutation limits still a
 Diagnostic rebuilds deliberately rerun precomputation. No throughput comparison is
 claimed. Original move-scoring integration verifies current assignments and unchanged
 fact-computation counts during native basic-variable trials and rollback.
+
+## Source-emptiness activity pruning
+
+`StreamGraphBuilder::with_activity_pruning()` opts into dynamic branch scheduling.
+Sources always retain facts. Ordinary operators require every input to be potentially
+populated; concat needs either input, while anti-joins and optional references need
+only their left input. A backward pass additionally requires a path to an enabled
+scoring constraint or captured dataset. Shared roots stay active if any consumer
+needs them. Disabled zero-weight branches remain pruned. There is no callback-based
+emptiness inference: predicates, key compatibility and actual output cardinality
+may make a structurally active branch produce no rows.
+
+Updates skip inactive operator nodes. A source transition between empty/nonempty
+recomputes the plan; if it changes, all operator caches are cleared and active
+branches are rebuilt from retained sources in node/ID order. This deliberately
+uses a whole-graph rebuild rather than partial cache recovery. Precomputed outputs
+may therefore be allocated again even if their fact keys did not change; allocation
+identity is not retained across activity-plan transitions. Other updates remain
+incremental. Rebuild callbacks count as ordinary scoring work and use the configured
+arithmetic policy, including checked intermediate overflow failures. Callbacks must
+be pure: inactive branches do not evaluate or validate their payloads. Frequent
+source-empty transitions may cost more than they save, so pruning is disabled by
+default and no general throughput improvement is claimed.
+
+`graph.activity()` returns an immutable `StreamActivity` snapshot without callbacks,
+even when pruning is disabled. Typed `get(port)` rejects foreign graph handles and
+returns potential `can_produce` and observer-dependent `active` flags. Snapshots
+keep their captured state; they are not live views or actual tuple-count estimates.
+With pruning disabled these flags do not imply skipped execution. Native filters
+and terminals remain graph nodes; Java node-kind/compilation-layout parity is not
+part of this API.
+
+Sources, cached indexes, score and the routing plan all participate in transaction
+rollback and saved-candidate installation. A failed or panicking activation poisons
+the transaction; dropping it restores the preceding plan and caches without running
+callbacks. Diagnostic rebuilds honor the captured plan and restore all original
+state on return. Captured datasets count as observers even without scoring sinks.

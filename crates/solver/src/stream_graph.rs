@@ -29,6 +29,9 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod activity;
+use activity::ActivityRule;
+pub use activity::{NodeActivity, StreamActivity};
 mod dataset;
 mod precompute;
 pub use precompute::SharedPrecompute;
@@ -208,6 +211,9 @@ trait Node<S: AdditiveScore> {
 
     fn checkpoint(&self) -> Box<dyn Any>;
     fn clear(&mut self);
+    fn source_count(&self) -> Option<usize> {
+        None
+    }
     fn source_events(&self) -> Vec<Event> {
         Vec::new()
     }
@@ -249,6 +255,9 @@ fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I
 
 struct SourceNode<I, T>(SnapshotMap<I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
+    fn source_count(&self) -> Option<usize> {
+        Some(self.0.len())
+    }
     fn clear(&mut self) {
         self.0.clear();
     }
@@ -943,6 +952,8 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
     datasets: BTreeMap<usize, usize>,
+    activity_rules: Vec<ActivityRule>,
+    activity_pruning: bool,
     arithmetic: crate::ScoringArithmetic,
 }
 impl<S: AdditiveScore + 'static> Default for StreamGraphBuilder<'_, S> {
@@ -958,6 +969,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             edges: Vec::new(),
             constraints: BTreeMap::new(),
             datasets: BTreeMap::new(),
+            activity_rules: Vec::new(),
+            activity_pruning: false,
             arithmetic: crate::ScoringArithmetic::default(),
         }
     }
@@ -978,6 +991,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let id = self.nodes.len();
         self.nodes.push(Box::new(node));
         self.edges.push(Vec::new());
+        self.activity_rules.push(ActivityRule::All);
         StreamPort {
             owner: self.owner.clone(),
             node: id,
@@ -1142,6 +1156,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(Concat::<L, R, T>(PhantomData));
+        self.activity_rules[out.node] = ActivityRule::Any;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1264,6 +1279,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(Reference(ReferenceNode::<I, J, L, R>::new(reference)));
+        self.activity_rules[out.node] = ActivityRule::Left;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1592,6 +1608,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(Exists(ExistsNode::<I, J, L, R, K>::new(
             mode, left_key, right_key, predicate,
         )));
+        if mode == ExistenceMode::NotExists {
+            self.activity_rules[out.node] = ActivityRule::Left;
+        }
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1618,6 +1637,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(ExistsEqual(ExistsEqualNode::<I, J, L, R, K>::new(
             mode, left_key, right_key,
         )));
+        if mode == ExistenceMode::NotExists {
+            self.activity_rules[out.node] = ActivityRule::Left;
+        }
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1948,18 +1970,26 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 
     pub fn build(mut self) -> StreamGraph<'a, S> {
         self.prune_disabled_constraints();
-        StreamGraph {
+        let mut graph = StreamGraph {
+            activity_rules: self.activity_rules,
+            active: None,
             owner: self.owner,
             nodes: self.nodes,
             edges: self.edges,
             constraints: self.constraints,
             arithmetic: self.arithmetic,
             score: S::ZERO,
+        };
+        if self.activity_pruning {
+            graph.active = Some(graph.active_plan());
         }
+        graph
     }
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    activity_rules: Vec<ActivityRule>,
+    active: Option<Vec<bool>>,
     owner: Rc<()>,
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,
@@ -2066,14 +2096,17 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             self.nodes[id].restore(checkpoint);
         }
         self.score = state.score;
+        self.active = state.active;
     }
     pub fn transaction(&mut self) -> GraphTransaction<'_, 'a, S> {
         let original_score = self.score.clone();
+        let original_active = self.active.clone();
         let arithmetic = self.arithmetic;
         let visited = vec![false; self.nodes.len()];
         GraphTransaction {
             graph: self,
             original_score,
+            original_active,
             arithmetic,
             replaying: false,
             visited,
@@ -2092,6 +2125,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
 pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
     graph: &'g mut StreamGraph<'a, S>,
     original_score: S,
+    original_active: Option<Vec<bool>>,
     arithmetic: crate::ScoringArithmetic,
     replaying: bool,
     visited: Vec<bool>,
@@ -2101,6 +2135,7 @@ pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
     score_evaluations: u128,
 }
 pub(crate) struct GraphState<S> {
+    active: Option<Vec<bool>>,
     nodes: Vec<(usize, Box<dyn Any>)>,
     score: S,
 }
@@ -2111,6 +2146,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     pub(crate) fn capture(&self) -> Result<GraphState<S>, GraphError> {
         self.valid()?;
         Ok(GraphState {
+            active: self.graph.active.clone(),
             score: self.graph.score.clone(),
             nodes: self
                 .journal
@@ -2160,18 +2196,26 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         self.valid()?;
         self.failed = true;
         self.graph.validate(source)?;
-        self.propagate(source.0.node, Rc::new(change) as Event)?;
+        let event = Rc::new(change) as Event;
+        if self.graph.active.is_some() {
+            self.apply_with_activity(source.0.node, event)?;
+        } else {
+            self.propagate(source.0.node, event)?;
+        }
         self.failed = false;
         Ok(())
     }
     fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
-        let mut pending = VecDeque::from([(
+        let pending = VecDeque::from([(
             Edge {
                 node: source,
                 right: false,
             },
             event,
         )]);
+        self.drain(pending)
+    }
+    fn drain(&mut self, mut pending: VecDeque<(Edge, Event)>) -> Result<(), GraphError> {
         let arithmetic = NodeArithmetic {
             impact: self.arithmetic,
             totals: if self.replaying {
@@ -2183,6 +2227,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         let mut changes = Vec::new();
         while let Some((edge, event)) = pending.pop_front() {
             let id = edge.node;
+            if self.graph.active.as_ref().is_some_and(|active| !active[id])
+                && self.graph.nodes[id].source_count().is_none()
+            {
+                continue;
+            }
             self.checkpoint(id);
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
@@ -2215,6 +2264,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
 impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
     fn drop(&mut self) {
         if !self.committed {
+            self.graph.active = self.original_active.take();
             for (id, checkpoint) in self.journal.drain(..).rev() {
                 self.graph.nodes[id].restore(checkpoint);
             }

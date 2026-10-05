@@ -11020,3 +11020,38 @@ e3df33c4fc4f8b0c96c6ba2656e0bb3f5ab4353a6e1232fa7ae8808ebde04f5b.
 Logs: work/shared-precompute-cases.log, work/deep-join-update-cases.log and
 work/precompute-deep-update-check.log. All processes terminal. Previous goal turn
 progressed via f470c69; full goal remains active.
+
+## Opt-in dynamic source-emptiness activity pruning
+
+Added with_activity_pruning, graph.activity and typed immutable StreamActivity /
+NodeActivity snapshots. Forward structural input rules and backward observer
+reachability distinguish ordinary joins, concat, anti-joins and optional references.
+Sources retain facts even when inactive; datasets and shared live consumers keep
+branches alive. Routing skips inactive operator callbacks. When source emptiness
+changes the active plan, all operator caches rebuild from retained facts. Other
+updates remain incremental. Rollback and saved candidates restore the routing plan
+with source/index/score state. Default execution is unchanged. See the updated
+constraint-stream contract for callback purity, checked rebuild arithmetic,
+conservative predicate/key treatment and allocation-identity/rebuild-cost limits.
+
+Ten BavetNodeDeactivationTest methods now have adaptations and helper provenance.
+chainOverEmptyClassFullyDeactivates stays pending because its FILTER-node-absence
+assertion describes Java compilation; native filters are nodes. Native empty-chain
+activity is independently checked. Five original integration tests cover 100 skipped
+updates, reactivation, snapshot retention, foreign handles, datasets/disabled weights,
+panic and checked-overflow rollback, plus 800 eager/pruned updates across grouped,
+joined, anti-joined, concatenated, optional-reference and precomputed branches.
+One private unit checks saved candidate installation after activation rollback.
+Focused 86132 passed 10 adapted cases and the first 4 regressions; the final added
+conservative-filter regression and private unit passed in the full gate.
+Final Clippy 54505 passed; broad build 6906 passed in 8m07s. Gate 42879 exited 0:
+3166 Rust tests and 150 doctests; fmt/Clippy passed; 340 Rust targets ran, 56 reused;
+46 Python jobs reused. No benchmark/release/browser sweep or throughput claim.
+Equal source-before/after and aggregate exit 0 verified:
+7d31313d5288147e884f63c30a66640a7dea69aff112764920dc07a8668db1f9.
+Coverage 1732/4855 (35.675%), pending 2841, excluded 282, failed/unverified 0.
+Freshness check 7256 exited 0 and matched the dashboard report digest:
+b3e06dc752ecc5a632bc649f9a2b2eb622ac7ec46e6aafb08746465091fb4466.
+Logs: work/activity-focused.log, work/activity-final-clippy.log,
+work/activity-build.log and work/activity-check.log. Previous goal turn progressed
+via 0441d06; full rewrite remains active. All processes are terminal.

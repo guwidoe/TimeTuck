@@ -25830,6 +25830,156 @@
       "local_path": "crates/solver/tests/deep_join_update_cases.rs",
       "local_test": "join_with_null_key_from_right",
       "modifications": "Native Option-valued keys and an all-entity self-join preserve initial mixed null/non-null values, sequential switched values, and both-null states. Exact ordered pair multisets preserve all source matches and unit penalties. Typed stable IDs replace Java identity; both put operations are retained even when the second value is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.emptyJoinSideDeactivatesChain",
+      "status": "implemented",
+      "upstream_test": "emptyJoinSideDeactivatesChain",
+      "local_test": "empty_join_side_deactivates_chain",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.nonEmptyJoinSideKeepsChainActive",
+      "status": "implemented",
+      "upstream_test": "nonEmptyJoinSideKeepsChainActive",
+      "local_test": "non_empty_join_side_keeps_chain_active",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.ifNotExistsWithEmptyRightStaysActive",
+      "status": "implemented",
+      "upstream_test": "ifNotExistsWithEmptyRightStaysActive",
+      "local_test": "if_not_exists_with_empty_right_stays_active",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.ifExistsWithEmptyRightDeactivates",
+      "status": "implemented",
+      "upstream_test": "ifExistsWithEmptyRightDeactivates",
+      "local_test": "if_exists_with_empty_right_deactivates",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.concatWithOneEmptySideStaysActive",
+      "status": "implemented",
+      "upstream_test": "concatWithOneEmptySideStaysActive",
+      "local_test": "concat_with_one_empty_side_stays_active",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.groupByOverEmptyClassDeactivates",
+      "status": "implemented",
+      "upstream_test": "groupByOverEmptyClassDeactivates",
+      "local_test": "group_by_over_empty_class_deactivates",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.flattenOverEmptyClassDeactivates",
+      "status": "implemented",
+      "upstream_test": "flattenOverEmptyClassDeactivates",
+      "local_test": "flatten_over_empty_class_deactivates",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.sharedForEachStaysActiveWhenOneBranchIsAlive",
+      "status": "implemented",
+      "upstream_test": "sharedForEachStaysActiveWhenOneBranchIsAlive",
+      "local_test": "shared_for_each_stays_active_when_one_branch_is_alive",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.precomputeOverEmptySourceDeactivates",
+      "status": "implemented",
+      "upstream_test": "precomputeOverEmptySourceDeactivates",
+      "local_test": "precompute_over_empty_source_deactivates",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.precomputeOverPopulatedSourceStaysActive",
+      "status": "implemented",
+      "upstream_test": "precomputeOverPopulatedSourceStaysActive",
+      "local_test": "precompute_over_populated_source_stays_active",
+      "modifications": "Native opt-in activity pruning replaces Java network settling. Preserve seven assigned entities, empty or singleton extra source, operator topology, all active/inactive assertions and node-presence assertions through typed activity lookup. Activity uses source emptiness and input requirements plus backwards reachability to live observers. Actual routing skips inactive branches while retaining sources, then rebuilds caches when source emptiness changes the plan. Explicit source handles replace class discovery; exact native node count in the shared-root case proves two roots, one join and two consumers. Unused Lavish value/group metadata and Java score-director wrappers are omitted. Native scoring/dataset terminals are actual graph nodes, unlike Java scorer lifecycles. The separate chainOverEmptyClassFullyDeactivates method remains pending because it additionally asserts Java FILTER-node absence."
     }
   ],
   "fixtures": [
@@ -31903,6 +32053,123 @@
       "upstream_test": "assertScoreMatchesFromScratch",
       "local_path": "crates/solver/tests/deep_join_update_cases.rs",
       "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.settle.native_activity",
+      "upstream_test": "settle",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.active.native_activity",
+      "upstream_test": "active",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.present.native_activity",
+      "upstream_test": "present",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.activeForEach.native_activity",
+      "upstream_test": "activeForEach",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.forEachCount.native_activity",
+      "upstream_test": "forEachCount",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.matchesForEach.native_activity",
+      "upstream_test": "matchesForEach",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.solutionWithoutExtras.native_activity",
+      "upstream_test": "solutionWithoutExtras",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/BavetNodeDeactivationTest.java",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetNodeDeactivationTest.solutionWithExtras.native_activity",
+      "upstream_test": "solutionWithExtras",
+      "modifications": "Native builder, source loading, typed activity snapshots and node counts replace class-reflective Java network helpers. Retain empty versus singleton extra fixtures and seven entity occurrences. Source keys stand in for object identity; unrelated value/group fixtures and Java director/session casts are omitted. Helper adds no method credit."
+    },
+    {
+      "id": "TestdataLavishSolution.generateSolution.native_activity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "local_path": "crates/solver/tests/stream_activity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain seven assigned entity occurrences and the initially empty extra list used by BavetNodeDeactivationTest. Only entity/extra roots enter these constraint networks, so unrelated group/value objects and their properties are omitted; source payload integers replace object identities. The singleton extra is added by the separately attributed solutionWithExtras helper. No method credit."
     }
   ]
 }
