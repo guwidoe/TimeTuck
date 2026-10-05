@@ -18945,6 +18945,66 @@
       "upstream_test": "getIndexGreaterThanSize",
       "local_test": "get_index_greater_than_size",
       "modifications": "Preserve every bound, stride/unit, count, indexed value, membership, exact iterator sequence or prefix and injected random rank. Validated native CivilDate/CivilTime/CivilDateTime/CalendarYear replace Java temporal objects; exceptions become Result or None. Wide-range day differences use native Gregorian day numbers; negative indices are unrepresentable. Java mock-unit and unsupported-sort tests remain pending; timezone and Java API parity are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleCascadingUpdateShadowVariableTest.updateAllNextValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/cascade/SingleCascadingUpdateShadowVariableTest.java",
+      "upstream_test": "updateAllNextValues",
+      "local_test": "single_update_all_next_values",
+      "modifications": "Retain the three values/two entities, every asserted derived field and callback count, preseeded second value, and independent stopping of distinct cascades. Explicit native callbacks replace Java reflective methods/notifications. The partial-notification stop fixture imports the final list with its existing shadows and explicitly dirties the first value; this substitutes for the manually prepopulated Java owner/previous fields. No reflection or Java notification lifecycle parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleCascadingUpdateShadowVariableTest.stopUpdateNextValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/cascade/SingleCascadingUpdateShadowVariableTest.java",
+      "upstream_test": "stopUpdateNextValues",
+      "local_test": "single_stop_update_next_values",
+      "modifications": "Retain the three values/two entities, every asserted derived field and callback count, preseeded second value, and independent stopping of distinct cascades. Explicit native callbacks replace Java reflective methods/notifications. The partial-notification stop fixture imports the final list with its existing shadows and explicitly dirties the first value; this substitutes for the manually prepopulated Java owner/previous fields. No reflection or Java notification lifecycle parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DifferentCascadingUpdateShadowVariableTest.updateAllNextValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/cascade/DifferentCascadingUpdateShadowVariableTest.java",
+      "upstream_test": "updateAllNextValues",
+      "local_test": "distinct_update_all_next_values",
+      "modifications": "Retain the three values/two entities, every asserted derived field and callback count, preseeded second value, and independent stopping of distinct cascades. Explicit native callbacks replace Java reflective methods/notifications. The partial-notification stop fixture imports the final list with its existing shadows and explicitly dirties the first value; this substitutes for the manually prepopulated Java owner/previous fields. No reflection or Java notification lifecycle parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DifferentCascadingUpdateShadowVariableTest.stopUpdateNextValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/cascade/DifferentCascadingUpdateShadowVariableTest.java",
+      "upstream_test": "stopUpdateNextValues",
+      "local_test": "distinct_stop_update_next_values",
+      "modifications": "Retain the three values/two entities, every asserted derived field and callback count, preseeded second value, and independent stopping of distinct cascades. Explicit native callbacks replace Java reflective methods/notifications. The partial-notification stop fixture imports the final list with its existing shadows and explicitly dirties the first value; this substitutes for the manually prepopulated Java owner/previous fields. No reflection or Java notification lifecycle parity is claimed."
     }
   ],
   "fixtures": [
@@ -22912,6 +22972,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertAllElementsOfIterator",
       "modifications": "Adapt prefix/full iterator assertions to native next()/Option; full sequences check exhaustion twice, replacing Java exhausted-next exception. Draw ranks replace TestRandom arguments."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSingleCascadingSolution.generateUninitializedSolution.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSingleCascadingValue.updateCascadeValue.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingValue.java",
+      "upstream_test": "updateCascadeValue",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDifferentCascadingSolution.generateUninitializedSolution.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/distinct/TestdataDifferentCascadingSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDifferentCascadingValue.updateCascadeValue.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/distinct/TestdataDifferentCascadingValue.java",
+      "upstream_test": "updateCascadeValue",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDifferentCascadingValue.updateSecondCascadeValue.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/distinct/TestdataDifferentCascadingValue.java",
+      "upstream_test": "updateSecondCascadeValue",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSingleCascadingSolution.generateSolution.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDifferentCascadingSolution.generateSolution.list_cascade",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/distinct/TestdataDifferentCascadingSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Adapt integer values 1..=3, two initially empty entities, value+1 callback and call counters. Native integer identities and explicit callbacks replace annotated Java domain objects. Fixture attribution only; no additional method credit."
     }
   ]
 }

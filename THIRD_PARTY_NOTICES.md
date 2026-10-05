@@ -560,3 +560,9 @@ pinned Community `TemporalValueRangeTest` and two `PlannerAssert` iterator helpe
 (Apache-2.0). Exact revision, paths, identities and native substitutions are in
 `compat/provenance.json`. Civil calendar arithmetic, temporal ranges and the separate
 regressions are independently implemented; no production implementation was used.
+
+`crates/solver/tests/list_cascade_cases.rs` adapts four methods from Community
+`SingleCascadingUpdateShadowVariableTest` and `DifferentCascadingUpdateShadowVariableTest`,
+with their solution-generation and value-update fixtures (Apache-2.0). Exact paths,
+revision and substitutions are recorded in `compat/provenance.json`. The native
+list cascade cache, transactions and separate regressions are independently written.

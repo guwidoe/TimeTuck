@@ -10013,3 +10013,42 @@ freshness session46025 finished successfully; no batch process remains running.
 Previous turn answered a timing question without implementation progress; this
 turn resumed the next safe implementation and delivered verified calendar behavior.
 The full independent solver rewrite remains active and incomplete.
+
+## Cascading list shadows and atomic move trials
+
+Added ListCascadeCache with explicit callback inputs for value identity, owner/index,
+previous/next identity, updated previous shadow and current cached shadow. Structural
+metadata changes and explicit dirty facts trigger calculation in list order, at most
+once per element; equal Option<S> results stop forward propagation without suppressing
+later dirty roots. Unassigned values have no list dependencies. Independent callbacks
+use independent caches; one tuple/struct can group jointly updated fields. Callbacks
+must be idempotent for unchanged logical inputs and must explicitly invalidate changed
+external facts/formulas. from_values deliberately permits imported partial shadows.
+Clones share immutable model/assignment/position maps and persistent shadow roots,
+including non-Clone payloads. update validates metadata before suppliers and installs
+state only after successful calculation. Native apply returns a trial that restores
+lists and shadows on drop, or commits both; errors and callback unwinding preserve
+cache state, though external callback side effects are not reversible. Validation
+and structural detection inspect full assignments; only callback work is selective.
+Four complete single/distinct cascading-shadow methods and seven fixture helpers
+are attributed. Native seeded shadows plus an explicit first dirty value substitute
+for Java partial owner/previous notifications; reflection/lifecycle parity is not
+claimed. Six original regressions cover all generated small partial assignments,
+independent full-fold comparison, early stopping/later roots, external facts, list
+move trial/commit, unassignment, pins/invalid metadata, callback unwinding, grouped
+non-Clone payloads and an exact arrival-time route solve choosing[1,2,3] over[3,2,1].
+Focused compilation caught a test-only read of a context after move; capture the
+fact before consuming the context. Final focused suites passed. Affected executable
+prebuild38.00s. Initial gate session46236 terminated with exit143 during lib tests;
+no test failure was reported and process inspection confirmed no live gate/children.
+Resumed check reused completed fmt/Clippy and finished exit0 (session15620):
+2537 Rust tests,137 doctests;3 Rust targets ran,339 reused unchanged
+successful evidence;46 Python jobs reused. Aggregate exit0 and equal before/after
+source digest verified: ff43104dae3cb8db30e552187a35425d723f4e53e7ec4b77e2f87e152288ca12.
+Coverage1267/4855(26.097%),pending3306,excluded282,failed/unverified0. Live freshness
+session48131 completed and matched report verification digest. No browser/release/
+benchmark sweep; older performance measurements stay stale. Logs:work/list-cascade-
+focused-final.log,work/list-cascade-build.log,work/list-cascade-check.log(interrupted),
+work/list-cascade-resumed-check.log(success). All batch jobs are terminal.
+Previous goal turn made progress via f2635e1; this turn adds usable incremental
+cascade callbacks and atomic list trials. Full solver rewrite remains active.

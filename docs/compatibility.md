@@ -1937,3 +1937,15 @@ solving. Java mock-unit, negative-index and unsupported-sort methods remain pend
 Timezones, daylight-saving transitions and Java temporal API parity are not claimed.
 Indexed ranges stay lazy; solver domains still use bounded explicit materialization.
 No performance comparison is added by this batch.
+
+Four single/distinct cascading-shadow methods now preserve complete asserted values
+and callback counts, including preseeded early stopping and independent propagation
+of two cascades. Native explicit invalidation/imported shadows substitute for the
+Java partial owner/previous notifications; reflection validation remains pending.
+ListCascadeCache detects owner/index/neighbor changes, evaluates in list order,
+and stops each cascade when its result stays equal. Native list-move trials restore
+both lists and derived values unless committed. Structural validation/diffing still
+inspects the whole assignment; only callback propagation is selective. Six original
+regressions cover every small partial assignment, native moves/undo, explicit facts,
+pins/errors/unwinding, non-Clone snapshots, grouped fields and an arrival-time solve.
+This adds no Java lifecycle or new performance equivalence claim.
