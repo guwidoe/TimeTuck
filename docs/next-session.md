@@ -11122,3 +11122,50 @@ shadows but has no deferred update queue; new/update/apply evaluate eagerly.
 NodeOrderQueue.clear exists as a generic scheduling primitive, not a score-director
 shadow cancellation operation. Do not credit static getters or eager execution
 as clearEvents compatibility. No upstream production implementation was read.
+
+## Deferred cascade initialization, batching and cancellation
+
+ListCascadeCache now supports new_deferred, queue_update, queue_move,
+pending_updates, clear_pending_updates and flush_pending. Queueing installs
+validated latest assignment/position metadata without running callbacks; roots
+accumulate and deduplicate across edits. Flushing evaluates latest list order
+with existing change-sensitive propagation. Eager update/apply consume pending
+roots too. Clone and move rollback retain queue, assignment and shadows, without
+requiring Clone on stored shadows. Invalid input and callback panic retain state
+for retry. Clearing preserves latest metadata and stored values, which may stay
+stale/uninitialized; explicitly dirty all values to repair. Standard list shadows
+and stream updates remain eager. Separate cache/graph updates are not automatically
+one transaction; the contract and integration regression make this explicit.
+
+BavetRegression clearEvents now has a real deferred initialization/cancellation
+adaptation preserving both null fields and getter fallback 2. Actual pending
+roots are checked before cancellation; a forbidden-callback flush proves it.
+Source constructs but never evaluates/asserts a score; native cascade cache
+replaces listener lifecycle without claiming general Java event ordering. Test
+and fixture provenance added. All 39 BavetRegression methods now pass adaptations.
+Seven original regressions cover 512 queued structural states in 128 flush batches
+against independent list folds, cancellation/repair, retry, deduplication, snapshots,
+non-Clone values, dropped/committed deferred and eager trials, and feeding changed
+shadows into incremental scoring. All prior cascade cases/regressions pass.
+
+Focused 81015 passed 4 existing cases/6 regressions; 91467 passed 1 new adaptation
+and 7 originals. Clippy 43970 passed (15.27s). Gate 40139 exited 0:
+3208 Rust tests and 151 doctests; 5 Rust targets ran, 395 reused; 46 Python jobs reused.
+No broad prebuild: only cascade implementation changed, and the selective gate
+reran lib plus all four cascade targets. No benchmark/release/browser sweep.
+Aggregate exit 0 and equal source-before/after verified:
+1bab5ea512318395063a2fafb94f23148bf02cf1d1dcdddf854ac899ff75d67a.
+Coverage 1765/4855 (36.354%), pending 2808, excluded 282, failed/unverified 0.
+Dashboard freshness matched verification digest:
+5704600fb14767132599a82274ec2dd32f485c317fc26df74b87871f28c6ba02.
+Logs: work/deferred-cascade-existing.log, work/deferred-cascade-focused.log,
+work/deferred-cascade-clippy.log, work/deferred-cascade-check.log.
+All processes terminal. Previous goal turn progressed via 1a9bc74; full goal active.
+
+Next useful implementation batch: all 20 pending methods in Community
+AbstractAdvancedGroupByConstraintStreamTest. Only test-source lines 1-225 have been
+read so far: nested group/collect/filter, unique pairs followed by group counts
+and recollection into lists/maps/sets, incremental entity removals. Finish reading
+the methods and fixture/helper specifications before adapting. Also pending uni
+stream methods include joinAfterGroupBy, filtered grouping, mapToBi/Tri/Quad and
+flattenLastWithDuplicates; unsupported Java descriptor cases need separate scope.

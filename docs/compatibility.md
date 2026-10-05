@@ -2286,5 +2286,15 @@ all score/match observations and duplicate occurrences; complete current payload
 and native structural penalties are checked separately. An original 2,048-trial
 regression enumerates three-entity assignments across eight shapes and both activity
 modes with rollback. Native eager immutable updates do not establish Java deferred
-event or mutable-alias behavior. clearEvents remains pending: clearing a deferred
-shadow-update queue is not supported by the existing eager native cascade cache.
+event or mutable-alias behavior. The subsequent deferred cascade increment below
+adds the missing shadow-update cancellation behavior.
+
+The remaining BavetRegression clearEvents method now has a complete native
+cancellation adaptation: deferred list-cascade loading schedules initialization,
+clearing the queue retains both null fields and their getter fallback of 2, and
+a forbidden-callback flush proves pending work was actually discarded. Native
+cascade scheduling replaces the Java score-director listener lifecycle; the
+source method contains no score calculation/assertion. General deferred stream
+event propagation and reflection parity are not claimed. Seven original cases
+cover queue accumulation, cancellation/repair, eager updates, move rollback,
+retry after panic, immutable snapshots and incremental scoring integration.

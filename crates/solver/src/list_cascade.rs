@@ -74,6 +74,7 @@ pub struct ListCascadeCache<V, S> {
     assignment: Arc<ListAssignment<V>>,
     positions: Arc<BTreeMap<V, ListPosition>>,
     shadows: SnapshotMap<V, Option<S>>,
+    pending: Arc<BTreeSet<V>>,
 }
 impl<V, S> Clone for ListCascadeCache<V, S> {
     fn clone(&self) -> Self {
@@ -82,6 +83,7 @@ impl<V, S> Clone for ListCascadeCache<V, S> {
             assignment: self.assignment.clone(),
             positions: self.positions.clone(),
             shadows: self.shadows.clone(),
+            pending: self.pending.clone(),
         }
     }
 }
@@ -104,6 +106,10 @@ fn neighbors<V>(a: &ListAssignment<V>, position: Option<ListPosition>) -> (Optio
             list.get(p.index + 1),
         )
     })
+}
+struct CascadeUpdate<V> {
+    roots: BTreeSet<V>,
+    positions: BTreeMap<V, ListPosition>,
 }
 impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
     /// Calculate all initial shadows, including unassigned values, exactly once.
@@ -144,6 +150,7 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
             assignment: Arc::new(assignment.clone()),
             positions: Arc::new(positions(assignment)),
             shadows,
+            pending: Arc::new(BTreeSet::new()),
         })
     }
     pub fn assignment(&self) -> &ListAssignment<V> {
@@ -152,17 +159,75 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
     pub fn shadows(&self) -> &SnapshotMap<V, Option<S>> {
         &self.shadows
     }
-    /// Install a validated assignment and propagate structural/explicit changes.
-    /// Return exactly the changed shadow keys, in key order. Mark values reading
-    /// changed external facts dirty even when their list metadata did not change.
-    pub fn update(
+    /// Load without calculating shadows, scheduling every value for initialization.
+    /// Existing values may instead be imported with `from_values`, followed by
+    /// `queue_update` with explicit dirty roots.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = ListProblem::new(vec![1, 2], vec![ListEntity::new(vec![1, 2])])?;
+    /// let mut c = ListCascadeCache::<_, i64>::new_deferred(&p, &p.initial_assignment())?;
+    /// assert_eq!(c.pending_updates().len(), 2);
+    /// assert_eq!(c.shadows()[&1], None);
+    /// c.flush_pending(|v| Some(v.previous_shadow.copied().unwrap_or(0) + i64::from(*v.value)))?;
+    /// assert_eq!(c.shadows()[&2], Some(3));
+    /// assert_eq!(c.pending_updates().len(), 0);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn new_deferred(
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+    ) -> Result<Self, ListCascadeError<V>> {
+        let mut cache = Self::from_values(problem, assignment, std::iter::empty())?;
+        cache.pending = Arc::new(problem.values().iter().cloned().collect());
+        Ok(cache)
+    }
+    /// Queued roots in value order. A root may also cause downstream propagation;
+    /// this is not the number of callbacks that the next flush will execute.
+    pub fn pending_updates(&self) -> std::collections::btree_set::Iter<'_, V> {
+        self.pending.iter()
+    }
+    /// Discard queued roots, retaining the latest assignment and stored shadows.
+    /// Stored shadows may deliberately remain stale or uninitialized. To repair
+    /// all of them later, queue every problem value explicitly before flushing.
+    pub fn clear_pending_updates(&mut self) -> usize {
+        let count = self.pending.len();
+        self.pending = Arc::new(BTreeSet::new());
+        count
+    }
+    /// Install a validated assignment without calculating shadows. Structural
+    /// changes and explicit dirty roots accumulate across calls, deduplicated.
+    /// Flushing uses the latest assignment; intermediate states are not replayed.
+    /// Invalid input or unwinding during preparation leaves all state unchanged.
+    pub fn queue_update(
         &mut self,
         assignment: &ListAssignment<V>,
         dirty: &[V],
-        mut evaluate: impl FnMut(ListCascadeContext<'_, V, S>) -> Option<S>,
+    ) -> Result<(), ListCascadeError<V>> {
+        let CascadeUpdate { roots, positions } = self.prepare_update(assignment, dirty)?;
+        let assignment = Arc::new(assignment.clone());
+        self.assignment = assignment;
+        self.positions = Arc::new(positions);
+        self.pending = Arc::new(roots);
+        Ok(())
+    }
+    /// Calculate pending roots and their affected successors at most once each.
+    /// A successful flush empties the queue; errors or callback unwinding retain
+    /// both the queue and every stored shadow so the operation can be retried.
+    pub fn flush_pending(
+        &mut self,
+        evaluate: impl FnMut(ListCascadeContext<'_, V, S>) -> Option<S>,
     ) -> Result<Vec<V>, ListCascadeError<V>> {
+        let assignment = self.assignment.clone();
+        self.update(&assignment, &[], evaluate)
+    }
+    fn prepare_update(
+        &self,
+        assignment: &ListAssignment<V>,
+        dirty: &[V],
+    ) -> Result<CascadeUpdate<V>, ListCascadeError<V>> {
         self.problem.validate(assignment)?;
-        let mut roots = BTreeSet::new();
+        let mut roots = (*self.pending).clone();
         for value in dirty {
             if !self.shadows.contains_key(value) {
                 return Err(ListCascadeError::UnknownValue(value.clone()));
@@ -179,6 +244,25 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
                 roots.insert(value.clone());
             }
         }
+        Ok(CascadeUpdate {
+            roots,
+            positions: next_positions,
+        })
+    }
+    /// Install a validated assignment and propagate structural/explicit changes.
+    /// Pending roots are included and cleared only on success.
+    /// Return exactly the changed shadow keys, in key order. Mark values reading
+    /// changed external facts dirty even when their list metadata did not change.
+    pub fn update(
+        &mut self,
+        assignment: &ListAssignment<V>,
+        dirty: &[V],
+        mut evaluate: impl FnMut(ListCascadeContext<'_, V, S>) -> Option<S>,
+    ) -> Result<Vec<V>, ListCascadeError<V>> {
+        let CascadeUpdate {
+            roots,
+            positions: next_positions,
+        } = self.prepare_update(assignment, dirty)?;
         let mut shadows = self.shadows.clone();
         let mut changed = BTreeSet::new();
         // Unassigned values have no predecessors or consumers in a list.
@@ -232,7 +316,27 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
         self.assignment = assignment;
         self.positions = Arc::new(next_positions);
         self.shadows = shadows;
+        self.pending = Arc::new(BTreeSet::new());
         Ok(changed)
+    }
+    /// Stage a list move without evaluating shadows. The trial exposes its latest
+    /// assignment and pending roots; its changed-shadow list is empty. Dropping
+    /// restores the previous assignment, shadows and queue. Commit retains the
+    /// pending work for a later flush or an eager `update`/`apply`.
+    pub fn queue_move(
+        &mut self,
+        movement: &ListMove<V>,
+        dirty: &[V],
+    ) -> Result<ListCascadeMove<'_, V, S>, ListCascadeError<V>> {
+        let mut assignment = (*self.assignment).clone();
+        self.problem.apply(&mut assignment, movement)?.commit();
+        let saved = self.clone();
+        self.queue_update(&assignment, dirty)?;
+        Ok(ListCascadeMove {
+            cache: self,
+            saved: Some(saved),
+            changed: vec![],
+        })
     }
     /// Apply a native list move and propagate its shadows. Dropping the returned
     /// trial restores assignment and shadows; commit retains both atomically.
@@ -254,7 +358,7 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
     }
 }
 
-/// An evaluated list/cascade trial. Read through Deref; drop to undo or commit.
+/// A queued or evaluated list/cascade trial. Read through Deref; drop to undo or commit.
 pub struct ListCascadeMove<'a, V, S> {
     cache: &'a mut ListCascadeCache<V, S>,
     saved: Option<ListCascadeCache<V, S>>,

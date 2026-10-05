@@ -26460,6 +26460,21 @@
       "upstream_test": "concatSameTupleDeadAndAlive",
       "local_test": "concat_same_tuple_dead_and_alive",
       "modifications": "Native required-variable FiniteProblem and StreamScoreDirector execute every assignment/unassignment in source order. Stable integer entity/value identities and immutable current snapshots replace Java objects. Preserve all source match multiplicities, predicates and explicit non-null guards. Exact sorted dataset payloads and constraint scores are asserted; native structural unassigned score is checked separately. Java reflection and before/after notification plumbing are replaced by native moves; no mutable-alias or event-deferral equivalence claimed. Values 0/1 represent codes A/B; retain both branch occurrences, all four score/multiset observations, and both variable update orders. Preserve the unobserved intermediate undo state; native eager propagation does not claim Java deferred queue scheduling. One original regression enumerates all 64 three-entity assignments in both orders across eight shapes and both activity modes (2048 trials), including rollback and independently enumerated full current payloads; no additional upstream method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/deferred_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.clearEvents",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "clearEvents",
+      "local_test": "clear_events",
+      "modifications": "Native ListCascadeCache.new_deferred loads the two-value/one-entity fixture without calculating custom shadows and schedules actual initialization work. clear_pending_updates cancels that work while preserving both uninitialized fields; preserve the source getter fallback assertion (2 for null). Explicitly assert pending roots before cancellation and flush with a forbidden callback afterward to prove cancellation. Native cascade cache replaces the Java score-director listener lifecycle; the source constructs a constraint but never calculates or asserts a score. No Java event ordering/reflection or general deferred stream propagation equivalence is claimed. Seven original regressions cover queueing, eager/deferred interoperability, dropped/committed moves, failure retry, snapshots, non-Clone shadows, independent list folds and feeding changed shadows to incremental stream scoring; these add no upstream method credit."
     }
   ],
   "fixtures": [
@@ -32702,6 +32717,32 @@
       "id": "TestdataSolution.generateSolution.native_basic_null",
       "upstream_test": "generateSolution",
       "modifications": "Preserve two-entity fixtures with one or two values, round-robin initial assignment for concat, and explicit null assignment overrides for other cases. Native required variables retain uninitialized states; integer IDs replace generated names and Java references. Values 0/1 represent explicit concat codes A/B. No helper method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/deferred_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListMultipleShadowVariableSolution.generateSolution.native_deferred",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/multiplelistener/TestdataListMultipleShadowVariableSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve two values and one entity, with only value0 initially assigned to entity0. Required ListProblem preserves the unassigned second value; integer IDs replace Java objects. No helper method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/deferred_cascade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListMultipleShadowVariableValue.getCascadeValue.native_deferred",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/multiplelistener/TestdataListMultipleShadowVariableValue.java",
+      "upstream_test": "getCascadeValue",
+      "modifications": "Option<i32> is the stored nullable field; unwrap_or(2) preserves the getter default. Deferred loading leaves the actual fields None; cancellation does not replace them with constants. No helper method credit."
     }
   ]
 }

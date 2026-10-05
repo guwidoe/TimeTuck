@@ -816,3 +816,31 @@ and evaluation budgets; the separate attempt limit bounds unscored rejection wor
 Original integration checks solve an ordering problem through both list scoring
 backends with score consistency checks enabled. No timing advantage is claimed
 without a deliberate benchmark; existing performance reports remain stale.
+
+## Deferred list cascades
+
+ListCascadeCache supports deferred initialization and batching alongside its eager
+API. new_deferred loads an assignment with None shadows and queues every value.
+queue_update validates and installs the latest assignment, accumulating structural
+owner/index/neighbor changes and explicit dirty roots without calling suppliers.
+queue_move provides the same operation as a reversible native move trial; dropping
+restores assignment, shadows and pending roots. Its changed-shadow list is empty
+until later evaluation. Clones retain independent snapshots, including pending work,
+without requiring shadow values to implement Clone.
+
+flush_pending calculates queued roots in current list order, propagating only while
+results change. Each affected value runs at most once; intermediate assignments
+are not replayed. Eager update/apply also consume existing pending work. Successful
+evaluation clears the queue; invalid metadata or supplier unwinding preserves all
+stored values and pending work for retry. Pending root count is not a prediction
+of the number of downstream callbacks. Supplier external side effects cannot be
+rolled back.
+
+clear_pending_updates discards queued roots and returns their count. It preserves
+the latest assignment and stored shadows, which may deliberately remain stale or
+uninitialized. Flushing an empty queue does not silently repair cancelled work.
+Queue all problem values explicitly to repair a cancelled or partially imported
+snapshot. This facility batches custom cascades; standard list shadows and stream
+events retain their existing eager behavior. Callers feed changed custom values
+into scoring sources after flushing; cache and separate graph transactions do not
+form one automatically coordinated transaction.
