@@ -624,3 +624,8 @@ pub use dependent_selection::{
     DependentPrefix, DependentRow, DependentSampleError, DependentSelection,
     DependentSelectionIter, DependentSelectionStats, DependentStop,
 };
+
+mod reachable_values;
+pub use reachable_values::{
+    ReachabilityError, ReachableValues, basic_reachability, list_reachability,
+};

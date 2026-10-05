@@ -10301,3 +10301,35 @@ Previous goal turn progressed via391c26d; this batch adds bounded dependent choi
 Full independent solver rewrite remains active and incomplete.
 Dashboard freshness session30947 exited0 and matched report digest. All batch
 process handles are terminal.
+
+## Immutable domain reachability indexes
+
+ReachableValues captures inverse value-to-owner membership, shared-domain co-values,
+optional transitions and independent sorted views. Equal ranges share storage but
+retain every owner. Basic/list adapters preserve structural domains independently
+of pins/current assignments; candidate providers still enforce complete legality.
+Five complete upstream ReachableValuesTest methods are attributed, plus one partial
+entity-membership fixture and the TestdataObjectSorter comparator helper. Runtime
+Java type discrimination and multipleSorters identity/cache assertions stay pending.
+Six original regressions include all 4,096 small domain/optionality configurations,
+snapshot ownership, unknown/duplicate/empty cases and basic/list solving through
+both scoring backends. Focused session49631 failed on test helper string lifetimes;
+explicit static fixture arguments fixed it; session96089 passed all twelve tests.
+Prebuild7.44s; final gate49190 exited0:2684 Rust tests,139 doctests,fmt/Clippy;
+3 Rust targets ran,357 reused;46 Python jobs reused. Aggregate exit0 and equal
+before/after source verified:
+9ca1146b34962e6f735ce94bca0f9fde4b8bb172efa437ba0439db8f9603d1ae.
+Coverage1359/4855(27.992%),pending3214,excluded282,failed/unverified0. Logs:
+work/reachable-values-focused-final.log,work/reachable-values-build.log,
+work/reachable-values-check.log. No browser/release/benchmark sweep; older performance
+measurements remain stale. Previous goal turn progressed via06667ef; this batch adds
+usable inverse-domain lookups. Full solver rewrite remains active and unfinished.
+
+User asked time spent building/testing versus implementation. App command timings
+for five completed batches (19:04–19:54 Vienna, Oct5) total49.905min; build/test/check
+commands11.259min (22.56%). Remaining38.646min includes implementation, spec reading,
+test authoring, debugging, docs and commits; not a measured pure-coding figure.
+Some work overlaps commands, so this is approximate process time versus turn time,
+not an exclusive effort accounting. No timing infrastructure was added.
+Dashboard freshness session70682 exited0 and matched the report digest. All batch
+process handles are terminal.

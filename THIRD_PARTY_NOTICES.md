@@ -624,3 +624,10 @@ with `PlannerAssert` sequence/lifecycle helpers (Apache-2.0). Exact paths, revis
 and native explicit-prefix substitutions are recorded in `compat/provenance.json`.
 Dependent traversal, bounded conditional sampling and separate regressions are
 independently implemented; random mimic methods remain pending.
+
+`crates/solver/tests/reachable_values_cases.rs` adapts five complete methods and one
+partial membership fixture from pinned Community `ReachableValuesTest`, plus the
+code-comparator behavior of test helper `TestdataObjectSorter` (Apache-2.0).
+`compat/provenance.json` records exact paths, revision, substitutions and omitted
+runtime-type assertions. The inverse-domain implementation and additional regression
+tests are independently written.

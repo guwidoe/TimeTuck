@@ -2059,3 +2059,15 @@ The upstream random mimic fixture includes a stale secondary entity on one row
 (b->1+a->9). These two methods remain pending; native conditional sampling always
 uses its current prefix and does not claim that legacy interleaving or size24.
 No Java factory/threading/PRNG or new performance equivalence is claimed.
+
+Five ReachableValues methods now preserve shared-range owner membership, co-value
+sets, optional unassignment and ascending/descending views. Native immutable
+ReachableValues indexes use ordered value/entity identities and retain every owner
+when equal domains share storage. Basic and list adapters capture structural ranges;
+providers still enforce pins, current assignment and list position legality. Six
+original regressions compare all 4,096 small domain/optionality combinations with
+direct scans, exercise shared snapshot ownership and use the indexes to generate
+candidates in both scoring backends for basic and list solving. One entity-membership
+fixture is partial because Java runtime type discrimination is omitted; multipleSorters
+identity/cache behavior also remains pending. No dynamic domain update or new
+performance comparison is claimed.

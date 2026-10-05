@@ -20310,6 +20310,81 @@
       "upstream_test": "originalMimicIgnoringEmpty",
       "local_test": "original_mimic_ignoring_empty",
       "modifications": "Preserve both twelve-row ordered sequences across two steps, exact paired entity/value codes, complete repeated exhaustion, finite traversal and every entity/primary-value/secondary-value lifecycle forwarding count. Native explicit prefix levels bind both move components to the current entity instead of Java mimic/change-selector objects. Factory and lifecycle callbacks replace Java scope/director mocks; source events are forwarded by the configured hook. The upstream helper explicitly omits size assertions; no dependent product cardinality is fabricated. Random mimic behavior is not adapted here."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.testSharedEntityValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "testSharedEntityValueRange",
+      "local_test": "shared_entity_value_range",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Equal ranges retain every distinct owner; basic optionality and list required values retain their original fixture settings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.testReachableValuesByValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "testReachableValuesByValue",
+      "local_test": "reachable_values_by_value",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Equal ranges retain every distinct owner; basic optionality and list required values retain their original fixture settings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.testUnassignedReachableValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "testUnassignedReachableValues",
+      "local_test": "unassigned_reachable_values",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Equal ranges retain every distinct owner; basic optionality and list required values retain their original fixture settings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.sortAscendingReachableValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "sortAscendingReachableValues",
+      "local_test": "sort_ascending_reachable_values",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Ascending/descending code comparators replace TestdataObjectSorter; exact native order strengthens source any-order assertions. Retain the repeated V1 assertion in the descending case. Sorter identity caching is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.sortDescendingReachableValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "sortDescendingReachableValues",
+      "local_test": "sort_descending_reachable_values",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Ascending/descending code comparators replace TestdataObjectSorter; exact native order strengthens source any-order assertions. Retain the repeated V1 assertion in the descending case. Sorter identity caching is not claimed."
     }
   ],
   "fixtures": [
@@ -25252,6 +25327,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfIterator",
       "modifications": "Retain exact code sequence, repeated exhaustion, finite traversal and lifecycle counts. Native joined string codes and callback forwarding replace Java objects/mocks. No size is asserted for this upstream dependent fixture; helper attribution earns no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.testReachableValuesByEntity.membership_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "upstream_test": "testReachableValuesByEntity",
+      "modifications": "Native variable/list domains, stable owner IDs and value codes replace Java descriptors and mocked score directors. Preserve all range memberships, co-value sets and applicable reachability/unassignment assertions. Immutable captured indexes replace manager-owned state. Partial fixture only: both Java valueHasMatchingType assertions are omitted; Rust static types are not claimed as runtime type-discrimination parity. The complete upstream method remains pending and earns no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/reachable_values_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObjectSorter.sort.reachable_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
+      "upstream_test": "sort",
+      "modifications": "Both overloads specify ascending/descending code comparison. Native callbacks sort independent co-value views; Java list/set containers and sorter object identity are not reproduced. Helper attribution earns no method credit."
     }
   ]
 }
