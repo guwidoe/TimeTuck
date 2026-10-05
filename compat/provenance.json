@@ -15060,6 +15060,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the initial zero and all six contribution/removal totals, with e1/e2/e3 represented by stable string identities. Typed graph occurrence IDs replace Java match handles; ordered default justifications retain the reversed e2/e1 tuple. Native retained explanation snapshots replace the Java mutable total object. Additional snapshot-difference arithmetic assertions are original; Java equality/hash/order methods remain pending."
+    },
+    {
+      "id": "SimpleScoreInlinerTest.impactMatchWeightOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleScoreInlinerTest.java",
+      "upstream_test": "impactMatchWeightOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "simple_impact_match_weight_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "SimpleScoreInlinerTest.impactTotalOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/SimpleScoreInlinerTest.java",
+      "upstream_test": "impactTotalOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "simple_impact_total_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "HardSoftScoreInlinerTest.impactAllMatchWeightOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "impactAllMatchWeightOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "hard_soft_impact_all_match_weight_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "HardSoftScoreInlinerTest.impactAllTotalOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardSoftScoreInlinerTest.java",
+      "upstream_test": "impactAllTotalOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "hard_soft_impact_all_total_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreInlinerTest.impactAllMatchWeightOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactAllMatchWeightOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "hard_medium_soft_impact_all_match_weight_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "HardMediumSoftScoreInlinerTest.impactAllTotalOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/HardMediumSoftScoreInlinerTest.java",
+      "upstream_test": "impactAllTotalOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "hard_medium_soft_impact_all_total_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "BendableScoreInlinerTest.impactAllMatchWeightOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactAllMatchWeightOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "bendable_impact_all_match_weight_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
+    },
+    {
+      "id": "BendableScoreInlinerTest.impactAllTotalOverflow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "impactAllTotalOverflow",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "local_test": "bendable_impact_all_total_overflow",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve supplied weights and factors, first successful impact where present, and arithmetic-overflow rejection. Native default checked weighted graph scoring and typed ScoreOverflow replace Java impact handles and ArithmeticException. Native tuple IDs model separate impacts; bendable dimensions remain 1 hard/2 soft. No Java scope/object lifecycle equivalence claimed."
     }
   ],
   "fixtures": [
@@ -17974,6 +18094,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
       "upstream_test": "buildScore",
       "modifications": "Preserve ordered 1-hard/2-soft score components with native const generic dimensions and parsed score literals."
+    },
+    {
+      "id": "AbstractScoreInlinerTest.buildScoreImpacter.checked_overflow",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/AbstractScoreInlinerTest.java",
+      "upstream_test": "buildScoreImpacter",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain the Test Constraint name/supplied weight and ordered 1-hard/2-soft bendable values. Native graph registration and score strings replace Java factory, descriptor, context and helper objects."
+    },
+    {
+      "id": "BendableScoreInlinerTest.buildScore.checked_overflow",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/inliner/BendableScoreInlinerTest.java",
+      "upstream_test": "buildScore",
+      "local_path": "crates/solver/tests/score_inliner_overflow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain the Test Constraint name/supplied weight and ordered 1-hard/2-soft bendable values. Native graph registration and score strings replace Java factory, descriptor, context and helper objects."
     }
   ]
 }

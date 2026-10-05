@@ -215,7 +215,8 @@ fn replacing_join_rows_preserves_group_matches_callbacks_and_transaction_rollbac
 
 #[test]
 fn terminal_snapshots_keep_zero_and_wrapping_contributions_with_current_payloads() {
-    let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    let mut b =
+        StreamGraphBuilder::<SimpleScore>::new().with_arithmetic(ScoringArithmetic::Wrapping);
     let source = b.source::<usize, (String, i64)>();
     let terminal = b
         .score("weights", source.port(), |r| SimpleScore::new(r.1))

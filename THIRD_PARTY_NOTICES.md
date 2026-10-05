@@ -549,3 +549,8 @@ The scoped weighting implementation and separate regression tests are original.
 `ConstraintMatchTotalTest.getScoreTotal` method from pinned Timefold Community
 (Apache-2.0). Exact identity, revision and native substitutions are in provenance.
 Scoped explanation construction, snapshot comparison and their regressions are original.
+
+`crates/solver/tests/score_inliner_overflow_cases.rs` adapts all eight integer
+ScoreInliner overflow methods from pinned Timefold Community (Apache-2.0), with
+singleton-constraint and bendable helper attribution in `compat/provenance.json`.
+Checked scoring policies, widened arithmetic and separate regressions are original.

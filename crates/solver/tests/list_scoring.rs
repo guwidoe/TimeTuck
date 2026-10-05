@@ -391,7 +391,8 @@ fn diagnostics_detect_cancelling_contribution_corruption() {
 fn bendable_levels_and_wrapping_totals_survive_commit_and_undo() {
     type S = BendableScore<2, 2>;
     let p = ListProblem::new(vec![0], vec![ListEntity::new(vec![])]).unwrap();
-    let mut net = ListConstraintNetwork::new(1, 1);
+    let mut net =
+        ListConstraintNetwork::new(1, 1).with_arithmetic(timetuck::ScoringArithmetic::Wrapping);
     net.add_constraint("constant", vec![], |_| {
         S::new([i64::MAX, i64::MIN], [i64::MAX, i64::MIN])
     })

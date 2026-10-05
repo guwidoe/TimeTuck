@@ -219,6 +219,48 @@ impl<const H: usize, const S: usize> AdditiveScore for BendableScore<H, S> {
     fn with_structural(self, structural: i64) -> Self {
         self.with_structural(structural)
     }
+    fn checked_scale(&self, factor: i64) -> Option<Self> {
+        (*self).checked_mul(factor)
+    }
+    fn checked_sum<'a>(scores: impl IntoIterator<Item = &'a Self>) -> Option<Self>
+    where
+        Self: 'a,
+    {
+        let zero = Self::ZERO;
+        zero.checked_adjust(scores.into_iter().map(|score| (&zero, score)))
+    }
+    fn checked_adjust<'a>(
+        &self,
+        changes: impl IntoIterator<Item = (&'a Self, &'a Self)>,
+    ) -> Option<Self>
+    where
+        Self: 'a,
+    {
+        let mut hard = self.hard.map(i128::from);
+        let mut soft = self.soft.map(i128::from);
+        for (old, new) in changes {
+            for ((value, old), new) in hard
+                .iter_mut()
+                .chain(&mut soft)
+                .zip(old.hard.iter().chain(&old.soft))
+                .zip(new.hard.iter().chain(&new.soft))
+            {
+                *value = value
+                    .checked_sub(i128::from(*old))?
+                    .checked_add(i128::from(*new))?;
+            }
+        }
+        let mut out = Self::ZERO;
+        for (result, value) in out
+            .hard
+            .iter_mut()
+            .chain(&mut out.soft)
+            .zip(hard.iter().chain(&soft))
+        {
+            *result = (*value).try_into().ok()?;
+        }
+        Some(out)
+    }
 }
 impl<const H: usize, const S: usize> ops::Add for BendableScore<H, S> {
     type Output = Self;

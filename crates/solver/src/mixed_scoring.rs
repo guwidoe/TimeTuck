@@ -46,8 +46,12 @@ pub enum MixedFact<'a, B, L> {
     },
 }
 
-type Evaluator<'a, B, L, S> =
-    dyn Fn(&[MixedFact<'_, B, L>], &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
+type Evaluator<'a, B, L, S> = dyn Fn(
+        &[MixedFact<'_, B, L>],
+        &S,
+        crate::ScoringArithmetic,
+    ) -> Result<S, crate::scoring_arithmetic::WeightArithmeticError>
+    + 'a;
 struct Constraint<'a, B, L, S> {
     name: String,
     scope: Vec<MixedScope>,
@@ -66,6 +70,9 @@ pub enum MixedScoringError {
     InvalidScope(MixedScope),
     DuplicateName(String),
     InvalidWeight(crate::ConstraintWeightError),
+    ScoreOverflow {
+        constraint: Option<usize>,
+    },
     DecimalWeightArithmetic {
         constraint: usize,
         error: crate::DecimalArithmeticError,
@@ -89,6 +96,7 @@ impl Error for MixedScoringError {
         match self {
             Self::Model(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
+            Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             Self::DecimalWeightArithmetic { error, .. } => Some(error),
             _ => None,
         }
@@ -103,9 +111,10 @@ impl From<MixedError> for MixedScoringError {
 /// Named additive constraints over both component types. Callbacks must be
 /// deterministic and return structural zero. Captured facts and value identities
 /// must stay immutable. Empty scopes are constant contributions. Ordinary score
-/// levels use AdditiveScore arithmetic (wrapping for built-in integer scores).
+/// levels use checked built-in integer arithmetic by default; wrapping is configurable.
 /// The network supplies minus the combined count of missing required assignments.
 pub struct MixedConstraintNetwork<'a, B, L, S> {
+    arithmetic: crate::ScoringArithmetic,
     constraints: Vec<Constraint<'a, B, L, S>>,
     basic_dependents: Vec<Vec<usize>>,
     entity_dependents: Vec<Vec<usize>>,
@@ -114,6 +123,7 @@ pub struct MixedConstraintNetwork<'a, B, L, S> {
 impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<'a, B, L, S> {
     pub fn new(variable_count: usize, entity_count: usize, value_count: usize) -> Self {
         Self {
+            arithmetic: crate::ScoringArithmetic::default(),
             constraints: vec![],
             basic_dependents: vec![vec![]; variable_count],
             entity_dependents: vec![vec![]; entity_count],
@@ -128,6 +138,11 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
     }
     pub fn value_count(&self) -> usize {
         self.value_dependents.len()
+    }
+    /// Choose checked (default) or wrapping scoring before creating a director.
+    pub fn with_arithmetic(mut self, arithmetic: crate::ScoringArithmetic) -> Self {
+        self.arithmetic = arithmetic;
+        self
     }
     pub fn constraint_count(&self) -> usize {
         self.constraints.len()
@@ -149,7 +164,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             name.into(),
             scope,
             None,
-            Box::new(move |facts, _| Ok(evaluate(facts))),
+            Box::new(move |facts, _, _| Ok(evaluate(facts))),
         )
     }
     /// Register an integer match factor with a configurable ordinary score weight.
@@ -165,9 +180,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             name.into(),
             scope,
             Some(weight),
-            Box::new(move |facts, weight| {
-                Ok(crate::constraint_weights::scale(weight, factor(facts)))
-            }),
+            Box::new(move |facts, weight, arithmetic| Ok(arithmetic.scale(weight, factor(facts))?)),
         )
     }
     /// Register an exact decimal match factor. Arithmetic errors roll back moves.
@@ -185,7 +198,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             name.into(),
             scope,
             Some(weight),
-            Box::new(move |facts, weight| weight.multiply_exact(&factor(facts))),
+            Box::new(move |facts, weight, _| Ok(weight.multiply_exact(&factor(facts))?)),
         )
     }
     /// Apply a validated batch atomically; omitted names retain their current weights.
@@ -302,10 +315,23 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
                 }
             })
             .collect();
-        let score = (constraint.evaluate)(&facts, constraint.weight.as_ref().unwrap_or(&S::ZERO))
-            .map_err(|error| MixedScoringError::DecimalWeightArithmetic {
-            constraint: index,
-            error,
+        let score = (constraint.evaluate)(
+            &facts,
+            constraint.weight.as_ref().unwrap_or(&S::ZERO),
+            self.arithmetic,
+        )
+        .map_err(|error| match error {
+            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                MixedScoringError::DecimalWeightArithmetic {
+                    constraint: index,
+                    error,
+                }
+            }
+            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                MixedScoringError::ScoreOverflow {
+                    constraint: Some(index),
+                }
+            }
         })?;
         if score.structural() != 0 {
             return Err(MixedScoringError::StructuralContribution { constraint: index });
@@ -319,11 +345,14 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         assignment: &MixedAssignment<B, L>,
     ) -> Result<S, MixedScoringError> {
         self.validate(problem, assignment)?;
-        let mut score = S::ZERO;
-        for index in 0..self.constraint_count() {
-            score = score + self.contribution(index, problem, assignment)?;
-        }
-        with_structure(score, problem, assignment)
+        let contributions = (0..self.constraint_count())
+            .map(|i| self.contribution(i, problem, assignment))
+            .collect::<Result<Vec<_>, _>>()?;
+        let total = self
+            .arithmetic
+            .sum(&contributions)
+            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
+        with_structure(total, problem, assignment)
     }
 }
 pub(crate) fn with_structure<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
@@ -388,9 +417,10 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         let contributions = (0..network.constraint_count())
             .map(|i| network.contribution(i, problem, &assignment))
             .collect::<Result<Vec<_>, _>>()?;
-        let total = contributions
-            .iter()
-            .fold(S::ZERO, |total, score| total + score.clone());
+        let total = network
+            .arithmetic
+            .sum(&contributions)
+            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
         let score = with_structure(total, problem, &assignment)?;
         Ok(Self {
             problem,
@@ -546,7 +576,6 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
     /// Recompute every contribution to detect even mutually cancelling corruption.
     /// Diagnostics do not change cached contributions or move evaluation counts.
     pub fn assert_consistent(&self) -> Result<(), MixedScoringError> {
-        let mut total = S::ZERO;
         for (i, cached) in self.contributions.iter().enumerate() {
             let actual = self
                 .network
@@ -554,8 +583,12 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             if actual != *cached {
                 return Err(MixedScoringError::CorruptedConstraint { constraint: i });
             }
-            total = total + actual;
         }
+        let total = self
+            .network
+            .arithmetic
+            .sum(&self.contributions)
+            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
         if with_structure(total, self.problem, &self.assignment)? != self.score {
             return Err(MixedScoringError::CorruptedTotal);
         }
@@ -598,13 +631,21 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 .as_ref()
                 .is_none_or(|w| *w != S::ZERO)
         });
-        let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let contribution = self.network.contribution(i, self.problem, &transaction)?;
-            score = score - self.contributions[i].clone() + contribution.clone();
             updates.push((i, contribution));
         }
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
         let candidate_score = with_structure(score, self.problem, &transaction)?;
         Ok(ScoredMixedMove {
             transaction,

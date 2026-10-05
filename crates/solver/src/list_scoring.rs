@@ -41,8 +41,12 @@ pub enum ListFact<'a, V> {
     },
 }
 
-type Evaluator<'a, V, S> =
-    dyn Fn(&[ListFact<'_, V>], &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
+type Evaluator<'a, V, S> = dyn Fn(
+        &[ListFact<'_, V>],
+        &S,
+        crate::ScoringArithmetic,
+    ) -> Result<S, crate::scoring_arithmetic::WeightArithmeticError>
+    + 'a;
 struct Constraint<'a, V, S> {
     name: String,
     scope: Vec<ListScope>,
@@ -62,6 +66,9 @@ pub enum ListScoringError {
     InvalidScope(ListScope),
     DuplicateName(String),
     InvalidWeight(crate::ConstraintWeightError),
+    ScoreOverflow {
+        constraint: Option<usize>,
+    },
     DecimalWeightArithmetic {
         constraint: usize,
         error: crate::DecimalArithmeticError,
@@ -84,6 +91,7 @@ impl Error for ListScoringError {
         match self {
             Self::Model(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
+            Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             Self::DecimalWeightArithmetic { error, .. } => Some(error),
             _ => None,
         }
@@ -100,6 +108,7 @@ impl From<ListError> for ListScoringError {
 /// the missing-required-value component. Repeated scopes preserve argument order.
 /// Empty scopes are constant constraints and are never reevaluated by a move.
 pub struct ListConstraintNetwork<'a, V, S> {
+    arithmetic: crate::ScoringArithmetic,
     constraints: Vec<Constraint<'a, V, S>>,
     entity_dependents: Vec<Vec<usize>>,
     value_dependents: Vec<Vec<usize>>,
@@ -107,6 +116,7 @@ pub struct ListConstraintNetwork<'a, V, S> {
 impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
     pub fn new(entity_count: usize, value_count: usize) -> Self {
         Self {
+            arithmetic: crate::ScoringArithmetic::default(),
             constraints: vec![],
             entity_dependents: vec![vec![]; entity_count],
             value_dependents: vec![vec![]; value_count],
@@ -117,6 +127,11 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
     }
     pub fn value_count(&self) -> usize {
         self.value_dependents.len()
+    }
+    /// Choose checked (default) or wrapping scoring before creating a director.
+    pub fn with_arithmetic(mut self, arithmetic: crate::ScoringArithmetic) -> Self {
+        self.arithmetic = arithmetic;
+        self
     }
     pub fn constraint_count(&self) -> usize {
         self.constraints.len()
@@ -138,7 +153,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             name.into(),
             scope,
             None,
-            Box::new(move |facts, _| Ok(evaluate(facts))),
+            Box::new(move |facts, _, _| Ok(evaluate(facts))),
         )
     }
     /// Register an integer match factor with a configurable ordinary score weight.
@@ -154,9 +169,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             name.into(),
             scope,
             Some(weight),
-            Box::new(move |facts, weight| {
-                Ok(crate::constraint_weights::scale(weight, factor(facts)))
-            }),
+            Box::new(move |facts, weight, arithmetic| Ok(arithmetic.scale(weight, factor(facts))?)),
         )
     }
     /// Register an exact decimal match factor. Arithmetic errors roll back moves.
@@ -174,7 +187,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             name.into(),
             scope,
             Some(weight),
-            Box::new(move |facts, weight| weight.multiply_exact(&factor(facts))),
+            Box::new(move |facts, weight, _| Ok(weight.multiply_exact(&factor(facts))?)),
         )
     }
     /// Apply a validated batch atomically; omitted names retain their current weights.
@@ -285,10 +298,23 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
                 }
             })
             .collect();
-        let score = (constraint.evaluate)(&facts, constraint.weight.as_ref().unwrap_or(&S::ZERO))
-            .map_err(|error| ListScoringError::DecimalWeightArithmetic {
-            constraint: index,
-            error,
+        let score = (constraint.evaluate)(
+            &facts,
+            constraint.weight.as_ref().unwrap_or(&S::ZERO),
+            self.arithmetic,
+        )
+        .map_err(|error| match error {
+            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                ListScoringError::DecimalWeightArithmetic {
+                    constraint: index,
+                    error,
+                }
+            }
+            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                ListScoringError::ScoreOverflow {
+                    constraint: Some(index),
+                }
+            }
         })?;
         if score.structural() != 0 {
             return Err(ListScoringError::StructuralContribution { constraint: index });
@@ -302,11 +328,14 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         assignment: &ListAssignment<V>,
     ) -> Result<S, ListScoringError> {
         self.validate(problem, assignment)?;
-        let mut score = S::ZERO;
-        for i in 0..self.constraint_count() {
-            score = score + self.contribution(i, problem, assignment)?;
-        }
-        Ok(with_structure(score, problem, assignment))
+        let contributions = (0..self.constraint_count())
+            .map(|i| self.contribution(i, problem, assignment))
+            .collect::<Result<Vec<_>, _>>()?;
+        let total = self
+            .arithmetic
+            .sum(&contributions)
+            .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
+        Ok(with_structure(total, problem, assignment))
     }
 }
 pub(crate) fn with_structure<V: Eq + Clone, S: AdditiveScore>(
@@ -356,9 +385,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         let contributions = (0..network.constraint_count())
             .map(|i| network.contribution(i, problem, &assignment))
             .collect::<Result<Vec<_>, _>>()?;
-        let total = contributions
-            .iter()
-            .fold(S::ZERO, |total, s| total + s.clone());
+        let total = network
+            .arithmetic
+            .sum(&contributions)
+            .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
         let score = with_structure(total, problem, &assignment);
         Ok(Self {
             problem,
@@ -509,7 +539,6 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
     /// Check individual contributions, detecting cancelling errors as well as
     /// total corruption. Diagnostic callback evaluations are not move statistics.
     pub fn assert_consistent(&self) -> Result<(), ListScoringError> {
-        let mut total = S::ZERO;
         for (i, cached) in self.contributions.iter().enumerate() {
             let actual = self
                 .network
@@ -517,8 +546,12 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             if actual != *cached {
                 return Err(ListScoringError::CorruptedConstraint { constraint: i });
             }
-            total = total + actual;
         }
+        let total = self
+            .network
+            .arithmetic
+            .sum(&self.contributions)
+            .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
         if with_structure(total, self.problem, &self.assignment) != self.score {
             return Err(ListScoringError::CorruptedTotal);
         }
@@ -556,13 +589,21 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                 .as_ref()
                 .is_none_or(|w| *w != S::ZERO)
         });
-        let mut score = self.score.clone();
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let contribution = self.network.contribution(i, self.problem, &transaction)?;
-            score = score - self.contributions[i].clone() + contribution.clone();
             updates.push((i, contribution));
         }
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+            .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
         let candidate_score = with_structure(score, self.problem, &transaction);
         Ok(ScoredListMove {
             transaction,

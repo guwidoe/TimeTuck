@@ -1418,8 +1418,8 @@ reflection, API, or disabled-justification lifecycle parity is claimed.
 
 `StreamGraphBuilder::score_weighted` multiplies an ordinary score weight by an
 integer match factor; positive factors reward and negative factors penalize.
-Scaling uses exact additive score arithmetic, preserving integer wrapping and
-arbitrary-precision decimals without floating-point conversion. Factors include
+Scaling uses score arithmetic without floating-point conversion; built-in integer
+impacts are checked by default and decimal coefficients retain arbitrary precision. Factors include
 the full i64 range. Signed ordinary weights are permitted by the native API;
 structural weight components are rejected. Fractional decimal weights work with
 integer factors; use `score_weighted_decimal` for fractional match factors.
@@ -1496,8 +1496,8 @@ callbacks and model validation retain their existing scoped semantics.
 
 Sixteen integer ScoreInliner methods are adapted, preserving empty scores and all
 impact/undo score assertions. Optional native variable slots represent independent
-impacts. Eight upstream integer overflow methods remain pending: native integer
-score arithmetic currently wraps instead of reporting the asserted Java exceptions.
+impacts. The eight upstream integer overflow methods now also have complete adaptations
+through the default checked scoring policy described below.
 Original regressions cover all three networks, atomic invalid overrides, disabling
 and reactivation, callback counts, decimal failure/panic rollback and fractional
 optima under both exact solving and construction/local search. These original
@@ -1540,3 +1540,45 @@ pending. Seven original scoped/difference regressions cover all three model type
 callback counts/panics, disabled and empty constraints, structural state, exact
 fractions, zero-delta changes, rollback and owned snapshot independence. They add
 no upstream method credit.
+
+
+## Checked solver scoring
+
+Stream graphs and all three scoped networks now default to `ScoringArithmetic::Checked`.
+Built-in integer score families reject unrepresentable weighted impacts, constraint
+match totals and complete graph/network totals with a typed ScoreOverflow. This
+covers direct-score callbacks too when their returned contributions overflow a
+managed total. Arithmetic performed inside a caller's callback or a collector keeps
+that callback/collector's own contract. Score value operators themselves still wrap.
+`with_arithmetic(ScoringArithmetic::Wrapping)` explicitly retains modular scoring.
+Configure the policy before building a graph or borrowing a network in a director.
+
+Integer sum and adjustment hooks use i128 intermediates and validate final i64 levels.
+Full scoped scoring accepts cancellation across any constraint order. Scoped moves
+check the complete batch of changed contributions, and graph totals check a complete
+routed source update. Individual stream terminal match changes are checked as they
+occur. A native replacement does not fail solely because subtracting the old value
+before adding its replacement would temporarily exceed i64. Structural components
+remain separately managed; invalid weights/contributions retain their prior errors.
+
+Overflow poisons graph trials until drop; dropping or failed commit restores all
+sources, operators, matches and totals. Scoped failures restore candidate model values
+and leave caches unchanged. Constructor/full-calculation failures propagate normally;
+all six solving paths propagate scoring overflow instead of accepting wrapped quality.
+Graph diagnostics may replay rows in another order: accumulation is modular during
+replay while weighted impacts remain checked, and every retained match score and total
+must still equal the original snapshot. This avoids false replay-prefix failures
+without masking an overflowing impact whose modular value happens to match.
+
+`AdditiveScore` provides checked_scale/checked_sum/checked_adjust hooks. Built-in
+integers implement bounds checks; arbitrary-precision decimal scores retain their
+existing arithmetic. Defaults retain a custom score's ordinary operators, so bounded
+custom scores must override these hooks for overflow detection.
+
+All eight integer ScoreInliner overflow methods preserve weights, factors, the first
+successful impact when present, and rejection. Seven original regressions cover
+wide arithmetic boundaries, terminal removal and global overflow rollback, replay
+order, modular collisions during diagnostics, all scoped models, and exact/construction
+error propagation through all six solving paths. Existing modular regressions select
+Wrapping explicitly. No release-mode or timing rerun is needed for these explicit
+checked/wrapping operations; benchmark datasets remain stale.

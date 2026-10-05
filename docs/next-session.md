@@ -9356,3 +9356,26 @@ check.sh passed:2141 Rust tests,114 doctests,fmt/Clippy;255 Python checks
 reused.244 Rust targets ran and53 reused matching successful evidence.
 Coverage1004/4855(20.680%),pending3569,excluded282,failed/unverified0.
 Benchmark datasets remain stale; no timing sweep.
+
+
+## Checked integer scoring
+
+ScoringArithmetic defaults to Checked in graph/scoped scoring. All built-in integer
+scores check impacts and ordinary final totals using new AdditiveScore hooks. Score
+operators remain wrapping; with_arithmetic(Wrapping) selects legacy modular scoring.
+Custom bounded score types must override the hooks; default hooks retain operators.
+Wide i128 sums/batched adjustments avoid false intermediate-i64 overflow. Graph totals
+check complete routed updates; each terminal match change remains checked. Diagnostic
+replay uses modular accumulation but checked impacts and compares every retained
+match, avoiding replay-order failures and rejecting modularly colliding bad impacts.
+Typed ScoreOverflow propagates through all six solver paths; failed graph/scoped
+moves preserve rollback. Eight upstream methods and two helper records adapted;
+seven original regressions cover boundaries, rollback, replay and solving errors.
+Five existing modular-scoring regressions now explicitly select Wrapping. Full rewrite
+goal remains active; no benchmark or release-mode rerun.
+Final check.sh passed:2156 Rust tests,115 doctests,255 Python checks,fmt/Clippy.
+Rust source digest:f71c8513b92474e0f7529b98f6c0ae3f5150513260dd64a4218b1692e9de3dd1.
+The broad run exposed one additional legacy snapshot test that expected wrapping;
+its builder now selects Wrapping. The follow-up reran that one Rust target and reused
+298 matching successful targets. Coverage1012/4855(20.844%),pending3561,
+excluded282,failed/unverified0. Benchmark datasets remain stale.

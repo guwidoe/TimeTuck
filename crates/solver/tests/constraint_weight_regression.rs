@@ -131,7 +131,8 @@ fn rejected_configuration_never_invokes_callbacks() {
 fn integer_scaling_covers_full_width_and_decimal_levels_without_floats() {
     for weight in [i64::MIN, -13, 0, 7, i64::MAX] {
         for factor in [i64::MIN, -17, -1, 0, 1, 19, i64::MAX] {
-            let mut b = StreamGraphBuilder::<SimpleScore>::new();
+            let mut b = StreamGraphBuilder::<SimpleScore>::new()
+                .with_arithmetic(ScoringArithmetic::Wrapping);
             let s = b.source::<usize, i64>();
             b.score_weighted("n", s.port(), SimpleScore::new(weight), |v| *v)
                 .unwrap();

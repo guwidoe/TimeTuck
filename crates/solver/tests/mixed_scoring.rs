@@ -539,7 +539,8 @@ fn diagnostics_detect_cancelling_corruption_and_bendable_wrapping_is_consistent(
     );
     changed.set(0);
     director.assert_consistent().unwrap();
-    let mut network = MixedConstraintNetwork::new(3, 3, 4);
+    let mut network =
+        MixedConstraintNetwork::new(3, 3, 4).with_arithmetic(timetuck::ScoringArithmetic::Wrapping);
     network
         .add_constraint("edge", vec![], |_| {
             BendableScore::new([i64::MAX], [i64::MIN, 9])

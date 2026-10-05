@@ -477,3 +477,6 @@ pub use constraint_weights::{ConstraintWeightOverrides, DecimalWeightedScore};
 
 mod scoped_weights;
 pub use scoped_weights::ConstraintWeightError;
+
+mod scoring_arithmetic;
+pub use scoring_arithmetic::{ScoreOverflow, ScoringArithmetic};

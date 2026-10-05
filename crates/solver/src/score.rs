@@ -73,6 +73,37 @@ pub trait Score: Clone + Ord + fmt::Debug {
 pub trait AdditiveScore: Score + ops::Add<Output = Self> + ops::Sub<Output = Self> {
     const ZERO: Self;
     fn with_structural(self, structural: i64) -> Self;
+    /// Checked scoring hook. The default follows this score's additive arithmetic;
+    /// bounded custom scores must override it to report unrepresentable impacts.
+    fn checked_scale(&self, factor: i64) -> Option<Self> {
+        Some(crate::constraint_weights::scale(self, factor))
+    }
+    /// Sum ordinary levels; built-in integers widen intermediate arithmetic.
+    /// Structural state is cleared. Bounded custom scores should override this.
+    fn checked_sum<'a>(scores: impl IntoIterator<Item = &'a Self>) -> Option<Self>
+    where
+        Self: 'a,
+    {
+        Some(
+            scores
+                .into_iter()
+                .fold(Self::ZERO, |sum, score| sum + score.clone()),
+        )
+    }
+    /// Apply a batch of old/new contributions, checking the final ordinary levels.
+    /// Built-in integers permit temporary i64 overflow when the final result fits.
+    /// Bounded custom scores should override this; the default uses score operators.
+    fn checked_adjust<'a>(
+        &self,
+        changes: impl IntoIterator<Item = (&'a Self, &'a Self)>,
+    ) -> Option<Self>
+    where
+        Self: 'a,
+    {
+        Some(changes.into_iter().fold(self.clone(), |sum, (old, new)| {
+            sum - old.clone() + new.clone()
+        }))
+    }
 }
 
 /// The input does not have the score type's complete, ordered level format.
@@ -132,6 +163,23 @@ macro_rules! fixed_score {
         impl AdditiveScore for $name {
             const ZERO: Self = Self::ZERO;
             fn with_structural(self, structural: i64) -> Self { self.with_structural(structural) }
+            fn checked_scale(&self, factor: i64) -> Option<Self> { (*self).checked_mul(factor) }
+            fn checked_sum<'a>(scores: impl IntoIterator<Item=&'a Self>) -> Option<Self> where Self:'a {
+                let zero=Self::ZERO;
+                zero.checked_adjust(scores.into_iter().map(|score| (&zero,score)))
+            }
+            fn checked_adjust<'a>(&self, changes: impl IntoIterator<Item=(&'a Self,&'a Self)>) -> Option<Self> where Self:'a {
+                let mut wide=self.levels.map(i128::from);
+                for (old,new) in changes {
+                    for ((value,old),new) in wide.iter_mut().zip(old.levels).zip(new.levels) {
+                        *value=value.checked_sub(i128::from(old))?.checked_add(i128::from(new))?;
+                    }
+                }
+                let mut out=Self::ZERO;
+                for (result,value) in out.levels.iter_mut().zip(wide) { *result=value.try_into().ok()?; }
+                Some(out)
+            }
+
         }
 
         impl $name {

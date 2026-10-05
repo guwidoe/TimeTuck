@@ -72,6 +72,9 @@ pub enum GraphError {
     },
     UnweightedConstraintOverride(String),
     StructuralConstraintWeight(String),
+    ScoreOverflow {
+        constraint: Option<String>,
+    },
     DecimalWeightArithmetic {
         constraint: String,
         error: crate::DecimalArithmeticError,
@@ -91,6 +94,11 @@ impl fmt::Display for GraphError {
             Self::UnweightedConstraintOverride(name) => {
                 write!(f, "constraint {name:?} has no configurable weight")
             }
+            Self::ScoreOverflow { constraint } => write!(
+                f,
+                "score overflow in {}",
+                constraint.as_deref().unwrap_or("graph total")
+            ),
             Self::DecimalWeightArithmetic { constraint, error } => write!(
                 f,
                 "constraint {constraint:?} decimal impact failed: {error}"
@@ -117,6 +125,7 @@ impl std::error::Error for GraphError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             Self::DecimalWeightArithmetic { error, .. } => Some(error),
+            Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             _ => None,
         }
     }
@@ -160,6 +169,11 @@ impl<I, T> Clone for StreamConstraint<I, T> {
     }
 }
 
+#[derive(Clone, Copy)]
+struct NodeArithmetic {
+    impact: crate::ScoringArithmetic,
+    totals: crate::ScoringArithmetic,
+}
 trait Node<S: AdditiveScore> {
     fn constraint_weight(&self) -> Option<&S> {
         None
@@ -180,7 +194,12 @@ trait Node<S: AdditiveScore> {
         true
     }
     fn restore(&mut self, checkpoint: Box<dyn Any>);
-    fn apply(&mut self, side: bool, event: &Event) -> Result<Outputs, GraphError>;
+    fn apply(
+        &mut self,
+        side: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError>;
     fn score(&self) -> S {
         S::ZERO
     }
@@ -222,7 +241,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     fn source_rows(&self) -> Option<&dyn Any> {
         Some(&self.0)
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         if let Some(value) = &change.value {
             self.0.insert(change.id.clone(), value.clone());
@@ -244,7 +268,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(self.0.apply(typed::<I, T>(event).clone())))
     }
 }
@@ -266,7 +295,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         self.0
             .apply(typed::<K, T>(event).clone())
             .map(erase)
@@ -284,7 +318,12 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
         Box::new(())
     }
     fn restore(&mut self, _: Box<dyn Any>) {}
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         Ok(erase([TupleChange {
             id: change.id.clone(),
@@ -311,7 +350,12 @@ impl<I: Ord + Clone + 'static, C: Clone + 'static, T: 'static, U: 'static, S: Ad
     fn restore(&mut self, checkpoint: Box<dyn Any>) {
         self.states = *checkpoint.downcast().expect("cached map checkpoint type");
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         let mut states = self.states.clone();
         let output = if let Some(value) = &change.value {
@@ -340,7 +384,12 @@ impl<L: Clone + 'static, R: Clone + 'static, T: Clone + 'static, S: AdditiveScor
         Box::new(())
     }
     fn restore(&mut self, _: Box<dyn Any>) {}
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = if right {
             let change = typed::<R, T>(event);
             TupleChange {
@@ -371,7 +420,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore>
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         Ok(erase(self.0.apply(change.clone())))
     }
@@ -396,7 +450,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -425,7 +484,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -454,7 +518,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -483,7 +552,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -505,7 +579,12 @@ impl<I: Ord + Clone + 'static, T: Ord + Clone + 'static, S: AdditiveScore> Node<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(self.0.apply(typed::<I, T>(event).clone())))
     }
 }
@@ -529,7 +608,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -560,7 +644,12 @@ impl<
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -590,7 +679,12 @@ impl<
     fn restore(&mut self, saved: Box<dyn Any>) {
         self.0.restore(saved);
     }
-    fn apply(&mut self, right: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        right: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         Ok(erase(if right {
             self.0.apply_right(typed::<J, R>(event).clone())
         } else {
@@ -618,7 +712,12 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
     fn restore(&mut self, c: Box<dyn Any>) {
         self.node.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         let mapped = TupleChange {
             id: change.id.clone(),
@@ -656,7 +755,12 @@ where
     fn restore(&mut self, c: Box<dyn Any>) {
         self.node.restore(c);
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         let mapped = TupleChange {
             id: change.id.clone(),
@@ -669,7 +773,12 @@ where
     }
 }
 
-type WeightedImpact<'a, T, S> = dyn Fn(&T, &S) -> Result<S, crate::DecimalArithmeticError> + 'a;
+type WeightedImpact<'a, T, S> = dyn Fn(
+        &T,
+        &S,
+        crate::ScoringArithmetic,
+    ) -> Result<S, crate::scoring_arithmetic::WeightArithmeticError>
+    + 'a;
 enum TerminalEvaluation<'a, T, S> {
     Direct(Box<dyn Fn(&T) -> S + 'a>),
     Weighted {
@@ -733,7 +842,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     fn score(&self) -> S {
         self.total.clone()
     }
-    fn apply(&mut self, _: bool, event: &Event) -> Result<Outputs, GraphError> {
+    fn apply(
+        &mut self,
+        _: bool,
+        event: &Event,
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
         let contribution = change
             .value
@@ -741,9 +855,18 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             .map(|value| match &self.evaluate {
                 TerminalEvaluation::Direct(evaluate) => Ok(evaluate(value)),
                 TerminalEvaluation::Weighted { weight, impact } => {
-                    impact(value, weight).map_err(|error| GraphError::DecimalWeightArithmetic {
-                        constraint: self.name.clone(),
-                        error,
+                    impact(value, weight, arithmetic.impact).map_err(|error| match error {
+                        crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                            GraphError::DecimalWeightArithmetic {
+                                constraint: self.name.clone(),
+                                error,
+                            }
+                        }
+                        crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                            GraphError::ScoreOverflow {
+                                constraint: Some(self.name.clone()),
+                            }
+                        }
                     })
                 }
             })
@@ -754,12 +877,17 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         {
             return Err(GraphError::StructuralContribution(self.name.clone()));
         }
-        let total = self.total.clone()
-            - self
-                .matches
-                .get(&change.id)
-                .map_or(S::ZERO, |(_, s)| s.clone())
-            + contribution.clone().unwrap_or(S::ZERO);
+        let old = self
+            .matches
+            .get(&change.id)
+            .map_or(S::ZERO, |(_, s)| s.clone());
+        let new = contribution.clone().unwrap_or(S::ZERO);
+        let total = arithmetic
+            .totals
+            .adjust(&self.total, [(&old, &new)])
+            .map_err(|_| GraphError::ScoreOverflow {
+                constraint: Some(self.name.clone()),
+            })?;
         if let Some(value) = &change.value {
             self.matches.insert(
                 change.id.clone(),
@@ -787,6 +915,7 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
+    arithmetic: crate::ScoringArithmetic,
 }
 impl<S: AdditiveScore + 'static> Default for StreamGraphBuilder<'_, S> {
     fn default() -> Self {
@@ -800,7 +929,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             nodes: Vec::new(),
             edges: Vec::new(),
             constraints: BTreeMap::new(),
+            arithmetic: crate::ScoringArithmetic::default(),
         }
+    }
+    /// Set the arithmetic policy for every terminal and the graph total.
+    /// Checked built-in integer scoring is the default; wrapping is explicit.
+    pub fn with_arithmetic(mut self, arithmetic: crate::ScoringArithmetic) -> Self {
+        self.arithmetic = arithmetic;
+        self
     }
     fn validate<I, T>(&self, port: &StreamPort<I, T>) -> Result<(), GraphError> {
         if Rc::ptr_eq(&self.owner, &port.owner) {
@@ -1646,9 +1782,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             name.into(),
             input,
             weight,
-            Box::new(move |value, weight| {
-                Ok(crate::constraint_weights::scale(weight, factor(value)))
-            }),
+            Box::new(move |value, weight, arithmetic| Ok(arithmetic.scale(weight, factor(value))?)),
         )
     }
 
@@ -1683,7 +1817,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             name.into(),
             input,
             weight,
-            Box::new(move |value, weight| weight.multiply_exact(&factor(value))),
+            Box::new(move |value, weight, _| Ok(weight.multiply_exact(&factor(value))?)),
         )
     }
 
@@ -1786,6 +1920,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             nodes: self.nodes,
             edges: self.edges,
             constraints: self.constraints,
+            arithmetic: self.arithmetic,
             score: S::ZERO,
         }
     }
@@ -1796,6 +1931,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
+    arithmetic: crate::ScoringArithmetic,
     score: S,
 }
 impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
@@ -1868,6 +2004,9 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             .flat_map(|(id, n)| n.source_events().into_iter().map(move |e| (id, e)))
             .collect();
         let mut trial = self.transaction();
+        // Replay order may differ from insertion order. Compare every retained
+        // match score after modular rebuilding, avoiding false prefix overflows.
+        trial.replaying = true;
         trial.failed = true;
         for id in 0..trial.graph.nodes.len() {
             trial.checkpoint(id);
@@ -1897,10 +2036,13 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     }
     pub fn transaction(&mut self) -> GraphTransaction<'_, 'a, S> {
         let original_score = self.score.clone();
+        let arithmetic = self.arithmetic;
         let visited = vec![false; self.nodes.len()];
         GraphTransaction {
             graph: self,
             original_score,
+            arithmetic,
+            replaying: false,
             visited,
             journal: Vec::new(),
             failed: false,
@@ -1917,6 +2059,8 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
 pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
     graph: &'g mut StreamGraph<'a, S>,
     original_score: S,
+    arithmetic: crate::ScoringArithmetic,
+    replaying: bool,
     visited: Vec<bool>,
     journal: Vec<(usize, Box<dyn Any>)>,
     failed: bool,
@@ -1995,19 +2139,38 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             },
             event,
         )]);
+        let arithmetic = NodeArithmetic {
+            impact: self.arithmetic,
+            totals: if self.replaying {
+                crate::ScoringArithmetic::Wrapping
+            } else {
+                self.arithmetic
+            },
+        };
+        let mut changes = Vec::new();
         while let Some((edge, event)) = pending.pop_front() {
             let id = edge.node;
             self.checkpoint(id);
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
-            let outputs = self.graph.nodes[id].apply(edge.right, &event)?;
-            self.graph.score = self.graph.score.clone() - old + self.graph.nodes[id].score();
+            let outputs = self.graph.nodes[id].apply(edge.right, &event, arithmetic)?;
+            let new = self.graph.nodes[id].score();
+            if old != new {
+                changes.push((old, new));
+            }
             for output in outputs {
                 for &next in &self.graph.edges[id] {
                     pending.push_back((next, output.clone()));
                 }
             }
         }
+        self.graph.score = arithmetic
+            .totals
+            .adjust(
+                &self.graph.score,
+                changes.iter().map(|(old, new)| (old, new)),
+            )
+            .map_err(|_| GraphError::ScoreOverflow { constraint: None })?;
         Ok(())
     }
     pub fn commit(mut self) -> Result<(), GraphError> {

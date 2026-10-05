@@ -249,7 +249,8 @@ fn cache_diagnostic_detects_illegal_fact_mutation_even_when_totals_cancel() {
 #[test]
 fn modular_overflow_and_structural_updates_match_full_calculation() {
     let model = FiniteProblem::new(vec![Variable::new(vec![0, 1])]).unwrap();
-    let mut network = ConstraintNetwork::new(1);
+    let mut network =
+        ConstraintNetwork::new(1).with_arithmetic(timetuck::ScoringArithmetic::Wrapping);
     network
         .add_constraint("max", vec![], |_| SimpleScore::new(i64::MAX))
         .unwrap();
