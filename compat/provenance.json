@@ -27090,6 +27090,1041 @@
       "upstream_test": "flattenLastWithDuplicates",
       "local_test": "bi_flatten_last_with_duplicates",
       "modifications": "Preserve the source literal expected lists including their differing duplicate frequencies. The source assertScore helper checks bidirectional justification support and total score/count, not per-justification multiplicity: native actual expansion produces entity0 group0/group1 counts3/3 and entity1 counts2/1, while source literals list4/2 and1/2. Execute actual last-field expansion [b.group,group0,group1]; retain every source membership/score assertion without changing those literals. Add exact independent native multiset assertions before and after removing entity0. These assertions do not claim equality of the source literal duplicate frequencies. Native immutable source rows, stable entity/group/value/extra IDs and graph updates replace Java objects/notification plumbing. Top-level justification order follows the source unordered membership contract; exact multiplicities are checked except for the explicitly documented Bi duplicate fixture. Random longProperty values use deterministic 11/23/37 within the source range, with literal sums34/48/60/71. No Java reflection, ABI or event scheduling parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweighted",
+      "local_test": "bi_penalize_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeUnweightedBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedBigDecimal",
+      "local_test": "bi_penalize_unweighted_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalize",
+      "local_test": "bi_penalize",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimal",
+      "local_test": "bi_penalize_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.rewardUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "rewardUnweighted",
+      "local_test": "bi_reward_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.reward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "reward",
+      "local_test": "bi_reward",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.rewardBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimal",
+      "local_test": "bi_reward_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositiveUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweighted",
+      "local_test": "bi_impact_positive_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositive",
+      "local_test": "bi_impact_positive",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositiveBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimal",
+      "local_test": "bi_impact_positive_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactNegative",
+      "local_test": "bi_impact_negative",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactNegativeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimal",
+      "local_test": "bi_impact_negative_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedCustomJustifications",
+      "local_test": "bi_penalize_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeCustomJustifications",
+      "local_test": "bi_penalize_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.penalizeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimalCustomJustifications",
+      "local_test": "bi_penalize_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.rewardUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "rewardUnweightedCustomJustifications",
+      "local_test": "bi_reward_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.rewardCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "rewardCustomJustifications",
+      "local_test": "bi_reward_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.rewardBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimalCustomJustifications",
+      "local_test": "bi_reward_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositiveUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweightedCustomJustifications",
+      "local_test": "bi_impact_positive_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositiveCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositiveCustomJustifications",
+      "local_test": "bi_impact_positive_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactPositiveBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimalCustomJustifications",
+      "local_test": "bi_impact_positive_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactNegativeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactNegativeCustomJustifications",
+      "local_test": "bi_impact_negative_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.impactNegativeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimalCustomJustifications",
+      "local_test": "bi_impact_negative_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweighted",
+      "local_test": "tri_penalize_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeUnweightedBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedBigDecimal",
+      "local_test": "tri_penalize_unweighted_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalize",
+      "local_test": "tri_penalize",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimal",
+      "local_test": "tri_penalize_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.rewardUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "rewardUnweighted",
+      "local_test": "tri_reward_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.reward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "reward",
+      "local_test": "tri_reward",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.rewardBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimal",
+      "local_test": "tri_reward_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositiveUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweighted",
+      "local_test": "tri_impact_positive_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositive",
+      "local_test": "tri_impact_positive",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositiveBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimal",
+      "local_test": "tri_impact_positive_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactNegative",
+      "local_test": "tri_impact_negative",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactNegativeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimal",
+      "local_test": "tri_impact_negative_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedCustomJustifications",
+      "local_test": "tri_penalize_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeCustomJustifications",
+      "local_test": "tri_penalize_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.penalizeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimalCustomJustifications",
+      "local_test": "tri_penalize_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.rewardUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "rewardUnweightedCustomJustifications",
+      "local_test": "tri_reward_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.rewardCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "rewardCustomJustifications",
+      "local_test": "tri_reward_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.rewardBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimalCustomJustifications",
+      "local_test": "tri_reward_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositiveUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweightedCustomJustifications",
+      "local_test": "tri_impact_positive_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositiveCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositiveCustomJustifications",
+      "local_test": "tri_impact_positive_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactPositiveBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimalCustomJustifications",
+      "local_test": "tri_impact_positive_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactNegativeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactNegativeCustomJustifications",
+      "local_test": "tri_impact_negative_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.impactNegativeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimalCustomJustifications",
+      "local_test": "tri_impact_negative_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweighted",
+      "local_test": "quad_penalize_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeUnweightedBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedBigDecimal",
+      "local_test": "quad_penalize_unweighted_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalize",
+      "local_test": "quad_penalize",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimal",
+      "local_test": "quad_penalize_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.rewardUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "rewardUnweighted",
+      "local_test": "quad_reward_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.reward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "reward",
+      "local_test": "quad_reward",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.rewardBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimal",
+      "local_test": "quad_reward_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositiveUnweighted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweighted",
+      "local_test": "quad_impact_positive_unweighted",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositive",
+      "local_test": "quad_impact_positive",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositiveBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimal",
+      "local_test": "quad_impact_positive_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactNegative",
+      "local_test": "quad_impact_negative",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactNegativeBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimal",
+      "local_test": "quad_impact_negative_big_decimal",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeUnweightedCustomJustifications",
+      "local_test": "quad_penalize_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeCustomJustifications",
+      "local_test": "quad_penalize_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.penalizeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "penalizeBigDecimalCustomJustifications",
+      "local_test": "quad_penalize_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.rewardUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "rewardUnweightedCustomJustifications",
+      "local_test": "quad_reward_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.rewardCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "rewardCustomJustifications",
+      "local_test": "quad_reward_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.rewardBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "rewardBigDecimalCustomJustifications",
+      "local_test": "quad_reward_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositiveUnweightedCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositiveUnweightedCustomJustifications",
+      "local_test": "quad_impact_positive_unweighted_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositiveCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositiveCustomJustifications",
+      "local_test": "quad_impact_positive_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactPositiveBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactPositiveBigDecimalCustomJustifications",
+      "local_test": "quad_impact_positive_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactNegativeCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactNegativeCustomJustifications",
+      "local_test": "quad_impact_negative_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.impactNegativeBigDecimalCustomJustifications",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "impactNegativeBigDecimalCustomJustifications",
+      "local_test": "quad_impact_negative_big_decimal_custom_justifications",
+      "modifications": "Preserve the actual unique-pair stream and, for tri/quad, equal-value pairing plus one/two joins to the five value facts. Retain all literal total scores, sole constraint name, match count, justification type and fact-count assertions. Native signed weighted terminals with weight ONE replace penalize/reward/impact builders; decimal cases use exact decimal multiplication. Typed on-demand explanations replace Java justification registration and match-policy retrieval; no builder-registration or listener-lifecycle parity claimed. Strengthen the source helpers to exact ordered facts and per-match scores for every match, including the repeated quad value fact, and independently check deduplicated indictment counts/scores. Bi penalizeUnweightedBigDecimal asserts only score upstream; its explanation checks are additional native evidence."
     }
   ],
   "fixtures": [
@@ -33449,6 +34484,123 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "assertMatchWithScore",
       "modifications": "Top-level field order is irrelevant in source matching; sort typed fields while preserving duplicates. Retain each match penalty; stable IDs replace Java reference equality. No helper credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.generateSolution.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve seven generated entities, five values, three entity groups and round-robin assignments plus generated entity/value codes. Stable typed identities replace Java references. Unused value-group metadata and random longProperty omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSimpleBigDecimalScoreSolution.generateSolution.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/TestdataSimpleBigDecimalScoreSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve seven basic entities, five values, generated codes and round-robin assignment; basic entities have no lavish group. Native exact decimal score replaces SimpleBigDecimalScore."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.TestConstraintJustification.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "TestConstraintJustification",
+      "modifications": "Native CustomJustification stores the actual score and ordered fact vector, including repeated value facts. Constructed through the native explanation callback; no Java registration lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.assertDefaultJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "assertDefaultJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.assertCustomJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "assertCustomJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.assertDefaultJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "assertDefaultJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.assertCustomJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "assertCustomJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.assertDefaultJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "assertDefaultJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/tuple_score_explanation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.assertCustomJustifications.tuple_scores",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "assertCustomJustifications",
+      "modifications": "Preserve sole constraint key, match count (21 bi, 2 tri/quad), actual default/custom justification type and arity. Exercise enabled explanations; check all matches rather than only the first seven bi matches. Additional exact facts, scores and deduplicated indictment assertions use an independent expected-row enumeration."
     }
   ]
 }

@@ -2326,3 +2326,15 @@ and separately checks the actual native multiset. It does not claim equality of
 the literal per-justification frequencies. Four original canonical-expansion tests
 cover pointer identity, per-input/per-update scope, key panic, checked-overflow
 rollback and 320 incremental graph trials in both activity modes.
+
+Sixty-nine bi/tri/quad scoring and explanation methods now have native adaptations.
+They exercise weight ONE with integer or exact decimal match factors for weighted
+and unweighted penalties/rewards and signed impacts. Bi streams enumerate all 21
+unique pairs; tri/quad streams select the two equal-value pairs and actually join
+one/two value fact sources. All literal upstream totals and helper assertions are
+preserved. Default/custom justification snapshots additionally check every ordered
+fact and per-match score; quad explanations retain both occurrences of the value
+fact while indictments count it once per match. Native on-demand explanation
+callbacks replace Java build-time justification registration and policy retrieval;
+multiple-registration error behavior and general Java lifecycle equivalence remain
+outside this adaptation. No production implementation was copied or translated.

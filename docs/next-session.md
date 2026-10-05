@@ -11271,3 +11271,43 @@ explain_constraint_default (lines 142-225 read), and graph score_weighted/decima
 exist; use actual native explanation APIs, not stand-in constants. Read all chosen
 methods/helpers/decimal fixtures first. Multiple-registration errors or lifecycle
 requirements may need new support and must not be silently reduced to snapshots.
+
+## Cross-arity weighted scoring and explanations
+
+Added tuple_score_explanation_cases.rs: 69 Community methods (23 each Bi/Tri/Quad)
+cover integer/exact-decimal penalties, rewards and signed impacts with default and
+custom justifications. Actual weighted terminals use weight ONE and signed match
+factors. All 21 Bi unique pairs are retained; Tri/Quad select the two equal-value
+pairs (0,5)/(1,6) and join actual value facts once/twice. Literal totals are passed
+independently (-21/-42/+21/+42 Bi, -2/-4/+2/+4 Tri/Quad), never derived from graph
+output. Every explanation's score and ordered facts are checked, strengthening
+upstream type/count helpers. Quad retains repeated values in justification but
+counts each once in indictments. All fixture/helper provenance recorded. Native
+on-demand explanation differs from Java build-time justifyWith registration;
+failWithMultipleJustifications remains pending. No production source read/ported.
+
+Focused process19113 passed all69. Final selective gate39553 exited0: one Rust
+integration target ran,403 reused;46 Python jobs reused;152 doctests reused.
+3323 Rust tests in aggregate. Equal source-before/after and exit0:
+3e7094516efc276d826d7a99360bd1045fd75276ce904beadefcaea195628a02.
+Dashboard1875/4855 (38.62%),2698 pending,282 excluded,0 failed/unverified.
+Freshness process5483 exited0 with matching report digest:
+c7c20f421f4a391de2dd971530d7fda28d5f6d8aef0b1aa7971a169f25c87d50.
+Logs: work/tuple-score-focused.log, work/tuple-score-check.log.
+No engine changes, benchmark refresh, release rerun or browser sweep. All processes
+terminal; reuse evidence until relevant inputs change. Full goal remains active.
+
+Next useful shift: end-to-end DefaultSolverTest adaptations, not more scoring
+wrappers. 82 methods still pending; native solver already supports basic/list/mixed
+phase plans, repeated solves, pins and optional assignment. Read test sources and
+fixtures before adapting. Inspected solveRepeatedlyBasicVariable749-779 (5 required
+variables,2 values,construction max2steps per solve; remaining5/3/1 ->0), and
+solveRepeatedlyListVariable782-817 (24values,8owners,max7construction steps per solve;
+4 resumes to full assignment). Source initial score is nonnull; reproduce actual
+resumed assignments, not fresh restarts. Mixed source starts1269; its shared helper
+needs further reading from1290 onward. PinnedMixed1494-1513 keeps first of3entities'
+two basic variables null and list empty with2+2values. UnassignedMixed1516-1539 blocks
+all2+2values, expecting optional basic null, required second basic assigned, list
+empty. PinnedAndUnassigned1542 onward has two scenarios; read remainder after1586
+and all corresponding test score calculators/fixtures. Do not infer solver quality
+or replace source constraints with easy stand-ins. Deterministic seeds/limits needed.
