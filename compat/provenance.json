@@ -19125,6 +19125,21 @@
       "upstream_test": "matchesAPriorityQueueOnRandomWorkloads",
       "local_test": "matches_a_priority_queue_on_random_workloads",
       "modifications": "Retain empty lookup, all insertion/drain sequences, deduplication, reoffering, 64-node capacity workload and equal-rank grouping. Random comparison retains seed 0, 200 nodes, rank range 0..50, 50 attempts and 1000 interleaved operations; native deterministic draws replace java.util.Random. An independent ordered-set priority reference uses the native deterministic node-ID tie break; Java permits arbitrary ties. Empty polling returns None instead of throwing. Immutable rank arrays replace graph mocks; no Java PRNG trace or array-allocation parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/weighted_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProbabilityEntitySelectorTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/ProbabilityEntitySelectorTest.java",
+      "upstream_test": "getSize",
+      "local_test": "entity_get_size",
+      "modifications": "Preserve all four entity codes and weights 1000,200,30,4 and the cached size assertion. Native immutable construction replaces explicit constructCache/mock solver scope; strings replace test entities. No Java lifecycle or selection-cache-scope parity is claimed."
     }
   ],
   "fixtures": [
@@ -23209,6 +23224,32 @@
       "id": "NodeTopologicalOrderQueueTest.drain.node_order",
       "upstream_test": "drain",
       "modifications": "Native rank-snapshot queue and Vec collection replace graph mock and repeated Java polling. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/weighted_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProbabilityEntitySelectorTest.randomSelection.weighted_sequence",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/ProbabilityEntitySelectorTest.java",
+      "upstream_test": "randomSelection",
+      "modifications": "Partial adaptation only: preserve four occurrence codes/weights, size and all five scripted unit draws and selected codes. Native injected draws replace TestRandom; strings replace test entities/dummy moves. Java lifecycle forwarding and child iterator-call verification are absent, so these upstream methods remain pending and earn no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/weighted_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProbabilityMoveSelectorTest.randomSelection.weighted_sequence",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/ProbabilityMoveSelectorTest.java",
+      "upstream_test": "randomSelection",
+      "modifications": "Partial adaptation only: preserve four occurrence codes/weights, size and all five scripted unit draws and selected codes. Native injected draws replace TestRandom; strings replace test entities/dummy moves. Java lifecycle forwarding and child iterator-call verification are absent, so these upstream methods remain pending and earn no method credit."
     }
   ]
 }

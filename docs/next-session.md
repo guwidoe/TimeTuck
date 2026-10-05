@@ -10083,3 +10083,31 @@ work/node-order-regression.log,work/dependency-queue-build.log,
 work/dependency-queue-remaining-build.log,work/dependency-queue-check.log. All jobs
 are terminal. Previous goal turn made progress via6803562; this turn adds a reusable
 scheduler and verifies its shared-cache integration. Full rewrite remains active.
+
+## Weighted candidate snapshots and provider sampling
+
+Added WeightedSelection over immutable shared occurrence snapshots. Fractional f64
+weights define cumulative intervals, zero weights disable occurrences, duplicates
+keep separate weights, and empty/all-zero snapshots exhaust without drawing.
+Power-of-two rescaling handles maximum/subnormal totals. Invalid weights/draws,
+candidate limits and positive weights lost to precision return explicit errors.
+Sampling is approximate f64 arithmetic on native53-bit draws, not Java PRNG parity.
+Bounded collection polls at most maximum+1 items to detect overflow. Reweighting
+captures a new distribution once per occurrence without cloning items or changing
+held distributions. Borrowed sampling does not clone; owned sampling clones only
+selected items and integrates with existing provider budgets. User callback side
+effects are not reversible. Provider tests solve through both basic backends.
+One full ProbabilityEntitySelectorTest.getSize method is credited. Both entity/move
+scripted random sequences are attributed partial fixtures and remain pending because
+Java lifecycle forwarding/child iterator-call checks are absent. Seven original
+regressions cover intervals/duplicates/zero weights, invalid/extreme numbers, finite
+bounds over infinite sources, non-Clone snapshots, selected-only cloning, seeded
+frequency/reproducibility and actual weighted candidate solving. Focused checks passed.
+Final check.sh session27213 exited0: 2558 Rust tests,139 doctests,fmt/Clippy;
+only3 Rust targets ran,343 reused;46 Python jobs reused. Prebuild17.37s. Aggregate
+exit0 and unchanged before/after source verified:62af0877fc9afb2f998fcf30f55c2cde5a4f900e7857c3cc7cc7da85372dec52.
+Coverage1276/4855(26.282%),pending3297,excluded282,failed/unverified0. Freshness
+session33867 exited0 and matched report digest. No browser/release/benchmark refresh.
+Logs:work/weighted-selection-focused-final.log,work/weighted-selection-build.log,
+work/weighted-selection-check.log. All jobs terminal. Previous turn made progress
+via63f4761; this turn adds usable weighted candidate exploration. Full goal active.

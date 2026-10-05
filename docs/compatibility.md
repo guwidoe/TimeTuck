@@ -1958,3 +1958,15 @@ offered work. DependencyCache now uses this queue, caching rank snapshots with e
 topology plan; value-only invalidation does not scan the node universe. Existing
 exhaustive dependency regressions and new fan-in/edge-reversal/cycle-recovery tests
 verify integration. No new timing or Java allocation-strategy equivalence is claimed.
+
+WeightedSelection adds immutable fractional occurrence weights, disabled zero entries,
+bounded candidate collection, seeded/injected draws, and reweighting that shares
+non-Clone items while retaining old distributions. Power-of-two rescaling handles
+large and subnormal totals; invalid weights/draws and positive weights lost to
+floating-point precision produce explicit errors. This remains f64 sampling on a
+native 53-bit draw grid. Provider tests use weighted proposals through both basic
+scoring backends. ProbabilityEntitySelectorTest.getSize earns full method credit;
+entity/move scripted random sequences are attributed partial fixtures, with Java
+lifecycle-forwarding assertions still pending. Seven original regressions cover
+intervals, numeric extremes, bounds, snapshots, cloning, distribution and solving.
+No new performance or Java lifecycle equivalence is claimed.

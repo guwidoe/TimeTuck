@@ -589,3 +589,6 @@ pub use list_cascade::{ListCascadeCache, ListCascadeContext, ListCascadeError, L
 
 mod node_order_queue;
 pub use node_order_queue::{NodeOrderQueue, UnknownOrderNode};
+
+mod weighted_selection;
+pub use weighted_selection::{WeightedSelection, WeightedSelectionError};

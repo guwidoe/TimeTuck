@@ -571,3 +571,10 @@ list cascade cache, transactions and separate regressions are independently writ
 from the pinned Community `NodeTopologicalOrderQueueTest` (Apache-2.0). Provenance
 records exact identities and native randomness/tie-breaking substitutions. The
 heap-based queue and its derived-value cache integration are independently written.
+
+`crates/solver/tests/weighted_selection_cases.rs` adapts the cached-size method
+from Community `ProbabilityEntitySelectorTest` and the scripted random sequences
+from that class and `ProbabilityMoveSelectorTest` (Apache-2.0). The two sequence
+fixtures remain partial and earn no method credit; exact omissions and identities
+are recorded in `compat/provenance.json`. The weighted sampler and regressions are
+independently implemented.
