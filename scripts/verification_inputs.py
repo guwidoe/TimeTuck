@@ -1,6 +1,7 @@
 """Job-specific inputs. No timestamps, Git revisions, or generated reports in keys."""
 import ast
 import hashlib
+from functools import lru_cache
 import json
 from pathlib import Path
 import re
@@ -29,16 +30,70 @@ MEASUREMENTS = {
 }
 
 
+# This remains a development heuristic, not a Rust parser. Only exact cfg(test)
+# attributes are removed; compound/unknown conditions remain conservative.
+RUST_LITERALS = re.compile(
+    r'//[^\n]*|/\*[\s\S]*?\*/|(?:br|r)(?P<hashes>\#*)"[\s\S]*?"(?P=hashes)'
+    r'|(?:b)?"(?:\\.|[^"\\])*"|(?:b)?\'(?:\\(?:u\{[0-9a-fA-F_]+\}|x[0-9a-fA-F]{2}|.)|[^\'\\])\'')
+
+
+@lru_cache(maxsize=2048)
 def rust_dependencies_text(source):
-    source = re.sub(r'"(?:\\.|[^"\\])*"|/\*[\s\S]*?\*/|//[^\n]*', ' ', source)
-    pattern = r'#\[cfg\(test\)\]\s*(?:pub\s+)?mod\s+\w+\s*\{'
-    while match := re.search(pattern, source):
-        depth, end = 1, match.end()
-        while end < len(source) and depth:
-            depth += (source[end] == '{') - (source[end] == '}')
+    return RUST_LITERALS.sub(lambda m: ' ' * len(m[0]), source)
+
+
+@lru_cache(maxsize=2048)
+def production_rust(source):
+    """Project library source onto items present without cfg(test)."""
+    masked = rust_dependencies_text(source)
+    spans = []
+    attributes = r'(?:#\[[^\]]*\]\s*)+'
+    for match in re.finditer(attributes, masked):
+        if not re.search(r'#\[\s*cfg\s*\(\s*test\s*\)\s*\]', match[0]):
+            continue
+        if spans and match.start() < spans[-1][1]:
+            continue
+        # Skip a declaration/signature, then either its terminating semicolon or
+        # balanced body. Strings/comments are masked, preserving source offsets.
+        round_depth = square_depth = angle_depth = 0
+        end = match.end()
+        while end < len(masked):
+            char = masked[end]
+            if char == '(': round_depth += 1
+            elif char == ')': round_depth -= 1
+            elif char == '[': square_depth += 1
+            elif char == ']': square_depth -= 1
+            elif char == '<': angle_depth += 1
+            elif char == '>' and masked[end - 1] not in '-=': angle_depth = max(0, angle_depth - 1)
+            if not (round_depth or square_depth or angle_depth) and char in '{;':
+                if char == '{':
+                    depth = 1
+                    end += 1
+                    while end < len(masked) and depth:
+                        depth += (masked[end] == '{') - (masked[end] == '}')
+                        end += 1
+                    if depth: break  # Unsupported/unbalanced syntax: retain it.
+                else:
+                    end += 1
+                spans.append((match.start(), end))
+                break
             end += 1
-        source = source[:match.start()] + source[end:]
+    for start, end in reversed(spans):
+        source = source[:start] + source[end:]
     return source
+
+
+@lru_cache(maxsize=2048)
+def production_content(source):
+    """Normalize trivia while retaining literal contents exactly."""
+    source = production_rust(source)
+    chunks, cursor = [], 0
+    for match in RUST_LITERALS.finditer(source):
+        chunks.append(re.sub(r'\s+', ' ', source[cursor:match.start()]))
+        chunks.append(' ' if match[0].startswith('/') else match[0])
+        cursor = match.end()
+    chunks.append(re.sub(r'\s+', ' ', source[cursor:]))
+    return ''.join(chunks).strip()
 
 
 def files(pattern, root=ROOT):
@@ -46,6 +101,8 @@ def files(pattern, root=ROOT):
 
 
 FACADE_INPUT = '@rust-facade:'
+LIBRARY_INPUT = '@rust-library:'
+DOCTEST_INPUT = '@rust-doctest:'
 
 
 def facade_content(source, symbols):
@@ -54,6 +111,7 @@ def facade_content(source, symbols):
     This is the same deliberately selective development heuristic as the module
     scan, not Rust name resolution. Unknown export syntax remains conservative.
     """
+    source = production_rust(source)
     source = re.sub(r'"(?:\\.|[^"\\])*"|/\*[\s\S]*?\*/|//[^\n]*',
                     lambda m: ' ' if m[0].startswith('/') else m[0], source)
     def declaration(match):
@@ -89,6 +147,14 @@ def digest(paths, root=ROOT, extra=None):
         if name.startswith(FACADE_INPUT):
             path = root / 'crates/solver/src/lib.rs'
             data = facade_content(path.read_text(), set(json.loads(name[len(FACADE_INPUT):]))).encode() if path.is_file() else b'missing'
+            h.update(hashlib.sha256(data).digest())
+        elif name.startswith(DOCTEST_INPUT):
+            path = root / name[len(DOCTEST_INPUT):]
+            data = production_rust(path.read_text()).encode() if path.is_file() else b'missing'
+            h.update(hashlib.sha256(data).digest())
+        elif name.startswith(LIBRARY_INPUT):
+            path = root / name[len(LIBRARY_INPUT):]
+            data = production_content(path.read_text()).encode() if path.is_file() else b'missing'
             h.update(hashlib.sha256(data).digest())
         else:
             path = root / name
@@ -128,13 +194,13 @@ def selected_library_inputs(entries, root=ROOT):
     imports resolve against identifiers used in the target. Facade inputs include
     referenced declarations/reexports and other root code, excluding unrelated exports.
     """
-    sources = {p for p in files('crates/solver/src/**/*.rs', root) if not p.endswith('_tests.rs')}
     facade = 'crates/solver/src/lib.rs'
+    sources = {p for p in rust_entry_inputs(facade, root, include_test_items=False) if p.endswith('.rs')}
     if facade in entries:
         return library_inputs(root)
     owners, texts = {}, {}
     for name in sources - {facade}:
-        source = rust_dependencies_text((root / name).read_text())
+        source = rust_dependencies_text(production_rust((root / name).read_text()))
         texts[name] = source
         symbols = {Path(name).stem}
         symbols.update(re.findall(r'^pub(?:\([^)]*\))?\s+(?:struct|enum|trait|type)\s+(\w+)', source, re.M))
@@ -167,8 +233,8 @@ def selected_library_inputs(entries, root=ROOT):
         name = pending.pop()
         if name in selected or not (root / name).is_file(): continue
         selected.add(name)
-        pending.extend(rust_entry_inputs(name, root) - selected)
-        source = texts[name] if name in texts else rust_dependencies_text((root / name).read_text())
+        pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
+        source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())
         imports = ' '.join(re.findall(r'\buse\s+(?:crate|super|timetuck)::([^;]+);', source))
         words = set(re.findall(r'\b\w+\b', imports))
         words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
@@ -183,10 +249,10 @@ def selected_library_inputs(entries, root=ROOT):
     modules = {p for p in selected if p.startswith('crates/solver/src/')}
     referenced.update(Path(p).stem for p in modules)
     projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
-    return cargo_inputs(root) | {projected} | modules
+    return cargo_inputs(root) | {projected} | {LIBRARY_INPUT + p if p.endswith('.rs') else p for p in modules}
 
 
-def rust_entry_inputs(entry, root=ROOT):
+def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
     """One test/example, its local modules and literal include files."""
     pending, found = [entry], set()
     while pending:
@@ -198,6 +264,8 @@ def rust_entry_inputs(entry, root=ROOT):
         if not path.is_file() or path.suffix != '.rs':
             continue
         source = path.read_text()
+        if not include_test_items:
+            source = production_rust(source)
         base = path.parent if path.name in ('mod.rs', 'lib.rs') or path.parent.name in ('tests', 'examples') else path.with_suffix('')
         for module in re.findall(r'\bmod\s+(\w+)\s*;', source):
             for child in [base / f'{module}.rs', base / module / 'mod.rs']:
@@ -205,6 +273,12 @@ def rust_entry_inputs(entry, root=ROOT):
         for literal in re.findall(r'(?:include(?:_str|_bytes)?!\s*\(\s*|#\[path\s*=\s*)"([^"]+)"', source):
             pending.append((path.parent / literal).resolve().relative_to(root.resolve()).as_posix())
     return found
+
+
+def doctest_inputs(root=ROOT):
+    # Rustdoc does not enable cfg(test), but documentation itself must stay hashed.
+    paths = rust_entry_inputs('crates/solver/src/lib.rs', root, include_test_items=False)
+    return cargo_inputs(root) | {DOCTEST_INPUT + p if p.endswith('.rs') else p for p in paths}
 
 
 def rust_test_inputs(entry=None, root=ROOT):

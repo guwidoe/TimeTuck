@@ -3,7 +3,7 @@
 import argparse
 import subprocess
 from verification_cache import run_job
-from verification_inputs import ROOT, cargo_inputs, files, library_inputs, python_inputs
+from verification_inputs import ROOT, cargo_inputs, files, doctest_inputs, python_inputs
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
         code = code or report
     if code: return code
     code, _ = run_job('doctests', ['cargo', 'test', '--workspace', '--doc', '--locked'],
-                      lambda: library_inputs() | {'scripts/verification_cache.py'}, force=args.force)
+                      lambda: doctest_inputs() | {'scripts/verification_cache.py', 'scripts/verification_inputs.py'}, force=args.force)
     if code: return code
     for path in sorted((ROOT / 'scripts').glob('test_*.py')):
         code, _ = run_job(path.stem, ['python3', '-m', 'unittest', 'discover', '-s', 'scripts', '-p', path.name],

@@ -625,7 +625,12 @@ scan of imports, referenced public symbols and out-of-line implementations; loca
 modules and literal include fixtures are tracked. A target hashes only the crate
 facade declarations/reexports it references, plus remaining root code and crate
 attributes. Adding an unrelated public export no longer invalidates every target;
-unit tests, linting and doctests still include the complete facade. This is a development heuristic,
+unit tests, linting and doctests still include the complete facade. Library inputs
+for integration tests, example tests and measurements omit exact `#[cfg(test)]`
+items and their exclusively test-only modules. Runtime code, shared support files
+and literal contents remain inputs. A test target's own test-only code is retained.
+Doctests exclude library unit-test fixtures but retain documentation contents.
+Compound/unknown conditional attributes remain conservative. This is a development heuristic,
 not compiler-proven dependency analysis. Shared types can still select many modules.
 Python imports and Java adapter references are followed separately. Dashboard,
 provenance, unrelated tests and unrelated adapters do not invalidate Rust execution.

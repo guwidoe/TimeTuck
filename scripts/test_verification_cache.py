@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 from verification_cache import run_job, run_measurement
-from verification_inputs import digest, measurement_digest, rust_test_inputs, report_digest
+from verification_inputs import digest, measurement_digest, rust_test_inputs, report_digest, doctest_inputs
 
 
 class InputTests(unittest.TestCase):
@@ -128,6 +128,93 @@ class InputTests(unittest.TestCase):
         self.assertNotEqual(before, code)
         facade.write_text(original + ' pub const LABEL: &str = "a b";')
         self.assertNotEqual(code, self.key(entry))
+
+    def test_path_unit_modules_and_support_only_invalidate_library_tests(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('pub struct Score; #[path="probe.rs"] #[cfg(test)] mod checks;')
+        probe = self.root / 'crates/solver/src/probe.rs'
+        probe.write_text('use crate::search::Search; use crate::score::Score; impl Score { fn check(_: Search) {} } #[path="support.rs"] mod support;')
+        support = self.root / 'crates/solver/src/support.rs'
+        support.write_text('pub fn fixture() {}')
+        def keys():
+            return (self.key(entry), measurement_digest('performance', self.root),
+                    self.key('crates/solver/src/lib.rs'))
+        before = keys()
+        for path in [probe, support]:
+            path.write_text(path.read_text() + ' // changed fixture')
+            after = keys()
+            self.assertEqual(before[:2], after[:2])
+            self.assertNotEqual(before[2], after[2])
+            before = after
+        # Runtime dependencies still invalidate consumers.
+        score.write_text('pub struct Score { pub field: i32 } #[path="probe.rs"] #[cfg(test)] mod checks;')
+        self.assertNotEqual(before[0], self.key(entry))
+        self.assertNotEqual(before[1], measurement_digest('performance', self.root))
+
+    def test_inline_unit_items_and_helpers_do_not_change_production_keys(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        before = self.key(entry)
+        score.write_text(score.read_text() + '''
+            #[cfg(test)] mod checks {
+                use crate::search::Search;
+                fn fixture() { let braces = r##"} { # [cfg(test)]"##; }
+            }
+            #[cfg(test)] fn helper<T>(f: impl Fn(T) -> T) -> T { panic!("}") }
+        ''')
+        self.assertEqual(before, self.key(entry))
+        unit = self.key('crates/solver/src/lib.rs')
+        (self.root / 'crates/solver/src/search.rs').write_text('pub struct Search { value: i64 }')
+        self.assertEqual(before, self.key(entry))
+        self.assertNotEqual(unit, self.key('crates/solver/src/lib.rs'))
+        score.write_text('pub struct Score; pub const TEXT: &str = r#"a  b"#;')
+        before = self.key(entry)
+        score.write_text('pub struct Score; pub const TEXT: &str = r#"a b"#;')
+        self.assertNotEqual(before, self.key(entry))
+
+    def test_test_target_cfg_modules_and_shared_runtime_support_remain_inputs(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('#[cfg(test)] mod checks { use timetuck::search::Search; }')
+        before = self.key(entry)
+        (self.root / 'crates/solver/src/search.rs').write_text('pub struct Search { n: i32 }')
+        self.assertNotEqual(before, self.key(entry))
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        (self.root / 'crates/solver/src/score.rs').write_text(
+            'pub struct Score; #[cfg(test)] #[path="support.rs"] mod checks; #[path="support.rs"] mod runtime;')
+        support = self.root / 'crates/solver/src/support.rs'
+        support.write_text('pub fn value() -> i32 { 1 }')
+        before = self.key(entry)
+        support.write_text('pub fn value() -> i32 { 2 }')
+        self.assertNotEqual(before, self.key(entry))
+
+    def test_production_include_files_and_non_test_conditions_remain_inputs(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('pub struct Score; const INPUT: &str = include_str!("data.txt"); #[cfg(feature="x")] #[path="support.rs"] mod support;')
+        data = self.root / 'crates/solver/src/data.txt'
+        data.write_text('a')
+        support = self.root / 'crates/solver/src/support.rs'
+        support.write_text('pub fn helper() {}')
+        for path in [data, support]:
+            before = self.key(entry)
+            path.write_text(path.read_text() + ' changed')
+            self.assertNotEqual(before, self.key(entry))
+
+    def test_doctests_keep_documentation_but_ignore_library_unit_fixtures(self):
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('/// Score documentation.\npub struct Score; #[cfg(test)] #[path="probe.rs"] mod checks;')
+        probe = self.root / 'crates/solver/src/probe.rs'
+        probe.write_text('fn check() {}')
+        def key(): return digest(doctest_inputs(self.root), self.root)
+        before = key()
+        probe.write_text('fn changed_check() {}')
+        self.assertEqual(before, key())
+        score.write_text(score.read_text().replace('Score documentation.', 'Updated documentation.'))
+        self.assertNotEqual(before, key())
 
 
 

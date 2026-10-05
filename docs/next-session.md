@@ -9537,3 +9537,19 @@ clock with a real 5ms construction timer. Both matching fixtures now inject the
 same controlled clock into construction, preserving all assertions. The final
 gate passed. That test-only edit still invalidated232 integration/lib/example job
 keys; test-module dependency isolation remains an opportunity for selective reuse.
+
+## Isolate unit-test verification inputs
+
+Integration/example and measurement library inputs now project away exact cfg(test)
+items and exclusively unit-test modules. Targets retain their own test-only code;
+shared runtime support, literal contents, and unknown conditional attributes remain
+inputs. Doctest keys omit unit fixtures while retaining documentation. This remains
+a selective development heuristic, not Rust compiler dependency analysis.
+A real dependency audit found solver_observation_tests.rs now affects only the lib
+unit target out of312 targets; the prior test-only fix invalidated232 jobs.
+Final check.sh passed:2234 Rust tests,122 doctests,260 Python tests,fmt/Clippy.
+The key-format baseline executed312 Rust targets and46 Python jobs once.
+Source digest:a652920dc03d9805191a7abb88ac0a5cba2b1c1b97b8cae90bd65180fd367939.
+Coverage unchanged at1060/4855(21.833%). No benchmark/release/browser rerun.
+Logs:work/unit-isolation-check.log,work/unit-isolation-audit.log.
+The full rewrite remains active; reusable neighborhood samplers are the next batch.
