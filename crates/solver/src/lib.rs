@@ -592,3 +592,9 @@ pub use node_order_queue::{NodeOrderQueue, UnknownOrderNode};
 
 mod weighted_selection;
 pub use weighted_selection::{WeightedSelection, WeightedSelectionError};
+
+mod selection_cache;
+pub use selection_cache::{
+    CachedSelectionIter, CachedSelectionOrder, SelectionCache, SelectionCacheError,
+    SelectionCacheScope, SelectionCacheState, SelectionLifecycleEvent, SelectionSource,
+};

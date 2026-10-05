@@ -10111,3 +10111,40 @@ session33867 exited0 and matched report digest. No browser/release/benchmark ref
 Logs:work/weighted-selection-focused-final.log,work/weighted-selection-build.log,
 work/weighted-selection-check.log. All jobs terminal. Previous turn made progress
 via63f4761; this turn adds usable weighted candidate exploration. Full goal active.
+
+## Scoped selection caches and lifecycle forwarding
+
+SelectionCache now captures finite candidates and optional weights at solve, phase
+or step start, forwards every balanced native lifecycle event once, and releases
+its own snapshot at the configured scope end. Original traversal preserves order;
+random traversal supports uniform/weighted injected or seeded draws and metadata.
+Held snapshots retain non-Clone items after release. Explicit source sizes are
+checked; unknown finite sources remain collection-bounded. Invalid transitions
+forward nothing. Failed builds/unwinding leave the scope active without a snapshot;
+end that scope before retrying. External callback side effects are not reversible.
+Parent lifecycle delivery remains explicit, with no automatic solver-listener or
+Java runtime-class parity claim. Solve/phase caches intentionally retain old facts
+until their next configured boundary; choose scope accordingly.
+Twenty complete methods from entity/value/move caching and entity/move probability
+selectors now preserve sequence, size, repetition, rebuild and forwarding counts.
+Fourteen helper fixtures are attributed. The earlier immutable weighted-sequence
+fixtures remain partial in their original file; full method credit now comes from
+selection_cache_cases.rs. Six original regressions cover context refresh/release,
+invalid transitions/retry, bounded sources, callback unwinding/invalid weights,
+non-Clone ownership and actual weighted step-provider solving in both backends.
+Focused suites passed (20 adapted +6 original). Development corrected explicit
+lifetime bounds in test source/provider implementations. Prebuild14.24s; first
+final gate31257 exited101 for Clippy collapsible_if. Collapsed the condition and
+reran affected checks; final gate64457 exited0:2584 Rust tests,139 doctests,
+fmt/Clippy;3 Rust targets ran,345 reused;46 Python jobs reused. Aggregate exit0
+and equal before/after source verified:
+45e37b5ffb8c370015a9a7f5af37bda51b84661d7e905b8ffa1dee11b3cc9e94.
+Coverage1296/4855(26.694%),pending3277,excluded282,failed/unverified0.
+No browser/release/benchmark sweep. Older performance evidence remains stale.
+Logs:work/selection-cache-focused-final.log,work/selection-cache-build.log,
+work/selection-cache-check.log(lint failure),work/selection-cache-final-check.log.
+The preceding timing-answer turn made no repository progress; this continuation
+revalidated the worktree and completed the pending cache implementation batch.
+Full independent solver rewrite remains active and incomplete.
+Dashboard freshness session53699 exited0 and matched the current report digest.
+All batch process handles are terminal.

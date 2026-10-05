@@ -1966,7 +1966,20 @@ large and subnormal totals; invalid weights/draws and positive weights lost to
 floating-point precision produce explicit errors. This remains f64 sampling on a
 native 53-bit draw grid. Provider tests use weighted proposals through both basic
 scoring backends. ProbabilityEntitySelectorTest.getSize earns full method credit;
-entity/move scripted random sequences are attributed partial fixtures, with Java
-lifecycle-forwarding assertions still pending. Seven original regressions cover
+the immutable sampler file retains partial entity/move sequence fixtures, now
+completed by the lifecycle adaptations below. Seven original regressions cover
 intervals, numeric extremes, bounds, snapshots, cloning, distribution and solving.
 No new performance or Java lifecycle equivalence is claimed.
+
+Twenty selection-cache methods now retain solve/phase/step rebuild counts, complete
+ordered traversals, scripted uniform/weighted draws, size/repeating metadata,
+constructor/list-iteration errors and all child lifecycle forwarding assertions.
+SelectionCache explicitly receives native lifecycle events; it captures candidates
+and weights at its configured boundary and releases them at scope end. Held
+snapshots survive release. Failed builds leave the active scope without a cache;
+callers must end that scope before retrying. Source callback side effects cannot
+be rolled back. Six original regressions cover changing contexts, invalid events,
+collection bounds, unwinding, non-Clone snapshots and step-scoped move-provider
+solving with both basic backends. Parent lifecycle delivery remains explicit;
+automatic global solver-listener wiring and Java runtime class identity are not
+claimed. No benchmark refresh or new performance comparison accompanies this batch.

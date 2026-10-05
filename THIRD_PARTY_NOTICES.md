@@ -578,3 +578,12 @@ from that class and `ProbabilityMoveSelectorTest` (Apache-2.0). The two sequence
 fixtures remain partial and earn no method credit; exact omissions and identities
 are recorded in `compat/provenance.json`. The weighted sampler and regressions are
 independently implemented.
+
+`crates/solver/tests/selection_cache_cases.rs` adapts twenty methods from pinned
+Community `CachingEntitySelectorTest`, `CachingValueSelectorTest`,
+`CachingMoveSelectorTest`, `ProbabilityEntitySelectorTest` and
+`ProbabilityMoveSelectorTest`, with their lifecycle/sequence helpers and
+`PlannerAssert` helpers (Apache-2.0). Exact paths, identities and native
+substitutions are recorded in `compat/provenance.json`. This completes the two
+previously partial weighted-sequence methods in a separate lifecycle adaptation.
+The native cache implementation and additional regressions are independently written.
