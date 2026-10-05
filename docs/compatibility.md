@@ -2270,3 +2270,11 @@ and saved-candidate tests supplement the source cases. The chain method assertin
 Java FILTER-node absence remains pending: native filters are explicit graph nodes.
 Predicates and key matches are not used to infer emptiness. Whole-cache rebuild cost
 and recreated precomputed objects make pruning opt-in; no throughput claim is made.
+
+Twenty-four list-ownership Bavet regressions now run through native optional list
+models and the bound stream score director, preserving every assignment and match
+state through replacements, removals, reordering, deep joins, existence checks,
+flattening and surviving/disappearing groups. Typed IDs and immutable shadow
+snapshots replace Java object references; lifecycle notification ordering and JVM
+deferral are not claimed. An original 2,400-move comparison checks two-owner lists,
+rollback and pruning on/off against independent assignments and match enumeration.

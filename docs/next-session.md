@@ -11055,3 +11055,34 @@ b3e06dc752ecc5a632bc649f9a2b2eb622ac7ec46e6aafb08746465091fb4466.
 Logs: work/activity-focused.log, work/activity-final-clippy.log,
 work/activity-build.log and work/activity-check.log. Previous goal turn progressed
 via 0441d06; full rewrite remains active. All processes are terminal.
+
+## List ownership transitions through deep streams
+
+Twenty-four complete BavetRegression methods now use real optional ListProblem
+models and ListStreamScoreDirector binding. Native assign, composite replacement,
+unassign and swap moves drive owner/index/previous/next updates through indexed
+and unindexed joins, existence/absence, unequal-depth maps, four-way joins, identity
+projection/flattening, stable value grouping and owner grouping. Preserve every
+explicit assignment and match multiset, mapped duplicates, ten-contributor groups,
+and the two-group collected-list fixture. Empty initial assignments, full current
+source shadow views and final diagnostic rebuilds add native evidence. Immutable
+snapshots replace mutable Java aliases; reverse after-event ordering and JVM
+settling/deferral internals are not claimed. All cases/fixtures/helpers attributed.
+One original regression checks 2,400 cross-owner moves across 20 shapes, pruning
+on/off and trial rollback versus independently maintained lists and enumeration.
+
+No engine source changed. Initial focused 53309 passed 24 cases; explicit independent
+assignment expectations and the original regression were then added. Focused 71815
+passed 25. Final gate 77130 exited 0: 3191 Rust tests; one new Rust target ran and
+396 were reused; 150-doctest evidence and 46 Python jobs reused; fmt/Clippy passed.
+Aggregate exit 0 and equal source-before/after verified:
+3f9cd59c52477e801333fefd07601beaa4f85dfd571b59972e0b45f35b93f3ed.
+Coverage 1756/4855 (36.169%), pending 2817, excluded 282, failed/unverified 0.
+Freshness check 17573 exited 0 and matched the report verification digest:
+24b1b95c8f8ec344df13357d701b7d337bf91216e8530a451b8b2b2940cfb43b.
+Logs: work/list-stream-null-cases.log and work/list-stream-null-check.log.
+No benchmark/release/browser sweep. Previous turn progressed via eb3b943;
+full rewrite remains active. Remaining BavetRegression methods include six basic
+variable null-conflict cases plus mapPlanningEntityChanges, concatSameTupleDeadAndAlive
+and clearEvents. Their sources have not been adapted in this batch.
+All processes are terminal.
