@@ -30,6 +30,10 @@
 //! ```
 
 mod dataset;
+mod shared_aggregation;
+pub use shared_aggregation::{
+    SharedCollect, SharedCollectList, SharedGroup, SharedGroupKeys, SharedGroupList,
+};
 mod shared_relations;
 pub use shared_relations::{SharedExistence, SharedJoin};
 mod shared;
@@ -153,6 +157,14 @@ impl<I, T> Clone for StreamPort<I, T> {
             node: self.node,
             marker: PhantomData,
         }
+    }
+}
+
+impl<I, T> StreamPort<I, T> {
+    /// Compare graph-node identity even when the typed payloads differ. This
+    /// does not compare current rows or equate independent equivalent pipelines.
+    pub fn same_node<J, U>(&self, other: &StreamPort<J, U>) -> bool {
+        Rc::ptr_eq(&self.owner, &other.owner) && self.node == other.node
     }
 }
 

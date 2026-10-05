@@ -2201,3 +2201,11 @@ definitions and canonical dataset handles express callback and node identities;
 ordinary builder calls remain independent. Original generated runtime comparisons
 cover ordered relations, filters, right-side changes, rollback, self-exclusion and
 callback counts without adding upstream method credit.
+
+Twenty-four additional grouping node-sharing methods preserve all four arities'
+parent/key/collector identity assertions, including the Quad fixture's different
+callbacks that both return zero. Native reusable definitions and same_node replace
+Java callback and stream identity. Count/distinct-count and list/distinct-count
+remain distinct collector implementations. Original runtime regressions separately
+cover grouped tuple collectors, global sums, distinct keys, ordered lists, updates,
+empty removal, snapshot retention and rollback; they add no upstream method credit.

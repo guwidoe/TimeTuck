@@ -676,3 +676,7 @@ mod tuple_collector;
 pub use tuple_collector::DistinctCountCollector;
 
 pub use stream_graph::{SharedExistence, SharedJoin};
+
+pub use stream_graph::{
+    SharedCollect, SharedCollectList, SharedGroup, SharedGroupKeys, SharedGroupList,
+};

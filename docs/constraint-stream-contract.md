@@ -1731,3 +1731,24 @@ outputs and downstream consumers together after trials or ordinary callback fail
 Runtime comparisons against independent nested enumeration cover all ordered join
 comparisons, filtered/unfiltered existence and absence, and changing facts/removals.
 No throughput ratio or Java automatic-node-interning guarantee is claimed.
+
+## Reusable aggregation definitions
+
+`SharedGroupKeys` emits unique mapped keys; `SharedGroup` combines keys with any
+reversible collector, including flat tuple collectors. `SharedCollect` aggregates
+a whole stream. `SharedGroupList` and `SharedCollectList` retain duplicate occurrences
+in ascending input-ID order and return immutable persistent list snapshots.
+All forms emit no rows for empty input; keyed forms remove a group on its final
+retraction. Tuple keys support multiple grouping fields.
+
+Applying one definition or its clone to the same parent in one builder reuses the
+complete pipeline, including intermediate mapping and aggregation nodes. Fresh
+definitions and changed parents remain independent even with equivalent callbacks.
+Mappings run once per put, use captured inputs on retraction, and must be pure and
+deterministic. Construction runs no callback. Multiple scoring consumers do not
+repeat collection work; graph checkpoints restore aggregates and consumers together.
+Definitions use the existing weak parent-registration storage, prune dead owners
+on application, and retain no graph state. Built nodes own their mapping callbacks.
+`StreamPort::same_node` compares graph/node identity across payload types without
+comparing rows or inferring equivalence. Ordinary builder calls are unchanged.
+No throughput comparison or Java automatic-interning guarantee is claimed.

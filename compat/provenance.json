@@ -22470,6 +22470,366 @@
       "upstream_test": "ifNotExistsSameParentSameFilter",
       "local_test": "quad_if_not_exists_same_parent_same_filter",
       "modifications": "Native reusable relation definitions represent indexed/predicate callback identity and no-joiner relations. Preserve each same/different node assertion, ordered left/right parents, true/false filters, first-vs-second fact code projections and existence/absence modes. Native IDs represent object identity; scalar code equals toString in the unary fixture. Higher-arity filter compares first and second left facts, matching the source rather than the right fact. Actual Cartesian self-joins reproduce base arity; canonical dataset handles assert node identity. Source discovery and assignment filtering are explicit native inputs, not Java reflection or automatic lambda interning."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentParentGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentGroupBy",
+      "local_test": "uni_different_parent_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentKeyMapperGroupBy",
+      "local_test": "uni_different_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorGroupBy",
+      "local_test": "uni_same_parent_different_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentDifferentCollectorFunctionGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorFunctionGroupBy",
+      "local_test": "uni_same_parent_different_collector_function_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameKeyMapperGroupBy",
+      "local_test": "uni_same_parent_same_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameParentSameCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameCollectorGroupBy",
+      "local_test": "uni_same_parent_same_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentParentGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentGroupBy",
+      "local_test": "bi_different_parent_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentKeyMapperGroupBy",
+      "local_test": "bi_different_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorGroupBy",
+      "local_test": "bi_same_parent_different_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentDifferentCollectorFunctionGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorFunctionGroupBy",
+      "local_test": "bi_same_parent_different_collector_function_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameKeyMapperGroupBy",
+      "local_test": "bi_same_parent_same_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameParentSameCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameCollectorGroupBy",
+      "local_test": "bi_same_parent_same_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentParentGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentGroupBy",
+      "local_test": "tri_different_parent_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentKeyMapperGroupBy",
+      "local_test": "tri_different_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorGroupBy",
+      "local_test": "tri_same_parent_different_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentDifferentCollectorFunctionGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorFunctionGroupBy",
+      "local_test": "tri_same_parent_different_collector_function_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameKeyMapperGroupBy",
+      "local_test": "tri_same_parent_same_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameParentSameCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameCollectorGroupBy",
+      "local_test": "tri_same_parent_same_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentParentGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentParentGroupBy",
+      "local_test": "quad_different_parent_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentKeyMapperGroupBy",
+      "local_test": "quad_different_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDifferentCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorGroupBy",
+      "local_test": "quad_same_parent_different_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentDifferentCollectorFunctionGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentDifferentCollectorFunctionGroupBy",
+      "local_test": "quad_same_parent_different_collector_function_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentSameKeyMapperGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameKeyMapperGroupBy",
+      "local_test": "quad_same_parent_same_key_mapper_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameParentSameCollectorGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameParentSameCollectorGroupBy",
+      "local_test": "quad_same_parent_same_collector_group_by",
+      "modifications": "Native reusable grouping/collection definitions replace Java callback identity; same_node compares graph owner and node identity across typed outputs. Preserve every same/different assertion, changed parent, identity/constant/first-vs-second key mapper, count versus distinct count (Uni), list versus distinct count (higher arities), and sum projection. Quad retains two distinct zero-returning sum functions. Explicit sources and Cartesian self-joins retain base arity. Native scalar IDs represent entity identity, usize counts replace Java integers, and ordered ListSnapshot replaces List. No reflection or automatic lambda interning is claimed."
     }
   ],
   "fixtures": [
@@ -28192,6 +28552,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
       "upstream_test": "toString",
       "modifications": "Native Fact.code represents both getCode and the code-returning toString projection in the unary different-indexer fixture; distinct definitions preserve the two callback identities despite equal results. Helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.setup.shared_aggregation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity source and zero through three Cartesian self-joins reproduce base stream topology. Scalar IDs replace reflected entity identities. Source methods insert no facts and compare node identity only; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.setup.shared_aggregation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity source and zero through three Cartesian self-joins reproduce base stream topology. Scalar IDs replace reflected entity identities. Source methods insert no facts and compare node identity only; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.setup.shared_aggregation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity source and zero through three Cartesian self-joins reproduce base stream topology. Scalar IDs replace reflected entity identities. Source methods insert no facts and compare node identity only; helper attribution adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/shared_aggregation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.setup.shared_aggregation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "setup",
+      "modifications": "Explicit native entity source and zero through three Cartesian self-joins reproduce base stream topology. Scalar IDs replace reflected entity identities. Source methods insert no facts and compare node identity only; helper attribution adds no method credit."
     }
   ]
 }

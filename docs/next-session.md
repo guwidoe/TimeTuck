@@ -10781,3 +10781,43 @@ Dashboard freshness24467 exited0 and matched report verification digest
 Logs:work/shared-relation-cases.log,-regression.log,-pruning.log,-build.log and
 -check.log (shared-relation prefix). All processes terminal. Previous goal turn
 progressed via8526c2a; the full rewrite remains active.
+
+## Shared grouping and collection definitions
+
+SharedGroupKeys/SharedGroup/SharedCollect/SharedGroupList/SharedCollectList reuse
+complete pipelines by definition identity and parent within a builder. Group keys
+may be tuples; collectors may be flat tuples. Lists retain duplicate occurrences
+and input-ID order, with persistent immutable snapshots. Empty input emits no row;
+final retraction removes a group. The existing weak registration helper is reused;
+all five definitions validate foreign parents and retain callbacks without graph
+state. StreamPort.same_node exposes cross-payload graph/node identity.
+
+Twenty-four full Uni/Bi/Tri/Quad grouping-identity methods preserve changed parents,
+different/same key mappers and collector callbacks, distinct collector kinds and
+Quad's two different zero-returning functions. Four setup helpers retain actual
+Cartesian self-join topology. Native IDs replace entities; Java reflection and
+automatic callback interning are not claimed. Provenance/notices record each case.
+Four original regressions cover 600 full-enumeration update/rollback trials across
+all five operators with two consumers each, exact callback counts, tuple collectors,
+empty removal, mapping/terminal panic recovery, definition/parent/builder isolation,
+callback lifetime and retained ordered snapshots. One private unit covers foreign
+parents and weak owner cleanup over 100 builders for all five definitions.
+Focused cases48937 passed24; regressions54732 passed4. Two regression-only compile
+inference errors were corrected before that focused pass.
+No benchmark, release or browser sweep; performance ratios are unchanged.
+Broad build19202 exited0 in5m04s; other local development processes were consuming
+CPU during compilation. First gate85489 exited101 on the new weak-cleanup unit:
+its macro retained each output handle until after checking owner release. The
+runtime ownership was correct. Added explicit drop(first) inside the test macro;
+production code did not change. Other completed targets remain reusable because
+the selective resolver excludes cfg(test) items from their inputs.
+Final gate68476 exited0:2935 Rust tests,147 doctests,fmt/Clippy passed. One Rust
+unit target reran;384 Rust targets and46 Python jobs reused successfully.
+Aggregate exit0 and equal before/after source verified:
+ad4ed19ac49974e8e26a58031ea41fa4f90cc4df6b294d9a8144e80c5acff036.
+Coverage1522/4855(31.349%),pending3051,excluded282,failed/unverified0.
+Dashboard freshness43042 exited0 and matched report verification digest
+541231edbed8b6fe4baac30b4ccc01632ff2532388f70898a6aa9084f7d94a42.
+Logs:work/shared-aggregation-cases.log,-regression.log,-build.log,-check.log and
+-final-check.log (shared-aggregation prefix). All processes terminal. Previous
+turn progressed via37627db; the full goal remains active.

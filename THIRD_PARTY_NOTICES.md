@@ -703,3 +703,9 @@ node-sharing methods and setup helpers from pinned Community
 from `TestdataObject.toString` (Apache-2.0). Exact identities and native substitutions
 are in `compat/provenance.json`. Reusable relation definitions and runtime regression
 cases are independently implemented.
+
+`crates/solver/tests/shared_aggregation_cases.rs` adapts twenty-four grouping
+node-sharing methods and four setup helpers from pinned Community
+`AbstractUni/Bi/Tri/QuadConstraintStreamNodeSharingTest` (Apache-2.0). Exact methods
+and native substitutions are recorded in `compat/provenance.json`. The aggregation
+definitions and runtime regression cases are independently implemented.
