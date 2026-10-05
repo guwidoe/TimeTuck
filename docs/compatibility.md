@@ -2252,3 +2252,14 @@ containsAll semantics (equal field count but no field-order or duplicate-field
 multiplicity comparison); this behavior and its helper attribution are retained.
 Native allocation-retention checks and 600 changing-fact/rollback states supplement
 these source fixtures without earning additional upstream method credit.
+
+Ten precompute/retrieval identity methods complete adaptations for the four
+abstract stream node-sharing classes. Native explicit definitions and source
+handles replace implicit Java factory/callback interning. Six Bavet regression
+methods additionally cover unequal-depth predicate flips, mapped duplicates,
+existence/absence changes and null-key self-joins, with independent graph rebuilds
+at the specified states. Native immutable snapshots replace mutable object aliases;
+Java deferral scheduling is not claimed. An original 1,800-update enumeration check
+covers all six graph shapes through changing facts, removal and rollback.
+Bavet whole-network activity/deactivation tests remain pending: the native engine
+has static zero-weight pruning but no settled dynamic activity tracking.

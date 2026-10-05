@@ -10975,3 +10975,48 @@ Dashboard freshness 65485 exited 0 and matched report verification digest
 Logs:work/precompute-operator-cases.log and work/precompute-operator-check.log.
 All processes terminal. Previous timing-only reply made no implementation change;
 this goal turn advances verified compatibility. Full goal stays active.
+
+## Precompute sharing and unequal-depth relation updates
+
+Ten complete upstream node-sharing methods preserve same/different precomputed
+prefix identity across all four arities and the two unary retrieval-scope checks.
+Native explicit shared definitions replace Java factory/callback interning; a
+fact-only source cache stays separate from its live source. True/false filters and
+Cartesian self-joins retain source topology. Additional runtime assertions insert
+two facts and confirm both consumer scores with one computation per Cartesian
+tuple. All methods in the four abstract node-sharing classes now have adaptations.
+No automatic interning, class discovery or reflection equivalence is claimed.
+
+Six BavetRegression methods preserve indexed/unindexed/mapped predicate flips,
+existence/absence counter changes and self-joins with null keys. Immutable entity
+snapshots replace mutable aliases; constant-key joins cover unindexed candidates,
+and explicit post-join filters retain predicates and downstream value guards.
+Identity-map depths and all fixture score states are preserved. Complete row
+multisets strengthen source match membership checks, including mapped duplicates.
+Every specified predicate flip is compared with a separately built graph and
+replayed current sources. One original regression adds 1,800 edits across six
+shapes, varied groups/assignments, removal and rollback versus direct enumeration.
+This does not claim JVM deferral scheduling or mutable-alias semantics.
+
+Read BavetNodeDeactivationTest from upstream tests only. It asserts whole-network
+activity, including backwards deactivation from empty joins and shared live
+consumers, not merely empty scores. Native graph currently prunes zero-weight
+constraints statically but has no settled activity API or dynamic dead-branch
+tracking. All these lifecycle cases remain pending; do not credit empty datasets
+as activity assertions. The source test also asserts FILTER-node absence because
+Java compiles filters into wrappers; native filters are actual graph nodes.
+
+No production source changed. Initial SharedJoin::equal constructor typo corrected
+to new; initial static graph lifetime in the row-reader callback corrected to a
+higher-ranked borrowed graph. Focused sharing 46703 passed 10; deep update 95680
+passed 7 (including original regression). Final gate 69792 exited 0: 3150 Rust
+tests, 149-doctest evidence reused, fmt/Clippy passed; 2 new Rust targets ran,
+392 reused; 46 Python jobs reused. No benchmark/release/browser sweep.
+Aggregate exit 0 and equal source-before/after verified:
+4ab491a85a0a39655313a44989febd0e99fbd004b9b2b08c082fc420304d2d75.
+Coverage 1722/4855 (35.469%), pending 2851, excluded 282, failed/unverified 0.
+Dashboard freshness 18229 exited 0 and matched report verification digest
+e3df33c4fc4f8b0c96c6ba2656e0bb3f5ab4353a6e1232fa7ae8808ebde04f5b.
+Logs: work/shared-precompute-cases.log, work/deep-join-update-cases.log and
+work/precompute-deep-update-check.log. All processes terminal. Previous goal turn
+progressed via f470c69; full goal remains active.

@@ -25590,6 +25590,246 @@
       "upstream_test": "complement",
       "local_test": "quad_complement",
       "modifications": "Native explicit fact keys cache ID/group/integer-property projections while live assignments control a post-prefix existence gate. Preserve fixture cardinalities, initial empty score and all expected matches after assigning every entity to the sole value. Real Cartesian value joins, grouped count collectors, list collection/flattening, semi/anti joins, bag mapping/concatenation, distinct and complement operators reproduce each specified pipeline. Stable typed IDs replace Java object identity, Option/Null encode absent fields, and freshly allocated Rc integer holders preserve ValueHolder value equality. The upstream match helper is retained: equal field count and expected.containsAll(actual), missing/excess membership checks and total unit penalty; it does not compare field order or duplicate-field multiplicity. Native extra assertions check cache call counts, retained allocation identity, and gate deactivation/reactivation; these earn no additional upstream credit. No reflection or automatic dependency discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "uni_same_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "uni_different_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.sameRetrivalSemanticsForEach",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameRetrivalSemanticsForEach",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "uni_same_retrival_semantics_for_each",
+      "modifications": "Native explicitly declared source ports replace class-based forEachUnfiltered lookup. Repeated retrieval of that source retains node identity; a fact-only SharedPrecompute scope has a distinct node from its live source. Preserve the original same/different identity assertion. No Java class registry, reflection, or automatic type discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractUniConstraintStreamNodeSharingTest.differentRetrivalSemanticsForEach",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentRetrivalSemanticsForEach",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "uni_different_retrival_semantics_for_each",
+      "modifications": "Native explicitly declared source ports replace class-based forEachUnfiltered lookup. Repeated retrieval of that source retains node identity; a fact-only SharedPrecompute scope has a distinct node from its live source. Preserve the original same/different identity assertion. No Java class registry, reflection, or automatic type discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.sameDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "bi_same_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamNodeSharingTest.differentDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "bi_different_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.sameDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "tri_same_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamNodeSharingTest.differentDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "tri_different_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.sameDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "sameDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "quad_same_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamNodeSharingTest.differentDataPrecompute",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamNodeSharingTest.java",
+      "upstream_test": "differentDataPrecompute",
+      "local_path": "crates/solver/tests/shared_precompute_cases.rs",
+      "local_test": "quad_different_data_precompute",
+      "modifications": "Explicit native shared definitions replace automatic Java factory/callback interning. Preserve true versus false filter identities and the all-fact Cartesian self-join topology at each arity. A fact-only retrieval cache is separate from the live source; SharedFilter reuses equal prefix definitions and SharedPrecompute reuses the final cache only for the same filtered parent. Same/different node identity assertions are retained. Additional execution assertions insert two facts, check both consumer penalties, and count exactly one cache computation per Cartesian tuple; these earn no extra method credit. No Java reflection, factory registry or implicit callback interning is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringJoinPredicateFlipBehindDeferringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "filteringJoinPredicateFlipBehindDeferringJoin",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "filtering_join_predicate_flip_behind_deferring_join",
+      "modifications": "Native immutable entity snapshots and stable IDs replace mutable Java objects; explicit assigned filtering and identity map chains preserve the specified unequal-depth inputs. Equality-key joins plus post-join predicates implement indexed cases; constant keys implement unindexed Cartesian candidates. Preserve all initial and changed-variable score/match states, downstream value guard, and comparison to a separately rebuilt graph after each specified flip. Sorted complete row multisets strengthen source justification membership checks and preserve duplicates in the mapped case. No JVM deferral scheduling or mutable-alias behavior is claimed; callbacks inspect immutable payload snapshots. Extra deterministic multi-group edits, unassignment, removal and rollback are original evidence only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringJoinPredicateFlipBehindDeferringJoinUnindexed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "filteringJoinPredicateFlipBehindDeferringJoinUnindexed",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "filtering_join_predicate_flip_behind_deferring_join_unindexed",
+      "modifications": "Native immutable entity snapshots and stable IDs replace mutable Java objects; explicit assigned filtering and identity map chains preserve the specified unequal-depth inputs. Equality-key joins plus post-join predicates implement indexed cases; constant keys implement unindexed Cartesian candidates. Preserve all initial and changed-variable score/match states, downstream value guard, and comparison to a separately rebuilt graph after each specified flip. Sorted complete row multisets strengthen source justification membership checks and preserve duplicates in the mapped case. No JVM deferral scheduling or mutable-alias behavior is claimed; callbacks inspect immutable payload snapshots. Extra deterministic multi-group edits, unassignment, removal and rollback are original evidence only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringJoinPredicateFlipBehindMappedDeferringJoin",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "filteringJoinPredicateFlipBehindMappedDeferringJoin",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "filtering_join_predicate_flip_behind_mapped_deferring_join",
+      "modifications": "Native immutable entity snapshots and stable IDs replace mutable Java objects; explicit assigned filtering and identity map chains preserve the specified unequal-depth inputs. Equality-key joins plus post-join predicates implement indexed cases; constant keys implement unindexed Cartesian candidates. Preserve all initial and changed-variable score/match states, downstream value guard, and comparison to a separately rebuilt graph after each specified flip. Sorted complete row multisets strengthen source justification membership checks and preserve duplicates in the mapped case. No JVM deferral scheduling or mutable-alias behavior is claimed; callbacks inspect immutable payload snapshots. Extra deterministic multi-group edits, unassignment, removal and rollback are original evidence only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfExistsPredicateFlipWhenDeferring",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "filteringIfExistsPredicateFlipWhenDeferring",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "filtering_if_exists_predicate_flip_when_deferring",
+      "modifications": "Native immutable entity snapshots and stable IDs replace mutable Java objects; explicit assigned filtering and identity map chains preserve the specified unequal-depth inputs. Equality-key joins plus post-join predicates implement indexed cases; constant keys implement unindexed Cartesian candidates. Preserve all initial and changed-variable score/match states, downstream value guard, and comparison to a separately rebuilt graph after each specified flip. Sorted complete row multisets strengthen source justification membership checks and preserve duplicates in the mapped case. No JVM deferral scheduling or mutable-alias behavior is claimed; callbacks inspect immutable payload snapshots. Extra deterministic multi-group edits, unassignment, removal and rollback are original evidence only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.filteringIfNotExistsPredicateFlipWhenDeferring",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "filteringIfNotExistsPredicateFlipWhenDeferring",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "filtering_if_not_exists_predicate_flip_when_deferring",
+      "modifications": "Native immutable entity snapshots and stable IDs replace mutable Java objects; explicit assigned filtering and identity map chains preserve the specified unequal-depth inputs. Equality-key joins plus post-join predicates implement indexed cases; constant keys implement unindexed Cartesian candidates. Preserve all initial and changed-variable score/match states, downstream value guard, and comparison to a separately rebuilt graph after each specified flip. Sorted complete row multisets strengthen source justification membership checks and preserve duplicates in the mapped case. No JVM deferral scheduling or mutable-alias behavior is claimed; callbacks inspect immutable payload snapshots. Extra deterministic multi-group edits, unassignment, removal and rollback are original evidence only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.joinWithNullKeyFromRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "joinWithNullKeyFromRight",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "local_test": "join_with_null_key_from_right",
+      "modifications": "Native Option-valued keys and an all-entity self-join preserve initial mixed null/non-null values, sequential switched values, and both-null states. Exact ordered pair multisets preserve all source matches and unit penalties. Typed stable IDs replace Java identity; both put operations are retained even when the second value is unchanged."
     }
   ],
   "fixtures": [
@@ -31598,6 +31838,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
       "upstream_test": "AssertableMatch.isEqualTo",
       "modifications": "Preserve equal field count, expected.containsAll(actual), both missing and excess membership checks and summed unit penalties for one named constraint. Native dataset rows stand in for constraint match justifications. Duplicate-field multiplicity and field positions remain ignored as in source, including the Bi/Tri flatten fixture oddity. Every terminal evaluates the same -1 score. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.assertPredicateFlipBehindDeferringJoin.native_deep_updates",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "assertPredicateFlipBehindDeferringJoin",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.assertIfExistsPredicateFlipWhenDeferring.native_deep_updates",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "assertIfExistsPredicateFlipWhenDeferring",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.buildFlipSolution.native_deep_updates",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "buildFlipSolution",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.assertNotStale.native_deep_updates",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "assertNotStale",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BavetRegressionTest.assertScoreMatchesFromScratch.native_deep_updates",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/bavet/BavetRegressionTest.java",
+      "upstream_test": "assertScoreMatchesFromScratch",
+      "local_path": "crates/solver/tests/deep_join_update_cases.rs",
+      "modifications": "Two entities share one group and initially hold the first of two values. Native graph changes replace Java variable callbacks. Preserve index/predicate modes, two/three identity-map depth, duplicate mapped results, snapshot-value guard, and all score states. Separate graph construction/source replay strengthens the score-only rebuild comparison with complete row multisets. Unused value-group objects, strings and Java lifecycle metadata are omitted. Immutable native snapshots replace mutable aliases. Helper adds no method credit."
     }
   ]
 }
