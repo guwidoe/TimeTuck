@@ -1712,4 +1712,11 @@ PickGreatestValueMoveProviderTest and SwapNearbyValuesMoveProviderTest assertion
 are fully adapted with native slot/value identities and explicit range preservation.
 Original checks cover snapshot progression, infinite iterators/budgets/prefetch,
 prestart cancellation, early validation and invalid proposals across all six paths.
-These entry points do not yet attach providers to SolverSequence phase plans.
+Provider bindings now also attach to local-search phases in complete SolverSequence
+and MixedSolverSequence plans. SolverExtensions combines those bindings with custom
+commands and progress/initialization events across all six scoring paths. Bindings
+use full-plan indices; missing or non-local targets fail before callbacks or scoring.
+Unbound phases retain built-in validation and neighborhoods. Shared limits, retained
+best handoffs and cancellation use the existing plan controls. Six original full-plan
+regressions cover composition and stopping behavior; no additional upstream-method
+credit is claimed for this integration.

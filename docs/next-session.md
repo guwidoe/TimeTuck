@@ -9446,8 +9446,8 @@ model/scoring errors. Source/model validation runs before a zero-budget early ex
 Two upstream custom-provider methods and TestdataSolution.generateSolution helper
 are attributed. Four original tests cover all six paths, stateful snapshots,
 infinite iterators, limits/prefetch/cancellation, prevalidation and invalid moves.
-Remaining integration: typed providers are currently available through standalone
-local-search entry points, not SolverSequence phase plans. Full rewrite goal active.
+The subsequent integration below adds typed providers to SolverSequence phase plans.
+Full rewrite goal active.
 Final check.sh passed:2176 Rust tests,119 doctests,fmt/Clippy;255 Python checks
 reused.227 affected Rust targets ran and80 reused matching successful evidence.
 Rust source digest:94287a578742a57a41070d41f326fc25da7d375a7c7d7ce6ab0c76a03ecdb445.
@@ -9455,3 +9455,28 @@ Coverage1016/4855(20.927%),pending3557,excluded282,failed/unverified0.
 Live dashboard freshness matches the report; benchmark datasets remain stale.
 No benchmark or release-mode rerun. Logs:work/move-provider-check.log,
 work/move-provider-test-build.log,work/move-provider-lint-final.log.
+
+## Move providers in complete solver plans
+
+SolverExtensions combines PhaseMoveProviders bindings, custom commands and events
+for all six solve*_with_extensions entry points. MixedSolverExtensions is a public
+convenience alias. Bindings address zero-based full-plan local-phase indices;
+missing/non-local targets fail before graph factories, scoring or callbacks. Only
+bound phases skip built-in neighborhood validation. Provider searches reuse plan
+monitors and clipped limits, retained-best handoffs, initialization and best events.
+The generic MoveProvider trait is now separate from typed provider_search entry
+points so dependency fingerprints need not pull every scoring backend via the trait.
+Six original integration tests exercise construction, multiple bound local phases,
+a worsening custom command, built-in search, event/no-event paths, shared move and
+composed step limits, event cancellation and early binding/neighborhood validation.
+A move-budget boundary may instantiate one extra provider iterator for an unscored
+probe, matching the existing candidate engine. No upstream method credit added.
+Full rewrite goal remains active.
+Final check.sh passed:2182 Rust tests,120 doctests,fmt/Clippy;46 Python jobs reused.
+228 affected Rust targets ran and80 reused matching successful evidence.
+Rust source digest:02447be125f83fdc5b6a427b6fc11dd38d1fa34915e6b332ce74ad620f6b29eb.
+Coverage1016/4855(20.927%),pending3557,excluded282,failed/unverified0.
+Live dashboard freshness matches the report. Benchmark datasets remain stale;
+no benchmark, release-mode or browser rerun. Logs:work/provider-plans-check.log,
+work/provider-plans-test-build.log,work/provider-plans-lint-final.log,
+work/provider-plans-focused-final.log. Broad test compilation took5m56s.

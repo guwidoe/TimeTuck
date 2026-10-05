@@ -1,0 +1,104 @@
+//! Typed callbacks and move-provider bindings for complete solver plans.
+use crate::{CustomPhaseContext, CustomPhaseError, MoveProvider, SolverError, SolverEvent};
+use std::collections::BTreeMap;
+
+/// Mutable providers keyed by zero-based index in the full solver phase plan.
+/// Only local-search phases can be bound. Other local phases retain their normal
+/// neighborhoods. Provider state is retained across steps and repeated solves;
+/// step indices restart at zero in each entered local phase.
+pub struct PhaseMoveProviders<'a, P, A, M> {
+    bindings: BTreeMap<usize, &'a mut dyn MoveProvider<P, A, M>>,
+}
+impl<P, A, M> Default for PhaseMoveProviders<'_, P, A, M> {
+    fn default() -> Self {
+        Self {
+            bindings: BTreeMap::new(),
+        }
+    }
+}
+impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
+    /// Bind or replace a provider. Invalid phase indices are rejected at solve
+    /// entry, before graph factories, scoring, commands or events are invoked.
+    pub fn bind(
+        &mut self,
+        phase: usize,
+        provider: &'a mut dyn MoveProvider<P, A, M>,
+    ) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
+        self.bindings.insert(phase, provider)
+    }
+    pub fn remove(&mut self, phase: usize) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
+        self.bindings.remove(&phase)
+    }
+    pub fn contains(&self, phase: usize) -> bool {
+        self.bindings.contains_key(&phase)
+    }
+    pub(crate) fn get(&mut self, phase: usize) -> Option<&mut (dyn MoveProvider<P, A, M> + 'a)> {
+        self.bindings.get_mut(&phase).map(|p| &mut **p)
+    }
+    pub(crate) fn validate<E>(
+        &self,
+        phases: impl Iterator<Item = bool>,
+    ) -> Result<(), SolverError<E>> {
+        let local: Vec<_> = phases.collect();
+        for &phase in self.bindings.keys() {
+            if local.get(phase) != Some(&true) {
+                return Err(SolverError::InvalidMoveProviderPhase { phase });
+            }
+        }
+        Ok(())
+    }
+}
+/// Command callback for an entered custom phase.
+pub type SolverCommandCallback<'a, A, M, S, E> = dyn FnMut(usize, &mut CustomPhaseContext<'_, A, M, S, E>) -> Result<(), CustomPhaseError<E>>
+    + 'a;
+/// Progress and initialization events use the same semantics as solve_with_events.
+pub type SolverEventCallback<'a, A, S> = dyn FnMut(SolverEvent<'_, A, S>) + 'a;
+
+/// Combine per-phase move providers, custom commands and progress events.
+/// Pass to one of the six `solve*_with_extensions` entry points. Existing plan
+/// validation, retained-best handoffs, shared budgets and cancellation still apply.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![0_i32,1,2]).with_initial(0)])?;
+/// let mut n = ConstraintNetwork::new(1);
+/// n.add_constraint("value", vec![0], |v| SimpleScore::new(i64::from(*v[0].unwrap())))?;
+/// let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64|
+///     vec![Move::Change {variable: 0, value: Some(2)}];
+/// let mut extensions = SolverExtensions::default();
+/// // The default plan constructs in phase 0, then searches in phase 1.
+/// extensions.move_providers.bind(1, &mut provider);
+/// let result = solve_with_extensions(&p, &n, SolverConfig::default(), extensions)?;
+/// assert_eq!(result.score, Some(SimpleScore::new(2)));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub struct SolverExtensions<'a, P, A, M, S, E> {
+    pub move_providers: PhaseMoveProviders<'a, P, A, M>,
+    pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
+    pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
+}
+impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
+    fn default() -> Self {
+        Self {
+            move_providers: PhaseMoveProviders::default(),
+            command: None,
+            events: None,
+        }
+    }
+}
+
+/// Solver extensions for a model with both basic and list variables.
+pub type MixedSolverExtensions<'a, B, L, S, E> = SolverExtensions<
+    'a,
+    crate::MixedProblem<B, L>,
+    crate::MixedAssignment<B, L>,
+    crate::MixedMove<B, L>,
+    S,
+    E,
+>;
+pub(crate) type MixedPhaseProviders<'a, B, L> = PhaseMoveProviders<
+    'a,
+    crate::MixedProblem<B, L>,
+    crate::MixedAssignment<B, L>,
+    crate::MixedMove<B, L>,
+>;

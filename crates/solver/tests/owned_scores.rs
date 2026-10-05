@@ -61,6 +61,9 @@ fn run<S: AdditiveScore + 'static>(
                 }
                 Err(SolverError::Repair { .. }) => panic!("fixture has no repair phases"),
                 Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
+                Err(SolverError::InvalidMoveProviderPhase { .. }) => {
+                    panic!("fixture has no provider bindings")
+                }
                 Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
                 Err(SolverError::InvalidOptimisticBound { .. }) => {
                     panic!("fixture has no bounded phases")

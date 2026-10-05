@@ -27,9 +27,15 @@ pub struct SolutionUpdate<'a, A, S> {
     pub score: S,
     pub complete: bool,
 }
-struct Observed<D, F> {
+pub(crate) struct Observed<D, F> {
     director: D,
     observer: F,
+}
+
+impl<D, F> Observed<D, F> {
+    pub(crate) fn new(director: D, observer: F) -> Self {
+        Self { director, observer }
+    }
 }
 
 impl<V: Eq + Clone, S: AdditiveScore, D: crate::search_scoring::SearchDirector<V, S>, F>

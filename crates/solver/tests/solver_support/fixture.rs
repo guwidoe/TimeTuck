@@ -192,6 +192,7 @@ fn run_scored_events_initial<'a>(
                 }
                 Err(SolverError::Repair { phase, .. }) => Err(Failure::Repair(phase)),
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
+                Err(SolverError::InvalidMoveProviderPhase { .. }) => panic!("fixture has no provider bindings"),
                 Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
                 Err(SolverError::InvalidOptimisticBound { phase, .. }) => {
                     Err(Failure::Bound(phase))
