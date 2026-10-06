@@ -73,6 +73,23 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
     pub fn lists(&self) -> &ListProblem<L> {
         &self.lists
     }
+    /// Start a new solve from a validated joint assignment without losing domains,
+    /// ranges, optionality or pins. Neither original component is modified on error.
+    pub fn with_initial_assignment(
+        &self,
+        assignment: &MixedAssignment<B, L>,
+    ) -> Result<Self, MixedError> {
+        self.validate(assignment)?;
+        Ok(Self::new(
+            self.basic
+                .with_initial_assignment(assignment.basic())
+                .map_err(MixedError::Basic)?,
+            self.lists
+                .with_initial_assignment(assignment.lists())
+                .map_err(MixedError::Lists)?,
+        ))
+    }
+
     pub fn initial_assignment(&self) -> MixedAssignment<B, L> {
         MixedAssignment::new(
             self.basic.initial_assignment(),

@@ -54,7 +54,6 @@ pub enum ModelError {
     NullCrossingRequired { variable: usize },
     DuplicateValue { variable: usize },
     ValueOutsideDomain { variable: usize },
-    PinnedUnassigned { variable: usize },
     PinnedValueChanged { variable: usize },
     AssignmentLength { expected: usize, actual: usize },
     Move(MoveError),
@@ -73,9 +72,6 @@ impl fmt::Display for ModelError {
             }
             Self::ValueOutsideDomain { variable } => {
                 write!(f, "variable {variable} has a value outside its domain")
-            }
-            Self::PinnedUnassigned { variable } => {
-                write!(f, "required variable {variable} is pinned without a value")
             }
             Self::PinnedValueChanged { variable } => write!(
                 f,
@@ -106,7 +102,7 @@ impl From<MoveError> for ModelError {
 ///
 /// A variable may have an empty domain; if it is required, there are no complete
 /// assignments. An unpinned required variable may initially be unassigned. Pinning
-/// an unassigned required variable is instead a model error.
+/// an unassigned required variable preserves a valid but permanently incomplete state.
 #[derive(Clone, Debug)]
 pub struct FiniteProblem<V> {
     variables: Vec<Variable<V>>,
@@ -126,9 +122,6 @@ impl<V: Eq> FiniteProblem<V> {
                 .is_some_and(|value| !variable.domain.contains(value))
             {
                 return Err(ModelError::ValueOutsideDomain { variable: index });
-            }
-            if variable.pinned && variable.initial.is_none() && !variable.allows_unassigned {
-                return Err(ModelError::PinnedUnassigned { variable: index });
             }
         }
         Ok(Self {
@@ -189,14 +182,25 @@ impl<V: Eq> FiniteProblem<V> {
                 .all(|(variable, value)| value.is_some() || variable.allows_unassigned)
     }
 
+    // Construction still fills movable variables when a required null pin makes
+    // completeness impossible; an empty movable required range cannot be filled.
+    pub(crate) fn has_empty_movable_required_domain(&self) -> bool {
+        self.variables
+            .iter()
+            .any(|v| !v.pinned && !v.allows_unassigned && v.domain.is_empty())
+    }
+
     /// The number of complete assignments, or `None` on `u128` overflow.
     pub fn search_space_size(&self) -> Option<u128> {
         // A zero factor takes precedence over overflow in another dimension.
-        if self
-            .variables
-            .iter()
-            .any(|v| !v.pinned && v.domain.is_empty() && !v.allows_unassigned)
-        {
+        if self.variables.iter().any(|v| {
+            !v.allows_unassigned
+                && if v.pinned {
+                    v.initial.is_none()
+                } else {
+                    v.domain.is_empty()
+                }
+        }) {
             return Some(0);
         }
         self.variables.iter().try_fold(1_u128, |size, v| {
@@ -210,6 +214,19 @@ impl<V: Eq> FiniteProblem<V> {
     }
 }
 impl<V: Eq + Clone> FiniteProblem<V> {
+    /// Return an independent model starting from a validated partial or complete
+    /// assignment. Preserve domains, optionality, pins and pillar metadata. This
+    /// resumes a solution in a new solve; search history and budgets start afresh.
+    /// Pin validation uses this model's original baseline, before replacing it.
+    pub fn with_initial_assignment(&self, assignment: &Assignment<V>) -> Result<Self, ModelError> {
+        self.validate(assignment)?;
+        let mut model = self.clone();
+        for (variable, value) in model.variables.iter_mut().zip(assignment.values()) {
+            variable.initial = value.clone();
+        }
+        Ok(model)
+    }
+
     pub fn initial_assignment(&self) -> Assignment<V> {
         Assignment::new(self.variables.iter().map(|v| v.initial.clone()).collect())
     }

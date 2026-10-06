@@ -297,7 +297,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
         constraint_evaluations: 0,
         termination: ConstructionTermination::EvaluationLimit,
     };
-    if problem.search_space_size() == Some(0) {
+    if problem.has_empty_movable_required_domain() {
         result.termination = ConstructionTermination::NoCompleteAssignment;
         return Ok(result);
     }

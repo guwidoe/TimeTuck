@@ -73,7 +73,6 @@ fn malformed_extended_metadata_cannot_silently_change_the_problem() {
         );
     }
     assert!(Case::parse("bad\t2\t1\t0\t\t1,2\t0\t1\t0", false).is_err());
-    assert!(Case::parse("bad\t2\t-\t1\t\t1,2\t0\t0\t0", false).is_err());
 }
 
 #[test]
@@ -89,4 +88,21 @@ fn legacy_six_field_cases_keep_required_homogeneous_ranges() {
     let result = exhaustive_search(&case.problem, |state| case.score(state), 2);
     assert!(result.is_optimal());
     assert_eq!(result.best.unwrap().score, HardSoftScore::new(0, 7));
+}
+
+#[test]
+fn required_unassigned_pin_is_valid_partial_input_with_no_complete_result() {
+    let case = Case::parse("partial\t2\t-\t1\t\t1,2\t0\t0\t0", false).unwrap();
+    assert!(case.problem.variables()[0].is_pinned());
+    assert!(!case.problem.variables()[0].allows_unassigned());
+    assert!(!case.problem.is_complete(&case.problem.initial_assignment()));
+    assert_eq!(case.problem.search_space_size(), Some(0));
+    let result = exhaustive_search(
+        &case.problem,
+        |_| -> HardSoftScore { panic!("no complete assignment may reach scoring") },
+        10,
+    );
+    assert!(result.best.is_none());
+    assert_eq!(result.evaluations, 0);
+    assert!(!result.is_optimal());
 }

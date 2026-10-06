@@ -11311,3 +11311,67 @@ all2+2values, expecting optional basic null, required second basic assigned, lis
 empty. PinnedAndUnassigned1542 onward has two scenarios; read remainder after1586
 and all corresponding test score calculators/fixtures. Do not infer solver quality
 or replace source constraints with easy stand-ins. Deterministic seeds/limits needed.
+
+
+## Resuming solutions and required unassigned pins
+
+Added with_initial_assignment to finite/list/mixed models. It validates against
+original domains/pins before returning an independent model with the new initial
+assignment. All metadata survives (including entity ranges and pillar schema).
+Search history, random generators and budgets restart; only solution state resumes.
+Required null pins are now legal partial states. Removed obsolete PinnedUnassigned
+error/constructor rejection; revised the original boundary assertion accordingly.
+search_space_size returns zero, including before overflow elsewhere. Construction
+fills other movable variables, keeping structural penalties and incomplete status;
+empty movable required domains still stop before scoring. Exact search cannot
+report a complete or optimal result for a required null pin.
+
+Five DefaultSolverTest methods adapted in solver_resume_cases.rs: repeated basic
+(5variables/2values/max2construction steps) and list (24values/8owners/max7steps)
+solves, pinned mixed, optional mixed, and both pinned-and-optional mixed scenarios.
+Actual test calculator formulas and best-event helper assertions retained. Mixed
+optional construction uses NonWorsening; local search uses deterministic original
+move order and max16steps. This is native behavioral coverage, not reflection,
+shadow lifecycle, default-phase or identical stochastic-trace parity. Three original
+regressions cover metadata preservation, rejected pins/ranges/duplicates, required
+null pin construction in scoped/stream backends, exact-search rejection, optional
+null pins and empty movable domains. No production Timefold source inspected.
+
+Environment changed to Windows during the focused build. Continue via
+wsl.exe -d Ralph -u ralph, repo /home/ralph/ralph-repos/TimeTuck; the displayed
+C:/home/... path does not exist. Prior linker failed with I/O error during the
+transition and cargo/rustc were no longer live. Retried focused suite successfully:
+8 boundary +5 adapted +3 original tests passed. rg is unavailable in this resumed
+WSL environment; use grep/find fallback. Dashboard server restored at localhost8765
+(Python PID25340), same existing static UI, no rendering changes.
+Clippy session35053 passed (11.12s). Broad no-run build5038 passed (1m57s).
+Final gate85083 is recorded below after completion; do not restart a live handle.
+
+Gate85083 completed with three obsolete-contract failures: two independent move
+enumerations passed every successor comparison but their old total counts excluded
+required null pins; the protocol test expected constructor rejection. Both enumeration
+loops now require every model to construct and assert independently derived counts
+13608/25704; all existing successor/rollback comparisons remain. The protocol now
+explicitly checks accepted partial input has no complete/exhaustive result. No engine
+change was needed after the focused pass. An earlier commentary prematurely said all
+Rust checks passed; corrected immediately after inspecting the terminal aggregate.
+Final gate56742 exited0. Only the three changed Rust targets reran;403 successful
+Rust targets reused.46 Python jobs and doctests ran. Aggregate3332 Rust tests and
+152 doctests passed; source-before/after equal:
+ec180c8a6059f9f6f47debcb256d9fa7e064accbe7c3bc37a4a8f06f5a3179dd.
+Dashboard1880/4855 (38.723%),2693 pending,282 excluded,0 failed/unverified.
+Live freshness matched report digest:
+fc9ab07cbbabe5ea733ef4f2baeffd5d3486c0a4b482cb8b868aa4a02422af09.
+Logs: work/solver-resume-focused.log, work/solver-resume-clippy.log,
+work/solver-resume-build.log, work/solver-resume-check.log (initial failures),
+work/solver-resume-final-check.log (successful). All verification processes terminal.
+No benchmark refresh/release rerun/UI rendering change. Whole goal remains active.
+
+Next: remaining end-to-end mixed solve cases. DefaultSolverTest.solveMixedModel
+requires real shadow integration, not just assignment/score assertions: its helper
+1290-1332 checks list cascade=index+1, basic-entity declarative=strength,
+inverse basic-value declarative=entityCount+2, list declarative=index+2. Read actual
+TestdataMixedEntity/Value/OtherValue fixtures before implementing. Default-provider
+mixed case240-265 uses TestingMixedEasyScoreCalculator, reverse basic assignment and
+two values initially on owner0, target ordinary score0; calculator still unread.
+Do not credit either method using only the easier pinned/optional fixtures above.

@@ -25,9 +25,7 @@ fn finite_group_successors_match_bitmask_reference_for_ranges_pins_nulls_and_siz
                     }
                     vars.push(v.with_pinned(pins & (1 << i) != 0));
                 }
-                let Ok(p) = FiniteProblem::new(vars) else {
-                    continue;
-                };
+                let p = FiniteProblem::new(vars).unwrap();
                 let a = p.initial_assignment();
                 for policy in [None, Some(false), Some(true)] {
                     for (min, max, all) in [
@@ -116,7 +114,9 @@ fn finite_group_successors_match_bitmask_reference_for_ranges_pins_nulls_and_siz
             }
         }
     }
-    assert_eq!(comparisons, 20146);
+    // All pin/null combinations are valid partial models now. Optional-only
+    // unassignment/null-crossing policies add one extra branch per pin pattern.
+    assert_eq!(comparisons, 27 * 8 * 8 * 2 * 7 + 27 * 8 * 7);
 }
 #[derive(Debug)]
 struct Counted(usize, Rc<Cell<usize>>);

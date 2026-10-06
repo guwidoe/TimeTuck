@@ -2338,3 +2338,13 @@ fact while indictments count it once per match. Native on-demand explanation
 callbacks replace Java build-time justification registration and policy retrieval;
 multiple-registration error behavior and general Java lifecycle equivalence remain
 outside this adaptation. No production implementation was copied or translated.
+
+Five DefaultSolverTest methods now exercise actual repeated and mixed solver runs.
+Basic/list construction resumes over multiple bounded solves while retaining earlier
+assignments. Mixed cases preserve whole-entity pins, pinned list prefixes, optional
+first basics/lists and required second basics, using the exact upstream test scoring
+formulas. Required unassigned pins remain valid partial states with structural
+penalties; other movable variables can initialize. Default Java phases map to
+explicit native deterministic construction/local search; no identical stochastic
+trace or general reflective shadow lifecycle is claimed. Model resumption retains
+metadata and checks original pins before accepting a new initial assignment.

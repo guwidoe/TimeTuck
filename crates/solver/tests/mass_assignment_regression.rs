@@ -25,9 +25,7 @@ fn assignment_and_unassignment_match_independent_bitmask_successors() {
                     }
                     vars.push(v.with_pinned(pins & (1 << i) != 0));
                 }
-                let Ok(p) = FiniteProblem::new(vars) else {
-                    continue;
-                };
+                let p = FiniteProblem::new(vars).unwrap();
                 let a = p.initial_assignment();
                 for unassign in [false, true] {
                     for (min, max, all) in [
@@ -112,7 +110,9 @@ fn assignment_and_unassignment_match_independent_bitmask_successors() {
             }
         }
     }
-    assert_eq!(comparisons, 10829);
+    // All pin/null combinations are valid partial models now. Optional-only
+    // unassignment/null-crossing policies add one extra branch per pin pattern.
+    assert_eq!(comparisons, 27 * 8 * 8 * 7 + 27 * 8 * 7);
 }
 #[test]
 fn sampled_unassignment_is_bounded_reproducible_and_matches_finite_candidate_sets() {

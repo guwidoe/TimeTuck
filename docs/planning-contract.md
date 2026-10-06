@@ -12,9 +12,12 @@ Custom shadows remain pending.
 
 `FiniteProblem<V>` contains ordered domains of distinct values. Use small stable
 IDs for values; equality defines identity. Initial values must belong to their
-domains. Pins preserve initial values; a required variable cannot be pinned without
-a value. An optional variable includes `None` as a legitimate complete choice.
-An empty required domain means the complete search space is empty.
+domains. Pins preserve initial values, including unassignment. A required variable
+pinned to `None` is a valid partial state but makes the complete search space empty;
+construction still initializes other movable variables. Its structural penalty is
+retained, and it cannot become a complete or optimal solution. An optional variable
+includes `None` as a legitimate complete choice. An empty movable required domain
+still stops construction before scoring.
 
 `Assignment<V>` stores one optional value per variable. Partial assignments are
 valid planning states; `is_complete` additionally requires each required variable
@@ -288,3 +291,11 @@ The comparator priorities and pruning contract use the pinned public documentati
 `docs/src/modules/ROOT/pages/optimization-algorithms/exhaustive-search.adoc` as a
 specification, together with the attributed test fixtures. No Timefold production
 implementation was inspected or translated for this implementation.
+
+`with_initial_assignment` on finite, list and mixed models starts a new solve from
+a validated partial or complete assignment. It preserves domains, entity ranges,
+optionality, full pins, list prefixes and pillar metadata. Pin checks use the
+original baseline before any new initial state is installed. It returns an
+independent model and leaves the original unchanged, including on failure. New
+solves reset search history, random generators and budgets; this is solution-state
+resumption, not a checkpoint of an executing search.

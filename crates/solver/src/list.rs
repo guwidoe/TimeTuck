@@ -218,6 +218,21 @@ impl<V: Eq + Clone> ListProblem<V> {
     pub fn allows_unassigned(&self) -> bool {
         self.allows_unassigned
     }
+    /// Return a model starting from these validated lists, preserving registry,
+    /// entity ranges, optionality and all pins. Partial assignments are allowed.
+    /// Original pin baselines are checked before installing any new initial rows.
+    pub fn with_initial_assignment(
+        &self,
+        assignment: &ListAssignment<V>,
+    ) -> Result<Self, ListError> {
+        self.validate(assignment)?;
+        let mut model = self.clone();
+        for (entity, list) in model.entities.iter_mut().zip(assignment.lists()) {
+            entity.initial = list.clone();
+        }
+        Ok(model)
+    }
+
     pub fn initial_assignment(&self) -> ListAssignment<V> {
         ListAssignment::new(self.entities.iter().map(|e| e.initial.clone()).collect())
     }

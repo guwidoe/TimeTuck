@@ -123,10 +123,6 @@ fn invalid_domain_metadata_is_rejected() {
         FiniteProblem::new(vec![Variable::new(vec![1]).with_initial(2)]),
         Err(ModelError::ValueOutsideDomain { variable: 0 })
     ));
-    assert!(matches!(
-        FiniteProblem::new(vec![Variable::new(vec![1]).with_pinned(true)]),
-        Err(ModelError::PinnedUnassigned { variable: 0 })
-    ));
 }
 
 #[test]
