@@ -28470,6 +28470,36 @@
       "upstream_test": "solveMultiEntityMoveConfig",
       "local_test": "solve_multi_entity_move_config",
       "modifications": "Preserve2lead/2herd entities,2value facts and2lead-reference facts using enum namespaces. All5configurations: change, swap, lead-only pillar change, lead-only pillar swap, four-child union. Source lead-then-herd construction maps to native sequential slots in that order, combined into one phase. Preserve best-score-limit0: construction meets it, search is not entered; the source method therefore does not independently prove search-family execution. All source configurations execute real native solver plans with actual nonempty retained-best events and exact dummy ordinary-zero objective. Preserve uninitialized source fixtures, no-throw/nonnull result assertions and per-search40candidate limit; native plans additionally assert completeness, model validity and final score0. Bounded40attempt search, seed20261007, uniform within-family sampling and weighted union replace Java proposal distributions/PRNG. Pillar subsets use native combinations, aligned rows preserve selected entity columns. No Java factory, annotation-discovery or environment-mode parity claim; assert_scores enables native score diagnostics. Tiny fixtures can leave configured families empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "DefaultSolverTest.solveWithMultipleSorterManners",
+      "status": "implemented",
+      "upstream_test": "solveWithMultipleSorterManners",
+      "local_test": "solve_with_multiple_sorter_manners",
+      "modifications": "Preserve5entity/5value uninitialized fixture, exact sequential Collections.shuffle(Random(0)) encounter orders entities[4,2,1,3,0]/values[3,4,2,1,0] obtained through public JDK APIs, actual ascending and descending comparator-sorted change families in one weighted union, local candidate limit10, nonnull result and real nonempty retained-best events. Native stable explicit target permutations retain integer strength order; assert both candidate prefixes independently. Exact HardSoft objective: hard=-(assigned-distinct), soft=-distinct. Two native construction phases replace queued-entity/queued-value placers; second is an asserted no-op after initialization. Native seeded union17 and bounded local search16steps replace Java PRNG/default strategy, without identical trace/distribution claims. Explicit indices/strengths replace object codes and reflective comparator discovery; final objective/domain assertions strengthen source result check."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "DefaultSolverTest.solveMixedModelWithSortManner",
+      "status": "implemented",
+      "upstream_test": "solveMixedModelWithSortManner",
+      "local_test": "solve_mixed_model_with_sort_manner",
+      "modifications": "Preserve all10generator combinations: DESCENDING/DESCENDING_IF_AVAILABLE entities crossed with NONE/ASCENDING/ASCENDING_IF_AVAILABLE/DESCENDING/DESCENDING_IF_AVAILABLE values. All5value enum constants confirmed from pinned Community JAR public signatures using javap -public (no implementation/bytecode inspection). Both fixture comparators exist, so IF_AVAILABLE variants actually sort. Preserve2entities/2listvalues/2basicvalues, difficulty=entity index, strength=2-value index, descending entity traversal of first-basic slots[2,0], exact required basic/list initialization and score formula (assigned basics+1, singleton lists+2 else+1). Assert full preconstruction candidate order for every variant, actual provider invocation, nonempty best events and all final source assignment/list assertions. Native one-phase basic-then-list construction replaces two Java placers; native HillClimbing with16steps and explicit providers replaces selector factories/default Java strategy, without trace/lifecycle parity claims. Strength integers encode basic value identity bijectively; separate usize list namespace."
     }
   ],
   "fixtures": [
@@ -35869,6 +35899,188 @@
       "id": "DefaultSolverTest.selector_solver_generators",
       "upstream_test": "generateMovesForSingleVar; generateMovesForListVar; generateMovesForMultiVar; generateMovesForMultiEntity",
       "modifications": "Preserve all6/6/5/5configuration alternatives, change versus swap-only pillars, primary/lead variable restrictions, aligned multivariable swaps and distinct union children. No extra repair family added to multiVar or multiEntity unions. Native sampling/order/phase substitutions disclosed on each case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/TestdataComparatorSortableSolution.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestdataComparatorSortableSolution.sorted_solver",
+      "upstream_test": "generateSolution",
+      "modifications": "Retain5entity/5value cardinalities, null basics, generated difficulty/strength0..4 and exact shuffled encounter orders. Native slot order represents shuffled entity identities; generated code strings unused by objective/assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/TestdataComparatorSortableEntity.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestdataComparatorSortableEntity.sorted_solver",
+      "upstream_test": "constructor; value; getComparatorValue",
+      "modifications": "Native required variable and explicit entity difficulty replace Java annotations/discovery; shared value domain remains in shuffled encounter order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataSortableValue.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestdataSortableValue.sorted_solver",
+      "upstream_test": "constructor; getComparatorValue",
+      "modifications": "Integer strength0..4 bijectively represents the five source value identities and comparator keys."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObjectComparator.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestSortableObjectComparator.sorted_solver",
+      "upstream_test": "compare",
+      "modifications": "Use integer comparator key ordering for ascending/descending target permutations; stable source encounter order retained for equal keys."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/OneValuePerEntityComparatorEasyScoreCalculator.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "OneValuePerEntityComparatorEasyScoreCalculator.sorted_solver",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact HardSoft penalty for repeated assigned values and distinct assigned values; independent final fold."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntityComparator.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestdataMixedEntityComparator.sorted_solver",
+      "upstream_test": "compare",
+      "modifications": "Explicit descending first-basic slot order follows source integer entity difficulty, for both descending modes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValueComparator.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "TestdataMixedOtherValueComparator.sorted_solver",
+      "upstream_test": "compare",
+      "modifications": "Sort actual source basic strengths2-i ascending/descending; NONE preserves encounter order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedSolution.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve2entity rows/2listvalues/2basicvalues, initial null basics/empty lists, entity difficulties0/1 and basic strengths2/1. Native first-basic index order sorts source entity difficulties."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEntity.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "basicValue; secondBasicValue; valueList",
+      "modifications": "Preserve two required basics and one required list per row; first basic comparator and entity difficulty comparator are explicitly configured. Only first basics enter sorted search; second basics and lists retain construction. No reflective shadow lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedValue.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedValue.java",
+      "upstream_test": "constructor",
+      "modifications": "Native integer identities retain the two list facts. Source shadow annotations are outside these selected method assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedOtherValue.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValue.java",
+      "upstream_test": "constructor; getStrength",
+      "modifications": "Basic strength2-i bijectively encodes source fact identities and actual comparator keys; inverse/shadow output is not asserted by selected source method."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEasyScoreCalculator.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact per-basic assigned+1 and per-list singleton+2/otherwise+1 formula; independent final sum."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.sorted_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve actual nonempty retained-best event assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/sorted_solver_cases.rs",
+      "id": "DefaultSolverTest.getSortMannerList.sorted_solver",
+      "upstream_test": "getSortMannerList",
+      "modifications": "Preserve both descending entity modes crossed with all5public value sorter constants. Enum names obtained from pinned Community JAR public signatures, not production implementation; native permutations implement the supplied test comparators and NONE keeps encounter order."
     }
   ]
 }

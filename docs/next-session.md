@@ -11719,3 +11719,67 @@ Verification digest 4c3fd8781956c2d43b6b2a288e04af5110728ec67ba9f48efe16d78a0dd8
 Live /api/freshness matched. All processes terminal; no benchmark/release/browser reruns.
 Goal remains active. Logs work/basic-families-final-check{,2}.log.
 Final selective accounting:361Rust jobs ran,56reused;46Python jobs reused.
+
+
+## Per-family value ordering and sorted solver adaptations
+
+Previous goal turn was progress (e3c0865). BasicValueOrder now owns a complete
+per-variable domain-index/optional-None permutation, with sorted_by over borrowed
+actual values (stable ties, no Clone required). BasicNeighborhood.value_orders and
+MixedNeighborhood.basic_value_orders are borrowed slices. Validate duplicates,
+unknown slots/indices, exact cardinality and required-null before callbacks.
+Only Change/ChangeAndSwap/Assign/Unassign/Pillar/SubPillar/PillarChange/PillarUnassign
+support nonempty orders; other families explicitly reject. Ordered generators now
+share lazy target lookup while preserving default ordering and swap orientations.
+Flat and schema pillars use the first selected row/column's target order. Static
+orders need rebuilding for changed domains/sort keys; no automatic metadata cache.
+
+Original value_ordering.rs4tests:288 optional-target/family/schema configurations,
+non-Clone stable sorting, pins/domain intersection, malformed configs before score/
+graph callbacks, disabled families, union occurrence/order distinctions, and full
+basic scoped/stream plans with one move budget selecting1ascending versus3descending.
+Also compare actual mixed configured union targets against the basic union.
+
+sorted_solver_cases.rs adapts2DefaultSolver methods. solveMixedModelWithSortManner
+runs all10combinations (2descending entity modes x5value modes). Public enum constants
+confirmed via javap -public on work/oracle/timefold-solver-core-2.7.0.jar; no bytecode
+or production implementation read. Actual test comparators/fixtures read. Required
+basic strengths[2,1], entity difficulties[0,1], selected slots[2,0], first basic only;
+compare full initial candidate order and preserve all final assignment/list asserts.
+Native basic-then-list combined construction and HillClimbing16steps replace Java
+default factory behavior. solveWithMultipleSorterManners preserves source5x5 shuffled
+encounter orders (entities[4,2,1,3,0], values[3,4,2,1,0]) from public Collections.shuffle
+Random(0), work/SortedFixtureProbe.java. HardSoftscore=(-(assigned-distinct),-distinct).
+Two native construction phases (second assertedno-op), ascending/descending change
+union via provider, seed17, local10candidate cap, real bestevents and provider calls.
+Explicit assertions distinguish both sorted candidate prefixes. No equal Java trace/
+factory/lifecycle claim. Added2case/14fixture-helper records.
+
+Check39898 failed only missing new fields in complete existing config literals;
+updated4tests. Check7795exit0. Focused3873exit0(all4original tests), sorted-focused
+commandexit0(bothsource tests). Logs work/value-order-{check,check2,focused,sorted-focused}.log.
+All-target build2515 currently running, work/value-order-build.log. Rust final state
+includes new BasicValueOrder documentation example. Full check/dashboard follows.
+
+All-target build2515 and final gate22388 exited0. 3381 Rust tests and 156 doctests passed.
+Rust jobs{'RUN': 363, 'REUSE': 56}; Python jobs{'REUSE': 46}.
+Equal before/after source:0cdc42f87ab7c193803b30926c392b5fdb4b1282a64c67c0bb50523f58628467.
+Report {'total': 4855, 'passed': 1900, 'failed': 0, 'pending': 2673, 'excluded': 282, 'unverified': 0, 'percent': 39.135}
+Live freshness matched verification digest:7524767aa6b2c5f76bc0d74a967e8f7d2623c05ec9e004704266e1d85f00b3ca.
+All processes terminal. No benchmark/release/browser rerun; full goal remains active.
+Final log work/value-order-final-check.log.
+
+Final staged review caught an unassignment-only performance regression in the new
+shared targets helper: filtering over all domain indices before yielding None.
+Fixed before commit by using at most one null candidate and skipping both domain
+and ordering lookup when assigned=false. Existing Unassign/PillarUnassign tests
+cover the result semantics; this preserves original constant-time target setup.
+Prior gate22388 evidence above predates this final helper change. Reverification
+is required on the changed source state; do not relabel that previous result.
+
+Final post-review evidence: build18553 and gate48719 exited0. 3381Rust tests, 156doctests passed.
+Jobs {'RUN': 363, 'REUSE': 56} Rust; {'REUSE': 46} Python.
+Equal source-before/after: 63039898dd1e5eb632c8f088a52ad2d07ada9cf5ef6f4fd956e34f8a831c7f5c.
+Dashboard {'total': 4855, 'passed': 1900, 'failed': 0, 'pending': 2673, 'excluded': 282, 'unverified': 0, 'percent': 39.135}; live freshness matched digest
+aa414dcf0179aa6e5042d2d0a96515dc1fc8f725076f149a2a8b0bcb9b82374a.
+Final log work/value-order-final-check2.log. All handles terminal. Goal remains active.

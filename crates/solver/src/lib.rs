@@ -695,3 +695,6 @@ mod basic_neighborhood;
 pub use basic_neighborhood::{
     BasicNeighborhood, BasicNeighborhoodError, basic_moves_configured, basic_moves_configured_union,
 };
+
+mod basic_value_order;
+pub use basic_value_order::{BasicValueOrder, BasicValueOrderError};

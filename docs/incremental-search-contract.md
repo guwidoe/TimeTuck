@@ -2068,3 +2068,31 @@ expected moves, preserve union multiplicity and repeatability, cross a grouping
 barrier in complete scoped/stream plans under budget prefixes, reject invalid
 configuration before callbacks, and compare Basic versus Mixed repair families
 in both mixed scoring backends. These add no separate upstream method credit.
+
+
+## Per-family target ordering
+
+`BasicValueOrder` supplies a full permutation of one variable's domain indices,
+plus exactly one None for optional variables. `sorted_by` builds a stable
+permutation using actual optional values and a caller comparator, without cloning
+values. Equal keys retain encounter order. Null placement is explicit in that
+comparator. Rebuild these static permutations when domain order or sort keys
+change; indices refer to the configured model, not a globally stable value ID.
+
+`BasicNeighborhood.value_orders` and `MixedNeighborhood.basic_value_orders` apply
+these orders independently per family. Unspecified variables retain domain order.
+Supported families are Change, ChangeAndSwap, Assign, Unassign, Pillar, SubPillar,
+PillarChange and PillarUnassign. Swap-only and product/mass/list families reject
+nonempty target-order configuration; there is no silent fallback. Pins, scope,
+current-value exclusion and family null policies still filter ordered targets.
+Pillar changes use the first selected member's order for each selected column,
+then intersect target membership across all selected members. Swap ordering is
+unchanged. No complete candidate set or model clone is built to reorder values.
+
+Duplicate/missing/invalid targets, required-null entries and repeated/unknown
+variables fail before scoring or graph construction in complete solver plans.
+Disabled components and zero-weight families retain their usual validation skip.
+Four original regressions cover all six optional-target permutations across eight
+single-target families and flat/schema grouping (288 configurations), stable ties
+with non-Clone values, pins/ranges, invalid orders, distinct union children and
+one-move-budget order sensitivity in both complete basic scoring backends.

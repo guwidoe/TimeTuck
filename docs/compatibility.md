@@ -2430,3 +2430,16 @@ Native sequential construction retains lead-before-herd order within one phase.
 Native bounded proposals and score diagnostics replace Java sampling and tracking
 internals. Empty families on tiny fixtures and optional null fields remain valid.
 Independent runtime regressions demonstrate actual scoped/grouped move execution.
+
+
+Two DefaultSolverTest sorting methods now have complete native adaptations.
+The mixed method preserves all ten entity/value sorter combinations, actual
+integer difficulty/strength comparisons, first-basic-only selection and every
+final assertion. The other method preserves both ascending/descending families,
+the exact sequential Random(0) shuffled fixture encounter orders, the distinct-
+value HardSoft objective, local candidate limit ten and actual nonempty best events.
+Native target permutations and bound providers replace reflective selector caches;
+Java default search/random traces and listener lifecycle are not claimed. Public
+enum signatures were inspected with javap -public, without implementation bytecode
+or production source. Original regressions additionally show ordering changes the
+retained solution under a one-candidate budget in both scoring backends.

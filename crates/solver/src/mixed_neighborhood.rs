@@ -15,6 +15,7 @@ pub struct MixedNeighborhood<'a> {
     /// Other basic neighborhood kinds reject a schema override. None retains the
     /// model schema. The override does not mutate the model or other families.
     pub pillar_schema: Option<&'a crate::PillarSchema>,
+    pub basic_value_orders: &'a [crate::BasicValueOrder],
     /// Emit basic singles, list singles, then their Cartesian product.
     pub joint_moves: bool,
 }
@@ -25,6 +26,7 @@ impl Default for MixedNeighborhood<'_> {
             lists: Some(Neighborhood::ChangeAndSwap),
             basic_variables: None,
             pillar_schema: None,
+            basic_value_orders: &[],
             joint_moves: false,
         }
     }
@@ -33,6 +35,8 @@ impl Default for MixedNeighborhood<'_> {
 pub enum MixedNeighborhoodError {
     Model(MixedError),
     Pillar(crate::PillarError),
+    ValueOrder(crate::BasicValueOrderError),
+    ValueOrderingUnsupported,
     SchemaRequiresPillarNeighborhood,
     UnknownBasicVariable { variable: usize, count: usize },
     DuplicateBasicVariable { variable: usize },
@@ -42,6 +46,10 @@ impl std::fmt::Display for MixedNeighborhoodError {
         match self {
             Self::Model(e) => e.fmt(f),
             Self::Pillar(e) => e.fmt(f),
+            Self::ValueOrder(e) => e.fmt(f),
+            Self::ValueOrderingUnsupported => {
+                f.write_str("value ordering requires a single-target change or pillar family")
+            }
             Self::SchemaRequiresPillarNeighborhood => {
                 f.write_str("schema override requires a Pillar or SubPillar neighborhood")
             }
@@ -59,6 +67,7 @@ impl std::error::Error for MixedNeighborhoodError {
         match self {
             Self::Model(e) => Some(e),
             Self::Pillar(e) => Some(e),
+            Self::ValueOrder(e) => Some(e),
             _ => None,
         }
     }
@@ -73,6 +82,10 @@ impl From<crate::BasicNeighborhoodError> for MixedNeighborhoodError {
         match e {
             crate::BasicNeighborhoodError::Model(e) => Self::Model(MixedError::Basic(e)),
             crate::BasicNeighborhoodError::Pillar(e) => Self::Pillar(e),
+            crate::BasicNeighborhoodError::ValueOrder(e) => Self::ValueOrder(e),
+            crate::BasicNeighborhoodError::ValueOrderingUnsupported => {
+                Self::ValueOrderingUnsupported
+            }
             crate::BasicNeighborhoodError::SchemaRequiresPillarNeighborhood => {
                 Self::SchemaRequiresPillarNeighborhood
             }
@@ -95,6 +108,7 @@ impl MixedNeighborhood<'_> {
                 neighborhood: n,
                 variables: self.basic_variables,
                 pillar_schema: self.pillar_schema,
+                value_orders: self.basic_value_orders,
             }
             .validate(p.basic())
             .map_err(MixedNeighborhoodError::from)?;
@@ -153,6 +167,7 @@ fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
                 neighborhood: n,
                 variables: c.basic_variables,
                 pillar_schema: c.pillar_schema,
+                value_orders: c.basic_value_orders,
             },
         )
     };

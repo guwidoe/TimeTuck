@@ -199,6 +199,7 @@ fn flat_ordered<'a, V: Eq + Clone>(
     a: &'a Assignment<V>,
     swaps: bool,
     order: impl Iterator<Item = usize>,
+    values: &'a [crate::BasicValueOrder],
 ) -> impl Iterator<Item = Move<V>> + 'a {
     let groups = groups(p, a, order);
     let changes = {
@@ -206,11 +207,7 @@ fn flat_ordered<'a, V: Eq + Clone>(
         (0..groups.len()).flat_map(move |g| {
             let groups = groups.clone();
             let first = groups[g][0];
-            p.variables()[first]
-                .domain()
-                .iter()
-                .map(Some)
-                .chain(p.variables()[first].allows_unassigned().then_some(None))
+            crate::basic_value_order::targets(p, first, values, true, true)
                 .filter(move |v| *v != a.values()[first].as_ref())
                 .filter_map(move |v| {
                     if !accepts(p, &groups[g], v) {
@@ -279,8 +276,17 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     swaps: bool,
     order: impl Iterator<Item = usize>,
 ) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    ordered_with_values(p, a, swaps, order, &[])
+}
+pub(crate) fn ordered_with_values<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    swaps: bool,
+    order: impl Iterator<Item = usize>,
+    values: &'a [crate::BasicValueOrder],
+) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
     if p.pillar_schema().is_some() {
-        Box::new(crate::pillar_schema::ordered(
+        Box::new(crate::pillar_schema::ordered_with_schema(
             p,
             a,
             crate::pillar_schema::Settings {
@@ -290,8 +296,10 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
                 swaps,
             },
             order,
+            p.pillar_schema(),
+            values,
         ))
     } else {
-        Box::new(flat_ordered(p, a, swaps, order))
+        Box::new(flat_ordered(p, a, swaps, order, values))
     }
 }

@@ -92,6 +92,8 @@ fn independently_grouped_basic_families_solve_with_both_backends_and_preserve_ex
         .unwrap();
     for schema in [None, Some(&column)] {
         let c = BasicNeighborhood {
+            value_orders: &[],
+
             neighborhood: Neighborhood::Pillar { swaps: false },
             variables: Some(&[0, 2]),
             pillar_schema: schema,

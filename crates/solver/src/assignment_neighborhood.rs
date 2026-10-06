@@ -51,19 +51,24 @@ pub(crate) fn single<'a, V: Eq + Clone>(
     unassign: bool,
     order: impl Iterator<Item = usize> + 'a,
 ) -> impl Iterator<Item = Move<V>> + 'a {
+    single_with_values(p, a, unassign, order, &[])
+}
+pub(crate) fn single_with_values<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    unassign: bool,
+    order: impl Iterator<Item = usize> + 'a,
+    values: &'a [crate::BasicValueOrder],
+) -> impl Iterator<Item = Move<V>> + 'a {
     order
         .filter(move |&i| !p.variables()[i].is_pinned() && a.values()[i].is_some() == unassign)
         .flat_map(move |i| {
-            p.variables()[i]
-                .domain()
-                .iter()
-                .take(if unassign { 0 } else { usize::MAX })
-                .map(Some)
-                .chain(unassign.then_some(None))
-                .map(move |v| Move::Change {
+            crate::basic_value_order::targets(p, i, values, !unassign, unassign).map(move |v| {
+                Move::Change {
                     variable: i,
                     value: v.cloned(),
-                })
+                }
+            })
         })
 }
 /// Change complete equal-value groups, excluding singleton pillars. Destinations
@@ -112,6 +117,16 @@ pub(crate) fn pillars<'a, V: Eq + Clone>(
     unassign: bool,
     order: impl Iterator<Item = usize>,
 ) -> impl Iterator<Item = Move<V>> + 'a {
+    pillars_with_values(p, a, c, unassign, order, &[])
+}
+pub(crate) fn pillars_with_values<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    c: PillarChangeConfig,
+    unassign: bool,
+    order: impl Iterator<Item = usize>,
+    values: &'a [crate::BasicValueOrder],
+) -> impl Iterator<Item = Move<V>> + 'a {
     // Reuse tuple grouping and destination intersection, including attached schemas.
     // Unassignment never scans non-null destinations.
     let changes = if unassign {
@@ -121,7 +136,7 @@ pub(crate) fn pillars<'a, V: Eq + Clone>(
     } else {
         PillarChangeMode::All
     };
-    crate::pillar_schema::ordered(
+    crate::pillar_schema::ordered_with_schema(
         p,
         a,
         crate::pillar_schema::Settings {
@@ -131,6 +146,8 @@ pub(crate) fn pillars<'a, V: Eq + Clone>(
             swaps: false,
         },
         order,
+        p.pillar_schema(),
+        values,
     )
     .filter(move |movement| {
         let Move::Composite(steps) = movement else {

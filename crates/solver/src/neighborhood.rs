@@ -19,15 +19,19 @@ pub(crate) fn change_moves_ordered<'a, V: Eq + Clone>(
     assignment: &'a Assignment<V>,
     order: impl Iterator<Item = usize> + 'a,
 ) -> impl Iterator<Item = Move<V>> + 'a {
+    change_moves_with_values(problem, assignment, order, &[])
+}
+pub(crate) fn change_moves_with_values<'a, V: Eq + Clone>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    order: impl Iterator<Item = usize> + 'a,
+    values: &'a [crate::BasicValueOrder],
+) -> impl Iterator<Item = Move<V>> + 'a {
     order
         .map(move |i| (i, &problem.variables()[i]))
         .filter(|(_, v)| !v.is_pinned())
-        .flat_map(move |(i, variable)| {
-            variable
-                .domain()
-                .iter()
-                .map(Some)
-                .chain(variable.allows_unassigned().then_some(None))
+        .flat_map(move |(i, _)| {
+            crate::basic_value_order::targets(problem, i, values, true, true)
                 .filter(move |value| *value != assignment.values()[i].as_ref())
                 .map(move |value| Move::Change {
                     variable: i,
@@ -85,27 +89,38 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     neighborhood: crate::Neighborhood,
     order: I,
 ) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
+    ordered_with_values(problem, assignment, neighborhood, order, &[])
+}
+pub(crate) fn ordered_with_values<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    neighborhood: crate::Neighborhood,
+    order: I,
+    values: &'a [crate::BasicValueOrder],
+) -> Box<dyn Iterator<Item = Move<V>> + 'a> {
     match neighborhood {
         crate::Neighborhood::Assign | crate::Neighborhood::Unassign => {
-            return Box::new(crate::assignment_neighborhood::single(
+            return Box::new(crate::assignment_neighborhood::single_with_values(
                 problem,
                 assignment,
                 matches!(neighborhood, crate::Neighborhood::Unassign),
                 order,
+                values,
             ));
         }
         crate::Neighborhood::PillarChange(config) => {
-            return Box::new(crate::assignment_neighborhood::pillars(
-                problem, assignment, config, false, order,
+            return Box::new(crate::assignment_neighborhood::pillars_with_values(
+                problem, assignment, config, false, order, values,
             ));
         }
         crate::Neighborhood::PillarUnassign => {
-            return Box::new(crate::assignment_neighborhood::pillars(
+            return Box::new(crate::assignment_neighborhood::pillars_with_values(
                 problem,
                 assignment,
                 crate::PillarChangeConfig::default(),
                 true,
                 order,
+                values,
             ));
         }
         _ => {}
@@ -139,15 +154,15 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         );
     }
     if let crate::Neighborhood::Pillar { swaps } = neighborhood {
-        return crate::pillar::ordered(problem, assignment, swaps, order);
+        return crate::pillar::ordered_with_values(problem, assignment, swaps, order, values);
     }
     if let crate::Neighborhood::SubPillar(config) = neighborhood {
-        return crate::subpillar::ordered(problem, assignment, config, order);
+        return crate::subpillar::ordered_with_values(problem, assignment, config, order, values);
     }
     let swaps = neighborhood
         .includes_swaps()
         .then(|| swap_moves_ordered(problem, assignment, order.clone()))
         .into_iter()
         .flatten();
-    Box::new(change_moves_ordered(problem, assignment, order).chain(swaps))
+    Box::new(change_moves_with_values(problem, assignment, order, values).chain(swaps))
 }

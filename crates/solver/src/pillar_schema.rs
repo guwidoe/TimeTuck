@@ -133,7 +133,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     config: Settings,
     order: impl Iterator<Item = usize>,
 ) -> impl Iterator<Item = Move<V>> + 'a {
-    ordered_with_schema(p, a, config, order, p.pillar_schema())
+    ordered_with_schema(p, a, config, order, p.pillar_schema(), &[])
 }
 pub(crate) fn ordered_with_schema<'a, V: Eq + Clone>(
     p: &'a FiniteProblem<V>,
@@ -141,6 +141,7 @@ pub(crate) fn ordered_with_schema<'a, V: Eq + Clone>(
     config: Settings,
     order: impl Iterator<Item = usize>,
     schema: Option<&'a PillarSchema>,
+    values: &'a [crate::BasicValueOrder],
 ) -> impl Iterator<Item = Move<V>> + 'a {
     let rows = schema
         .map(|s| s.rows.clone())
@@ -173,12 +174,7 @@ pub(crate) fn ordered_with_schema<'a, V: Eq + Clone>(
                             config.changes,
                             PillarChangeMode::UnassignOnly | PillarChangeMode::All
                         );
-                        p.variables()[first]
-                            .domain()
-                            .iter()
-                            .take(if assigned { usize::MAX } else { 0 })
-                            .map(Some)
-                            .chain(unassign.then_some(None))
+                        crate::basic_value_order::targets(p, first, values, assigned, unassign)
                             .filter(move |v| *v != a.values()[first].as_ref())
                             .filter_map(move |v| {
                                 if !members.iter().all(|&r| accepts(p, rows[r][column], v)) {

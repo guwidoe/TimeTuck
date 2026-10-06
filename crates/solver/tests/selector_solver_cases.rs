@@ -79,6 +79,8 @@ fn pillar<'a>(
     let selection =
         SubPillarSelection::combinations(1, if singleton { 1 } else { usize::MAX }).unwrap();
     BasicNeighborhood {
+        value_orders: &[],
+
         neighborhood: Neighborhood::SubPillar(SubPillarConfig {
             selection,
             changes: if swaps {

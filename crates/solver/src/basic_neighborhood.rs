@@ -10,6 +10,8 @@ pub struct BasicNeighborhood<'a> {
     pub variables: Option<&'a [usize]>,
     /// Only Pillar and SubPillar families accept an override.
     pub pillar_schema: Option<&'a PillarSchema>,
+    /// Per-variable complete target permutations; unspecified slots keep domain order.
+    pub value_orders: &'a [crate::BasicValueOrder],
 }
 impl Default for BasicNeighborhood<'_> {
     fn default() -> Self {
@@ -17,6 +19,7 @@ impl Default for BasicNeighborhood<'_> {
             neighborhood: Neighborhood::ChangeAndSwap,
             variables: None,
             pillar_schema: None,
+            value_orders: &[],
         }
     }
 }
@@ -24,6 +27,8 @@ impl Default for BasicNeighborhood<'_> {
 pub enum BasicNeighborhoodError {
     Model(ModelError),
     Pillar(PillarError),
+    ValueOrder(crate::BasicValueOrderError),
+    ValueOrderingUnsupported,
     SchemaRequiresPillarNeighborhood,
     UnknownVariable { variable: usize, count: usize },
     DuplicateVariable { variable: usize },
@@ -33,6 +38,10 @@ impl std::fmt::Display for BasicNeighborhoodError {
         match self {
             Self::Model(e) => e.fmt(f),
             Self::Pillar(e) => e.fmt(f),
+            Self::ValueOrder(e) => e.fmt(f),
+            Self::ValueOrderingUnsupported => {
+                f.write_str("value ordering requires a single-target change or pillar family")
+            }
             Self::SchemaRequiresPillarNeighborhood => {
                 f.write_str("schema override requires a Pillar or SubPillar neighborhood")
             }
@@ -50,6 +59,7 @@ impl std::error::Error for BasicNeighborhoodError {
         match self {
             Self::Model(e) => Some(e),
             Self::Pillar(e) => Some(e),
+            Self::ValueOrder(e) => Some(e),
             _ => None,
         }
     }
@@ -62,6 +72,23 @@ impl BasicNeighborhood<'_> {
         self.neighborhood
             .validate_basic(p)
             .map_err(BasicNeighborhoodError::Model)?;
+        if !self.value_orders.is_empty() {
+            if !matches!(
+                self.neighborhood,
+                Neighborhood::Change
+                    | Neighborhood::ChangeAndSwap
+                    | Neighborhood::Assign
+                    | Neighborhood::Unassign
+                    | Neighborhood::Pillar { .. }
+                    | Neighborhood::SubPillar(_)
+                    | Neighborhood::PillarChange(_)
+                    | Neighborhood::PillarUnassign
+            ) {
+                return Err(BasicNeighborhoodError::ValueOrderingUnsupported);
+            }
+            crate::basic_value_order::validate(p, self.value_orders)
+                .map_err(BasicNeighborhoodError::ValueOrder)?;
+        }
         if let Some(schema) = self.pillar_schema {
             if !matches!(
                 self.neighborhood,
@@ -146,9 +173,16 @@ pub(crate) fn configured<'a, V: Eq + Clone>(
             config,
             order.into_iter(),
             Some(schema),
+            c.value_orders,
         )) as Box<dyn Iterator<Item = Move<V>> + 'a>
     } else {
-        crate::neighborhood::ordered(p, a, c.neighborhood, order.into_iter())
+        crate::neighborhood::ordered_with_values(
+            p,
+            a,
+            c.neighborhood,
+            order.into_iter(),
+            c.value_orders,
+        )
     };
     Box::new(moves.filter(move |m| {
         c.variables
