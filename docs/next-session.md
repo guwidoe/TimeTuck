@@ -11866,3 +11866,59 @@ Existing DependencyGraph/derive_dependencies detect cycles/downstream inconsiste
 but native startup repair and solver-wide inconsistency rejection need investigation.
 Do not substitute an extra hard-score penalty for the source's implicit structural
 policy. No credit or code changes yet for this next feature.
+
+
+## Structural list dependencies
+
+ListProblem::with_dependencies declares fixed registry-index edges plus assigned
+predecessor edges. New list_dependencies module prepares list/mixed initial states,
+clears cycle members/downstream assigned values and rejects affected full/prefix pins.
+Model apply rejects cyclic final states atomically before scoring; both list/mixed
+selectors skip these trials. Exact enumeration/bounded children exclude cycles.
+Startup repair establishes a silent baseline; later and exact bests publish normally.
+No extra hard penalty; this explicit opt-in does not infer arbitrary shadow metadata.
+
+Six original tests cover metadata/missing inputs, cleanup/pins/downstream, rollback,
+callback counts, exact/bounded scoring, mixed integration and later events. Four
+DefaultSolverTest no_inconsistent_field cases preserve cleanup/noevents, pinned b2
+failure, custom cyclic composite failure and exact HardSoft(0,-360)/dependency times.
+Native typed errors substitute Java classes/messages; provenance records all4source
+cases,4fixtures and2helpers. No upstream production source was read.
+
+Prebuild35520 and final check86513 exited0.3414Rust tests and159doctests passed;
+368Rust jobs ran,56reused;46Python jobs reused. Dashboard1912/4855(39.382%),
+2661pending,282excluded,0failed/unverified. Source before/after matched:
+bb3b5e7c78911bec4192bcb8604512f9432dc6552f255c61b8ac3cd7daed6318
+Live freshness matched verification digest:
+4aae4edf2814f23493431b7858cc1158c43ce688c5d04bab23d18f2ec91b7e0f.
+Final log work/list-dependencies-final-check.log; concise evidence at
+work/list-dependencies-evidence.json. All process handles terminal. No benchmark,
+release-mode or browser reruns. Goal remains active, full rewrite incomplete.
+
+Next source gaps inspected while compiling: DefaultSolverTest.solveStaleBuiltinShadows
+and solveStaleDeclarativeShadows(1593-1667), and all files in testdomain/shadow/
+inverserelation and concurrent. Builtin fixture:2optional basic entities initially
+v1,v1 with stale empty inverse collections; score negative sum(value entity count^2)
+and-100pernull entity; solver must return v1,v2 unordered,score-2,besteventsnonempty.
+Declarative fixture:2lists[a1,b1]/[b2,a2], alignmentgroups[a1,a2]/[b1,b2], local-only
+search until feasible (source60sectimeout), exact final[b1,a1]/[b2,a2],score(0,-240),
+besteventsnonempty. Concurrent provider explicitly penalizes inconsistency hard and
+assigned finish times soft; unlike no_inconsistent_field, do not enable auto cleanup
+policy for this fixture. Start0,ready previousfinish+30,alignedstart=max(group ready),
+finish=start+30,cascade=indexdays. Native examples/concurrent_support already models
+this fixture through aligned dependency projections, with source/independent closure
+regressions. Still pending: actual full solver startup adapters preserving original
+assertions. Do not weaken exact list ordering to any feasible equivalent.
+
+Next-case draft is saved outside the frozen source tree at
+work/stale_shadow_solver_cases.rs (not compiled, no new credit). Move into tests only
+after this increment is committed, inspect it, then focus-test it. It preserves exact
+stale-shadow source fixtures and initial rebuilt scores(-4 and HardSoft(-4,0)); stream
+concurrent case uses existing cached Schedule support. Check max_steps type if compile
+fails. Source claims still require new provenance fixtures/helpers before credit.
+Broader subsequent candidate: MoveDirectorTest ValueAssignment tests181-817 use real
+list score directors and assert complete forward/undo list+position state, without
+mock listener-call assertions. Native ListMoveBuilder+scored transactions already
+provide these operations. Other MoveDirector methods using mock before/after events
+must remain pending unless all assertions have a real native counterpart. Read whole
+methods/fixtures before adaptation; only181-225 was read in full this turn.

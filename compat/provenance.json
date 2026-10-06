@@ -28620,6 +28620,66 @@
       "upstream_test": "solveCustomConfigListVariable",
       "local_test": "solve_custom_config_list_variable",
       "modifications": "Preserve two required list values/two empty owners, owner score2 if size1 else1, construction followed by16-step local search and every-owner-nonempty assertion, plus actual retained-best events from PlannerTestUtils.solve. Native QueuedMoveProvider drives each value through a real RecordingSelection publication and replay cursor; insertion moves filter using the replayed Arc, with publication/replay identity and order asserted. Native per-placement SelectedValue source replaces Java selector ID/config binding; deterministic HillClimbing replaces factory default local search. Both scoped and transactional stream scoring run the complete plan with score diagnostics. No Java reflection, configuration parser, lifecycle forwarding or identical trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWhenIgnoringInconsistentSolutionsUnassignsIfInitialSolutionInconsistent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWhenIgnoringInconsistentSolutionsUnassignsIfInitialSolutionInconsistent",
+      "local_test": "solve_when_ignoring_inconsistent_solutions_unassigns_if_initial_solution_inconsistent",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve initial[b2,b1]/[a1,a2], custom noop-only plan, automatic initial unassignment of b-values, every owner/previous assertion and exactly zero best events from PlannerTestUtils.solve(false). Model and input remain unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWhenIgnoringInconsistentSolutionsThrowsIfInconsistentEntityPinned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWhenIgnoringInconsistentSolutionsThrowsIfInconsistentEntityPinned",
+      "local_test": "solve_when_ignoring_inconsistent_solutions_throws_if_inconsistent_entity_pinned",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve both reversed pairs and first owner prefix pin1. Solve startup returns typed PinnedDependencyCycle identifying b2(registry3), owner0/index0 before scoring. Typed InitialScoring error plus registry/position replace Java IllegalStateException class and message text."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCustomPhaseReturnsStructurallyFlawed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCustomPhaseReturnsStructurallyFlawed",
+      "local_test": "solve_custom_phase_returns_structurally_flawed",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve initial[b2,b1]/[a1,a2], automatic cleanup, custom composite assignment of b2thenb1 into owner0 and rejection. Native Custom/DependencyCycle typed diagnostic containing affected values[2,3] replaces Java IllegalArgumentException/message. Failed composite rolls back before scoring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveIgnoreInconsistent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveIgnoreInconsistent",
+      "local_test": "solve_ignore_inconsistent",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve empty owners, both dependency pairs, exact HardSoft(0,-360) and both start-after-dependency-end assertions, plus nonempty actual best events. Native construction and10-step deterministic HillClimbing replace factory default search, with score diagnostics."
     }
   ],
   "fixtures": [
@@ -36487,6 +36547,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
       "upstream_test": "solve",
       "modifications": "Require actual nonempty retained-best solver events from each scoring backend."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyNoInconsistentFieldSolution.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldSolution.java",
+      "upstream_test": "TestdataDependencyNoInconsistentFieldSolution",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve two owners, four required values,60minute durations, epoch owner starts, a2dependsa1/b2dependsb1 and soft negative sum(end-owner start). Native projection handles absent dependency times as unavailable; the source fixtures exercised here retain the original final score and shadow assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyNoInconsistentFieldEntity.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldEntity.java",
+      "upstream_test": "TestdataDependencyNoInconsistentFieldEntity",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve two owners, four required values,60minute durations, epoch owner starts, a2dependsa1/b2dependsb1 and soft negative sum(end-owner start). Native projection handles absent dependency times as unavailable; the source fixtures exercised here retain the original final score and shadow assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyNoInconsistentFieldValue.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldValue.java",
+      "upstream_test": "TestdataDependencyNoInconsistentFieldValue",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve two owners, four required values,60minute durations, epoch owner starts, a2dependsa1/b2dependsb1 and soft negative sum(end-owner start). Native projection handles absent dependency times as unavailable; the source fixtures exercised here retain the original final score and shadow assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyNoInconsistentFieldConstraintProvider.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldConstraintProvider.java",
+      "upstream_test": "TestdataDependencyNoInconsistentFieldConstraintProvider",
+      "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve two owners, four required values,60minute durations, epoch owner starts, a2dependsa1/b2dependsb1 and soft negative sum(end-owner start). Native projection handles absent dependency times as unavailable; the source fixtures exercised here retain the original final score and shadow assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.buildSolverConfig.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig",
+      "modifications": "Explicit native construction and10-step HillClimbing preserve helper phase order and limit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_dependency_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.list_dependency_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve actual best event assertions: empty for custom noop-only cleanup, nonempty for successful construction/search. Exception cases assert typed native diagnostics instead of Java exception classes/text."
     }
   ]
 }

@@ -523,7 +523,13 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 result.evaluation_limit = true;
                 break;
             }
-            let candidate = self.apply(&movement)?;
+            let candidate = match self.apply(&movement) {
+                Ok(candidate) => candidate,
+                Err(MixedScoringError::Model(crate::MixedError::Lists(
+                    crate::ListError::DependencyCycle { .. },
+                ))) => continue,
+                Err(error) => return Err(error),
+            };
             result.evaluations += 1;
             result.constraint_evaluations += candidate.constraint_evaluations() as u128;
             if assert_scores

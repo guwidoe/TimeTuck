@@ -94,7 +94,9 @@ impl<'a, V: Eq + Clone> ListTree<'a, V> {
             problem,
             remaining: Vec::new(),
         };
-        if !problem.can_complete(&root) {
+        if !problem.can_complete(&root)
+            || (problem.dependencies.is_some() && problem.validate(&root).is_err())
+        {
             return (tree, None);
         }
         tree.remaining = problem
@@ -131,6 +133,9 @@ impl<V: Eq + Clone> BranchTree for ListTree<'_, V> {
         }
         if self.problem.allows_unassigned() {
             choices.push(None);
+        }
+        if self.problem.dependencies.is_some() {
+            choices.retain(|&choice| self.problem.validate(&self.child(a, depth, choice)).is_ok());
         }
         choices.into_iter()
     }

@@ -212,7 +212,8 @@ pub(crate) fn visit_list_assignments<V: Eq + Clone>(
         .cloned()
         .collect();
     if remaining.is_empty() {
-        return visit(&working);
+        return (problem.dependencies.is_some() && problem.validate(&working).is_err())
+            || visit(&working);
     }
     let mut stack = vec![choices(problem, &working, &remaining[0])];
     while !stack.is_empty() {
@@ -231,7 +232,9 @@ pub(crate) fn visit_list_assignments<V: Eq + Clone>(
             frame.applied = Some(position);
         }
         if depth + 1 == remaining.len() {
-            if !visit(&working) {
+            if (problem.dependencies.is_none() || problem.validate(&working).is_ok())
+                && !visit(&working)
+            {
                 return false;
             }
         } else {

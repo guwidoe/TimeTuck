@@ -575,6 +575,7 @@ struct PlanObservation<'a, A, S> {
     score: Option<S>,
     complete: bool,
     initial_only: bool,
+    repaired_initial: bool,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn new(callback: PlanObserver<'a, A, S>) -> Self {
@@ -583,6 +584,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             score: None,
             complete: false,
             initial_only: false,
+            repaired_initial: false,
         }
     }
     fn initialize(
@@ -633,8 +635,13 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         if (!self.complete && update.complete)
             || self.score.as_ref().is_none_or(|best| update.score > *best)
         {
+            let repair_baseline =
+                self.repaired_initial && self.score.is_none() && kind != SolverPhaseKind::Exact;
             self.score = Some(update.score.clone());
             self.complete = update.complete;
+            if repair_baseline {
+                return;
+            }
             let update = SolverUpdate {
                 phase,
                 kind: if self.initial_only {
@@ -1693,9 +1700,16 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         |phase| providers.as_ref().is_some_and(|p| p.contains(phase)),
         |e| ListLocalSearchError::from(ListScoringError::from(e)),
     )?;
-    let observation = PlanObservation::new(observer);
+    let raw_initial = p.initial_assignment();
+    let prepared =
+        p.prepare_assignment(&raw_initial)
+            .map_err(|error| SolverError::InitialScoring {
+                error: ListScoringError::from(error).into(),
+            })?;
+    let mut observation = PlanObservation::new(observer);
+    observation.repaired_initial = prepared != raw_initial;
     let initial = || {
-        let assignment = p.initial_assignment();
+        let assignment = prepared;
         InitialState {
             movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
@@ -1947,9 +1961,16 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    let observation = PlanObservation::new(observer);
+    let raw_initial = p.initial_assignment();
+    let prepared =
+        p.prepare_assignment(&raw_initial)
+            .map_err(|error| SolverError::InitialScoring {
+                error: MixedScoringError::from(error).into(),
+            })?;
+    let mut observation = PlanObservation::new(observer);
+    observation.repaired_initial = prepared != raw_initial;
     let initial = || {
-        let assignment = p.initial_assignment();
+        let assignment = prepared;
         InitialState {
             movable: p.basic().variables().iter().any(|v| !v.is_pinned())
                 || p.lists().entities().iter().any(|e| !e.is_pinned()),
@@ -2544,9 +2565,16 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
         |phase| providers.as_ref().is_some_and(|p| p.contains(phase)),
         |e| ListLocalSearchError::from(ListScoringError::from(e)),
     )?;
-    let observation = PlanObservation::new(observer);
+    let raw_initial = p.initial_assignment();
+    let prepared =
+        p.prepare_assignment(&raw_initial)
+            .map_err(|error| SolverError::InitialScoring {
+                error: ListStreamScoringError::from(error).into(),
+            })?;
+    let mut observation = PlanObservation::new(observer);
+    observation.repaired_initial = prepared != raw_initial;
     let initial = || {
-        let assignment = p.initial_assignment();
+        let assignment = prepared;
         InitialState {
             movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
@@ -2845,9 +2873,16 @@ fn solve_mixed_stream_impl<
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    let observation = PlanObservation::new(observer);
+    let raw_initial = p.initial_assignment();
+    let prepared =
+        p.prepare_assignment(&raw_initial)
+            .map_err(|error| SolverError::InitialScoring {
+                error: MixedStreamScoringError::from(error).into(),
+            })?;
+    let mut observation = PlanObservation::new(observer);
+    observation.repaired_initial = prepared != raw_initial;
     let initial = || {
-        let assignment = p.initial_assignment();
+        let assignment = prepared;
         InitialState {
             movable: p.basic().variables().iter().any(|v| !v.is_pinned())
                 || p.lists().entities().iter().any(|e| !e.is_pinned()),

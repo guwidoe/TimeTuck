@@ -113,6 +113,21 @@ impl<V: Eq> ListAssignment<V> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListError {
+    /// Invalid dependency declaration (indices refer to the value registry).
+    Dependency(crate::DependencyError<usize>),
+    DependencyCount {
+        expected: usize,
+        actual: usize,
+    },
+    /// Assigned values in or downstream from a dependency cycle.
+    DependencyCycle {
+        values: Vec<usize>,
+    },
+    /// Startup repair would have to remove this pinned value.
+    PinnedDependencyCycle {
+        value: usize,
+        position: ListPosition,
+    },
     OptionalValuesRequired,
     InvalidSampleSize {
         minimum: usize,
@@ -177,6 +192,7 @@ pub struct ListProblem<V> {
     values: Vec<V>,
     entities: Vec<ListEntity<V>>,
     allows_unassigned: bool,
+    pub(crate) dependencies: Option<crate::DependencyGraph<usize>>,
 }
 impl<V: Eq + Clone> ListProblem<V> {
     pub fn new(values: Vec<V>, entities: Vec<ListEntity<V>>) -> Result<Self, ListError> {
@@ -204,6 +220,7 @@ impl<V: Eq + Clone> ListProblem<V> {
             values,
             entities,
             allows_unassigned: false,
+            dependencies: None,
         };
         problem.validate(&problem.initial_assignment())?;
         Ok(problem)
@@ -272,6 +289,15 @@ impl<V: Eq + Clone> ListProblem<V> {
         ListAssignment::new(self.entities.iter().map(|e| e.initial.clone()).collect())
     }
     pub fn validate(&self, assignment: &ListAssignment<V>) -> Result<(), ListError> {
+        self.validate_layout(assignment)?;
+        let values = self.inconsistent_values_unchecked(assignment)?;
+        if values.is_empty() {
+            Ok(())
+        } else {
+            Err(ListError::DependencyCycle { values })
+        }
+    }
+    pub(crate) fn validate_layout(&self, assignment: &ListAssignment<V>) -> Result<(), ListError> {
         if assignment.lists.len() != self.entities.len() {
             return Err(ListError::ListCount {
                 expected: self.entities.len(),

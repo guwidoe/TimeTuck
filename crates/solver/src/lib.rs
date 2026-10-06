@@ -77,6 +77,7 @@ mod bendable_decimal;
 pub use bendable_decimal::BendableDecimalScore;
 
 pub mod list;
+mod list_dependencies;
 pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
     ListProblem, ListRange,

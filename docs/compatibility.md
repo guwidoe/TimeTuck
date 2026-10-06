@@ -2497,3 +2497,32 @@ insertion moves; identity and publication order are also asserted. Native per-st
 value sources and explicit bindings replace Java selector configuration; no factory
 parser, automatic lifecycle forwarding or identical-trace claim. The queued/pooled
 placer lifecycle and copy source methods remain pending, not partially credited.
+
+
+## Structural list dependency policy
+
+ListProblem::with_dependencies declares fixed value dependencies by registry index,
+plus a dynamic edge to each assigned value's previous list element. This explicit
+opt-in complements derived-value scoring; it does not infer dependencies from score
+callbacks or implement arbitrary annotated shadow discovery. Fixed cycles/unknown
+indices are configuration errors. Missing dependency values alone are not cycles.
+List/mixed complete solvers clear assigned cycle members and downstream dependents
+before scoring, aborting on affected full/prefix pins. The cleaned initial snapshot
+sets an event baseline without publishing a best event. Model metadata and caller
+assignments remain unchanged; standalone phase callers can prepare_assignment.
+
+Model validation and reversible moves reject cyclic final states before scoring.
+Automatic list/mixed selection skips these trials in both engines; explicit custom
+commands return a typed error and roll back. Exact enumeration skips invalid leaves;
+bounded search prunes cyclic insertions (later insertions cannot remove the existing
+precedence reachability). No additional hard score penalty is introduced.
+
+Four DefaultSolverTest methods using no_inconsistent_field fixtures are adapted:
+automatic initial cleanup with zero best events; pinned b2 rejection; a custom
+composite recreating a dependency loop; and solving empty lists to HardSoft(0,-360)
+with both dependency-time inequalities and actual best events. All run both engines.
+Native typed errors identify registry values/positions instead of Java exception
+classes/message strings. Minute offsets replace LocalDateTime; native dependency
+projections and built-in owner/previous views replace shadow listeners. Provenance
+records all four fixtures and both PlannerTestUtils helpers. No lifecycle or trace
+compatibility claim accompanies these behavioral adaptations.

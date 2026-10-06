@@ -279,7 +279,13 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
                 result.evaluation_limit = true;
                 break;
             }
-            let mut candidate = self.apply(&movement)?;
+            let mut candidate = match self.apply(&movement) {
+                Ok(candidate) => candidate,
+                Err(MixedStreamScoringError::Scoring(crate::MixedScoringError::Model(
+                    crate::MixedError::Lists(crate::ListError::DependencyCycle { .. }),
+                ))) => continue,
+                Err(error) => return Err(error),
+            };
             result.evaluations += 1;
             result.constraint_evaluations += candidate.constraint_evaluations();
             if assert_scores {

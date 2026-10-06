@@ -96,6 +96,21 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
             self.lists.initial_assignment(),
         )
     }
+    /// Prepare list dependencies while preserving the validated basic component.
+    pub fn prepare_assignment(
+        &self,
+        assignment: &MixedAssignment<B, L>,
+    ) -> Result<MixedAssignment<B, L>, MixedError> {
+        self.basic
+            .validate(assignment.basic())
+            .map_err(MixedError::Basic)?;
+        Ok(MixedAssignment::new(
+            assignment.basic().clone(),
+            self.lists
+                .prepare_assignment(assignment.lists())
+                .map_err(MixedError::Lists)?,
+        ))
+    }
     pub fn validate(&self, assignment: &MixedAssignment<B, L>) -> Result<(), MixedError> {
         self.basic
             .validate(&assignment.basic)
