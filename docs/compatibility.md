@@ -2933,3 +2933,26 @@ Three original tests exercise native move/undo, actual materialized field update
 deferred supplier integration, pin enforcement and invalid-input atomicity. Registry
 updates and publication remain explicit; automatic setters and solver-wide wiring
 are separate work. Refresh currently rebuilds maps and carries no performance claim.
+
+
+## Basic inverse collection publication
+
+BasicStateSupply adds explicit publication to shared BasicVariableState. Live
+inverse queries follow registry updates immediately; a bound Vec<E> shadow on
+the value entity receives complete before/after collections in stable native
+identity order. Callers apply these records to owned fields. Existing collections
+can be seeded, avoiding redundant publication when already consistent. Without a
+binding, each removed/added membership contributes a notification, including
+repeated value identities. Refresh coalesces intermediate registry edits.
+
+Metadata, unknown values and invalid seed collections are rejected before existing
+publication changes. Registry resets remove old memberships; retry after correcting
+unknown values preserves the last successful observation. Native move validation
+and registry synchronization remain explicit. The supply currently rebuilds its
+projection and does not claim automatic setters or a performance improvement.
+
+All three BasicVariableStateTest cases and six fixtures are adapted. Original tests
+compare actual materialized collections against independent membership calculations
+and scored inverse stream rows across 27 partial assignments, then restore them on
+undo. Additional regressions cover seed validation, metadata isolation, empty/reset
+state, unassignment, notification multiplicity and coalesced updates.

@@ -32309,6 +32309,51 @@
       "upstream_test": "isPinnedFollowsAnElementAsItMoves",
       "local_test": "pinned_status_follows_current_position",
       "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "BasicVariableStateTest.externalizedMode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/BasicVariableStateTest.java",
+      "upstream_test": "externalizedMode",
+      "local_test": "externalized_mode",
+      "modifications": "Preserve literal a/b/c/d and 1/2/3 fixtures, initial/final inverse memberships, notifier multiplicities and duplicate-externalization rejection. Typed native schema replaces reflective descriptors. Externalized mode seeds and updates an actual caller-owned collection table using typed before/after events; map mode checks live shared inverse views and exact returned notifications. Native stable identity order replaces unspecified collection ordering; dropping the supply replaces close. Registry change replaces the Java before/setter/after bracket."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "BasicVariableStateTest.mapMode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/BasicVariableStateTest.java",
+      "upstream_test": "mapMode",
+      "local_test": "map_mode",
+      "modifications": "Preserve literal a/b/c/d and 1/2/3 fixtures, initial/final inverse memberships, notifier multiplicities and duplicate-externalization rejection. Typed native schema replaces reflective descriptors. Externalized mode seeds and updates an actual caller-owned collection table using typed before/after events; map mode checks live shared inverse views and exact returned notifications. Native stable identity order replaces unspecified collection ordering; dropping the supply replaces close. Registry change replaces the Java before/setter/after bracket."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "BasicVariableStateTest.cannotExternalizeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/BasicVariableStateTest.java",
+      "upstream_test": "cannotExternalizeTwice",
+      "local_test": "cannot_externalize_twice",
+      "modifications": "Preserve literal a/b/c/d and 1/2/3 fixtures, initial/final inverse memberships, notifier multiplicities and duplicate-externalization rejection. Typed native schema replaces reflective descriptors. Externalized mode seeds and updates an actual caller-owned collection table using typed before/after events; map mode checks live shared inverse views and exact returned notifications. Native stable identity order replaces unspecified collection ordering; dropping the supply replaces close. Registry change replaces the Java before/setter/after bracket."
     }
   ],
   "fixtures": [
@@ -42477,6 +42522,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
       "upstream_test": "resetOn",
       "modifications": "Use explicit typed metadata and bind_declared/setup helpers to bind only declared built-in shadow roles and load current list rows/value universe. Replace reflective descriptor switches and mocked working solution with native shared registry state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataSolution.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataEntity.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataValue.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataInverseRelationSolution.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationSolution.java",
+      "upstream_test": "TestdataInverseRelationSolution",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataInverseRelationEntity.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationEntity.java",
+      "upstream_test": "TestdataInverseRelationEntity",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_state_supply_cases.rs",
+      "id": "TestdataInverseRelationValue.basic_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationValue.java",
+      "upstream_test": "TestdataInverseRelationValue",
+      "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
     }
   ]
 }

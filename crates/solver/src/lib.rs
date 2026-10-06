@@ -775,3 +775,8 @@ pub use list_state_supply::{
     ListBuiltinChange, ListBuiltinValue, ListBuiltinValues, ListPinPolicy, ListShadowProperty,
     ListStateSupply, ListStateUpdate, ListSupplyError,
 };
+
+mod basic_state_supply;
+pub use basic_state_supply::{
+    BasicInverseChange, BasicStateSupply, BasicStateUpdate, BasicSupplyError,
+};

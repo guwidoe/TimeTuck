@@ -12661,3 +12661,52 @@ Live freshness matched verification digest: 0e901ed5970243048590aa1e55cc180745c3
 Existing provenance prefixes unchanged; appended10cases and11fixtures/helpers.
 Log work/list-state-supply-final-check.log; evidence work/list-state-supply-evidence.json.
 No benchmark/browser/release reruns. All handles terminal; goal remains active.
+
+
+## Basic inverse publication (current increment)
+
+Previous turn7ad5c99 was progress; starting tree clean. Added BasicStateSupply
+over existing shared BasicVariableState. Explicit typed Vec<E> shadow binding
+validates canonical schema/value entity/types and rejects a second binding.
+Seeded published collections use stable identity order and reject duplicates
+atomically. Live inverse queries follow registry state; refresh produces complete
+before/after collections or unbound per-membership fallback notifications.
+Initial notifications retain multiplicity; later refreshes coalesce interim edits.
+Registry changes validate fixed value universe and state identity. Native models
+still enforce pins/domains; callers synchronize assignment and apply returned events.
+
+Reused full BasicVariableStateTest and six fixture reads from previous turn.
+Added three source methods and six fixture records; no production implementation
+read. Three original tests cover actual caller-owned collections and scored stream
+rows for27partial assignments plus undo, invalid metadata/seeds/unknown state and
+recovery, membership multiplicity, owner additions/removals and null assignments.
+
+Focused79317 exited0: six tests. First required gate53196 failed clippy on a
+collapsible conditional; simplified the condition without changing behavior.
+Final gate rerun uses the matching login environment recorded above.
+
+Next substantive batch: all20methods of ListVariableShadowVariablesTest remain
+pending. Read full999-line test class this turn, plus all three shadowhistory
+fixtures (TestdataListEntityWithShadowHistory, TestdataListValueWithShadowHistory,
+TestdataListSolutionWithShadowHistory). All four field setters append every assigned
+value, including null, to separate histories. Assertions require exact history and
+final field value, and empty histories for untouched null neighbors; checking only
+final assignment is insufficient. BuildSolution initializes shadows once; resetting
+the same solution must not add duplicate events. Cases cover owner removal, value
+assign/unassign, six relocations, four swaps including neighbors, five sublist moves
+and three sublist swaps with reversal. Execute actual native ListProblem moves and
+consume typed supply events into the fixture histories. Preserve unassigned count
+and zero-score assertion in addAndRemoveElement. Helper provenance is also needed.
+No credits/adaptations for these20cases yet. BasicInverseShadowVariableTest and
+ListElementShadowVariableTest are already credited through existing native streams;
+do not duplicate credits for the recently inspected tests. AffectedEntitiesUpdaterTest
+was read fully but remains pending (entity-to-graph-node index grouping).
+
+Required final gate93681 exited0. 3719 Rust tests and 175 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 456}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2155, 'failed': 0, 'pending': 2418, 'excluded': 282, 'unverified': 0, 'percent': 44.387}.
+Source before/after matched: 67b0bc4f346d9968890f1b591a2b5b7e3357e84f89391ac817c69a66ca0ad6c2
+Live freshness matched verification digest: 709bb9fd630382f6da614afff6c4509a3a6119d0784966ba572aa9135443ed20.
+Existing provenance prefixes unchanged; appended3cases and6fixtures.
+Log work/basic-state-supply-final-check.log; evidence work/basic-state-supply-evidence.json.
+No benchmark/browser/release reruns. All handles terminal; goal remains active.
