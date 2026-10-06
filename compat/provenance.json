@@ -28260,6 +28260,66 @@
       "upstream_test": "solveMixedModelCustomMove",
       "local_test": "solve_mixed_model_custom_move",
       "modifications": "Preserve2/2/2fixture, exact objective, complete basics and nonempty lists and best-event helper. Bind an actual native local-search provider producing the source two ordered entity0 first-basic changes to value0/value1. The source random argument is unused; native deterministic order needs no random emulation. Assert provider invocation. Basic-then-list construction replaces two Java phases; local search bounded16steps. Native basic/list sources, graph maps, grouped counts with complement for unused values and captured datasets express actual derived outputs during moves. Final solver output is assignment/score; a fresh director using the same factory materializes final shadows, explicitly not Java mutable-solution listener lifecycle parity. Independent direct arithmetic checks all derived fields and scores. Stable integer identities replace generated Java objects. Deterministic original move order and explicit bounds replace default Java configuration; no identical stochastic trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMultiEntityMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMultiEntityMixedModel",
+      "local_test": "solve_multi_entity_mixed_model",
+      "modifications": "Preserve all four fixture sizes and exact helper assertions: required basics assigned, expected empty-list count, two basic values differ for each second-type entity. Distinct native basic/list value types retain entity-type separation. Preserve strength=10*otherValueSize-i and actual ascending strength ordering for first-basic domain; second-basic keeps source encounter order. Use exact TestdataMixedEntityEasyScoreCalculator formula and total move-evaluation limit40. Independently check final objective. Native explicit typed domains, list ranges and bounded solve plans replace Java reflection/provider discovery. Preserve real solve invocation and nonempty best-score events. No Java API, annotation discovery or identical stochastic trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMixedModelWithMultipleProviders",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMixedModelWithMultipleProviders",
+      "local_test": "solve_mixed_model_with_multiple_providers",
+      "modifications": "Preserve3entities/3basicvalues/3listvalues, solution-level basic range and entity-provided list ranges, dummy ordinary-zero objective, result availability and nonempty events. ListProblem::from_entity_ranges builds the actual registry from all three ranges; native basic/list value types remain distinct. Local search bounded16steps. Additional completeness/domain/disjoint-list assertions strengthen source nonnull result. Native explicit typed domains, list ranges and bounded solve plans replace Java reflection/provider discovery. Preserve real solve invocation and nonempty best-score events. No Java API, annotation discovery or identical stochastic trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMultiEntity",
+      "local_test": "solve_multi_entity",
+      "modifications": "Preserve3lead+3herd entities,2value facts, initially unassigned state and dummy ordinary-zero objective. Enum identities distinguish Value from Lead entity references even for equal numeric IDs; lead variables range over values, herd variables over three leads. Native plan bounded40move evaluations; preserve result and best events. Additional domain assertions reject cross-type assignments. Native explicit typed domains, list ranges and bounded solve plans replace Java reflection/provider discovery. Preserve real solve invocation and nonempty best-score events. No Java API, annotation discovery or identical stochastic trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveListVarEntityRangeModelWithTreeSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveListVarEntityRangeModelWithTreeSet",
+      "local_test": "solve_list_var_entity_range_model_with_tree_set",
+      "modifications": "Preserve actual ordered-set entity ranges [v1,v2] and [v1,v3], empty initial lists, optional values, dummy ordinary-zero objective, move-evaluation limit10 and nonempty events/result. BTreeSet orders code strings; registry derives first-occurrence union. Native NonWorsening optional construction replaces Java default placement. Additional range assertions; no requirement to assign every optional value. Native explicit typed domains, list ranges and bounded solve plans replace Java reflection/provider discovery. Preserve real solve invocation and nonempty best-score events. No Java API, annotation discovery or identical stochastic trace claim."
     }
   ],
   "fixtures": [
@@ -34970,6 +35030,214 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
       "upstream_test": "solve",
       "modifications": "Preserve nonempty best-score event assertion with native retained-best observer/events on actual solver runs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.executeSolveMultiEntityMixedModel.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "executeSolveMultiEntityMixedModel",
+      "modifications": "Retain four fixture combinations, all helper assertions, source score formula and40move limit. Native explicit domain order implements comparator influence on construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySolution.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve equal counts of distinct basic/list entity groups, both value ranges and strengths otherValueSize*10-i. Stable typed IDs replace generated codes and omit unused difficulty metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntityFirstEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstEntity.java",
+      "upstream_test": "valueList",
+      "modifications": "Preserve required initially empty list variable as distinct list-entity group; no reflective comparator discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondEntity.java",
+      "upstream_test": "basicValue; secondBasicValue",
+      "modifications": "Two required variables share value membership; first range is comparator-ordered, second keeps encounter order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondValue.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondValue.java",
+      "upstream_test": "constructor; getStrength",
+      "modifications": "Preserve generated strength in typed BasicValue payload."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondValueComparator.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondValueComparator.java",
+      "upstream_test": "compare",
+      "modifications": "Rust ascending sort_by_key over actual strength replaces the Java ascending Integer comparator."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEntityEasyScoreCalculator.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedEntityEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact objective: assigned basics+1, list size1+2 otherwise+1. Independent reference checks final sum."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultipleProviderSolution.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/multipleprovider/TestdataMixedMultipleProviderSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve3entities, solution basic range3 and shared entity-provided list range3 with empty initial lists."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultipleProviderEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/multipleprovider/TestdataMixedMultipleProviderEntity.java",
+      "upstream_test": "basicValue; valueList; getValueRange",
+      "modifications": "Preserve required basic/list variables and actual entity list ranges. Native registry union replaces implicit range discovery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiEntitySolution.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve3lead/3herd groups and2value facts; initial fields null and stable namespace-separated identities."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeadEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataLeadEntity.java",
+      "upstream_test": "getValue",
+      "modifications": "Native lead variable uses only the two value facts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHerdEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataHerdEntity.java",
+      "upstream_test": "getLeadEntity",
+      "modifications": "Native herd variable uses only lead entity references, not value facts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingSortedSetSolution.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/sortedset/TestdataListUnassignedEntityProvidingSortedSetSolution.java",
+      "upstream_test": "generateSolution; getValueList",
+      "modifications": "Retain two overlapping provider ranges and distinct first-encounter union [v1,v2,v3]."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingSortedSetEntity.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/sortedset/TestdataListUnassignedEntityProvidingSortedSetEntity.java",
+      "upstream_test": "constructor; valueRange; valueList",
+      "modifications": "BTreeSet over code strings preserves source TreeSet ordering; optional lists remain initially empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve actual nonempty retained-best event assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/multi_entity_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.entity_registry",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Native empty network retains exact ordinary-zero objective; required missing assignments use structural penalties."
     }
   ]
 }

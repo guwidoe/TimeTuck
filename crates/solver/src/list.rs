@@ -121,6 +121,9 @@ pub enum ListError {
     UnassignmentNotAllowed,
     DuplicateDomainValue,
     DuplicateAssignedValue,
+    MissingEntityValueRange {
+        entity: usize,
+    },
     DuplicateEntityRangeValue {
         entity: usize,
     },
@@ -205,6 +208,38 @@ impl<V: Eq + Clone> ListProblem<V> {
         problem.validate(&problem.initial_assignment())?;
         Ok(problem)
     }
+    /// Build the registry from explicit per-entity ranges. Values shared by several
+    /// ranges occur once, in first-encounter order across entities and their ranges.
+    /// Each entity must supply a range (an empty range is valid). All ordinary
+    /// duplicate, assignment, range and pin validation still applies. Comparisons
+    /// use Eq; equal values must denote the same planning identity.
+    ///
+    /// ```
+    /// use timetuck::{ListEntity, ListProblem};
+    /// let p = ListProblem::from_entity_ranges(vec![
+    ///     ListEntity::new(vec![]).with_value_range(vec![2, 1]),
+    ///     ListEntity::new(vec![]).with_value_range(vec![1, 3]),
+    /// ])?;
+    /// assert_eq!(p.values(), &[2, 1, 3]);
+    /// assert_eq!(p.entities()[1].value_range(), Some([1, 3].as_slice()));
+    /// # Ok::<(), timetuck::ListError>(())
+    /// ```
+    pub fn from_entity_ranges(entities: Vec<ListEntity<V>>) -> Result<Self, ListError> {
+        let mut values = Vec::new();
+        for (entity, meta) in entities.iter().enumerate() {
+            let range = meta
+                .value_range
+                .as_ref()
+                .ok_or(ListError::MissingEntityValueRange { entity })?;
+            for value in range {
+                if !values.contains(value) {
+                    values.push(value.clone());
+                }
+            }
+        }
+        Self::new(values, entities)
+    }
+
     pub fn allowing_unassigned(mut self) -> Self {
         self.allows_unassigned = true;
         self

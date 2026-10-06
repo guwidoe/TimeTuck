@@ -2360,3 +2360,12 @@ the first factory proposal; the custom provider produces both original proposals
 An independent 480-trial regression checks scores and all four derived outputs across
 joint moves, required-variable clearing, list unassignment, commits and rollback,
 with activity pruning enabled and disabled. No new throughput claim.
+
+Four more DefaultSolverTest adaptations cover distinct basic/list entity groups,
+solution-level and entity-level value providers, lead-entity reference domains and
+ordered-set ranges. Native typed values/enum namespaces retain domain distinctions.
+The multientity fixture preserves ascending strength order for one basic variable
+and encounter order for the other, with exact source scoring and all four fixture
+sizes. Entity-only list ranges use the native stable registry-union constructor;
+this is explicit configuration, not reflective provider discovery. Three original
+regressions cover metadata/pins, malformed ranges and256 overlapping range pairs.

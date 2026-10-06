@@ -844,3 +844,13 @@ snapshot. This facility batches custom cascades; standard list shadows and strea
 events retain their existing eager behavior. Callers feed changed custom values
 into scoring sources after flushing; cache and separate graph transactions do not
 form one automatically coordinated transaction.
+
+
+`ListProblem::from_entity_ranges` accepts entities with explicit ranges and derives
+the global registry by a stable first-encounter union. Every entity must supply a
+range; an empty range is valid, and shared values occur once in the registry.
+Ordinary constructor validation still rejects duplicate entries within a range,
+illegal initial assignments and pins. Equality denotes planning identity; no Hash
+or Ord bound is added. Entity/domain iteration order defines the registry order.
+Use the ordinary constructor when an explicit global registry is available or some
+entities have unrestricted ranges. Optionality remains a separate model setting.

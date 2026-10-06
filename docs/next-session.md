@@ -11412,3 +11412,42 @@ All processes terminal; no new benchmark/release/browser verification needed.
 Full goal active. Next pending mixed cases include multientity, multiple value
 providers and sorter manners; their fixtures/assertions need full reading before
 adapting. Do not reuse these single-entity tests as credit for those methods.
+
+
+## Entity range registries and multiple entity types
+
+Added ListProblem::from_entity_ranges: requires every entity to provide an explicit
+range, builds a first-encounter Eq union, and delegates assignment/pin validation
+to the existing constructor. Empty ranges are valid; equal values must represent
+the same planning identity. No new Hash/Ord requirement or performance claim.
+Original regressions cover malformed inputs, pinned/resumed metadata and all256
+pairs of subsets of a four-value universe, including actual construction solves.
+
+Four DefaultSolverTest adaptations cover solveMultiEntityMixedModel (all four
+fixture sizes, distinct basic/list types, actual ascending-strength first-basic
+ordering), solveMixedModelWithMultipleProviders (entity-range union), solveMultiEntity
+(lead references and ordinary values in separate enum namespaces) and
+solveListVarEntityRangeModelWithTreeSet (actual BTreeSet ranges, optional lists).
+Exact source objectives and result/event assertions retained. Native explicit
+models replace reflection; deterministic bounded search replaces source defaults.
+No production implementation inspected. Provenance adds four cases and16 helpers.
+Focused7tests, Clippy and all-target no-run build passed. Final gate8965 exited0.
+3344 Rust tests and153 doctests passed.353 Rust jobs ran,56 reused;46 Python
+jobs reused. Source-before/after equal:
+1321f28ba6d1da4d13f4634742f46049a99afd4cac0744084043d7aabef24a94.
+Dashboard1888/4855 (38.888%),2685pending,282excluded,0failed/unverified.
+Live freshness matched verification digest:
+f787d7a27af417cc93cbcab4d028e2c43501405bf5e15c09cb0d94aee2c480a4.
+Logs work/entity-registry-{focused,clippy,build,check}.log; all processes terminal.
+No benchmark/release/UI reruns. Whole goal remains active.
+
+Next: entity-range parameterized solves need complete selector coverage. The list
+methods use generateMovesForListVarEntityRangeModel, NOT generateMovesForListVar:
+nine variants (change random/original, swap random/original, sublist change/swap,
+k-opt, ruin/recreate, union of all). Helper2134-2179 and source calculator/entity/
+solution fixtures fully read. Optional empty lists, ranges[v1,v2],[v2,v3],[v4,v5];
+score per owner=2 for length>=2 else1. Source requires every final list nonempty,
+owner ranges respected and best events. One/two local phases, each1000move limit.
+Native NeighborhoodUnion presently covers ordinary Neighborhood variants; inspect
+actual ruin/recreate integration before claiming union fidelity. Leave these two
+methods pending until all variants are implemented/exercised.
