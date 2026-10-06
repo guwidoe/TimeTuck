@@ -7,7 +7,7 @@ use std::{
 };
 
 /// Number of structurally complete assignments before scoring constraints.
-/// Restricted list ranges use an explicitly labelled upper bound.
+/// Restricted list ranges and dependency-constrained lists use a labelled upper bound.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AssignmentSpace {
     pub count: BigUint,
@@ -45,7 +45,9 @@ impl<V: Eq> ProblemStatistics for FiniteProblem<V> {
                 }
             }
             let choices = if variable.is_pinned() {
-                BigUint::from(1u8)
+                BigUint::from(u8::from(
+                    variable.initial().is_some() || variable.allows_unassigned(),
+                ))
             } else {
                 BigUint::from(variable.domain().len())
                     + BigUint::from(u8::from(variable.allows_unassigned()))
@@ -106,7 +108,7 @@ impl<V: Eq + Clone> ProblemStatistics for ListProblem<V> {
             value_count: self.values().len(),
             assignment_space: AssignmentSpace {
                 count,
-                exact: !restricted,
+                exact: !restricted && self.dependencies.is_none(),
             },
         }
     }

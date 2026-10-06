@@ -732,3 +732,9 @@ pub use working_object_lookup::{
     PlanningIdMember, WorkingLookupError, WorkingLookupSchema, WorkingLookupStrategy,
     WorkingObjectLookup,
 };
+
+mod named_statistics;
+pub use named_statistics::{
+    NamedProblemSize, ProblemScale, StatisticsEntityType, StatisticsSchemaError,
+    StatisticsVariable, StatisticsVariableKind,
+};

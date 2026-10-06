@@ -12259,3 +12259,51 @@ Source before/after matched:8548b5c02eb9f86919c0627255aaa0d9d538972e089b924dfaac
 Live freshness matched verification digest:c2f3a656e033cd5f16aae71890efa12d43b160bb8f929f44f0bce961ebccb936.
 Log work/working-lookup-final-check.log; evidence work/working-lookup-evidence.json.
 All process handles terminal. No benchmark/browser/release reruns. Goal active.
+
+
+## Named model statistics (current increment)
+
+Previous user-facing turn only confirmed active goal status (no progress); resumed
+live prebuild30606 without restart. Existing uncommitted statistics implementation
+and focused tests retained. NamedProblemSize binds native slots to logical entity
+types/fields, validates complete unique bindings and preserves declared range counts
+for empty models. Mixed fields share logical entities. ProblemScale handles huge
+BigUint spaces and grouped/scientific formatting. Corrected required-null pinned
+variables to zero complete assignments; dependency list counts are upper bounds.
+
+Ten ProblemSizeStatisticsTest methods and21fixture/helper records adapted at the
+pinned revision. Explicit metadata replaces reflective discovery. The JVM default
+fixed-point precision case remains pending; native scaled_log takes explicit
+precision. Read MathUtilsTest only, not its production implementation/constant.
+Focused named_statistics/named_statistics_cases/job_statistics passed; new files
+reviewed. One new doctest. No benchmark/browser/release reruns planned.
+
+Next area scouted while compiling: full ValueRangeManagerTest read, including
+both sorting helpers (tests only). Solution/entity/composite extraction adds None
+only for optional basic variables, deduplicates unions and retains per-entity
+ranges. Equal ranges share identity. Sorting replaces the active/default range;
+repeating the same sorter reuses identity, a new sorter replaces it. List optional
+ranges never contain None. Initialization counters refresh on reset. Scale cases
+also distinguish solution ranges from per-entity sums (including optional None);
+restricted-list example approximates24*0.5=12. Keep these scale estimates separate
+from our exact-count/upper-bound statistics. Existing value_range.rs supplies
+immutable ranges/materialization/sorting; a managed per-entity registry is useful.
+Full basic entity-provided fixture reads completed: TestdataEntityProviding{Solution,Entity},
+TestdataCompositeEntityProviding{Solution,Entity},
+TestdataAllowsUnassignedEntityProviding{Solution,Entity}, and
+TestdataAllowsUnassignedCompositeEntityProviding{Solution,Entity} under
+core/testdomain/valuerange/entityproviding (tests tree). Simple required factory
+uses codes1/2/3, optional uses v1/v2/v3, ranges[1,2]/[1,3]. Composite factories use
+[v1,v2]+[v1,v4] and[v1,v3]+[v1,v5]. Sorting fixtures use6values/2entities: simple
+uninitialized disjoint3-value ranges; composite each entity combines two disjoint
+three-value halves. All start unassigned for the referenced sorting cases.
+Other range fixtures remain unread; no cases credited or implementation started.
+
+Required prebuild30606 and gate70323 exited0. 3553Rust tests and168doctests passed.
+Rust jobs:{'RUN': 385, 'REUSE': 57}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 2015, 'failed': 0, 'pending': 2558, 'excluded': 282, 'unverified': 0, 'percent': 41.504}.
+Source before/after matched:718245c26d067d6c4a383dd9c567de75721d34f233952353352db7b3394d2e4c
+Live freshness matched verification digest:24503c91863f447621cfcf98363ea35bf25c4e203064b49cd617b8cd669e5380.
+Logs work/named-statistics-{build-all,final-check}.log; evidence
+work/named-statistics-evidence.json. All handles terminal. No verification failures.
+No benchmark/browser/release reruns. Goal remains active.

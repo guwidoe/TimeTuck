@@ -2715,3 +2715,29 @@ and manager tests with exact fixture attribution. The inherited-null-ID and inte
 metadata cases remain pending, as does the full parameterized immutable-type matrix.
 Original tests cover identity-preserving resolution, namespaces, atomic replacement,
 callback failures and using resolved external values in both native scoring backends.
+
+
+## Named problem-size statistics and scale formatting
+
+NamedProblemSize extends existing native statistics with explicit entity-type and
+field bindings. Every basic/list slot must be bound exactly once, every field must
+have one slot per entity, and duplicate names, missing slots and invalid indices
+are rejected. Multiple basic/list fields can describe the same logical entity.
+Distinct values are counted per type/field and summed across those namespaces.
+Empty basic fields require a separately declared range size; list registries retain
+this information even without owners. Assignment-space counts come from the model.
+
+ProblemScale extracts a finite logarithm from arbitrarily large BigUint counts and
+formats US-grouped integers or six-decimal scientific notation. Imported nonfinite
+logs format as zero. Native fixed-point conversion accepts explicit precision; the
+source case requiring the JVM default LOG_PRECISION remains pending. No production
+MathUtils implementation or constant was read. Named metadata is explicit, without
+Java descriptor/annotation/record discovery.
+
+Ten ProblemSizeStatisticsTest methods preserve source fixtures, entity/variable and
+range counts, per-type/per-variable maps and formatting assertions. Original tests
+cover mixed multi-field entity grouping, invalid bindings, empty-model metadata,
+large logarithms, pins and dependency restrictions. Existing native statistics now
+count an uninitialized required pinned slot as zero complete assignments and label
+list counts with dependency metadata as upper bounds. Existing job telemetry uses
+these corrected native counts; its flattened-slot fields remain backward compatible.

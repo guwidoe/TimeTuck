@@ -30075,6 +30075,156 @@
       "upstream_test": "resetWorkingObjects",
       "local_test": "manager_reset_working_objects",
       "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Option::None represents the source null object. Reset/repopulation uses the original stored Arcs and preserves lookup/removal behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.simpleSolutionEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "simpleSolutionEntityAndVariableCount",
+      "local_test": "simple_solution_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.emptySolutionEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "emptySolutionEntityAndVariableCount",
+      "local_test": "empty_solution_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.uninitializedSolutionEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "uninitializedSolutionEntityAndVariableCount",
+      "local_test": "uninitialized_solution_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.singleEntityAndValue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "singleEntityAndValue",
+      "local_test": "single_entity_and_value",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.compositeValueRangesEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "compositeValueRangesEntityAndVariableCount",
+      "local_test": "composite_value_ranges_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.multipleEntityTypesEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "multipleEntityTypesEntityAndVariableCount",
+      "local_test": "multiple_entity_types_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim. Distinct tagged value namespaces preserve the five fact values and five string values, four entities of each type and the source initialization formulas; displayed type labels are First and Second."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.listVariableEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "listVariableEntityAndVariableCount",
+      "local_test": "list_variable_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.cascadingListVariableEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "cascadingListVariableEntityAndVariableCount",
+      "local_test": "cascading_list_variable_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.recordEntityAndVariableCount",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "recordEntityAndVariableCount",
+      "local_test": "record_entity_and_variable_count",
+      "modifications": "Native finite/list models preserve fixture cardinalities and initialization. Explicit validated entity-type/variable slot bindings replace reflective SolutionDescriptor/ValueRangeManager metadata. Counts are computed from actual model domains and entity bindings, including per-type/per-variable maps; an empty finite model receives its separately declared range size. Native names replace Java Class keys; no reflection or record/annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.formatApproximateProblemScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "formatApproximateProblemScale",
+      "local_test": "format_approximate_problem_scale",
+      "modifications": "Preserve every source count, US grouping string, six-decimal scientific string, nonfinite-log handling and zero-log result. Native explicit base-10 logarithm construction replaces the source test-local statistics constructors; formatting is locale-independent. No JVM fixed-point default precision is claimed."
     }
   ],
   "fixtures": [
@@ -38579,6 +38729,279 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/AbstractLookupTest.java",
       "upstream_test": "setUpLookUpManager/createLookupStrategyResolver",
       "modifications": "Native per-test constructor selects IdOrFail, IdOrNone or Disabled with explicit schemas. No Java member-accessor factory, descriptor-policy implementation or reflection resolver is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Native registry identities and per-slot domains preserve the generator counts and initialized modulo-value assignments or uninitialized None. Explicit named metadata supplies type and field identities; empty models retain a separate declared range cardinality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Native registry identities and per-slot domains preserve the generator counts and initialized modulo-value assignments or uninitialized None. Explicit named metadata supplies type and field identities; empty models retain a separate declared range cardinality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataValue.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Native registry identities and per-slot domains preserve the generator counts and initialized modulo-value assignments or uninitialized None. Explicit named metadata supplies type and field identities; empty models retain a separate declared range cardinality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataObject.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Native registry identities and per-slot domains preserve the generator counts and initialized modulo-value assignments or uninitialized None. Explicit named metadata supplies type and field identities; empty models retain a separate declared range cardinality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataCompositeSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/composite/TestdataCompositeSolution.java",
+      "upstream_test": "TestdataCompositeSolution",
+      "modifications": "Preserve two disjoint four-value ranges combined into eight values and six uninitialized entity slots. Native domain composition replaces annotated multiple value-range providers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataCompositeEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/composite/TestdataCompositeEntity.java",
+      "upstream_test": "TestdataCompositeEntity",
+      "modifications": "Preserve two disjoint four-value ranges combined into eight values and six uninitialized entity slots. Native domain composition replaces annotated multiple value-range providers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataConstraintVerifierSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierSolution.java",
+      "upstream_test": "TestdataConstraintVerifierSolution",
+      "modifications": "Preserve the alternating two entity types, separate five-value fact/string ranges, source initialization indices and four instances per type. Tagged native values and explicit type/field bindings replace subclass and reflective metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataConstraintVerifierExtendedSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierExtendedSolution.java",
+      "upstream_test": "TestdataConstraintVerifierExtendedSolution",
+      "modifications": "Preserve the alternating two entity types, separate five-value fact/string ranges, source initialization indices and four instances per type. Tagged native values and explicit type/field bindings replace subclass and reflective metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataConstraintVerifierFirstEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierFirstEntity.java",
+      "upstream_test": "TestdataConstraintVerifierFirstEntity",
+      "modifications": "Preserve the alternating two entity types, separate five-value fact/string ranges, source initialization indices and four instances per type. Tagged native values and explicit type/field bindings replace subclass and reflective metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataConstraintVerifierSecondEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierSecondEntity.java",
+      "upstream_test": "TestdataConstraintVerifierSecondEntity",
+      "modifications": "Preserve the alternating two entity types, separate five-value fact/string ranges, source initialization indices and four instances per type. Tagged native values and explicit type/field bindings replace subclass and reflective metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataRecordSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordSolution.java",
+      "upstream_test": "TestdataRecordSolution",
+      "modifications": "Native record-value structs preserve code-based value equality, four values and nine modulo-initialized entities. Explicit schema labels replace reflective metadata; no Java record discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataRecordEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordEntity.java",
+      "upstream_test": "TestdataRecordEntity",
+      "modifications": "Native record-value structs preserve code-based value equality, four values and nine modulo-initialized entities. Explicit schema labels replace reflective metadata; no Java record discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataRecordValue.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordValue.java",
+      "upstream_test": "TestdataRecordValue",
+      "modifications": "Native record-value structs preserve code-based value equality, four values and nine modulo-initialized entities. Explicit schema labels replace reflective metadata; no Java record discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataEqualsByCodeListSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/equals/list/TestdataEqualsByCodeListSolution.java",
+      "upstream_test": "TestdataEqualsByCodeListSolution",
+      "modifications": "String value identities preserve code equality, four registered values and six empty entity lists. Native list registry and explicit valueList binding replace annotated shadows/descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataEqualsByCodeListEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/equals/list/TestdataEqualsByCodeListEntity.java",
+      "upstream_test": "TestdataEqualsByCodeListEntity",
+      "modifications": "String value identities preserve code equality, four registered values and six empty entity lists. Native list registry and explicit valueList binding replace annotated shadows/descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataEqualsByCodeListValue.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/equals/list/TestdataEqualsByCodeListValue.java",
+      "upstream_test": "TestdataEqualsByCodeListValue",
+      "modifications": "String value identities preserve code equality, four registered values and six empty entity lists. Native list registry and explicit valueList binding replace annotated shadows/descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataEqualsByCodeListObject.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/equals/list/TestdataEqualsByCodeListObject.java",
+      "upstream_test": "TestdataEqualsByCodeListObject",
+      "modifications": "String value identities preserve code equality, four registered values and six empty entity lists. Native list registry and explicit valueList binding replace annotated shadows/descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataSingleCascadingSolution.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingSolution.java",
+      "upstream_test": "TestdataSingleCascadingSolution",
+      "modifications": "Preserve uninitialized fixture with values numbered 1 through 3 and five empty list owners. Derived fields are not genuine variables and are not counted; this statistics case does not execute cascade suppliers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataSingleCascadingEntity.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingEntity.java",
+      "upstream_test": "TestdataSingleCascadingEntity",
+      "modifications": "Preserve uninitialized fixture with values numbered 1 through 3 and five empty list owners. Derived fields are not genuine variables and are not counted; this statistics case does not execute cascade suppliers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "TestdataSingleCascadingValue.named_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingValue.java",
+      "upstream_test": "TestdataSingleCascadingValue",
+      "modifications": "Preserve uninitialized fixture with values numbered 1 through 3 and five empty list owners. Derived fields are not genuine variables and are not counted; this statistics case does not execute cascade suppliers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "id": "ProblemSizeStatisticsTest.scale_helpers",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "upstream_test": "getProblemSizeStatisticsFromCountLong/getProblemSizeStatisticsFromDoubleLog",
+      "modifications": "Native ProblemScale::from_log10 accepts the same base-10 logs computed from integer counts or supplied nonfinite values. Empty source count maps are irrelevant to the formatting-only assertions and are not fabricated."
     }
   ]
 }
