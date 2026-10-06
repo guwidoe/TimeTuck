@@ -95,6 +95,7 @@ fn configured_components_and_joint_products_match_independent_component_moves() 
                                     }
                                 }
                                 let c = MixedNeighborhood {
+                                    pillar_schema: None,
                                     basic: b,
                                     lists: l,
                                     basic_variables: Some(selected),
@@ -150,6 +151,7 @@ fn scopes_preserve_pins_and_other_basic_slots_for_rich_families() {
             Neighborhood::KOpt(ListKOptConfig::new(2, 3).unwrap()),
         ] {
             let c = MixedNeighborhood {
+                pillar_schema: None,
                 basic: Some(basic),
                 lists: Some(lists),
                 basic_variables: Some(&[0]),
@@ -292,6 +294,7 @@ fn independently_configured_joint_moves_escape_coupled_trap_in_both_backends() {
     for joint in [false, true] {
         let children = [(
             MixedNeighborhood {
+                pillar_schema: None,
                 basic: Some(Neighborhood::Change),
                 lists: Some(Neighborhood::Swap),
                 basic_variables: Some(&[0]),

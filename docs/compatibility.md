@@ -2400,3 +2400,17 @@ phase plans; source suite credit remains unchanged. The larger mixed selector ca
 still need accurate per-family pillar grouping: pillar change selects one basic
 column, while pillar swap can select an entire two-column entity row. Do not count
 those methods until all twelve source configurations preserve those distinctions.
+
+
+The two mixed-selector DefaultSolverTest methods now preserve all twelve source
+configurations apiece. Per-family pillar schemas distinguish first-basic-column
+grouping from aligned two-column entity grouping. Singleton row swaps, subpillar
+changes/swaps, independently scoped basic/list repair, five list move families
+and the eleven-child union run through real bounded solver plans. Initial fixture
+sizes, component construction order, exact objectives, nonempty best events and
+all final source assertions remain intact, including comparator-induced differing
+basics in the multientity fixture. Native deterministic sampling and explicit
+schemas replace Java factory/PRNG behavior; reflection/shadow lifecycle and equal
+proposal distributions are not claimed. Three original regressions cover 256
+state/pin/range combinations, invalid configuration before callbacks and crossing
+a local barrier through both complete scoring backends.

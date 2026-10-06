@@ -11,6 +11,10 @@ pub struct MixedNeighborhood<'a> {
     pub basic: Option<Neighborhood>,
     pub lists: Option<Neighborhood>,
     pub basic_variables: Option<&'a [usize]>,
+    /// Override model grouping for this family's Pillar/SubPillar neighborhood.
+    /// Other basic neighborhood kinds reject a schema override. None retains the
+    /// model schema. The override does not mutate the model or other families.
+    pub pillar_schema: Option<&'a crate::PillarSchema>,
     /// Emit basic singles, list singles, then their Cartesian product.
     pub joint_moves: bool,
 }
@@ -20,6 +24,7 @@ impl Default for MixedNeighborhood<'_> {
             basic: Some(Neighborhood::ChangeAndSwap),
             lists: Some(Neighborhood::ChangeAndSwap),
             basic_variables: None,
+            pillar_schema: None,
             joint_moves: false,
         }
     }
@@ -27,6 +32,8 @@ impl Default for MixedNeighborhood<'_> {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum MixedNeighborhoodError {
     Model(MixedError),
+    Pillar(crate::PillarError),
+    SchemaRequiresPillarNeighborhood,
     UnknownBasicVariable { variable: usize, count: usize },
     DuplicateBasicVariable { variable: usize },
 }
@@ -34,6 +41,10 @@ impl std::fmt::Display for MixedNeighborhoodError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Model(e) => e.fmt(f),
+            Self::Pillar(e) => e.fmt(f),
+            Self::SchemaRequiresPillarNeighborhood => {
+                f.write_str("schema override requires a Pillar or SubPillar neighborhood")
+            }
             Self::UnknownBasicVariable { variable, count } => {
                 write!(f, "basic variable {variable} outside {count} slots")
             }
@@ -47,6 +58,7 @@ impl std::error::Error for MixedNeighborhoodError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             Self::Model(e) => Some(e),
+            Self::Pillar(e) => Some(e),
             _ => None,
         }
     }
@@ -63,6 +75,14 @@ impl MixedNeighborhood<'_> {
     ) -> Result<(), MixedNeighborhoodError> {
         if let Some(n) = self.basic {
             n.validate_basic(p.basic()).map_err(MixedError::Basic)?;
+            if let Some(schema) = self.pillar_schema {
+                if !matches!(n, Neighborhood::Pillar { .. } | Neighborhood::SubPillar(_)) {
+                    return Err(MixedNeighborhoodError::SchemaRequiresPillarNeighborhood);
+                }
+                schema
+                    .validate(p.basic().variables().len())
+                    .map_err(MixedNeighborhoodError::Pillar)?;
+            }
             if let Some(selected) = self.basic_variables {
                 for (i, &variable) in selected.iter().enumerate() {
                     if variable >= p.basic().variables().len() {
@@ -128,12 +148,36 @@ fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
             || (0..p.basic().variables().len()).collect(),
             |s| s.to_vec(),
         );
-        Box::new(
-            neighborhood::ordered(p.basic(), a.basic(), n, order.into_iter()).filter(move |m| {
-                c.basic_variables
-                    .is_none_or(|s| m.touched_variables().iter().all(|i| s.contains(i)))
-            }),
-        )
+        let moves = if let Some(schema) = c.pillar_schema {
+            let config = match n {
+                Neighborhood::Pillar { swaps } => crate::pillar_schema::Settings {
+                    left: None,
+                    right: None,
+                    changes: crate::PillarChangeMode::All,
+                    swaps,
+                },
+                Neighborhood::SubPillar(n) => crate::pillar_schema::Settings {
+                    left: Some(n.selection),
+                    right: n.swap_selection,
+                    changes: n.changes,
+                    swaps: n.swap_selection.is_some(),
+                },
+                _ => unreachable!("schema neighborhood validated"),
+            };
+            Box::new(crate::pillar_schema::ordered_with_schema(
+                p.basic(),
+                a.basic(),
+                config,
+                order.into_iter(),
+                Some(schema),
+            )) as Box<dyn Iterator<Item = Move<B>> + 'a>
+        } else {
+            neighborhood::ordered(p.basic(), a.basic(), n, order.into_iter())
+        };
+        Box::new(moves.filter(move |m| {
+            c.basic_variables
+                .is_none_or(|s| m.touched_variables().iter().all(|i| s.contains(i)))
+        }))
     };
     let lists = move || -> Box<dyn Iterator<Item = ListMove<L>> + 'a> {
         match c.lists {

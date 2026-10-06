@@ -11597,3 +11597,64 @@ aa45604712a64180b88b540e1f4976423e530f4d951739cafac4ca73d00ae8fd.
 Logs work/repair-scope-final-check.log (one test assertion failure),
 work/repair-scope-final-check2.log (success). All processes terminal.
 No benchmark/release/browser reruns; full rewrite goal remains active.
+
+
+## Per-family pillar schemas and complete mixed selector adaptations
+
+MixedNeighborhood.pillar_schema now overrides the model schema for one enabled
+Pillar/SubPillar basic family. Other enabled basic families reject it; disabled
+basic skips override validation. Refactored internal pillar enumeration to accept
+a borrowed schema directly; existing model-based entry retains behavior. Both
+configured unions and RepairNeighborhood::Mixed carry it through shared search.
+
+mixed_pillar_schemas.rs has 3 original tests:256 full binary states/pin/range variants
+with independent column-change/aligned-row-swap successors, model-schema retention,
+union occurrence counts, invalid schemas/kinds before scoring/graph setup, and
+full scoped/stream plans where a first-column whole pillar crosses a local barrier
+that model-global row grouping cannot cross.
+
+mixed_selector_solver_cases.rs adapts DefaultSolverTest.solveMoveConfigMixedModel
+and solveMultiEntityMoveConfigMixedModel, each with all 12 source configurations.
+Basic change allslots; ordinary swap = aligned row singleton subpillars; pillar
+change = first-column schema and no swaps; pillar swap = two-column schema and
+no changes; basic repair = first-column candidates; list change/swap/sublistchange/
+sublist swap/repartition kopt; list repair = offset list IDs; union =9 fine children
+and 2 distinct repair pools. Equal weights, seed 20261006, search 40 attempts/candidate
+scores. Native bounded sampling/default acceptance differs from Java default
+traces, disclosed. Source tiny fixtures may have empty swap/kopt families.
+Exact source score formulas/initialstates, basic-then-list vslist-then-basic order,
+all result assertions and best events retained. Multientity ascending strength
+firstdomain versus encounter seconddomain produces required differing values.
+Combined native construction phase replaces two source phases; local budget is
+phase-specific, not construction-inclusive. Added 2 case and 13 fixture/helper records.
+
+Source test methods/generators 1854-1999 read; multivariable SwapMoveSelectorTest
+multiVarRandomSelectionWithEntityValueRange read to confirm aligned swaps and all
+selected-column domain checks. No production implementation read or adapted.
+Focused first compile failed due to moving a non-Copy MixedFact pair; replaced by
+separate pattern matches. Focused 65178 exit 1 then 81252 exit 0, all 5 new tests pass.
+Logs work/mixed-pillars-focused{,2}.log. All-target build 49925 pending at writing,
+work/mixed-pillars-build.log. Full check/dashboard verification follows.
+
+Next candidates read from DefaultSolverTest 1088-1270: solveSingleVarMoveConfig
+(6 variants: change/swap/pillarchange/pillarswap/repair/union), solveListVarMoveConfig
+(6 variants: listchange/listswap/sublistchange/sublist swap/repair/union),
+solveMultiVarMoveConfig(5 variants: change/alignedswap/primary-column pillarchange/
+rowpillarswap/union), solveMultiEntityMoveConfig(5 variants: change/swap/lead-only
+pillarchange/lead-onlypillarswap/union). Source basic/list 2 x 2 fixtures; multiVar needs
+read actual entity/solution fixture (not yet read). Last case has lead then herd
+construction and scoretarget 0, so search may never execute; preserve actual source
+behavior and don't pretend that case alone proves its selectors execute. All use
+search move limit 40 and dummyzeroobjective, actual helper nonemptybest events;
+multivar TRACKED_FULL_ASSERT has native score assertions but no Java environment
+mode parity. These methods are still pending. Do not inspect production sources.
+
+
+Final evidence: all-target build49925 exited0. Gate56091 exited0, log
+work/mixed-pillars-final-check.log:3367Rust tests,154doctests passed. Rust jobs359ran,
+56reused; all46Python jobs reused. Test metadata exit0 and equal before/after source:
+7af8e29e48ddd433d5aad78e5a1c47f70a891c4e8385ff668aa2eaf9a126edbe.
+Report1894/4855 (39.011%),2679pending,282excluded,0failed/unverified.
+Live /api/freshness matched verification digest:
+747a12fc5db818136b86a5bd39f1a5ee2e955b73063b858bf1c7f22f28b02a29.
+All processes terminal. No performance/release/browser reruns. Goal remains active.

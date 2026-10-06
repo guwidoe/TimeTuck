@@ -378,3 +378,30 @@ One cooperative timer spans the whole product, including setup, enumeration and
 preparing the owned joint assignment before scoring. It never resets between
 components. See `planning-contract.md` for exact-search deadline precedence,
 retained-best and final-exhaustion behavior, and the native verification scope.
+
+
+## Per-family pillar grouping
+
+`MixedNeighborhood::pillar_schema` optionally replaces the model's grouping for
+one Pillar/SubPillar family. A single-column schema groups only that column; an
+aligned multicolumn schema groups complete selected entity tuples. Other families
+and the model retain their own schema. Ordinary entity-row swaps are expressed
+by swap-only singleton subpillars; larger subsets express pillar swaps. Existing
+row pinning, domain intersection and selected-slot filters still apply. Enabled
+nonpillar basic families reject overrides; disabled basic families ignore them.
+
+Configured unions and `RepairNeighborhood::Mixed` retain the borrowed schema
+through phase validation, sampling and execution in both scoring backends.
+Original regressions compare independent expected successors across 256 binary
+states/pin/range configurations and force a single-column pillar to cross a local
+barrier in complete scoped/stream plans. No additional Java trace claim follows.
+
+Two DefaultSolverTest mixed-selector methods now exercise all twelve source
+configurations each, including independent first-basic-only and list-only repair
+pools and an eleven-child union. First-basic pillar changes use single-column
+keys; pillar swaps use aligned two-column keys. Native bounded sampling replaces
+Java selector randomness. Construction retains basic-then-list or list-then-basic
+component order, combined into one native phase. Both source objectives, all final
+assignment/list-count assertions, comparator-induced differing basic values and
+actual nonempty best events are preserved. Tiny source fixtures can leave some
+families empty; this does not establish large-instance throughput.

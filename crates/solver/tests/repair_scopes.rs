@@ -162,6 +162,7 @@ fn weighted_basic_and_list_pools_never_ruin_across_scopes_in_one_attempt() {
     let families = [
         (
             RepairNeighborhood::Mixed(MixedNeighborhood {
+                pillar_schema: None,
                 basic: Some(Neighborhood::Change),
                 lists: None,
                 basic_variables: Some(&[0]),

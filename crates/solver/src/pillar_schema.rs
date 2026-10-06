@@ -133,8 +133,16 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     config: Settings,
     order: impl Iterator<Item = usize>,
 ) -> impl Iterator<Item = Move<V>> + 'a {
-    let rows = p
-        .pillar_schema()
+    ordered_with_schema(p, a, config, order, p.pillar_schema())
+}
+pub(crate) fn ordered_with_schema<'a, V: Eq + Clone>(
+    p: &'a FiniteProblem<V>,
+    a: &'a Assignment<V>,
+    config: Settings,
+    order: impl Iterator<Item = usize>,
+    schema: Option<&'a PillarSchema>,
+) -> impl Iterator<Item = Move<V>> + 'a {
+    let rows = schema
         .map(|s| s.rows.clone())
         .unwrap_or_else(|| Arc::new((0..p.variables().len()).map(|i| vec![i]).collect()));
     let groups = groups(p, a, &rows, order);

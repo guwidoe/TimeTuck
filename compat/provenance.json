@@ -28380,6 +28380,36 @@
       "upstream_test": "solveBasicVarEntityRangeModelMultipleLocalSearch",
       "local_test": "solve_basic_var_entity_range_model_multiple_local_search",
       "modifications": "Preserve initially null optional basics, actual ranges[1,2,3],[1,2,5],[4,5], exact +/-1 per assigned/unassigned entity score, source excluded-value assertions and real nonempty best events. Exercise all seven configurations: change, random/original swap, pillar change-only, pillar swap-only, repair, union. Native nonempty subpillar subsets preserve equal-value groups and domain restrictions; swap-only disables changes explicitly. One/two local phases as source, each bounded1000 move scores/steps/attempts with score diagnostics. Native shuffled window and equal-family repair union replace Java randomness; union duplicate swap children remain separately weighted, without identical Java trace or distribution claims. Native explicit variables replace reflective providers. Independent final score and domain checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveMoveConfigMixedModel",
+      "status": "implemented",
+      "upstream_test": "solveMoveConfigMixedModel",
+      "local_test": "solve_move_config_mixed_model",
+      "modifications": "Preserve2entities/2listvalues/2basicvalues, initially null basics/empty lists, basic-then-list construction and both basics assigned/nonempty lists for every entity. Basic strengths2-i and encounter domain order retained. Exercise all twelve source configurations: basic change, aligned two-column entity swap, first-basic-column pillar change, two-column pillar swap, first-basic-only repair, list change, list swap, sublist change, sublist swap, bounded multi-list k-opt, list-only repair, and their eleven-child weighted union. Per-family schemas preserve different grouping keys; singleton subpillars express ordinary entity swaps. Separate repair pools preserve basic/list scope. Use native uniform within-family sampling, seed20261006, at most40attempts and40candidate evaluations in the search phase. Java default proposal distributions/PRNG and reflective lifecycle are not claimed. Combine the two source construction phases into one native construction phase with the same component order. Exact source score formula (assigned basics+1, singleton lists+2, other lists+1), real nonempty best events and all source result assertions; independent final score/domain checks. Stable typed basic values and integer list identities replace object references; unused codes/difficulty/shadow metadata omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveMultiEntityMoveConfigMixedModel",
+      "status": "implemented",
+      "upstream_test": "solveMultiEntityMoveConfigMixedModel",
+      "local_test": "solve_multi_entity_move_config_mixed_model",
+      "modifications": "Preserve3listowners/3separate basic entities/2listvalues/2basicvalues, list-then-basic construction, exactly one empty list, all basics assigned and both basic values different per entity. Strengths20-i, actual ascending first-basic domain and encounter-ordered second-basic domain retained. Exercise all twelve source configurations: basic change, aligned two-column entity swap, first-basic-column pillar change, two-column pillar swap, first-basic-only repair, list change, list swap, sublist change, sublist swap, bounded multi-list k-opt, list-only repair, and their eleven-child weighted union. Per-family schemas preserve different grouping keys; singleton subpillars express ordinary entity swaps. Separate repair pools preserve basic/list scope. Use native uniform within-family sampling, seed20261006, at most40attempts and40candidate evaluations in the search phase. Java default proposal distributions/PRNG and reflective lifecycle are not claimed. Combine the two source construction phases into one native construction phase with the same component order. Exact source score formula (assigned basics+1, singleton lists+2, other lists+1), real nonempty best events and all source result assertions; independent final score/domain checks. Stable typed basic values and integer list identities replace object references; unused codes/difficulty/shadow metadata omitted."
     }
   ],
   "fixtures": [
@@ -35415,6 +35445,175 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "Exact score +1 for assigned basic, -1 for null; independent final fold."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySolution.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve3listowners and3distinct basic entity rows,2listvalues/2basicvalues, initially null basics and empty lists, strengths20-i. Native typed IDs replace object references and unused codes/difficulty metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntityFirstEntity.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstEntity.java",
+      "upstream_test": "valueList",
+      "modifications": "Preserve required initially empty list variable as distinct list-entity group; no reflective comparator discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondEntity.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondEntity.java",
+      "upstream_test": "basicValue; secondBasicValue",
+      "modifications": "Two required variables share value membership; first range is comparator-ordered, second keeps encounter order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondValue.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondValue.java",
+      "upstream_test": "constructor; getStrength",
+      "modifications": "Preserve generated strength in typed BasicValue payload."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedMultiEntitySecondValueComparator.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondValueComparator.java",
+      "upstream_test": "compare",
+      "modifications": "Rust ascending sort_by_key over actual strength replaces the Java ascending Integer comparator."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEntityEasyScoreCalculator.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedEntityEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact objective: assigned basics+1, list size1+2 otherwise+1. Independent reference checks final sum."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve actual nonempty retained-best event assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedSolution.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve2entity rows/2listvalues/2basicvalues, initial null basics/empty lists and strengths2-i. Typed native IDs; unused codes/difficulty metadata omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEntity.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "basicValue; secondBasicValue; valueList",
+      "modifications": "Preserve two required basics and one required list per entity. Per-family schemas retain aligned entity rows; reflective shadow lifecycle is not part of selected source assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedValue.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedValue.java",
+      "upstream_test": "constructor",
+      "modifications": "Native integer identities retain the two list facts. Source shadow annotations are outside these selected method assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedOtherValue.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValue.java",
+      "upstream_test": "constructor; getStrength",
+      "modifications": "Native BasicValue retains immutable ID and generated strength. Inverse/shadow output is not asserted by selected source methods."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEasyScoreCalculator.mixed_selectors",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact per-basic assigned+1 and per-list singleton+2/otherwise+1 formula; independent final sum."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/mixed_selector_solver_cases.rs",
+      "id": "DefaultSolverTest.mixed_selector_generators",
+      "upstream_test": "generateMovesForMixedModel; generateMovesForMultiEntityMixedModel",
+      "modifications": "Preserve all twelve configurations in each generator, selected first basic column for pillar change/repair, aligned two-column swaps, independent list families and eleven-child union. Native bounded selection and explicit schemas replace Java factory discovery; no identical random trace claimed."
     }
   ]
 }
