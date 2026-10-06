@@ -29460,6 +29460,621 @@
       "upstream_test": "twoUnassignsInARow",
       "local_test": "two_unassigns_in_a_row",
       "modifications": "Preserve one list initially valueA1,valueA2,valueA3, two sequential identity-based removals of valueA2 and valueA3, final list valueA1 and original order after closing the edit scope. Resolve each removal from the current assignment so the second index reflects the first removal. Run scoped and stream directors with the original constant entity penalty; stream assertions additionally check actual owner/index snapshots during edits and after undo. Native MoveSession replaces the ephemeral Java director."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addRemoveWithIntegerId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addRemoveWithIntegerId",
+      "local_test": "id_or_fail_add_remove_with_integer_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addRemoveWithPrimitiveIntId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addRemoveWithPrimitiveIntId",
+      "local_test": "id_or_fail_add_remove_with_primitive_int_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addRemoveEnum",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addRemoveEnum",
+      "local_test": "id_or_fail_add_remove_enum",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The enum fixture is explicitly declared immutable and needs no registration; no automatic JVM enum classification is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addWithNullId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addWithNullId",
+      "local_test": "id_or_fail_add_with_null_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.removeWithNullId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "removeWithNullId",
+      "local_test": "id_or_fail_remove_with_null_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addWithoutId",
+      "local_test": "id_or_fail_add_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.removeWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "removeWithoutId",
+      "local_test": "id_or_fail_remove_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addSameIdTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addSameIdTwice",
+      "local_test": "id_or_fail_add_same_id_twice",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.removeWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "removeWithoutAdding",
+      "local_test": "id_or_fail_remove_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.lookUpWithId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "lookUpWithId",
+      "local_test": "id_or_fail_look_up_with_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.lookUpWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "lookUpWithoutId",
+      "local_test": "id_or_fail_look_up_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.lookUpWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "lookUpWithoutAdding",
+      "local_test": "id_or_fail_look_up_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrFail rejects missing schema metadata, null IDs, duplicate registrations, unknown lookup IDs and removal of a nonregistered instance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.addWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "addWithTwoIds",
+      "local_test": "id_or_fail_add_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrFailTest.removeWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrFailTest.java",
+      "upstream_test": "removeWithTwoIds",
+      "local_test": "id_or_fail_remove_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addRemoveWithIntegerId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addRemoveWithIntegerId",
+      "local_test": "id_or_none_add_remove_with_integer_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addRemoveWithPrimitiveIntId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addRemoveWithPrimitiveIntId",
+      "local_test": "id_or_none_add_remove_with_primitive_int_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.removeWithNullId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "removeWithNullId",
+      "local_test": "id_or_none_remove_with_null_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addWithoutId",
+      "local_test": "id_or_none_add_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.removeWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "removeWithoutId",
+      "local_test": "id_or_none_remove_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addSameIdTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addSameIdTwice",
+      "local_test": "id_or_none_add_same_id_twice",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.removeWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "removeWithoutAdding",
+      "local_test": "id_or_none_remove_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.lookUpWithId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "lookUpWithId",
+      "local_test": "id_or_none_look_up_with_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.lookUpWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "lookUpWithoutId",
+      "local_test": "id_or_none_look_up_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.lookUpWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "lookUpWithoutAdding",
+      "local_test": "id_or_none_look_up_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. IdOrNone ignores absent-ID objects for add/remove but rejects their lookup; declared null IDs are errors, not absent metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addWithTwoIds",
+      "local_test": "id_or_none_add_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.removeWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "removeWithTwoIds",
+      "local_test": "id_or_none_remove_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addRemoveWithIntegerId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addRemoveWithIntegerId",
+      "local_test": "disabled_add_remove_with_integer_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addRemoveWithPrimitiveIntId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addRemoveWithPrimitiveIntId",
+      "local_test": "disabled_add_remove_with_primitive_int_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addWithNullId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addWithNullId",
+      "local_test": "disabled_add_with_null_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.removeWithNullId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "removeWithNullId",
+      "local_test": "disabled_remove_with_null_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addWithoutId",
+      "local_test": "disabled_add_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.removeWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "removeWithoutId",
+      "local_test": "disabled_remove_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addSameIdTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addSameIdTwice",
+      "local_test": "disabled_add_same_id_twice",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.removeWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "removeWithoutAdding",
+      "local_test": "disabled_remove_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.lookUpWithId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "lookUpWithId",
+      "local_test": "disabled_look_up_with_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.lookUpWithoutId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "lookUpWithoutId",
+      "local_test": "disabled_look_up_without_id",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.lookUpWithoutAdding",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "lookUpWithoutAdding",
+      "local_test": "disabled_look_up_without_adding",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Disabled registration/removal are no-ops even for missing/null/duplicate IDs; non-null lookup is rejected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.addWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "addWithTwoIds",
+      "local_test": "disabled_add_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupStrategyNoneTest.removeWithTwoIds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyNoneTest.java",
+      "upstream_test": "removeWithTwoIds",
+      "local_test": "disabled_remove_with_two_ids",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. The fixture declares all three heterogeneous ID members (integer, string, boolean) in the native schema; enabled strategies reject the actual member count before reading IDs, while Disabled skips schema inspection. No Java reflection parsing claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupManagerTest.lookUpNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupManagerTest.java",
+      "upstream_test": "lookUpNull",
+      "local_test": "manager_look_up_null",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Option::None represents the source null object. Reset/repopulation uses the original stored Arcs and preserves lookup/removal behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "LookupManagerTest.resetWorkingObjects",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupManagerTest.java",
+      "upstream_test": "resetWorkingObjects",
+      "local_test": "manager_reset_working_objects",
+      "modifications": "Native typed WorkingObjectLookup preserves this strategy operation, registration state, failure/success result and working-object identity. Arc::ptr_eq checks the actual stored instance for identity assertions. Explicit schema members replace annotation discovery; absent metadata differs from a declared nullable ID. Native typed errors and diagnostics replace Java exception classes, reflective member names and object-toString text. Option::None represents the source null object. Reset/repopulation uses the original stored Arcs and preserves lookup/removal behavior."
     }
   ],
   "fixtures": [
@@ -37886,6 +38501,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
       "upstream_test": "TestdataObject",
       "modifications": "Immutable strings preserve fixture code identities in equality and inverse membership; explicit native model/graph IDs replace PlanningId reflection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "TestdataObjectIntegerId.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectIntegerId.java",
+      "upstream_test": "TestdataObjectIntegerId",
+      "modifications": "Option<i32> preserves the nullable integer ID; Arc supplies reference identity. Explicit native metadata replaces Java annotations; no production implementation is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "TestdataObjectPrimitiveIntId.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectPrimitiveIntId.java",
+      "upstream_test": "TestdataObjectPrimitiveIntId",
+      "modifications": "Native i32 preserves a non-null primitive ID; schema getter wraps the value in Some. Explicit native metadata replaces Java annotations; no production implementation is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "TestdataObjectNoId.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectNoId.java",
+      "upstream_test": "TestdataObjectNoId",
+      "modifications": "Native record retains its integer field/getter value but has no declared ID member in the schema. Explicit native metadata replaces Java annotations; no production implementation is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "TestdataObjectMultipleIds.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectMultipleIds.java",
+      "upstream_test": "TestdataObjectMultipleIds",
+      "modifications": "Native fixture preserves integer 0, empty string and false fields; a tagged key type permits all three explicit schema getters. Validation rejects multiple declarations before extraction. Explicit native metadata replaces Java annotations; no production implementation is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "TestdataObjectEnum.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectEnum.java",
+      "upstream_test": "TestdataObjectEnum",
+      "modifications": "Native enum preserves three variants; the test uses the third and explicitly declares immutable lookup behavior. Explicit native metadata replaces Java annotations; no production implementation is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/working_lookup_cases.rs",
+      "id": "AbstractLookupTest.working_lookup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/AbstractLookupTest.java",
+      "upstream_test": "setUpLookUpManager/createLookupStrategyResolver",
+      "modifications": "Native per-test constructor selects IdOrFail, IdOrNone or Disabled with explicit schemas. No Java member-accessor factory, descriptor-policy implementation or reflection resolver is copied."
     }
   ]
 }

@@ -726,3 +726,9 @@ pub use list_cascade_stream::{ListCascadeStep, ListCascadeStream, list_cascade_s
 
 mod basic_inverse_stream;
 pub use basic_inverse_stream::{BasicInverseStream, basic_inverse_stream};
+
+mod working_object_lookup;
+pub use working_object_lookup::{
+    PlanningIdMember, WorkingLookupError, WorkingLookupSchema, WorkingLookupStrategy,
+    WorkingObjectLookup,
+};

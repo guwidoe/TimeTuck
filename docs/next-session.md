@@ -12212,3 +12212,50 @@ Live freshness matched verification digest:add90183bc59795260fea2c4659a474e135d4
 Logs work/basic-inverse-stream-{build-all,final-check}.log; evidence
 work/basic-inverse-stream-evidence.json. All process handles terminal.
 No benchmark/browser/release reruns. Full rewrite goal remains active.
+
+
+## Working-object lookup (current increment)
+
+Previous goal turn committed9b348c6 (progress). New WorkingObjectLookup<T,K> owns
+planning-ID -> Arc<T> registrations with explicit WorkingLookupSchema members.
+IdOrFail, IdOrNone and Disabled distinguish absent metadata from declared-null ID.
+Actual Arc identity is returned on same-ID external lookup; duplicate registrations
+and nonidentical removals fail. Optional null returns None. Immutable schemas pass
+through. reset_with prepares the entire replacement before installation, preserving
+old registrations on errors/panics. IDs and ordering must stay immutable; registries
+are per-type/per-model namespaces. No production implementation was read.
+
+Read full source None/Immutable tests plus all six clone/lookup fixtures and both
+interface fixtures; prior full IdOrFail/IdOrNone/Manager/AbstractLookupTest reads
+retained. Read MoveDirectorTest.lookUpWorkingObject but did not credit its mocked
+director delegation. Adapted41methods: IdOrFail14, IdOrNone12, Disabled13, Manager2.
+Explicit native schemas replace annotations; typed diagnostics replace Java text.
+Three-member fixture preserves all heterogeneous fields/getters. Inherited-null-ID,
+interface discovery and complete immutable parameter matrix remain pending. Five
+fixtures and AbstractLookupTest helper attributed. Source fixture subclass/interface
+files were read but not adapted. No reflection compatibility is claimed.
+
+Three original tests exercise failed atomic resets (duplicate/null/panicking getter),
+actual identity, namespace isolation, disabled metadata skipping, and external-value
+resolution into real scoped/stream scored moves. Initial focused19553 failed solely
+on test ConstraintNetwork type inference; explicit Arc<Fact> fixed it. Fixed focused
+work/working-lookup-focused-fixed.log passed44tests. New source and tests reviewed;
+final minor test iterator cleanup included before required gate86753. No broad
+prebuild: this batch adds a new independent module and exports only.
+
+Possible next substantive area: ProblemSizeStatisticsTest read in full from tests
+only (core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java).
+Its11cases include counts by entity type/variable, empty solution preserving declared
+range size, multiple types summing per-type range sizes, list/cascade/record models,
+fixed-point log conversion and US grouped/scientific formatting (6 decimals), with
+nonfinite logs formatting as0. Test fixtures not yet read except previously attributed
+basic/single-cascade ones. Do not use the imported production MathUtils/ValueRangeManager
+implementations; derive behavior from tests/public APIs and native model metadata.
+
+Required gate86753 exited0. 3539Rust tests and167doctests passed.
+Rust jobs:{'RUN': 3, 'REUSE': 437}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 2005, 'failed': 0, 'pending': 2568, 'excluded': 282, 'unverified': 0, 'percent': 41.298}.
+Source before/after matched:8548b5c02eb9f86919c0627255aaa0d9d538972e089b924dfaace966b362ff5c
+Live freshness matched verification digest:c2f3a656e033cd5f16aae71890efa12d43b160bb8f929f44f0bce961ebccb936.
+Log work/working-lookup-final-check.log; evidence work/working-lookup-evidence.json.
+All process handles terminal. No benchmark/browser/release reruns. Goal active.

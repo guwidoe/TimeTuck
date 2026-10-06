@@ -2691,3 +2691,27 @@ whose current indices shift. Actual inverse/owner/index rows are checked before
 scope exit and after rollback. Original tests cover all81partial basic assignments,
 counted duplicate removal, empty/replaced universe rows, excluded-field callback
 reuse, scoring panics, nested edits and reference-model local-search results.
+
+
+## Working-object identity lookup
+
+WorkingObjectLookup registers Arc instances under planning IDs described by explicit
+native schemas. Lookup of an external same-ID object returns the stored working Arc;
+removing an external clone is rejected. Duplicate IDs, missing registrations, absent
+ID metadata, declared-null IDs and multiple declared members have distinct errors.
+IdOrNone ignores objects without ID metadata when adding/removing, but still rejects
+their lookup. Disabled skips registration/metadata validation and rejects non-null
+lookup. Explicitly immutable schemas return the external Arc without registration.
+Optional lookup of None returns None. Each registry owns a separate ID namespace.
+
+Reset removes registrations; reset_with validates an entire replacement before
+installing it, preserving the old registry on validation errors or ID-reader panics.
+Registered IDs and their ordering must remain stable. Registries store identities,
+not deep clones, and do not discover Java annotations, inherited/interface metadata
+or immutable platform types automatically. Native schemas are part of model setup.
+
+Forty-one upstream lookup methods are adapted across IdOrFail, IdOrNone, Disabled
+and manager tests with exact fixture attribution. The inherited-null-ID and interface
+metadata cases remain pending, as does the full parameterized immutable-type matrix.
+Original tests cover identity-preserving resolution, namespaces, atomic replacement,
+callback failures and using resolved external values in both native scoring backends.
