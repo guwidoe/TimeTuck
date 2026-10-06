@@ -30225,6 +30225,516 @@
       "upstream_test": "formatApproximateProblemScale",
       "local_test": "format_approximate_problem_scale",
       "modifications": "Preserve every source count, US grouping string, six-decimal scientific string, nonfinite-log handling and zero-log result. Native explicit base-10 logarithm construction replaces the source test-local statistics constructors; formatting is locale-independent. No JVM fixed-point default precision is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionAssignedBasicVariable",
+      "local_test": "extract_value_from_solution_assigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionAssignedBasicVariable",
+      "local_test": "sort_value_from_solution_assigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionUnassignedBasicVariable",
+      "local_test": "extract_value_from_solution_unassigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionUnassignedBasicVariable",
+      "local_test": "sort_value_from_solution_unassigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionCompositeAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionCompositeAssignedBasicVariable",
+      "local_test": "extract_value_from_solution_composite_assigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionCompositeAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionCompositeAssignedBasicVariable",
+      "local_test": "sort_value_from_solution_composite_assigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionCompositeUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionCompositeUnassignedBasicVariable",
+      "local_test": "extract_value_from_solution_composite_unassigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionCompositeUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionCompositeUnassignedBasicVariable",
+      "local_test": "sort_value_from_solution_composite_unassigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityAssignedBasicVariable",
+      "local_test": "extract_value_from_entity_assigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityAssignedBasicVariable",
+      "local_test": "sort_value_from_entity_assigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityUnassignedBasicVariable",
+      "local_test": "extract_value_from_entity_unassigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityUnassignedBasicVariable",
+      "local_test": "sort_value_from_entity_unassigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityCompositeAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityCompositeAssignedBasicVariable",
+      "local_test": "extract_value_from_entity_composite_assigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityCompositeAssignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityCompositeAssignedBasicVariable",
+      "local_test": "sort_value_from_entity_composite_assigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityCompositeUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityCompositeUnassignedBasicVariable",
+      "local_test": "extract_value_from_entity_composite_unassigned_basic_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityCompositeUnassignedBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityCompositeUnassignedBasicVariable",
+      "local_test": "sort_value_from_entity_composite_unassigned_basic_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionAssignedListVariable",
+      "local_test": "extract_value_from_solution_assigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionAssignedListVariable",
+      "local_test": "sort_value_from_solution_assigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionUnassignedListVariable",
+      "local_test": "extract_value_from_solution_unassigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionUnassignedListVariable",
+      "local_test": "sort_value_from_solution_unassigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionCompositeAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionCompositeAssignedListVariable",
+      "local_test": "extract_value_from_solution_composite_assigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionCompositeAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionCompositeAssignedListVariable",
+      "local_test": "sort_value_from_solution_composite_assigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromSolutionCompositeUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromSolutionCompositeUnassignedListVariable",
+      "local_test": "extract_value_from_solution_composite_unassigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromSolutionCompositeUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromSolutionCompositeUnassignedListVariable",
+      "local_test": "sort_value_from_solution_composite_unassigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityAssignedListVariable",
+      "local_test": "extract_value_from_entity_assigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityAssignedListVariable",
+      "local_test": "sort_value_from_entity_assigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityUnassignedListVariable",
+      "local_test": "extract_value_from_entity_unassigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityUnassignedListVariable",
+      "local_test": "sort_value_from_entity_unassigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityCompositeAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityCompositeAssignedListVariable",
+      "local_test": "extract_value_from_entity_composite_assigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityCompositeAssignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityCompositeAssignedListVariable",
+      "local_test": "sort_value_from_entity_composite_assigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.extractValueFromEntityCompositeUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "extractValueFromEntityCompositeUnassignedListVariable",
+      "local_test": "extract_value_from_entity_composite_unassigned_list_variable",
+      "modifications": "Explicit native field-kind/provider metadata replace reflective descriptors. Preserve source provider memberships, optional-basic null membership, list null exclusion, and raw/managed counts. Unique fixture codes become String identities; unrelated assignment/shadow fields are omitted for these range-only assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sortValueFromEntityCompositeUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "sortValueFromEntityCompositeUnassignedListVariable",
+      "local_test": "sort_value_from_entity_composite_unassigned_list_variable",
+      "modifications": "Preserve six-value fixtures and all sorting-helper assertions: default/descending order, replacement identity, unsorted access retaining descending order, ascending replacement and same-sorter identity reuse. Fresh managers isolate entity helpers as upstream. Reusable comparator handles/captured closures replace Java comparators/factories; Arc identity replaces isSameAs. Code comparisons skip optional null as upstream."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.deduplicationForSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "deduplicationForSolution",
+      "local_test": "deduplication_for_solution",
+      "modifications": "Preserve three values/three entities, ordered codes and shared range identity. Entity variant removes the first value from only the third range and verifies distinct identity before/after sorting. Arc pointer equality replaces Java object identity; explicit providers replace descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.deduplicationForEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "deduplicationForEntity",
+      "local_test": "deduplication_for_entity",
+      "modifications": "Preserve three values/three entities, ordered codes and shared range identity. Entity variant removes the first value from only the third range and verifies distinct identity before/after sorting. Arc pointer equality replaces Java object identity; explicit providers replace descriptors."
     }
   ],
   "fixtures": [
@@ -39002,6 +39512,513 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
       "upstream_test": "getProblemSizeStatisticsFromCountLong/getProblemSizeStatisticsFromDoubleLog",
       "modifications": "Native ProblemScale::from_log10 accepts the same base-10 logs computed from integer counts or supplied nonfinite values. Empty source count maps are irrelevant to the formatting-only assertions and are not fabricated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataObject.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataValue.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataCompositeSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/composite/TestdataCompositeSolution.java",
+      "upstream_test": "TestdataCompositeSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataCompositeEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/composite/TestdataCompositeEntity.java",
+      "upstream_test": "TestdataCompositeEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/composite/TestdataAllowsUnassignedCompositeSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/composite/TestdataAllowsUnassignedCompositeEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingSolution.java",
+      "upstream_test": "TestdataEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingEntity.java",
+      "upstream_test": "TestdataEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataCompositeEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/composite/TestdataCompositeEntityProvidingSolution.java",
+      "upstream_test": "TestdataCompositeEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataCompositeEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/composite/TestdataCompositeEntityProvidingEntity.java",
+      "upstream_test": "TestdataCompositeEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/composite/TestdataAllowsUnassignedCompositeEntityProvidingSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/composite/TestdataAllowsUnassignedCompositeEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListValue.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListValue.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListValue",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListCompositeSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/composite/TestdataListCompositeSolution.java",
+      "upstream_test": "TestdataListCompositeSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListCompositeEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/composite/TestdataListCompositeEntity.java",
+      "upstream_test": "TestdataListCompositeEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeListSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/composite/TestdataAllowsUnassignedCompositeListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeListSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataAllowsUnassignedCompositeListEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/composite/TestdataAllowsUnassignedCompositeListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedCompositeListEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListCompositeEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/composite/TestdataListCompositeEntityProvidingSolution.java",
+      "upstream_test": "TestdataListCompositeEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListCompositeEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/composite/TestdataListCompositeEntityProvidingEntity.java",
+      "upstream_test": "TestdataListCompositeEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListUnassignedEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TestdataListUnassignedEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListUnassignedEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataListUnassignedEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListUnassignedCompositeEntityProvidingSolution.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/composite/TestdataListUnassignedCompositeEntityProvidingSolution.java",
+      "upstream_test": "TestdataListUnassignedCompositeEntityProvidingSolution",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListUnassignedCompositeEntityProvidingEntity.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/composite/TestdataListUnassignedCompositeEntityProvidingEntity.java",
+      "upstream_test": "TestdataListUnassignedCompositeEntityProvidingEntity",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "TestdataListEntityProvidingValue.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "modifications": "Extract range-provider metadata only: retain unique source codes, provider memberships/order, owner counts and basic/list optionality. Shared composite fixtures retain disjoint generated providers; entity composites retain overlapping first values and their source-specific memberships. String identities stand for these uniquely coded fixture objects. Assignment fields, annotation discovery and shadow propagation are not claimed by these extraction/sorting cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "ValueRangeManagerTest.sorting_helpers",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "assertSolutionValueRangeSortingOrder/assertEntityValueRangeSortingOrder",
+      "modifications": "Native sorting_order retains all sequence and identity assertions; fresh managers isolate targets and closures replace sorter factory plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_range_cases.rs",
+      "id": "PlannerAssert.managed_ranges",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertNonNullCodesOfIterator/assertReversedNonNullCodesOfIterator/codeIfNotNull",
+      "modifications": "Flattening skips None and compares String code identities directly. Reverse assertion additionally checks exhaustion."
     }
   ]
 }

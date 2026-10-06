@@ -2741,3 +2741,33 @@ large logarithms, pins and dependency restrictions. Existing native statistics n
 count an uninitialized required pinned slot as zero complete assignments and label
 list counts with dependency metadata as upper bounds. Existing job telemetry uses
 these corrected native counts; its flattened-slot fields remain backward compatible.
+
+
+## Managed planning value ranges
+
+ManagedValueRanges maintains the range providers for one native planning field.
+Shared providers survive empty entity sets; per-entity providers produce an ordered
+distinct union. Composite providers deduplicate repeated values. Equal ordered
+ranges share Arc snapshots and active sort state. Only optional basic ranges add
+None; optional list ranges contain ordinary values. Raw views remain unsorted.
+
+Reusable ManagedRangeOrder handles cache the current stable sort. A new sorter
+replaces the active/default range; old snapshots stay valid. Cloned sorter handles
+reuse the same result. Captured mutable facts require a new handle or a provider
+reset. Sorting prepares replacement state before publishing it, so comparator or
+value-clone panics retain the previous active range. Provider resets replace all
+range state. Equality must denote stable planning identity.
+
+Basic slots and list models can be built from the current ranges; list construction
+retains supplied initial assignments and pin metadata. Models are snapshots: later
+range edits do not mutate an in-progress solver. Large lazy providers must be
+materialized by the caller; native equality-based deduplication is not a large-range
+performance claim. Multiple fields use separate managers and explicit metadata.
+
+Thirty-four ValueRangeManagerTest methods cover basic/list, shared/entity,
+required/optional, single/composite extraction and sorting, plus both identity
+deduplication cases. Fixtures and source sorting/assertion helpers are attributed.
+Initialization-counter/reset and problem-scale methods in that class remain pending;
+Java descriptor discovery and dynamic solver problem changes are separate concerns.
+Original regressions cover comparator failures, immutable snapshots, resets, cached
+comparator reuse, 256 independent range pairs, and actual basic/list solving with pins.

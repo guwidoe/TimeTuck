@@ -738,3 +738,8 @@ pub use named_statistics::{
     NamedProblemSize, ProblemScale, StatisticsEntityType, StatisticsSchemaError,
     StatisticsVariable, StatisticsVariableKind,
 };
+
+mod managed_value_ranges;
+pub use managed_value_ranges::{
+    ManagedRangeError, ManagedRangeKind, ManagedRangeOrder, ManagedRangeTarget, ManagedValueRanges,
+};

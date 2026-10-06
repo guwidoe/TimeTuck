@@ -12307,3 +12307,43 @@ Live freshness matched verification digest:24503c91863f447621cfcf98363ea35bf25c4
 Logs work/named-statistics-{build-all,final-check}.log; evidence
 work/named-statistics-evidence.json. All handles terminal. No verification failures.
 No benchmark/browser/release reruns. Goal remains active.
+
+
+## Managed planning value ranges (current increment)
+
+Previous goal turn committed6b0075c (progress); starting tree clean. Added
+ManagedValueRanges for one field with explicit Basic/List optionality and shared
+or per-entity composite providers. Stable distinct unions; equal ordered ranges
+intern together, sharing active sort state and snapshots. ManagedRangeOrder clone
+retains comparator identity; same current sorter reuses without comparator calls.
+New sorter replaces default order; raw views remain unsorted; previous snapshots
+and already-built native models remain immutable. None exists only for optional
+basic choices and sorts first. Resets retain kind and discard all caches. Captured
+fact changes require new sorter identity or reset. Native variable/list_problem
+adapters preserve range restrictions and supplied list assignment/pin metadata.
+
+34source ValueRangeManagerTest methods:16basic+16list extraction/sorting and2
+identity deduplication.39fixture/helper records attributed. Full test/helper read
+retained from previous turn. This turn read all list-specific entity/solution/value
+fixtures referenced by these cases, plus optional shared basic/composite fixtures
+and PlannerAssert non-null/reversed iterator helpers (tests only). Previously read
+basic and entity-provided fixtures retained at unchanged pin. Unique code strings
+represent fixture identities; unused assignment/shadow fields omitted explicitly.
+No production implementation read. Initialization/reset counters and10approximate
+scale methods remain pending (13methods total). Source approximate scales differ
+from native exact-count/upper-bound statistics; do not relabel those as matching.
+
+Original4tests exercise comparator panic rollback, identity/cache callbacks, reset
+snapshots, empty ranges, 256union pairs, actual basic/list solves with ordered choices
+and pins, and model error propagation. Focused99942 exited1 for missing type on
+empty original test; explicit i32 fixed it. Fixed focused log passed38tests. Source
+and new tests reviewed before gate25728. One new doctest. Independent new module
+and exports only: no all-target prebuild or benchmark/browser/release reruns.
+
+Required gate25728 exited0. 3591Rust tests and169doctests passed.
+Rust jobs:{'RUN': 3, 'REUSE': 441}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 2049, 'failed': 0, 'pending': 2524, 'excluded': 282, 'unverified': 0, 'percent': 42.204}.
+Source before/after matched:aa194a0adcf667b4cbb8dc5853257294507a92ee2440406c176987d378c9a398
+Live freshness matched verification digest:14aca93c407845865d673738e7fe364c662db268125c8e21da96b7d2d1372064.
+Log work/managed-ranges-final-check.log; evidence work/managed-ranges-evidence.json.
+All handles terminal. No benchmark/browser/release reruns. Full goal active.
