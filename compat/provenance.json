@@ -32354,6 +32354,306 @@
       "upstream_test": "cannotExternalizeTwice",
       "local_test": "cannot_externalize_twice",
       "modifications": "Preserve literal a/b/c/d and 1/2/3 fixtures, initial/final inverse memberships, notifier multiplicities and duplicate-externalization rejection. Typed native schema replaces reflective descriptors. Externalized mode seeds and updates an actual caller-owned collection table using typed before/after events; map mode checks live shared inverse views and exact returned notifications. Native stable identity order replaces unspecified collection ordering; dropping the supply replaces close. Registry change replaces the Java before/setter/after bracket."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.addAndRemoveEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "addAndRemoveEntity",
+      "local_test": "add_and_remove_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.addAndRemoveElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "addAndRemoveElement",
+      "local_test": "add_and_remove_element",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveElementToLowerIndexSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveElementToLowerIndexSameEntity",
+      "local_test": "move_element_to_lower_index_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveElementToHigherIndexSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveElementToHigherIndexSameEntity",
+      "local_test": "move_element_to_higher_index_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveElementToAnotherEntityChangeIndex",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveElementToAnotherEntityChangeIndex",
+      "local_test": "move_element_to_another_entity_change_index",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveElementToAnotherEntitySameIndex",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveElementToAnotherEntitySameIndex",
+      "local_test": "move_element_to_another_entity_same_index",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveOneUpToEnd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveOneUpToEnd",
+      "local_test": "move_one_up_to_end",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveOneDownToStart",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveOneDownToStart",
+      "local_test": "move_one_down_to_start",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapElementsSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapElementsSameEntity",
+      "local_test": "swap_elements_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapElementsAnotherEntityChangeIndex",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapElementsAnotherEntityChangeIndex",
+      "local_test": "swap_elements_another_entity_change_index",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapElementsAnotherEntitySameIndex",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapElementsAnotherEntitySameIndex",
+      "local_test": "swap_elements_another_entity_same_index",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapNeighbors",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapNeighbors",
+      "local_test": "swap_neighbors",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveSubListToHigherIndexSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveSubListToHigherIndexSameEntity",
+      "local_test": "move_sub_list_to_higher_index_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveSubListToLowerIndexSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveSubListToLowerIndexSameEntity",
+      "local_test": "move_sub_list_to_lower_index_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveSubListToAnotherEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveSubListToAnotherEntity",
+      "local_test": "move_sub_list_to_another_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveTailSubList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveTailSubList",
+      "local_test": "move_tail_sub_list",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.moveWholeListReversing",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "moveWholeListReversing",
+      "local_test": "move_whole_list_reversing",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapSubListsSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapSubListsSameEntity",
+      "local_test": "swap_sub_lists_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapSubListsSameSizeSameEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapSubListsSameSizeSameEntity",
+      "local_test": "swap_sub_lists_same_size_same_entity",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.swapSubListsSameEntityReversing",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "swapSubListsSameEntityReversing",
+      "local_test": "swap_sub_lists_same_entity_reversing",
+      "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
     }
   ],
   "fixtures": [
@@ -42600,6 +42900,188 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationValue.java",
       "upstream_test": "TestdataInverseRelationValue",
       "modifications": "Adapt literal codes, value assignments, required basic versus optional inverse-relation metadata, and initial inverse memberships into native Solution/Entity/Value markers and rows. Vec<Entity> shadows represent inverse collections in stable native identity order. Explicit seeding replaces fixture constructor mutation. Unused solution generation, score fields, descriptor discovery and updateValue helper are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "TestdataListEntityWithShadowHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListEntityWithShadowHistory.java",
+      "upstream_test": "TestdataListEntityWithShadowHistory",
+      "modifications": "Translate tested required-list metadata, typed owner/value identities, four built-in shadow fields and their append-on-set histories into explicit native schemas and owned History records. Each emitted changed field updates the stored value and appends its optional value, including None. Native usize represents the nonnegative Java index. Unused descriptor factories and score storage are omitted; actual native scoring supplies the tested score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "TestdataListValueWithShadowHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListValueWithShadowHistory.java",
+      "upstream_test": "TestdataListValueWithShadowHistory",
+      "modifications": "Translate tested required-list metadata, typed owner/value identities, four built-in shadow fields and their append-on-set histories into explicit native schemas and owned History records. Each emitted changed field updates the stored value and appends its optional value, including None. Native usize represents the nonnegative Java index. Unused descriptor factories and score storage are omitted; actual native scoring supplies the tested score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "TestdataListSolutionWithShadowHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListSolutionWithShadowHistory.java",
+      "upstream_test": "TestdataListSolutionWithShadowHistory",
+      "modifications": "Translate tested required-list metadata, typed owner/value identities, four built-in shadow fields and their append-on-set histories into explicit native schemas and owned History records. Each emitted changed field updates the stored value and appends its optional value, including None. Native usize represents the nonnegative Java index. Unused descriptor factories and score storage are omitted; actual native scoring supplies the tested score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.buildSolution.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "buildSolution",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertIndexHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertIndexHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertEntityHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertEntityHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertEmptyPreviousHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertEmptyPreviousHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertPreviousHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertPreviousHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertEmptyNextHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertEmptyNextHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.assertNextHistory.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "assertNextHistory",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.doChangeMove.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "doChangeMove",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.doSwapMove.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "doSwapMove",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.doSubListChangeMove.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "doSubListChangeMove",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_history_cases.rs",
+      "id": "ListVariableShadowVariablesTest.doSubListSwapMove.list_shadow_history",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
+      "upstream_test": "doSubListSwapMove",
+      "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
     }
   ]
 }

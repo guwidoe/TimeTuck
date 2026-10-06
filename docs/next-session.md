@@ -12710,3 +12710,45 @@ Live freshness matched verification digest: 709bb9fd630382f6da614afff6c4509a3a61
 Existing provenance prefixes unchanged; appended3cases and6fixtures.
 Log work/basic-state-supply-final-check.log; evidence work/basic-state-supply-evidence.json.
 No benchmark/browser/release reruns. All handles terminal; goal remains active.
+
+
+## Exact list-shadow histories (current increment)
+
+Previous turn354dcc8 was progress; starting tree clean. Adapted all20methods of
+ListVariableShadowVariablesTest through an actual native ListProblem and shared
+ListStateSupply. The fixture applies before/after records into owned fields and
+appends every changed value to per-field history vectors. Every source history
+and final-field assertion is preserved; unchanged null neighbors require empty
+histories. Required partial-list score is calculated by the native score network,
+including structural unassigned count. Owner removal clears registry rows while
+retaining shadow state so removal events are observable. No automatic solver-wide
+entity removal or cross-field event order claim. Existing production code suffices.
+
+Source class and all3shadowhistory fixtures were fully read in the previous turn.
+A temporary strict adapter recognized every source statement and failed on unknown
+syntax; it generated explicit Rust source assertions, not runtime-derived expected
+values. First focused67709 failed because fixture local h shadowed source value h;
+renamed fixture context and preserved all literal value names. Second focused59332
+running. Added20case and14fixture/helper provenance records; prefixes unchanged.
+No upstream production implementation read.
+
+Focused59332 exited0:20tests. Required gate73870 exited0. 3739 Rust tests and 175 reused doctests passed.
+Rust jobs: {'REUSE': 459, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2175, 'failed': 0, 'pending': 2398, 'excluded': 282, 'unverified': 0, 'percent': 44.799}.
+Source before/after matched: 33e965522d05fe6c9fa4e476dc49463d565992c0bffa30f6b68a42c9d1c5ddbc
+Live freshness matched verification digest: d1459d899b90e309aa6e97fddb8a90b7979ed63b52a3da5c616c0ef5f7bd5370.
+Reviewed generated assertions and counted every source history assertion against
+its Rust counterpart for all20methods; no assertions dropped. Existing provenance
+prefixes unchanged; appended20cases and14fixtures/helpers.
+Log work/list-shadow-history-final-check.log; evidence work/list-shadow-history-evidence.json.
+No benchmark/browser/release reruns. All handles terminal; goal remains active.
+
+Next-area reads this turn: full ListModelTest (one bounded-quality solve with
+start/end cascade), MixedModelTest (temporary basic delay change propagates to
+next list element), and ShadowVariableUpdateTest (six methods: entity-array/solution
+updates, inverse membership and two derived time fields, parameterized suppliers,
+invalid metadata/empty input). Their newly relevant simple_list/basic/parameter
+fixture bodies have not yet been read. Metadata, source paths, dependency caches
+and typed basic/list supplies exist; generic coordination of typed multi-field
+shadow suppliers remains an integration gap. Extend actual native execution here;
+avoid re-crediting already adapted basic-reference/list-element stream tests.

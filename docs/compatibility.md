@@ -2956,3 +2956,21 @@ compare actual materialized collections against independent membership calculati
 and scored inverse stream rows across 27 partial assignments, then restore them on
 undo. Additional regressions cover seed validation, metadata isolation, empty/reset
 state, unassignment, notification multiplicity and coalesced updates.
+
+
+## Exact list-shadow histories during moves
+
+All twenty ListVariableShadowVariablesTest methods now execute native list moves
+and apply typed state-supply events to owned shadow fields and history vectors.
+The adaptations retain every exact owner/index/previous/next history and final
+field assertion, including unchanged fields and untouched null neighbors. Coverage
+includes initialization/reset, owner removal, assign/unassign, relocation, swaps,
+neighbor swaps, sublist relocation/swaps and reversal. The required-list partial
+score assertion uses the native score network with its structural unassigned count.
+
+These cases establish per-field change histories for the tested moves; they do not
+assert event ordering between different fields, automatic setter discovery, or
+solver-wide dynamic entity removal. Removing an owner resets explicit registry
+rows and publishes cleared shadows. Existing production APIs satisfy the cases
+without additional solver changes. Fixtures and eleven assertion/move helpers
+are attributed separately. No new performance measurements are claimed.
