@@ -12161,3 +12161,9 @@ Live freshness matched verification digest:e7061ab267c2523494e252eb8ee219d31df8f
 Log work/list-cascade-stream-final-check.log; evidence
 work/list-cascade-stream-evidence.json. All process handles terminal.
 No benchmark/browser/release reruns. Full rewrite goal remains active.
+
+Committed511fd6c. A final attribution-only wording correction clarified one
+entity with an empty value list. Report-only refresh reused the verified Rust
+evidence; summary stayed1962passed,0unverified. Current live/report digest:
+8a3f2d0cb0aea5d0f177a9d6ed96ea114f5b3bde7966b9d8ff8f354fe3a94991.
+The preceding digest records the gate state before that wording correction.
