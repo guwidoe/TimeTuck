@@ -11375,3 +11375,40 @@ TestdataMixedEntity/Value/OtherValue fixtures before implementing. Default-provi
 mixed case240-265 uses TestingMixedEasyScoreCalculator, reverse basic assignment and
 two values initially on owner0, target ordinary score0; calculator still unread.
 Do not credit either method using only the easier pinned/optional fixtures above.
+
+
+## End-to-end mixed solves and derived outputs
+
+Added mixed_solver_shadow_cases.rs with four DefaultSolverTest adaptations:
+solveMixedModel (all four fixture sizes), solveWithDefaultNeighborhoodProviderMixedModel,
+solveMixedModelCustomMove and solveMixedModelCustomPhase. Exact test objectives,
+initial assignments, best-event helper, actual custom callbacks/proposals, complete
+basics/list assertions and all four derived outputs preserved. Dataset maps compute
+first-basic strength and list index+1/index+2; grouped counts plus complement retain
+inverse-count+2 for every basic value, including unused ones. This fixture's cascade
+is only an index formula, not recursive. Solve results remain assignment+score;
+final output is materialized in a fresh director with the same factory. Do not claim
+Java mutable-solution shadow listener lifecycle or automatic metadata discovery.
+
+The original regression performs480 combined basic/list trials with pruning on/off,
+including required null transitions, whole-list unassignment and every third trial
+rolled back. Independent assignment arithmetic checks all scores and shadow outputs.
+Custom source factory emits entity0 first-basic changes to0 then1; its random argument
+is unused. The source command executes only its first proposal. Native callbacks are
+asserted invoked; construction combines basic-then-list into one native phase.
+No engine changes or performance claims. Provenance includes all source helpers.
+Focused5tests passed. Initial final gate stopped at Clippy field-reassign-with-default;
+replaced it with direct initialization. Successful final evidence follows below.
+
+Final gate95377 exited0:3337 Rust tests;152 doctests reused. One Rust target ran,
+406 reused;46 Python jobs reused. Equal source-before/after and aggregate exit0:
+5e5ee1ef9c34c53ecfff6492e918fc6f3933f37ee99bf9f7ec895fdd245a0806.
+Dashboard1884/4855 (38.805%),2689 pending,282 excluded,0 failed/unverified.
+Freshness42136 exited0 with matching report digest:
+b7e9fbe4f11dd6359b1f5db8495f96ce67dd7abe3736721962c1f71d89c5497f.
+Logs: work/mixed-solver-shadow-focused.log, work/mixed-solver-shadow-check.log
+(Clippy failure only), work/mixed-solver-shadow-final-check.log (success).
+All processes terminal; no new benchmark/release/browser verification needed.
+Full goal active. Next pending mixed cases include multientity, multiple value
+providers and sorter manners; their fixtures/assertions need full reading before
+adapting. Do not reuse these single-entity tests as credit for those methods.

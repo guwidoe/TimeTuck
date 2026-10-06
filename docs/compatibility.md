@@ -2348,3 +2348,15 @@ penalties; other movable variables can initialize. Default Java phases map to
 explicit native deterministic construction/local search; no identical stochastic
 trace or general reflective shadow lifecycle is claimed. Model resumption retains
 metadata and checks original pins before accepting a new initial assignment.
+
+Four more DefaultSolverTest methods exercise complete mixed stream solves, default
+mixed neighborhoods, custom move providers and a custom phase. The four mixed
+fixture sizes retain basic/list assignment assertions and all four derived outputs:
+selected-value strength, list index+1/index+2 and inverse reference count+2, including
+unused values. Real graph datasets compute these during trial updates; final output
+is materialized through the same factory from the returned assignment. This is not
+Java mutable-solution listener lifecycle parity. The source custom command executes
+the first factory proposal; the custom provider produces both original proposals.
+An independent 480-trial regression checks scores and all four derived outputs across
+joint moves, required-variable clearing, list unassignment, commits and rollback,
+with activity pruning enabled and disabled. No new throughput claim.

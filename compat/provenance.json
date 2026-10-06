@@ -28200,6 +28200,66 @@
       "upstream_test": "solvePinnedAndUnassignedMixedModel",
       "local_test": "solve_pinned_and_unassigned_mixed_model",
       "modifications": "Preserve both source scenarios and all assertions: full first-entity pin with blocked basic/list values; then pinned list prefix [1,2] with blocked basic values and unblocked four list values. Preserve required/optional assignments and exact final list membership [1,2,0]/[3]. Exact test calculator favors size3. Native non-worsening optional construction and deterministic local search bounded to16 steps replace Java default phases. Preserve nonempty best-event helper for both solves. Native validated finite/list/mixed models and explicit solver plans replace Java reflection/configuration. Native with_initial_assignment resumes solution state in a fresh solve, retaining metadata and pins; no internal search-history continuation is claimed. Deterministic original move order replaces stochastic traversal; no identical trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMixedModel",
+      "local_test": "solve_mixed_model",
+      "modifications": "Preserve all four entity/list/basic-range fixture sizes, initialized basics, exact empty-list counts and all four helper shadow assertions (cascade index+1, entity strength, inverse basic-reference count+2, declarative index+2), plus nonempty best events. Exact TestdataMixedEasyScoreCalculator objective. Execute with/without activity pruning. Strengths remain list-value count minus basic-value index. Native basic/list sources, graph maps, grouped counts with complement for unused values and captured datasets express actual derived outputs during moves. Final solver output is assignment/score; a fresh director using the same factory materializes final shadows, explicitly not Java mutable-solution listener lifecycle parity. Independent direct arithmetic checks all derived fields and scores. Stable integer identities replace generated Java objects. Deterministic original move order and explicit bounds replace default Java configuration; no identical stochastic trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithDefaultNeighborhoodProviderMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithDefaultNeighborhoodProviderMixedModel",
+      "local_test": "solve_with_default_neighborhood_provider_mixed_model",
+      "modifications": "Preserve reversed first-basic assignments, uninitialized second basics, both list values on owner0, exact TestingMixedEasyScoreCalculator squared list excess and unwanted-basic penalties, target score0, result availability and nonempty best events. Native built-in mixed change/swap neighborhood replaces preview-provider discovery. Additionally require complete score0 and correct final shadows, with/without activity pruning; no preview-feature configuration parity claimed. Native basic/list sources, graph maps, grouped counts with complement for unused values and captured datasets express actual derived outputs during moves. Final solver output is assignment/score; a fresh director using the same factory materializes final shadows, explicitly not Java mutable-solution listener lifecycle parity. Independent direct arithmetic checks all derived fields and scores. Stable integer identities replace generated Java objects. Deterministic original move order and explicit bounds replace default Java configuration; no identical stochastic trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMixedModelCustomPhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMixedModelCustomPhase",
+      "local_test": "solve_mixed_model_custom_phase",
+      "modifications": "Preserve2/2/2fixture, exact objective, complete basics and nonempty lists, best-event helper and actual custom callback execution. Source command executes first proposal from MixedCustomMoveIteratorFactory (entity0 basicValue -> value0); native context executes/scorers that same move. Basic-then-list native construction replaces two Java construction phases. Source bound16 preserved as maximum custom move evaluations (one command move); callback asserted exactly once. Native basic/list sources, graph maps, grouped counts with complement for unused values and captured datasets express actual derived outputs during moves. Final solver output is assignment/score; a fresh director using the same factory materializes final shadows, explicitly not Java mutable-solution listener lifecycle parity. Independent direct arithmetic checks all derived fields and scores. Stable integer identities replace generated Java objects. Deterministic original move order and explicit bounds replace default Java configuration; no identical stochastic trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveMixedModelCustomMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveMixedModelCustomMove",
+      "local_test": "solve_mixed_model_custom_move",
+      "modifications": "Preserve2/2/2fixture, exact objective, complete basics and nonempty lists and best-event helper. Bind an actual native local-search provider producing the source two ordered entity0 first-basic changes to value0/value1. The source random argument is unused; native deterministic order needs no random emulation. Assert provider invocation. Basic-then-list construction replaces two Java phases; local search bounded16steps. Native basic/list sources, graph maps, grouped counts with complement for unused values and captured datasets express actual derived outputs during moves. Final solver output is assignment/score; a fresh director using the same factory materializes final shadows, explicitly not Java mutable-solution listener lifecycle parity. Independent direct arithmetic checks all derived fields and scores. Stable integer identities replace generated Java objects. Deterministic original move order and explicit bounds replace default Java configuration; no identical stochastic trace claimed."
     }
   ],
   "fixtures": [
@@ -34780,6 +34840,136 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/unassignedvar/TestdataUnassignedMixedEasyScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "Adapt exact test objective: unblocked first basic+1 or blocked-10; assigned second+1; any blocked list element-10, else size3+2 otherwise+1. Selected fixtures block all basic values; list blocking varies by scenario."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.executeSolveMixedModel.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "executeSolveMixedModel",
+      "modifications": "Preserve every basic/list initialization and all four derived shadow assertions across four fixture sizes, with independent expected state arithmetic."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.TestingMixedEasyScoreCalculator.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "TestingMixedEasyScoreCalculator.calculateScore",
+      "modifications": "Preserve squared excess length beyond1 and first/second-basic unwanted identity penalties. Integer squaring replaces Math.pow for exact small counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedSolution.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve every fixture cardinality, initial null basics/empty lists, stable entity/value IDs and strength=listValueSize-i. Codes and unused difficulty metadata omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEntity.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "basicValue; secondBasicValue; valueList; updateDeclarativeShadowValue",
+      "modifications": "Preserve two required basics and required list; null first basic produces null derived strength, assigned first basic yields referenced immutable strength. Native maps replace declarative annotations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedValue.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedValue.java",
+      "upstream_test": "updateCascadingShadowValue; updateDeclarativeShadowValue",
+      "modifications": "Native maps over actual incremental list-position source rows implement index+1/index+2, null when unassigned. This specific cascade is an index formula; no arbitrary recursive cascade lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedOtherValue.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValue.java",
+      "upstream_test": "updateDeclarativeShadowValue",
+      "modifications": "Group first-basic references and complement unused facts with count0; derived count+2 remains2 for empty inverse groups. Native cached graph output replaces mutable inverse entity list."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMixedEasyScoreCalculator.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact test objective: assigned basics+1 each, singleton lists+2 otherwise+1. Separate native terminals sum the same contributions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedCustomPhaseCommand.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/MixedCustomPhaseCommand.java",
+      "upstream_test": "changeWorkingSolution",
+      "modifications": "Execute and score the actual first factory proposal through native CustomPhaseContext. Mockito/reflection score-director facade omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedCustomMoveIteratorFactory.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/MixedCustomMoveIteratorFactory.java",
+      "upstream_test": "createRandomMoveIterator",
+      "modifications": "Preserve the two ordered first-entity first-basic proposals value0/value1. Native provider binds to local search; no randomness used by source iterator. Java original-iterator error/size metadata not part of selected method assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/mixed_solver_shadow_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.mixed_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve nonempty best-score event assertion with native retained-best observer/events on actual solver runs."
     }
   ]
 }
