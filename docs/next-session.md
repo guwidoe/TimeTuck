@@ -12496,3 +12496,61 @@ Live freshness matched verification digest: 441043b8a110250617a00c947129b780a0a1
 Existing provenance prefixes unchanged; appended23cases and5fixtures/helpers.
 Log work/source-path-final-check.log; evidence work/source-path-evidence.json.
 All handles terminal. No benchmarks/browser/release reruns. Goal active.
+
+
+## Shared variable state and event tracking (current increment)
+
+Previous turn baa736e was progress; starting tree clean. Added variable_state.rs
+and exports only: VariableStateRegistry binds canonical schema fields to typed
+stable entity/value keys. Rc/RefCell state handles and separate event tracker
+cores retain identity across repeated lookup, registration order and field resets.
+Basic inverse collections and list owner/index/neighbors publish immediately.
+Explicit per-field reset clears tracker window; update records both event kinds
+for changed/inserted/removed entities. Snapshot methods return detached data.
+Typed misuse/duplicates and duplicate list values fail before existing data/events
+change. Indexes currently rebuild per field; registry is single-threaded and not
+an implicit object scanner or shadow-supplier runner. No performance claim.
+
+Native synchronize_basic/lists binds entity IDs to assignment slots. Original
+3 tests compare against real scored inverse stream updates across27assignments,
+list observed move apply/undo, shared identity, atomic bad input, field isolation,
+null assignment, wrong schema/type and duplicate slot bindings.
+
+16 VariableSupportTest methods adapted (concurrent shadow graph case pending),
+plus5each BasicVariableTrackerTest/ListVariableTrackerTest. Trackers return typed
+Before/After violation records, not JVM diagnostic strings; canonical field
+filtering/reset preserves source behavior. Source state/tracker fixtures are
+metadata/row projections with explicit setup instead of Java reflection. The
+tracking coexistence source case also constructs native StreamScoreDirector and
+inverse stream, performs a scored edit, synchronizes state and asserts consistency.
+
+Read full BasicVariableStateTest, BasicVariableTrackerTest and ListVariableTrackerTest.
+BasicVariableState notifier/externalization cases not implemented or credited.
+Read complete10basicinverse/mixed/multivar fixtures and3inverse fixtures; existing
+basic/list/optional fixture reads reused. Source helpers remain independently
+implemented. No upstream production implementation read.
+
+Focused4701 failed at empty-list type inference; added explicit i32 and usize
+identity annotations. Revised focused command exited0 with29tests. Strengthened
+source tracking coexistence with actual score director before final gate.
+No all-target prebuild; new independent module. No benchmarks/browser/release reruns.
+
+Next-area reconnaissance: read full SingleDirectionalParentVariableReferenceGraphTest
+(two currently pending cases): one supplier invocation per dirty element even
+when multiple parent fields change; batch unassignment updates every removed
+value plus downstream counts, including default index collision0. Counting
+fixtures not yet read this turn. DefaultListVariableStateTest method names only
+inspected (418lines; 11methods pending); they cover initialization/assignment,
+external shadow notifications and pin boundaries. No implementation/credits for
+either class. Existing list_cascade and dependency caches may supply execution;
+future work should integrate them with metadata and state rather than duplicate
+the evaluator. Gate74807 runs against final source.
+
+Required gate74807 exited0. 3694 Rust tests and 172 doctests passed.
+Rust jobs: {'RUN': 4, 'REUSE': 449}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2140, 'failed': 0, 'pending': 2433, 'excluded': 282, 'unverified': 0, 'percent': 44.078}.
+Source before/after matched: 1a100717d01cb5ccf5f596e614f00ad3f85738e200ff3e371db5ed31f2b59b60
+Live freshness matched verification digest: f4723c2d2c1ec402591e0d70270569c6fa5d51056ee835b76811bba8147ecc76.
+Existing provenance prefixes unchanged; appended26cases and23fixture records.
+Log work/variable-state-final-check.log; evidence work/variable-state-evidence.json.
+All handles terminal. No benchmarks/browser/release reruns. Goal active.

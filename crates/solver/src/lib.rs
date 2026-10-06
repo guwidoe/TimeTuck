@@ -758,3 +758,9 @@ pub use source_path::{
     CompiledSourcePath, SourceMemberRole, SourceParent, SourcePathError, SourcePathRegistry,
     SourceReference,
 };
+
+mod variable_state;
+pub use variable_state::{
+    BasicVariableState, ListVariableState, MissingVariableEvent, VariableEventTracker,
+    VariableEventViolation, VariableListLocation, VariableStateError, VariableStateRegistry,
+};

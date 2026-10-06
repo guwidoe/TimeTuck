@@ -2853,3 +2853,36 @@ declarative sources, paths ending in facts and consistency flags. Explicit typed
 registration replaces Java field/getter discovery; inheritance, supplier method
 parameter discovery and automatic shadow setters remain separate work. The
 remaining RootVariableSourceTest reflection cases are not credited.
+
+
+## Shared variable state and event tracking
+
+VariableStateRegistry keeps one shared state and a separate tracker per canonical
+planning field. Basic states expose current values and inverse collections; list
+states expose assignment, owner, index and neighbors. Rc-backed state handles
+survive lookups, tracker registration order, field reset and assignment updates.
+Value types and stable entity-key types are checked at the field boundary; fields
+with matching types remain distinct. Linking never reads a solution provider.
+Snapshots loaded before handle lookup are immediately visible to later consumers.
+
+Explicit reset replaces one field and clears its tracking window. Updates record
+before/after presence for each changed entity and publish its inverse/index view
+immediately. VariableEventTracker audits missing events for its canonical field,
+ignores other fields, and resets the audit window. It tracks event presence, not
+nested bracket counts. Duplicate keys/list assignments and invalid native slot
+bindings fail before existing state or events change. Detached snapshots can be
+used to restore a field; cloned handles continue observing the live state.
+
+Native basic/list synchronization binds stable entity identities to assignment
+slots. Original integration tests compare inverse state against scored stream
+moves across 27 partial assignments and restore list neighbors through observed
+move undo. This registry is single-threaded and explicitly synchronized; it does
+not discover objects, enforce model pins/ranges or automatically execute shadow
+suppliers. Each update currently rebuilds that field's indexes.
+
+16 VariableSupportTest cases and five cases each from BasicVariableTrackerTest
+and ListVariableTrackerTest are adapted. Structured missing-event records replace
+JVM diagnostic strings. The tracked inverse case uses a native score director
+and consistency check. Concurrent shadow graph event orchestration, embedded
+Java inverse-field mutation and automatic shadow-session construction remain
+separate work; no credit is claimed for their tests.
