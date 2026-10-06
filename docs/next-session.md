@@ -12397,3 +12397,51 @@ Live freshness matched verification digest:0259bcdd1fef5b8b16bf8a880e0aa65be0eaa
 ValueRangeManagerTest report confirms47/47passed.
 Log work/managed-statistics-final-check.log; evidence work/managed-statistics-evidence.json.
 All handles terminal. No benchmark/browser/release reruns. Goal active.
+
+
+## Typed planning metadata (current increment)
+
+Previous turn committed8f06b57 (progress); starting tree clean. Added PlanningSchema
+with native TypeId-backed PlanningType, typed entity/variable declarations and
+basic/list/shadow kinds. Canonical immutable metadata retains declaration order;
+borrowed handles preserve parent identity and cannot outlive the schema. Duplicate
+types/field names, empty field names, wrong kinds/types and incomplete statistics
+bindings fail with named diagnostics. Genuine/shadow queries are filtered views.
+
+Variable handles construct typed ManagedValueRanges, infer optionality and reject
+shadow-as-choice misuse. Entity statistics bindings require each genuine field
+once and restore declaration order; NamedProblemSize validates actual slots. An
+original test constructs and solves a mixed model and obtains named statistics
+from the same declarations (2logical entities,4variables,6values,96assignments).
+Other original tests cover bad declarations/bindings, distinct same-short-name
+types, cross-schema identity, canonical addresses, optional and empty-model ranges.
+One new doctest. No object traversal/getter/setter/inheritance or automatic shadow
+evaluation claim. No production implementation read.
+
+29nested PlanningSolutionMetaModelTest methods and6metadata fixtures adapted from
+previous full test/basic/list fixture reads. Reporter now accepts optional integer
+upstream_line for exact pinned declaration disambiguation. Both validation and
+result application resolve it; missing/stale/ambiguous targets fail. Existing
+ledger mappings without lines remain unchanged. Added Python regression checks
+line/type/path/name failures and distinct nested target identity;8tests passed.
+
+Focused74161 failed because new mixed-model test used SolverConfig; fixed to
+MixedSolverConfig. Fixed71767 exited0 with32tests. New files reviewed before
+gate68525, which includes required checks and selective reuse. No all-target
+prebuild, benchmark/browser/release reruns.
+
+Potential next area: shadow-source path compilation and accessors on typed metadata.
+Scouted VariableSupportTest lines1-220 (incomplete first graph-events case), and
+RootVariableSourceTest lines1-210 (first builtin/declarative sources and group
+paths; fourth case incomplete). Source references distinguish builtin/declarative
+shadows, parent/group paths, canonical target/downstream metadata and actual
+visited entity identity. Remaining bodies and invalid/declarative fixtures are
+unread. No implementation or test credit for these sources yet.
+
+Required gate68525 exited0. 3639 Rust tests and 170 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 445}; Python jobs: {'REUSE': 45, 'RUN': 1}.
+Dashboard: {'total': 4855, 'passed': 2091, 'failed': 0, 'pending': 2482, 'excluded': 282, 'unverified': 0, 'percent': 43.069}.
+Source before/after matched: 30ec93206cfdbe6d698abeddc422e2bba2b50ad8fa113aa61674fe686167a771
+Live freshness matched verification digest: a6d508c7ddfb0727736740b90b3babef232d4335527bf720b79e16171bf48eb3.
+Log work/planning-schema-final-check.log; evidence work/planning-schema-evidence.json.
+All handles terminal. No benchmark/browser/release reruns. Goal active.

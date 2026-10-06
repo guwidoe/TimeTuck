@@ -2802,3 +2802,28 @@ identities in separate fields. The 500-value scale reference uses exact combinat
 from the behavior specified by MathUtilsTest, not the JVM production log helper or
 its fixed-point precision. Original enumeration checks both required and optional
 unrestricted spaces, and explicit restricted examples demonstrate approximation.
+
+
+## Typed planning metadata
+
+PlanningSchema validates explicit solution/entity/field declarations and retains
+canonical metadata in declaration order. PlanningType uses native TypeId identity
+and type names for diagnostics. Entities with genuine fields are distinguished
+from shadow-only entities; variables retain basic/list/shadow kind, optionality
+and value type (the element type for lists). Borrowed entity/variable handles
+preserve parent identity without owning cycles or outliving their schema.
+
+Variable declarations construct shared or entity-provided managed ranges with
+value-type checks and inferred basic/list optionality. Shadow fields cannot create
+planning ranges. Statistics bindings require all genuine fields exactly once,
+check lengths/kinds, retain declaration order and omit shadow fields. Applying
+bindings to NamedProblemSize also validates actual native slot bounds/uniqueness.
+An original integration test builds and solves a mixed model and obtains named
+statistics from the same declarations.
+
+All 29 nested PlanningSolutionMetaModelTest methods are adapted with exact pinned
+source lines to disambiguate repeated names. Six basic/list metadata fixtures are
+attributed. Explicit Rust declarations replace Java descriptor discovery; this
+does not implement object traversal, reflection, inheritance, field accessors or
+automatic shadow evaluation. Existing range/scoring APIs supply those operational
+concerns explicitly.

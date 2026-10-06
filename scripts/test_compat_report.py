@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from differential_scores import source_digest
-from compat_report import counts, declarations, family, read_test_run
+from compat_report import counts, declarations, family, read_test_run, resolve_provenance_target
 
 class InventoryTests(unittest.TestCase):
     def test_constraint_engine_and_api_cases_share_a_subsystem(self):
@@ -51,6 +51,24 @@ public void parameters(int a) {}
         self.assertEqual(result['percent'], 20)
         self.assertEqual(result['passed'], 1)
         self.assertIsNone(counts([])['percent'])
+
+class ProvenanceTargetTests(unittest.TestCase):
+    def test_nested_names_require_exact_pinned_declaration_line(self):
+        methods = declarations("class A { @Test void same() {} }\nclass B { @Test void same() {} }")
+        lookup = {('Example.java', 'same'): methods}
+        case = dict(id='example', upstream_path='Example.java', upstream_test='same')
+        with self.assertRaisesRegex(ValueError, 'ambiguous'):
+            resolve_provenance_target(lookup, case)
+        self.assertIs(resolve_provenance_target(lookup, dict(case, upstream_line=1)), methods[0])
+        self.assertIs(resolve_provenance_target(lookup, dict(case, upstream_line=2)), methods[1])
+        for line in [3, 0, -1, True, '2', None]:
+            with self.subTest(line=line), self.assertRaises(ValueError):
+                resolve_provenance_target(lookup, dict(case, upstream_line=line))
+        for changed in [dict(case, upstream_path='Other.java'), dict(case, upstream_test='other')]:
+            with self.assertRaises(ValueError):
+                resolve_provenance_target(lookup, dict(changed, upstream_line=1))
+        unique = {('Example.java', 'same'): [methods[0]]}
+        self.assertIs(resolve_provenance_target(unique, case), methods[0])
 
 class CapturedResultTests(unittest.TestCase):
     def test_real_results_are_scoped_to_the_correct_target(self):

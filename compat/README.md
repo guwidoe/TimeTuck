@@ -26,3 +26,8 @@ Illustrative record shape (not an implemented case):
 ```
 
 Do not add invented upstream identities. Verify paths and methods against the pin.
+
+For nested Java tests with repeated method names, a case may include an integer
+`upstream_line` naming the declaration line at the pinned revision. Path, method
+and line must resolve to exactly one inventoried declaration. Without this field,
+ambiguous names remain errors; a stale line is never silently remapped.

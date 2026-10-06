@@ -30930,6 +30930,470 @@
       "upstream_test": "problemScaleSingleEntityWithUnassignedValues",
       "local_test": "problem_scale_single_entity_with_unassigned_values",
       "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_solution_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 34,
+      "local_test": "basic_solution_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_solution_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperEntities",
+      "upstream_line": 40,
+      "local_test": "basic_solution_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_solution_genuine_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperGenuineEntities",
+      "upstream_line": 46,
+      "local_test": "basic_solution_genuine_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_solution_wrong_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "failsOnWrongEntities",
+      "upstream_line": 52,
+      "local_test": "basic_solution_wrong_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_solution_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 132,
+      "local_test": "list_solution_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_solution_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperEntities",
+      "upstream_line": 138,
+      "local_test": "list_solution_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_solution_genuine_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperGenuineEntities",
+      "upstream_line": 146,
+      "local_test": "list_solution_genuine_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_solution_wrong_entities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "failsOnWrongEntities",
+      "upstream_line": 152,
+      "local_test": "list_solution_wrong_entities",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_entity_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 69,
+      "local_test": "basic_entity_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_entity_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 75,
+      "local_test": "basic_entity_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_entity_kind",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "isGenuine",
+      "upstream_line": 81,
+      "local_test": "basic_entity_kind",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_entity_variables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperVariables",
+      "upstream_line": 87,
+      "local_test": "basic_entity_variables",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_entity_missing_variable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "failsOnNonExistingVariable",
+      "upstream_line": 93,
+      "local_test": "basic_entity_missing_variable",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_variable_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 106,
+      "local_test": "basic_variable_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.basic_variable_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 112,
+      "local_test": "basic_variable_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_entity_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 169,
+      "local_test": "list_entity_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_entity_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 175,
+      "local_test": "list_entity_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_entity_kind",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "isGenuine",
+      "upstream_line": 181,
+      "local_test": "list_entity_kind",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_entity_variables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperVariables",
+      "upstream_line": 187,
+      "local_test": "list_entity_variables",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_entity_missing_variable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "failsOnNonExistingVariable",
+      "upstream_line": 193,
+      "local_test": "list_entity_missing_variable",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_variable_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 207,
+      "local_test": "list_variable_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.list_variable_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 213,
+      "local_test": "list_variable_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_entity_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 230,
+      "local_test": "shadow_entity_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_entity_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 236,
+      "local_test": "shadow_entity_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_entity_kind",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "isNotGenuine",
+      "upstream_line": 242,
+      "local_test": "shadow_entity_kind",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_entity_variables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperVariables",
+      "upstream_line": 248,
+      "local_test": "shadow_entity_variables",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_entity_missing_variable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "failsOnNonExistingVariable",
+      "upstream_line": 256,
+      "local_test": "shadow_entity_missing_variable",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_variable_parent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperParent",
+      "upstream_line": 269,
+      "local_test": "shadow_variable_parent",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "PlanningSolutionMetaModelTest.shadow_variable_type",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/PlanningSolutionMetaModelTest.java",
+      "upstream_test": "hasProperType",
+      "upstream_line": 275,
+      "local_test": "shadow_variable_type",
+      "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
     }
   ],
   "fixtures": [
@@ -40474,6 +40938,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MathUtilsTest.java",
       "upstream_test": "expectedArrangements/testGetPossibleArrangementsScaledApproximateLog",
       "modifications": "Use only the test-defined permutation/partition interpretation (including3values/2owners=24 and3values/3owners=60). Independent rising-factorial BigUint expression supplies the 500-value reference; the test permutation iterator and production MathUtils implementation are not copied. No extra MathUtils test method is credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataSolution.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataEntity.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataValue.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataListSolution.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataListEntity.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/planning_schema_cases.rs",
+      "id": "TestdataListValue.planning_schema",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
     }
   ]
 }

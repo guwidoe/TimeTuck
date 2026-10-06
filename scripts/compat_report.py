@@ -150,6 +150,19 @@ def read_test_run(test_output, verified_source):
     return results, runs
 
 
+def resolve_provenance_target(lookup, case):
+    """An optional pinned declaration line disambiguates nested same-name tests."""
+    targets = lookup.get((case['upstream_path'], case['upstream_test']), [])
+    if 'upstream_line' in case:
+        line = case['upstream_line']
+        if type(line) is not int or line < 1:
+            raise ValueError(f'Invalid provenance source line: {case["id"]}')
+        targets = [method for method in targets if method['line'] == line]
+    if len(targets) != 1:
+        raise ValueError(f'Case target missing or ambiguous: {case["id"]}')
+    return targets[0]
+
+
 def build_report(execute=True, test_output=None):
     verified_source = verification_digest()
     ref = json.loads((ROOT / 'compat/upstream.json').read_text())
@@ -168,8 +181,7 @@ def build_report(execute=True, test_output=None):
         if case['id'] in ids: raise ValueError(f'Duplicate provenance ID: {case["id"]}')
         ids.add(case['id'])
         if case['upstream_commit'] != ref['commit']: raise ValueError('Case revision differs from reference')
-        targets = lookup[(case['upstream_path'], case['upstream_test'])]
-        if len(targets) != 1: raise ValueError(f'Case target missing or ambiguous: {case["id"]}')
+        resolve_provenance_target(lookup, case)
         key = (case['local_path'], case.get('local_test'))
         if key in mapped: raise ValueError(f'Multiple upstream methods mapped to one local test: {key}')
         mapped.add(key)
@@ -181,7 +193,7 @@ def build_report(execute=True, test_output=None):
         results, runs = read_test_run(test_output, rust_digest(ROOT))
 
     for case in ledger:
-        method = lookup[(case['upstream_path'], case['upstream_test'])][0]
+        method = resolve_provenance_target(lookup, case)
         status = case['status']
         if status not in ['implemented', 'pending', 'excluded']: raise ValueError(f'Invalid status: {status}')
         method.update(local_path=case['local_path'], local_test=case.get('local_test'), provenance_id=case['id'])
