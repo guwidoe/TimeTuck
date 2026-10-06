@@ -11975,3 +11975,43 @@ Read later MoveDirectorTest2440-2730: temporary-score postprocessing, score rest
 replayable undo and flawed-solution processor cases. Native scored guards already
 restore assignment/cache, but source failure-leaves-applied semantics differ; do
 not credit those failure cases based on native rollback guarantees.
+
+
+## Prepared list lifecycle plans (current increment)
+
+Previous goal turn committed2a47c19. New independent list_lifecycle module exports
+ListLifecyclePlan, ListLifecycleEvent/Change, AppliedListLifecycle and StaleListPlan.
+Constructors prepare/replace/unassign/assign/gather use existing validated model
+moves; plans borrow the model and own initial/result/stage snapshots. Ordered real
+value-before/range-before/mutate/range-after/value-after callbacks see each working
+snapshot. Gather batches per source, then destination insertion; one Flush per full
+apply/undo. Drop reverses stages; callback/unrelated panics restore original lists.
+No callbacks for preparation failure, stale preimage or net no-op. movement() works
+with scoped and stream score directors. Equality-sensitive stale checks require
+payload fields in Eq or immutable payloads. Explicit hooks, not JVM shadow discovery.
+
+Seven source methods from MoveDirectorTest ValueReplace/SubListUnassign/MassMove
+read in full and adapted with3list fixture records. Negative-index method pending.
+Five original regressions cover real intermediate snapshots, full callback panic
+boundaries, stale/no-op/pin/dependency rejection, both scoring caches, ordered assign
+and compound membership undo. Focused23047 passed initial4original+7source cases;
+expanded50528 passed5original cases including both scoring backends. Only subsequent
+source edits renamed private Stage to LifecycleStage and collapsed one nested if
+reported by clippy. First gate25812 exited1 on that lint; fixed gate10818 exited0.
+3463Rust tests and161doctests passed. Rust jobs:{'RUN': 3, 'REUSE': 426};
+Python jobs:{'REUSE': 46}. No broad prebuild: no shared-type impl changed.
+Dashboard1953/4855(40.227%),2620pending,282excluded,0failed/unverified.
+Source before/after matched:
+6b8a06cf42ef21540dcc1baa2afd84ef5d45fecf3ab571b700d2a22b179de884
+Live freshness matched verification digest:
+6b8f0fd0cbd910e630d8f96ebe3c1ee377553ee78a224a27c8fe95e1e741aaf8.
+Log work/list-lifecycle-final-check-fixed.log; evidence work/list-lifecycle-evidence.json.
+All process handles terminal. No benchmark/browser/release reruns. Full goal active.
+
+Next missing MoveDirector behaviors include replayable recorded undo and temporary
+postprocessors with explicit score freshness/failure handling (source2440-2730 read
+in the preceding increment). Native scored guards already support scope rollback;
+do not repeat existing mutation tests or credit failure-leaves-applied Java cases
+with native rollback behavior. Full source methods/fixture helpers must be checked
+before adaptation. This batch's seven source methods now have real value/range hooks;
+previous notes saying they were blocked by missing callbacks are historical.

@@ -2554,3 +2554,26 @@ basic assignment (score-4), reaching distinct values/score-2. Concurrent cached
 shadows rebuild to HardSoft(-4,0) before local-only feasible termination; the exact
 source final lists and HardSoft(0,-240) are preserved. Native derived state replaces
 mutable stale Java shadow fields; no JVM discovery/listener or random-trace claim.
+
+
+## Prepared list lifecycle plans
+
+ListLifecyclePlan validates an owned snapshot-bound plan for replacement, assignment,
+unassignment, arbitrary native moves and bulk gathering. ListLifecycleEvent reports
+individual value assignment/removal and list-range brackets against the actual
+working snapshot. Gather removes one batch per source in first-member order and
+inserts the selected block in input order, adjusting original destination boundaries.
+A single Flush callback runs after all stages so a listener can refresh derived state
+once. Undo reverses stages, value roles and ranges and flushes the restored state.
+Commit retains changes. Stale assignments (under value equality) are rejected; errors
+while preparing publish nothing. Observer panics restore assignment state; external
+observer side effects require caller recovery. Plans use full snapshot copies.
+
+These explicit hooks do not discover JVM shadows or attach observers automatically
+to solver instances. Intermediate gather snapshots may be partial; score/validate
+at Flush. Ordinary movement() integrates with both native scoring backends. Seven
+MoveDirectorTest methods retain exact replacement/unassignment/gather results,
+returned identities, notification ranges and ordered value hooks; gather tests
+refresh real owner/index projections once and verify undo. Same-position/empty-span
+checks use native typed errors. The negative Java index overload remains pending;
+unsigned Rust coordinates do not exercise that source failure.
