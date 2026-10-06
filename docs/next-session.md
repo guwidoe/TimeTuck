@@ -11826,3 +11826,43 @@ RecordingSelection (selection_replay.rs) opens traversal before replaycursor,
 recorder.next publishes Arc value and next_replayed consumes latest occurrence.
 Adapt through a real recording/replay bound construction provider, not plain greedy
 construction. No method credit added for that pending case.
+
+
+## Queued placement providers
+
+QueuedMoveProvider adds Once/Cycle queues, assignment-aware lazy factories,
+non-Clone keys, bounded empty-pool skips, retry after atomic discard, and explicit
+reset for new phases. Construction completion notifications allow optional rejected
+placements to advance and stop a full unproductive cycle. Seven original tests
+cover queue behavior and integration with both scoring engines.
+DefaultSolverTest.solveCustomConfigListVariable preserves the source fixture,
+objective,16-step search and actual best events using real recording/replay.
+Added1source case and6fixture/helper records. Placer lifecycle/copy cases remain
+pending; no upstream production implementation was read.
+
+Verification complete: all-target prebuild59641 and final check93070 exited0.
+3404Rust tests and158doctests passed.366Rust jobs ran,56reused;46Python jobs reused.
+Dashboard:1908/4855passed(39.3%),2665pending,282excluded,0failed/unverified.
+Rust source before/after matched:
+e239b0c550c742da3e9a2960173cb89c5b2a422103c240746708a81b5aa62a95
+Live /api/freshness matched verification digest:
+f46670d69b3bcc28c3a683e370953962ac89b6853550c4cfc3e10766ecb2953f.
+Final log:work/queued-placement-final-check.log. Focused56326 passed all new tests;
+52790 also passed16provider regressions. No benchmark/release/browser reruns.
+Goal confirmed active. Next feature below remains unimplemented.
+
+Next substantial gap inspected during compilation: DefaultSolverTest1593-1849,
+especially no-inconsistent-field dependency handling (methods1671,1729,1767,1816).
+Read all four testdomain/shadow/no_inconsistent_field fixtures. Four required list
+values a1,a2,b1,b2 each60min, owner starts0, a2dependsa1/b2dependsb1. Previous list
+value also supplies start; assigned start=max(previous end or owner start, dependency
+ends), missing dependency end=>None. Objective soft negative sum(end-owner start).
+Initial owner0[b2,b1]/owner1[a1,a2] must clear inconsistent b-values, retain a-values
+and correct owner/previous shadows, with no bestevents in custom noop-only plan.
+Pinning owner0prefix1 while both pairs are reversed must give a typed pinned-cycle
+error. A custom phase assigning[b2,b1] after cleanup must reject structurally flawed
+move. From empty lists, solving must reach HardSoft(0,-360) and dependency ordering.
+Existing DependencyGraph/derive_dependencies detect cycles/downstream inconsistency
+but native startup repair and solver-wide inconsistency rejection need investigation.
+Do not substitute an extra hard-score penalty for the source's implicit structural
+policy. No credit or code changes yet for this next feature.

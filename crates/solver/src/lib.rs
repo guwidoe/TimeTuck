@@ -497,6 +497,8 @@ pub use change_product::change_product_moves;
 
 mod move_provider;
 pub use move_provider::MoveProvider;
+mod queued_move_provider;
+pub use queued_move_provider::{PlacementMoveFactory, PlacementQueueOrder, QueuedMoveProvider};
 mod provider_search;
 pub use provider_search::{
     list_local_search_from_with_provider, list_stream_local_search_from_with_provider,

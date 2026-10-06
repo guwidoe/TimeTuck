@@ -2475,3 +2475,25 @@ past an exact limit just to prove exhaustion, so atomic mode discards at that bo
 unless an intentional early pick completed the step. Original regressions separately
 check improving-trial rollback, callback counts, observer visibility, score/move/scan
 limits, cancellation, controlled phase clocks and transient shared termination.
+
+
+## Queued placement providers
+
+Native QueuedMoveProvider supplies one assignment-aware candidate pool per ordered
+key, with finite or cycling queues, skipped empty pools, non-Clone keys and lazy
+factories borrowing the current problem/assignment. Increased completed-step counts
+advance the queue; repeated counts retry the same key; decreasing counts rewind it.
+Explicit reset handles a new phase with the same counter. Construction notifications
+let rejected optional placements advance; a full cycle of rejection/empty pools
+stops, and a successful installation resets that cycle. Ordinary pooled providers
+retain their stop-on-rejection default. Atomic discarded scans issue no completed
+placement notification. Candidate validation/scoring stay in the existing engine.
+
+DefaultSolverTest.solveCustomConfigListVariable now preserves the source2value/
+2owner fixture, exact singleton-owner reward,16search-step configuration, nonempty
+owner assertion and actual best events with both scoring engines. A bound queued
+provider uses a real RecordingSelection publication and replay cursor to choose
+insertion moves; identity and publication order are also asserted. Native per-step
+value sources and explicit bindings replace Java selector configuration; no factory
+parser, automatic lifecycle forwarding or identical-trace claim. The queued/pooled
+placer lifecycle and copy source methods remain pending, not partially credited.

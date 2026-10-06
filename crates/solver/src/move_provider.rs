@@ -17,6 +17,16 @@
 /// Closures returning Vec<M> implement this trait for convenience. Implement the
 /// trait directly to return lazy iterators borrowing the current snapshot.
 pub trait MoveProvider<P, A, M> {
+    /// Construction-only notification after a nonempty completed placement scan.
+    /// KeepBestPrefix counts interrupted nonempty scans as completed steps;
+    /// discarded atomic scans do not call this hook. Return true to try another
+    /// placement when no assignment was installed (optional rejection/no-change).
+    /// Default pooled providers stop on rejection. Returning true must make
+    /// progress through a bounded placement schedule; score limits still apply.
+    fn construction_placement_completed(&mut self, _installed: bool) -> bool {
+        false
+    }
+
     fn moves<'a>(
         &'a mut self,
         problem: &'a P,

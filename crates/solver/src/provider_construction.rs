@@ -453,10 +453,13 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 || director.assignment() != &base);
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
-        result.completed_steps += u64::from(selection.evaluations > 0 && can_commit());
+        let completed = selection.evaluations > 0 && can_commit();
+        result.completed_steps += u64::from(completed);
         if config.assert_scores {
             director.assert_consistent()?;
         }
+        drop(proposals);
+        let continue_placements = completed && provider.construction_placement_completed(installed);
         if installed {
             director.notify_best(|a| shape.complete(a));
         }
@@ -466,7 +469,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         {
             break reason;
         }
-        if !installed {
+        if !installed && !continue_placements {
             break Stop::NoCandidates;
         }
     };
