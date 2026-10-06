@@ -12015,3 +12015,40 @@ do not repeat existing mutation tests or credit failure-leaves-applied Java case
 with native rollback behavior. Full source methods/fixture helpers must be checked
 before adaptation. This batch's seven source methods now have real value/range hooks;
 previous notes saying they were blocked by missing callbacks are historical.
+
+
+## Temporary processing and recorded replay (current increment)
+
+Previous goal turn committedb49557c. New temporary_moves module adds TemporaryMoves
+wrapper for all6native score directors, options for callback failure rollback/retain
+and cached/fresh-checked restoration, typed phase errors and owned RecordedMove
+snapshots/moves with direction-specific stale checks. Each callback sees the applied
+candidate and score. Success undoes; KeepApplied commits validated state on callback
+Err/panic before propagating. Apply failure always rolls back without callback.
+recorded returns after undo, builds basic/list/mixed inverse moves, preserves repeated
+basic writes, unassigned values, cross-owner transfers and pins on replay. Fresh mode
+runs real contribution recalculation/graph replay and reports cache mismatch.
+No existing director implementation changed; wrapper methods are on the new type.
+
+Read full MoveDirectorTest2429-2730 including buildScoreDirector helper and all4basic
+Testdata fixtures. Six source adapters preserve actual callback results/state, scores,
+kept-applied panic and redo/undo, both basic backends. Five original cases exercise
+all6backends, multiple replay cycles, pinned prefixes, both Result/panic policies,
+stale checks, validation failure and measured fresh callback counts/corruption.
+Focused84913 failed only on test enum spelling (MixedScope/MixedFact::ListEntity);
+fixed focused run exited0 (work/temporary-moves-focused-fixed.log), all11tests passed.
+Final gate22610 exited0: 3474Rust tests and162doctests passed.
+Rust jobs:{'RUN': 3, 'REUSE': 428};Python jobs:{'REUSE': 46}. No broad prebuild.
+Dashboard1959/4855(40.35%),2614pending,282excluded,0failed/unverified.
+Source before/after matched:
+5ada33cf8ff964f860086137be72b44bf1bb803cb3e3a6ab23ae008ba80cdc15
+Live freshness matched verification digest:
+d12ca693ace5faa6ead19ab239de9e955ac4e177cda31c219d31b15a63da0f53.
+Log work/temporary-moves-final-check.log; evidence work/temporary-moves-evidence.json.
+All process handles terminal. No benchmark/browser/release reruns. Full goal active.
+
+Remaining source cases: moveFailureLeavesTheMoveApplied needs a move-construction
+callback that may fail after writing; current native moves validate atomically.
+restoreWorkingScoreWhenHandlingStructurallyFlawedSolutions needs an explicit flawed
+candidate processor, not a generic validation error relabeled as source behavior.
+Do not credit those based on the new postprocessor handling alone.

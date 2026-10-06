@@ -29295,6 +29295,96 @@
       "upstream_test": "massMoveValuesBatchesMultipleMembersOfTheSameEntityIntoOneBracket",
       "local_test": "mass_move_values_batches_multiple_members_of_the_same_entity_into_one_bracket",
       "modifications": "Preserve exact source fixtures, list mutation and undo, returned displaced/removed/gathered identities, each value and range notification and asserted ordering. Real ListLifecyclePlan callbacks replace Mockito calls; source gather batching is exercised against actual intermediate assignments and one real owner/index projection refresh per completed edit (Flush), with restored projection on undo. Native whole-model validation precedes all callbacks; immutable integer identities and explicit coordinates replace Java objects/metamodel reflection. Typed SamePosition/InvalidRange payloads replace Java exception classes and text. Scope rollback replaces ephemeral close; no JVM listener discovery or identical internal score-director implementation claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.restoreWorkingScoreWithIdentityPostprocessor",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "restoreWorkingScoreWithIdentityPostprocessor",
+      "local_test": "restore_working_score_with_identity_postprocessor",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. Return the actual candidate score, then assert restored good value and previous score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.restoreWorkingScoreWithPostprocessor",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "restoreWorkingScoreWithPostprocessor",
+      "local_test": "restore_working_score_with_postprocessor",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. Preserve callback-time bad value/score assertions, postprocessed string return and exact value/score restoration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.postprocessorFailureLeavesTheMoveApplied",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "postprocessorFailureLeavesTheMoveApplied",
+      "local_test": "postprocessor_failure_leaves_the_move_applied",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. Explicit KeepApplied policy preserves the applied bad assignment and score after a real Rust panic, caught by the test in place of a Java exception. Preserve inequality against previous score; additionally check cache consistency. Default native rollback is not used for this source case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.executeTemporaryProducingUndoMoveReturnsAnAlreadyAppliedUndoMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "executeTemporaryProducingUndoMoveReturnsAnAlreadyAppliedUndoMove",
+      "local_test": "execute_temporary_producing_undo_move_returns_an_already_applied_undo_move",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. Return a real recorded inverse after temporary processing has undone the move. Assert observed -1, restored good value, reapply the recorded forward move, then replay its inverse to restore good. Snapshot equality guards reject stale replay; records are native owned moves, not Java action lists."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.restoreWorkingScoreWithPostprocessorWithoutFreshScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "restoreWorkingScoreWithPostprocessorWithoutFreshScore",
+      "local_test": "restore_working_score_with_postprocessor_without_fresh_score",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. Cached restoration option avoids an after-undo recalculation; preserve bad code result and original assignment/score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.restoreWorkingScoreWithPostprocessorAndFreshScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "restoreWorkingScoreWithPostprocessorAndFreshScore",
+      "local_test": "restore_working_score_with_postprocessor_and_fresh_score",
+      "modifications": "Preserve one basic entity initially good, good/bad value identities, the Bad value penalty and exact SimpleScore(-1) candidate/0 restored scores. Run scoped and transactional stream directors. Real TemporaryMoves postprocessors inspect immutable applied assignments and calculated scores; native strings replace Java object identities and code fields. No reflective metamodel or JVM score-field storage claim. CheckFresh restores the cached state then genuinely recalculates scoped contributions or replays the stream graph. Preserve bad code return and restored assignment/score. Native immutable-objective semantics report a fresh-score mismatch instead of replacing cached state if an external scoring fact changed."
     }
   ],
   "fixtures": [
@@ -37448,6 +37538,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
       "upstream_test": "TestdataListValue",
       "modifications": "Native ListProblem/ListEntity and unique integer value identities preserve exact source owner/value cardinalities and list ordering. Event snapshots and actual owner/index projections replace mutable Java objects and mock score-director notifications."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "TestdataSolution.temporary_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Native one-variable model and immutable good/bad strings preserve the entity/value fixture, initial assignment and code identity. Score comes from native directors; no mutable Java score field or reflective descriptor is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "TestdataEntity.temporary_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Native one-variable model and immutable good/bad strings preserve the entity/value fixture, initial assignment and code identity. Score comes from native directors; no mutable Java score field or reflective descriptor is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "TestdataValue.temporary_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Native one-variable model and immutable good/bad strings preserve the entity/value fixture, initial assignment and code identity. Score comes from native directors; no mutable Java score field or reflective descriptor is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "TestdataObject.temporary_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Native one-variable model and immutable good/bad strings preserve the entity/value fixture, initial assignment and code identity. Score comes from native directors; no mutable Java score field or reflective descriptor is imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/temporary_move_cases.rs",
+      "id": "MoveDirectorTest.buildScoreDirector.temporary_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "buildScoreDirector",
+      "modifications": "Native scoped constraint or stream terminal penalizes the bad value by exactly one, calculates the initial score and uses native consistency checks. This adapts the test-local scoring helper only; no production score-director implementation was read."
     }
   ]
 }

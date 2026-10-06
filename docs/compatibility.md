@@ -2577,3 +2577,29 @@ returned identities, notification ranges and ordered value hooks; gather tests
 refresh real owner/index projections once and verify undo. Same-position/empty-span
 checks use native typed errors. The negative Java index overload remains pending;
 unsigned Rust coordinates do not exercise that source failure.
+
+
+## Temporary scored processing and recorded undo
+
+TemporaryMoves wraps each of the six basic/list/mixed scoring directors. A callback
+sees the validated candidate assignment and its calculated score; success restores
+both working assignment and scoring cache. Callback Result errors and unwind panics
+obey explicit Rollback or KeepApplied policy. Validation/scoring failures restore
+state without invoking the callback. Cached restoration avoids recalculation;
+CheckFresh recalculates contributions or replays the graph after successful undo,
+reporting corruption if fresh evidence disagrees with the restored cache.
+
+recorded() returns owned forward/undo moves with both expected assignments. A
+successful temporary record has already been undone. Forward/undo access checks the
+expected preimage under value equality; callers then apply through the same native
+model/director. Basic inverses restore changed variables, list inverses clear all
+changed lists before reinserting original contents, and mixed inverses do both.
+Pins/ranges/dependencies are validated by ordinary atomic model application.
+
+Six MoveDirectorTest methods retain postprocessor results, callback-time state,
+restored scores, forward/undo replay and failure-leaves-applied behavior. The latter
+uses an actual panic with explicit KeepApplied, preserving the source assertion.
+Fresh-score mode checks a genuine recalculation; external mutable scoring facts are
+reported as inconsistent rather than silently overwriting a previously cached score.
+The separate move-construction failure and structurally flawed solution processor
+cases remain pending. No Java reflective discovery or recorded-action-list claim.

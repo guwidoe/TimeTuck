@@ -708,3 +708,9 @@ pub use basic_neighborhood::{
 
 mod basic_value_order;
 pub use basic_value_order::{BasicValueOrder, BasicValueOrderError};
+
+mod temporary_moves;
+pub use temporary_moves::{
+    RecordedMove, RecordedTemporaryResult, ReplayDirection, RestoredScorePolicy, StaleMoveRecord,
+    TemporaryMoveError, TemporaryMoveOptions, TemporaryMoves, TrialFailurePolicy,
+};
