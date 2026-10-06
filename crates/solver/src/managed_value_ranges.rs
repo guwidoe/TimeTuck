@@ -18,6 +18,8 @@ pub enum ManagedRangeError {
     WrongVariableKind,
     EntityCount { expected: usize, actual: usize },
     List(ListError),
+    Model(crate::ModelError),
+    CountOverflow,
 }
 impl fmt::Display for ManagedRangeError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -74,6 +76,7 @@ pub struct ManagedValueRanges<V> {
     groups: Vec<RangeGroup<V>>,
     solution: usize,
     entities: Vec<usize>,
+    entity_provided: bool,
 }
 impl<V: Clone + Eq> ManagedValueRanges<V> {
     /// Combine solution-level providers. The range exists even with no entities.
@@ -83,6 +86,7 @@ impl<V: Clone + Eq> ManagedValueRanges<V> {
             groups: vec![],
             solution: 0,
             entities: vec![],
+            entity_provided: false,
         };
         let slot = out.intern(Self::distinct(providers.into_iter().flatten()));
         out.solution = slot;
@@ -97,6 +101,7 @@ impl<V: Clone + Eq> ManagedValueRanges<V> {
             groups: vec![],
             solution: 0,
             entities: vec![],
+            entity_provided: true,
         };
         let mut union = vec![];
         for entity in providers {
@@ -151,6 +156,10 @@ impl<V: Clone + Eq> ManagedValueRanges<V> {
     }
     pub fn kind(&self) -> ManagedRangeKind {
         self.kind
+    }
+    /// Whether each entity supplies its own provider set.
+    pub fn has_entity_providers(&self) -> bool {
+        self.entity_provided
     }
     pub fn entity_count(&self) -> usize {
         self.entities.len()

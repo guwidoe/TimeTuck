@@ -2767,7 +2767,38 @@ performance claim. Multiple fields use separate managers and explicit metadata.
 Thirty-four ValueRangeManagerTest methods cover basic/list, shared/entity,
 required/optional, single/composite extraction and sorting, plus both identity
 deduplication cases. Fixtures and source sorting/assertion helpers are attributed.
-Initialization-counter/reset and problem-scale methods in that class remain pending;
+Initialization counters and scale estimates are described below;
 Java descriptor discovery and dynamic solver problem changes are separate concerns.
 Original regressions cover comparator failures, immutable snapshots, resets, cached
 comparator reuse, 256 independent range pairs, and actual basic/list solving with pins.
+
+
+## Managed range statistics and initialization
+
+Managed range statistics now distinguish shared value counts from the sum of
+entity-provided counts. Optional basic ranges include the unassigned choice.
+Multiple fields on the same logical rows combine entity counts once, variable
+and value counts additively, and logarithmic sizes by addition. Empty required
+ranges use the source zero-log reporting convention with a separate flag; this
+value is not proof of feasibility. Estimates ignore assignments and pins.
+
+Unrestricted list estimates count ordered assignments; optional lists sum over
+assigned subsets without assigning an order to unassigned values. Logarithmic
+arithmetic avoids floating-point overflow. Restricted ranges use each value's
+fraction of eligible owners as an independent weighting approximation. This may
+produce fractional estimates and is neither an exact count nor an upper bound.
+The existing exact/upper-bound ProblemStatistics API is unchanged.
+
+Fresh basic/list initialization snapshots validate supplied assignments, report
+required missing basic values or unassigned registry values, and count native
+list values as shadow entities. Recomputing after provider reset or assignment
+changes cannot reuse stale counters. Optional basic None is initialized. Snapshot
+validation checks ranges and duplicate list assignments; pin metadata belongs to
+the separate solver models.
+
+Thirteen remaining ValueRangeManagerTest methods are adapted, bringing that class
+to 47 methods. The eight-type range fixture uses its actual values as textual native
+identities in separate fields. The 500-value scale reference uses exact combinatorics
+from the behavior specified by MathUtilsTest, not the JVM production log helper or
+its fixed-point precision. Original enumeration checks both required and optional
+unrestricted spaces, and explicit restricted examples demonstrate approximation.

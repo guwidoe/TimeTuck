@@ -12347,3 +12347,53 @@ Source before/after matched:aa194a0adcf667b4cbb8dc5853257294507a92ee2440406c1769
 Live freshness matched verification digest:14aca93c407845865d673738e7fe364c662db268125c8e21da96b7d2d1372064.
 Log work/managed-ranges-final-check.log; evidence work/managed-ranges-evidence.json.
 All handles terminal. No benchmark/browser/release reruns. Full goal active.
+
+
+## Managed range statistics (current increment)
+
+Previous turn committed6ed3f3a (progress); starting tree clean. Managed ranges now
+retain whether providers are shared/entity-specific. New statistics() reports
+per-field counts, optional-basic choices and base10 estimate; combine_fields
+counts logical entity rows once. Required empty spaces retain source zero-log
+convention with explicit flag. No assignments/pins enter metadata estimates.
+List sizes use ordered arrangements, independent eligible-owner fractions for
+restricted ranges and logarithmic elementary-symmetric subset sums for optional
+lists. Estimates may be fractional and are NOT exact counts/upper bounds. Existing
+ProblemStatistics unchanged. Fresh basic/list initialization validates assignments
+and counts missing required basics/unassigned list values; native list registry
+values count as shadow entities. Resets/recomputation preserve previous snapshots.
+
+13remaining ValueRangeManagerTest methods adapted (47total for the class).20new
+fixture/helper records. Full TestdataValueRangeSolution/Entity read; other fixtures
+retained at same pin. Eight-type fixture preserves source literal values as text in
+separate field managers. MathUtilsTest arrangement helper/assertions read again:
+permutation/partition counts justify independent BigUint20*...*519 reference for
+500values/20owners; no production helper/constant read and no default JVM fixed
+precision claim. ProblemSizeStatistics fixed-point-default case still pending.
+
+Original3tests independently enumerate required/optional ordered spaces for0..4
+values/0..3owners, exercise500optional values, approximation distinction, metadata
+count overflow, resets and invalid/duplicate assignments. Focused47842 exited0:
+54tests across two new and two existing managed-range targets. New source/tests
+reviewed and frozen before gate22266. No all-target prebuild, benchmarks, browser
+or release reruns.
+
+Next potential substantive feature: typed planning model metadata integrated with
+range/statistics construction. Read full PlanningSolutionMetaModelTest (29methods,
+all pending at last inventory): basic solution/entity/value type identities; list
+solution genuine owner plus shadow value entity ordered membership; exact canonical
+parent identity; genuine/shadow classification; ordered variables; wrong entity and
+missing field diagnostics containing names. Basic fixture fieldvalue; list fixture
+valueList, value shadowsentity thenindex. Relevant basic/list fixtures already read.
+Use idiomatic native typed declarations and stable canonical references; do not
+claim Java annotation discovery. No implementation started, no case credited.
+DefaultSolverTest pending method names inspected only; no new bodies read.
+
+Required gate22266 exited0. 3607Rust tests and169doctests passed.
+Rust jobs:{'RUN': 5, 'REUSE': 441}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 2062, 'failed': 0, 'pending': 2511, 'excluded': 282, 'unverified': 0, 'percent': 42.472}.
+Source before/after matched:4ac6247921f9641ea81c21c45ff06f0c2b84ccd37e322ee3045e6ee8a48e1b82
+Live freshness matched verification digest:0259bcdd1fef5b8b16bf8a880e0aa65be0eaa6df2bc566145748a43455afa335.
+ValueRangeManagerTest report confirms47/47passed.
+Log work/managed-statistics-final-check.log; evidence work/managed-statistics-evidence.json.
+All handles terminal. No benchmark/browser/release reruns. Goal active.

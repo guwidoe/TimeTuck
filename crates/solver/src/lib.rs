@@ -743,3 +743,6 @@ mod managed_value_ranges;
 pub use managed_value_ranges::{
     ManagedRangeError, ManagedRangeKind, ManagedRangeOrder, ManagedRangeTarget, ManagedValueRanges,
 };
+
+mod managed_range_statistics;
+pub use managed_range_statistics::{ManagedRangeStatistics, RangeInitializationStatistics};

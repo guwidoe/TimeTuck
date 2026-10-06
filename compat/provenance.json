@@ -30735,6 +30735,201 @@
       "upstream_test": "deduplicationForEntity",
       "local_test": "deduplication_for_entity",
       "modifications": "Preserve three values/three entities, ordered codes and shared range identity. Entity variant removes the first value from only the third range and verifies distinct identity before/after sorting. Arc pointer equality replaces Java object identity; explicit providers replace descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.countEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "countEntities",
+      "local_test": "count_entities",
+      "modifications": "Preserve three entities/ten values and source modulo initialization. Fresh validated assignment snapshots replace cached manager counters. Reset keeps providers while changed basic/list assignments refresh the counts. Native derived list locations replace manually cleared inverse/index fields; count-only assertions do not claim Java shadow update machinery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.countUninitializedVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "countUninitializedVariables",
+      "local_test": "count_uninitialized_variables",
+      "modifications": "Preserve three entities/ten values and source modulo initialization. Fresh validated assignment snapshots replace cached manager counters. Reset keeps providers while changed basic/list assignments refresh the counts. Native derived list locations replace manually cleared inverse/index fields; count-only assertions do not claim Java shadow update machinery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.countUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "countUnassignedValues",
+      "local_test": "count_unassigned_values",
+      "modifications": "Preserve three entities/ten values and source modulo initialization. Fresh validated assignment snapshots replace cached manager counters. Reset keeps providers while changed basic/list assignments refresh the counts. Native derived list locations replace manually cleared inverse/index fields; count-only assertions do not claim Java shadow update machinery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleBasic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleBasic",
+      "local_test": "problem_scale_basic",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.emptyProblemScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "emptyProblemScale",
+      "local_test": "empty_problem_scale",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts. Provider reset clears values while retaining 27 logical entities. Only provider metadata participates in the estimate, allowing stale initial values outside a cleared range as in the source."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.emptyProblemScaleAllowsUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "emptyProblemScaleAllowsUnassigned",
+      "local_test": "empty_problem_scale_allows_unassigned",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts. Provider reset clears values while retaining 27 logical entities. Only provider metadata participates in the estimate, allowing stale initial values outside a cleared range as in the source."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleMultipleValueRanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleMultipleValueRanges",
+      "local_test": "problem_scale_multiple_value_ranges",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts. Preserve the eight source field ranges and actual values as textual native identities in separate field managers; combine them on one entity. No parsing or automatic Java numeric/temporal type discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.basicVariableProblemScaleEntityProvidingValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "basicVariableProblemScaleEntityProvidingValueRange",
+      "local_test": "basic_variable_problem_scale_entity_providing_value_range",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.listVariableProblemScaleEntityProvidingValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "listVariableProblemScaleEntityProvidingValueRange",
+      "local_test": "list_variable_problem_scale_entity_providing_value_range",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleSingleEntityProvidingSingleValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleSingleEntityProvidingSingleValueRange",
+      "local_test": "problem_scale_single_entity_providing_single_value_range",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleList",
+      "local_test": "problem_scale_list",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts. Replace imported production MathUtils reference call by an independent exact BigUint product 20*21*...*519 converted to log10; the arrangement definition is specified by the permutation/partition tests in MathUtilsTest. Preserve the source 500 values, 20 owners and 1% log tolerance. No JVM fixed-point precision equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleSingleEntityWithAssignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleSingleEntityWithAssignedValues",
+      "local_test": "problem_scale_single_entity_with_assigned_values",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "ValueRangeManagerTest.problemScaleSingleEntityWithUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ValueRangeManagerTest.java",
+      "upstream_test": "problemScaleSingleEntityWithUnassignedValues",
+      "local_test": "problem_scale_single_entity_with_unassigned_values",
+      "modifications": "Native provider metadata replaces descriptors; preserve source entity/variable/value counts and logarithmic estimate assertions, including 1% tolerances and exact zero/basic-log assertions. Shared and entity-provided value counting remain distinct; estimates are separate from exact/upper-bound native search-space counts."
     }
   ],
   "fixtures": [
@@ -40019,6 +40214,266 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertNonNullCodesOfIterator/assertReversedNonNullCodesOfIterator/codeIfNotNull",
       "modifications": "Flattening skips None and compares String code identities directly. Reverse assertion additionally checks exhaustion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataObject.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataValue.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListValue.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListValue.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListValue",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListEntityProvidingSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListEntityProvidingEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataListEntityProvidingValue.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "modifications": "Extract source provider cardinalities and optionality for native field metadata. Initialization counter fixtures retain modulo basic assignments or round-robin list values and subsequent null/list-clearing operations. Integer identities replace uniquely coded values; no descriptor/reflection machinery is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataValueRangeSolution.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/TestdataValueRangeSolution.java",
+      "upstream_test": "TestdataValueRangeSolution",
+      "modifications": "Preserve eight independent ranges: integers0..3, longs1000..1003, big integers1000000..1000003, decimals0.00..0.03, dates2000-01-01..04, times10:00..03, corresponding date-times and years2000..2003. Values become literal textual identities in separate native field managers; actual range counts and product remain computed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "TestdataValueRangeEntity.managed_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/TestdataValueRangeEntity.java",
+      "upstream_test": "TestdataValueRangeEntity",
+      "modifications": "Preserve eight independent ranges: integers0..3, longs1000..1003, big integers1000000..1000003, decimals0.00..0.03, dates2000-01-01..04, times10:00..03, corresponding date-times and years2000..2003. Values become literal textual identities in separate native field managers; actual range counts and product remain computed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/managed_statistics_cases.rs",
+      "id": "MathUtilsTest.arrangement_reference_for_statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MathUtilsTest.java",
+      "upstream_test": "expectedArrangements/testGetPossibleArrangementsScaledApproximateLog",
+      "modifications": "Use only the test-defined permutation/partition interpretation (including3values/2owners=24 and3values/3owners=60). Independent rising-factorial BigUint expression supplies the 500-value reference; the test permutation iterator and production MathUtils implementation are not copied. No extra MathUtils test method is credited."
     }
   ]
 }
