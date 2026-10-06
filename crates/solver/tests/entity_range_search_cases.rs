@@ -44,7 +44,7 @@ fn run(phase_count: usize) {
             32,
         )),
     ];
-    let children = neighborhoods.map(|n| (n, 1));
+    let children = neighborhoods.map(|n| (n.into(), 1));
     // The final two variants are repair-only and the union of all eight children.
     for (variant, neighborhood) in neighborhoods
         .into_iter()
@@ -159,7 +159,7 @@ fn run_basic(phase_count: usize) {
             swap_selection: Some(selection),
         }),
     ];
-    let children = neighborhoods.map(|n| (n, 1));
+    let children = neighborhoods.map(|n| (n.into(), 1));
     for (variant, neighborhood) in neighborhoods
         .into_iter()
         .map(Some)

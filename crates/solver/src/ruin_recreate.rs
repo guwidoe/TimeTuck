@@ -6,6 +6,41 @@ use std::{
     time::{Duration, Instant},
 };
 
+/// A fine-move family used alongside reconstruction. Standard families use the
+/// existing per-model interpretation; Mixed permits independent components and
+/// slot filters and is rejected for basic-only or list-only models.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RepairNeighborhood<'a> {
+    Standard(Neighborhood),
+    Mixed(MixedNeighborhood<'a>),
+}
+impl From<Neighborhood> for RepairNeighborhood<'_> {
+    fn from(n: Neighborhood) -> Self {
+        Self::Standard(n)
+    }
+}
+impl RepairNeighborhood<'_> {
+    pub(crate) fn at_step(self, step: u64) -> Self {
+        match self {
+            Self::Standard(n) => Self::Standard(n.at_step(step)),
+            Self::Mixed(n) => Self::Mixed(n.at_step(step)),
+        }
+    }
+    pub(crate) fn standard(self) -> Result<Neighborhood, RuinRecreateError> {
+        match self {
+            Self::Standard(n) => Ok(n),
+            Self::Mixed(_) => Err(RuinRecreateError::MixedFamilyRequiresMixedModel),
+        }
+    }
+}
+/// A separate weighted reconstruction pool. Candidate indices follow
+/// RuinRecreateConfig::ruin_candidates. Only eligible members can be sampled.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct RepairPool<'a> {
+    pub candidates: &'a [usize],
+    pub weight: u32,
+}
+
 /// Relative integer weights for fine changes, fine swaps and reconstruction.
 /// Zero disables a family; at least one weight must be positive. For example,
 /// 2:2:1 represents 40% changes, 40% swaps and 20% repairs when all are available.
@@ -42,6 +77,19 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub seed: u64,
     pub minimum_ruined: usize,
     pub maximum_ruined: usize,
+    /// Optional allowed repair identities. Basic models use variable indices;
+    /// list models use registry indices; mixed models use basic indices followed
+    /// by list registry indices offset by the number of basic variables.
+    /// None allows every eligible identity; an empty slice disables repair.
+    /// Pins and range eligibility still apply. Order is canonical model order,
+    /// independent of this slice. Duplicate/out-of-range indices are errors.
+    /// Fine neighborhoods are unaffected by this restriction.
+    pub ruin_candidates: Option<&'a [usize]>,
+    /// When present, replaces the single reconstruction pool with independently
+    /// weighted pools. Weights multiply move_weights.repair; empty/zero-weight
+    /// pools are unavailable. Global ruin_candidates also restricts every pool.
+    /// Each chosen attempt samples only one pool. None preserves the legacy trace.
+    pub repair_pools: Option<&'a [RepairPool<'a>]>,
     /// Total selected attempts: reconstructions plus enabled fine moves.
     pub max_attempts: u64,
     /// Interleave moves within the same current state, acceptor and retained best.
@@ -53,7 +101,7 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     /// Empty families are removed for that attempt. Duplicate families remain
     /// separate; sampled neighborhoods derive their seed from the attempt index.
     /// An empty slice preserves the original change/swap/repair seeded trace.
-    pub additional_neighborhoods: &'a [(Neighborhood, u32)],
+    pub additional_neighborhoods: &'a [(RepairNeighborhood<'a>, u32)],
     /// Includes the initial score, reconstruction initial scores and all trials.
     pub max_evaluations: u64,
     /// Fine-move scores and construction candidate scores; excludes repair initialization.
@@ -78,6 +126,8 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             seed: 0,
             minimum_ruined: 5,
             maximum_ruined: 20,
+            ruin_candidates: None,
+            repair_pools: None,
             max_attempts: 100,
             move_weights: RepairMoveWeights::default(),
             additional_neighborhoods: &[],
@@ -95,6 +145,28 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
     }
 }
 impl<S> RuinRecreateConfig<'_, S> {
+    pub(crate) fn validate_candidates(&self, count: usize) -> Result<(), RuinRecreateError> {
+        let validate = |indices: &[usize]| {
+            for (position, &index) in indices.iter().enumerate() {
+                if index >= count {
+                    return Err(RuinRecreateError::UnknownRuinCandidate { index, count });
+                }
+                if indices[..position].contains(&index) {
+                    return Err(RuinRecreateError::DuplicateRuinCandidate { index });
+                }
+            }
+            Ok(())
+        };
+        if let Some(indices) = self.ruin_candidates {
+            validate(indices)?;
+        }
+        for pool in self.repair_pools.into_iter().flatten() {
+            if pool.weight > 0 && self.move_weights.repair > 0 {
+                validate(pool.candidates)?;
+            }
+        }
+        Ok(())
+    }
     pub(crate) fn has_moves(&self) -> bool {
         self.move_weights.valid() || self.additional_neighborhoods.iter().any(|(_, w)| *w > 0)
     }
@@ -139,6 +211,10 @@ pub type ListRuinRecreateResult<V, S> = RuinRecreateOutcome<ScoredListAssignment
 
 #[derive(Debug)]
 pub enum RuinRecreateError {
+    MixedFamilyRequiresMixedModel,
+    MixedNeighborhood(MixedNeighborhoodError),
+    UnknownRuinCandidate { index: usize, count: usize },
+    DuplicateRuinCandidate { index: usize },
     InvalidRuinRange,
     InvalidMoveWeights,
     IncompleteInitialAssignment,
@@ -149,6 +225,16 @@ pub enum RuinRecreateError {
 impl fmt::Display for RuinRecreateError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::MixedFamilyRequiresMixedModel => {
+                f.write_str("mixed repair family requires a mixed model")
+            }
+            Self::MixedNeighborhood(e) => e.fmt(f),
+            Self::UnknownRuinCandidate { index, count } => {
+                write!(f, "repair candidate {index} outside {count} identities")
+            }
+            Self::DuplicateRuinCandidate { index } => {
+                write!(f, "repair candidate {index} occurs more than once")
+            }
             Self::InvalidMoveWeights => {
                 f.write_str("at least one move-family weight must be positive")
             }
@@ -167,6 +253,7 @@ impl fmt::Display for RuinRecreateError {
 impl Error for RuinRecreateError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::MixedNeighborhood(e) => Some(e),
             Self::Search(e) => Some(e),
             Self::ListSearch(e) => Some(e),
             Self::MixedSearch(e) => Some(e),
@@ -344,6 +431,9 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
     fn initial(&self) -> Assignment<V> {
         self.initial_assignment()
     }
+    fn candidate_count(&self) -> usize {
+        self.variables().len()
+    }
     fn population(&self) -> usize {
         self.variables().len()
     }
@@ -379,22 +469,26 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
             .collect();
         Self::new(variables).map_err(|e| LocalSearchError::from(e).into())
     }
-    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
+    fn validate_neighborhood(
+        &self,
+        neighborhood: RepairNeighborhood<'_>,
+    ) -> Result<(), RuinRecreateError> {
         neighborhood
+            .standard()?
             .validate_basic(self)
             .map_err(|e| LocalSearchError::from(e).into())
     }
     fn fine_moves<'a>(
         &'a self,
         a: &'a Assignment<V>,
-        neighborhood: Neighborhood,
+        neighborhood: RepairNeighborhood<'a>,
     ) -> Result<Box<dyn Iterator<Item = Move<V>> + 'a>, RuinRecreateError> {
         self.validate(a).map_err(LocalSearchError::from)?;
         self.validate_neighborhood(neighborhood)?;
         Ok(crate::neighborhood::ordered(
             self,
             a,
-            neighborhood,
+            neighborhood.standard()?,
             0..self.variables().len(),
         ))
     }

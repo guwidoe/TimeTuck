@@ -57,7 +57,7 @@ impl From<MixedError> for MixedNeighborhoodError {
     }
 }
 impl MixedNeighborhood<'_> {
-    fn validate<B: Eq + Clone, L: Eq + Clone>(
+    pub(crate) fn validate<B: Eq + Clone, L: Eq + Clone>(
         self,
         p: &MixedProblem<B, L>,
     ) -> Result<(), MixedNeighborhoodError> {
@@ -82,7 +82,7 @@ impl MixedNeighborhood<'_> {
         }
         Ok(())
     }
-    fn at_step(self, step: u64) -> Self {
+    pub(crate) fn at_step(self, step: u64) -> Self {
         Self {
             basic: self.basic.map(|n| n.at_step(step)),
             lists: self.lists.map(|n| n.at_step(step)),

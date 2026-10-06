@@ -1359,6 +1359,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_repair_candidates(&c.phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         &c.phases,
@@ -1556,6 +1557,25 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         },
     )
 }
+fn validate_repair_candidates<P: crate::ruin_engine::RepairModel, S, E>(
+    phases: &[SolverPhase<'_, S>],
+    problem: &P,
+) -> Result<(), SolverError<E>> {
+    for (phase, p) in phases.iter().enumerate() {
+        if let SolverPhase::RuinRecreate(c) = p {
+            c.validate_candidates(problem.candidate_count())
+                .map_err(|error| SolverError::Repair { phase, error })?;
+            for &(n, w) in c.additional_neighborhoods {
+                if w > 0 {
+                    problem
+                        .validate_neighborhood(n)
+                        .map_err(|error| SolverError::Repair { phase, error })?;
+                }
+            }
+        }
+    }
+    Ok(())
+}
 fn validate_basic_phase_neighborhoods<V: Eq, S, E>(
     problem: &FiniteProblem<V>,
     phases: &[SolverPhase<'_, S>],
@@ -1573,18 +1593,6 @@ fn validate_basic_phase_neighborhoods<V: Eq, S, E>(
                         phase,
                         error: error(e),
                     })?;
-            }
-        }
-        if let SolverPhase::RuinRecreate(config) = config {
-            for &(neighborhood, weight) in config.additional_neighborhoods {
-                if weight > 0 {
-                    neighborhood
-                        .validate_basic(problem)
-                        .map_err(|e| SolverError::Phase {
-                            phase,
-                            error: error(e),
-                        })?;
-                }
             }
         }
     }
@@ -1607,18 +1615,6 @@ fn validate_list_phase_neighborhoods<V: Eq + Clone, S, E>(
                         phase,
                         error: error(e),
                     })?;
-            }
-        }
-        if let SolverPhase::RuinRecreate(config) = config {
-            for &(neighborhood, weight) in config.additional_neighborhoods {
-                if weight > 0 {
-                    neighborhood
-                        .validate_list(problem)
-                        .map_err(|e| SolverError::Phase {
-                            phase,
-                            error: error(e),
-                        })?;
-                }
             }
         }
     }
@@ -1689,6 +1685,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_repair_candidates(&c.phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         &c.phases,
@@ -1960,6 +1957,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
+    validate_repair_candidates(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
@@ -2244,6 +2242,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_repair_candidates(&c.phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         &c.phases,
@@ -2537,6 +2536,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
+    validate_repair_candidates(&c.phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         &c.phases,
@@ -2855,6 +2855,7 @@ fn solve_mixed_stream_impl<
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
+    validate_repair_candidates(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,

@@ -187,6 +187,9 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
     fn initial(&self) -> ListAssignment<V> {
         self.initial_assignment()
     }
+    fn candidate_count(&self) -> usize {
+        self.values().len()
+    }
     fn population(&self) -> usize {
         self.entities().len()
     }
@@ -245,16 +248,22 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             repair
         })
     }
-    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
-        neighborhood.validate_list(self).map_err(model_error)
+    fn validate_neighborhood(
+        &self,
+        neighborhood: RepairNeighborhood<'_>,
+    ) -> Result<(), RuinRecreateError> {
+        neighborhood
+            .standard()?
+            .validate_list(self)
+            .map_err(model_error)
     }
     fn fine_moves<'a>(
         &'a self,
         a: &'a ListAssignment<V>,
-        neighborhood: Neighborhood,
+        neighborhood: RepairNeighborhood<'a>,
     ) -> Result<Box<dyn Iterator<Item = ListMove<V>> + 'a>, RuinRecreateError> {
         Ok(Box::new(
-            list_moves(self, a, neighborhood).map_err(model_error)?,
+            list_moves(self, a, neighborhood.standard()?).map_err(model_error)?,
         ))
     }
     fn apply_fine(

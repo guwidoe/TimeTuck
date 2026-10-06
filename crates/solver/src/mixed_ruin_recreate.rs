@@ -213,6 +213,9 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
     fn initial(&self) -> Self::Assignment {
         self.initial_assignment()
     }
+    fn candidate_count(&self) -> usize {
+        self.basic().variables().len() + self.lists().values().len()
+    }
     fn population(&self) -> usize {
         self.basic().population() + self.lists().population()
     }
@@ -241,15 +244,28 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
             self.lists().repair(a.lists(), &lists)?,
         ))
     }
-    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
+    fn validate_neighborhood(
+        &self,
+        neighborhood: RepairNeighborhood<'_>,
+    ) -> Result<(), RuinRecreateError> {
+        if let RepairNeighborhood::Mixed(c) = neighborhood {
+            return c
+                .validate(self)
+                .map_err(RuinRecreateError::MixedNeighborhood);
+        }
         self.basic().validate_neighborhood(neighborhood)?;
         self.lists().validate_neighborhood(neighborhood)
     }
     fn fine_moves<'a>(
         &'a self,
         a: &'a Self::Assignment,
-        neighborhood: Neighborhood,
+        neighborhood: RepairNeighborhood<'a>,
     ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError> {
+        if let RepairNeighborhood::Mixed(c) = neighborhood {
+            return Ok(Box::new(
+                mixed_moves_configured(self, a, c).map_err(RuinRecreateError::MixedNeighborhood)?,
+            ));
+        }
         let basic = self
             .basic()
             .fine_moves(a.basic(), neighborhood)?

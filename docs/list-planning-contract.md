@@ -877,3 +877,25 @@ combines these families with sequential or seeded weighted interleaving, retaini
 duplicate occurrences and skipping zero-weight configurations. Step indices advance
 union and sampled-neighborhood seeds. Both functions return iterators that can feed
 existing MoveProvider bindings in scoped or stream-backed mixed solver plans.
+
+Repair search now accepts `ruin_candidates` as an allowed identity set: basic-slot
+indices for basic models, registry indices for lists, and basic slots followed by
+offset list-registry indices for mixed models. Pins and model eligibility intersect
+this set. Candidate order stays in model order; duplicate/out-of-range indices are
+errors. None preserves unrestricted behavior and Some(empty) disables repair.
+Fine moves remain governed by their own neighborhood configurations.
+
+`repair_pools` optionally replaces the one reconstruction pool with separately
+weighted `RepairPool` entries. A chosen attempt samples within only one pool;
+pool weights multiply the repair-family weight, and empty/ineligible/zero-weight
+pools are unavailable. `ruin_candidates` is also applied to every pool. Unselected
+basic slots are frozen during reconstruction; unselected list values retain owners
+and relative order (insertions may shift indices). Zero-weight pools skip validation.
+Enabled scope validation runs before scoring, even for later solver phases.
+
+Additional fine families now use `RepairNeighborhood::Standard(n)` (or `n.into()`)
+and `RepairNeighborhood::Mixed(config)`. The mixed form uses independent component
+families and basic-slot filters from MixedNeighborhood; basic/list-only models
+reject it explicitly. All families and pools share current state, acceptor, retained
+best and resource limits. Defaults preserve the previous seeded trace. These are
+native search controls and do not imply Java selection-distribution parity.

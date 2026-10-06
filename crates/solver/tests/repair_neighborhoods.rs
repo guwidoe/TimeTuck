@@ -4,7 +4,7 @@ use timetuck::*;
 fn score(v: i64) -> SimpleScore {
     SimpleScore::new(v)
 }
-fn config(children: &[(Neighborhood, u32)]) -> RuinRecreateConfig<'_> {
+fn config<'a>(children: &'a [(RepairNeighborhood<'a>, u32)]) -> RuinRecreateConfig<'a> {
     RuinRecreateConfig {
         additional_neighborhoods: children,
         move_weights: RepairMoveWeights {
@@ -65,7 +65,7 @@ fn extra_swap_family_preserves_legacy_results_across_all_six_backends() {
         )
         .unwrap();
     }
-    let children = [(Neighborhood::Swap, 1)];
+    let children = [(Neighborhood::Swap.into(), 1)];
     let extra = config(&children);
     let old = RuinRecreateConfig {
         additional_neighborhoods: &[],
@@ -192,7 +192,7 @@ fn rich_list_families_produce_legal_successors_and_share_repair_budgets() {
             })
             .collect::<Vec<_>>();
         assert!(!successors.is_empty(), "{family:?}");
-        let children = [(family, u32::MAX)];
+        let children = [(family.into(), u32::MAX)];
         let c = RuinRecreateConfig {
             max_attempts: 1,
             ..config(&children)
@@ -211,8 +211,11 @@ fn rich_list_families_produce_legal_successors_and_share_repair_budgets() {
         p.validate(&best.assignment).unwrap();
     }
     let children = [
-        (Neighborhood::SubListSwap(SubListSwapConfig::default()), 3),
-        (Neighborhood::Swap, 0),
+        (
+            Neighborhood::SubListSwap(SubListSwapConfig::default()).into(),
+            3,
+        ),
+        (Neighborhood::Swap.into(), 0),
     ];
     for budget in 0..24 {
         let c = RuinRecreateConfig {
@@ -251,7 +254,7 @@ fn disabled_invalid_and_empty_families_obey_validation_and_fallback_rules() {
     .unwrap();
     let invalid =
         Neighborhood::SubListChange(SubListChangeConfig::default().with_unassignment(true));
-    let enabled = [(invalid, 1)];
+    let enabled = [(invalid.into(), 1)];
     let c = config(&enabled);
     assert!(ruin_recreate_list_search_from(&p, &n, p.initial_assignment(), c.clone()).is_err());
     assert!(
@@ -269,7 +272,7 @@ fn disabled_invalid_and_empty_families_obey_validation_and_fallback_rules() {
         .is_err()
     );
     assert_eq!(calls.get(), 0);
-    let disabled = [(invalid, 0), (Neighborhood::Swap, 1)];
+    let disabled = [(invalid.into(), 0), (Neighborhood::Swap.into(), 1)];
     let r =
         ruin_recreate_list_search_from(&p, &n, p.initial_assignment(), config(&disabled)).unwrap();
     assert_eq!(r.termination, RuinRecreateTermination::NoAvailableMoves);
@@ -278,7 +281,10 @@ fn disabled_invalid_and_empty_families_obey_validation_and_fallback_rules() {
     let mut bn = ConstraintNetwork::new(1);
     bn.add_constraint("value", vec![0], |v| score(i64::from(v[0] == Some(&1))))
         .unwrap();
-    let children = [(Neighborhood::Swap, u32::MAX), (Neighborhood::Change, 1)];
+    let children = [
+        (Neighborhood::Swap.into(), u32::MAX),
+        (Neighborhood::Change.into(), 1),
+    ];
     let r = ruin_recreate_search_from(
         &b,
         &bn,

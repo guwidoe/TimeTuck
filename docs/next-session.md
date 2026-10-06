@@ -11535,3 +11535,65 @@ Python jobs{'REUSE': 46}. Source-before/after equal:
 Upstream coverage unchanged1892/4855 (38.97%); live freshness matched digest:
 1753dd7a3b6719eb544aa6ffada996db042c326bb8150cd4b431af02654a976b.
 All processes terminal. No benchmark, release or browser rerun. Goal remains active.
+
+
+## Scoped repair pools and independent mixed fine families
+
+Added RuinRecreateConfig.ruin_candidates and repair_pools. Identity indices are
+basic slots / list registry indices / mixed basic slots followed by offset list
+registry indices. Explicit pool weights multiply repair weight using u128 totals.
+One repair chooses one pool; global candidate filter intersects each pool. Eligible
+pins/ranges still apply, unselected basics freeze and unselected list owners/relative
+order persist. Zero-weight pools skip validation. Empty candidate list disables
+repair; empty pool list yields no repair candidates. Fine moves remain independent.
+Default None preserves original random trace and legacy change/swap families.
+
+additional_neighborhoods now accepts RepairNeighborhood (Standard via .into(), or
+Mixed(MixedNeighborhood)). Updated the two existing test callers; all previous11
+focused cases passed. Mixed families reject explicitly on nonmixed models. Model-aware
+phase validation checks scopes/families before construction or graph callbacks.
+MixedNeighborhood validation and at_step are now pub(crate) for shared dispatch.
+No production source read, no new upstream provenance/coverage claims.
+
+Original repair_scopes.rs covers all16 mixed subsets against exact expected changed
+identities, scoped/stream result/counter equality, budget prefixes, reversed scope
+order, weighted basic/list pools that never cross scopes within one repair, separate
+fine families, invalid indices before scoring, full phase/global-budget handoffs,
+standalone basic/list backends, empty/disabled/intersected pools. Focused6tests and all-target no-run build57922 passed. Added a seventh regression
+for maximum pool-weight products (u128 totals) without crossing repair scopes;
+final gate60527 covers it, work/repair-scope-final-check.log.
+Logs work/repair-scope-{check,families-check,focused,focused2,build}.log. Initial gate60527 exited1: the new maximum-weight test incorrectly required list
+order[10,20], while both[10,20] and[20,10] have equal score. Corrected to assert sorted
+membership and model validity; scope checks retained. No engine fix needed. The
+selective follow-up gate reuses other successful jobs. Only tests/implementation changed; dashboard rendering unchanged.
+
+Remaining before crediting DefaultSolverTest.solveMoveConfigMixedModel and
+solveMultiEntityMoveConfigMixedModel: per-family pillar schemas. Source pillar
+change targets basicValue only (group by that column); pillar swap selects both
+basic columns of an entity. Current model-global PillarSchema cannot represent both
+schemas in one mixed union. MixedNeighborhood.basic_variables filters moves but
+does not override the grouping schema, so do not claim these methods by using one
+shared schema. Source generators/helpers already read; multi-entity fixture initial
+strength/comparator and objectives available in multi_entity_solver_cases.rs with
+provenance. Native pillar_schema::ordered currently takes its schema from model;
+consider explicit schema input for configured families instead of cloning models.
+Whole rewrite goal remains active.
+
+Implementation pointer for next grouping work: pillar_schema::ordered currently
+clones Arc rows from p.pillar_schema() at entry (line136). An internal explicit-schema
+entry can reuse the same iterator body without cloning models. SubPillarConfig
+already independently disables changes/swaps and bounds selected entity subsets.
+Also verify ordinary source SwapMoveSelector defaults for multiple basic variables:
+native flat-slot Swap differs from swapping aligned two-column entity rows. A
+schema with two columns plus swap-only singleton subpillars can express row swaps.
+Do not silently substitute cross-column slot swaps for an entity-row selector.
+
+Final gate54459 exited0: 3362 Rust tests and154 doctests passed.
+Rust jobs{'REUSE': 412, 'RUN': 1}; Python jobs{'REUSE': 46}. All other successful Rust results reused after
+the failed order assertion was corrected; no engine change in that retry.
+Equal source-before/after: ad6c9fd995541c52ae4ae9c61235bd2fe327400a62059daa9f462ecbb8deba15.
+Dashboard1892/4855 (38.97%); live freshness matched digest:
+aa45604712a64180b88b540e1f4976423e530f4d951739cafac4ca73d00ae8fd.
+Logs work/repair-scope-final-check.log (one test assertion failure),
+work/repair-scope-final-check2.log (success). All processes terminal.
+No benchmark/release/browser reruns; full rewrite goal remains active.

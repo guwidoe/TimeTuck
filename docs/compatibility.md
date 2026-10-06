@@ -2392,3 +2392,11 @@ Original regressions cover 7,128 small-state configurations, pins and rich move
 families, union multiplicities and complete scoped/stream solver plans. No upstream
 method is newly credited by this API increment: the mixed parameterized methods
 also require variable-specific repair pools and mixed repair unions, still pending.
+
+Scoped repair candidates, separate weighted repair pools and independently scoped
+mixed fine families now run in the shared repair engine. Original regressions cover
+all16 mixed identity subsets, budget prefixes, both scoring backends and complete
+phase plans; source suite credit remains unchanged. The larger mixed selector cases
+still need accurate per-family pillar grouping: pillar change selects one basic
+column, while pillar swap can select an entire two-column entity row. Do not count
+those methods until all twelve source configurations preserve those distinctions.

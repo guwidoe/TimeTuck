@@ -27,13 +27,17 @@ pub(crate) trait RepairModel: Sized {
     fn validate_complete(&self, a: &Self::Assignment) -> Result<(), RuinRecreateError>;
     fn initial(&self) -> Self::Assignment;
     fn population(&self) -> usize;
+    fn candidate_count(&self) -> usize;
     fn movable(&self, a: &Self::Assignment) -> Vec<usize>;
     fn repair(&self, a: &Self::Assignment, selected: &[usize]) -> Result<Self, RuinRecreateError>;
-    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError>;
+    fn validate_neighborhood(
+        &self,
+        neighborhood: RepairNeighborhood<'_>,
+    ) -> Result<(), RuinRecreateError>;
     fn fine_moves<'a>(
         &'a self,
         a: &'a Self::Assignment,
-        neighborhood: Neighborhood,
+        neighborhood: RepairNeighborhood<'a>,
     ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError>;
     fn apply_fine(
         &self,
@@ -76,6 +80,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
     let start = config.max_time.map(|_| Instant::now());
     problem.validate_complete(&initial)?;
+    config.validate_candidates(problem.candidate_count())?;
     if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
         return Err(RuinRecreateError::InvalidRuinRange);
     }
@@ -156,11 +161,18 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     }
     // Keep the previous permutation when the eligible set is unchanged, retaining
     // the established basic-variable seeded trace. Lists can change eligibility.
-    let mut movable = problem.movable(&current.0);
+    let eligible_candidates = |assignment: &P::Assignment| {
+        let mut indices = problem.movable(assignment);
+        if let Some(selected) = config.ruin_candidates {
+            indices.retain(|i| selected.contains(i));
+        }
+        indices
+    };
+    let mut movable = eligible_candidates(&current.0);
     let mut eligible = movable.clone();
     let mut random = crate::random::SplitMix64::new(config.seed);
     'search: loop {
-        let now_eligible = problem.movable(&current.0);
+        let now_eligible = eligible_candidates(&current.0);
         if now_eligible != eligible {
             movable = now_eligible.clone();
             eligible = now_eligible;
@@ -218,7 +230,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         let mut weights = vec![
             config.move_weights.change as u128,
             config.move_weights.swap as u128,
-            if movable.is_empty() {
+            if movable.is_empty() || config.repair_pools.is_some() {
                 0
             } else {
                 config.move_weights.repair as u128
@@ -230,6 +242,15 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 .iter()
                 .map(|(_, w)| u128::from(*w)),
         );
+        let pool_start = weights.len();
+        let pools = config.repair_pools.unwrap_or_default();
+        weights.extend(pools.iter().map(|pool| {
+            if movable.iter().any(|i| pool.candidates.contains(i)) {
+                u128::from(pool.weight) * u128::from(config.move_weights.repair)
+            } else {
+                0
+            }
+        }));
         let (family, movement) = loop {
             let total: u128 = weights.iter().sum();
             if total == 0 {
@@ -251,12 +272,12 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 }
                 index
             };
-            if family == 2 {
+            if family == 2 || family >= pool_start {
                 break (family, None);
             }
             let neighborhood = match family {
-                0 => Neighborhood::Change,
-                1 => Neighborhood::Swap,
+                0 => RepairNeighborhood::Standard(Neighborhood::Change),
+                1 => RepairNeighborhood::Standard(Neighborhood::Swap),
                 _ => config.additional_neighborhoods[family - 3].0,
             }
             .at_step(result.attempts + result.fine_move_attempts);
@@ -283,11 +304,22 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             }
             weights[family] = 0;
         };
-        let candidate = if family == 2 {
+        let candidate = if family == 2 || family >= pool_start {
+            let mut pool_candidates;
+            let movable = if family == 2 {
+                &mut movable
+            } else {
+                pool_candidates = movable
+                    .iter()
+                    .copied()
+                    .filter(|i| pools[family - pool_start].candidates.contains(i))
+                    .collect::<Vec<_>>();
+                &mut pool_candidates
+            };
             let low = config.minimum_ruined.min(movable.len());
             let high = config.maximum_ruined.min(movable.len());
             let count = low + random.below((high - low + 1) as u64) as usize;
-            random.shuffle(&mut movable);
+            random.shuffle(movable);
             let repair = problem.repair(&current.0, &movable[..count])?;
             result.attempts += 1;
             let candidate = rebuild(
