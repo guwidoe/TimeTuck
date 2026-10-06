@@ -29415,6 +29415,21 @@
       "upstream_test": "restoreWorkingScoreWhenHandlingStructurallyFlawedSolutions",
       "local_test": "restore_working_score_when_handling_structurally_flawed_solutions",
       "modifications": "Native dependency-aware list model and both scoped/stream score directors preserve b1-before-b2 initial order, fixed b2 dependency, cyclic swap, flawed callback result, restored list and previous score. Flawed callback receives a detached actual candidate snapshot with cycle diagnostics rather than a mutable Java solution; no flawed score is calculated. The fixture computes one-hour finish times and the original soft penalty. Additional assertions verify candidate order, affected identities and no scoring during flawed processing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cascade_move_cases.rs",
+      "id": "MoveDirectorTest.undoCascadingUpdateShadowVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "undoCascadingUpdateShadowVariable",
+      "local_test": "undo_cascading_update_shadow_variable",
+      "modifications": "Preserve the empty list, two values numbered 0 and 1, absent initial cascade fields, assignment of value 0 at index 0, nonnull cascade during the move and reset to null after undo. Native list_cascade_stream computes the fixture value+1 formula and counts nonnull derived values inside the actual transactional scoring graph. A scored guard replaces the ephemeral Java director. Additional assertions verify exact shadow value, unchanged unassigned value and restored graph score; no annotation parsing or callback-count compatibility claim."
     }
   ],
   "fixtures": [
@@ -37685,6 +37700,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldConstraintProvider.java",
       "upstream_test": "TestdataDependencyNoInconsistentFieldConstraintProvider",
       "modifications": "Two registry identities b1/b2, one entity starting at epoch, one-hour durations, fixed b2 dependency on b1 and dynamic previous-value edges. Native dependency evaluation derives end times and penalizes their sum in minutes. Layout and dependency metadata replace Java descriptors, fields and reflective shadow discovery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cascade_move_cases.rs",
+      "id": "TestdataSingleCascadingEntity.cascade_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingEntity.java",
+      "upstream_test": "TestdataSingleCascadingEntity",
+      "modifications": "Native registry values 0 and 1 and one entity with an empty value list preserve the source fixture. Explicit cascade callback returns value+1 for assigned values; unassigned shadows are None. A stream terminal counts nonnull shadows, matching the easy score calculator. Model/source bindings replace reflective descriptors and Java shadow fields. No annotation-overload discovery or exact callback-count claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cascade_move_cases.rs",
+      "id": "TestdataSingleCascadingValue.cascade_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingValue.java",
+      "upstream_test": "TestdataSingleCascadingValue",
+      "modifications": "Native registry values 0 and 1 and one entity with an empty value list preserve the source fixture. Explicit cascade callback returns value+1 for assigned values; unassigned shadows are None. A stream terminal counts nonnull shadows, matching the easy score calculator. Model/source bindings replace reflective descriptors and Java shadow fields. No annotation-overload discovery or exact callback-count claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cascade_move_cases.rs",
+      "id": "TestdataSingleCascadingSolution.cascade_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingSolution.java",
+      "upstream_test": "TestdataSingleCascadingSolution",
+      "modifications": "Native registry values 0 and 1 and one entity with an empty value list preserve the source fixture. Explicit cascade callback returns value+1 for assigned values; unassigned shadows are None. A stream terminal counts nonnull shadows, matching the easy score calculator. Model/source bindings replace reflective descriptors and Java shadow fields. No annotation-overload discovery or exact callback-count claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cascade_move_cases.rs",
+      "id": "TestdataSingleCascadingEasyScoreCalculator.cascade_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingEasyScoreCalculator.java",
+      "upstream_test": "TestdataSingleCascadingEasyScoreCalculator",
+      "modifications": "Native registry values 0 and 1 and one entity with an empty value list preserve the source fixture. Explicit cascade callback returns value+1 for assigned values; unassigned shadows are None. A stream terminal counts nonnull shadows, matching the easy score calculator. Model/source bindings replace reflective descriptors and Java shadow fields. No annotation-overload discovery or exact callback-count claim."
     }
   ]
 }

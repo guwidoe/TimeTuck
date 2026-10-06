@@ -2643,3 +2643,28 @@ result, original order and previous score in both list backends. Original regres
 cover all four list/mixed backends, downstream diagnostics, callback errors/panics,
 fresh recalculation, valid candidate scoring and strict nonstructural validation.
 No Java mutable-solution callback or scoring of inconsistent shadows is claimed.
+
+
+## Cascading shadows in scored list streams
+
+list_cascade_stream connects list-value rows to the incremental dependency engine,
+using dynamic predecessor edges and a deterministic supplier. Constraints consume
+stable registry-keyed (ListValueRow, DerivedValue) rows, including unassigned values
+with absent shadows. The supplier receives owner/index, neighbors and the previous
+shadow, allowing arrival times or cumulative quantities. The same adapter accepts
+MixedStreamSources::lists; basic and list changes share one graph transaction.
+
+Shadows now participate in ordinary scored moves, saved search candidates and nested
+edit sessions. Undo restores their values and dependency indexes without supplier
+callbacks. Errors and supplier/scoring panics restore graph and model. Changed list
+value notifications recalculate their roots; shadow changes propagate downstream.
+Intermediate notifications may expose missing/inconsistent derived rows until the
+transaction finishes. Suppliers must be deterministic over immutable facts and the
+provided inputs. This does not import stale shadow fields or discover Java metadata.
+
+One MoveDirectorTest method preserves cascade initialization on assign and null
+restoration on undo using the source single-cascade fixture and score formula.
+Original tests compare 162 partial-list/order trials to an independent schedule
+calculation, exercise list/mixed rollback and nested sessions, and compare actual
+local-search selections with an independently scored network at three work limits.
+No callback-count equivalence or new runtime performance claim is made.

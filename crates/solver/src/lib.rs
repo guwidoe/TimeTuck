@@ -720,3 +720,6 @@ pub use move_session::MoveSession;
 
 mod move_inspection;
 pub use move_inspection::{MoveInspection, inspect_list_move, inspect_mixed_move};
+
+mod list_cascade_stream;
+pub use list_cascade_stream::{ListCascadeStep, ListCascadeStream, list_cascade_stream};

@@ -12126,3 +12126,38 @@ Live freshness matched verification digest:1ac00702486599a78b800645f6286fefbf162
 Logs work/move-inspection-{build-all,final-check}.log; evidence
 work/move-inspection-evidence.json. All process handles terminal.
 No benchmark/browser/release reruns. Full rewrite goal remains active.
+
+
+## Cascading shadows integrated with scoring (current increment)
+
+Previous goal turn made progress and committed65443cd. This increment adds
+list_cascade_stream and ListCascadeStep/ListCascadeStream in a new module. It binds
+ListStreamSources::values to the existing incremental dependency node, resolving
+predecessor identities to registry indices and supplying prior derived values.
+Stable output rows include original owner/index/neighbor metadata and DerivedValue.
+Unassigned values yield None without user supplier calls. Mixed sources use the
+same adapter through .lists. Scoring, move undo, saved search candidates and nested
+session snapshots now include real cascade state. No changes to core graph/director
+modules, no shadow annotation discovery, imported partial fields or performance claim.
+
+Read full four TestdataSingleCascading fixtures and MoveDirectorTest source method
+(previous full source read retained). One attributed adapter uses real value+1
+shadows and nonnull-count score, asserting actual shadow creation then undo to None.
+Four original cases cover162partial order/placement trials against independent
+arrival sums, registry identities/metadata, cross-owner transfers, mixed moves,
+supplier and terminal panics, nested commit/undo, callback-free rollback, unaffected
+list supplier reuse, dependency-index reuse and actual local search at three limits.
+First focused run failed compiling test result field access only; changed it to
+ListLocalSearchResult.best. Fixed focused work/list-cascade-stream-focused-fixed.log
+passed all5tests. Added an exported port alias before the final gate. New files
+reviewed. Required gate44610 started on frozen Rust/provenance; no broad prebuild
+because shared implementations are unchanged.
+
+Required gate44610 exited0. 3489Rust tests and165doctests passed.
+Rust jobs:{'RUN': 3, 'REUSE': 433}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 1962, 'failed': 0, 'pending': 2611, 'excluded': 282, 'unverified': 0, 'percent': 40.412}.
+Source before/after matched:d3316f64e5b520470949989855437796f1102ea66f3bb8da82c852de3cfc4537
+Live freshness matched verification digest:e7061ab267c2523494e252eb8ee219d31df8fec07e15738caab537ede7640bf8.
+Log work/list-cascade-stream-final-check.log; evidence
+work/list-cascade-stream-evidence.json. All process handles terminal.
+No benchmark/browser/release reruns. Full rewrite goal remains active.
