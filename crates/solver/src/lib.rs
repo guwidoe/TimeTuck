@@ -764,3 +764,8 @@ pub use variable_state::{
     BasicVariableState, ListVariableState, MissingVariableEvent, VariableEventTracker,
     VariableEventViolation, VariableListLocation, VariableStateError, VariableStateRegistry,
 };
+
+mod list_shadow_session;
+pub use list_shadow_session::{
+    ListShadowCheckpoint, ListShadowContext, ListShadowError, ListShadowSession,
+};

@@ -12554,3 +12554,60 @@ Live freshness matched verification digest: f4723c2d2c1ec402591e0d70270569c6fa5d
 Existing provenance prefixes unchanged; appended26cases and23fixture records.
 Log work/variable-state-final-check.log; evidence work/variable-state-evidence.json.
 All handles terminal. No benchmarks/browser/release reruns. Goal active.
+
+
+## Deferred list shadow sessions (current increment)
+
+Previous turn5b3a9a0 was progress; starting tree clean. Added ListShadowSession
+with typed list-state/target binding, fixed stable value universe, deferred
+initialization, coalesced parent notifications and latest-whole-snapshot flush.
+Uses existing DependencyCache, not a new evaluator. Structural owner/index/
+neighbor changes dirty values; changed predecessor edges rewire the graph.
+Suppliers run at most once per flush, including distinct unassigned values.
+Equal results stop propagation. Captures may read immutable facts; changed
+external inputs require mark_dirty. No arbitrary path inference/setter reflection.
+
+values()/assert_current reject stale/pending state; cached_values explicitly
+permits diagnostics. Checkpoints share cached non-Clone results, retain pending
+work and applied/working snapshots, and restore without suppliers after the
+registry field matches saved working rows. Session identity prevents foreign
+restore. Metadata/universe validation and supplier panics preserve existing cache
+and pending work; callback side effects remain external. Registry state must not
+be mutated from a supplier. Owner identities can change; universe is fixed.
+
+Read full3Counting fixtures; reused full SingleDirectionalParentVariableReferenceGraphTest
+read from prior turn. Adapted both methods with actual typed state snapshots in
+place of mocked index/inverse/next and explicit previous-chain binding in place
+of reflective graph classification. Retain guarded count supplier and all initial/
+final outputs. 4original tests cover actual native moves/fresh cascade agreement,
+no-callback restore, latest snapshot/coalescing/equal stopping, owner replacement,
+empty lists, non-Clone results, supplier panic retry and metadata/universe errors.
+
+Focused67328 exited1: explicit non-Clone Shadow reference type needed. Second
+focused command exited1: integer default inferredi32 for i64 target; fixed test
+and doctest constants. Third focused command exited0:6tests. No production
+implementation read. Final source/provenance reviewed and frozen before gate.
+No all-target prebuild, benchmarks/browser/release reruns.
+
+Next-area read: DefaultListVariableStateTest lines1-210 (initialize/assign cases
+and first external-shadow notification case complete; second incomplete), with
+notifier count semantics and double-unassignment rejection. Remaining body and
+new pinned fixture bodies unread. No credits for that class.
+
+Read remaining DefaultListVariableStateTest205-418 during gate, completing the
+class: fully externalized index/inverse/prev/next suppress fallback notifications
+even on unchanged rescans; partial externalization still notifies touched suffix.
+Pin queries follow current owner/index, full pin overrides prefix, unassigned
+values are unpinned, unsupported pinning requires no solution read, and external
+list edits change which value lies below pin boundary. Pinned fixtures still
+unread this turn. No credits. Gate43509 running against frozen source.
+
+Required gate43509 exited0. 3700 Rust tests and 173 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 452}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2142, 'failed': 0, 'pending': 2431, 'excluded': 282, 'unverified': 0, 'percent': 44.119}.
+Source before/after matched: 08e5cadf4a33b5a067333403d3637a735c3e8402ad09a38c8537229a19cf4ae8
+Live freshness matched verification digest: 920507133b610ee52e3bb41613c5c02b016af952e49b82e2e608b174bacce2d6.
+Existing provenance prefixes unchanged; appended2cases and3fixtures.
+Log work/list-shadow-session-final-check.log; evidence work/list-shadow-session-evidence.json.
+DefaultListVariableStateTest has10@Test methods; prior11method count included a helper.
+All handles terminal. No benchmarks/browser/release reruns. Goal active.

@@ -32129,6 +32129,36 @@
       "local_path": "crates/solver/tests/variable_tracker_cases.rs",
       "local_test": "list_reset",
       "modifications": "Native canonical field handles and stable entity keys replace VariableId/Java objects. Structured VariableEventViolation(entity, Before/After) replaces formatted JVM diagnostic strings. Preserve missing-before/after/both detection, complete event acceptance and event-window reset on each audit. List notifications track entity event presence; source test ranges are not used by these assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_session_cases.rs",
+      "id": "SingleDirectionalParentVariableReferenceGraphTest.supplierMethodsAreOnlyCalledOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/SingleDirectionalParentVariableReferenceGraphTest.java",
+      "upstream_test": "supplierMethodsAreOnlyCalledOnce",
+      "local_test": "supplier_methods_are_only_called_once",
+      "modifications": "Explicit typed previous-chain binding replaces reflective graph-class selection. Native canonical metadata binds list state and count target; actual list snapshots replace mocked index/inverse/next answers. Preserve initial and final counts, unassigned nulls, parent notification order and duplicate-supplier guard per value. Deferred notifications use the latest snapshot and existing dependency evaluator. Results are keyed native shadow values rather than Java field setters; arbitrary graph-shape inference is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_session_cases.rs",
+      "id": "SingleDirectionalParentVariableReferenceGraphTest.elementsUnassignedInTheSamePassAreAllUpdated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/SingleDirectionalParentVariableReferenceGraphTest.java",
+      "upstream_test": "elementsUnassignedInTheSamePassAreAllUpdated",
+      "local_test": "elements_unassigned_in_same_pass_are_all_updated",
+      "modifications": "Explicit typed previous-chain binding replaces reflective graph-class selection. Native canonical metadata binds list state and count target; actual list snapshots replace mocked index/inverse/next answers. Preserve initial and final counts, unassigned nulls, parent notification order and duplicate-supplier guard per value. Deferred notifications use the latest snapshot and existing dependency evaluator. Results are keyed native shadow values rather than Java field setters; arbitrary graph-shape inference is not claimed."
     }
   ],
   "fixtures": [
@@ -42115,6 +42145,45 @@
       "upstream_test": "TestdataListSolution",
       "local_path": "crates/solver/tests/variable_tracker_cases.rs",
       "modifications": "Use metadata-only native solution/entity markers and stable a/b entity identities. Basic value and list valueList field names are retained; i32 is an unused native value type because these fixtures only identify notification ownership. Object assignment, score, ranges and shadow callbacks are not needed or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_session_cases.rs",
+      "id": "TestdataCountingSolution.list_shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/counting/TestdataCountingSolution.java",
+      "upstream_test": "TestdataCountingSolution",
+      "modifications": "Adapt counting fixture metadata and behavior: typed Solution/Owner/Value identities; required values list; previous/entity/count shadow declarations; literal entity/value codes. The supplier rejects a second invocation per pass, returns None for unassigned values, zero for a list head, and predecessor count plus one otherwise. BTreeSet records invocation identity, reset between passes. Registry snapshots replace mutable Java parent fields and reflection; unused score/solution storage is omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_session_cases.rs",
+      "id": "TestdataCountingEntity.list_shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/counting/TestdataCountingEntity.java",
+      "upstream_test": "TestdataCountingEntity",
+      "modifications": "Adapt counting fixture metadata and behavior: typed Solution/Owner/Value identities; required values list; previous/entity/count shadow declarations; literal entity/value codes. The supplier rejects a second invocation per pass, returns None for unassigned values, zero for a list head, and predecessor count plus one otherwise. BTreeSet records invocation identity, reset between passes. Registry snapshots replace mutable Java parent fields and reflection; unused score/solution storage is omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_shadow_session_cases.rs",
+      "id": "TestdataCountingValue.list_shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/counting/TestdataCountingValue.java",
+      "upstream_test": "TestdataCountingValue",
+      "modifications": "Adapt counting fixture metadata and behavior: typed Solution/Owner/Value identities; required values list; previous/entity/count shadow declarations; literal entity/value codes. The supplier rejects a second invocation per pass, returns None for unassigned values, zero for a list head, and predecessor count plus one otherwise. BTreeSet records invocation identity, reset between passes. Registry snapshots replace mutable Java parent fields and reflection; unused score/solution storage is omitted."
     }
   ]
 }

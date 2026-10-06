@@ -2886,3 +2886,28 @@ JVM diagnostic strings. The tracked inverse case uses a native score director
 and consistency check. Concurrent shadow graph event orchestration, embedded
 Java inverse-field mutation and automatic shadow-session construction remain
 separate work; no credit is claimed for their tests.
+
+
+## Deferred list shadow sessions
+
+ListShadowSession binds a shared ListVariableState to one typed shadow field on
+the list value entity. It reuses DependencyCache for predecessor scheduling,
+equal-result propagation stopping, and atomic supplier failure behavior. Parent
+notifications coalesce by stable value identity; flushing reads the latest whole
+list snapshot and detects structural changes without explicit notifications.
+Unassigned values remain separate nodes and their suppliers can clear results.
+Owner additions/removals are supported; value-universe changes need a new session.
+
+Current-value reads reject pending or stale state. Initialization may be deferred.
+Checkpoints share non-Clone results and restore without callbacks, after the bound
+field is restored to the matching snapshot; foreign/mismatched restores fail.
+Metadata/universe errors invoke no suppliers. Captured mutable external facts and
+callback side effects remain the caller's responsibility. This is an explicit
+previous-chain execution API, not arbitrary source-path inference or Java setter
+reflection; multiple independently calculated fields use separate sessions.
+
+Both SingleDirectionalParentVariableReferenceGraphTest methods and their three
+counting fixtures are adapted. Original tests compare real native list moves
+against fresh cascade calculations, restore caches without supplier work, cover
+latest-snapshot notification batching, equal-result stopping, unassignment,
+non-Clone results, supplier panic recovery and invalid metadata/restore errors.
