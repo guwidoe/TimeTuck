@@ -12052,3 +12052,38 @@ callback that may fail after writing; current native moves validate atomically.
 restoreWorkingScoreWhenHandlingStructurallyFlawedSolutions needs an explicit flawed
 candidate processor, not a generic validation error relabeled as source behavior.
 Do not credit those based on the new postprocessor handling alone.
+
+
+## Live move sessions and construction failures (current increment)
+
+Previous goal turn committed0c1f900. New MoveSession guard for all6directors stores
+an opaque per-director restoration closure: scoped snapshots capture assignment,
+contributions,total; stream snapshots capture assignment and full GraphState.
+Each apply immediately commits one scored primitive/composite; errors preserve the
+successful prefix. Nested scopes support independent commit/rollback; outer rollback
+restores everything including committed inner changes, without scoring callbacks.
+temporary() runs TemporaryMoves inside an outer scope. TemporaryMoves::construct
+adds live construction then postprocessing with distinct Construction error and
+shared rollback/KeepApplied policy for errors/panics. Kept prefixes remain scored.
+
+Initial focused run exposed a real snapshot bug: GraphTransaction::capture copies
+only its touched-node delta. Replaced that use with new StreamGraph::capture_full,
+leaving transaction capture unchanged. Fixed focused log work/move-sessions-focused-fixed.log
+passed4original session regressions and7temporary source methods. Added grouped-stream
+replay regression passed separately (work/move-sessions-group-focused.log). All6
+engines cover nesting, prefix errors/panics, callback counts, pinned lists and mixed
+partial-step rejection. Source moveFailureLeavesTheMoveApplied read in full and
+adapted in existing temporary_move_cases with prior fixture/helper attribution.
+One additional source credit; no upstream production implementation read.
+
+Broad prebuild76504 and final gate24376 exited0; shared scoring/graph modules changed.
+3480Rust tests and163doctests passed. Rust jobs:{'RUN': 376, 'REUSE': 56};
+Python jobs:{'REUSE': 46}. Dashboard1960/4855(40.371%),
+2613pending,282excluded,0failed/unverified. Source before/after matched:
+dc462b65bca52c9da06301e311d91c861340141fa60e5f0d686cdca17af7ca7e
+Live freshness matched verification digest:
+783abf0d1496758aefbd901b6989aeb58f7351f7f8642b51fbc96313e1342329.
+Log work/move-sessions-final-check.log; evidence work/move-sessions-evidence.json.
+All process handles terminal. No benchmarks/UI/release reruns. Full goal active.
+Next missing source behavior remains explicit structurally flawed candidate
+processing; do not credit a generic model error as that processor's behavior.

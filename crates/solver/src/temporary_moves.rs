@@ -15,8 +15,9 @@ use std::{
 pub enum TrialFailurePolicy {
     #[default]
     Rollback,
-    /// Keep the validated candidate and its score when the postprocessor returns
-    /// an error or panics. Move validation/scoring failures always roll back.
+    /// Keep the validated candidate or successful live-edit prefix when a
+    /// construction/postprocessor callback errors or panics. A failed individual
+    /// validation/scoring step always rolls itself back.
     KeepApplied,
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
@@ -36,6 +37,7 @@ pub struct TemporaryMoveOptions {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum TemporaryMoveError<D, E> {
     Apply(D),
+    Construction(E),
     Postprocessor(E),
     RestoredScore(D),
 }
@@ -43,6 +45,7 @@ impl<D: fmt::Display, E: fmt::Display> fmt::Display for TemporaryMoveError<D, E>
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Apply(e) => write!(f, "temporary move failed: {e}"),
+            Self::Construction(e) => write!(f, "move construction failed: {e}"),
             Self::Postprocessor(e) => write!(f, "temporary postprocessor failed: {e}"),
             Self::RestoredScore(e) => write!(f, "restored score check failed: {e}"),
         }
@@ -52,7 +55,7 @@ impl<D: Error + 'static, E: Error + 'static> Error for TemporaryMoveError<D, E> 
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(match self {
             Self::Apply(e) | Self::RestoredScore(e) => e,
-            Self::Postprocessor(e) => e,
+            Self::Construction(e) | Self::Postprocessor(e) => e,
         })
     }
 }
@@ -246,6 +249,37 @@ macro_rules! processor {
                     |t| process(t.assignment(), t.score()),
                     |t| t.commit(),
                 ).map_err(TemporaryMoveError::Postprocessor)?;
+                if options.restored_score == RestoredScorePolicy::CheckFresh {
+                    self.director.assert_consistent().map_err(TemporaryMoveError::RestoredScore)?;
+                }
+                Ok(result)
+            }
+
+            /// Build a move through live, individually validated edits. The build
+            /// callback sees each installed assignment/score through the session.
+            /// On success, run the postprocessor and restore the entry snapshot.
+            /// Construction and postprocessor errors/panics share the failure policy;
+            /// KeepApplied retains the last successful edit, never a failed partial step.
+            pub fn construct<R, E>(
+                &mut self,
+                options: TemporaryMoveOptions,
+                build: impl FnOnce(&mut crate::MoveSession<'_, $director>) -> Result<(), E>,
+                process: impl FnOnce(&$assignment, S) -> Result<R, E>,
+            ) -> Result<R, TemporaryMoveError<$error, E>> {
+                let mut session = self.director.edit_session().map_err(TemporaryMoveError::Apply)?;
+                let outcome = catch_unwind(AssertUnwindSafe(|| {
+                    build(&mut session).map_err(TemporaryMoveError::Construction)?;
+                    process(session.assignment(), session.score()).map_err(TemporaryMoveError::Postprocessor)
+                }));
+                if options.failure == TrialFailurePolicy::KeepApplied && !matches!(&outcome, Ok(Ok(_))) {
+                    session.commit();
+                } else {
+                    drop(session);
+                }
+                let result = match outcome {
+                    Ok(value) => value?,
+                    Err(payload) => resume_unwind(payload),
+                };
                 if options.restored_score == RestoredScorePolicy::CheckFresh {
                     self.director.assert_consistent().map_err(TemporaryMoveError::RestoredScore)?;
                 }

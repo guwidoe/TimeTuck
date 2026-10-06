@@ -532,6 +532,18 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }
         Ok(result)
     }
+    /// Begin a live multi-move scope. Drop restores assignment and cached scores;
+    /// commit retains edits. No scoring callbacks run to create or restore it.
+    pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, ListScoringError> {
+        let assignment = self.assignment.clone();
+        let contributions = self.contributions.clone();
+        let score = self.score.clone();
+        Ok(crate::MoveSession::new(self, move |director| {
+            director.assignment = assignment;
+            director.contributions = contributions;
+            director.score = score;
+        }))
+    }
     pub fn assignment(&self) -> &ListAssignment<V> {
         &self.assignment
     }

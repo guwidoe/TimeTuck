@@ -571,6 +571,18 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         }
         Ok(result)
     }
+    /// Begin a live multi-move scope. Drop restores assignment and cached scores;
+    /// commit retains edits. No scoring callbacks run to create or restore it.
+    pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, MixedScoringError> {
+        let assignment = self.assignment.clone();
+        let contributions = self.contributions.clone();
+        let score = self.score.clone();
+        Ok(crate::MoveSession::new(self, move |director| {
+            director.assignment = assignment;
+            director.contributions = contributions;
+            director.score = score;
+        }))
+    }
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
         &self.assignment
     }

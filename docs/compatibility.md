@@ -2603,3 +2603,21 @@ Fresh-score mode checks a genuine recalculation; external mutable scoring facts 
 reported as inconsistent rather than silently overwriting a previously cached score.
 The separate move-construction failure and structurally flawed solution processor
 cases remain pending. No Java reflective discovery or recorded-action-list claim.
+
+
+## Live multi-move edit sessions
+
+All six native score directors now provide edit_session. MoveSession applies each
+validated move immediately, exposing its working assignment and score. A failed
+step preserves the preceding successful edits. Nested sessions restore or commit
+independently; outer rollback also undoes committed inner changes. Snapshot restore
+performs no scoring callbacks and restores contribution caches or the entire stream
+graph, including group indexes and active-node state. Session storage scales with
+assignment/cache size; ordinary single-move guards remain the hot-loop primitive.
+
+TemporaryMoves::construct accepts a live construction callback followed by scored
+postprocessing. Either callback's error/panic uses the selected rollback/keep-prefix
+policy; construction failure skips postprocessing. A retained prefix remains scored
+and consistent. One additional MoveDirectorTest source method verifies actual
+write-then-panic retention in both basic backends. The structurally flawed candidate
+processor remains pending. No nested Java phase factory/action-log claim is made.

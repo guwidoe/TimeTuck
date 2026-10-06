@@ -146,3 +146,28 @@ fn restore_working_score_with_postprocessor_and_fresh_score() {
         assert_eq!(d.score(), previous);
     });
 }
+
+#[test]
+fn move_failure_leaves_the_move_applied() {
+    both!(|d| {
+        let result = catch_unwind(AssertUnwindSafe(|| {
+            TemporaryMoves::new(&mut d).construct(
+                TemporaryMoveOptions {
+                    failure: TrialFailurePolicy::KeepApplied,
+                    ..Default::default()
+                },
+                |view| -> Result<(), ()> {
+                    view.apply(&bad()).unwrap();
+                    assert_eq!(view.assignment().values(), &[Some("bad")]);
+                    panic!("Move failure.");
+                },
+                |_, score| Ok(score),
+            )
+        }));
+        assert!(result.is_err());
+        assert_eq!(d.assignment().values(), &[Some("bad")]);
+        // Native successful edits also retain a consistent score cache.
+        assert_eq!(d.score(), SimpleScore::new(-1));
+        d.assert_consistent().unwrap();
+    });
+}

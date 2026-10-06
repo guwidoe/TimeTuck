@@ -2091,6 +2091,20 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         }
         Ok(())
     }
+    /// Full state for a multi-move scope; transaction capture contains only the
+    /// nodes touched by that single transaction and cannot restore a later edit.
+    pub(crate) fn capture_full(&self) -> GraphState<S> {
+        GraphState {
+            active: self.active.clone(),
+            score: self.score.clone(),
+            nodes: self
+                .nodes
+                .iter()
+                .enumerate()
+                .map(|(id, node)| (id, node.checkpoint()))
+                .collect(),
+        }
+    }
     pub(crate) fn install(&mut self, state: GraphState<S>) {
         for (id, checkpoint) in state.nodes {
             self.nodes[id].restore(checkpoint);

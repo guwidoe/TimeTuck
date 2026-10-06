@@ -714,3 +714,6 @@ pub use temporary_moves::{
     RecordedMove, RecordedTemporaryResult, ReplayDirection, RestoredScorePolicy, StaleMoveRecord,
     TemporaryMoveError, TemporaryMoveOptions, TemporaryMoves, TrialFailurePolicy,
 };
+
+mod move_session;
+pub use move_session::MoveSession;

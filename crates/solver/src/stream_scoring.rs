@@ -110,6 +110,16 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         self.graph.assert_consistent()?;
         Ok(())
     }
+    /// Begin a live multi-move scope. Drop restores assignment and cached scores;
+    /// commit retains edits. No scoring callbacks run to create or restore it.
+    pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, StreamScoringError> {
+        let assignment = self.assignment.clone();
+        let graph = self.graph.capture_full();
+        Ok(crate::MoveSession::new(self, move |director| {
+            director.assignment = assignment;
+            director.graph.install(graph);
+        }))
+    }
     pub fn assignment(&self) -> &Assignment<V> {
         &self.assignment
     }
