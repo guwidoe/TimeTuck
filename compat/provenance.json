@@ -31394,6 +31394,351 @@
       "upstream_line": 275,
       "local_test": "shadow_variable_type",
       "modifications": "Explicit typed Rust declarations replace Java reflective descriptor discovery. Preserve native equivalents of solution/entity/value type identity, ordered metadata collections, genuine/shadow distinctions, parent identity and missing-name diagnostics. TypeId identifies Rust fixture marker types; canonical parent references use actual metadata addresses, and handles cannot outlive the schema. Pinned declaration line identifies the exact nested same-name method. No Java class, inheritance or annotation discovery parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingBuiltinShadow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingBuiltinShadow",
+      "local_test": "builtin",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadow",
+      "local_test": "declarative",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadowAfterGroup",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadowAfterGroup",
+      "local_test": "declarative_group",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingBuiltinShadowAfterGroup",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingBuiltinShadowAfterGroup",
+      "local_test": "builtin_group",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadowAfterGroupAfterFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadowAfterGroupAfterFact",
+      "local_test": "declarative_group_fact",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadowAfterBuiltinShadow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadowAfterBuiltinShadow",
+      "local_test": "declarative_previous",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingBuiltinShadowAfterFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingBuiltinShadowAfterFact",
+      "local_test": "builtin_fact",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadowAfterBuiltinShadowAfterGroup",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadowAfterBuiltinShadowAfterGroup",
+      "local_test": "declarative_previous_group",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingBuiltinShadowAfterBuiltinShadow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingBuiltinShadowAfterBuiltinShadow",
+      "local_test": "builtin_previous",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingBuiltinShadowAfterBuiltinShadowAfterFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingBuiltinShadowAfterBuiltinShadowAfterFact",
+      "local_test": "builtin_previous_fact",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.pathUsingDeclarativeShadowAfterListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "pathUsingDeclarativeShadowAfterListVariable",
+      "local_test": "declarative_list",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathMissingProperty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathMissingProperty",
+      "local_test": "missing_property",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathTooManyVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathTooManyVariables",
+      "local_test": "too_many_variables",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathTooVariableIndirectAfterVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathTooVariableIndirectAfterVariable",
+      "local_test": "indirect_after_variable",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathUsingGroupAfterGroup",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathUsingGroupAfterGroup",
+      "local_test": "group_after_group",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathUsingBareListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathUsingBareListVariable",
+      "local_test": "bare_list",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathUsingBuiltinShadowAfterListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathUsingBuiltinShadowAfterListVariable",
+      "local_test": "builtin_after_list",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathUsingListVariableAfterFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathUsingListVariableAfterFact",
+      "local_test": "list_after_fact",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathUsingDeclarativeAfterDeclarative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathUsingDeclarativeAfterDeclarative",
+      "local_test": "declarative_after_declarative",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathNoVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathNoVariables",
+      "local_test": "no_variables",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathEndOnFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathEndOnFact",
+      "local_test": "end_on_fact",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.invalidPathMultipleFactsInARow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidPathMultipleFactsInARow",
+      "local_test": "multiple_facts",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.errorIfShadowVariablesInconsistentReferenced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "errorIfShadowVariablesInconsistentReferenced",
+      "local_test": "consistency_source",
+      "modifications": "Typed Rust accessor registration replaces reflective Java member discovery. Preserve source/target canonical metadata, root/parent kind, variable chain, top/bottom/root and declarative flags, downstream declarative identity, exact borrowed object traversal and rejection of the specified invalid path. Vec/Option/Box replace Java collections/null links; diagnostics retain path/member/reason with native type names rather than exact JVM text. No supplier-method reflection or automatic shadow setter execution is claimed."
     }
   ],
   "fixtures": [
@@ -41016,6 +41361,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
       "upstream_test": "TestdataListValue",
       "modifications": "Extract metadata only: native marker types preserve distinct solution/entity/value identities. Basic entity has genuine field value; list owner has genuine field valueList with the element type; list value is a shadow entity with entity and index fields in source order. Native i32 represents the Integer index type. Runtime assignments, fixture generation and shadow callbacks are not needed by these metadata assertions; annotations become explicit declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "TestdataInvalidDeclarativeValue.source_paths",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/TestdataInvalidDeclarativeValue.java",
+      "upstream_test": "TestdataInvalidDeclarativeValue",
+      "modifications": "Adapt only metadata and traversal fixtures: value fact/group/previous/dependency/shadow/inconsistent fields; owner fact/values/shadow fields; distinct solution marker. Explicit declarations and typed getters replace annotations/reflection; nullable links become Option<Box<_>>, collections Vec, codes native string identities. Supplier bodies, solution storage and score are not exercised or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "TestdataInvalidDeclarativeEntity.source_paths",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/TestdataInvalidDeclarativeEntity.java",
+      "upstream_test": "TestdataInvalidDeclarativeEntity",
+      "modifications": "Adapt only metadata and traversal fixtures: value fact/group/previous/dependency/shadow/inconsistent fields; owner fact/values/shadow fields; distinct solution marker. Explicit declarations and typed getters replace annotations/reflection; nullable links become Option<Box<_>>, collections Vec, codes native string identities. Supplier bodies, solution storage and score are not exercised or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "TestdataInvalidDeclarativeSolution.source_paths",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/TestdataInvalidDeclarativeSolution.java",
+      "upstream_test": "TestdataInvalidDeclarativeSolution",
+      "modifications": "Adapt only metadata and traversal fixtures: value fact/group/previous/dependency/shadow/inconsistent fields; owner fact/values/shadow fields; distinct solution marker. Explicit declarations and typed getters replace annotations/reflection; nullable links become Option<Box<_>>, collections Vec, codes native string identities. Supplier bodies, solution storage and score are not exercised or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.assertChainToVariableEntity.source_paths",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "assertChainToVariableEntity",
+      "modifications": "Fold chain length/ordered member-name and empty-chain assertions into the Rust check helper; accessor names come from compiled path metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/source_path_cases.rs",
+      "id": "RootVariableSourceTest.assertEmptyChainToVariableEntity.source_paths",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "assertEmptyChainToVariableEntity",
+      "modifications": "Fold chain length/ordered member-name and empty-chain assertions into the Rust check helper; accessor names come from compiled path metadata."
     }
   ]
 }

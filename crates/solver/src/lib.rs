@@ -752,3 +752,9 @@ pub use planning_schema::{
     PlanningEntityDefinition, PlanningEntityRef, PlanningSchema, PlanningSchemaError, PlanningType,
     PlanningVariableDefinition, PlanningVariableKind, PlanningVariableRef,
 };
+
+mod source_path;
+pub use source_path::{
+    CompiledSourcePath, SourceMemberRole, SourceParent, SourcePathError, SourcePathRegistry,
+    SourceReference,
+};

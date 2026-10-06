@@ -12445,3 +12445,54 @@ Source before/after matched: 30ec93206cfdbe6d698abeddc422e2bba2b50ad8fa113aa6167
 Live freshness matched verification digest: a6d508c7ddfb0727736740b90b3babef232d4335527bf720b79e16171bf48eb3.
 Log work/planning-schema-final-check.log; evidence work/planning-schema-evidence.json.
 All handles terminal. No benchmark/browser/release reruns. Goal active.
+
+
+## Typed shadow source paths (current increment)
+
+Previous turn committed64ddc51 and was progress. Starting tree clean. Added
+source_path.rs: SourcePathRegistry with typed HRTB borrowed getters; scalar and
+collection registration validates metadata before mutation. Immutable compiled
+paths preserve canonical schema handles and typed accessors; no unsafe code or
+object clones. Native SourceMemberRole adds explicit previous/declarative/fact/
+inconsistent roles without changing PlanningSchema. Collection kind follows
+metadata; duplicate accessors/types/cardinality misuse fail.
+
+CompiledSourcePath references expose root/target/source metadata, parent kind,
+chains (relative to group/list element), top/bottom/root/declarative flags and
+downstream declarative source. Traversal reads prefixes only, never terminal
+values; Option nulls/empty groups yield no objects, references preserve identity.
+SourceReference maps a variable owner through its remaining path to terminal
+owner(s). dependency_keys maps actual references to stable application keys,
+sorted/deduplicated for existing dependency APIs. No automatic suppliers/setters
+or Java reflection claim. No production implementation read.
+
+Read full RootVariableSourceTest in sections (including missing truncated
+328-378 segment), plus complete TestdataInvalidDeclarativeValue/Entity/Solution.
+23 path cases adapted; 3 fixtures and 2 assertion helpers attributed. Reflection/
+parameter/variable-identification cases remain pending. Original 3 tests exercise
+incremental DependencyCache edge updates, cycle callbacks suppressed, snapshot
+restore, typed misuse, nulls, duplicate groups and fresh snapshots.
+Focused54735 exited0 with26tests; then strengthened source target mapping length
+assertion before final gate. No all-target prebuild needed (new independent module
+and lib exports). No benchmarks/browser/release reruns.
+
+Gate76733 stopped at clippy for two needless explicit traversal lifetimes;
+elided only those annotations. Revised gate30994 runs against final source.
+Potential next feature: metadata-keyed variable state/notification registry. Read
+VariableSupportTest remainder240-762 and gap210-245 after earlier0-220 read. Tests
+require one actual state per canonical field, separate state/tracker instances,
+immediate basic/list updates, latest-snapshot initialization on late lookup,
+identity retained across resets, per-field separation even when value types match,
+and no working-solution read during linking. Existing basic_inverse_stream offers
+transactional inverse relation updates, but no native field-state registry found.
+Mixed/inverse/multivar fixture bodies for this next area not newly read; no new
+case credits or implementation for VariableSupportTest this turn.
+
+Required revised gate30994 exited0. 3665 Rust tests and 171 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 447}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2114, 'failed': 0, 'pending': 2459, 'excluded': 282, 'unverified': 0, 'percent': 43.543}.
+Source before/after matched: 40f78fb572d48add5ecafee459f7dce82cc7905fe5d6ff3b8776dd3b13e4f6f6
+Live freshness matched verification digest: 441043b8a110250617a00c947129b780a0a1018becf33c106cd6216324d2cebb.
+Existing provenance prefixes unchanged; appended23cases and5fixtures/helpers.
+Log work/source-path-final-check.log; evidence work/source-path-evidence.json.
+All handles terminal. No benchmarks/browser/release reruns. Goal active.

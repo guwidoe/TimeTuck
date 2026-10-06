@@ -2827,3 +2827,29 @@ attributed. Explicit Rust declarations replace Java descriptor discovery; this
 does not implement object traversal, reflection, inheritance, field accessors or
 automatic shadow evaluation. Existing range/scoring APIs supply those operational
 concerns explicitly.
+
+
+## Typed shadow source paths
+
+SourcePathRegistry binds native typed accessors to PlanningSchema metadata.
+Registration checks owner/value types, variable roles, scalar/list cardinality
+and duplicate names before changing the registry. CompiledSourcePath resolves
+direct fields, previous-element chains, fact links, groups and planning-list
+elements. References retain canonical source/target metadata, ordered member
+chains, parent classification and downstream declarative identity. Runtime
+traversal borrows actual snapshot objects, skips null links and empty groups,
+and never reads the terminal variable value. Wrong root types fail explicitly.
+
+Dependency keys can be mapped from resolved variable/entity pairs to the existing
+DependencyGraph/Topology/Cache APIs. Keys are sorted and deduplicated while raw
+traversal retains group multiplicity. An original operational test derives
+predecessor dependencies, evaluates them, changes an edge incrementally, detects
+a dynamic cycle without invoking cyclic suppliers, and restores a saved cache.
+
+23 RootVariableSourceTest cases and three invalid-declarative fixtures plus two
+assertion helpers are adapted. Path validation rejects missing members, more than
+two source variables, nested groups, bare lists, unsupported list access, chained
+declarative sources, paths ending in facts and consistency flags. Explicit typed
+registration replaces Java field/getter discovery; inheritance, supplier method
+parameter discovery and automatic shadow setters remain separate work. The
+remaining RootVariableSourceTest reflection cases are not credited.
