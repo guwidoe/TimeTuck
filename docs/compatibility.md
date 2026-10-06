@@ -2385,3 +2385,10 @@ including distinct pillar-change-only and pillar-swap-only selectors, with one/t
 phases. Actual optional null initial values, per-entity domains, +/-1 score formula
 and excluded-value assertions are retained. Native subpillar subsets and seeded
 move sampling replace default Java selectors; no identical trace is claimed.
+
+Independent mixed-neighborhood configuration now supports basic-only/list-only
+families, selected basic slots, independent joint products and weighted unions.
+Original regressions cover 7,128 small-state configurations, pins and rich move
+families, union multiplicities and complete scoped/stream solver plans. No upstream
+method is newly credited by this API increment: the mixed parameterized methods
+also require variable-specific repair pools and mixed repair unions, still pending.

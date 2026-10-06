@@ -11494,3 +11494,44 @@ Python jobs {'REUSE': 46}. Source-before/after equal:
 Dashboard {'total': 4855, 'passed': 1892, 'failed': 0, 'pending': 2681, 'excluded': 282, 'unverified': 0, 'percent': 38.97}; live freshness matched digest:
 5d7cb8dd76d1e11f28d2a6782c34083b60d2739f5ef3453858f8dd6ed1eb49f0.
 All verification processes terminal; no benchmark/release/browser reruns.
+
+
+## Independent mixed neighborhoods
+
+Added MixedNeighborhood, MixedNeighborhoodError, mixed_moves_configured and
+mixed_moves_configured_union in mixed_neighborhood.rs, exported at crate root.
+Basic/list families independently enabled; selected basic slots define order and
+filter all touched slots, preserving whole-row pillar semantics. Joint products
+follow singles. Weighted union children independently scope/family-select; zero
+weights skip configuration validation and enumeration, duplicate occurrences stay.
+Assignment validation always runs. Supplied step advances union and sampled k-opt
+seeds. API feeds existing lazy MoveProvider bindings, no search-engine changes.
+
+Original mixed_families.rs checks7,128 small states/configurations against separately
+constructed basic moves plus existing list enumeration; applies every move and
+validates successor. Rich-family pin/excluded-slot checks, typed selection errors,
+disabled/empty families, multiplicity/reproducibility, and a coupled scoring trap
+where only a joint basic-change/list-swap improves. Both scoped/stream local search
+and full solver plans preserve an excluded basic slot. Initial focused compile
+caught missing trait lifetime bound and wrong graph join name; fixed. Four focused
+tests passed including the expanded full-plan checks; broad build36002 exited0.
+Final gate76253 exited0: work/mixed-families-final-check.log. Logs work/mixed-families-{check,focused,focused2,focused3,build}.log.
+No provenance additions: all tests original, no new upstream credit yet.
+
+Next actual gaps for DefaultSolverTest.solveMoveConfigMixedModel and
+solveMultiEntityMoveConfigMixedModel: their twelve configurations include
+basicValue-only ruin/recreate and list-only ruin/recreate in the combined union.
+Current repair engine samples a joint movable pool and applies fine Neighborhoods
+to both components. Need explicit scoped repair pools and independently scoped fine
+families, not just whole-component filtering after repair. Read generators1858-1960
+and multi-entity helper1963 onward; first generator/helper fully read this turn.
+Source pillar-change selects basicValue only; default swap may use both basics.
+Use native pillar schemas where two basic columns are one entity row. Do not
+credit these methods using generic unscoped repair or missing configurations.
+
+Final evidence: 3355 Rust tests and154 doctests passed. Rust jobs{'RUN': 356, 'REUSE': 56};
+Python jobs{'REUSE': 46}. Source-before/after equal:
+7bc35219fb8b462c45a21d6788a13fa1a4a49cbd280fac7631c78fcd07ae2caa.
+Upstream coverage unchanged1892/4855 (38.97%); live freshness matched digest:
+1753dd7a3b6719eb544aa6ffada996db042c326bb8150cd4b431af02654a976b.
+All processes terminal. No benchmark, release or browser rerun. Goal remains active.

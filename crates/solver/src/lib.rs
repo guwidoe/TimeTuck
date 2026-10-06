@@ -194,7 +194,10 @@ pub use mixed_scoring::{
 };
 
 pub mod mixed_neighborhood;
-pub use mixed_neighborhood::mixed_moves;
+pub use mixed_neighborhood::{
+    MixedNeighborhood, MixedNeighborhoodError, mixed_moves, mixed_moves_configured,
+    mixed_moves_configured_union,
+};
 pub mod mixed_local_search;
 pub use mixed_local_search::{
     MixedLocalSearchConfig, MixedLocalSearchError, MixedLocalSearchResult, mixed_local_search_from,

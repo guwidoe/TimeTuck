@@ -865,3 +865,15 @@ remains cooperative with cancellation/deadlines. Model-specific neighborhood rul
 are unchanged; mixed search emits independent basic/list moves, not joint products.
 An empty slice preserves the legacy seeded trace. Enabled configurations validate
 before scoring, including when placed later in an explicit solver sequence.
+
+`MixedNeighborhood` configures separate optional basic/list families, a basic-slot
+encounter order/filter, and optional joint products. `mixed_moves_configured` emits
+basic singles, list singles, then joint candidates. It validates the assignment and
+enabled settings first. Disabled basic selection ignores its slot list; enabled
+basic selection rejects unknown/duplicate slot indices. An empty slot list disables basic
+candidates. Pins/domains and whole-row pillar rules remain in force; filtering a
+column never splits a multi-column pillar move. `mixed_moves_configured_union`
+combines these families with sequential or seeded weighted interleaving, retaining
+duplicate occurrences and skipping zero-weight configurations. Step indices advance
+union and sampled-neighborhood seeds. Both functions return iterators that can feed
+existing MoveProvider bindings in scoped or stream-backed mixed solver plans.

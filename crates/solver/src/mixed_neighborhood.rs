@@ -2,6 +2,206 @@
 use crate::neighborhood;
 use crate::{ListMove, MixedAssignment, MixedError, MixedMove, MixedProblem, Move, Neighborhood};
 
+/// Independently select basic and list move families. None disables a component.
+/// A basic-variable selection supplies encounter order and limits candidates to
+/// those touching only selected slots. With a pillar schema, whole-row rules
+/// still apply; selecting a column does not split a multi-column pillar move.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct MixedNeighborhood<'a> {
+    pub basic: Option<Neighborhood>,
+    pub lists: Option<Neighborhood>,
+    pub basic_variables: Option<&'a [usize]>,
+    /// Emit basic singles, list singles, then their Cartesian product.
+    pub joint_moves: bool,
+}
+impl Default for MixedNeighborhood<'_> {
+    fn default() -> Self {
+        Self {
+            basic: Some(Neighborhood::ChangeAndSwap),
+            lists: Some(Neighborhood::ChangeAndSwap),
+            basic_variables: None,
+            joint_moves: false,
+        }
+    }
+}
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum MixedNeighborhoodError {
+    Model(MixedError),
+    UnknownBasicVariable { variable: usize, count: usize },
+    DuplicateBasicVariable { variable: usize },
+}
+impl std::fmt::Display for MixedNeighborhoodError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Model(e) => e.fmt(f),
+            Self::UnknownBasicVariable { variable, count } => {
+                write!(f, "basic variable {variable} outside {count} slots")
+            }
+            Self::DuplicateBasicVariable { variable } => {
+                write!(f, "basic variable {variable} selected more than once")
+            }
+        }
+    }
+}
+impl std::error::Error for MixedNeighborhoodError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Model(e) => Some(e),
+            _ => None,
+        }
+    }
+}
+impl From<MixedError> for MixedNeighborhoodError {
+    fn from(e: MixedError) -> Self {
+        Self::Model(e)
+    }
+}
+impl MixedNeighborhood<'_> {
+    fn validate<B: Eq + Clone, L: Eq + Clone>(
+        self,
+        p: &MixedProblem<B, L>,
+    ) -> Result<(), MixedNeighborhoodError> {
+        if let Some(n) = self.basic {
+            n.validate_basic(p.basic()).map_err(MixedError::Basic)?;
+            if let Some(selected) = self.basic_variables {
+                for (i, &variable) in selected.iter().enumerate() {
+                    if variable >= p.basic().variables().len() {
+                        return Err(MixedNeighborhoodError::UnknownBasicVariable {
+                            variable,
+                            count: p.basic().variables().len(),
+                        });
+                    }
+                    if selected[..i].contains(&variable) {
+                        return Err(MixedNeighborhoodError::DuplicateBasicVariable { variable });
+                    }
+                }
+            }
+        }
+        if let Some(n) = self.lists {
+            n.validate_list(p.lists()).map_err(MixedError::Lists)?;
+        }
+        Ok(())
+    }
+    fn at_step(self, step: u64) -> Self {
+        Self {
+            basic: self.basic.map(|n| n.at_step(step)),
+            lists: self.lists.map(|n| n.at_step(step)),
+            ..self
+        }
+    }
+}
+/// Enumerate separate basic/list families, retaining domains, pins and the same
+/// transactional mixed moves used by local-search providers. Disabled components
+/// skip their configuration validation; assignment validation always runs.
+///
+/// ```
+/// use timetuck::*;
+/// let p=MixedProblem::new(
+///     FiniteProblem::new(vec![Variable::new(vec![0,1]).with_initial(0)])?,
+///     ListProblem::new(vec![0,1],vec![ListEntity::new(vec![0,1])])?);
+/// let a=p.initial_assignment();
+/// let c=MixedNeighborhood{basic:None,lists:Some(Neighborhood::Swap),..Default::default()};
+/// let moves=mixed_moves_configured(&p,&a,c)?.collect::<Vec<_>>();
+/// assert!(!moves.is_empty());
+/// assert!(moves.iter().all(|m|m.basic.touched_variables().is_empty()));
+/// # Ok::<(),Box<dyn std::error::Error>>(())
+/// ```
+pub fn mixed_moves_configured<'a, B: Eq + Clone, L: Eq + Clone>(
+    p: &'a MixedProblem<B, L>,
+    a: &'a MixedAssignment<B, L>,
+    c: MixedNeighborhood<'a>,
+) -> Result<impl Iterator<Item = MixedMove<B, L>> + 'a, MixedNeighborhoodError> {
+    p.validate(a)?;
+    c.validate(p)?;
+    Ok(configured(p, a, c))
+}
+fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
+    p: &'a MixedProblem<B, L>,
+    a: &'a MixedAssignment<B, L>,
+    c: MixedNeighborhood<'a>,
+) -> impl Iterator<Item = MixedMove<B, L>> + 'a {
+    let basic = move || -> Box<dyn Iterator<Item = Move<B>> + 'a> {
+        let Some(n) = c.basic else {
+            return Box::new(std::iter::empty());
+        };
+        let order = c.basic_variables.map_or_else(
+            || (0..p.basic().variables().len()).collect(),
+            |s| s.to_vec(),
+        );
+        Box::new(
+            neighborhood::ordered(p.basic(), a.basic(), n, order.into_iter()).filter(move |m| {
+                c.basic_variables
+                    .is_none_or(|s| m.touched_variables().iter().all(|i| s.contains(i)))
+            }),
+        )
+    };
+    let lists = move || -> Box<dyn Iterator<Item = ListMove<L>> + 'a> {
+        match c.lists {
+            None => Box::new(std::iter::empty()),
+            Some(n) => crate::list_neighborhood::ordered(
+                p.lists(),
+                a.lists(),
+                n,
+                0..p.lists().entities().len(),
+            ),
+        }
+    };
+    let singles = basic()
+        .map(|basic| MixedMove {
+            basic,
+            lists: ListMove::Composite(vec![]),
+        })
+        .chain(lists().map(|lists| MixedMove {
+            basic: Move::Composite(vec![]),
+            lists,
+        }));
+    let joint = c
+        .joint_moves
+        .then(move || {
+            basic().flat_map(move |basic| {
+                lists().map(move |lists| MixedMove {
+                    basic: basic.clone(),
+                    lists,
+                })
+            })
+        })
+        .into_iter()
+        .flatten();
+    singles.chain(joint)
+}
+/// A weighted union of independently configured mixed families. Each child may
+/// disable either component or select a different set of basic variables. Zero
+/// weights disable validation/enumeration; duplicate children remain distinct.
+/// The step index derives both union and sampled-neighborhood seeds, as in native
+/// local search. This can be returned lazily from a MoveProvider implementation.
+pub fn mixed_moves_configured_union<'a, B: Eq + Clone, L: Eq + Clone>(
+    p: &'a MixedProblem<B, L>,
+    a: &'a MixedAssignment<B, L>,
+    children: &'a [(MixedNeighborhood<'a>, u32)],
+    order: crate::UnionOrder,
+    step: u64,
+) -> Result<impl Iterator<Item = MixedMove<B, L>> + 'a, MixedNeighborhoodError> {
+    p.validate(a)?;
+    for &(c, w) in children {
+        if w > 0 {
+            c.validate(p)?;
+        }
+    }
+    let order = match order {
+        crate::UnionOrder::Random { seed } => crate::UnionOrder::Random {
+            seed: seed.wrapping_add(step),
+        },
+        order => order,
+    };
+    Ok(crate::MoveUnion::new(
+        children
+            .iter()
+            .filter(|(_, w)| *w > 0)
+            .map(move |&(c, w)| (configured(p, a, c.at_step(step)), w)),
+        order,
+    ))
+}
+
 fn basics<'a, B: Eq + Clone, L: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     problem: &'a MixedProblem<B, L>,
     assignment: &'a MixedAssignment<B, L>,
