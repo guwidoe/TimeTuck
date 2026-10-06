@@ -32159,6 +32159,156 @@
       "upstream_test": "elementsUnassignedInTheSamePassAreAllUpdated",
       "local_test": "elements_unassigned_in_same_pass_are_all_updated",
       "modifications": "Explicit typed previous-chain binding replaces reflective graph-class selection. Native canonical metadata binds list state and count target; actual list snapshots replace mocked index/inverse/next answers. Preserve initial and final counts, unassigned nulls, parent notification order and duplicate-supplier guard per value. Deferred notifications use the latest snapshot and existing dependency evaluator. Results are keyed native shadow values rather than Java field setters; arbitrary graph-shape inference is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.initializeRoundTrip",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "initializeRoundTrip",
+      "local_test": "initialize_round_trip",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.assignRoundTrip",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "assignRoundTrip",
+      "local_test": "assign_round_trip",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.changeElementDoesNotRenotifyUnchangedElementWhenAllFourVariablesAreExternalized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "changeElementDoesNotRenotifyUnchangedElementWhenAllFourVariablesAreExternalized",
+      "local_test": "full_shadows_do_not_renotify_unchanged_elements",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.addElementDoesNotNotifyAlreadyConsistentElementWhenAllFourVariablesAreExternalized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "addElementDoesNotNotifyAlreadyConsistentElementWhenAllFourVariablesAreExternalized",
+      "local_test": "full_shadows_do_not_notify_consistent_initial_values",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.changeElementStillNotifiesUnchangedElementWhenNotAllVariablesAreExternalized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "changeElementStillNotifiesUnchangedElementWhenNotAllVariablesAreExternalized",
+      "local_test": "partial_shadows_notify_unchanged_rescanned_element",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.isPinnedFollowsThePinIndexBoundary",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "isPinnedFollowsThePinIndexBoundary",
+      "local_test": "pin_index_boundary",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.isPinnedIsTrueForEveryElementOfAFullyPinnedEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "isPinnedIsTrueForEveryElementOfAFullyPinnedEntity",
+      "local_test": "whole_entity_is_pinned",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.isPinnedIsFalseForAnUnassignedElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "isPinnedIsFalseForAnUnassignedElement",
+      "local_test": "unassigned_element_is_unpinned",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.isPinnedIsFalseWhenTheDescriptorDoesNotSupportPinning",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "isPinnedIsFalseWhenTheDescriptorDoesNotSupportPinning",
+      "local_test": "unsupported_pinning_needs_no_working_solution",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.isPinnedFollowsAnElementAsItMoves",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "isPinnedFollowsAnElementAsItMoves",
+      "local_test": "pinned_status_follows_current_position",
+      "modifications": "Preserve literal identities, list contents, assignment/position/pin assertions and notifier presence or absence. Typed schema and shared registry snapshots replace Java descriptor discovery, working-solution access and score-director mocks. Typed built-in projections/events replace mutable Java shadow fields; Option and usize represent absent positions and nonnegative indices. Exact returned notification lists replace Mockito verification. Unassign explicitly updates native registry rows; pin queries observe raw state changes without authorizing a pinned solver move."
     }
   ],
   "fixtures": [
@@ -42184,6 +42334,149 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/counting/TestdataCountingValue.java",
       "upstream_test": "TestdataCountingValue",
       "modifications": "Adapt counting fixture metadata and behavior: typed Solution/Owner/Value identities; required values list; previous/entity/count shadow declarations; literal entity/value codes. The supplier rejects a second invocation per pass, returns None for unassigned values, zero for a list head, and predecessor count plus one otherwise. BTreeSet records invocation identity, reset between passes. Registry snapshots replace mutable Java parent fields and reflection; unused score/solution storage is omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataListSolution.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataListEntity.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataListValue.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListSolution.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListSolution",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEntity.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListEntity",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListValue.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListValue",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataPinnedWithIndexListSolution.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "upstream_test": "TestdataPinnedWithIndexListSolution",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataPinnedWithIndexListEntity.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "TestdataPinnedWithIndexListEntity",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "TestdataPinnedWithIndexListValue.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "upstream_test": "TestdataPinnedWithIndexListValue",
+      "modifications": "Adapt tested metadata and literal identity rows into typed Solution/Owner/Value markers. Preserve required/optional valueList, basic owner/index shadows, optional owner/index/previous/next shadows, and pinned inverse-only metadata with full/prefix pin policies. Native usize represents Java nonnegative index. Unused fixture generators, scoring fields, reflection and guarded Java list getters are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.externalizeDeclaredShadowVariables.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "externalizeDeclaredShadowVariables",
+      "modifications": "Use explicit typed metadata and bind_declared/setup helpers to bind only declared built-in shadow roles and load current list rows/value universe. Replace reflective descriptor switches and mocked working solution with native shared registry state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_state_supply_cases.rs",
+      "id": "DefaultListVariableStateTest.resetOn.list_state_supply",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/DefaultListVariableStateTest.java",
+      "upstream_test": "resetOn",
+      "modifications": "Use explicit typed metadata and bind_declared/setup helpers to bind only declared built-in shadow roles and load current list rows/value universe. Replace reflective descriptor switches and mocked working solution with native shared registry state."
     }
   ]
 }

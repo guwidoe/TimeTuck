@@ -12611,3 +12611,53 @@ Existing provenance prefixes unchanged; appended2cases and3fixtures.
 Log work/list-shadow-session-final-check.log; evidence work/list-shadow-session-evidence.json.
 DefaultListVariableStateTest has10@Test methods; prior11method count included a helper.
 All handles terminal. No benchmarks/browser/release reruns. Goal active.
+
+
+## List state supplies (current increment)
+
+Recovered interrupted focused run: both targets completed successfully, 13 tests.
+No rerun for the environment change. Added ListStateSupply live assignment/pin
+queries and typed owner/index/previous/next publication, metadata validation,
+seeded projections, suffix refresh and registry unassignment. Partial bindings
+retain fallback notifications; full bindings use only changed property events.
+Original integration applies events to caller-owned fields, notifies deferred
+cascade suppliers, synchronizes real native moves and restores materialized fields
+and cached shadows after undo. Three original and ten source methods.
+
+Read full DefaultListVariableStateTest and relevant basic/optional/pinned fixture
+bodies; added ten case and eleven fixture/helper records with existing prefixes
+unchanged. No upstream production implementation read. Constructor captures current
+positions so unassignment before first refresh clears seeded fields. Model bindings
+validate stable owner/slot identity. Pin observations do not authorize invalid moves.
+Final source/provenance frozen for the required selective gate. No benchmark claim.
+
+The app moved command execution into native WSL. Initial sandbox runner failed
+to launch; after permissions changed, normal exec worked. The current app PATH,
+RUST_LOG and LC_ALL changed verification environment keys, causing unrelated
+reruns. Verified that an unchanged target's old cache key exactly matches the
+previous dashboard process environment after its normal bash login setup. Stopped
+only gate32719's live process tree (terminal143), preserving its interrupted log.
+Restarted gate45622 in that original environment without changing records/hashes.
+For subsequent checks use the same environment to avoid another broad invalidation:
+`env -u RUST_LOG -u LC_ALL PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib bash -lc 'bash scripts/check.sh'`.
+The login profile adds native tool locations. Logs preserve actual reused timestamps.
+
+Next area fully read: BasicVariableStateTest (externalizedMode, mapMode,
+cannotExternalizeTwice) and basic/inverse relation Solution/Entity/Value fixtures.
+Map initialization notifies once per membership, preserving multiplicity (val1
+twice, val3 twice); changing c from val3 to val2 notifies old/new values once each.
+Externalized inverse collections preserve members and reject duplicate binding.
+Native shared BasicVariableState already supplies live inverse views; publication
+events, initialized caller-owned collections and fallback notifications are next.
+No source credits or implementation for those three cases yet.
+
+Required gate45622 exited0. 3713 Rust tests and 174 doctests passed.
+Rust jobs: {'RUN': 44, 'REUSE': 413}; Python jobs: {'REUSE': 46}.
+The44reruns include targets whose records the interrupted changed-environment run
+had replaced; 413 remaining targets reused their existing verified results.
+Dashboard: {'total': 4855, 'passed': 2152, 'failed': 0, 'pending': 2421, 'excluded': 282, 'unverified': 0, 'percent': 44.325}.
+Source before/after matched: a446117092c52d19a8565bdf066cef2d9c3247230a57708464dca3edfdb66681
+Live freshness matched verification digest: 0e901ed5970243048590aa1e55cc180745c3135551785141e2541cf975f423cd.
+Existing provenance prefixes unchanged; appended10cases and11fixtures/helpers.
+Log work/list-state-supply-final-check.log; evidence work/list-state-supply-evidence.json.
+No benchmark/browser/release reruns. All handles terminal; goal remains active.

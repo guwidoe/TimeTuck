@@ -769,3 +769,9 @@ mod list_shadow_session;
 pub use list_shadow_session::{
     ListShadowCheckpoint, ListShadowContext, ListShadowError, ListShadowSession,
 };
+
+mod list_state_supply;
+pub use list_state_supply::{
+    ListBuiltinChange, ListBuiltinValue, ListBuiltinValues, ListPinPolicy, ListShadowProperty,
+    ListStateSupply, ListStateUpdate, ListSupplyError,
+};

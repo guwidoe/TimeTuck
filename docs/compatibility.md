@@ -2911,3 +2911,25 @@ counting fixtures are adapted. Original tests compare real native list moves
 against fresh cascade calculations, restore caches without supplier work, cover
 latest-snapshot notification batching, equal-result stopping, unassignment,
 non-Clone results, supplier panic recovery and invalid metadata/restore errors.
+
+
+## List state supplies and materialized shadows
+
+ListStateSupply wraps shared list state with a fixed value universe, live assignment/
+position/pin queries, and explicit refresh of materialized built-in shadows. Native
+model bindings import full and prefix pins by stable owner identity. Pin queries
+observe current positions; actual moves still require ListProblem validation.
+
+Any subset of owner/index/previous/next fields can be bound to typed canonical
+shadow metadata. Refresh emits changed before/after values; callers can apply them
+to owned storage and notify ListShadowSession. Fully bound supplies suppress fallback
+notifications. Partial bindings notify rescanned assigned values even when unchanged.
+Range refresh covers shifted suffixes and affected predecessors; removed values clear
+their fields. Imported consistent shadows avoid redundant events. Unassignment
+updates registry observation rows, rejects repeat removals, and clears seeded shadows.
+
+All ten DefaultListVariableStateTest methods and their fixtures/helpers are adapted.
+Three original tests exercise native move/undo, actual materialized field updates,
+deferred supplier integration, pin enforcement and invalid-input atomicity. Registry
+updates and publication remain explicit; automatic setters and solver-wide wiring
+are separate work. Refresh currently rebuilds maps and carries no performance claim.
