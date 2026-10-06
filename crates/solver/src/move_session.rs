@@ -48,6 +48,11 @@ impl<'d, D> MoveSession<'d, D> {
             restore: Some(Box::new(restore)),
         }
     }
+    /// Read the current director, including stream matches and derived values.
+    /// Mutation remains mediated by this session so its rollback boundary is intact.
+    pub fn director(&self) -> &D {
+        self.director
+    }
     /// Run a temporary program inside this session; its changes remain subject to outer rollback.
     pub fn temporary(&mut self) -> crate::TemporaryMoves<'_, D> {
         crate::TemporaryMoves::new(self.director)

@@ -29430,6 +29430,36 @@
       "upstream_test": "undoCascadingUpdateShadowVariable",
       "local_test": "undo_cascading_update_shadow_variable",
       "modifications": "Preserve the empty list, two values numbered 0 and 1, absent initial cascade fields, assignment of value 0 at index 0, nonnull cascade during the move and reset to null after undo. Native list_cascade_stream computes the fixture value+1 formula and counts nonnull derived values inside the actual transactional scoring graph. A scored guard replaces the ephemeral Java director. Additional assertions verify exact shadow value, unchanged unassigned value and restored graph score; no annotation parsing or callback-count compatibility claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "MoveDirectorTest.twoChangesInARow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "twoChangesInARow",
+      "local_test": "two_changes_in_a_row",
+      "modifications": "Preserve one mixed entity with two initially null basic fields, two values, empty list range, sequential changes to distinct values and whole-session undo. A native inverse stream selects only the first basic field; actual membership includes entityA under valueA1 and excludes it under valueA2 while edits are live, then both collections become empty on undo. Dummy entity penalty uses both basic fields initialized; zero-impact terminals expose inverse rows for assertions. Stable strings/variable slots replace Java object identity and descriptors; explicit mapping replaces the inverse annotation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "MoveDirectorTest.twoUnassignsInARow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "twoUnassignsInARow",
+      "local_test": "two_unassigns_in_a_row",
+      "modifications": "Preserve one list initially valueA1,valueA2,valueA3, two sequential identity-based removals of valueA2 and valueA3, final list valueA1 and original order after closing the edit scope. Resolve each removal from the current assignment so the second index reflects the first removal. Run scoped and stream directors with the original constant entity penalty; stream assertions additionally check actual owner/index snapshots during edits and after undo. Native MoveSession replaces the ephemeral Java director."
     }
   ],
   "fixtures": [
@@ -37752,6 +37782,110 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingEasyScoreCalculator.java",
       "upstream_test": "TestdataSingleCascadingEasyScoreCalculator",
       "modifications": "Native registry values 0 and 1 and one entity with an empty value list preserve the source fixture. Explicit cascade callback returns value+1 for assigned values; unassigned shadows are None. A stream terminal counts nonnull shadows, matching the easy score calculator. Model/source bindings replace reflective descriptors and Java shadow fields. No annotation-overload discovery or exact callback-count claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataMixedEntity.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "TestdataMixedEntity",
+      "modifications": "Native mixed model has one entity, two basic variable slots and an empty list-value registry. Stable value strings and entity identity preserve references. The inverse mapping uses basicValue (slot 0) only, not secondBasicValue (slot 1). Native graph state replaces mutable inverse fields; unused difficulty, comparators and declarative fields are not imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataMixedOtherValue.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValue.java",
+      "upstream_test": "TestdataMixedOtherValue",
+      "modifications": "Native mixed model has one entity, two basic variable slots and an empty list-value registry. Stable value strings and entity identity preserve references. The inverse mapping uses basicValue (slot 0) only, not secondBasicValue (slot 1). Native graph state replaces mutable inverse fields; unused difficulty, comparators and declarative fields are not imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataMixedSolution.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "TestdataMixedSolution",
+      "modifications": "Native mixed model has one entity, two basic variable slots and an empty list-value registry. Stable value strings and entity identity preserve references. The inverse mapping uses basicValue (slot 0) only, not secondBasicValue (slot 1). Native graph state replaces mutable inverse fields; unused difficulty, comparators and declarative fields are not imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataMixedValue.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedValue.java",
+      "upstream_test": "TestdataMixedValue",
+      "modifications": "Native mixed model has one entity, two basic variable slots and an empty list-value registry. Stable value strings and entity identity preserve references. The inverse mapping uses basicValue (slot 0) only, not secondBasicValue (slot 1). Native graph state replaces mutable inverse fields; unused difficulty, comparators and declarative fields are not imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataListEntity.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Native one-entity list and three stable string identities preserve source order and live removal semantics. ListValueRow carries owner and index projections. Native model/director validation replaces reflective descriptors and SolutionManager shadow initialization."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataListValue.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Native one-entity list and three stable string identities preserve source order and live removal semantics. ListValueRow carries owner and index projections. Native model/director validation replaces reflective descriptors and SolutionManager shadow initialization."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataListSolution.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Native one-entity list and three stable string identities preserve source order and live removal semantics. ListValueRow carries owner and index projections. Native model/director validation replaces reflective descriptors and SolutionManager shadow initialization."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/inverse_move_cases.rs",
+      "id": "TestdataObject.inverse_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Immutable strings preserve fixture code identities in equality and inverse membership; explicit native model/graph IDs replace PlanningId reflection."
     }
   ]
 }

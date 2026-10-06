@@ -12167,3 +12167,48 @@ entity with an empty value list. Report-only refresh reused the verified Rust
 evidence; summary stayed1962passed,0unverified. Current live/report digest:
 8a3f2d0cb0aea5d0f177a9d6ed96ea114f5b3bde7966b9d8ff8f354fe3a94991.
 The preceding digest records the gate state before that wording correction.
+
+
+## Inverse relationship streams and live inspection (current increment)
+
+Previous goal turn made progress (511fd6c/219b8a9). New basic_inverse_stream adapts
+selected basic-variable indices to stable entity identities and groups inverse
+membership with the existing counted SetCollector. A value-universe reference join
+retains empty collections and stable universe IDs; equal payloads share membership.
+Basic and mixed source bindings work, with ordinary scoring/session rollback.
+MoveSession::director adds read-only access to graph rows during a live scope.
+
+Read full MoveDirectorTest.twoChangesInARow and twoUnassignsInARow, four mixed
+singleentity fixtures, three list fixtures and TestdataObject. Two source adapters
+retain the first-field-only inverse relationship, both-null restoration, sequential
+list removals at updated indices, restored list order, and actual inverse/owner/index
+rows. Attribution explicitly replaces reflection and Java object IDs with native
+mappings/strings. Four original tests cover81partial basic assignments, counted
+membership, universe replacement/duplicate payloads, ignored field callback reuse,
+scoring panics, nested commit/undo and local search matching a reference scorer.
+Focused work/basic-inverse-stream-focused.log passed5tests, then added unassign
+source adapter passed work/basic-inverse-unassign-focused.log. No focused failures.
+All new files reviewed. Broad prebuild29441 exited0; shared MoveSession changed.
+Required gate48598 started on frozen Rust/provenance.
+
+Next broader area: working-object lookup is absent. Read full TEST sources only:
+core/.../impl/domain/common/{LookupManagerTest,LookupStrategyIdOrFailTest,
+LookupStrategyIdOrNoneTest,AbstractLookupTest}. Same-ID lookup must return the actual
+stored working object, not an equal clone. Duplicates fail; remove requires a known
+working object; missing lookups fail; reset discards/repopulates. Null object lookup
+returns null. A declared-null ID differs from absent ID metadata. ID_OR_NONE permits
+no-ID add/remove as no-ops but still rejects lookup; it does NOT mean identity lookup.
+ID_OR_FAIL rejects absent-ID operations. Annotation multiplicity, inheritance and
+interface discovery are explicit source expectations: do not credit them with an
+unrelated typed-key lookup. Test fixtures remain to read. No production lookup code
+was read and no lookup case credited yet. Consider native typed schemas/Arc identity
+for a larger next increment; keep Java reflective discovery limits explicit.
+
+Required gate48598 exited0. 3495Rust tests and166doctests passed.
+Rust jobs:{'RUN': 382, 'REUSE': 56}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 1964, 'failed': 0, 'pending': 2609, 'excluded': 282, 'unverified': 0, 'percent': 40.453}.
+Source before/after matched:6ef33037e54b3b418d098118bd473ee62e5724534fe21620aaf659c58bde6f86
+Live freshness matched verification digest:add90183bc59795260fea2c4659a474e135d4c0ad8eeac1d5a1f7ce2eee27c18.
+Logs work/basic-inverse-stream-{build-all,final-check}.log; evidence
+work/basic-inverse-stream-evidence.json. All process handles terminal.
+No benchmark/browser/release reruns. Full rewrite goal remains active.

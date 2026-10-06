@@ -723,3 +723,6 @@ pub use move_inspection::{MoveInspection, inspect_list_move, inspect_mixed_move}
 
 mod list_cascade_stream;
 pub use list_cascade_stream::{ListCascadeStep, ListCascadeStream, list_cascade_stream};
+
+mod basic_inverse_stream;
+pub use basic_inverse_stream::{BasicInverseStream, basic_inverse_stream};

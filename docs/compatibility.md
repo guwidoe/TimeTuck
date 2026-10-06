@@ -2668,3 +2668,26 @@ Original tests compare 162 partial-list/order trials to an independent schedule
 calculation, exercise list/mixed rollback and nested sessions, and compare actual
 local-search selections with an independently scored network at three work limits.
 No callback-count equivalence or new runtime performance claim is made.
+
+
+## Inverse relationships in basic and mixed streams
+
+basic_inverse_stream selects basic-variable slots through an explicit entity-ID
+mapping and emits each value-universe row with its referencing entities. Nonselected
+fields and unassigned variables contribute no membership. Inverse collections are
+ordered sets with counted removal: removing one of several references from the same
+entity retains membership until the last reference disappears. Empty values remain
+visible, and equal payloads at different universe IDs share the same membership.
+
+The adapter composes existing transactional expansion, collectors and reference
+nodes. Inverse collections and downstream scores participate in ordinary move undo,
+saved search candidates and nested sessions. MoveSession::director provides read-only
+access to live derived rows. Metadata mappings and identity ordering must remain
+stable. This is explicit native metadata, not reflective Java field discovery.
+
+Two MoveDirectorTest cases preserve sequential changes to distinct basic fields with
+an inverse relationship on the first field only, and two consecutive list removals
+whose current indices shift. Actual inverse/owner/index rows are checked before
+scope exit and after rollback. Original tests cover all81partial basic assignments,
+counted duplicate removal, empty/replaced universe rows, excluded-field callback
+reuse, scoring panics, nested edits and reference-model local-search results.
