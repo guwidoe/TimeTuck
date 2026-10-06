@@ -717,3 +717,6 @@ pub use temporary_moves::{
 
 mod move_session;
 pub use move_session::MoveSession;
+
+mod move_inspection;
+pub use move_inspection::{MoveInspection, inspect_list_move, inspect_mixed_move};

@@ -2601,8 +2601,8 @@ restored scores, forward/undo replay and failure-leaves-applied behavior. The la
 uses an actual panic with explicit KeepApplied, preserving the source assertion.
 Fresh-score mode checks a genuine recalculation; external mutable scoring facts are
 reported as inconsistent rather than silently overwriting a previously cached score.
-The separate move-construction failure and structurally flawed solution processor
-cases remain pending. No Java reflective discovery or recorded-action-list claim.
+The later sections cover construction failure and structurally flawed processing.
+No Java reflective discovery or recorded-action-list claim.
 
 
 ## Live multi-move edit sessions
@@ -2619,5 +2619,27 @@ TemporaryMoves::construct accepts a live construction callback followed by score
 postprocessing. Either callback's error/panic uses the selected rollback/keep-prefix
 policy; construction failure skips postprocessing. A retained prefix remains scored
 and consistent. One additional MoveDirectorTest source method verifies actual
-write-then-panic retention in both basic backends. The structurally flawed candidate
-processor remains pending. No nested Java phase factory/action-log claim is made.
+write-then-panic retention in both basic backends. No nested Java phase
+factory/action-log claim is made.
+
+
+## Structurally flawed candidate inspection
+
+List and mixed directors expose inspect_move; standalone inspect_list_move and
+inspect_mixed_move return the actual proposed assignment and assigned registry IDs
+in dependency cycles or downstream of them. Only dependency consistency is deferred.
+Pins, domains, duplicate identities, coordinates and the initial assignment remain
+validated. Mixed snapshots include simultaneous basic-variable changes.
+
+TemporaryMoves::process_inspected routes sound candidates through ordinary temporary
+scoring and flawed candidates to a separate snapshot callback. A flawed candidate is
+never installed or scored, including when KeepApplied is selected. Its callback
+errors/panics leave working assignments and caches intact. CheckFresh recalculates
+or replays the original score after either successful branch. Snapshot storage and
+model cloning scale with input size; this is an explicit inspection API.
+
+One additional MoveDirectorTest source case preserves the cyclic swap, callback
+result, original order and previous score in both list backends. Original regressions
+cover all four list/mixed backends, downstream diagnostics, callback errors/panics,
+fresh recalculation, valid candidate scoring and strict nonstructural validation.
+No Java mutable-solution callback or scoring of inconsistent shadows is claimed.

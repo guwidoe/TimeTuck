@@ -38,6 +38,7 @@ pub struct TemporaryMoveOptions {
 pub enum TemporaryMoveError<D, E> {
     Apply(D),
     Construction(E),
+    FlawedProcessor(E),
     Postprocessor(E),
     RestoredScore(D),
 }
@@ -46,6 +47,7 @@ impl<D: fmt::Display, E: fmt::Display> fmt::Display for TemporaryMoveError<D, E>
         match self {
             Self::Apply(e) => write!(f, "temporary move failed: {e}"),
             Self::Construction(e) => write!(f, "move construction failed: {e}"),
+            Self::FlawedProcessor(e) => write!(f, "flawed candidate processor failed: {e}"),
             Self::Postprocessor(e) => write!(f, "temporary postprocessor failed: {e}"),
             Self::RestoredScore(e) => write!(f, "restored score check failed: {e}"),
         }
@@ -55,7 +57,7 @@ impl<D: Error + 'static, E: Error + 'static> Error for TemporaryMoveError<D, E> 
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(match self {
             Self::Apply(e) | Self::RestoredScore(e) => e,
-            Self::Construction(e) | Self::Postprocessor(e) => e,
+            Self::Construction(e) | Self::Postprocessor(e) | Self::FlawedProcessor(e) => e,
         })
     }
 }
@@ -331,3 +333,37 @@ processor!(
     (B, L), MixedStreamScoreDirector<'p, 'c, B, L, S>, MixedAssignment<B, L>, MixedMove<B, L>, MixedStreamScoringError,
     inverse_mixed, [B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'static]
 );
+
+macro_rules! inspected_processor {
+    (($($v:ident),+), $director:ty, $assignment:ty, $movement:ty, $error:ty, [$($bounds:tt)*]) => {
+        impl<'d, 'p, 'c, $($v,)+ S> TemporaryMoves<'d, $director>
+        where $($bounds)*
+        {
+            /// Route an actual structural preview to a separate callback. Sound
+            /// candidates use normal temporary scoring and failure policies. Flawed
+            /// candidates are never installed or scored, including with KeepApplied;
+            /// their callback sees the proposed assignment and affected registry IDs.
+            /// Errors/panics in that callback leave working state and caches intact.
+            /// CheckFresh checks the original cache after either successful branch.
+            pub fn process_inspected<R,E>(
+                &mut self,
+                movement: &$movement,
+                options: TemporaryMoveOptions,
+                valid: impl FnOnce(&$assignment,S)->Result<R,E>,
+                flawed: impl FnOnce(&crate::MoveInspection<$assignment>)->Result<R,E>,
+            )->Result<R,TemporaryMoveError<$error,E>> {
+                let preview=self.director.inspect_move(movement).map_err(TemporaryMoveError::Apply)?;
+                if !preview.is_flawed() {return self.process(movement,options,valid);}
+                let result=flawed(&preview).map_err(TemporaryMoveError::FlawedProcessor)?;
+                if options.restored_score==RestoredScorePolicy::CheckFresh {
+                    self.director.assert_consistent().map_err(TemporaryMoveError::RestoredScore)?;
+                }
+                Ok(result)
+            }
+        }
+    }
+}
+inspected_processor!((V),ListScoreDirector<'p,'c,V,S>,ListAssignment<V>,ListMove<V>,ListScoringError,[V:Eq+Clone,S:AdditiveScore]);
+inspected_processor!((V),ListStreamScoreDirector<'p,'c,V,S>,ListAssignment<V>,ListMove<V>,ListStreamScoringError,[V:Eq+Clone+'static,S:AdditiveScore+'static]);
+inspected_processor!((B,L),MixedScoreDirector<'p,'c,B,L,S>,MixedAssignment<B,L>,MixedMove<B,L>,MixedScoringError,[B:Eq+Clone,L:Eq+Clone,S:AdditiveScore]);
+inspected_processor!((B,L),MixedStreamScoreDirector<'p,'c,B,L,S>,MixedAssignment<B,L>,MixedMove<B,L>,MixedStreamScoringError,[B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static]);

@@ -146,6 +146,17 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             initial_constraint_evaluations,
         })
     }
+    /// Inspect a layout-valid candidate without changing this director or scoring it.
+    pub fn inspect_move(
+        &self,
+        movement: &MixedMove<B, L>,
+    ) -> Result<crate::MoveInspection<MixedAssignment<B, L>>, MixedStreamScoringError> {
+        Ok(crate::inspect_mixed_move(
+            self.problem,
+            &self.assignment,
+            movement,
+        )?)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(

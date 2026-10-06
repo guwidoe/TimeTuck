@@ -12087,3 +12087,42 @@ Log work/move-sessions-final-check.log; evidence work/move-sessions-evidence.jso
 All process handles terminal. No benchmarks/UI/release reruns. Full goal active.
 Next missing source behavior remains explicit structurally flawed candidate
 processing; do not credit a generic model error as that processor's behavior.
+
+
+## Structurally flawed candidate inspection (current increment)
+
+Previous goal turn revalidated active goal only (no implementation progress).
+This increment finishes the inherited uncommitted inspection implementation.
+MoveInspection owns the proposed assignment and assigned cycle/downstream registry
+IDs. List/mixed standalone helpers and four director inspect_move methods validate
+starting state, domains, identity/layout and pins while deferring dependency checks.
+Mixed previews include basic writes. TemporaryMoves::process_inspected routes valid
+moves through ordinary scoring/rollback, and flawed snapshots to a distinct callback.
+Flawed candidates never enter working state/scoring, even with KeepApplied; errors
+and panics preserve baseline caches. CheckFresh checks original cache after success.
+
+Focused work/move-inspection-focused.log passed one attributed source method and
+three original tests across all four affected directors. Source MoveDirectorTest
+restoreWorkingScoreWhenHandlingStructurallyFlawedSolutions read in full, plus prior
+full reads of four no_inconsistent_field fixtures. Attribution records exact pinned
+source and snapshot/native-shadow adaptations. No production implementation read.
+New source and both new test files reviewed before broad prebuild.
+
+Next-source reconnaissance (read-only while compiling): read MoveDirectorTest
+2212-2429 fully: undoNestedPhaseMove asserts recorded before-range actions for an
+unexpected destination, testSolverScopeNestedPhase asserts a distinct nested scope,
+undoCascadingUpdateShadowVariable requires actual cascade reset on undo, twoUnassigns
+requires two live sequential edits, twoChanges requires inverse relation of the
+FIRST basic variable only. Do not credit nested/action-log cases merely from generic
+session rollback. Native ListCascadeCache already supports separate transactional
+shadow storage; automatic director/session integration remains worth investigating.
+No additional source methods were credited from this reconnaissance.
+
+Broad prebuild59921 and required gate69245 exited0. 3484Rust tests and164doctests passed.
+Rust jobs:{'RUN': 378, 'REUSE': 56}; Python jobs:{'REUSE': 46}.
+Dashboard:{'total': 4855, 'passed': 1961, 'failed': 0, 'pending': 2612, 'excluded': 282, 'unverified': 0, 'percent': 40.391}.
+Source before/after matched:b7b01ce2c9a6029dfdcfad6281f574572d237dbde975e5326397246575ecfe72
+Live freshness matched verification digest:1ac00702486599a78b800645f6286fefbf1622fab68a591bb32b2566a889e680.
+Logs work/move-inspection-{build-all,final-check}.log; evidence
+work/move-inspection-evidence.json. All process handles terminal.
+No benchmark/browser/release reruns. Full rewrite goal remains active.

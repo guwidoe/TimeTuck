@@ -532,6 +532,17 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }
         Ok(result)
     }
+    /// Inspect a layout-valid candidate without changing this director or scoring it.
+    pub fn inspect_move(
+        &self,
+        movement: &ListMove<V>,
+    ) -> Result<crate::MoveInspection<ListAssignment<V>>, ListScoringError> {
+        Ok(crate::inspect_list_move(
+            self.problem,
+            &self.assignment,
+            movement,
+        )?)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, ListScoringError> {
