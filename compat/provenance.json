@@ -28680,6 +28680,516 @@
       "upstream_test": "solveIgnoreInconsistent",
       "local_test": "solve_ignore_inconsistent",
       "modifications": "Native explicit ListProblem dependency declarations replace annotated shadow discovery; immutable registry indices0..3 identify a1,a2,b1,b2. Owner/previous views derive from lists; native minute offsets and a dependency projection reproduce start/end times with60minute durations and owner start0. Only original soft finish-time objective; no extra hard inconsistency penalty. Run both scoped and transactional stream scoring. No Java reflection, listener lifecycle or identical search trace claim. Preserve empty owners, both dependency pairs, exact HardSoft(0,-360) and both start-after-dependency-end assertions, plus nonempty actual best events. Native construction and10-step deterministic HillClimbing replace factory default search, with score diagnostics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueInList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueInList",
+      "local_test": "move_value_in_list",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueInListToEnd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueInListToEnd",
+      "local_test": "move_value_in_list_to_end",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueRight",
+      "local_test": "shift_value_right",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueRightByOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueRightByOne",
+      "local_test": "shift_value_right_by_one",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueLeft",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueLeft",
+      "local_test": "shift_value_left",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueLeftByOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueLeftByOne",
+      "local_test": "shift_value_left_by_one",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueToEnd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueToEnd",
+      "local_test": "shift_value_to_end",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.shiftValueZeroOffsetFails",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "shiftValueZeroOffsetFails",
+      "local_test": "shift_value_zero_offset_fails",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueBetweenLists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueBetweenLists",
+      "local_test": "move_value_between_lists",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueBetweenListsToEnd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueBetweenListsToEnd",
+      "local_test": "move_value_between_lists_to_end",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueToEmptyList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueToEmptyList",
+      "local_test": "move_value_to_empty_list",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueInListAdjacentSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueInListAdjacentSwap",
+      "local_test": "move_value_in_list_adjacent_swap",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValueInListRotate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValueInListRotate",
+      "local_test": "move_value_in_list_rotate",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesInListForward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesInListForward",
+      "local_test": "move_values_in_list_forward",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesInListBackwardReversing",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesInListBackwardReversing",
+      "local_test": "move_values_in_list_backward_reversing",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesInListThrowsOnEmptySpan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesInListThrowsOnEmptySpan",
+      "local_test": "move_values_in_list_throws_on_empty_span",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesInListThrowsOnDestinationIndexOutOfBounds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesInListThrowsOnDestinationIndexOutOfBounds",
+      "local_test": "move_values_in_list_throws_on_destination_index_out_of_bounds",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesBetweenLists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesBetweenLists",
+      "local_test": "move_values_between_lists",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesBetweenListsReversingToEnd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesBetweenListsReversingToEnd",
+      "local_test": "move_values_between_lists_reversing_to_end",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesBetweenListsThrowsOnDestinationIndexOutOfBounds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesBetweenListsThrowsOnDestinationIndexOutOfBounds",
+      "local_test": "move_values_between_lists_throws_on_destination_index_out_of_bounds",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.moveValuesBetweenListsThrowsOnEmptySpan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "moveValuesBetweenListsThrowsOnEmptySpan",
+      "local_test": "move_values_between_lists_throws_on_empty_span",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInList",
+      "local_test": "swap_values_in_list",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapAdjacentValuesInList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapAdjacentValuesInList",
+      "local_test": "swap_adjacent_values_in_list",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesBetweenLists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesBetweenLists",
+      "local_test": "swap_values_between_lists",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapFirstAndLastValuesBetweenLists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapFirstAndLastValuesBetweenLists",
+      "local_test": "swap_first_and_last_values_between_lists",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInListNonAdjacent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInListNonAdjacent",
+      "local_test": "swap_values_in_list_non_adjacent",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInListAdjacent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInListAdjacent",
+      "local_test": "swap_values_in_list_adjacent",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInListReversing",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInListReversing",
+      "local_test": "swap_values_in_list_reversing",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInListThrowsWhenSpansOutOfOrder",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInListThrowsWhenSpansOutOfOrder",
+      "local_test": "swap_values_in_list_throws_when_spans_out_of_order",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesInListThrowsOnEmptySpan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesInListThrowsOnEmptySpan",
+      "local_test": "swap_values_in_list_throws_on_empty_span",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesBetweenListsDifferingLengths",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesBetweenListsDifferingLengths",
+      "local_test": "swap_values_between_lists_differing_lengths",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "MoveDirectorTest.swapValuesBetweenListsThrowsOnEmptySpan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "swapValuesBetweenListsThrowsOnEmptySpan",
+      "local_test": "swap_values_between_lists_throws_on_empty_span",
+      "modifications": "Preserve the source fixture sizes/orders, edit coordinates, every forward/undo list assertion, returned moved identities/spans and each asserted before/after entity range. Native apply_observed/relocate_observed/shift_observed/relocate_span_observed callbacks emit actual snapshot notifications; exact event range arrays replace Mockito score-director call assertions. Scope rollback replaces ephemeral.close. Atomic brackets group all affected entities; no JVM reflection or per-entity callback ordering claim (source verifies occurrences, not order). Unique u8 registry identities replace Java objects. Error cases assert exact native InvalidRange/InsertionIndex/OverlappingRanges/InvalidShift payloads instead of Java exception classes/message strings, preserving invalid coordinates/offset and no-interaction/state assertions. Both17-element rotate directions and both swap/move subcases are retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "DefaultSolverTest.solveStaleBuiltinShadows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveStaleBuiltinShadows",
+      "local_test": "solve_stale_builtin_shadows",
+      "modifications": "Preserve2optional entities initialized v1,v1 and2values, negative squared inverse-count balance and-100perunassigned entity. Both engines rebuild inverse membership from genuine assignments; assert initial score-4 (stale empty inverse collections would give0), final v1/v2 unordered and score-2, with actual nonempty best events. Native derived membership replaces mutable Java inverse fields and startup listener discovery. Construction+10step deterministic HillClimbing replace factory search. Both scoped and transactional stream full solver plans run with score diagnostics. No Java reflection, listener lifecycle or trace equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "DefaultSolverTest.solveStaleDeclarativeShadows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveStaleDeclarativeShadows",
+      "local_test": "solve_stale_declarative_shadows",
+      "modifications": "Preserve2owners initial[a1,b1]/[b2,a2], concurrent groups[a1,a2]/[b1,b2], local-only feasible termination with60second guard, exact final[b1,a1]/[b2,a2] and HardSoft(0,-240), actual nonempty best events. Assert rebuilt initial HardSoft(-4,0) before feasibility checks. Reuse attributed concurrent Schedule: scoped projection and stream cached aligned dependency state replace stale declarative shadow fields. Original explicit hard inconsistency penalty retained; do not enable no-inconsistent-field auto cleanup. Deterministic HillClimbing replaces source random search without relaxing exact final list assertions. Both scoped and transactional stream full solver plans run with score diagnostics. No Java reflection, listener lifecycle or trace equivalence claim."
     }
   ],
   "fixtures": [
@@ -36625,6 +37135,175 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
       "upstream_test": "solve",
       "modifications": "Preserve actual best event assertions: empty for custom noop-only cleanup, nonempty for successful construction/search. Exception cases assert typed native diagnostics instead of Java exception classes/text."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "TestdataListSolution.observed_list_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Native ListProblem/ListEntity/unique integer registry identities preserve exact source owner/value cardinalities and list orders. Immutable owner/index views replace mutable shadow fields; explicit typed list coordinates replace reflective metamodel descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "TestdataListEntity.observed_list_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Native ListProblem/ListEntity/unique integer registry identities preserve exact source owner/value cardinalities and list orders. Immutable owner/index views replace mutable shadow fields; explicit typed list coordinates replace reflective metamodel descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/observed_list_move_cases.rs",
+      "id": "TestdataListValue.observed_list_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Native ListProblem/ListEntity/unique integer registry identities preserve exact source owner/value cardinalities and list orders. Immutable owner/index views replace mutable shadow fields; explicit typed list coordinates replace reflective metamodel descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataInverseRelationSolution.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationSolution.java",
+      "upstream_test": "TestdataInverseRelationSolution",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataInverseRelationEntity.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationEntity.java",
+      "upstream_test": "TestdataInverseRelationEntity",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataInverseRelationValue.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationValue.java",
+      "upstream_test": "TestdataInverseRelationValue",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataInverseRelationConstraintProvider.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/inverserelation/TestdataInverseRelationConstraintProvider.java",
+      "upstream_test": "TestdataInverseRelationConstraintProvider",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataConcurrentSolution.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "TestdataConcurrentSolution",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataConcurrentEntity.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
+      "upstream_test": "TestdataConcurrentEntity",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataConcurrentValue.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "TestdataConcurrentValue",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "TestdataConcurrentConstraintProvider.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
+      "upstream_test": "TestdataConcurrentConstraintProvider",
+      "modifications": "Preserve the source startup fixture and scoring/shadow semantics with explicit native typed models. Basic inverse membership derives from genuine assignments; concurrent ready/start/finish/inconsistency uses previously attributed examples/concurrent_support projections and caches. Native minute offsets replace LocalDateTime; native owner/index/previous/next views and scoped/stream scoring replace mutable Java shadow fields and reflective discovery. No stale Java object fields are imported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "PlannerTestUtils.buildSolverConfig.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig",
+      "modifications": "Explicit native construction+10step local search preserve helper phase order and limit for the builtin case; declarative source overrides phases with local-only feasible termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/stale_shadow_solver_cases.rs",
+      "id": "PlannerTestUtils.solve.stale_shadow_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Assert actual nonempty best events in both source cases and both scoring backends."
     }
   ]
 }

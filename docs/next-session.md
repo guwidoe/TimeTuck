@@ -11922,3 +11922,56 @@ mock listener-call assertions. Native ListMoveBuilder+scored transactions alread
 provide these operations. Other MoveDirector methods using mock before/after events
 must remain pending unless all assertions have a real native counterpart. Read whole
 methods/fixtures before adaptation; only181-225 was read in full this turn.
+
+
+## Observed list edits and stale-shadow startup (current batch)
+
+Previous goal turn completed1bd5968. Current increment adds list_observation.rs,
+exported through lib.rs, without changing existing solver paths. apply_observed
+validates an isolated candidate, emits actual before/after whole-state snapshots
+and minimal changed ranges, and returns an undo-on-drop guard. Commit skips undo;
+normal rollback emits reversed ranges. Observer panics at all4boundaries restore
+assignments; unrelated unwinding rolls back silently. No-op/invalid edits emit none.
+Convenience relocate/shift/span helpers return moved values in insertion order.
+This is explicit model-level observation, not automatic score-director hooks.
+
+32new MoveDirectorTest methods preserve list mutation/undo, returned identities,
+exact before/after ranges and invalid-coordinate/no-interaction assertions.15older
+assignment cases were discovered already credited and were not duplicated. Methods
+for cross-list-overload same-entity rejection remain pending (native operations are
+generalized).2DefaultSolverTest stale builtin/declarative cases preserve original
+scores, exact assignments, source helper10steps/60sectime guard and actual events.
+Native initial scores-4/HardSoft(-4,0) additionally prove fresh projection at startup.
+Source tests and fixtures only; no upstream production implementation was read.
+
+Focused3404 exited0:15initial source move cases+3original panic/lifecycle tests+2stale
+cases.98407 exited0:expanded32source move cases. Final source/provenance is staged.
+Direct selective gate72039 passed fmt/clippy and started tests, but compilation was
+serial across dependent targets: verification_inputs follows out-of-line impls for
+ListProblem, so this new impl correctly expands the affected target set. Intentionally
+terminated the known gate process tree (terminal exit1), then started parallel
+all-target prebuild11672 (work/observed-list-build-all.log), which exited0. Resumed
+selective gate38859 exited0: 3451Rust tests and160doctests passed.
+Rust jobs:{'REUSE': 97, 'RUN': 330};Python jobs:{'REUSE': 46}. Dashboard1946/4855(40.082%),
+2627pending,282excluded,0failed/unverified. Source before/after matched:
+1291dade9f10316753cf7cfa81addd81bef5750c7dc9a23d47bb4f5307e3979d
+Live freshness matched verification digest:
+2848c3ad20d10245b2c70b0201eab50f64aa45f0d2d263f5adeef92e2a0c5a5e.
+Final log work/observed-list-final-check-resumed.log; concise evidence at
+work/observed-list-evidence.json. All process handles terminal. No benchmark,
+release-mode or browser reruns. Goal remains active; full rewrite incomplete.
+
+Next source gaps inspected: full MoveDirectorTest ValueReplace, SubListUnassign and
+MassMove blocks1900-2208. Replacement requires value unassigned/assigned hooks around
+list-range brackets (including undo), plus displaced identity return. Unassignment
+asserts ordered per-value before hooks, one range bracket, ordered after hooks.
+Mass gathering asserts separate source removal brackets, destination assignment
+bracket and exactly one shadow update; two members of one source must batch into
+one bracket. Current whole-edit range callbacks do not satisfy these assertions;
+keep cases pending until a real native event/lifecycle counterpart exists. Existing
+ListMoveBuilder supplies mutation construction but not these callbacks. No new
+source credits or production implementation reads during this follow-up inspection.
+Read later MoveDirectorTest2440-2730: temporary-score postprocessing, score restore,
+replayable undo and flawed-solution processor cases. Native scored guards already
+restore assignment/cache, but source failure-leaves-applied semantics differ; do
+not credit those failure cases based on native rollback guarantees.

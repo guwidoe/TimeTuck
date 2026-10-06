@@ -2526,3 +2526,31 @@ classes/message strings. Minute offsets replace LocalDateTime; native dependency
 projections and built-in owner/previous views replace shadow listeners. Provenance
 records all four fixtures and both PlannerTestUtils helpers. No lifecycle or trace
 compatibility claim accompanies these behavioral adaptations.
+
+
+## Observed reversible list edits and startup shadows
+
+ListProblem::apply_observed validates a private candidate before exposing bracketed
+before/after notifications. Events contain the complete immutable assignment and
+minimal changed ranges per entity; insertion/removal excludes an unchanged suffix,
+whose indices listeners can shift by the range-size delta. Commit retains the edit;
+scope exit reports reverse ranges and restores the original assignment. Invalid and
+unchanged moves emit no events. Observer panics restore assignment state; unrelated
+unwinding rolls back silently. External observer side effects remain caller-owned.
+Typed observed relocation/shift/span helpers also return the moved identities.
+These explicit model-level notifications do not replace automatic scoring or imply
+Java score-director lifecycle compatibility; callers opt into the observed API.
+
+32MoveDirectorTest methods now retain full forward/undo lists, returned identities
+and every asserted notification range through real native callback events. Native
+atomic brackets replace Mockito per-entity hooks; typed coordinate/offset errors
+replace Java exception text. Same-entity rejection in the specifically cross-list
+Java overloads remains pending: native generalized operations accept both kinds.
+No repeated credit is added for the15assignment cases already implemented earlier.
+
+Two DefaultSolverTest startup cases also retain exact source objectives/results and
+actual best events in both engines. Inverse memberships rebuild from the initial
+basic assignment (score-4), reaching distinct values/score-2. Concurrent cached
+shadows rebuild to HardSoft(-4,0) before local-only feasible termination; the exact
+source final lists and HardSoft(0,-240) are preserved. Native derived state replaces
+mutable stale Java shadow fields; no JVM discovery/listener or random-trace claim.

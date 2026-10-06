@@ -78,10 +78,12 @@ pub use bendable_decimal::BendableDecimalScore;
 
 pub mod list;
 mod list_dependencies;
+mod list_observation;
 pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
     ListProblem, ListRange,
 };
+pub use list_observation::{ListChangeEvent, ListChangePhase, ObservedListMove};
 mod list_gather_neighborhood;
 mod list_mass_change;
 pub use list_gather_neighborhood::list_gather_moves;
