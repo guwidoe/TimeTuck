@@ -2039,3 +2039,32 @@ small draw path to prove a one-to-one mapping to permutations, cover u128 counts
 non-Clone/duplicate/optional payloads, callback failures and seeded reproducibility,
 and initialize with unique lazy candidates through both scoring backends. There
 is no new timing benchmark or full-source materialization in the sampler.
+
+
+## Independently configured basic move families
+
+`BasicNeighborhood` selects a neighborhood, optional variable indices and an
+optional pillar schema. The indices supply encounter order and restrict every
+move to selected slots. Schema overrides are valid only for Pillar/SubPillar;
+None keeps the model schema. Row pinning, aligned swaps, domains and optionality
+retain their existing behavior. Configuration validation rejects duplicate and
+out-of-range slots before enumeration. An empty selection produces no moves.
+
+`basic_moves_configured` returns a lazy iterator suitable for move providers.
+`basic_moves_configured_union` combines independently scoped/grouped children,
+retaining duplicate occurrences and configured union order. Zero-weight children
+skip configuration validation and enumeration; assignment validation always runs.
+The step parameter advances seeded union and sampled-family ordering. Candidate
+bounds do not preempt grouping, rejected-subset scans or user callbacks.
+
+`RepairNeighborhood::Basic` uses the same configuration in basic and mixed repair
+search. On a mixed model it emits basic-only moves; list state remains intact.
+List-only models reject it. Model-aware solver validation happens before scoring
+or graph construction. MixedNeighborhood now delegates its basic component to
+this shared implementation, retaining its public error shapes and defaults.
+
+Four original regressions compare 432 scoped change/swap enumerations with direct
+expected moves, preserve union multiplicity and repeatability, cross a grouping
+barrier in complete scoped/stream plans under budget prefixes, reject invalid
+configuration before callbacks, and compare Basic versus Mixed repair families
+in both mixed scoring backends. These add no separate upstream method credit.

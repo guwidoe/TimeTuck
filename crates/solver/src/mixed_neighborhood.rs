@@ -68,34 +68,36 @@ impl From<MixedError> for MixedNeighborhoodError {
         Self::Model(e)
     }
 }
+impl From<crate::BasicNeighborhoodError> for MixedNeighborhoodError {
+    fn from(e: crate::BasicNeighborhoodError) -> Self {
+        match e {
+            crate::BasicNeighborhoodError::Model(e) => Self::Model(MixedError::Basic(e)),
+            crate::BasicNeighborhoodError::Pillar(e) => Self::Pillar(e),
+            crate::BasicNeighborhoodError::SchemaRequiresPillarNeighborhood => {
+                Self::SchemaRequiresPillarNeighborhood
+            }
+            crate::BasicNeighborhoodError::UnknownVariable { variable, count } => {
+                Self::UnknownBasicVariable { variable, count }
+            }
+            crate::BasicNeighborhoodError::DuplicateVariable { variable } => {
+                Self::DuplicateBasicVariable { variable }
+            }
+        }
+    }
+}
 impl MixedNeighborhood<'_> {
     pub(crate) fn validate<B: Eq + Clone, L: Eq + Clone>(
         self,
         p: &MixedProblem<B, L>,
     ) -> Result<(), MixedNeighborhoodError> {
         if let Some(n) = self.basic {
-            n.validate_basic(p.basic()).map_err(MixedError::Basic)?;
-            if let Some(schema) = self.pillar_schema {
-                if !matches!(n, Neighborhood::Pillar { .. } | Neighborhood::SubPillar(_)) {
-                    return Err(MixedNeighborhoodError::SchemaRequiresPillarNeighborhood);
-                }
-                schema
-                    .validate(p.basic().variables().len())
-                    .map_err(MixedNeighborhoodError::Pillar)?;
+            crate::BasicNeighborhood {
+                neighborhood: n,
+                variables: self.basic_variables,
+                pillar_schema: self.pillar_schema,
             }
-            if let Some(selected) = self.basic_variables {
-                for (i, &variable) in selected.iter().enumerate() {
-                    if variable >= p.basic().variables().len() {
-                        return Err(MixedNeighborhoodError::UnknownBasicVariable {
-                            variable,
-                            count: p.basic().variables().len(),
-                        });
-                    }
-                    if selected[..i].contains(&variable) {
-                        return Err(MixedNeighborhoodError::DuplicateBasicVariable { variable });
-                    }
-                }
-            }
+            .validate(p.basic())
+            .map_err(MixedNeighborhoodError::from)?;
         }
         if let Some(n) = self.lists {
             n.validate_list(p.lists()).map_err(MixedError::Lists)?;
@@ -144,40 +146,15 @@ fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
         let Some(n) = c.basic else {
             return Box::new(std::iter::empty());
         };
-        let order = c.basic_variables.map_or_else(
-            || (0..p.basic().variables().len()).collect(),
-            |s| s.to_vec(),
-        );
-        let moves = if let Some(schema) = c.pillar_schema {
-            let config = match n {
-                Neighborhood::Pillar { swaps } => crate::pillar_schema::Settings {
-                    left: None,
-                    right: None,
-                    changes: crate::PillarChangeMode::All,
-                    swaps,
-                },
-                Neighborhood::SubPillar(n) => crate::pillar_schema::Settings {
-                    left: Some(n.selection),
-                    right: n.swap_selection,
-                    changes: n.changes,
-                    swaps: n.swap_selection.is_some(),
-                },
-                _ => unreachable!("schema neighborhood validated"),
-            };
-            Box::new(crate::pillar_schema::ordered_with_schema(
-                p.basic(),
-                a.basic(),
-                config,
-                order.into_iter(),
-                Some(schema),
-            )) as Box<dyn Iterator<Item = Move<B>> + 'a>
-        } else {
-            neighborhood::ordered(p.basic(), a.basic(), n, order.into_iter())
-        };
-        Box::new(moves.filter(move |m| {
-            c.basic_variables
-                .is_none_or(|s| m.touched_variables().iter().all(|i| s.contains(i)))
-        }))
+        crate::basic_neighborhood::configured(
+            p.basic(),
+            a.basic(),
+            crate::BasicNeighborhood {
+                neighborhood: n,
+                variables: c.basic_variables,
+                pillar_schema: c.pillar_schema,
+            },
+        )
     };
     let lists = move || -> Box<dyn Iterator<Item = ListMove<L>> + 'a> {
         match c.lists {

@@ -8,10 +8,12 @@ use std::{
 
 /// A fine-move family used alongside reconstruction. Standard families use the
 /// existing per-model interpretation; Mixed permits independent components and
-/// slot filters and is rejected for basic-only or list-only models.
+/// slot filters and is rejected for basic-only or list-only models. Basic scopes
+/// only basic variables and works with basic or mixed models; lists reject it.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum RepairNeighborhood<'a> {
     Standard(Neighborhood),
+    Basic(BasicNeighborhood<'a>),
     Mixed(MixedNeighborhood<'a>),
 }
 impl From<Neighborhood> for RepairNeighborhood<'_> {
@@ -23,12 +25,14 @@ impl RepairNeighborhood<'_> {
     pub(crate) fn at_step(self, step: u64) -> Self {
         match self {
             Self::Standard(n) => Self::Standard(n.at_step(step)),
+            Self::Basic(n) => Self::Basic(n.at_step(step)),
             Self::Mixed(n) => Self::Mixed(n.at_step(step)),
         }
     }
     pub(crate) fn standard(self) -> Result<Neighborhood, RuinRecreateError> {
         match self {
             Self::Standard(n) => Ok(n),
+            Self::Basic(_) => Err(RuinRecreateError::BasicFamilyRequiresBasicVariables),
             Self::Mixed(_) => Err(RuinRecreateError::MixedFamilyRequiresMixedModel),
         }
     }
@@ -211,6 +215,8 @@ pub type ListRuinRecreateResult<V, S> = RuinRecreateOutcome<ScoredListAssignment
 
 #[derive(Debug)]
 pub enum RuinRecreateError {
+    BasicFamilyRequiresBasicVariables,
+    BasicNeighborhood(BasicNeighborhoodError),
     MixedFamilyRequiresMixedModel,
     MixedNeighborhood(MixedNeighborhoodError),
     UnknownRuinCandidate { index: usize, count: usize },
@@ -225,6 +231,10 @@ pub enum RuinRecreateError {
 impl fmt::Display for RuinRecreateError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::BasicFamilyRequiresBasicVariables => {
+                f.write_str("basic repair family requires basic variables")
+            }
+            Self::BasicNeighborhood(e) => e.fmt(f),
             Self::MixedFamilyRequiresMixedModel => {
                 f.write_str("mixed repair family requires a mixed model")
             }
@@ -253,6 +263,7 @@ impl fmt::Display for RuinRecreateError {
 impl Error for RuinRecreateError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::BasicNeighborhood(e) => Some(e),
             Self::MixedNeighborhood(e) => Some(e),
             Self::Search(e) => Some(e),
             Self::ListSearch(e) => Some(e),
@@ -473,6 +484,11 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
         &self,
         neighborhood: RepairNeighborhood<'_>,
     ) -> Result<(), RuinRecreateError> {
+        if let RepairNeighborhood::Basic(c) = neighborhood {
+            return c
+                .validate(self)
+                .map_err(RuinRecreateError::BasicNeighborhood);
+        }
         neighborhood
             .standard()?
             .validate_basic(self)
@@ -485,6 +501,9 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
     ) -> Result<Box<dyn Iterator<Item = Move<V>> + 'a>, RuinRecreateError> {
         self.validate(a).map_err(LocalSearchError::from)?;
         self.validate_neighborhood(neighborhood)?;
+        if let RepairNeighborhood::Basic(c) = neighborhood {
+            return Ok(crate::basic_neighborhood::configured(self, a, c));
+        }
         Ok(crate::neighborhood::ordered(
             self,
             a,

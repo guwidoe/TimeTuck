@@ -690,3 +690,8 @@ pub use stream_graph::{SharedConcat, SharedDistinct, SharedPaddedConcat};
 mod precompute_stream;
 pub use precompute_stream::PrecomputeNode;
 pub use stream_graph::SharedPrecompute;
+
+mod basic_neighborhood;
+pub use basic_neighborhood::{
+    BasicNeighborhood, BasicNeighborhoodError, basic_moves_configured, basic_moves_configured_union,
+};

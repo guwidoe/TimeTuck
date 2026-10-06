@@ -11658,3 +11658,64 @@ Report1894/4855 (39.011%),2679pending,282excluded,0failed/unverified.
 Live /api/freshness matched verification digest:
 747a12fc5db818136b86a5bd39f1a5ee2e955b73063b858bf1c7f22f28b02a29.
 All processes terminal. No performance/release/browser reruns. Goal remains active.
+
+
+## Configurable basic families and four selector solver adaptations
+
+Previous goal turn was progress: committed710d57b, clean worktree at start.
+New BasicNeighborhood{neighborhood,variables,pillar_schema} exposes scoped ordered
+basic move enumeration and independently configured weighted unions. Factored
+mixed basic validation/enumeration through this shared implementation, preserving
+MixedNeighborhoodError variants. BasicNeighborhoodError chains model/schema errors.
+RepairNeighborhood::Basic works on basic and mixed models (basic-only movements),
+rejects list-only models before scoring, and derives per-attempt seeds. Existing
+Standard/Mixed behavior remains unchanged. No model clones for schema overrides.
+
+Original basic_configured_families.rs:432 independent optional-state/scoped-order
+change/swap comparisons, duplicate union membership and seeded repeatability,
+complete basic scoped/stream plans crossing a column-group barrier with budgets0..4,
+invalid scope/schema/kind before scoring/graphcallbacks, list model rejection,
+Basic versus Mixed configured repair equivalence on mixed models in both backends.
+
+selector_solver_cases.rs adapts four DefaultSolverTest methods with all22variants:
+solveSingleVarMoveConfig6, solveListVarMoveConfig6, solveMultiVarMoveConfig5,
+solveMultiEntityMoveConfig5. Actual multivar test fixtures read this turn: THREE
+fields per entity, primary/secondary required shared Value domain, tertiary optional
+Other domain. Enum namespaces, null initial fields, aligned3column swaps and
+primary-only column grouping retained. MultiEntity twolead/twoherd fixture preserves
+value versus lead-reference types and lead-before-herd construction. Its source
+goal0 stops at completed construction; search configurations still validate, but
+no search-execution claim. Other variants run native search40candidate/attempt cap,
+seed20261007, exact dummyzeroobjective, score diagnostics and actual best events.
+Native sampling/tracking/combinedconstructionphase substitutions disclosed.
+Added4case records and15fixture/helper records. No production source inspected.
+
+Initial check17774 failed due to nonexistent MixedError->MixedLocalSearchError
+conversion; now retains MixedNeighborhoodError::Model. Initial focused96055 failed
+on guessed FactSource type; corrected to existing StreamSource. Focused81626 exited0:
+all4new original tests,3existing mixed schema tests,4new source methods pass.
+Logs work/basic-families-{check,focused,focused2}.log. All-target build15248 currently
+running in work/basic-families-build.log; final gate/dashboard validation follows.
+
+All-target build15248 exited0. First gate38018 exited1 at clippy: the new test's
+graph factory return type triggered type_complexity. Introduced a BasicGraph type
+alias only; no runtime change. Follow-up gate83885 runs on the final Rust state,
+work/basic-families-final-check2.log. No broad build repeated for this test-only fix.
+
+Next concrete selector gap: per-family value order. Existing BasicNeighborhood
+controls slot order/grouping but always uses the model's domain order. Pending
+DefaultSolverTest.solveWithMultipleSorterManners (source~1444) combines ascending
+and descending value selection as distinct children; solveMixedModelWithSortManner
+(source~1410) exercises entity/value ordering combinations. Do not credit either
+using two identical fixed-domain families. Their source methods were read in the
+previous increment; comparator-sortable fixture details and exact enum alternatives
+still need test/public-doc evidence. Existing generic OrderedSelection handles
+sorting but is not automatically wired into configured solver move families.
+
+Final gate83885 exited0. Rust3375 and doctests155 passed; source before/after equal:
+9d258fe98146d6aea34e0c93b00b0490ba3d7242f93ddf295d22a66c8694a84c.
+Report {'total': 4855, 'passed': 1898, 'failed': 0, 'pending': 2675, 'excluded': 282, 'unverified': 0, 'percent': 39.094}
+Verification digest 4c3fd8781956c2d43b6b2a288e04af5110728ec67ba9f48efe16d78a0dd89890.
+Live /api/freshness matched. All processes terminal; no benchmark/release/browser reruns.
+Goal remains active. Logs work/basic-families-final-check{,2}.log.
+Final selective accounting:361Rust jobs ran,56reused;46Python jobs reused.

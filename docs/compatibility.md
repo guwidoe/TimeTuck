@@ -2414,3 +2414,19 @@ schemas replace Java factory/PRNG behavior; reflection/shadow lifecycle and equa
 proposal distributions are not claimed. Three original regressions cover 256
 state/pin/range combinations, invalid configuration before callbacks and crossing
 a local barrier through both complete scoring backends.
+
+
+Four additional DefaultSolverTest selector methods now cover all 22 supplied
+configurations: six single-basic, six list, five multivariable and five multientity.
+The multivariable fixture retains both required fields and its optional third
+field with a distinct value type. Row swaps align all three fields; pillar change
+selects only the primary field. Multientity pillar families target lead entities,
+with distinct value/lead-reference namespaces. All methods preserve actual solver
+execution, the dummy objective, result assertions and nonempty best events.
+
+The multientity source sets a best-score limit of zero, reached by construction;
+its adaptation preserves that early stop and does not claim that search ran.
+Native sequential construction retains lead-before-herd order within one phase.
+Native bounded proposals and score diagnostics replace Java sampling and tracking
+internals. Empty families on tiny fixtures and optional null fields remain valid.
+Independent runtime regressions demonstrate actual scoped/grouped move execution.

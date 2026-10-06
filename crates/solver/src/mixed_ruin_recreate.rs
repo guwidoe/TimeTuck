@@ -248,6 +248,11 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
         &self,
         neighborhood: RepairNeighborhood<'_>,
     ) -> Result<(), RuinRecreateError> {
+        if let RepairNeighborhood::Basic(c) = neighborhood {
+            return c
+                .validate(self.basic())
+                .map_err(RuinRecreateError::BasicNeighborhood);
+        }
         if let RepairNeighborhood::Mixed(c) = neighborhood {
             return c
                 .validate(self)
@@ -261,6 +266,17 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
         a: &'a Self::Assignment,
         neighborhood: RepairNeighborhood<'a>,
     ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError> {
+        if let RepairNeighborhood::Basic(c) = neighborhood {
+            self.validate(a).map_err(|e| {
+                RuinRecreateError::MixedNeighborhood(MixedNeighborhoodError::Model(e))
+            })?;
+            let moves = basic_moves_configured(self.basic(), a.basic(), c)
+                .map_err(RuinRecreateError::BasicNeighborhood)?;
+            return Ok(Box::new(moves.map(|basic| MixedMove {
+                basic,
+                lists: ListMove::Composite(vec![]),
+            })));
+        }
         if let RepairNeighborhood::Mixed(c) = neighborhood {
             return Ok(Box::new(
                 mixed_moves_configured(self, a, c).map_err(RuinRecreateError::MixedNeighborhood)?,

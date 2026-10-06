@@ -28410,6 +28410,66 @@
       "upstream_test": "solveMultiEntityMoveConfigMixedModel",
       "local_test": "solve_multi_entity_move_config_mixed_model",
       "modifications": "Preserve3listowners/3separate basic entities/2listvalues/2basicvalues, list-then-basic construction, exactly one empty list, all basics assigned and both basic values different per entity. Strengths20-i, actual ascending first-basic domain and encounter-ordered second-basic domain retained. Exercise all twelve source configurations: basic change, aligned two-column entity swap, first-basic-column pillar change, two-column pillar swap, first-basic-only repair, list change, list swap, sublist change, sublist swap, bounded multi-list k-opt, list-only repair, and their eleven-child weighted union. Per-family schemas preserve different grouping keys; singleton subpillars express ordinary entity swaps. Separate repair pools preserve basic/list scope. Use native uniform within-family sampling, seed20261006, at most40attempts and40candidate evaluations in the search phase. Java default proposal distributions/PRNG and reflective lifecycle are not claimed. Combine the two source construction phases into one native construction phase with the same component order. Exact source score formula (assigned basics+1, singleton lists+2, other lists+1), real nonempty best events and all source result assertions; independent final score/domain checks. Stable typed basic values and integer list identities replace object references; unused codes/difficulty/shadow metadata omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveSingleVarMoveConfig",
+      "status": "implemented",
+      "upstream_test": "solveSingleVarMoveConfig",
+      "local_test": "solve_single_var_move_config",
+      "modifications": "Preserve2required basic entities/2values and all6configurations: change, swap, pillar change-only, pillar swap-only, repair, five-child union. All source configurations execute real native solver plans with actual nonempty retained-best events and exact dummy ordinary-zero objective. Preserve uninitialized source fixtures, no-throw/nonnull result assertions and per-search40candidate limit; native plans additionally assert completeness, model validity and final score0. Bounded40attempt search, seed20261007, uniform within-family sampling and weighted union replace Java proposal distributions/PRNG. Pillar subsets use native combinations, aligned rows preserve selected entity columns. No Java factory, annotation-discovery or environment-mode parity claim; assert_scores enables native score diagnostics. Tiny fixtures can leave configured families empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveListVarMoveConfig",
+      "status": "implemented",
+      "upstream_test": "solveListVarMoveConfig",
+      "local_test": "solve_list_var_move_config",
+      "modifications": "Preserve2empty required list owners/2values and all6configurations: list change, list swap, sublist change, sublist swap, list repair, five-child union. Source asserts successful solve, not nonempty lists for every owner; no extra nonempty-owner requirement is introduced. All source configurations execute real native solver plans with actual nonempty retained-best events and exact dummy ordinary-zero objective. Preserve uninitialized source fixtures, no-throw/nonnull result assertions and per-search40candidate limit; native plans additionally assert completeness, model validity and final score0. Bounded40attempt search, seed20261007, uniform within-family sampling and weighted union replace Java proposal distributions/PRNG. Pillar subsets use native combinations, aligned rows preserve selected entity columns. No Java factory, annotation-discovery or environment-mode parity claim; assert_scores enables native score diagnostics. Tiny fixtures can leave configured families empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveMultiVarMoveConfig",
+      "status": "implemented",
+      "upstream_test": "solveMultiVarMoveConfig",
+      "local_test": "solve_multi_var_move_config",
+      "modifications": "Preserve2entities with3fields each: primary and secondary required basics share2values; optional tertiary uses2distinct Other values and starts null. Enum namespaces prevent cross-type assignments. All5configurations: all-variable change, aligned three-column singleton row swap, primary-column-only pillar change, three-column pillar swap, four-child union. Native diagnostics substitute for source TRACKED_FULL_ASSERT, without Java tracking internals. All source configurations execute real native solver plans with actual nonempty retained-best events and exact dummy ordinary-zero objective. Preserve uninitialized source fixtures, no-throw/nonnull result assertions and per-search40candidate limit; native plans additionally assert completeness, model validity and final score0. Bounded40attempt search, seed20261007, uniform within-family sampling and weighted union replace Java proposal distributions/PRNG. Pillar subsets use native combinations, aligned rows preserve selected entity columns. No Java factory, annotation-discovery or environment-mode parity claim; assert_scores enables native score diagnostics. Tiny fixtures can leave configured families empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "DefaultSolverTest.solveMultiEntityMoveConfig",
+      "status": "implemented",
+      "upstream_test": "solveMultiEntityMoveConfig",
+      "local_test": "solve_multi_entity_move_config",
+      "modifications": "Preserve2lead/2herd entities,2value facts and2lead-reference facts using enum namespaces. All5configurations: change, swap, lead-only pillar change, lead-only pillar swap, four-child union. Source lead-then-herd construction maps to native sequential slots in that order, combined into one phase. Preserve best-score-limit0: construction meets it, search is not entered; the source method therefore does not independently prove search-family execution. All source configurations execute real native solver plans with actual nonempty retained-best events and exact dummy ordinary-zero objective. Preserve uninitialized source fixtures, no-throw/nonnull result assertions and per-search40candidate limit; native plans additionally assert completeness, model validity and final score0. Bounded40attempt search, seed20261007, uniform within-family sampling and weighted union replace Java proposal distributions/PRNG. Pillar subsets use native combinations, aligned rows preserve selected entity columns. No Java factory, annotation-discovery or environment-mode parity claim; assert_scores enables native score diagnostics. Tiny fixtures can leave configured families empty."
     }
   ],
   "fixtures": [
@@ -35614,6 +35674,201 @@
       "id": "DefaultSolverTest.mixed_selector_generators",
       "upstream_test": "generateMovesForMixedModel; generateMovesForMultiEntityMixedModel",
       "modifications": "Preserve all twelve configurations in each generator, selected first basic column for pillar change/repair, aligned two-column swaps, independent list families and eleven-child union. Native bounded selection and explicit schemas replace Java factory discovery; no identical random trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataSolution.selector_solver",
+      "upstream_test": "generateUninitializedSolution; generateSolution",
+      "modifications": "Two required basic variables start null with two shared ordered value facts; stable integer IDs replace codes and objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataEntity.selector_solver",
+      "upstream_test": "constructor; value",
+      "modifications": "Retain required basic field and source encounter domain order; native explicit model replaces reflective discovery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataValue.selector_solver",
+      "upstream_test": "constructor",
+      "modifications": "Integer identities / MultiValue::Value / EntityValue::Value preserve fact identities; generated code strings unused by selected assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataListSolution.selector_solver",
+      "upstream_test": "generateUninitializedSolution; generateSolution",
+      "modifications": "Two empty owner lists and two initially unassigned values; initialized round-robin branch not used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataListEntity.selector_solver",
+      "upstream_test": "constructor; valueList",
+      "modifications": "Required list variable, initially empty; native list model stores owners explicitly."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataListValue.selector_solver",
+      "upstream_test": "constructor; entity; index",
+      "modifications": "Stable integer identities replace objects. Native list positions derive ownership/index; source methods do not assert reflective listener lifecycle."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarSolution.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataMultiVarSolution.selector_solver",
+      "upstream_test": "generateUninitializedSolution; generateSolution",
+      "modifications": "Preserve2entities,2Value facts and2Other facts, all3fields per entity initially null. Native explicit required/optional domains; unused codes omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarEntity.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataMultiVarEntity.selector_solver",
+      "upstream_test": "primaryValue; secondaryValue; tertiaryValueAllowedUnassigned",
+      "modifications": "Two required basics share Value range; optional tertiary uses distinct Other range. Aligned three-column rows for swaps; primary-only grouping for pillar changes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataOtherValue.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "TestdataOtherValue.selector_solver",
+      "upstream_test": "constructor",
+      "modifications": "MultiValue::Other retains a namespace distinct from MultiValue::Value, even for equal numeric IDs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiEntitySolution.selector_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "modifications": "Preserve2lead/2herd entities and2Value facts; null initial fields, enum namespaces distinguish values from lead references. Native lead-then-herd construction order preserves source phase order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeadEntity.selector_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataLeadEntity.java",
+      "upstream_test": "getValue",
+      "modifications": "Native lead variable uses only the two value facts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHerdEntity.selector_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataHerdEntity.java",
+      "upstream_test": "getLeadEntity",
+      "modifications": "Native herd variable uses only lead entity references, not value facts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.selector_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Preserve actual nonempty retained-best event assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.selector_solver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Native empty network retains exact ordinary-zero objective; required missing assignments use structural penalties."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/selector_solver_cases.rs",
+      "id": "DefaultSolverTest.selector_solver_generators",
+      "upstream_test": "generateMovesForSingleVar; generateMovesForListVar; generateMovesForMultiVar; generateMovesForMultiEntity",
+      "modifications": "Preserve all6/6/5/5configuration alternatives, change versus swap-only pillars, primary/lead variable restrictions, aligned multivariable swaps and distinct union children. No extra repair family added to multiVar or multiEntity unions. Native sampling/order/phase substitutions disclosed on each case."
     }
   ]
 }
