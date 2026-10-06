@@ -394,6 +394,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
         ] {
             for max_evaluations in [0, 1, 2, 9, 50, 1000] {
                 let config = ConstructionConfig {
+                    interruption: ConstructionInterruption::KeepBestPrefix,
                     placement,
                     max_steps: None,
                     optional: timetuck::OptionalConstruction::Preserve,

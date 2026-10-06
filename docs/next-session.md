@@ -11783,3 +11783,46 @@ Equal source-before/after: 63039898dd1e5eb632c8f088a52ad2d07ada9cf5ef6f4fd956e34
 Dashboard {'total': 4855, 'passed': 1900, 'failed': 0, 'pending': 2673, 'excluded': 282, 'unverified': 0, 'percent': 39.135}; live freshness matched digest
 aa414dcf0179aa6e5042d2d0a96515dc1fc8f725076f149a2a8b0bcb9b82374a.
 Final log work/value-order-final-check2.log. All handles terminal. Goal remains active.
+
+
+## Atomic construction and optional/pinned list solver adaptations
+
+ConstructionInterruption::DiscardIncompleteStep retains the previous assignment,
+contribution cache and graph after a truncated scan. Default KeepBestPrefix stays.
+OptionalConstruction::EvaluateUnassigned scores no-change last. All basic/list/mixed
+placements and both scoring engines support it, including custom/bound providers.
+Discarded scans count evaluations but no completed steps or best events. Explicit
+early picks complete a step. Provider exact limits do not pull an extra proposal:
+atomic mode discards at that boundary even if the next pull would end the pool.
+Provider synthetic no-change follows natural exhaustion and costs a score/move
+trial, not a raw proposal. Stop reasons latch; no-change is not queue progress.
+
+Added8original regressions for budgets, cancellation, controlled phase/shared
+stops, early picking, providers, retained prior steps and actual best-event visibility.
+Added7DefaultSolverTest methods/16fixture-helper records in provenance, exercised
+with both scoring engines. Optional fixtures: unassign all, assign remaining values
+using explicit early pick in place of ONLY_DOWN inference, interrupted first step.
+Four full/prefix pinned fixtures preserve every source membership/count/score assert.
+Native ten-step HillClimbing, diagnostics and derived list views replace Java factory,
+TRACKED_FULL_ASSERT and SolutionManager lifecycle; substitutions are documented.
+No upstream production implementation was read.
+
+Final gate74805 exited0:3396Rust tests and 157doctests passed. Rust jobs364ran/56reused;
+46Python jobs reused. Source before/after identical:
+0dbd8a876d23ecbe891fae6f0dd1277c1d743a85b5c8f2ef0b0b139da63712e3.
+Dashboard summary:{"total":4855,"passed":1907,"failed":0,"pending":2666,"excluded":282,"unverified":0,"percent":39.279}
+Live /api/freshness matched verification digest:
+29f16d2e6843586e99dd0e68582161b474be5c38d7b3beb3e8e23ec80c1d07da.
+All process handles terminal. Final log work/construction-atomic-final-check2.log.
+Build14601 exited0; focused41632 exited0. Gate66346 found only a redundant test
+initializer (fixed); final gate covers the final source. No benchmark/release/browser
+reruns. Goal remains active; this is an increment, not full rewrite completion.
+
+Next gap: DefaultSolverTest.solveCustomConfigListVariable (~1062), inspected.
+Source2values/2owners, queued recording selector valueList replayed by list-change
+selection; construction then16search steps; allownersnonempty and actualbestevents.
+TestdataListVarEasyScoreCalculator scores each owner2ifsize1else1. Native
+RecordingSelection (selection_replay.rs) opens traversal before replaycursor,
+recorder.next publishes Arc value and next_replayed consumes latest occurrence.
+Adapt through a real recording/replay bound construction provider, not plain greedy
+construction. No method credit added for that pending case.

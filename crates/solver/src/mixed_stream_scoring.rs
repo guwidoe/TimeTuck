@@ -263,7 +263,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<MixedSelection<B, L>, Self::Error> {
         let mut result = MixedSelection {
@@ -294,9 +294,14 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
                     graph: candidate.graph.capture()?,
                 })
             })?;
-            if forager.is_quit_early() || (accepted && quit_early(candidate.score())) {
+            if forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score())) {
                 break;
             }
+        }
+        // Every trial has already rolled back. Discarding the saved winner
+        // leaves assignment, contribution caches and graph state at the last step.
+        if !quit_early.can_commit(result.evaluation_limit) {
+            return Ok(result);
         }
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);

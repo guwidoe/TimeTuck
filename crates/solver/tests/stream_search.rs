@@ -125,6 +125,7 @@ fn construction_policies_budgets_and_phase_handoff_match_full_scoring() {
         ] {
             for budget in [0, 1, 2, 4, 8, 100] {
                 let config = ConstructionConfig {
+                    interruption: ConstructionInterruption::KeepBestPrefix,
                     placement,
                     max_steps: None,
                     optional: timetuck::OptionalConstruction::Preserve,

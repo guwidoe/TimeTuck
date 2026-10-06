@@ -1188,6 +1188,7 @@ fn provider_construction_config(
     max_scanned_moves: u64,
 ) -> ProviderConstructionConfig<'_> {
     ProviderConstructionConfig {
+        interruption: c.interruption,
         max_evaluations: c.max_evaluations,
         max_move_evaluations: c.max_move_evaluations,
         max_steps: c.max_steps,

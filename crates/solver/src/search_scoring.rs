@@ -15,7 +15,7 @@ pub(crate) trait SearchDirector<V, S> {
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&Move<V>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<Selection<V>, Self::Error>;
 }
@@ -39,7 +39,7 @@ impl<V: Eq + Clone, S: AdditiveScore> SearchDirector<V, S> for ScoreDirector<'_,
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&Move<V>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<Selection<V>, Self::Error> {
         self.select_best(

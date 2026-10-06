@@ -736,3 +736,56 @@ fn composed_shared_deadlines_keep_candidate_prefixes_across_all_construction_mod
         }
     }
 }
+
+#[test]
+fn atomic_scans_discard_trials_on_phase_time_and_transient_shared_stops() {
+    struct Shared<'a>(&'a Cell<u64>, Cell<bool>);
+    impl crate::time_limit::SearchControl for Shared<'_> {
+        fn construction_stopped(&mut self) -> bool {
+            self.0.get() >= 2 && !self.1.replace(true)
+        }
+        fn start_search(&mut self) {
+            panic!()
+        }
+        fn record_improvement(&mut self) {
+            panic!()
+        }
+        fn complete_step(&mut self, _: bool) {
+            panic!()
+        }
+        fn stop(&mut self) -> Option<LocalSearchTermination> {
+            panic!()
+        }
+    }
+    for mode in 0..6 {
+        for order in ORDERS {
+            for shared_stop in [false, true] {
+                let elapsed = Cell::new(0);
+                let mut shared = Shared(&elapsed, Cell::new(false));
+                let config = ConstructionConfig {
+                    interruption: ConstructionInterruption::DiscardIncompleteStep,
+                    max_time: (!shared_stop).then_some(Duration::from_millis(2)),
+                    ..Default::default()
+                };
+                let r = run_monitored(
+                    if shared_stop { Some(&mut shared) } else { None },
+                    mode,
+                    order,
+                    config,
+                    || elapsed.set(elapsed.get() + 1),
+                    || Duration::from_millis(elapsed.get()),
+                );
+                assert_eq!(r.values, vec![None, None]);
+                assert_eq!((r.evaluations, r.callbacks, r.assigned), (2, 2, 0));
+                assert_eq!(
+                    r.reason,
+                    if shared_stop {
+                        ConstructionTermination::Condition
+                    } else {
+                        ConstructionTermination::TimeLimit
+                    }
+                );
+            }
+        }
+    }
+}

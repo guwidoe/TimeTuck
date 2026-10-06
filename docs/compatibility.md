@@ -2443,3 +2443,35 @@ Java default search/random traces and listener lifecycle are not claimed. Public
 enum signatures were inspected with javap -public, without implementation bytecode
 or production source. Original regressions additionally show ordering changes the
 retained solution under a one-candidate budget in both scoring backends.
+
+
+## Optional list construction and pinned list solver cases
+
+Seven additional DefaultSolverTest methods preserve optional-list and pinned-list
+solver assertions using both scoped and stream scoring. The optional fixtures
+cover removing all assignments (score0), assigning remaining values with explicit
+early picking (score4), and a one-candidate interruption before the final no-change
+candidate (score1, original empty owner retained). The four pinned fixtures retain
+full-list pins and prefix pins while minimizing/maximizing empty owners, with every
+source final membership/count/score assertion. Provenance records the fixtures,
+calculators and helper substitutions. Java ONLY_DOWN inference is replaced by an
+explicit native early-pick policy; native model-derived list views and initial
+scoring replace SolutionManager update. Deterministic HillClimbing, ten search
+steps and native score diagnostics substitute for factory search/TRACKED_FULL_ASSERT.
+These adaptations do not claim JVM listener, reflection, index-supply lifecycle
+or identical search traces.
+
+Native ConstructionInterruption::DiscardIncompleteStep applies to basic, list and
+mixed construction, both scoring engines and custom provider construction. It
+retains the previous assignment/cache/graph on an interrupted scan without replaying
+scoring callbacks; discarded trials remain in evaluation counts but do not consume
+completed steps or publish solution events. Default KeepBestPrefix behavior stays
+available. OptionalConstruction::EvaluateUnassigned appends a scored no-change
+candidate last; explicit early picking may select an insertion before that candidate.
+Sequential, pooled and queued-value placements implement this policy. Provider
+construction appends it after natural proposal exhaustion; synthetic candidates
+count toward score/move limits, not raw-proposal limits. Providers are never pulled
+past an exact limit just to prove exhaustion, so atomic mode discards at that bound
+unless an intentional early pick completed the step. Original regressions separately
+check improving-trial rollback, callback counts, observer visibility, score/move/scan
+limits, cancellation, controlled phase clocks and transient shared termination.

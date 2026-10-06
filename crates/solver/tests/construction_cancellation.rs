@@ -633,3 +633,245 @@ mod step_cases;
 
 #[path = "support/optional_construction_cases.rs"]
 mod optional_cases;
+
+#[test]
+fn atomic_construction_discards_only_unfinished_scans_across_models_and_backends() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            for placement in [
+                ConstructionPlacement::Sequential,
+                ConstructionPlacement::Pooled,
+            ] {
+                let c = ConstructionConfig {
+                    interruption: ConstructionInterruption::DiscardIncompleteStep,
+                    placement,
+                    max_move_evaluations: Some(1),
+                    assert_scores: true,
+                    ..Default::default()
+                };
+                let r = run(mode, order, c, || {});
+                assert_eq!(r.reason, ConstructionTermination::MoveEvaluationLimit);
+                assert_eq!(r.values, vec![None, None]);
+                assert_eq!((r.evaluations, r.assigned, r.steps), (2, 0, 0));
+                // Explicit early pick completes the scan, even with unvisited candidates.
+                let early = run(
+                    mode,
+                    order,
+                    ConstructionConfig {
+                        pick_early: ConstructionPickEarly::FirstNonDeterioratingScore,
+                        ..c
+                    },
+                    || {},
+                );
+                assert_eq!((early.evaluations, early.assigned, early.steps), (2, 1, 1));
+            }
+            // A finished first step survives an interruption in the second step.
+            let r = run(
+                mode,
+                order,
+                ConstructionConfig {
+                    interruption: ConstructionInterruption::DiscardIncompleteStep,
+                    max_move_evaluations: Some(3),
+                    assert_scores: true,
+                    ..Default::default()
+                },
+                || {},
+            );
+            assert_eq!(r.reason, ConstructionTermination::MoveEvaluationLimit);
+            assert_eq!((r.evaluations, r.assigned, r.steps), (4, 1, 1));
+            assert_eq!(
+                r.values.iter().flatten().copied().collect::<Vec<_>>(),
+                vec![1]
+            );
+        }
+    }
+    for mode in 0..2 {
+        let r = run(
+            mode,
+            ORDERS[0],
+            ConstructionConfig {
+                placement: ConstructionPlacement::ValueQueue,
+                interruption: ConstructionInterruption::DiscardIncompleteStep,
+                max_move_evaluations: Some(1),
+                assert_scores: true,
+                ..Default::default()
+            },
+            || {},
+        );
+        assert_eq!((r.assigned, r.steps), (0, 0));
+    }
+}
+
+#[test]
+fn atomic_construction_cancellation_does_not_recount_a_trial() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            let token = CancellationToken::new();
+            let calls = Cell::new(0);
+            let r = run(
+                mode,
+                order,
+                ConstructionConfig {
+                    interruption: ConstructionInterruption::DiscardIncompleteStep,
+                    cancellation: Some(&token),
+                    ..Default::default()
+                },
+                || {
+                    calls.set(calls.get() + 1);
+                    if calls.get() == 2 {
+                        token.cancel();
+                    }
+                },
+            );
+            assert_eq!(r.reason, ConstructionTermination::Cancelled);
+            assert_eq!(r.values, vec![None, None]);
+            assert_eq!(
+                (r.evaluations, r.callbacks, r.assigned, r.steps),
+                (2, 2, 0, 0)
+            );
+            assert_eq!(calls.get(), 2); // No callback replay to restore the old score.
+        }
+    }
+}
+
+#[test]
+fn explicit_unassigned_is_last_and_scored_with_all_placements() {
+    for mode in 0..6 {
+        for order in ORDERS {
+            for placement in [
+                ConstructionPlacement::Sequential,
+                ConstructionPlacement::Pooled,
+                ConstructionPlacement::ValueQueue,
+            ] {
+                let c = ConstructionConfig {
+                    placement,
+                    optional: OptionalConstruction::EvaluateUnassigned,
+                    assert_scores: true,
+                    ..Default::default()
+                };
+                let objective =
+                    |v: &[Option<usize>]| SimpleScore::new(-(v.iter().flatten().count() as i64));
+                let full = run_problem(mode, order, c, true, || {}, objective);
+                assert_eq!(full.values, vec![None, None]);
+                assert_eq!(full.assigned, 0);
+                assert_eq!(full.reason, ConstructionTermination::Completed);
+                assert!(full.steps > 0);
+                // With only the first trial scored, the explicit no-change has
+                // not yet competed. This distinguishes this mode from NonWorsening.
+                let prefix = run_problem(
+                    mode,
+                    order,
+                    ConstructionConfig {
+                        max_move_evaluations: Some(1),
+                        ..c
+                    },
+                    true,
+                    || {},
+                    objective,
+                );
+                assert_eq!((prefix.assigned, prefix.steps), (1, 1));
+                let atomic = run_problem(
+                    mode,
+                    order,
+                    ConstructionConfig {
+                        interruption: ConstructionInterruption::DiscardIncompleteStep,
+                        max_move_evaluations: Some(1),
+                        ..c
+                    },
+                    true,
+                    || {},
+                    objective,
+                );
+                assert_eq!(atomic.values, vec![None, None]);
+                assert_eq!((atomic.assigned, atomic.steps), (0, 0));
+                assert_eq!(atomic.evaluations, 2);
+                // The same first candidate legitimately wins under early picking.
+                let early = run_problem(
+                    mode,
+                    order,
+                    ConstructionConfig {
+                        interruption: ConstructionInterruption::DiscardIncompleteStep,
+                        pick_early: ConstructionPickEarly::FirstFeasibleScore,
+                        max_move_evaluations: Some(1),
+                        ..c
+                    },
+                    true,
+                    || {},
+                    objective,
+                );
+                assert_eq!((early.assigned, early.steps), (1, 1));
+            }
+        }
+    }
+}
+
+#[test]
+fn discarded_improving_list_trial_never_reaches_solver_best_events() {
+    for stream in [false, true] {
+        for atomic in [false, true] {
+            let p = ListProblem::new(vec![1], vec![ListEntity::new(vec![])])
+                .unwrap()
+                .allowing_unassigned();
+            let config = SolverSequence {
+                phases: vec![SolverPhase::Construction(ConstructionConfig {
+                    optional: OptionalConstruction::EvaluateUnassigned,
+                    interruption: if atomic {
+                        ConstructionInterruption::DiscardIncompleteStep
+                    } else {
+                        ConstructionInterruption::KeepBestPrefix
+                    },
+                    max_move_evaluations: Some(1),
+                    assert_scores: true,
+                    ..Default::default()
+                })],
+                ..Default::default()
+            };
+            let mut events = vec![];
+            let r = if stream {
+                solve_list_stream_with_observer(
+                    &p,
+                    || {
+                        let mut b = StreamGraphBuilder::new();
+                        let s = ListStreamSources::<i32>::new(&mut b);
+                        b.score("assigned", s.entities.port(), |(_, list)| {
+                            SimpleScore::new(list.len() as i64)
+                        })?;
+                        Ok((b.build(), s))
+                    },
+                    config,
+                    |u| events.push((u.assignment.lists()[0].len(), u.score)),
+                )
+                .unwrap()
+            } else {
+                let mut n = ListConstraintNetwork::new(1, 1);
+                n.add_constraint("assigned", vec![ListScope::Entity(0)], |f| {
+                    let ListFact::Entity(list) = &f[0] else {
+                        panic!()
+                    };
+                    SimpleScore::new(list.len() as i64)
+                })
+                .unwrap();
+                solve_list_with_observer(&p, &n, config, |u| {
+                    events.push((u.assignment.lists()[0].len(), u.score))
+                })
+                .unwrap()
+            };
+            assert_eq!(r.assignment.lists()[0].len(), usize::from(!atomic));
+            assert_eq!(r.score, Some(SimpleScore::new(i64::from(!atomic))));
+            assert!(!events.is_empty());
+            if atomic {
+                assert!(
+                    events
+                        .iter()
+                        .all(|(n, s)| *n == 0 && *s == SimpleScore::ZERO)
+                );
+            } else {
+                assert!(
+                    events
+                        .iter()
+                        .any(|(n, s)| *n == 1 && *s == SimpleScore::new(1))
+                );
+            }
+        }
+    }
+}

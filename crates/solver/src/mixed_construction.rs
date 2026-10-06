@@ -28,7 +28,8 @@ pub struct MixedConstructionResult<B, L, S> {
     pub evaluations: u64,
     pub assigned_basic_variables: usize,
     pub assigned_list_values: usize,
-    /// Evaluated scans across both components, including rejected optional scans.
+    /// Nonempty scans across both components, including optional rejection.
+    /// Interrupted scans count only under KeepBestPrefix.
     pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
@@ -68,8 +69,8 @@ enum Phase {
 /// Constraints must handle partial combined states.
 ///
 /// One budget includes the initial score and every candidate in both phases.
-/// Winners reuse saved caches without callback replay. A truncated scan retains
-/// its best evaluated candidate and reports EvaluationLimit, even if now complete.
+/// Winners reuse saved caches without callback replay. A truncated scan follows
+/// the configured interruption policy and reports the applicable limit.
 /// Exactly exhausting the final scan reports Completed. Empty required domains or
 /// unreachable required list values report NoCompleteAssignment before callbacks,
 /// including at zero budget. Validating model/network shape also precedes scoring.
@@ -215,6 +216,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 config.max_move_evaluations,
                 result.evaluations,
             );
+            let scan = crate::construction::ConstructionScan::new(config);
             let selection = if let Some(queue) = &mut value_queue {
                 let Some((value, indices)) = queue.next(
                     problem.basic(),
@@ -227,35 +229,65 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     result.termination = ConstructionTermination::StepLimit;
                     break 'phases;
                 }
-                let moves = indices.into_iter().map(|variable| MixedMove {
-                    basic: Move::Change {
-                        variable,
-                        value: Some(value.clone()),
-                    },
-                    lists: ListMove::Composite(vec![]),
-                });
+                let no_change = config.optional == crate::OptionalConstruction::EvaluateUnassigned
+                    && indices
+                        .iter()
+                        .any(|&i| problem.basic().variables()[i].allows_unassigned());
+                let moves = indices
+                    .into_iter()
+                    .map(|variable| MixedMove {
+                        basic: Move::Change {
+                            variable,
+                            value: Some(value.clone()),
+                        },
+                        lists: ListMove::Composite(vec![]),
+                    })
+                    .chain(no_change.then(|| MixedMove {
+                        basic: Move::Composite(vec![]),
+                        lists: ListMove::Composite(vec![]),
+                    }));
                 director.select_best(
-                    moves.take_while(|_| {
-                        !config.cancelled()
-                            && crate::construction::construction_stop(&mut time, &mut shared)
-                                .is_none()
-                    }),
+                    moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                     budget.remaining,
                     false,
                     |movement, score| {
+                        if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
+                            return true;
+                        }
                         let Move::Change { variable, .. } = &movement.basic else {
                             unreachable!("queued change")
                         };
                         !problem.basic().variables()[*variable].allows_unassigned()
                             || score >= previous
                     },
-                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    scan.policy(previous.clone()),
                     config.assert_scores,
                 )?
             } else if config.placement == crate::ConstructionPlacement::Pooled {
                 let snapshot = director.assignment().clone();
-                let mut moves =
-                    pooled_moves(problem, &snapshot, settings.order, config.optional).peekable();
+                let no_change = config.optional == crate::OptionalConstruction::EvaluateUnassigned
+                    && (problem
+                        .basic()
+                        .variables()
+                        .iter()
+                        .enumerate()
+                        .any(|(i, v)| {
+                            v.allows_unassigned()
+                                && !v.is_pinned()
+                                && snapshot.basic().values()[i].is_none()
+                        })
+                        || (problem.lists().allows_unassigned()
+                            && problem
+                                .lists()
+                                .values()
+                                .iter()
+                                .any(|v| snapshot.lists().location(v).is_none())));
+                let mut moves = pooled_moves(problem, &snapshot, settings.order, config.optional)
+                    .chain(no_change.then(|| MixedMove {
+                        basic: Move::Composite(vec![]),
+                        lists: ListMove::Composite(vec![]),
+                    }))
+                    .peekable();
                 if moves.peek().is_none() {
                     break 'phases;
                 }
@@ -264,14 +296,13 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     break 'phases;
                 }
                 director.select_best(
-                    moves.take_while(|_| {
-                        !config.cancelled()
-                            && crate::construction::construction_stop(&mut time, &mut shared)
-                                .is_none()
-                    }),
+                    moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                     budget.remaining,
                     false,
                     |movement, score| {
+                        if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
+                            return true;
+                        }
                         let optional = match &movement.basic {
                             Move::Change { variable, .. } => {
                                 problem.basic().variables()[*variable].allows_unassigned()
@@ -280,7 +311,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                         };
                         !optional || score >= previous
                     },
-                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    scan.policy(previous.clone()),
                     config.assert_scores,
                 )?
             } else {
@@ -298,26 +329,35 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             result.termination = ConstructionTermination::StepLimit;
                             break 'phases;
                         }
-                        let moves = variable.domain().iter().map(|value| MixedMove {
-                            basic: Move::Change {
-                                variable: index,
-                                value: Some(value.clone()),
-                            },
-                            lists: ListMove::Composite(vec![]),
-                        });
+                        let moves = variable
+                            .domain()
+                            .iter()
+                            .map(|value| MixedMove {
+                                basic: Move::Change {
+                                    variable: index,
+                                    value: Some(value.clone()),
+                                },
+                                lists: ListMove::Composite(vec![]),
+                            })
+                            .chain(
+                                (variable.allows_unassigned()
+                                    && config.optional
+                                        == crate::OptionalConstruction::EvaluateUnassigned)
+                                    .then(|| MixedMove {
+                                        basic: Move::Composite(vec![]),
+                                        lists: ListMove::Composite(vec![]),
+                                    }),
+                            );
                         director.select_best(
-                            moves.take_while(|_| {
-                                !config.cancelled()
-                                    && crate::construction::construction_stop(
-                                        &mut time,
-                                        &mut shared,
-                                    )
-                                    .is_none()
-                            }),
+                            moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
                             false,
-                            |_, score| !variable.allows_unassigned() || score >= previous,
-                            |score| config.pick_early.should_pick(previous.clone(), score),
+                            |_, score| {
+                                config.optional == crate::OptionalConstruction::EvaluateUnassigned
+                                    || !variable.allows_unassigned()
+                                    || score >= previous
+                            },
+                            scan.policy(previous.clone()),
                             config.assert_scores,
                         )?
                     }
@@ -343,38 +383,50 @@ pub(crate) fn construction_impl_with_clock_monitored<
                                     value: value.clone(),
                                     destination,
                                 },
-                            });
+                            })
+                            .chain(
+                                (lists.allows_unassigned()
+                                    && config.optional
+                                        == crate::OptionalConstruction::EvaluateUnassigned)
+                                    .then(|| MixedMove {
+                                        basic: Move::Composite(vec![]),
+                                        lists: ListMove::Composite(vec![]),
+                                    }),
+                            );
                         director.select_best(
-                            moves.take_while(|_| {
-                                !config.cancelled()
-                                    && crate::construction::construction_stop(
-                                        &mut time,
-                                        &mut shared,
-                                    )
-                                    .is_none()
-                            }),
+                            moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
                             false,
-                            |_, score| !lists.allows_unassigned() || score >= previous,
-                            |score| config.pick_early.should_pick(previous.clone(), score),
+                            |_, score| {
+                                config.optional == crate::OptionalConstruction::EvaluateUnassigned
+                                    || !lists.allows_unassigned()
+                                    || score >= previous
+                            },
+                            scan.policy(previous.clone()),
                             config.assert_scores,
                         )?
                     }
                 }
             };
             result.evaluations += selection.evaluations;
-            result.completed_steps += u64::from(selection.evaluations > 0);
+            result.completed_steps +=
+                u64::from(selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit));
             result.constraint_evaluations += selection.constraint_evaluations;
-            if let Some(movement) = &selection.selected {
-                match &movement.basic {
-                    Move::Change { .. } => result.assigned_basic_variables += 1,
-                    _ => result.assigned_list_values += 1,
+            let installed = selection.selected.as_ref().is_some_and(|movement| {
+                if matches!(movement.basic, Move::Change { .. }) {
+                    result.assigned_basic_variables += 1;
+                    true
+                } else if matches!(movement.lists, ListMove::Assign { .. }) {
+                    result.assigned_list_values += 1;
+                    true
+                } else {
+                    false
                 }
-            }
+            });
             if config.assert_scores {
                 director.assert_consistent()?;
             }
-            if selection.selected.is_some() {
+            if installed {
                 if let Some(queue) = &mut value_queue {
                     queue.installed();
                 }
@@ -384,9 +436,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 result.termination = budget.construction_reason();
                 break 'phases;
             }
-            if config.placement == crate::ConstructionPlacement::Pooled
-                && selection.selected.is_none()
-            {
+            if let Some(reason) = scan.reason() {
+                result.termination = reason;
+                break 'phases;
+            }
+            if config.placement == crate::ConstructionPlacement::Pooled && !installed {
                 break 'phases;
             }
         }
@@ -421,7 +475,7 @@ fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
         .filter(move |(i, v)| {
             !v.is_pinned()
                 && snapshot.basic().values()[*i].is_none()
-                && (!v.allows_unassigned() || optional == crate::OptionalConstruction::NonWorsening)
+                && (!v.allows_unassigned() || optional != crate::OptionalConstruction::Preserve)
         })
         .flat_map(|(i, v)| {
             v.domain().iter().map(move |value| MixedMove {
@@ -438,8 +492,7 @@ fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
         .iter()
         .filter(move |v| {
             snapshot.lists().location(v).is_none()
-                && (!lists.allows_unassigned()
-                    || optional == crate::OptionalConstruction::NonWorsening)
+                && (!lists.allows_unassigned() || optional != crate::OptionalConstruction::Preserve)
         })
         .flat_map(move |value| {
             insertions(lists, snapshot.lists(), 0..lists.entities().len())

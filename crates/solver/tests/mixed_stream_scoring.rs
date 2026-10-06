@@ -259,6 +259,7 @@ fn construction_matches_scoped_selection_for_both_orders_policies_and_budget_pre
                     let config = MixedConstructionConfig {
                         order,
                         construction: ConstructionConfig {
+                            interruption: ConstructionInterruption::KeepBestPrefix,
                             placement,
                             max_steps: None,
                             optional: timetuck::OptionalConstruction::Preserve,

@@ -15,7 +15,7 @@ pub(crate) trait MixedSearchDirector<B, L, S> {
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<MixedSelection<B, L>, Self::Error>;
 }
@@ -41,7 +41,7 @@ impl<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedSearchDirector<B, L, S
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<MixedSelection<B, L>, Self::Error> {
         self.select_best(

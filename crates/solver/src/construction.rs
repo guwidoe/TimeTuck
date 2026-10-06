@@ -42,6 +42,39 @@ pub enum OptionalConstruction {
     /// is at least the current score. Otherwise preserve unassignment. Existing
     /// assignments and pinned unassignment are never reconsidered.
     NonWorsening,
+    /// Score legal assignments followed by one no-change candidate. Every
+    /// candidate is eligible; a worse insertion can win only through early pick
+    /// or interruption with KeepBestPrefix. No-change consumes a move evaluation.
+    /// Existing assignments and pinned unassignment remain untouched.
+    EvaluateUnassigned,
+}
+
+/// Whether an interrupted candidate scan may change the working assignment.
+///
+/// ```
+/// use timetuck::*;
+/// let p = ListProblem::new(vec![1], vec![ListEntity::new(vec![])])?.allowing_unassigned();
+/// let n = ListConstraintNetwork::<_, SimpleScore>::new(1, 1);
+/// let r = greedy_list_construction(&p, &n, ConstructionConfig {
+///     optional: OptionalConstruction::EvaluateUnassigned,
+///     interruption: ConstructionInterruption::DiscardIncompleteStep,
+///     max_move_evaluations: Some(1), ..Default::default()
+/// })?;
+/// // The insertion was scored, but the final no-change candidate was not.
+/// assert_eq!(r.move_evaluations(), 1);
+/// assert_eq!(r.completed_steps, 0);
+/// assert!(r.assignment.lists()[0].is_empty());
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ConstructionInterruption {
+    /// Retain the best evaluated candidate, including an unfinished scan.
+    #[default]
+    KeepBestPrefix,
+    /// Install a winner only after exhaustion or a deliberate early pick.
+    /// Discard candidates on score/move budget, cancellation, time or shared
+    /// termination. Evaluations still count; discarded scans consume no steps.
+    DiscardIncompleteStep,
 }
 
 /// Which unassigned items compete within a construction step.
@@ -52,7 +85,8 @@ pub enum ConstructionPlacement {
     Sequential,
     /// Reconsider all eligible missing items each step, installing the first best
     /// placement. With Never early-picking this is cheapest insertion. Optional
-    /// candidates must be non-worsening; a pool with no accepted move ends the phase.
+    /// candidates use the configured optional policy; a pool with no installed
+    /// assignment ends the phase.
     ///
     /// ```
     /// use timetuck::*;
@@ -75,7 +109,7 @@ pub enum ConstructionPlacement {
 }
 
 /// Shared controls for basic, list and mixed construction in both scoring
-/// backends. A cancellation request retains the best evaluated candidate of the
+/// backends. By default cancellation retains the best evaluated candidate of the
 /// current scan, including incomplete progress. Initialization and diagnostics
 /// are not interrupted. Validation, impossibility and zero score-budget checks
 /// precede cancellation; already-observed evaluation exhaustion also takes
@@ -86,7 +120,8 @@ pub enum ConstructionPlacement {
 /// remaining eligible items; a queued-value step compares receivers of one value.
 /// Required items are assigned; optional scans
 /// may reject all candidates. A step limit preserves an entire scan, unlike a
-/// candidate limit (unless another control interrupts the scan):
+/// candidate limit (unless another control interrupts the scan). Set
+/// interruption to DiscardIncompleteStep to retain only finished scans.
 ///
 /// ```
 /// use timetuck::{ConstructionConfig, ConstructionTermination, ConstraintNetwork,
@@ -109,6 +144,8 @@ pub enum ConstructionPlacement {
 pub struct ConstructionConfig<'a> {
     /// Sequential by default; optionally compare a pool or cycle through values.
     pub placement: ConstructionPlacement,
+    /// KeepBestPrefix by default; optionally discard an interrupted scan.
+    pub interruption: ConstructionInterruption,
     /// Cooperative cancellation shared with other phases; validation runs first.
     pub cancellation: Option<&'a crate::CancellationToken>,
     /// Includes the initial score and each candidate; zero invokes no callbacks.
@@ -117,11 +154,12 @@ pub struct ConstructionConfig<'a> {
     pub max_move_evaluations: Option<u64>,
     /// Evaluated item, whole-pool or queued-value target scans per call.
     /// None disables this limit.
-    /// Scans of optional values count even if every candidate is rejected.
+    /// Finished optional scans count even if every candidate is rejected.
+    /// DiscardIncompleteStep excludes interrupted scans from this count.
     /// Initialization, existing assignments and scans with no candidates do not
     /// consume steps. A step finishes its scan unless another limit interrupts it.
     pub max_steps: Option<u64>,
-    /// Whether to consider missing optional values. Defaults to Preserve.
+    /// Preserve, accept only non-worsening insertions, or score no-change last.
     pub optional: OptionalConstruction,
     /// Cooperative elapsed time, including initialization and diagnostics. Zero
     /// permits initial scoring only; active callbacks cannot be interrupted.
@@ -134,6 +172,7 @@ impl Default for ConstructionConfig<'_> {
     fn default() -> Self {
         Self {
             placement: ConstructionPlacement::Sequential,
+            interruption: ConstructionInterruption::KeepBestPrefix,
             cancellation: None,
             max_evaluations: 10_000,
             max_move_evaluations: None,
@@ -164,19 +203,18 @@ pub enum ConstructionTermination {
     /// Another eligible unassigned item remains after the step budget is spent.
     /// The preceding scan's winner is retained without truncating that scan.
     StepLimit,
-    /// Elapsed time expired; retain the best scored prefix, possibly incomplete.
+    /// Elapsed time expired; the interruption policy controls retained progress.
     TimeLimit,
     /// An unevaluated candidate remains after the candidate-only budget is spent.
     MoveEvaluationLimit,
-    /// Cancellation observed; the best evaluated prefix of the current scan is
-    /// installed. The returned assignment may be partial or complete.
+    /// Cancellation observed; the interruption policy controls retained progress.
     Cancelled,
     /// All eligible items were visited and their scans finished or picked early.
     /// Optional values may remain unassigned; empty scans consume no steps.
     /// This does not imply hard feasibility or optimality.
     Completed,
-    /// An unevaluated candidate remains. The best evaluated value is retained;
-    /// the resulting assignment may be either partial or complete.
+    /// An unevaluated candidate remains after the score budget.
+    /// The interruption policy controls retained progress.
     EvaluationLimit,
     NoCompleteAssignment,
     /// A bound construction provider supplied no accepted initialization.
@@ -195,8 +233,8 @@ pub struct ConstructionResult<V, S> {
     pub complete: bool,
     pub evaluations: u64,
     pub assigned_variables: usize,
-    /// Scans with at least one evaluated candidate, including an interrupted scan
-    /// and optional scans that reject every candidate. Resets on each call.
+    /// Nonempty candidate scans, including optional rejection. Interrupted scans
+    /// count only under KeepBestPrefix. Resets on each call.
     pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
@@ -223,7 +261,7 @@ impl<V: Clone, S: Clone> ConstructionResult<V, S> {
 
 /// Visit missing variables in model order and evaluate domain values in domain
 /// order. Preserve supplied values and pins. Optional None values are preserved
-/// by default, or considered under [`OptionalConstruction::NonWorsening`].
+/// by default, or considered under the configured optional construction policy.
 /// Constraints must support partial assignments (None in scoped arguments).
 /// Each variable's candidates use the same prior assignment; ties retain the
 /// first candidate. Pooled placement instead compares all eligible missing items
@@ -342,7 +380,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
             director.assignment().values()[i].is_none()
                 && !variable.is_pinned()
                 && (!variable.allows_unassigned()
-                    || config.optional == OptionalConstruction::NonWorsening)
+                    || config.optional != OptionalConstruction::Preserve)
         };
         let mut queued_value = None;
         let indices: Vec<_> = if let Some(queue) = &mut value_queue {
@@ -370,45 +408,55 @@ pub(crate) fn construction_impl_with_clock_monitored<
             break;
         }
         let previous = director.score();
-        let moves = indices.into_iter().flat_map(|index| {
-            problem.variables()[index]
-                .domain()
+        let no_change = config.optional == OptionalConstruction::EvaluateUnassigned
+            && indices
                 .iter()
-                .filter(move |value| queued_value.is_none_or(|queued| *value == queued))
-                .map(move |value| Move::Change {
-                    variable: index,
-                    value: Some(value.clone()),
-                })
-        });
+                .any(|&i| problem.variables()[i].allows_unassigned());
+        let moves = indices
+            .into_iter()
+            .flat_map(|index| {
+                problem.variables()[index]
+                    .domain()
+                    .iter()
+                    .filter(move |value| queued_value.is_none_or(|queued| *value == queued))
+                    .map(move |value| Move::Change {
+                        variable: index,
+                        value: Some(value.clone()),
+                    })
+            })
+            .chain(no_change.then(|| Move::Composite(vec![])));
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,
             result.evaluations,
         );
+        let scan = crate::construction::ConstructionScan::new(config);
         let selection = director.select_best(
-            moves.take_while(|_| {
-                !config.cancelled()
-                    && crate::construction::construction_stop(&mut time, &mut shared).is_none()
-            }),
+            moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
             budget.remaining,
             false,
             |movement, score| {
+                if config.optional == OptionalConstruction::EvaluateUnassigned {
+                    return true;
+                }
                 let Move::Change { variable, .. } = movement else {
                     unreachable!("construction change")
                 };
                 !problem.variables()[*variable].allows_unassigned() || score >= previous
             },
-            |score| config.pick_early.should_pick(previous.clone(), score),
+            scan.policy(previous.clone()),
             config.assert_scores,
         )?;
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
-        result.completed_steps += u64::from(selection.evaluations > 0);
-        result.assigned_variables += usize::from(selection.selected.is_some());
+        result.completed_steps +=
+            u64::from(selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit));
+        let installed = matches!(selection.selected, Some(Move::Change { .. }));
+        result.assigned_variables += usize::from(installed);
         if config.assert_scores {
             director.assert_consistent()?;
         }
-        if selection.selected.is_some() {
+        if installed {
             if let Some(queue) = &mut value_queue {
                 queue.installed();
             }
@@ -418,7 +466,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
             result.termination = budget.construction_reason();
             break;
         }
-        if config.placement == ConstructionPlacement::Pooled && selection.selected.is_none() {
+        if let Some(reason) = scan.reason() {
+            result.termination = reason;
+            break;
+        }
+        if config.placement == ConstructionPlacement::Pooled && !installed {
             break;
         }
     }
@@ -463,5 +515,78 @@ pub(crate) fn construction_stop<C: FnMut() -> std::time::Duration>(
         Some(ConstructionTermination::Condition)
     } else {
         None
+    }
+}
+
+// Closures retain the existing local-search/director behavior. Construction adds
+// a commit guard without changing the public forager or replaying score callbacks.
+pub(crate) trait SelectionPolicy<S> {
+    fn should_pick(&self, score: S) -> bool;
+    fn can_commit(&self, _evaluation_limit: bool) -> bool {
+        true
+    }
+}
+impl<S, F: Fn(S) -> bool> SelectionPolicy<S> for F {
+    fn should_pick(&self, score: S) -> bool {
+        self(score)
+    }
+}
+
+pub(crate) struct ConstructionScan<'a> {
+    config: ConstructionConfig<'a>,
+    stopped: std::cell::Cell<Option<ConstructionTermination>>,
+}
+impl<'a> ConstructionScan<'a> {
+    pub(crate) fn new(config: ConstructionConfig<'a>) -> Self {
+        Self {
+            config,
+            stopped: std::cell::Cell::new(None),
+        }
+    }
+    pub(crate) fn proceed<C: FnMut() -> std::time::Duration>(
+        &self,
+        time: &mut crate::time_limit::TimeBudget<'_, C>,
+        shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
+    ) -> bool {
+        let reason = self.stopped.get().or_else(|| {
+            if self.config.cancelled() {
+                Some(ConstructionTermination::Cancelled)
+            } else {
+                construction_stop(time, shared)
+            }
+        });
+        self.stopped.set(reason);
+        reason.is_none()
+    }
+    pub(crate) fn policy<'s, S: AdditiveScore + 's>(
+        &'s self,
+        previous: S,
+    ) -> impl SelectionPolicy<S> + 's {
+        ConstructionSelection {
+            scan: self,
+            previous,
+        }
+    }
+    pub(crate) fn discarded(&self, evaluation_limit: bool) -> bool {
+        self.config.interruption == ConstructionInterruption::DiscardIncompleteStep
+            && (evaluation_limit || self.stopped.get().is_some())
+    }
+    pub(crate) fn reason(&self) -> Option<ConstructionTermination> {
+        self.stopped.get()
+    }
+}
+struct ConstructionSelection<'s, 'a, S> {
+    scan: &'s ConstructionScan<'a>,
+    previous: S,
+}
+impl<S: AdditiveScore> SelectionPolicy<S> for ConstructionSelection<'_, '_, S> {
+    fn should_pick(&self, score: S) -> bool {
+        self.scan
+            .config
+            .pick_early
+            .should_pick(self.previous.clone(), score)
+    }
+    fn can_commit(&self, evaluation_limit: bool) -> bool {
+        !self.scan.discarded(evaluation_limit)
     }
 }

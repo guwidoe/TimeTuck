@@ -886,3 +886,130 @@ fn mixed_atomic_filter_protects_optional_unassignment_and_existing_components() 
         assert_eq!((r.rejected_moves, r.evaluations), (2, 2));
     }
 }
+
+#[test]
+fn atomic_provider_scans_discard_on_score_scan_and_cancellation_limits() {
+    for stream in [false, true] {
+        for reason in 0..3 {
+            let token = CancellationToken::new();
+            let p = FiniteProblem::new(vec![Variable::new(vec![1, 2])]).unwrap();
+            let pulls = Cell::new(0);
+            // Cancel from the second raw proposal, after one scored candidate.
+            struct Provider<'a> {
+                token: &'a CancellationToken,
+                pulls: &'a Cell<usize>,
+                cancel: bool,
+            }
+            impl MoveProvider<FiniteProblem<i32>, Assignment<i32>, Move<i32>> for Provider<'_> {
+                fn moves<'a>(
+                    &'a mut self,
+                    _: &'a FiniteProblem<i32>,
+                    _: &'a Assignment<i32>,
+                    _: u64,
+                ) -> Box<dyn Iterator<Item = Move<i32>> + 'a>
+                where
+                    Move<i32>: 'a,
+                {
+                    Box::new([1, 2].into_iter().map(|v| {
+                        self.pulls.set(self.pulls.get() + 1);
+                        if self.cancel && v == 2 {
+                            self.token.cancel();
+                        }
+                        change(0, v)
+                    }))
+                }
+            }
+            let mut provider = Provider {
+                token: &token,
+                pulls: &pulls,
+                cancel: reason == 2,
+            };
+            let c = Config {
+                interruption: ConstructionInterruption::DiscardIncompleteStep,
+                max_move_evaluations: (reason == 0).then_some(1),
+                max_scanned_moves: if reason == 1 { 1 } else { 100 },
+                cancellation: Some(&token),
+                assert_scores: true,
+                ..Default::default()
+            };
+            let r = basic(&p, p.initial_assignment(), stream, c, &mut provider);
+            assert_eq!(r.assignment.values(), &[None]);
+            assert_eq!((r.evaluations, r.completed_steps), (2, 0));
+            assert_eq!(
+                r.termination,
+                [Stop::MoveEvaluationLimit, Stop::ScanLimit, Stop::Cancelled][reason]
+            );
+            assert_eq!(pulls.get(), if reason == 2 { 2 } else { 1 });
+        }
+        // Provider exhaustion is not probed beyond an exact candidate limit.
+        // Deliberate early pick nevertheless completes the step at that limit.
+        let p = FiniteProblem::new(vec![Variable::new(vec![0])]).unwrap();
+        let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _| vec![change(0, 0)];
+        for early in [false, true] {
+            let r = basic(
+                &p,
+                p.initial_assignment(),
+                stream,
+                Config {
+                    interruption: ConstructionInterruption::DiscardIncompleteStep,
+                    max_move_evaluations: Some(1),
+                    pick_early: if early {
+                        ConstructionPickEarly::FirstNonDeterioratingScore
+                    } else {
+                        ConstructionPickEarly::Never
+                    },
+                    ..Default::default()
+                },
+                &mut provider,
+            );
+            assert_eq!(r.assignment.values(), &[early.then_some(0)]);
+            assert_eq!(r.completed_steps, u64::from(early));
+        }
+    }
+}
+
+#[test]
+fn provider_optional_no_change_competes_last_in_all_models_and_backends() {
+    for stream in [false, true] {
+        let c = Config {
+            optional: OptionalConstruction::EvaluateUnassigned,
+            interruption: ConstructionInterruption::DiscardIncompleteStep,
+            assert_scores: true,
+            ..Default::default()
+        };
+        let p = FiniteProblem::new(vec![Variable::new(vec![1]).allowing_unassigned()]).unwrap();
+        let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _| vec![change(0, 1)];
+        let r = basic(&p, p.initial_assignment(), stream, c, &mut provider);
+        assert_eq!(r.assignment.values(), &[None]);
+        assert_eq!(
+            (r.evaluations, r.scanned_moves, r.completed_steps),
+            (3, 1, 1)
+        );
+        let l = ListProblem::new(vec![-1], vec![ListEntity::new(vec![])])
+            .unwrap()
+            .allowing_unassigned();
+        let mut provider =
+            |_: &ListProblem<i32>, _: &ListAssignment<i32>, _| vec![insert(-1, 0, 0)];
+        let r = lists(&l, l.initial_assignment(), stream, c, &mut provider);
+        assert!(r.assignment.lists()[0].is_empty());
+        assert_eq!(
+            (r.evaluations, r.scanned_moves, r.completed_steps),
+            (3, 1, 1)
+        );
+        let l = ListProblem::new(vec![1], vec![ListEntity::new(vec![1])]).unwrap();
+        let m = MixedProblem::new(p, l);
+        let mut provider = |_: &MixedProblem<i32, i32>, _: &MixedAssignment<i32, i32>, _| {
+            vec![MixedMove {
+                basic: change(0, 1),
+                lists: ListMove::Composite(vec![]),
+            }]
+        };
+        let r = mixed(&m, stream, c, &mut provider);
+        assert_eq!(r.assignment.basic().values(), &[None]);
+        assert_eq!(r.assignment.lists().lists()[0], vec![1]);
+        assert_eq!(
+            (r.evaluations, r.scanned_moves, r.completed_steps),
+            (3, 1, 1)
+        );
+    }
+}

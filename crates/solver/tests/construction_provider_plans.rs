@@ -395,3 +395,43 @@ fn zero_budget_validates_binding_without_provider_or_event_callbacks() {
     // Invalid provider phase bindings are rejected before that factory.
     assert_eq!(factories.get(), 1);
 }
+
+#[test]
+fn bound_provider_receives_atomic_construction_policy() {
+    let p = basic_problem();
+    let n = ConstraintNetwork::<_, SimpleScore>::new(2);
+    let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _| {
+        vec![
+            Move::Change {
+                variable: 0,
+                value: Some(1),
+            },
+            Move::Change {
+                variable: 0,
+                value: Some(2),
+            },
+        ]
+    };
+    let mut ext = SolverExtensions::default();
+    ext.move_providers.bind(0, &mut provider);
+    let r = solve_with_extensions(
+        &p,
+        &n,
+        SolverSequence {
+            phases: vec![SolverPhase::Construction(ConstructionConfig {
+                interruption: ConstructionInterruption::DiscardIncompleteStep,
+                max_move_evaluations: Some(1),
+                ..Default::default()
+            })],
+            ..Default::default()
+        },
+        ext,
+    )
+    .unwrap();
+    assert_eq!(r.assignment.values(), &[None, None]);
+    assert_eq!(r.phases[0].work.move_evaluations, 1);
+    assert_eq!(
+        r.phases[0].termination,
+        PhaseTermination::Construction(ConstructionTermination::MoveEvaluationLimit)
+    );
+}

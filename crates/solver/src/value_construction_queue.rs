@@ -44,8 +44,7 @@ impl<'a, V: Eq + Clone> ValueConstructionQueue<'a, V> {
                 .filter(|(i, v)| {
                     !v.is_pinned()
                         && assignment.values()[*i].is_none()
-                        && (!v.allows_unassigned()
-                            || optional == OptionalConstruction::NonWorsening)
+                        && (!v.allows_unassigned() || optional != OptionalConstruction::Preserve)
                         && v.domain().contains(value)
                 })
                 .map(|(i, _)| i)

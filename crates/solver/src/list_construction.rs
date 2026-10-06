@@ -14,7 +14,8 @@ pub struct ListConstructionResult<V, S> {
     pub complete: bool,
     pub evaluations: u64,
     pub assigned_values: usize,
-    /// Scans with at least one candidate, even when optional placement is rejected.
+    /// Nonempty scans, including optional rejection. Interrupted scans count
+    /// only under KeepBestPrefix.
     pub completed_steps: u64,
     pub constraint_evaluations: u128,
     pub termination: ConstructionTermination,
@@ -43,6 +44,8 @@ impl<V: Clone, S: Clone> ListConstructionResult<V, S> {
 /// each step, preserving registry/entity/index order for ties. Optional
 /// missing values remain unassigned by default; NonWorsening also considers them
 /// and preserves unassignment when every evaluated insertion is worse.
+/// EvaluateUnassigned instead appends a scored no-change candidate last; early
+/// picks and KeepBestPrefix interruptions may retain a worsening insertion.
 /// ValueQueue uses this same sequential list-value insertion order.
 /// Initial scoring and every trial count toward the budget; installing a winner
 /// reuses its saved contribution cache. Partial progress is returned on limits.
@@ -124,8 +127,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
-    if !problem.allows_unassigned() || config.optional == crate::OptionalConstruction::NonWorsening
-    {
+    if !problem.allows_unassigned() || config.optional != crate::OptionalConstruction::Preserve {
         for value in problem.values() {
             if config.cancelled() {
                 result.termination = ConstructionTermination::Cancelled;
@@ -163,47 +165,60 @@ pub(crate) fn construction_impl_with_clock_monitored<
             }
             let snapshot = director.assignment().clone();
             let previous = director.score();
-            let moves = values.into_iter().flat_map(|value| {
-                insertions(problem, &snapshot, 0..problem.entities().len())
-                    .filter(move |position| problem.accepts(position.entity, value))
-                    .map(move |destination| ListMove::Assign {
-                        value: value.clone(),
-                        destination,
-                    })
-            });
+            let moves = values
+                .into_iter()
+                .flat_map(|value| {
+                    insertions(problem, &snapshot, 0..problem.entities().len())
+                        .filter(move |position| problem.accepts(position.entity, value))
+                        .map(move |destination| ListMove::Assign {
+                            value: value.clone(),
+                            destination,
+                        })
+                })
+                .chain(
+                    (problem.allows_unassigned()
+                        && config.optional == crate::OptionalConstruction::EvaluateUnassigned)
+                        .then(|| ListMove::Composite(vec![])),
+                );
             let budget = crate::count_limit::CandidateBudget::new(
                 config.max_evaluations,
                 config.max_move_evaluations,
                 result.evaluations,
             );
+            let scan = crate::construction::ConstructionScan::new(config);
             let selection = director.select_best(
-                moves.take_while(|_| {
-                    !config.cancelled()
-                        && crate::construction::construction_stop(&mut time, &mut shared).is_none()
-                }),
+                moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                 budget.remaining,
                 false,
-                |_, score| !problem.allows_unassigned() || score >= previous,
-                |score| config.pick_early.should_pick(previous.clone(), score),
+                |_, score| {
+                    config.optional == crate::OptionalConstruction::EvaluateUnassigned
+                        || !problem.allows_unassigned()
+                        || score >= previous
+                },
+                scan.policy(previous.clone()),
                 config.assert_scores,
             )?;
             result.evaluations += selection.evaluations;
             result.constraint_evaluations += selection.constraint_evaluations;
-            result.assigned_values += usize::from(selection.selected.is_some());
-            result.completed_steps += u64::from(selection.evaluations > 0);
+            let installed = matches!(selection.selected, Some(ListMove::Assign { .. }));
+            result.assigned_values += usize::from(installed);
+            result.completed_steps +=
+                u64::from(selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit));
             if config.assert_scores {
                 director.assert_consistent()?;
             }
-            if selection.selected.is_some() {
+            if installed {
                 director.notify_best(|assignment| problem.is_complete(assignment));
             }
             if selection.evaluation_limit {
                 result.termination = budget.construction_reason();
                 break;
             }
-            if config.placement == crate::ConstructionPlacement::Pooled
-                && selection.selected.is_none()
-            {
+            if let Some(reason) = scan.reason() {
+                result.termination = reason;
+                break;
+            }
+            if config.placement == crate::ConstructionPlacement::Pooled && !installed {
                 break;
             }
         }

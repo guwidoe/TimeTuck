@@ -69,7 +69,7 @@ where
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&Move<V>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<crate::scoring::Selection<V>, Self::Error> {
         self.director.select_best(
@@ -310,7 +310,7 @@ where
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&ListMove<V>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<crate::list_scoring::ListSelection<V>, Self::Error> {
         self.director.select_best(
@@ -558,7 +558,7 @@ where
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
         accepts: impl FnMut(&MixedMove<B, L>, S) -> bool,
-        quit_early: impl Fn(S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<crate::mixed_scoring::MixedSelection<B, L>, Self::Error> {
         self.director.select_best(

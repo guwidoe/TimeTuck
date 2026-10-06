@@ -2,7 +2,10 @@
 //! assignment boundary; construction accepts only monotonic initialization.
 //! Unlike provider local search, malformed or non-initializing proposals are
 //! skipped and counted. No exhaustion of a custom pool proves infeasibility.
-use std::time::{Duration, Instant};
+use std::{
+    cell::Cell,
+    time::{Duration, Instant},
+};
 
 use crate::list_search_scoring::ListSearchDirector;
 use crate::mixed_search_scoring::MixedSearchDirector;
@@ -25,6 +28,7 @@ use crate::{
 /// Factory/iterator/scoring callbacks must return promptly: stopping is cooperative.
 #[derive(Clone, Copy, Debug)]
 pub struct ProviderConstructionConfig<'a> {
+    pub interruption: crate::ConstructionInterruption,
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
     pub max_steps: Option<u64>,
@@ -38,6 +42,7 @@ pub struct ProviderConstructionConfig<'a> {
 impl Default for ProviderConstructionConfig<'_> {
     fn default() -> Self {
         Self {
+            interruption: crate::ConstructionInterruption::KeepBestPrefix,
             max_evaluations: 10_000,
             max_move_evaluations: None,
             max_steps: None,
@@ -74,7 +79,8 @@ pub struct ProviderConstructionResult<A, S> {
     pub complete: bool,
     pub evaluations: u64,
     pub constraint_evaluations: u128,
-    /// Scans with at least one score evaluation, including all-rejected scans.
+    /// Nonempty scans, including all-rejected scans. Interrupted scans count
+    /// only under KeepBestPrefix.
     pub completed_steps: u64,
     pub scanned_moves: u64,
     /// Invalid, non-progressing or preservation-violating proposals. Score-based
@@ -85,9 +91,10 @@ pub struct ProviderConstructionResult<A, S> {
 
 trait Shape {
     type Problem;
-    type Assignment: Clone;
+    type Assignment: Clone + Eq;
     type Move;
     fn problem(&self) -> &Self::Problem;
+    fn no_change(&self) -> Self::Move;
     fn complete(&self, a: &Self::Assignment) -> bool;
     fn remaining(&self, a: &Self::Assignment, optional: OptionalConstruction) -> usize;
     fn extends(&self, a: &Self::Assignment, m: &Self::Move, optional: OptionalConstruction)
@@ -108,7 +115,7 @@ fn basic_remaining<V: Eq>(
         .filter(|(v, value)| {
             value.is_none()
                 && !v.is_pinned()
-                && (!v.allows_unassigned() || o == OptionalConstruction::NonWorsening)
+                && (!v.allows_unassigned() || o != OptionalConstruction::Preserve)
         })
         .count()
 }
@@ -160,6 +167,9 @@ impl<V: Eq + Clone> Shape for BasicShape<'_, V> {
     type Problem = FiniteProblem<V>;
     type Assignment = Assignment<V>;
     type Move = Move<V>;
+    fn no_change(&self) -> Self::Move {
+        Move::Composite(vec![])
+    }
     fn problem(&self) -> &Self::Problem {
         self.0
     }
@@ -182,6 +192,9 @@ impl<V: Eq + Clone> Shape for ListShape<'_, V> {
     type Problem = ListProblem<V>;
     type Assignment = ListAssignment<V>;
     type Move = ListMove<V>;
+    fn no_change(&self) -> Self::Move {
+        ListMove::Composite(vec![])
+    }
     fn problem(&self) -> &Self::Problem {
         self.0
     }
@@ -204,6 +217,12 @@ impl<B: Eq + Clone, L: Eq + Clone> Shape for MixedShape<'_, B, L> {
     type Problem = MixedProblem<B, L>;
     type Assignment = MixedAssignment<B, L>;
     type Move = MixedMove<B, L>;
+    fn no_change(&self) -> Self::Move {
+        MixedMove {
+            basic: Move::Composite(vec![]),
+            lists: ListMove::Composite(vec![]),
+        }
+    }
     fn problem(&self) -> &Self::Problem {
         self.0
     }
@@ -241,9 +260,25 @@ trait Engine<A, M, S> {
         moves: impl Iterator<Item = M>,
         limit: u64,
         config: ProviderConstructionConfig,
+        can_commit: impl Fn() -> bool,
     ) -> Result<Selected, Self::Error>;
 }
 // Wrappers keep this entry point independent of existing search engine behavior.
+struct ProviderSelection<S, F> {
+    previous: S,
+    pick: ConstructionPickEarly,
+    can_commit: F,
+}
+impl<S: AdditiveScore, F: Fn() -> bool> crate::construction::SelectionPolicy<S>
+    for ProviderSelection<S, F>
+{
+    fn should_pick(&self, score: S) -> bool {
+        self.pick.should_pick(self.previous.clone(), score)
+    }
+    fn can_commit(&self, _evaluation_limit: bool) -> bool {
+        (self.can_commit)()
+    }
+}
 macro_rules! engine {
     ($wrapper:ident, $search:ident, [$($v:ident),+], $assignment:ty, $movement:ty) => {
         struct $wrapper<D>(D);
@@ -254,13 +289,13 @@ macro_rules! engine {
             fn initial_evaluations(&self) -> u128 { self.0.initial_constraint_evaluations() }
             fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) { self.0.notify_best(complete); }
             fn assert_consistent(&mut self) -> Result<(), Self::Error> { self.0.assert_consistent() }
-            fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig) -> Result<Selected, Self::Error> {
+            fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig, can_commit: impl Fn() -> bool) -> Result<Selected, Self::Error> {
                 let previous = self.0.score();
                 // Required initialization improves structural score even when the
                 // ordinary score worsens; optional-only moves must not worsen it.
                 let selection = self.0.select_best(moves, limit, false,
-                    |_, score| score >= previous,
-                    |score| config.pick_early.should_pick(previous.clone(), score),
+                    |_, score| config.optional == OptionalConstruction::EvaluateUnassigned || score >= previous,
+                    ProviderSelection { previous: previous.clone(), pick: config.pick_early, can_commit },
                     config.assert_scores)?;
                 Ok(Selected { installed: selection.selected.is_some(), evaluations: selection.evaluations,
                     constraint_evaluations: selection.constraint_evaluations })
@@ -367,7 +402,11 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         }
         let base = director.assignment().clone();
         let mut proposals = provider.moves(shape.problem(), &base, result.completed_steps);
-        let mut stopped = None;
+        let stopped = Cell::new(None);
+        let mut no_change = (config.optional == OptionalConstruction::EvaluateUnassigned
+            && shape.remaining(&base, config.optional)
+                > shape.remaining(&base, OptionalConstruction::Preserve))
+        .then(|| shape.no_change());
         let mut emitted = 0;
         let mut ended = false;
         let candidates = std::iter::from_fn(|| {
@@ -375,27 +414,28 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 return None;
             }
             loop {
-                stopped = interruption(config, start, &mut shared);
-                if stopped.is_none() && emitted == budget {
-                    stopped = Some(budget_reason);
+                stopped.set(interruption(config, start, &mut shared));
+                if stopped.get().is_none() && emitted == budget {
+                    stopped.set(Some(budget_reason));
                 }
-                if stopped.is_none() && result.scanned_moves == config.max_scanned_moves {
-                    stopped = Some(Stop::ScanLimit);
+                if stopped.get().is_none() && result.scanned_moves == config.max_scanned_moves {
+                    stopped.set(Some(Stop::ScanLimit));
                 }
-                if stopped.is_some() {
+                if stopped.get().is_some() {
                     ended = true;
                     return None;
                 }
-                let Some(movement) = proposals.next() else {
-                    ended = true;
-                    return None;
-                };
-                result.scanned_moves += 1;
+                let movement = proposals.next();
+                result.scanned_moves += u64::from(movement.is_some());
                 if let Some(reason) = interruption(config, start, &mut shared) {
-                    stopped = Some(reason);
+                    stopped.set(Some(reason));
                     ended = true;
                     return None;
                 }
+                let Some(movement) = movement else {
+                    ended = true;
+                    return no_change.take();
+                };
                 if shape.extends(&base, &movement, config.optional) {
                     emitted += 1;
                     return Some(movement);
@@ -403,20 +443,30 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 result.rejected_moves += 1;
             }
         });
-        let selection = director.select(candidates, budget, config)?;
+        let can_commit = || {
+            config.interruption == crate::ConstructionInterruption::KeepBestPrefix
+                || stopped.get().is_none()
+        };
+        let selection = director.select(candidates, budget, config, can_commit)?;
+        let installed = selection.installed
+            && (config.optional != OptionalConstruction::EvaluateUnassigned
+                || director.assignment() != &base);
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
-        result.completed_steps += u64::from(selection.evaluations > 0);
+        result.completed_steps += u64::from(selection.evaluations > 0 && can_commit());
         if config.assert_scores {
             director.assert_consistent()?;
         }
-        if selection.installed {
+        if installed {
             director.notify_best(|a| shape.complete(a));
         }
-        if let Some(reason) = stopped.or_else(|| interruption(config, start, &mut shared)) {
+        if let Some(reason) = stopped
+            .get()
+            .or_else(|| interruption(config, start, &mut shared))
+        {
             break reason;
         }
-        if !selection.installed {
+        if !installed {
             break Stop::NoCandidates;
         }
     };
@@ -428,9 +478,14 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
 
 /// Build an assignment using a custom candidate pool and scoped basic scoring.
 /// Existing assignments are preserved; list insertions may shift old indices.
-/// Stable ties keep the first candidate. The best evaluated prefix is committed
-/// when interrupted. No additional provider pull is made to prove exhaustion at
-/// an exact limit, so a limit result may itself contain a complete assignment.
+/// Stable ties keep the first candidate. By default the best evaluated prefix
+/// is committed when interrupted; DiscardIncompleteStep retains the prior step.
+/// No additional provider pull is made to prove exhaustion at
+/// an exact limit. Under DiscardIncompleteStep, reaching that boundary discards
+/// the scan even if the provider would have ended on its next pull. An explicit
+/// early pick still completes the step. EvaluateUnassigned appends a scored
+/// no-change after natural provider exhaustion when optional items remain; this
+/// synthetic candidate consumes score/move budget but no raw-proposal budget.
 ///
 /// ```
 /// use timetuck::*;
@@ -580,9 +635,14 @@ pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
 
 /// Build an assignment using a custom candidate pool and scoped list scoring.
 /// Existing assignments are preserved; list insertions may shift old indices.
-/// Stable ties keep the first candidate. The best evaluated prefix is committed
-/// when interrupted. No additional provider pull is made to prove exhaustion at
-/// an exact limit, so a limit result may itself contain a complete assignment.
+/// Stable ties keep the first candidate. By default the best evaluated prefix
+/// is committed when interrupted; DiscardIncompleteStep retains the prior step.
+/// No additional provider pull is made to prove exhaustion at
+/// an exact limit. Under DiscardIncompleteStep, reaching that boundary discards
+/// the scan even if the provider would have ended on its next pull. An explicit
+/// early pick still completes the step. EvaluateUnassigned appends a scored
+/// no-change after natural provider exhaustion when optional items remain; this
+/// synthetic candidate consumes score/move budget but no raw-proposal budget.
 pub fn list_construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
@@ -711,9 +771,14 @@ pub(crate) fn list_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
 
 /// Build an assignment using a custom candidate pool and scoped mixed scoring.
 /// Existing assignments are preserved; list insertions may shift old indices.
-/// Stable ties keep the first candidate. The best evaluated prefix is committed
-/// when interrupted. No additional provider pull is made to prove exhaustion at
-/// an exact limit, so a limit result may itself contain a complete assignment.
+/// Stable ties keep the first candidate. By default the best evaluated prefix
+/// is committed when interrupted; DiscardIncompleteStep retains the prior step.
+/// No additional provider pull is made to prove exhaustion at
+/// an exact limit. Under DiscardIncompleteStep, reaching that boundary discards
+/// the scan even if the provider would have ended on its next pull. An explicit
+/// early pick still completes the step. EvaluateUnassigned appends a scored
+/// no-change after natural provider exhaustion when optional items remain; this
+/// synthetic candidate consumes score/move budget but no raw-proposal budget.
 pub fn mixed_construction_from_with_provider<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
