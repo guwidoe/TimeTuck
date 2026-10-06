@@ -241,21 +241,25 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
             self.lists().repair(a.lists(), &lists)?,
         ))
     }
+    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
+        self.basic().validate_neighborhood(neighborhood)?;
+        self.lists().validate_neighborhood(neighborhood)
+    }
     fn fine_moves<'a>(
         &'a self,
         a: &'a Self::Assignment,
-        swap: bool,
+        neighborhood: Neighborhood,
     ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError> {
         let basic = self
             .basic()
-            .fine_moves(a.basic(), swap)?
+            .fine_moves(a.basic(), neighborhood)?
             .map(|basic| MixedMove {
                 basic,
                 lists: ListMove::Composite(vec![]),
             });
         let lists = self
             .lists()
-            .fine_moves(a.lists(), swap)?
+            .fine_moves(a.lists(), neighborhood)?
             .map(|lists| MixedMove {
                 basic: Move::Composite(vec![]),
                 lists,

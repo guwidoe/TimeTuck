@@ -47,6 +47,13 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     /// Interleave moves within the same current state, acceptor and retained best.
     /// The default preserves repair-only behavior and its seeded trace.
     pub move_weights: RepairMoveWeights,
+    /// Additional independently weighted move families, sharing repair's current
+    /// state, acceptor and budgets. Zero weights disable enumeration and validation.
+    /// Each attempt samples a family, then uniformly samples one of its moves.
+    /// Empty families are removed for that attempt. Duplicate families remain
+    /// separate; sampled neighborhoods derive their seed from the attempt index.
+    /// An empty slice preserves the original change/swap/repair seeded trace.
+    pub additional_neighborhoods: &'a [(Neighborhood, u32)],
     /// Includes the initial score, reconstruction initial scores and all trials.
     pub max_evaluations: u64,
     /// Fine-move scores and construction candidate scores; excludes repair initialization.
@@ -73,6 +80,7 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             maximum_ruined: 20,
             max_attempts: 100,
             move_weights: RepairMoveWeights::default(),
+            additional_neighborhoods: &[],
             max_evaluations: 10_000,
             max_move_evaluations: None,
             best_score_limit: None,
@@ -84,6 +92,11 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
         }
+    }
+}
+impl<S> RuinRecreateConfig<'_, S> {
+    pub(crate) fn has_moves(&self) -> bool {
+        self.move_weights.valid() || self.additional_neighborhoods.iter().any(|(_, w)| *w > 0)
     }
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -110,7 +123,7 @@ pub struct RuinRecreateOutcome<T> {
     pub evaluations: u64,
     /// Candidate scores inside construction, excluding each fresh initial score.
     pub repair_move_evaluations: u64,
-    /// Selected ordinary change/swap attempts, including interrupted scoring.
+    /// Selected fine-neighborhood attempts, including interrupted scoring.
     pub fine_move_attempts: u64,
     /// Fine-move scores, each charged as one candidate evaluation.
     pub fine_move_evaluations: u64,
@@ -366,20 +379,24 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
             .collect();
         Self::new(variables).map_err(|e| LocalSearchError::from(e).into())
     }
+    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
+        neighborhood
+            .validate_basic(self)
+            .map_err(|e| LocalSearchError::from(e).into())
+    }
     fn fine_moves<'a>(
         &'a self,
         a: &'a Assignment<V>,
-        swap: bool,
+        neighborhood: Neighborhood,
     ) -> Result<Box<dyn Iterator<Item = Move<V>> + 'a>, RuinRecreateError> {
-        if swap {
-            Ok(Box::new(
-                swap_moves(self, a).map_err(LocalSearchError::from)?,
-            ))
-        } else {
-            Ok(Box::new(
-                change_moves(self, a).map_err(LocalSearchError::from)?,
-            ))
-        }
+        self.validate(a).map_err(LocalSearchError::from)?;
+        self.validate_neighborhood(neighborhood)?;
+        Ok(crate::neighborhood::ordered(
+            self,
+            a,
+            neighborhood,
+            0..self.variables().len(),
+        ))
     }
     fn apply_fine(
         &self,

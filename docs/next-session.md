@@ -11451,3 +11451,46 @@ owner ranges respected and best events. One/two local phases, each1000move limit
 Native NeighborhoodUnion presently covers ordinary Neighborhood variants; inspect
 actual ruin/recreate integration before claiming union fidelity. Leave these two
 methods pending until all variants are implemented/exercised.
+
+
+## Rich neighborhoods in repair search
+
+RuinRecreateConfig::additional_neighborhoods adds weighted existing move families
+alongside legacy change/swap/repair. Shared current state, acceptance history, best
+and budgets apply to all families. Zero weights skip validation/enumeration; empty
+families retire for the attempt. Reservoir sampling preserves duplicate candidates;
+sampled k-opt seeds advance by total attempt index. Empty additions preserve legacy
+seeded traces. Basic/list/mixed adapters dispatch existing neighborhood rules; mixed
+moves are independent components, not joint products. Enabled settings validate
+before scoring both directly and in later explicit solver phases. No production
+implementation read and no performance claim.
+
+entity_range_search_cases.rs covers four DefaultSolverTest methods: single/multiple
+local-search phases for basic/list entity ranges. All seven basic and nine list
+configurations are run (32 configuration/phase-count combinations). Exact source
+ranges, optional null/empty initial states, score formulas, excluded-value/nonempty
+list assertions and actual best events retained. Pillar changes and swaps use
+separate native subpillar configurations, explicitly disabling the other move type.
+Original/random variants are distinct standalone phases; union order duplicates
+are separately weighted families with uniform within-family sampling, not Java
+selector trace parity. Multi-list k-opt uses bounded seeded proposals. Some families
+can be empty for these small source fixtures; original regression forces richer
+list families on a larger pinned model.
+
+repair_neighborhoods.rs checks exact legacy swap results across all six model/backend
+paths, rich-family successor legality and pins, budget prefixes0..23, repeatability,
+disabled/invalid/empty families and pre-score sequence validation. Initial test used
+unlike constraint granularities; its scoped constraints now match graph rows. Five
+focused tests passed before adding the two basic cases. The final gate covers the
+new basic cases. Initial Clippy found needless_range_loop in the nine-variant harness;
+fixed the loop without removing cases. Clippy retry passed; broad no-run build92590
+exited0 (3m27s). Final gate89710 exited0, log work/repair-neighborhood-final-check.log. Other logs:
+work/repair-neighborhood-{focused,focused2,clippy,clippy2,build,check}.log.
+Full goal remains active. Larger mixed-selector configurations remain pending.
+
+Final evidence: 3351 Rust tests and153 doctests passed. Rust jobs {'RUN': 355, 'REUSE': 56};
+Python jobs {'REUSE': 46}. Source-before/after equal:
+890cdf3e99fff1626d4c41ac7e517e2c50ff7dca47896dc1cf28ce92d113c995.
+Dashboard {'total': 4855, 'passed': 1892, 'failed': 0, 'pending': 2681, 'excluded': 282, 'unverified': 0, 'percent': 38.97}; live freshness matched digest:
+5d7cb8dd76d1e11f28d2a6782c34083b60d2739f5ef3453858f8dd6ed1eb49f0.
+All verification processes terminal; no benchmark/release/browser reruns.

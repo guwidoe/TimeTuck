@@ -28320,6 +28320,66 @@
       "upstream_test": "solveListVarEntityRangeModelWithTreeSet",
       "local_test": "solve_list_var_entity_range_model_with_tree_set",
       "modifications": "Preserve actual ordered-set entity ranges [v1,v2] and [v1,v3], empty initial lists, optional values, dummy ordinary-zero objective, move-evaluation limit10 and nonempty events/result. BTreeSet orders code strings; registry derives first-occurrence union. Native NonWorsening optional construction replaces Java default placement. Additional range assertions; no requirement to assign every optional value. Native explicit typed domains, list ranges and bounded solve plans replace Java reflection/provider discovery. Preserve real solve invocation and nonempty best-score events. No Java API, annotation discovery or identical stochastic trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveListVarEntityRangeModelSingleLocalSearch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveListVarEntityRangeModelSingleLocalSearch",
+      "local_test": "solve_list_var_entity_range_model_single_local_search",
+      "modifications": "Preserve optional empty lists, three entity-specific overlapping/disjoint ranges, exact calculator (length>=2 scores2 else1), nonempty result/best events, nonempty final lists and legal owner domains. Exercise all nine supplied configurations: random/original change, random/original swap, sublist change, sublist swap, k-opt, repair, union of all eight children. Native explicit model replaces annotations; NonWorsening construction places optional values; original/shuffled-window enumeration replaces Java selection order; bounded multi-list k-opt replaces default Java proposals. Repair union shares current state, acceptance and budgets with weighted fine families. Union treats duplicate order variants as separate equal-weight families with uniform within-family sampling; no identical Java distribution/trace claimed. Each search phase bounded1000 candidate scores and1000 steps/attempts, score assertions enabled. Small ranges can make some configured families empty; original regression separately forces rich-neighborhood execution on a larger pinned model. Preserve one local search phases after construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveListVarEntityRangeModelMultipleLocalSearch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveListVarEntityRangeModelMultipleLocalSearch",
+      "local_test": "solve_list_var_entity_range_model_multiple_local_search",
+      "modifications": "Preserve optional empty lists, three entity-specific overlapping/disjoint ranges, exact calculator (length>=2 scores2 else1), nonempty result/best events, nonempty final lists and legal owner domains. Exercise all nine supplied configurations: random/original change, random/original swap, sublist change, sublist swap, k-opt, repair, union of all eight children. Native explicit model replaces annotations; NonWorsening construction places optional values; original/shuffled-window enumeration replaces Java selection order; bounded multi-list k-opt replaces default Java proposals. Repair union shares current state, acceptance and budgets with weighted fine families. Union treats duplicate order variants as separate equal-weight families with uniform within-family sampling; no identical Java distribution/trace claimed. Each search phase bounded1000 candidate scores and1000 steps/attempts, score assertions enabled. Small ranges can make some configured families empty; original regression separately forces rich-neighborhood execution on a larger pinned model. Preserve two local search phases after construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveBasicVarEntityRangeModelSingleLocalSearch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveBasicVarEntityRangeModelSingleLocalSearch",
+      "local_test": "solve_basic_var_entity_range_model_single_local_search",
+      "modifications": "Preserve initially null optional basics, actual ranges[1,2,3],[1,2,5],[4,5], exact +/-1 per assigned/unassigned entity score, source excluded-value assertions and real nonempty best events. Exercise all seven configurations: change, random/original swap, pillar change-only, pillar swap-only, repair, union. Native nonempty subpillar subsets preserve equal-value groups and domain restrictions; swap-only disables changes explicitly. One/two local phases as source, each bounded1000 move scores/steps/attempts with score diagnostics. Native shuffled window and equal-family repair union replace Java randomness; union duplicate swap children remain separately weighted, without identical Java trace or distribution claims. Native explicit variables replace reflective providers. Independent final score and domain checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveBasicVarEntityRangeModelMultipleLocalSearch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveBasicVarEntityRangeModelMultipleLocalSearch",
+      "local_test": "solve_basic_var_entity_range_model_multiple_local_search",
+      "modifications": "Preserve initially null optional basics, actual ranges[1,2,3],[1,2,5],[4,5], exact +/-1 per assigned/unassigned entity score, source excluded-value assertions and real nonempty best events. Exercise all seven configurations: change, random/original swap, pillar change-only, pillar swap-only, repair, union. Native nonempty subpillar subsets preserve equal-value groups and domain restrictions; swap-only disables changes explicitly. One/two local phases as source, each bounded1000 move scores/steps/attempts with score diagnostics. Native shuffled window and equal-family repair union replace Java randomness; union duplicate swap children remain separately weighted, without identical Java trace or distribution claims. Native explicit variables replace reflective providers. Independent final score and domain checks."
     }
   ],
   "fixtures": [
@@ -35238,6 +35298,123 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "Native empty network retains exact ordinary-zero objective; required missing assignments use structural penalties."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.list_range_search_helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveListVarEntityRangeModel; generateMovesForListVarEntityRangeModel",
+      "modifications": "Preserve actual three ranges, optionality, all assertions and all nine move-selector variants; one/two phase helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingEntity.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "constructor; valueRange; valueList",
+      "modifications": "Native list entities preserve provider-specific ranges, empty initial lists and optional values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingSolution.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingSolution.java",
+      "upstream_test": "getValueList; setEntityList",
+      "modifications": "Native from_entity_ranges preserves first-encounter distinct registry union."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUnassignedEntityProvidingScoreCalculator.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Retain exact per-entity score2 when list length>=2, otherwise1; independent final score fold."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.list_range_search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "modifications": "Actual native solver observer asserts nonempty retained-best events."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.basic_range_search_helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveBasicVarEntityRangeModel; generateMovesForBasicVar",
+      "modifications": "All seven selector configurations and one/two phase helper, actual initial ranges and source assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "constructor; getValue; getValueRange",
+      "modifications": "Preserve null optional basics and per-entity value provider domains."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "setEntityList; getProblemFacts",
+      "modifications": "Native explicit variable domains represent provider values; no reflective annotations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_search_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingScoreCalculator.search",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Exact score +1 for assigned basic, -1 for null; independent final fold."
     }
   ]
 }

@@ -29,10 +29,11 @@ pub(crate) trait RepairModel: Sized {
     fn population(&self) -> usize;
     fn movable(&self, a: &Self::Assignment) -> Vec<usize>;
     fn repair(&self, a: &Self::Assignment, selected: &[usize]) -> Result<Self, RuinRecreateError>;
+    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError>;
     fn fine_moves<'a>(
         &'a self,
         a: &'a Self::Assignment,
-        swap: bool,
+        neighborhood: Neighborhood,
     ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError>;
     fn apply_fine(
         &self,
@@ -78,8 +79,13 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
         return Err(RuinRecreateError::InvalidRuinRange);
     }
-    if !config.move_weights.valid() {
+    if !config.has_moves() {
         return Err(RuinRecreateError::InvalidMoveWeights);
+    }
+    for &(neighborhood, weight) in config.additional_neighborhoods {
+        if weight > 0 {
+            problem.validate_neighborhood(neighborhood)?;
+        }
     }
     let policy = config.acceptance.for_population(problem.population());
     policy.validate().map_err(LocalSearchError::from)?;
@@ -196,6 +202,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         } else if movable.is_empty()
             && config.move_weights.change == 0
             && config.move_weights.swap == 0
+            && !config.additional_neighborhoods.iter().any(|(_, w)| *w > 0)
         {
             Some(RuinRecreateTermination::NoMovableVariables)
         } else {
@@ -208,25 +215,35 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         // Select a family by its fixed weight, then a uniform fine candidate.
         // Empty families are removed and the remaining weights renormalized.
         // Repair-only calls consume exactly the historical random sequence.
-        let mut weights = [
-            config.move_weights.change as u64,
-            config.move_weights.swap as u64,
+        let mut weights = vec![
+            config.move_weights.change as u128,
+            config.move_weights.swap as u128,
             if movable.is_empty() {
                 0
             } else {
-                config.move_weights.repair as u64
+                config.move_weights.repair as u128
             },
         ];
+        weights.extend(
+            config
+                .additional_neighborhoods
+                .iter()
+                .map(|(_, w)| u128::from(*w)),
+        );
         let (family, movement) = loop {
-            let total: u64 = weights.iter().sum();
+            let total: u128 = weights.iter().sum();
             if total == 0 {
                 result.termination = RuinRecreateTermination::NoAvailableMoves;
                 return Ok(result);
             }
-            let family = if weights[0] == 0 && weights[1] == 0 {
+            let family = if weights.iter().enumerate().all(|(i, w)| i == 2 || *w == 0) {
                 2
             } else {
-                let mut ticket = random.below(total);
+                let mut ticket = if let Ok(total) = u64::try_from(total) {
+                    u128::from(random.below(total))
+                } else {
+                    random.below_wide(total)
+                };
                 let mut index = 0;
                 while ticket >= weights[index] {
                     ticket -= weights[index];
@@ -237,7 +254,13 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             if family == 2 {
                 break (family, None);
             }
-            let mut moves = problem.fine_moves(&current.0, family == 1)?;
+            let neighborhood = match family {
+                0 => Neighborhood::Change,
+                1 => Neighborhood::Swap,
+                _ => config.additional_neighborhoods[family - 3].0,
+            }
+            .at_step(result.attempts + result.fine_move_attempts);
+            let mut moves = problem.fine_moves(&current.0, neighborhood)?;
             let mut selected = None;
             let mut seen = 0_u64;
             loop {

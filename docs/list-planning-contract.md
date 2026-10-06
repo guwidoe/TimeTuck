@@ -854,3 +854,14 @@ illegal initial assignments and pins. Equality denotes planning identity; no Has
 or Ord bound is added. Entity/domain iteration order defines the registry order.
 Use the ordinary constructor when an explicit global registry is available or some
 entities have unrestricted ranges. Optionality remains a separate model setting.
+
+`RuinRecreateConfig::additional_neighborhoods` adds weighted existing neighborhood
+families to the repair/change/swap mixture. All use the same current state, retained
+best, acceptance history and score budgets. Zero-weight entries skip validation
+and enumeration; enabled empty families are removed for the current attempt. A
+family is selected by weight, then one candidate is sampled uniformly using bounded
+storage. Sampled k-opt seeds advance by total attempt index. Candidate enumeration
+remains cooperative with cancellation/deadlines. Model-specific neighborhood rules
+are unchanged; mixed search emits independent basic/list moves, not joint products.
+An empty slice preserves the legacy seeded trace. Enabled configurations validate
+before scoring, including when placed later in an explicit solver sequence.

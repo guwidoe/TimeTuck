@@ -2369,3 +2369,19 @@ and encounter order for the other, with exact source scoring and all four fixtur
 sizes. Entity-only list ranges use the native stable registry-union constructor;
 this is explicit configuration, not reflective provider discovery. Three original
 regressions cover metadata/pins, malformed ranges and256 overlapping range pairs.
+
+Two entity-range DefaultSolverTest methods now exercise all nine supplied list
+move configurations with one/two search phases, exact scoring, optional values,
+nonempty final lists, legal owner ranges and retained-best events. Repair unions
+include change, swap, sublist and multi-list k-opt families in a shared search.
+Native deterministic seeds, bounded proposals and uniform within-family sampling
+replace Java selector traces; original-order variants remain distinct in isolated
+phases, while union order duplicates are separate weighted children. Small fixture
+ranges can leave a configured family empty; original larger-model checks force
+sublist/k-opt execution and verify pins, successors, budgets and reproducibility.
+
+The matching two basic entity-range methods exercise all seven configurations,
+including distinct pillar-change-only and pillar-swap-only selectors, with one/two
+phases. Actual optional null initial values, per-entity domains, +/-1 score formula
+and excluded-value assertions are retained. Native subpillar subsets and seeded
+move sampling replace default Java selectors; no identical trace is claimed.

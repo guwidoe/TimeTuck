@@ -774,7 +774,7 @@ where
     }
     for (index, c) in local.iter().enumerate() {
         if let SolverPhase::RuinRecreate(c) = c {
-            if !c.move_weights.valid() {
+            if !c.has_moves() {
                 return Err(SolverError::Repair {
                     phase: index,
                     error: RuinRecreateError::InvalidMoveWeights,
@@ -1575,6 +1575,18 @@ fn validate_basic_phase_neighborhoods<V: Eq, S, E>(
                     })?;
             }
         }
+        if let SolverPhase::RuinRecreate(config) = config {
+            for &(neighborhood, weight) in config.additional_neighborhoods {
+                if weight > 0 {
+                    neighborhood
+                        .validate_basic(problem)
+                        .map_err(|e| SolverError::Phase {
+                            phase,
+                            error: error(e),
+                        })?;
+                }
+            }
+        }
     }
     Ok(())
 }
@@ -1595,6 +1607,18 @@ fn validate_list_phase_neighborhoods<V: Eq + Clone, S, E>(
                         phase,
                         error: error(e),
                     })?;
+            }
+        }
+        if let SolverPhase::RuinRecreate(config) = config {
+            for &(neighborhood, weight) in config.additional_neighborhoods {
+                if weight > 0 {
+                    neighborhood
+                        .validate_list(problem)
+                        .map_err(|e| SolverError::Phase {
+                            phase,
+                            error: error(e),
+                        })?;
+                }
             }
         }
     }

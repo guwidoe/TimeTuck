@@ -245,18 +245,17 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             repair
         })
     }
+    fn validate_neighborhood(&self, neighborhood: Neighborhood) -> Result<(), RuinRecreateError> {
+        neighborhood.validate_list(self).map_err(model_error)
+    }
     fn fine_moves<'a>(
         &'a self,
         a: &'a ListAssignment<V>,
-        swap: bool,
+        neighborhood: Neighborhood,
     ) -> Result<Box<dyn Iterator<Item = ListMove<V>> + 'a>, RuinRecreateError> {
-        if swap {
-            Ok(Box::new(list_swap_moves(self, a).map_err(model_error)?))
-        } else {
-            Ok(Box::new(
-                list_moves(self, a, Neighborhood::Change).map_err(model_error)?,
-            ))
-        }
+        Ok(Box::new(
+            list_moves(self, a, neighborhood).map_err(model_error)?,
+        ))
     }
     fn apply_fine(
         &self,
