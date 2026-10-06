@@ -32654,6 +32654,66 @@
       "upstream_test": "swapSubListsSameEntityReversing",
       "local_test": "swap_sub_lists_same_entity_reversing",
       "modifications": "Preserve all literal value/owner identities, ordered list assertions, exact per-field histories and final owner/index/previous/next assertions, including untouched-null empty histories. Native ListProblem assign/unassign/change/swap/sublist transactions replace selector moves; shared typed registry synchronization and ListStateSupply events update caller-owned fields and append histories. Repeated initialization must not duplicate events. Owner removal resets registry rows while preserving old shadow storage. Native zero-score calculation and structural unassigned count preserve the add/remove element score assertion. No Java event interleaving across different fields or reflective setter discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "ShadowVariableUpdateTest.updateBasicShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ShadowVariableUpdateTest.java",
+      "upstream_test": "updateBasicShadowVariables",
+      "local_test": "update_basic_shadow_variables",
+      "modifications": "Explicit typed registration replaces reflective solution/entity-array discovery. BasicStateSupply publishes real inverse collections; ShadowSession evaluates separately typed dependent start/end fields and entity duration fields. Native indices preserve e1/e2/e3 and v1/v2 identities. Preserve every inverse membership and time/duration assertion. Time retains the literal 2025-04-29 18:40:00 origin and exact integral-second offset; duration inputs preserve seconds versus days. Solution suppliers receive a real non-null immutable World reference; opaque problem facts remain unrelated. Results are typed cached fields rather than automatic Java setters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "ShadowVariableUpdateTest.updateBasicShadowVariablesOnlyPlanningEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ShadowVariableUpdateTest.java",
+      "upstream_test": "updateBasicShadowVariablesOnlyPlanningEntity",
+      "local_test": "update_basic_shadow_variables_only_planning_entity",
+      "modifications": "Explicit typed registration replaces reflective solution/entity-array discovery. BasicStateSupply publishes real inverse collections; ShadowSession evaluates separately typed dependent start/end fields and entity duration fields. Native indices preserve e1/e2/e3 and v1/v2 identities. Preserve every inverse membership and time/duration assertion. Time retains the literal 2025-04-29 18:40:00 origin and exact integral-second offset; duration inputs preserve seconds versus days. Solution suppliers receive a real non-null immutable World reference; opaque problem facts remain unrelated. Results are typed cached fields rather than automatic Java setters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "ShadowVariableUpdateTest.solutionUpdateBasicShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ShadowVariableUpdateTest.java",
+      "upstream_test": "solutionUpdateBasicShadowVariables",
+      "local_test": "solution_update_basic_shadow_variables",
+      "modifications": "Explicit typed registration replaces reflective solution/entity-array discovery. BasicStateSupply publishes real inverse collections; ShadowSession evaluates separately typed dependent start/end fields and entity duration fields. Native indices preserve e1/e2/e3 and v1/v2 identities. Preserve every inverse membership and time/duration assertion. Time retains the literal 2025-04-29 18:40:00 origin and exact integral-second offset; duration inputs preserve seconds versus days. Solution suppliers receive a real non-null immutable World reference; opaque problem facts remain unrelated. Results are typed cached fields rather than automatic Java setters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "ShadowVariableUpdateTest.solutionUpdateBasicShadowVariablesWithParameter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ShadowVariableUpdateTest.java",
+      "upstream_test": "solutionUpdateBasicShadowVariablesWithParameter",
+      "local_test": "solution_update_basic_shadow_variables_with_parameter",
+      "modifications": "Explicit typed registration replaces reflective solution/entity-array discovery. BasicStateSupply publishes real inverse collections; ShadowSession evaluates separately typed dependent start/end fields and entity duration fields. Native indices preserve e1/e2/e3 and v1/v2 identities. Preserve every inverse membership and time/duration assertion. Time retains the literal 2025-04-29 18:40:00 origin and exact integral-second offset; duration inputs preserve seconds versus days. Solution suppliers receive a real non-null immutable World reference; opaque problem facts remain unrelated. Results are typed cached fields rather than automatic Java setters."
     }
   ],
   "fixtures": [
@@ -43082,6 +43142,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListVariableShadowVariablesTest.java",
       "upstream_test": "doSubListSwapMove",
       "modifications": "Adapt initialization, exact history/final-field assertions, and native move execution helpers. Fixture owns a ListProblem assignment, shared registry, typed supply and caller-owned fields/histories. Native ranges preserve source half-open sublist bounds and reversal flags. Empty expected neighbor histories also assert absent current fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarSolution.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/basic/TestdataBasicVarSolution.java",
+      "upstream_test": "TestdataBasicVarSolution",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarEntity.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/basic/TestdataBasicVarEntity.java",
+      "upstream_test": "TestdataBasicVarEntity",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarValue.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/basic/TestdataBasicVarValue.java",
+      "upstream_test": "TestdataBasicVarValue",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarParameterSolution.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/parameter/TestdataBasicVarParameterSolution.java",
+      "upstream_test": "TestdataBasicVarParameterSolution",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarParameterEntity.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/parameter/TestdataBasicVarParameterEntity.java",
+      "upstream_test": "TestdataBasicVarParameterEntity",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_session_cases.rs",
+      "id": "TestdataBasicVarParameterValue.shadow_session",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/parameter/TestdataBasicVarParameterValue.java",
+      "upstream_test": "TestdataBasicVarParameterValue",
+      "modifications": "Adapt required value metadata, inverse entityList, durationInDays, startTime/endTime supplier dependencies, immutable durations, problem facts and literal DEFAULT_TIME. Entity/value codes map to stable zero-based identities. Start time uses inverse size in days or ten days when empty; end time adds duration; entity duration divides seconds into days. Typed reader/supplier registration replaces Java annotations and parameter reflection. Native Time stores origin plus exact seconds; inconsistency is carried by the generic session result, not a reflective invalid flag setter."
     }
   ]
 }

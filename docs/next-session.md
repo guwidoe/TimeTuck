@@ -12752,3 +12752,54 @@ fixture bodies have not yet been read. Metadata, source paths, dependency caches
 and typed basic/list supplies exist; generic coordination of typed multi-field
 shadow suppliers remains an integration gap. Extend actual native execution here;
 avoid re-crediting already adapted basic-reference/list-element stream tests.
+
+
+## Heterogeneous shadow sessions (current increment)
+
+Previous turnee12836 was progress; starting tree clean. Added ShadowSessionBuilder
+and ShadowSession over DependencyCache. Typed basic/list/external-shadow readers
+and derived nodes use canonical field metadata and stable entity keys, with
+heterogeneous erased Eq values behind Rc. Typed handles enforce result types and
+session ownership; duplicate field/entity registrations fail. Suppliers access
+only declared dependencies and immutable world facts. Update polls registered
+readers, propagates changed values once, stops on equality, and handles dynamic
+edges/cycles/inconsistent descendants. Source None remains consistent.
+
+Checkpoint shares non-Clone results; restore validates sampled registered inputs
+and restores edges/cache without derived callbacks. Reads are last-published
+snapshot reads; explicit update after world edits. Changed external mutable facts
+require mark_dirty; those facts and callback side effects are not automatically
+restored. Generic source-path binding and automatic setters remain separate work.
+
+Read full six basic/parameter fixtures this turn; reused full ShadowVariableUpdateTest
+read. Four methods adapted through real BasicStateSupply inverse publication and
+multi-field scheduling. Two Java null-array/collection diagnostics remain pending.
+Four original tests cover mixed result types, actual native trial/undo, equality
+stopping, rewiring/cycle recovery, foreign/undeclared metadata, non-Clone snapshots,
+None results, supplier and reader panic retry. One public API doctest added.
+
+Library compile33836 exited0. Focused47222 and7611 failed because test suppliers
+borrowed handles with insufficient lifetimes; move closures now own cloned handles
+and borrow stable counter Cells. Focused20726 exited0: seven tests. Added one more
+reader-failure/None regression afterward; final gate will run all eight. Appended
+four case and six fixture provenance records; existing prefixes unchanged.
+No upstream production implementation read; source/provenance now frozen for gate.
+
+Next integration opportunity: compiled SourcePathRegistry plans already expose
+canonical variable/entity references and dependency_keys over typed borrowed
+objects. ShadowSession currently takes explicit typed handles/edges. Bind compiled
+paths to registered field/entity nodes so rewiring follows changing references
+and groups automatically; preserve missing/foreign metadata validation and atomic
+updates. Inspected CompiledSourcePath339-430 this turn. GraphStructureTest1-110
+was read (classification assertions only, remainder unread); avoid substituting
+classification labels for operational source-path evaluation. ListModelTest,
+MixedModelTest and other pending shadow updates remain useful end-to-end cases.
+
+Required gate84879 exited0. 3747 Rust tests and 176 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 459}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2179, 'failed': 0, 'pending': 2394, 'excluded': 282, 'unverified': 0, 'percent': 44.882}.
+Source before/after matched: 1923f376e42fba83531487256b87db211af29a4911bcab8745f165fba051c80c
+Live freshness matched verification digest: b2efce35e16a291c30944f46b35867fe67e27555fb94fc854c51ca0e16b522cb.
+Existing provenance prefixes unchanged; appended4cases and6fixtures.
+Log work/shadow-session-final-check.log; evidence work/shadow-session-evidence.json.
+No benchmark/browser/release reruns. All handles terminal; goal remains active.

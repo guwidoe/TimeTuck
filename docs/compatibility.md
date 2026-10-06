@@ -2974,3 +2974,34 @@ solver-wide dynamic entity removal. Removing an owner resets explicit registry
 rows and publishes cleared shadows. Existing production APIs satisfy the cases
 without additional solver changes. Fixtures and eleven assertion/move helpers
 are attributed separately. No new performance measurements are claimed.
+
+
+## Heterogeneous typed shadow sessions
+
+ShadowSessionBuilder registers typed basic/list/external-shadow readers and derived
+fields against canonical schema metadata and stable native entity keys. One session
+can contain different result types. Typed handles reject foreign sessions, duplicate
+field/entity registration and metadata mismatches. Suppliers can read only declared
+dependencies, plus immutable world facts; the supplied world reference supports
+solution-parameter calculations without reflection.
+
+Update samples readers, compares typed values, and reuses DependencyCache to schedule
+affected suppliers once in dependency order. Equal results stop propagation. Dynamic
+edges can be rewired; cycles and their descendants become absent/inconsistent without
+supplier calls, then recover when the cycle is removed. None alone is consistent.
+Reader/supplier failures retain cached values and pending work. Checkpoints share
+non-Clone outputs; restore checks registered inputs and runs no derived suppliers.
+
+Reads expose the last published snapshot. World edits require update, and mutable
+facts outside registered readers require explicit invalidation of direct consumers.
+Pending edits reject reads. Restore validates registered inputs, not arbitrary world
+facts or callback side effects. Callers still apply field outputs and synchronize
+model assignments explicitly; automatic source-path binding/setters remain separate.
+Input sampling scans all registered readers; no performance claim is made.
+
+Four ShadowVariableUpdateTest methods and six fixtures are adapted, including actual
+inverse publication, dependent time fields, entity-only registration and solution
+parameters. Native time fixtures retain the source origin and exact second offsets.
+Java empty entity-array and null inverse-collection errors remain pending. Original
+tests cover heterogeneous chains, native list trial/undo, equality stopping, cycles,
+non-Clone snapshots, undeclared/foreign handles, absent inputs and panic recovery.

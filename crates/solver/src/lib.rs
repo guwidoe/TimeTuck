@@ -780,3 +780,9 @@ mod basic_state_supply;
 pub use basic_state_supply::{
     BasicInverseChange, BasicStateSupply, BasicStateUpdate, BasicSupplyError,
 };
+
+mod shadow_session;
+pub use shadow_session::{
+    ShadowInputs, ShadowNode, ShadowNodeRef, ShadowRead, ShadowSession, ShadowSessionBuilder,
+    ShadowSessionCheckpoint, ShadowSessionError,
+};
