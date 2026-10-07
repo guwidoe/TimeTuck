@@ -14151,3 +14151,38 @@ Live freshness matched verification digest: b240b84910c717a98f1dc28c4504bdba31a6
 Existing provenance prefixes unchanged; appended1case and3fixtures.
 Log work/destination-index-final-check.log; evidence work/destination-index-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+
+## Numeric decimal index keys
+
+Previous user timing answer was a read-only evidence update; last implementation
+c68bf51 verified/committed. Starting HEAD clean. Read compatibility/handoff and
+complete pinned ScoreUtilTest; no upstream production reads or fixture copies.
+Added NumericDecimal as an independent module, preserving the wrapped Decimal
+while providing scale-insensitive Eq/Ord/Hash and sign predicates. No changes to
+existing decimal math or score behavior. Explicit AsRef/conversions avoid invalid
+Borrow contracts; docs explain representative scale is not a stable group attribute.
+Four source sign/equality/hash methods adapted and recorded; arithmetic/scale
+utility methods remain pending. Four native cases exercise key laws and extreme
+scales, round trips, candidate replacement/ranges and 400 graph transactions with
+numeric group/join scores independently computed from integer values.
+Focused42680 TERMINAL0:4 source and4 original tests passed. Simplified test input
+iteration after that run; final gate covers final formatted state. No performance
+claim, benchmark refresh or browser rerun. Goal remains active.
+
+Gate27028 intentionally terminated (terminal143) after detecting broad invalidation:
+impl From<NumericDecimal> for Decimal made the heuristic dependency scanner attach
+this new module to every Decimal consumer. Removed that redundant conversion;
+into_decimal retains explicit lossless conversion without modifying shared types.
+Aborted output retained in work/numeric-decimal-broad-check-aborted.log. Some
+completed jobs replaced their previous single-entry cache and need rerunning after
+the correction; remaining unrelated jobs can reuse their previous valid evidence.
+
+Required gate11036 TERMINAL0. 4124 Rust tests and 201 doctests passed.
+Rust jobs: {'RUN': 100, 'REUSE': 425}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2454, 'failed': 0, 'pending': 2119, 'excluded': 282, 'unverified': 0, 'percent': 50.546}.
+Source before/after matched: 8e3b6d3ad9c66f807c1d8c922b4f0d38320d381bfd06f8c21ce6269319a1aed8
+Live freshness matched verification digest: 36f9525b396c619394fea44f164bd7c554630f3118cbe5df7ebb242e2b29cadd.
+Existing provenance prefixes unchanged; appended4cases and0fixtures.
+Log work/numeric-decimal-final-check.log; evidence work/numeric-decimal-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

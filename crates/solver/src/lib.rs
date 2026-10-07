@@ -142,6 +142,8 @@ pub use list_collector::{ListCollector, ListSnapshot};
 pub use num_bigint::BigInt;
 mod decimal;
 pub use decimal::Decimal;
+mod numeric_decimal;
+pub use numeric_decimal::NumericDecimal;
 mod decimal_math;
 pub use decimal_math::{DecimalArithmeticError, ParseDecimalError};
 mod decimal_score;

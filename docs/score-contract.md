@@ -318,3 +318,26 @@ families compare no reset levels. Structural components are excluded. The medium
 level remains outside HARD_LEVEL_COUNT and feasibility; only the late-history
 reset decision changes. Decimal comparison is exact, including scale-equivalent
 values and differences below floating-point precision.
+
+
+## Numeric decimal keys
+
+`NumericDecimal` wraps an owned `Decimal` with numeric Eq, Ord and Hash: `1.0`
+and `1.00` share an index bucket, group or join key. Construction, parsing and
+conversion back retain the original coefficient and scale. Sign predicates ignore
+scale, including zero at either i32 scale boundary. Hash canonicalization uses a
+wider exponent; comparison and hashing do not expand large scale gaps. Their
+work still depends on coefficient size. The existing Decimal representation-based
+Eq/Hash/Ord and score arithmetic remain unchanged.
+
+Convert lookup keys explicitly. NumericDecimal offers AsRef<Decimal>, but not
+Borrow<Decimal>, because the two types have different key equality. Equal keys
+can retain either representation inside collections; callers must not treat the
+representative scale as a stable group property. Arithmetic uses the retained
+Decimal explicitly and therefore its scale-sensitive rounding rules.
+
+Four ScoreUtilTest methods preserve all sign, equality and equal-hash assertions;
+no exact Java hash value is claimed. Arithmetic and nonNegativeScale utility
+methods remain pending. Original cases cover hash/tree agreement, extreme scales,
+representation round trips, candidate bucket/range updates, and incremental
+stream grouping/join scores against an integer oracle across commits/rollbacks.
