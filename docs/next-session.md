@@ -15065,3 +15065,41 @@ some targets skipped in the preceding Rust batch needed compilation. Live server
 freshness matches the regenerated report. The scope audit is an input-selection
 comparison, not a measured solver or build speedup. All verification handles are
 terminal; the dashboard server remains running. No Rust behavior changes.
+
+## Adaptive sequenced membership and stable ordered distinct collection
+
+Previous goal turn completed6aba80d; started clean and read compatibility/handoff.
+Used previously fully read ScalingSequencedSetTest and rechecked its method
+inventory. No production reads. Implemented independent empty/single/array/hash-
+indexed storage with insertion-linked slots, reusable holes, promotion above16,
+demotion below16, Arc representatives without Clone bounds, independent clones,
+order-neutral equality/hash, live reverse views and double-ended iterator leases.
+Added OrderedSetCollector using persistent explicit occurrence IDs and this set
+for deterministic distinct output. Stable keys make scoring independent of event
+arrival, verified by full stream replay after committed and rolled-back changes.
+
+Initial compile14852 TERMINAL0. First focused3620 TERMINAL101 used the wrong test
+TupleChange variant, corrected to retract. Collector design was adjusted before
+final verification to use stable occurrence IDs. Focused50881 TERMINAL0:
+30adapted methods and6native regressions, including16000seeded set operations,
+3000grouped collector updates, collisions/non-Clone identity, cloning/snapshots,
+iterator leases, duplicate IDs and transactional graph scoring/replay. A native
+unit case additionally checks2000indexed edits reuse40slots; final gate covers it.
+30source cases appended, no helper fixtures. Seven Java-specific methods remain
+pending. No benchmark or browser changes; final source formatted and frozen.
+First final gate19529 TERMINAL101: two graph tests ignored transaction commit
+Results. Changed both to assert successful commit via unwrap; final gate38824
+runs the corrected, formatted state. Failure log work/sequenced-set-check-lint-failed.log.
+
+Required gate38824 TERMINAL0. 4443 Rust tests and 218 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 565}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2658, 'failed': 0, 'pending': 1915, 'excluded': 282, 'unverified': 0, 'percent': 54.748}.
+Source before/after matched: 31dab3aa2572b5d527c5a45fdebe2d9f08fa6b9e08b11b649bbcf7b7b7f044bc
+Live freshness matched verification digest: c4d884acde119f401c3f9b6dd8797bc55936d8fbc8e815b89308832621a28265.
+Existing provenance prefixes unchanged; appended30cases and0fixtures.
+Log work/sequenced-set-final-check.log; evidence work/sequenced-set-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final gate38824 and evidence30067 TERMINAL0. New dependency rules kept this batch
+to3Rust jobs, reusing565existing jobs and46Python jobs. Final native graph tests
+assert successful commits; full replay agrees with weighted order-sensitive scores.
+All verification sessions terminal, upstream unchanged, no runtime performance claim.

@@ -39449,6 +39449,456 @@
       "local_path": "crates/solver/tests/move_tester_cases.rs",
       "local_test": "temporary_complex_rotation",
       "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.emptySetProperties",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "emptySetProperties",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "empty_set_properties",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addSingleElement",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_single_element",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addDuplicateElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addDuplicateElement",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_duplicate_element",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addAllWithNewElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addAllWithNewElements",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_all_with_new_elements",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addAllWithDuplicateElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addAllWithDuplicateElements",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_all_with_duplicate_elements",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addAllWithAllDuplicateElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addAllWithAllDuplicateElements",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_all_with_all_duplicate_elements",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.removeSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "removeSingleElement",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "remove_single_element",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.removeNonexistentElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "removeNonexistentElement",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "remove_nonexistent_element",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.clearEmptiesTheSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "clearEmptiesTheSet",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "clear_empties_the_set",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.toArrayReturnsCorrectArray",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "toArrayReturnsCorrectArray",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "to_array_returns_correct_array",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.toArrayWithTypeReturnsCorrectArray",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "toArrayWithTypeReturnsCorrectArray",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "to_array_with_type_returns_correct_array",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.iteratorReturnsAllElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "iteratorReturnsAllElements",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "iterator_returns_all_elements",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.containsWorks",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "containsWorks",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "contains_works",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.containsAllWorks",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "containsAllWorks",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "contains_all_works",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.toStringWorks",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "toStringWorks",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "to_string_works",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.scalingFromListToSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "scalingFromListToSet",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "scaling_from_list_to_set",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.scalingFromSetToList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "scalingFromSetToList",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "scaling_from_set_to_list",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.addAllCausingScaling",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addAllCausingScaling",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_all_causing_scaling",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.attemptToRemoveNonExistentElementFromSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "attemptToRemoveNonExistentElementFromSet",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "attempt_to_remove_non_existent_element_from_set",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.equalsAndHashCodeFollowTheSetContract",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "equalsAndHashCodeFollowTheSetContract",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "equals_and_hash_code_follow_the_set_contract",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.equalsAndHashCodeFollowTheSetContractAboveTheThreshold",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "equalsAndHashCodeFollowTheSetContractAboveTheThreshold",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "equals_and_hash_code_follow_the_set_contract_above_the_threshold",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.nullIsALegalElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "nullIsALegalElement",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "null_is_a_legal_element",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.emptySetIsDistinctFromASetHoldingNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "emptySetIsDistinctFromASetHoldingNull",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "empty_set_is_distinct_from_a_set_holding_null",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.tiersAdvanceOnAdd",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "tiersAdvanceOnAdd",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "tiers_advance_on_add",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.aHintAboveTheThresholdStartsInTheSetTier",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "aHintAboveTheThresholdStartsInTheSetTier",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "a_hint_above_the_threshold_starts_in_the_set_tier",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.getFirstAndGetLastFollowInsertionOrder",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "getFirstAndGetLastFollowInsertionOrder",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "get_first_and_get_last_follow_insertion_order",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.reversedIteratesInReverseOrder",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "reversedIteratesInReverseOrder",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "reversed_iterates_in_reverse_order",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.reversedIsALiveView",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "reversedIsALiveView",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "reversed_is_a_live_view",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.reversedOfReversedIsTheOriginalSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "reversedOfReversedIsTheOriginalSet",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "reversed_of_reversed_is_the_original_set",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.clearReturnsToEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "clearReturnsToEmpty",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "clear_returns_to_empty",
+      "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
     }
   ],
   "fixtures": [

@@ -972,3 +972,11 @@ pub use pending_list_changes::{PendingListChangeStorage, PendingListChanges};
 
 mod move_tester;
 pub use move_tester::{MoveDraft, MoveDraftModel, MoveTestContext, MoveTestError, MoveTester};
+
+mod sequenced_set;
+pub use sequenced_set::{
+    ReversedSequencedSet, SEQUENCED_SET_ARRAY_LIMIT, ScalingSequencedSet, SequencedSetBorrowed,
+    SequencedSetIter, SequencedSetStorage,
+};
+mod ordered_set_collector;
+pub use ordered_set_collector::OrderedSetCollector;

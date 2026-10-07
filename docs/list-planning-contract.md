@@ -1038,3 +1038,29 @@ component, preserving each component's order and the final state. Normal score
 backends observe the resulting native move. Custom `MoveDraftModel` adapters must
 provide independent assignment clones, nonmutating apply-to-copy operations and
 composition that reproduces the ordered steps' final assignment.
+
+
+### Ordered distinct membership
+
+`ScalingSequencedSet<T>` retains insertion order and the first equal representative.
+It holds empty/single states inline, small sets in an array, and more than16entries
+in a hash index with linked slots. Successful removal below16entries demotes it;
+clear releases storage. Indexed slots are reused after removal. Values use shared
+Arc handles and need no Clone implementation. Cloning the set isolates membership
+while sharing immutable values; equality/hash ignore traversal order. Hash/Eq must
+be stable, infallible and non-reentrant. This is not a runtime performance claim.
+
+A reverse view follows later updates and reversing it returns the original set.
+Iterators hold a read lease; insert/remove/clear return SequencedSetBorrowed while
+any iterator lives. Detached snapshots do not block edits. Dropping an exhausted
+iterator still releases its lease explicitly. Rust's read-only reverse API has no
+mutation methods. A zero capacity hint is valid; empty first/last return None.
+
+`OrderedSetCollector<I,V>` collects explicit unique occurrence IDs with values.
+It returns each distinct value once, ordered and represented by its lowest active
+occurrence ID. Removing that occurrence may change the representative and order.
+Persistent occurrence storage supports independent clones; finish scans current
+occurrences through ScalingSequencedSet and returns detached Arc handles without
+cloning payloads. Duplicate IDs fail before mutation; removal uses captured IDs.
+Use stable occurrence IDs when score calculations depend on output order, ensuring
+that incremental updates and a full graph replay produce the same result.

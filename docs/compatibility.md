@@ -3949,3 +3949,17 @@ pending; Rust references/closures are non-null. One initialized cyclic solution
 helper retains attribution. Original regressions additionally cover basic/list/mixed
 composition, pins, partial lists, independent branches, rollback on errors/panics,
 foreign-draft rejection and replay through incremental list scoring.
+
+Thirty ScalingSequencedSetTest methods now preserve mutation results, membership,
+ordered traversal, first/last, threshold transitions, null elements, order-neutral
+equality/hash behavior and live reverse-view identity. Native Arc handles replace
+object references; vectors/fixed arrays replace Java arrays, Option replaces empty
+access exceptions, and Debug supplies printable contents. Equality comparisons use
+differently ordered native sets; Java hash values are not reproduced. Six Java
+unsupported-operation methods and signed/zero capacity rejection remain pending.
+Native capacity zero is valid. Borrowed iterators reject edits until dropped.
+
+The set additionally powers OrderedSetCollector over explicit occurrence IDs.
+Distinct output order and representatives use the lowest current occurrence ID,
+so graph rollback and full recomputation agree independently of event delivery.
+This collector has original native coverage and earns no upstream method credit.
