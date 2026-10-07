@@ -1020,3 +1020,6 @@ pub use shadow_session::{ShadowSourceReference, missing_shadow_sources};
 
 mod mass_change_build;
 pub use mass_change_build::{mass_change_from_members, rebase_mass_change};
+
+mod list_mass_plan;
+pub use list_mass_plan::{ListMassChangePlan, rebase_list_mass_change_plan};

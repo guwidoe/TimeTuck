@@ -41904,6 +41904,51 @@
       "local_test": "rebase_returns_move_whose_sample_holds_working_solution_copies",
       "status": "implemented",
       "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListChangeMoveTest.equalsAndHashCodeIgnoreMemberDrawOrderWhenUnassigning",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCodeIgnoreMemberDrawOrderWhenUnassigning",
+      "local_path": "crates/solver/tests/list_mass_plan_cases.rs",
+      "local_test": "equals_and_hash_code_ignore_member_draw_order_when_unassigning",
+      "status": "implemented",
+      "modifications": "Preserve null-destination order-independent equality/hash, insertion order/destination-sensitive equality/hash, null/unrelated-object rejection, and exact rebased member/destination identities. Owned native ListMassChangePlan recipes resolve current assignment positions before execution; existing snapshot-bound ListMassChange metadata is unchanged. Option/Any represent Java null/type rejection. Rc pointer checks preserve distinct working value copies and numeric destination-owner identity replaces Java entity objects. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListChangeMoveTest.equalsAndHashCodeRespectMemberDrawOrderWhenInserting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCodeRespectMemberDrawOrderWhenInserting",
+      "local_path": "crates/solver/tests/list_mass_plan_cases.rs",
+      "local_test": "equals_and_hash_code_respect_member_draw_order_when_inserting",
+      "status": "implemented",
+      "modifications": "Preserve null-destination order-independent equality/hash, insertion order/destination-sensitive equality/hash, null/unrelated-object rejection, and exact rebased member/destination identities. Owned native ListMassChangePlan recipes resolve current assignment positions before execution; existing snapshot-bound ListMassChange metadata is unchanged. Option/Any represent Java null/type rejection. Rc pointer checks preserve distinct working value copies and numeric destination-owner identity replaces Java entity objects. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassListChangeMoveTest.rebaseReturnsMoveWhoseSampleHoldsWorkingSolutionCopies",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassListChangeMoveTest.java",
+      "upstream_test": "rebaseReturnsMoveWhoseSampleHoldsWorkingSolutionCopies",
+      "local_path": "crates/solver/tests/list_mass_plan_cases.rs",
+      "local_test": "rebase_returns_move_whose_sample_holds_working_solution_copies",
+      "status": "implemented",
+      "modifications": "Preserve null-destination order-independent equality/hash, insertion order/destination-sensitive equality/hash, null/unrelated-object rejection, and exact rebased member/destination identities. Owned native ListMassChangePlan recipes resolve current assignment positions before execution; existing snapshot-bound ListMassChange metadata is unchanged. Option/Any represent Java null/type rejection. Rc pointer checks preserve distinct working value copies and numeric destination-owner identity replaces Java entity objects. No production implementation translated."
     }
   ],
   "fixtures": [

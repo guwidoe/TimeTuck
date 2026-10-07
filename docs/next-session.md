@@ -15784,3 +15784,29 @@ Live freshness matched verification digest: 768d1427f23a270bd966a45da1bb5fc33d2e
 Existing provenance prefixes unchanged; appended6cases and1fixtures.
 Log work/mass-metadata-final-check.log; evidence work/mass-metadata-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Identity-based list mass-change plans
+
+Mass gate66933 and warm-up44280 both TERMINAL0; evidence56195 TERMINAL0.
+Committed completed evidence as d192881. Applied work/apply_list_mass_plan.py;
+do not reapply. New ListMassChangePlan/rebase_list_mass_change_plan module and
+exports, 3 adapted cases and 3 original regressions, with 3 provenance entries.
+Resolved positions use current assignment; compiled ListMassChange is unchanged.
+Reviewed integrated source/tests and formatted. Standalone draft57389 and lint27013
+were already terminal0; no repeated focused checks. Required final gate is next.
+No benchmark/release/browser changes or reruns.
+
+During the prior gate read TEST-ONLY DefaultSolverTest method names and ranges
+1590–1770 and2260–2399 to locate future solver gaps; none adapted or credited here.
+No upstream production reads. Existing range errors lack detailed variable/value
+labels used by the four invalid-value-range source methods; don't claim those
+methods from generic rejection alone. Goal remains active.
+
+Required gate37487 TERMINAL0. 4633 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 587}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2789, 'failed': 0, 'pending': 1784, 'excluded': 282, 'unverified': 0, 'percent': 57.446}.
+Source before/after matched: aadc59f12deef6dbf6ad2c4f64444101f5bfacc2b9a71f75eb30d93244bd8f93
+Live freshness matched verification digest: b4aae6800e7d9b2d40e258bf8310e50809206d1be07a67f21777d3d1ebf42289.
+Existing provenance prefixes unchanged; appended3cases and0fixtures.
+Log work/list-mass-plan-final-check.log; evidence work/list-mass-plan-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

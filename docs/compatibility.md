@@ -4099,3 +4099,12 @@ hashing ignore member draw order, while executable composites retain it. Six mor
 Community MassChangeMoveTest methods preserve execution, required unassignment,
 temporary undo, member metadata, equality/hash and rebasing assertions. Native
 slots replace entity identities; the Java description method remains pending.
+
+ListMassChangePlan now represents an identity-based list gather and resolves source
+positions against the current assignment before applying. Insertion identity keeps
+member order and destination; unassignment identity ignores member draw order.
+Rebasing maps each distinct value and optional owner once, rejects value collisions,
+and preserves the insertion boundary. Existing snapshot-bound ListMassChange stays
+unchanged. Three Community MassListChangeMoveTest methods now preserve equality,
+hashing and exact working-copy identity assertions. Original regressions cover
+changed source positions, colliding hashes and lookup failure/null behavior.
