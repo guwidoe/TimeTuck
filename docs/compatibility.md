@@ -3709,3 +3709,17 @@ overflow and callback failure recovery. Calculator scores remain independent of
 explanation totals. Callers supply complete change descriptors; dependency
 inference and integration of this calculator backend into built-in heuristic
 engines remain pending. The registry does not yet aggregate fact indictments.
+
+The custom calculator backend now runs basic-variable greedy construction, local
+search (including lazy custom providers) and custom commands through the existing
+engines. CalculatorScoreDirector validates native moves and brackets whole moves
+and inverse updates with sorted unique variable IDs. Dropped trials restore
+assignments and notify the calculator; failed inverse callbacks invalidate the
+backend until reset. Consistency checks use a separate factory-created calculator.
+Original integration regressions compare construction and local-search results,
+limits, randomized ties and step counts with scoped scoring, excluding opaque
+constraint work counts. Each calculator score is one work unit; callbacks and
+optional diagnostic recomputation are not separately counted. No upstream methods
+are credited for these original tests. List/mixed models and direct solver-sequence
+configuration for this backend remain pending. Candidate preparation copies the
+assignment; no performance improvement is claimed or measured in this increment.

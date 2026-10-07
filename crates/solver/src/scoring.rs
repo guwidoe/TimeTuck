@@ -20,6 +20,7 @@ struct Constraint<'a, V, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ScoringError {
+    Calculator(crate::MatchRegistryError),
     Model(ModelError),
     VariableCount {
         expected: usize,
@@ -48,6 +49,7 @@ impl fmt::Display for ScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Model(e) => e.fmt(f),
+            Self::Calculator(e) => e.fmt(f),
             Self::VariableCount { expected, actual } => write!(
                 f,
                 "constraint network expects {expected} variables, model has {actual}"
@@ -83,6 +85,7 @@ impl Error for ScoringError {
         match self {
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
+            Self::Calculator(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             Self::DecimalWeightArithmetic { error, .. } => Some(error),

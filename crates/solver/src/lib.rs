@@ -890,3 +890,9 @@ pub use incremental_calculator::{
     CalculatorSession, IncrementalCalculator, MatchRegistration, MatchRegistry, MatchRegistryError,
     RegisteredConstraint, RegisteredMatch,
 };
+
+mod calculator_search;
+pub use calculator_search::{
+    CalculatorMove, CalculatorScoreDirector, calculator_construction, calculator_custom_phase,
+    calculator_local_search_from, calculator_local_search_with_provider,
+};

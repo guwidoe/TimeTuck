@@ -277,6 +277,10 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
         session.ready = true;
         Ok(session)
     }
+    pub(crate) fn restore_failed(&mut self, solution: P) {
+        self.ready = false;
+        self.solution = solution;
+    }
     pub fn solution(&self) -> &P {
         &self.solution
     }

@@ -14317,3 +14317,46 @@ Live freshness matched verification digest: cc197cea14061220c4757c5b8de331b9c13d
 Existing provenance prefixes unchanged; appended10cases and1fixture.
 Log work/incremental-calculator-final-check.log; evidence work/incremental-calculator-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Calculator backend for native basic search
+
+Previous goal turn2a52a4e was verified implementation progress; starting HEAD clean.
+Read current compatibility/handoff. No new upstream source reads/adaptations. Added
+calculator_search module with CalculatorScoreDirector and rollback move guard,
+using IncrementalCalculator<Assignment<V>,Change=Vec<usize>> and independent factory.
+Complete move final-state validation precedes callbacks; sorted unique indices
+bracket forward/inverse updates. Failed callbacks/panics restore assignment and
+poison cache access until reset. Factory-based consistency checks compare cached,
+live and full-reset scores without resetting live registrations. Candidate prep
+clones assignment, not calculator. Selected move replays notifications without
+re-scoring. Each calculator score is one opaque constraint work unit; callback and
+diagnostic costs are excluded. Structural scores come from native model completeness.
+
+Reused shared construction, local-search/provider, and custom-command engines;
+added typed ScoringError::Calculator and internal failed-session restoration.
+List/mixed calculators and direct SolverSequence backend configuration still pending.
+No provenance changes or performance claims. Compile88686 TERMINAL0. Focused91938
+terminal101 for wrong pin-builder spelling; corrected with_pinned(true).
+Focused82204 TERMINAL0:5 original regressions, including 12 construction and45 local
+search configurations, compare against scoped backend and cover rollback/error/
+panic, match state, provider counts, custom commands and zero budgets. Added shared
+engine failure-propagation regression and public example before final gate.
+Final formatted source frozen for required check; shared scoring-error dependency
+requires broad regression once. No benchmark/browser/release reruns planned.
+
+Required gate25842 TERMINAL0. 4162 Rust tests and 203 doctests passed.
+Rust jobs: {'RUN': 471, 'REUSE': 61}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2474, 'failed': 0, 'pending': 2099, 'excluded': 282, 'unverified': 0, 'percent': 50.958}.
+Source before/after matched: 11c0d95d114c70e49a2fff84a9123d0906a51ead6704a3aa66516f5f937a4c7b
+Live freshness matched verification digest: 923939ba291f8d612fc74e61678f66efb32c09eebbad9106230fc514d0e80255.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/calculator-search-final-check.log; evidence work/calculator-search-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+While the gate ran, read full IncrementalScoreDirectorSemanticsTest and
+AbstractScoreDirectorSemanticsTest as specifications for the next increment.
+No adaptations/fixtures credited. Useful remaining coverage: independent directors
+with entity add/remove, live/reset constraint weights, and full/prefix-pinned list
+initialization scores. The list tests assert entity-count ordinary scores plus
+required-unassigned structural counts. Basic calculator backend is now usable;
+list/mixed calculator backends and SolverSequence integration remain next steps.
