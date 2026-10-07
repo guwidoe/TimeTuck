@@ -15977,3 +15977,35 @@ server restart. All verification jobs terminal; dashboard service stays live.
 Next: commit this cache fix, then apply work/apply_diminished_defaults.py per its
 STATUS.txt. Draft remains unapplied;5focused tests and draft lint already passed.
 Do not rerun those unchanged tests separately. Goal remains active.
+
+## Diminished-returns settings and phase defaults
+
+Previous goal turn made progress:2ce0031 cache fix committed; gate25256/evidence30253
+terminal0 and dashboard server7726 intentionally live. Applied prepared
+work/apply_diminished_defaults.py; do not reapply. Reviewed source/tests and formatted.
+New independent diminished_defaults module exports default config30seconds/1:10000
+and ordinary/mixed sequence helpers. Only missing local-search policies change;
+explicit overrides/non-local phases/shared limits retained, repeated application
+idempotent, no score/plan cloning. Each phase still uses its own native timer.
+Three factory cases attributed, no fixtures. Existing draft5tests66693 and draft
+lint had passed; integrated behavior unchanged, no duplicate focused rerun.
+No new upstream reads. Final required gate next with source/provenance frozen.
+No benchmark/release/browser reruns. Goal remains active.
+
+Required gate95600 TERMINAL0. 4658 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 593}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2802, 'failed': 0, 'pending': 1771, 'excluded': 282, 'unverified': 0, 'percent': 57.714}.
+Source before/after matched: 22de9e7c1e70a59c4c5c7e7ccb8172cabdff89057636c0f852e59a56ea73d60e
+Live freshness matched verification digest: 72d16564746a97914d0010be353afdaa51e2276eea56404f20a1eeff966baf30.
+Existing provenance prefixes unchanged; appended3cases and0fixtures.
+Log work/diminished-defaults-final-check.log; evidence work/diminished-defaults-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Gate95600 and evidence26960 terminal0; no repeat verification needed. Next gap
+investigated: full TEST-ONLY BasicPlumbingTerminationTest (two deferred changes /
+restart-decision cases). Native live manager currently accepts single changes only.
+No batch implementation or provenance credit yet. No production source read.
+Latest user timing answer used actual six gate log birth/finish timestamps:
+48m56s verification running during 65m48s (74%), with overlapping implementation;
+this is not a measured coding-time split. Previous status turn yielded timing
+evidence but no implementation; resume with the completed defaults commit.

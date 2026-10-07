@@ -1038,3 +1038,9 @@ pub use problem_build::{
 
 mod unimproved_time;
 pub use unimproved_time::{NegativeUnimprovedTime, UnimprovedTimeLimit};
+
+mod diminished_defaults;
+pub use diminished_defaults::{
+    apply_diminished_returns_default, apply_mixed_diminished_returns_default,
+    default_diminished_returns_config,
+};

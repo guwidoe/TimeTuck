@@ -4148,3 +4148,11 @@ wrappers and universal implementations remain tracked. In the measured range-
 collector target this reduces selected modules from164to11 and removes an unrelated
 search-timer dependency; solver targets still select the timer. This is a selective
 development heuristic, not compiler-level dependency analysis.
+
+Diminished-returns defaults now provide the Community thirty-second window and
+exact1/10000rate ratio. Ordinary and mixed sequence helpers fill only missing
+local-search policies, preserving explicit overrides, other phase kinds and shared
+limits. Each phase uses its existing local timer; this introduces no cross-phase
+rate measurement. Three TerminationFactoryTest methods preserve default, additive
+unit-duration and explicit-duration settings using typed native policies. Native
+regressions cover idempotency, later-added phases and non-Clone score parameters.

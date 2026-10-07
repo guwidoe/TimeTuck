@@ -42099,6 +42099,51 @@
       "local_test": "phase_termination_and_long_initialization_period",
       "status": "implemented",
       "modifications": "Preserve negative-millisecond rejection/message and every termination/progress assertion at the specified timestamps. Explicit native timer start/reset replaces mocked solver/phase lifecycle scopes. Construction leaves the timer inactive; phase search arms after initialization. Mock best timestamps become chronological improvement notifications. Duration values replace MockClock; no fixture implementation copied. Shared native phase TimeBudget uses this lifecycle timer. Java scope objects and wall-clock origin are not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationFactoryTest.diminishedReturns_default",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "diminishedReturns_default",
+      "local_path": "crates/solver/tests/diminished_defaults_cases.rs",
+      "local_test": "diminished_returns_default",
+      "status": "implemented",
+      "modifications": "Preserve default thirty-second window, exact 1/10000 improvement ratio, additive custom time-unit window and explicit 123-minute Duration with ratio1/2. Construct a typed native DiminishedReturns policy in every case instead of Java factory/type reflection. Exact rational ratios replace floating point; std Duration arithmetic replaces unit setter configuration. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationFactoryTest.diminishedReturns_custom",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "diminishedReturns_custom",
+      "local_path": "crates/solver/tests/diminished_defaults_cases.rs",
+      "local_test": "diminished_returns_custom",
+      "status": "implemented",
+      "modifications": "Preserve default thirty-second window, exact 1/10000 improvement ratio, additive custom time-unit window and explicit 123-minute Duration with ratio1/2. Construct a typed native DiminishedReturns policy in every case instead of Java factory/type reflection. Exact rational ratios replace floating point; std Duration arithmetic replaces unit setter configuration. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationFactoryTest.diminishedReturns_customDuration",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "diminishedReturns_customDuration",
+      "local_path": "crates/solver/tests/diminished_defaults_cases.rs",
+      "local_test": "diminished_returns_custom_duration",
+      "status": "implemented",
+      "modifications": "Preserve default thirty-second window, exact 1/10000 improvement ratio, additive custom time-unit window and explicit 123-minute Duration with ratio1/2. Construct a typed native DiminishedReturns policy in every case instead of Java factory/type reflection. Exact rational ratios replace floating point; std Duration arithmetic replaces unit setter configuration. No production implementation translated."
     }
   ],
   "fixtures": [
