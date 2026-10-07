@@ -16159,3 +16159,21 @@ provenance remain frozen. Prepared work/record_custom_pillar_evidence.py expects
 +7cases/+0fixtures vsb34db3e; run once only after both handles finish successfully.
 Committing implementation while compilation continues; dashboard still reflects
 last completed runtime-range evidence, not these seven new adaptations.
+
+Implementation committed as f48ece0. Warm-up6143 TERMINAL0 (9m49s reported);
+gate39305 remains LIVE, now executing affected integration tests. No restart.
+Prepared guarded follow-on work/apply_pillar_provider.py and draft under
+work/pillar-provider-draft/ (STATUS.txt authoritative). Isolated native draft
+build/focused45796 TERMINAL0:6original regressions including four solver paths,
+custom row-order/range/null/pin oracle and bounded lazy subsets. Added usage doctest
+afterward, native bodies unchanged. Apply only after this gate/evidence commit;
+then run one integrated final check. No Java lifecycle/random-trace credit.
+
+Required gate39305 TERMINAL0. 4686 Rust tests and 227 doctests passed.
+Rust jobs: {'RUN': 533, 'REUSE': 70}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2813, 'failed': 0, 'pending': 1760, 'excluded': 282, 'unverified': 0, 'percent': 57.94}.
+Source before/after matched: 61ba736a795a54286291b109e920581b4cd24ae63feb562093e0df2943b55bff
+Live freshness matched verification digest: 21f2c80579df28b47e6369ab885ce3fd6780c6772129603575fba323f3aaf7ec.
+Existing provenance prefixes unchanged; appended7cases and0fixtures.
+Log work/custom-pillar-final-check.log; evidence work/custom-pillar-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
