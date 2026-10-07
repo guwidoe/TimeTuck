@@ -3408,3 +3408,28 @@ Every original match and score assertion is retained through value changes and
 removals. Additional native checks cover witness multiplicity, rollback, grouped
 changes while no witness exists, and reactivation. Existing engine behavior passes
 without production changes. Empty upstream Quad unassigned methods earn no credit.
+
+## Read-only verification consistency
+
+`verification_consistency` prepares effective inconsistency flags from explicit
+entity/shadow-field metadata and a selected set of given IDs. Field-level cycles
+and their downstream dependents infer missing flags; supplied flags override the
+result only for their entity. Preparation neither evaluates suppliers nor writes
+facts, shadows, assignments or flags. Independent fields on the same entities do
+not create false cycles. Consumers apply assignment/consistency filtering when
+feeding a scoring graph; unfiltered constraints may inspect all prepared flags.
+
+A metadata census can include omitted referenced entities for diagnostics. Every
+reachable cross-entity reference to a non-given entity is reported, deduplicated,
+including indirect references; traversal stops where metadata is unavailable.
+Structured errors retain every reference while display lists at most five.
+Unknown given IDs, duplicate entity/field definitions and unknown given shadow
+fields are rejected. Repeated given IDs are harmless. Explicit flags do not bypass
+reference validation. The API provides native explicit metadata preparation, not
+Java reflection, automatic solution extraction or shadow-variable repair.
+
+Six complete SingleConstraintAssertion methods now preserve missing-reference,
+nullable/explicit consistency, given-fact/given-solution, and unfiltered scoring
+expectations. Native tests additionally cover false entity cycles, downstream
+inference, detached snapshots, bounded diagnostics, invalid metadata and long
+chains. Whole-list shadow-setting verifier methods remain pending.

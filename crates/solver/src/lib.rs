@@ -828,3 +828,9 @@ mod stream_consistency;
 pub use stream_consistency::{
     StreamConsistencyReport, StreamNodeDifference, StreamScoreCorruption,
 };
+
+mod verification_consistency;
+pub use verification_consistency::{
+    MissingVerificationEntity, VerificationConsistency, VerificationConsistencyError,
+    VerificationEntity, VerificationShadow, VerificationShadowRef, verification_consistency,
+};

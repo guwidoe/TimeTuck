@@ -34949,6 +34949,96 @@
       "local_path": "crates/solver/tests/stream_composition_cases.rs",
       "local_test": "quad_if_exists_after_group_by",
       "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.failsIfNonGivenEntitiesAreReferenced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "failsIfNonGivenEntitiesAreReferenced",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "fails_if_non_given_entities_are_referenced",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.shouldUpdateInternalConsistencyStateIfInconsistentIsNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "shouldUpdateInternalConsistencyStateIfInconsistentIsNull",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "should_update_internal_consistency_state_if_inconsistent_is_null",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.shouldNotUpdateInternalConsistencyStateIfInconsistentIsSpecified",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "shouldNotUpdateInternalConsistencyStateIfInconsistentIsSpecified",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "should_not_update_internal_consistency_state_if_inconsistent_is_specified",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.shouldUpdateInternalConsistencyStateIfInconsistentIsNullGivenSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "shouldUpdateInternalConsistencyStateIfInconsistentIsNullGivenSolution",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "should_update_internal_consistency_state_if_inconsistent_is_null_given_solution",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.shouldUpdateInternalConsistencyStateIfInconsistentIsSpecifiedGivenSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "shouldUpdateInternalConsistencyStateIfInconsistentIsSpecifiedGivenSolution",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "should_update_internal_consistency_state_if_inconsistent_is_specified_given_solution",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.shouldUpdateInternalConsistencyStateIfInconsistentIsSpecifiedGivenSolutionUnfiltered",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "shouldUpdateInternalConsistencyStateIfInconsistentIsSpecifiedGivenSolutionUnfiltered",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "local_test": "should_update_internal_consistency_state_if_inconsistent_is_specified_given_solution_unfiltered",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
     }
   ],
   "fixtures": [
@@ -48133,6 +48223,58 @@
       "upstream_test": "AbstractConstraintStreamTest",
       "local_path": "crates/solver/tests/stream_composition_cases.rs",
       "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyEntity.verification_consistency_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencyEntity.java",
+      "upstream_test": "TestdataDependencyEntity",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyValue.verification_consistency_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencyValue.java",
+      "upstream_test": "TestdataDependencyValue",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencySolution.verification_consistency_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencySolution.java",
+      "upstream_test": "TestdataDependencySolution",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDependencyConstraintProvider.verification_consistency_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencyConstraintProvider.java",
+      "upstream_test": "TestdataDependencyConstraintProvider",
+      "local_path": "crates/solver/tests/verification_consistency_cases.rs",
+      "modifications": "Preserve every source score/count and unchanged-null-flag assertion. Native read-only verification_consistency uses explicitly captured field dependencies and selected entity IDs; no reflection or automatic setter API. A metadata census retains indirect non-given references for complete structured errors. Stable string IDs and named shadow fields replace Java object formatting and exception class while retaining both asserted reference relationships. Given-solution tests extract tasks from an immutable native solution; supplied list, previous links, start/end values and flags are preserved. Supplied minute offsets replace Java LocalDateTime.MIN/year-2000 origins with identical 60/120/180-minute arithmetic. Tracked native constraints preserve hard/soft scoring, counts and raw impacts. Explicit invalid flags override inferred cycles only for their own entity; no shadow suppliers run."
     }
   ]
 }

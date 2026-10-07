@@ -13650,3 +13650,45 @@ Live freshness matched verification digest: 6a7e9f9d8f82eda75ba9a02ee9641ebee157
 Existing provenance prefixes unchanged; appended7cases and8fixtures.
 Log work/stream-composition-final-check.log; evidence work/stream-composition-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Read-only verifier consistency preparation
+
+Starting HEAD51d926d clean. Previous turn committed7adapted stream cases with
+verified evidence; progress. Added independent verification_consistency module:
+explicit entity/field references, selected given IDs, inferred missing flags,
+explicit overrides, detached results, complete transitive non-given diagnostics,
+unknown-field/ID and duplicate-definition validation. Uses native DependencyGraph
+with dynamic field edges; no existing core type/implementation changed. No shadow
+supplier execution, mutation or automatic solution extraction. Explicit flags do
+not suppress reference validation or remove topology edges.
+
+Read full four testdomain shadow/dependency fixtures and six selected
+SingleConstraintAssertionTest methods (full methods already read in preceding
+turn). Original nullable/explicit flags and all180/120/0/1 score/count assertions
+retained. Native minute offsets replace Java date origins. Source references are
+reported as IDs/field names, preserving both indirect relationships rather than
+Java object-value strings. Appended6cases4fixtures. Five native regressions cover
+field-level false cycles, downstream propagation/overrides, detached snapshots,
+complete/deduplicated/bounded diagnostics, malformed metadata and4000-nodechains.
+
+Compile20752 TERMINAL0. Initial focused81454 terminal101: missing-reference error
+included internal field links on omitted entities. Restricted diagnostics to
+cross-entity references (internal dependencies still participate in inference).
+Focused32143 TERMINAL0: all11tests passed. One subsequent test-only clone-to-slice
+cleanup and formatting before final gate. No benchmarks/browser/release reruns.
+Additional Uni inconsistency tests were read but NOT adapted; they include list
+reset/lifecycle behavior and remain pending. Goal remains active.
+First gate62724 TERMINAL101 at clippy: clone-to-slice replacement missed compact
+macro spacing. Fixed actual expression with std::slice::from_ref; gate retry reuses
+successful jobs where applicable. No behavior failure in this gate.
+Retry73825 TERMINAL1 at fmt only: standalone rustfmt edition differed from workspace
+format. Applied cargo fmt --all and restored canonical verification environment.
+
+Required gate37895 TERMINAL0. 3949 Rust tests and 188 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 493}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2334, 'failed': 0, 'pending': 2239, 'excluded': 282, 'unverified': 0, 'percent': 48.074}.
+Source before/after matched: aad88a2a3a614b4630547adf5982c95e32668da6f239ba4092f59fb32f37be8e
+Live freshness matched verification digest: 58b85fe0eaef7fb7a121e968fc25ba6483e96fa7ac16297eca90b3235d811b60.
+Existing provenance prefixes unchanged; appended6cases and4fixtures.
+Log work/verification-consistency-final-check.log; evidence work/verification-consistency-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
