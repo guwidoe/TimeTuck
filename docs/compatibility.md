@@ -4056,3 +4056,11 @@ adds the source's unused zero sentinel. Pure topology counts use arbitrary preci
 and distinct path endpoints; they do not count legal moves under pins, singleton
 segments or model constraints. Circular reversal is shared with directed two-opt,
 whose complete move plan still applies its existing anchor rotation and pin rules.
+
+Nine selector-based rebase methods now preserve basic and list primitive/composite
+identity mappings. Native basic/list/mixed rebase functions cache referenced identities,
+reject collisions within independent namespaces, and retain composition shape and
+list-relative coordinates. Destination model validation remains with normal apply;
+list rebasing requires position-for-position corresponding starting assignments.
+Six builtin composite methods preserve execution and temporary undo assertions using
+the existing native MoveTester. Java reflective metadata is not reproduced.

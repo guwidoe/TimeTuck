@@ -41589,6 +41589,231 @@
       "upstream_test": "testGetPureKOptMoveTypes",
       "local_test": "pure_k_opt_move_types",
       "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedChangeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/move_rebase_cases.rs",
+      "local_test": "change_rebase",
+      "status": "implemented",
+      "modifications": "Preserve every target variable identity, null/value identity, swap endpoint and composite child count/order assertion. Native source variable indices0..2 map to destination indices2,0,1; source value IDs map to distinct destination Rc handles and assertions use pointer identity. Native callbacks replace the mock rebasing director; variable descriptors and object reflection are outside scope. Mapping preserves move shape and does not apply it. Separate original regressions cover model execution, namespaces, repeated lookup identity, collisions and errors. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSwapMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/move_rebase_cases.rs",
+      "local_test": "swap_rebase",
+      "status": "implemented",
+      "modifications": "Preserve every target variable identity, null/value identity, swap endpoint and composite child count/order assertion. Native source variable indices0..2 map to destination indices2,0,1; source value IDs map to distinct destination Rc handles and assertions use pointer identity. Native callbacks replace the mock rebasing director; variable descriptors and object reflection are outside scope. Mapping preserves move shape and does not apply it. Separate original regressions cover model execution, namespaces, repeated lookup identity, collisions and errors. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedCompositeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/move_rebase_cases.rs",
+      "local_test": "composite_rebase",
+      "status": "implemented",
+      "modifications": "Preserve every target variable identity, null/value identity, swap endpoint and composite child count/order assertion. Native source variable indices0..2 map to destination indices2,0,1; source value IDs map to distinct destination Rc handles and assertions use pointer identity. Native callbacks replace the mock rebasing director; variable descriptors and object reflection are outside scope. Mapping preserves move shape and does not apply it. Separate original regressions cover model execution, namespaces, repeated lookup identity, collisions and errors. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.compositeMoveExecutesAllSubMoves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "compositeMoveExecutesAllSubMoves",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "composite_move_executes_all_sub_moves",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.compositeMoveWithSwap",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "compositeMoveWithSwap",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "composite_move_with_swap",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.compositeMoveWithSingleSubMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "compositeMoveWithSingleSubMove",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "composite_move_with_single_sub_move",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.nestedCompositeMoves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "nestedCompositeMoves",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "nested_composite_moves",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.compositeMoveExecutesTemporarilyWithUndo",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "compositeMoveExecutesTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "composite_move_executes_temporarily_with_undo",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CompositeMoveTest.nestedCompositeMoveTemporary",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/CompositeMoveTest.java",
+      "upstream_test": "nestedCompositeMoveTemporary",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "local_test": "nested_composite_move_temporary",
+      "status": "implemented",
+      "modifications": "Preserve all component/nested/single move final values and every temporary execution/restoration assertion. Native finite variables with stable numeric identities and MoveTester isolated drafts replace Java metamodel/reflection and mutable entity references; temporary inspection reads the draft, and the original native assignment is compared after return. Initial cyclic values preserve the source generator. Existing native composite execution implements this behavior; no new source implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListAssignMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListAssignMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "assign_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListUnassignMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListUnassignMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "unassign_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "change_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "swap_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListChangeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "sublist_change_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "local_test": "sublist_swap_rebase",
+      "status": "implemented",
+      "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
     }
   ],
   "fixtures": [
@@ -57022,6 +57247,110 @@
       "id": "KOptUtilsTest.fromRemovedAndAddedEdges.topology",
       "upstream_test": "fromRemovedAndAddedEdges",
       "modifications": "Adapt valid descriptor construction fixtures to native one-based position ranges and edge pairs; preserve original tours, cuts and additions. Native constructor supplies graph validation instead of Java incl/tourArray identity permutations, successor callbacks and mocked variable state. Only fixture attribution; helper exception text and Java descriptor internals are not method credits. Inline v1..v12 identities become positions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedChangeMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/move_rebase_cases.rs",
+      "modifications": "Adapt identity assertion helper to native move variant matching, destination slot equality and Rc pointer equality/null matching; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSwapMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/move_rebase_cases.rs",
+      "modifications": "Adapt identity assertion helper to native move variant matching, destination slot equality and Rc pointer equality/null matching; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.composite_moves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int,int), generateSolution(int,int,boolean)",
+      "local_path": "crates/solver/tests/composite_move_cases.rs",
+      "modifications": "Preserve value/entity cardinalities and initialized entity i taking value i modulo value count. Stable numeric IDs and finite native domains replace generated strings and Java objects; these fixtures use only initialized generation. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListAssignMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListAssignMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListChangeMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.assertSameProperties.move_rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "assertSameProperties",
+      "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
+      "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
     }
   ]
 }

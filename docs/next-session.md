@@ -15488,3 +15488,52 @@ During the final wait inspected pending report metadata and test-only
 DefaultSolverTest2795–2908, with ensureListVariableStateIsReusedAcrossPhases reread
 untruncated2865–2907; no adaptations from those methods yet. Read native
 DiminishedReturns header/state API1–155 only. No additional implementation chosen.
+
+## Identity rebasing for primitive and composite moves
+
+K-opt implementationf554388 fully verified and evidence committed80e602e. Reviewed
+and applied work/apply_move_rebase.py after its facade hash matched. The standalone
+validated draft now lives in crates/solver/src/move_rebase.rs with four native test
+targets. Added15source methods and8fixture attributions. No new upstream reads.
+
+Free functions rebase_basic_move/rebase_list_move/rebase_mixed_move map independent
+variable/entity/value namespaces, memoize each referenced identity once, reject
+collisions, preserve nulls and nested composite shape/order, and keep every list
+coordinate/reversal flag. Iterative traversal avoids recursive mapping. Source Eq
+controls value identity; target Eq detects collisions. Destination model apply still
+checks pins/domains/coordinates, and corresponding initial list positions are a
+caller requirement. No assignment mutation occurs during mapping; external callback
+side effects are outside rollback. Lookup/value identity caches are per call and
+per namespace, including when mixed component types/numeric IDs coincide.
+
+Six builtin composite methods exercise existing MoveTester execution/undo. Nine
+selector-based rebasing methods preserve complete metadata/identity assertions.
+Five original regressions compare all1369pairs of basic leaf edits under variable
+permutation/value conversion,81list edit pairs including invalid final states,
+identity callback counts, independent namespaces, errors/panics/collisions and
+mixed atomic application/undo/pins. Standalone tests/lint completed before applying;
+no duplicate focused Cargo run. Required final gate now verifies the integrated,
+formatted state. Inputs frozen; no benchmark/release/browser work.
+Application-helper correction: first script invocation failed Python parsing before
+any crate/provenance edits (one excess parenthesis in generated append statements).
+The shell mistakenly continued into a check of unchanged sources. Canceled that
+specific process group after confirming its cwd and command;77633 TERMINAL143,
+only cached jobs had been reused. Fixed and parsed the helper, then application
+succeeded. No Rust test failed. No evidence is claimed from that canceled check.
+
+Required gate63104 TERMINAL0. 4602 Rust tests and 225 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 578}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2780, 'failed': 0, 'pending': 1793, 'excluded': 282, 'unverified': 0, 'percent': 57.261}.
+Source before/after matched: ae9492319b14df53c7c37bcae3754f4b35cfce5c3b4bcd378de690ac50751a25
+Live freshness matched verification digest: 772935c80b5ca0a9fd3d12a9306a34ff41702deac7785d9876d2cd1058a0f4bb.
+Existing provenance prefixes unchanged; appended15cases and8fixtures.
+Log work/move-rebase-final-check.log; evidence work/move-rebase-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final gate63104 and evidence60637 TERMINAL0. All20new tests passed in the integrated
+build and all225documentation tests passed. Exactly5Rust jobs ran (library plus
+four new test targets),578Rust jobs and46Python jobs reused valid evidence. Source
+before/after unchanged; live dashboard digest matched. No warm-up was needed for
+this batch. No benchmark/release/browser reruns or upstream changes. All gate,
+evidence, standalone and lint sessions are terminal. Ready to commit. Goal active.
+All move-rebase/composite draft files in work/ are now applied; do not reapply the
+old script or treat them as pending. No further implementation draft is queued.

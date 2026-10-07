@@ -998,3 +998,8 @@ mod list_k_opt_topology;
 pub use list_k_opt_topology::{ListKOptTopology, pure_k_opt_topology_count};
 mod cyclic_span;
 pub use cyclic_span::{CyclicSpanError, reverse_cyclic_span};
+
+mod move_rebase;
+pub use move_rebase::{
+    MoveRebaseError, MoveRebaseNamespace, rebase_basic_move, rebase_list_move, rebase_mixed_move,
+};
