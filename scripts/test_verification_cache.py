@@ -114,8 +114,123 @@ class InputTests(unittest.TestCase):
             'use crate::Score;\npub fn compute() { let _ = Score; }')
         self.assertNotEqual(before, self.key(entry))
         self.assertIn('@rust-library:crates/solver/src/score.rs', rust_test_inputs(entry, self.root))
-        (self.root / entry).write_text('use timetuck::*; fn probe(_: Score) {}')
+        (self.root / entry).write_text('use timetuck::*; use std::error::Error; fn probe(_: Score) {}')
         self.assertNotIn('@rust-library:crates/solver/src/search.rs', rust_test_inputs(entry, self.root))
+
+    def test_local_extension_impls_do_not_invalidate_plain_model_users(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::*; use std::error::Error; fn probe(_: Score) {}')
+        facade = self.root / 'crates/solver/src/lib.rs'
+        facade.write_text('pub mod score; pub mod search; pub use score::Score;')
+        before = self.key(entry)
+        facade.write_text(facade.read_text() +
+                          ' mod editing; pub use editing::DraftModel;')
+        extension = self.root / 'crates/solver/src/editing.rs'
+        extension.write_text('use crate::Score;\npub trait DraftModel { fn draft(&self); type Error; }\n'
+                             'impl DraftModel for Score { fn draft(&self) {} }')
+        self.assertEqual(before, self.key(entry))
+        selected = '@rust-library:crates/solver/src/editing.rs'
+        self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+        for caller in ['use timetuck::DraftModel; fn run<T: DraftModel>() {}',
+                       'use timetuck::*; fn run(s: Score) { s.draft(); }',
+                       'use timetuck::*; fn run() { let f = Score::draft; }']:
+            (self.root / entry).write_text(caller)
+            self.assertIn(selected, rust_test_inputs(entry, self.root))
+            key = self.key(entry)
+            extension.write_text(extension.read_text().replace('fn draft(&self) {}',
+                                                             'fn draft(&self) { panic!("changed"); }'))
+            self.assertNotEqual(key, self.key(entry))
+            extension.write_text(extension.read_text().replace('fn draft(&self) { panic!("changed"); }',
+                                                             'fn draft(&self) {}'))
+
+    def test_trait_defaults_associated_items_and_qualified_impls_are_dependencies(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; mod extension; mod traits; pub use score::Score; '
+            'pub use traits::DraftModel as Drafting;')
+        trait = self.root / 'crates/solver/src/traits.rs'
+        trait.write_text('pub trait DraftModel { fn draft(&self) { if true {} } '
+                         'type Snapshot; const LIMIT: usize = 4; }')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        extension.write_text('use crate::Score;\nimpl crate::traits::DraftModel for Score '
+                             '{ type Snapshot = Score; }')
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        for access in ['s.draft()', 'Score::draft(&s)', 'Score::LIMIT',
+                       '<Score as Drafting>::Snapshot']:
+            (self.root / entry).write_text('use timetuck::*; fn run(s: Score) { ' + access + '; }')
+            inputs = rust_test_inputs(entry, self.root)
+            self.assertIn(selected, inputs)
+            self.assertIn('@rust-library:crates/solver/src/traits.rs', inputs)
+            before = self.key(entry)
+            trait.write_text(trait.read_text().replace('= 4;', '= 5;'))
+            self.assertNotEqual(before, self.key(entry))
+            trait.write_text(trait.read_text().replace('= 5;', '= 4;'))
+
+    def test_foreign_traits_and_inherent_extensions_still_follow_the_type(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; pub mod search; mod extension;')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        before = self.key(entry)
+        for header in ['impl Clone for Score', 'impl std::fmt::Display for Score',
+                       'impl<T: Clone> From<T> for Score', 'impl Score']:
+            extension.write_text(header + ' {}')
+            self.assertNotEqual(before, self.key(entry))
+            self.assertIn('@rust-library:crates/solver/src/extension.rs',
+                          rust_test_inputs(entry, self.root))
+
+    def test_trait_member_names_are_scoped_to_trait_bodies_and_updated(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::*; fn probe(s: Score) { s.unrelated(); }')
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; mod traits; mod extension;')
+        trait = self.root / 'crates/solver/src/traits.rs'
+        trait.write_text('pub trait First { fn draft(&self) { if true {} } }\n'
+                         'pub trait Second { fn unrelated(&self); }')
+        (self.root / 'crates/solver/src/extension.rs').write_text(
+            'impl First for Score { fn draft(&self) {} }')
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+        trait.write_text('pub trait First { fn unrelated(&self); }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+
+    def test_trait_methods_require_receivers_and_follow_factory_dependencies(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::*; fn run(s: Search) { s.draft(); }')
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; pub mod search; mod traits; mod extension;')
+        (self.root / 'crates/solver/src/traits.rs').write_text(
+            'pub trait DraftModel { fn draft(&self); }')
+        (self.root / 'crates/solver/src/extension.rs').write_text(
+            'impl DraftModel for Score { fn draft(&self) {} }')
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+        (self.root / 'crates/solver/src/search.rs').write_text(
+            'pub struct Search;\npub fn make() -> crate::Score { todo!() }')
+        (self.root / entry).write_text('use timetuck::*; fn run() { make().draft(); }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+
+    def test_blanket_traits_and_internal_traits_keep_required_implementations(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; pub mod search; mod traits; mod extension;')
+        traits = self.root / 'crates/solver/src/traits.rs'
+        traits.write_text('pub trait DraftModel { fn draft(&self); }')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        extension.write_text('impl<T: Clone> DraftModel for T { fn draft(&self) {} }')
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        for caller in ['use timetuck::*; fn run(s: Search) { s.draft(); }',
+                       'use timetuck::DraftModel; fn run<T: DraftModel>(_: T) {}']:
+            (self.root / entry).write_text(caller)
+            self.assertIn(selected, rust_test_inputs(entry, self.root))
+        extension.write_text('impl<T, U> DraftModel<U> for T { fn draft(&self) {} }')
+        traits.write_text('pub trait DraftModel<U=()> { fn draft(&self); }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+        traits.write_text('pub(crate) trait DraftModel { fn draft(&self); }')
+        extension.write_text('impl DraftModel for Score { fn draft(&self) {} }')
+        (self.root / entry).write_text('use timetuck::Score;')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
 
     def test_benchmark_dependencies_are_separate_from_tests_and_other_adapters(self):
         score = measurement_digest('performance', self.root)
@@ -145,7 +260,7 @@ class InputTests(unittest.TestCase):
         facade = self.root / 'crates/solver/src/lib.rs'
         facade.write_text('pub mod score; pub mod search; pub use score::{Score};')
         entry = 'crates/solver/tests/a.rs'
-        (self.root / entry).write_text('use timetuck::*; fn probe(_: Score) {}')
+        (self.root / entry).write_text('use timetuck::*; use std::error::Error; fn probe(_: Score) {}')
         before = self.key(entry), measurement_digest('performance', self.root)
         library = self.key('crates/solver/src/lib.rs')
         (self.root / 'crates/solver/src/extra.rs').write_text('pub struct Extra;')

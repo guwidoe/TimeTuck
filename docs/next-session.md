@@ -15024,3 +15024,44 @@ During the gate, read full NeighborhoodTesterTest (already adapted), full
 ScalingSequencedSetTest, and MoveDirectorTest2190–2431;80–210output was partly
 truncated. No adaptations from these reads. Remaining move-director cases include
 metadata access, Java argument distinctions and nested-phase bookkeeping.
+
+## Narrow public trait adapter dependencies
+
+Previous goal turn completed and committed f450d1d. Started clean; read handoff
+and compatibility. Fixed the dependency expansion observed in that batch.
+Public local trait impls now require a referenced concrete receiver plus a trait
+or method reference; blanket impls match any receiver. Associated items are
+qualified by receiver to avoid std::error::Error matching a trait's Error type.
+Dependency discovery reaches a fixed point through factories/helper modules.
+Internal/foreign traits and inherent impls retain conservative target ownership.
+No Rust sources, provenance, upstream sources, test results or cache records edited.
+
+25focused Python tests passed, including6new regressions: unrelated model reuse,
+method/static references, associated/default items and aliases, module-scoped
+member discovery, receiver filtering, factory returns, blanket/internal/foreign
+impls. An initial global member-name approach expanded unrelated dependencies;
+receiver conditioning fixed it before the final gate. All-target audit20503
+TERMINAL0: move_tester.rs affected499/566targets before,3/566after (lib plus its
+two integration targets). The final generic-parameter parser adjustment produced
+an identical real-repository symbol index, preserving that audit's result.
+Evidence work/trait-input-scope.json and work/trait-inputs-tests.log.
+
+Final gate56985 started on frozen script inputs to validate the reporting/cache
+pipeline; Rust binaries from the previous batch are reused by Cargo. The checker
+code change itself requires new per-job keys; old evidence was not relabeled.
+Dashboard server restarted as PID28988 to load the updated fingerprint code.
+
+Required gate56985 TERMINAL0. 4406 Rust tests and 216 doctests passed.
+Rust jobs: {'RUN': 566}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2628, 'failed': 0, 'pending': 1945, 'excluded': 282, 'unverified': 0, 'percent': 54.13}.
+Source before/after matched: 009787f39641e5ec635d30729004adb0ef69595f741c27b5c9db70b5b1395584
+Live freshness matched verification digest: d6b6707f75c0683d5a5a990e2f918f6e2679f624190061111f9a0e796161e3e1.
+Existing provenance prefixes unchanged; no new cases or fixtures.
+Log work/trait-inputs-final-check.log; evidence work/trait-inputs-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Gate56985 and evidence41657 TERMINAL0. The new verification-code hash required
+one refresh of all566Rust and46Python job records. Cargo reused most binaries;
+some targets skipped in the preceding Rust batch needed compilation. Live server
+freshness matches the regenerated report. The scope audit is an input-selection
+comparison, not a measured solver or build speedup. All verification handles are
+terminal; the dashboard server remains running. No Rust behavior changes.

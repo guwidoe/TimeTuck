@@ -70,6 +70,16 @@ sources against the report fingerprint, and the page warns on changed sources.
 The warning does not overwrite the previous evidence. When served by a generic
 static host, only the saved generation timestamp is available.
 
+Verification uses separate dependency hashes for each Rust target. Public local
+trait adapters are dependencies when the target references both the receiver type
+and the trait or one of its members; blanket implementations match any receiver.
+Factory/helper dependencies participate in the same scan. Inherent methods,
+internal traits, and foreign traits such as operators and formatting remain tied
+to their model types. Associated items are qualified by receiver so a common name
+such as `Error` does not connect unrelated modules. This is a selective development
+heuristic, not compiler name resolution; `--force` remains available for a deliberate
+full run. Successful evidence is never rewritten to fit a changed hash.
+
 Generated reports and downloaded binaries live in ignored `dashboard/data/` and
 `work/`. Regenerate them in a fresh checkout. `--inventory-only` emits an inventory
 with implemented cases unverified. Running `compat_report.py` without a captured

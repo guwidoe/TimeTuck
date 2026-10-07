@@ -188,6 +188,25 @@ def library_inputs(root=ROOT):
     return cargo_inputs(root) | files('crates/*/src/**/*', root)
 
 
+def local_trait_members(source):
+    """Names usable through a local trait, including default/associated items.
+
+    Source has literals/comments masked. Balanced bodies keep one trait's methods
+    from leaking into the next item; this remains a development dependency scan.
+    """
+    traits = {}
+    for match in re.finditer(r'\bpub\s+trait\s+(\w+)\b[^{};]*\{', source):
+        depth, end = 1, match.end()
+        while end < len(source) and depth:
+            depth += (source[end] == '{') - (source[end] == '}')
+            end += 1
+        if depth:
+            continue
+        body = source[match.end():end-1]
+        traits[match[1]] = set(re.findall(r'\b(fn|type|const)\s+(\w+)', body))
+    return traits
+
+
 @lru_cache(maxsize=8)
 def library_symbol_owners(texts, facade_source):
     """Reuse parsing across targets, keyed by source contents and module names.
@@ -196,7 +215,11 @@ def library_symbol_owners(texts, facade_source):
     cannot hide an edit, added/removed module, or changed export in this process.
     Cached results are immutable so one target cannot affect another's inputs.
     """
-    owners = {}
+    owners, traits = {}, {}
+    for name, source in texts:
+        for trait, members in local_trait_members(source).items():
+            traits.setdefault(trait, set()).update(members)
+            owners.setdefault(trait, set()).add(name)
     sources = {name for name, _ in texts}
     for name, source in texts:
         symbols = {Path(name).stem}
@@ -208,20 +231,40 @@ def library_symbol_owners(texts, facade_source):
         for symbol in re.findall(r'\b\w+\b', exports):
             owner = f'crates/solver/src/{module}.rs'
             if owner in sources: owners.setdefault(symbol, set()).add(owner)
-    # Inherent/trait implementations may live outside their type's module.
+    # Inherent and foreign-trait impls still follow the target type (operators,
+    # formatting and conversions can be implicit). Local extension traits follow
+    # trait references or member access, not every use of the underlying type.
+    # Public trait impls require a referenced receiver and trait/member. Blanket
+    # impls match any receiver. Internal traits retain the broad target rule.
     for name, source in texts:
         for header in re.findall(r'^impl\b([^{}]+)\{', source, re.M):
             header = header.strip()
+            parameters = set()
             if header.startswith('<'):
                 depth = 0
                 for i, char in enumerate(header):
                     depth += (char == '<') - (char == '>')
                     if depth == 0:
+                        parameters = set(re.findall(r'(?:^|,)\s*(\w+)\s*(?=[:=,]|$)', header[1:i]))
                         header = header[i+1:].strip()
                         break
             header = re.split(r'\bwhere\b', header)[0]
-            target = re.split(r'\bfor\b', header)[-1].strip()
-            symbol = re.match(r'(?:&\s*)?(\w+)', target)
+            parts = re.split(r'\bfor\b', header)
+            trait = re.match(r'(?:\w+::)*(\w+)', parts[0].strip()) if len(parts) > 1 else None
+            target = parts[-1].strip()
+            symbol = re.match(r'(?:&\s*)?(?:\w+::)*(\w+)', target)
+            if trait and trait[1] in traits and symbol:
+                receiver = '*' if symbol[1] in parameters else symbol[1]
+                owners.setdefault('@trait-impl:' + receiver + ':' + trait[1], set()).add(name)
+                for kind, member in traits[trait[1]]:
+                    if kind == 'fn':
+                        key = '@trait-method:' + receiver + ':' + member
+                    else:
+                        # Qualify common associated names such as Error to avoid
+                        # selecting adapters for unrelated std::error::Error imports.
+                        key = '@trait-associated:' + symbol[1] + ':' + member
+                    owners.setdefault(key, set()).add(name)
+                continue
             if symbol and symbol[1] in owners:
                 owners[symbol[1]].add(name)
     return MappingProxyType({symbol: frozenset(paths) for symbol, paths in owners.items()})
@@ -233,6 +276,11 @@ def dependency_words(source):
     words = set(re.findall(r'\b\w+\b', imports))
     words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
     words.update(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', source))
+    # Dot calls and associated items also work through glob-imported traits.
+    words.update('@trait-member:' + name for name in
+                 re.findall(r'(?:\.|::)\s*([A-Za-z_]\w*)', source))
+    words.update('@trait-associated:' + target + ':' + member for target, member in
+                 re.findall(r'(?=\b(\w+)\s*::\s*(\w+))', source))
     if re.search(r'\buse\s+(?:crate|timetuck|super)\b[^;]*\*', source):
         calls = set(re.findall(r'(?<![.\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', source))
         local = set(re.findall(r'\bfn\s+(\w+)', source))
@@ -246,6 +294,9 @@ def selected_library_inputs(entries, root=ROOT):
     Follow named types/functions/modules and out-of-line implementations. Glob
     imports resolve against identifiers used in the target. Facade inputs include
     referenced declarations/reexports and other root code, excluding unrelated exports.
+    Public extension traits follow trait/member references plus concrete receiver
+    names. Blanket impls match any receiver. Internal/foreign traits and inherent
+    implementations remain dependencies of their target types.
     """
     facade = 'crates/solver/src/lib.rs'
     if facade in entries:
@@ -255,6 +306,12 @@ def selected_library_inputs(entries, root=ROOT):
              for name in sorted(sources - {facade})}
     facade_source = (root / facade).read_text() if (root / facade).is_file() else ''
     owners = library_symbol_owners(tuple(texts.items()), facade_source)
+    trait_rules = []
+    for key, paths in owners.items():
+        if key.startswith(('@trait-impl:', '@trait-method:')):
+            kind, receiver, member = key.split(':', 2)
+            trigger = member if kind == '@trait-impl' else '@trait-member:' + member
+            trait_rules.append((receiver, trigger, paths))
     selected, pending, referenced = set(), list(entries), set()
     while pending:
         name = pending.pop()
@@ -266,6 +323,11 @@ def selected_library_inputs(entries, root=ROOT):
         referenced.update(words)
         for word in words:
             pending.extend(owners.get(word, set()) - selected)
+        # Iterate to a fixed point: a factory/helper can reveal a concrete receiver
+        # after the call site's trait/member has already been visited.
+        for receiver, trigger, paths in trait_rules:
+            if trigger in referenced and (receiver == '*' or receiver in referenced):
+                pending.extend(paths - selected)
     modules = {p for p in selected if p.startswith('crates/solver/src/')}
     referenced.update(Path(p).stem for p in modules)
     projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
