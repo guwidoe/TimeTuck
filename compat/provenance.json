@@ -41949,6 +41949,66 @@
       "local_test": "rebase_returns_move_whose_sample_holds_working_solution_copies",
       "status": "implemented",
       "modifications": "Preserve null-destination order-independent equality/hash, insertion order/destination-sensitive equality/hash, null/unrelated-object rejection, and exact rebased member/destination identities. Owned native ListMassChangePlan recipes resolve current assignment positions before execution; existing snapshot-bound ListMassChange metadata is unchanged. Option/Any represent Java null/type rejection. Rc pointer checks preserve distinct working value copies and numeric destination-owner identity replaces Java entity objects. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.failBasicVariableInvalidValueRange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failBasicVariableInvalidValueRange",
+      "local_path": "crates/solver/tests/problem_build_cases.rs",
+      "local_test": "fail_basic_variable_invalid_value_range",
+      "status": "implemented",
+      "modifications": "Reject the same invalid initial values during native model construction, before a solver can accept the model. Preserve entity/variable identity, offending value, exact allowed members and nullable-range information using structured borrowed diagnostics and application-supplied labels. Flatten multiple fields into ordered variable slots; Java reflection, factory configuration and incidental message punctuation are replaced by native construction and explicit mappings. Both mixed basic and list failures are asserted. Rendering lists every allowed member instead of Java endpoint notation; typed causes replace thrown exceptions. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.failMultipleBasicVariableInvalidValueRange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failMultipleBasicVariableInvalidValueRange",
+      "local_path": "crates/solver/tests/problem_build_cases.rs",
+      "local_test": "fail_multiple_basic_variable_invalid_value_range",
+      "status": "implemented",
+      "modifications": "Reject the same invalid initial values during native model construction, before a solver can accept the model. Preserve entity/variable identity, offending value, exact allowed members and nullable-range information using structured borrowed diagnostics and application-supplied labels. Flatten multiple fields into ordered variable slots; Java reflection, factory configuration and incidental message punctuation are replaced by native construction and explicit mappings. Both mixed basic and list failures are asserted. Rendering lists every allowed member instead of Java endpoint notation; typed causes replace thrown exceptions. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.failListVariableInvalidValueRange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failListVariableInvalidValueRange",
+      "local_path": "crates/solver/tests/problem_build_cases.rs",
+      "local_test": "fail_list_variable_invalid_value_range",
+      "status": "implemented",
+      "modifications": "Reject the same invalid initial values during native model construction, before a solver can accept the model. Preserve entity/variable identity, offending value, exact allowed members and nullable-range information using structured borrowed diagnostics and application-supplied labels. Flatten multiple fields into ordered variable slots; Java reflection, factory configuration and incidental message punctuation are replaced by native construction and explicit mappings. Both mixed basic and list failures are asserted. Rendering lists every allowed member instead of Java endpoint notation; typed causes replace thrown exceptions. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.failMixedModelInvalidValueRange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failMixedModelInvalidValueRange",
+      "local_path": "crates/solver/tests/problem_build_cases.rs",
+      "local_test": "fail_mixed_model_invalid_value_range",
+      "status": "implemented",
+      "modifications": "Reject the same invalid initial values during native model construction, before a solver can accept the model. Preserve entity/variable identity, offending value, exact allowed members and nullable-range information using structured borrowed diagnostics and application-supplied labels. Flatten multiple fields into ordered variable slots; Java reflection, factory configuration and incidental message punctuation are replaced by native construction and explicit mappings. Both mixed basic and list failures are asserted. Rendering lists every allowed member instead of Java endpoint notation; typed causes replace thrown exceptions. No production implementation translated."
     }
   ],
   "fixtures": [
@@ -57499,6 +57559,19 @@
       "upstream_test": "generateSolution(int,int) and private initialized overload",
       "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
       "modifications": "Preserve value/entity counts, ordered entity slots and cyclic initial assignments; use numeric values and variable slots instead of generated object labels. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedMultiVarEntityProvidingEntity.problem_build",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/multivar/TestdataAllowsUnassignedMultiVarEntityProvidingEntity.java",
+      "upstream_test": "three optional PlanningVariable fields and six-argument constructor",
+      "local_path": "crates/solver/tests/problem_build_cases.rs",
+      "modifications": "multi_var_entity flattens the three optional fields and their per-entity/solution ranges into three ordered native variables; retains initial values and shared solution range. No Java descriptors, inheritance or accessors ported. No extra method credit."
     }
   ]
 }

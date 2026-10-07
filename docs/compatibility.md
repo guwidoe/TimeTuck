@@ -4118,3 +4118,15 @@ and value renderers; sparse ranges display every member. Existing constructors
 and search error types are unchanged. No complete upstream method credits are
 added: the DefaultSolver invalid-initial-value fixtures and automatic named
 solver-entry diagnostics remain pending.
+
+Borrowed-specification constructors now build owned basic/list/mixed models with
+initial-value range diagnostics. Failed construction retains references to the
+original offending payload and range; successful models outlive their input.
+Metadata validation and error priority remain those of native constructors. List
+optionality, entity ranges and pins are retained. Four DefaultSolverTest invalid-
+range methods are adapted through this explicit construction entry point, before
+search can accept a model. Native slot/position identities plus application labels
+replace reflective field identities; exact allowed members and nullable policy
+replace Java endpoint message notation. Both mixed failure paths are preserved.
+Existing constructors and automatic error formatting in other solver APIs remain
+unchanged; these credits do not claim Java factory/reflection parity.

@@ -1030,3 +1030,8 @@ pub use range_diagnostics::{
     validate_basic_with_diagnostics, validate_list_with_diagnostics,
     validate_mixed_with_diagnostics,
 };
+
+mod problem_build;
+pub use problem_build::{
+    build_basic_with_diagnostics, build_list_with_diagnostics, build_mixed_with_diagnostics,
+};

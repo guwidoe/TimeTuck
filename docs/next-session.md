@@ -15839,3 +15839,39 @@ Live freshness matched verification digest: 162cf2c2ca6bd0bc15e67ce8e0327fb04fc8
 Existing provenance prefixes unchanged; provenance unchanged (0cases and0fixtures).
 Log work/range-diagnostics-final-check.log; evidence work/range-diagnostics-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Initial model construction with range diagnostics
+
+Previous goal turn made progress:93c2027 committed, gate15552/evidence2285 terminal0.
+New independent problem_build module exports borrowed-specification basic/list/
+mixed constructors. Native constructors clone input into owned models and retain
+validation priority; range errors borrow original payload/range/position. List
+optionality is explicit; pins/ranges survive construction. Mixed validates basic
+before lists and keeps distinct payload types. Neither input is modified.
+
+Four DefaultSolverTest invalid-range methods adapted at native construction,
+before search receives a model: single basic, optional multi-field, list and both
+mixed failures. Explicit labels/slots replace Java reflection; exact allowed values
+and optionality preserve error information without literal Java punctuation. One
+multi-field fixture adapted and attributed from TEST-ONLY
+core/testdomain/valuerange/entityproviding/multivar/
+TestdataAllowsUnassignedMultiVarEntityProvidingEntity.java (full file read).
+DefaultSolverTest2267–2383 was read in prior turn; no production sources read.
+Three original regressions cover actual basic/list/mixed solver integration,
+input/model lifetimes, borrowed pointer identity, malformed metadata priority,
+empty domains, pins and optional policies. Standalone focused69431 TERMINAL0:
+all7tests passed using the copied current a12cff9bad4db4df library. No duplicate
+focused rerun needed. Formatted input ready for the final required gate; freeze
+source/provenance until it finishes. No benchmarks/release/browser reruns.
+
+Required gate61822 TERMINAL0. 4644 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 590}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2793, 'failed': 0, 'pending': 1780, 'excluded': 282, 'unverified': 0, 'percent': 57.528}.
+Source before/after matched: 03cbddb973c051cbe3c2af4b6021087db0bfb5ba551fcf639aecc66480ac5166
+Live freshness matched verification digest: ec831d89b420ac6a14db105ba1359fe611658eba72a7ad3854c7d6104510ad04.
+Existing provenance prefixes unchanged; appended4cases and1fixture.
+Log work/problem-build-final-check.log; evidence work/problem-build-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Evidence helper initially asserted exit_code4 after an overly broad draft text
+replacement; corrected helper to require0. No source/test failure or gate rerun;
+corrected evidence66221 TERMINAL0 with live freshness matched.
