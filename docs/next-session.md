@@ -15914,3 +15914,33 @@ The solver-level test uses construction only and proves acceptance/non-triggerin
 there; it does not establish a single diminished-return timer spanning all phases.
 Do not infer that behavior from the configuration label. No additional draft applied.
 Goal remains active.
+
+Required gate30738 TERMINAL0. 4653 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 558, 'REUSE': 36}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2799, 'failed': 0, 'pending': 1774, 'excluded': 282, 'unverified': 0, 'percent': 57.652}.
+Source before/after matched: 8fd0154de3f7a0e729874eebc8825c4d35e773c2b28e881182a2820121d7225b
+Live freshness matched verification digest: 05d6a940d750ddab59bcf4cbe3511156f3547b9313b8cb5bc910edc6db65c3ae.
+Existing provenance prefixes unchanged; appended6cases and0fixtures.
+Log work/unimproved-lifecycle-final-check.log; evidence work/unimproved-lifecycle-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Warm-up57324 TERMINAL0, reported10m09s; evidence68209 TERMINAL0. All previous live
+handles now terminal. Two independently tested drafts are ready, neither applied:
+1. work/verification-wrapper-draft/STATUS.txt and work/apply_verification_wrapper.py.
+   Actual false dependency: range collector Box plus .size selected generic boxed
+   PlacementSource forwarding impl and transitively the search engine. Narrowing
+   only same-trait-bound generic Box/Rc/Arc forwarders preserves explicit trait/
+   factory dependencies, concrete wrappers and universal wrapper implementations.
+   Final Python20187 terminal0:26tests pass. Real source comparison: range collector
+   164->11modules (timer removed), solver164->161(timer retained), score5->5 and
+   entry-list1->1. Apply FIRST after this evidence commit, with no Rust edits, then
+   run final check under new keys; don't re-key old results. This uses just-compiled
+   Rust executables. Original hash guards protect the two script replacements.
+2. work/diminished-defaults-draft/STATUS.txt and work/apply_diminished_defaults.py.
+   Three settings/default helpers; two apply only to missing local-search policies
+   in ordinary/mixed sequences. Explicit policies and non-local phases survive.
+   Focused66693 terminal0:3adapted factory cases+2native regressions passed. Draft
+   clippy-driver terminal0 with warnings denied. Source fixture reads were already
+   recorded. Three provenance cases/0fixtures prepared. Apply AFTER cache-fix gate/
+   commit, then review/format/document/final-check once. No duplicate focused tests.
+No source changes occurred during gate30738; no benchmark/release/browser reruns.
