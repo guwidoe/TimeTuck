@@ -3074,3 +3074,30 @@ covariant accessor discovery. This does not claim Java reflection or inheritance
 support. Three source cases and thirteen fixtures are attributed. Original tests
 cover precise cycle membership, self loops, missing registrations, dynamic cycle
 recovery and score/cache rollback.
+
+## List edit recording and notification-aware undo
+
+`ListChangeRecorder` observes bounded edits to one canonical list variable and
+records separate before/after brackets by stable entity identity. Interleaved
+owners, nested brackets across owners, batched swaps and repeated/overlapping
+ranges undo in reverse recording order with one notification pair per edit and
+one final shadow refresh. Shared non-delegating handles retain the same pending
+records while suppressing forward notifications. Live undo handles see edits
+recorded after their creation and remain reusable after successful execution.
+
+Malformed ranges, duplicate/orphan events, mismatched starts, incorrect length
+changes and edits outside the reported range reject without changing records.
+Undo validates all saved post-edit snapshots before invoking callbacks. Validation
+errors and ordinary callback panics preserve caller lists and recording; external
+callback side effects remain outside rollback. Callbacks receive the working
+snapshot at each event. Whole-field registry/shadow publication belongs at the
+final refresh because cross-owner replay can temporarily duplicate values.
+
+All 21 VariableChangeRecordingScoreDirectorTest methods are adapted, including
+exact list restoration and notification ranges/counts. Native tests additionally
+exercise a committed legal list move, restoration of published owner/index
+shadows and stream score, malformed replay, callback failure and recovery.
+This is explicit observation of caller-owned lists; native model validation and
+pin/value-range enforcement remain required. Automatic mutation interception,
+Java setters, basic-variable recording and allocation-efficient range snapshots
+are not implemented by this API. No performance claim is made.

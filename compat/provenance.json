@@ -32789,6 +32789,321 @@
       "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
       "local_test": "fails_if_always_looped_variable_present",
       "modifications": "Invoke the real finite stream solver with three initially unassigned entities, required value range 1..5 and best-score limit 0. Register original value/odd/even source declarations through compiled paths. Preserve supplier null/fallback behavior and parity-count scoring definitions. Stream initialization rejects guaranteed root-field cycles before callbacks. Rust GraphError wrapped by SolverError replaces IllegalArgumentException; assert fixed-dependency-loop diagnostic plus both odd/even names. Add zero reader/supplier call assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.sameListSingleElementChange_mergesIntoOneUndoNotification",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "sameListSingleElementChange_mergesIntoOneUndoNotification",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "same_list_single_element_change_merges_into_one_undo_notification",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.crossListSingleElementMove_bothEntitiesMergeIndependently",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "crossListSingleElementMove_bothEntitiesMergeIndependently",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "cross_list_single_element_move_both_entities_merge_independently",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.crossEntitySwap_nonAdjacentBracketsStillMerge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "crossEntitySwap_nonAdjacentBracketsStillMerge",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "cross_entity_swap_non_adjacent_brackets_still_merge",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.lifoNestedBrackets_stillMergeIndependently",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "lifoNestedBrackets_stillMergeIndependently",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "lifo_nested_brackets_still_merge_independently",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.kOptStyleBatchedBrackets_threeEntitiesEachMergeIndependently",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "kOptStyleBatchedBrackets_threeEntitiesEachMergeIndependently",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "k_opt_style_batched_brackets_three_entities_each_merge_independently",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.sameEntityTwoIndependentBrackets_doNotCrossMerge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "sameEntityTwoIndependentBrackets_doNotCrossMerge",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "same_entity_two_independent_brackets_do_not_cross_merge",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.sameEntitySequentialBracketsWithIdenticalIndexes_undoRestoresOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "sameEntitySequentialBracketsWithIdenticalIndexes_undoRestoresOriginal",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "same_entity_sequential_brackets_with_identical_indexes_undo_restores_original",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.sameEntitySequentialOverlappingBrackets_undoRestoresOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "sameEntitySequentialOverlappingBrackets_undoRestoresOriginal",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "same_entity_sequential_overlapping_brackets_undo_restores_original",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.sameEntitySequentialBracketsTouchingAtABoundary_undoRestoresOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "sameEntitySequentialBracketsTouchingAtABoundary_undoRestoresOriginal",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "same_entity_sequential_brackets_touching_at_aboundary_undo_restores_original",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.getNonDelegating_sharesThePendingTrackerAcrossInstances",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "getNonDelegating_sharesThePendingTrackerAcrossInstances",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "get_non_delegating_shares_the_pending_tracker_across_instances",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.getNonDelegating_twoEntitiesPendingAcrossInstances_bothStillMerge",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "getNonDelegating_twoEntitiesPendingAcrossInstances_bothStillMerge",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "get_non_delegating_two_entities_pending_across_instances_both_still_merge",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.createUndoMoveWhileABracketIsStillOpen_isRetroactivelyMerged",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "createUndoMoveWhileABracketIsStillOpen_isRetroactivelyMerged",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "create_undo_move_while_abracket_is_still_open_is_retroactively_merged",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.createUndoMoveBeforeAnyChangeIsRecorded_stillSeesLaterChanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "createUndoMoveBeforeAnyChangeIsRecorded_stillSeesLaterChanges",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "create_undo_move_before_any_change_is_recorded_still_sees_later_changes",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.undoChangesReleasesThePendingTracker_soTheSameEntityCanOpenAFreshBracket",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "undoChangesReleasesThePendingTracker_soTheSameEntityCanOpenAFreshBracket",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "undo_changes_releases_the_pending_tracker_so_the_same_entity_can_open_afresh_bracket",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.secondBracketForAnOpenEntity_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "secondBracketForAnOpenEntity_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "second_bracket_for_an_open_entity_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.orphanedAfterWithNoBefore_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "orphanedAfterWithNoBefore_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "orphaned_after_with_no_before_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.duplicateAfterForAClosedBracket_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "duplicateAfterForAClosedBracket_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "duplicate_after_for_aclosed_bracket_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.mismatchedAfterFromIndexThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "mismatchedAfterFromIndexThrows",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "mismatched_after_from_index_throws",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.getNonDelegating_driftedFromIndexAcrossInstances_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "getNonDelegating_driftedFromIndexAcrossInstances_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "get_non_delegating_drifted_from_index_across_instances_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.afterUnderReportingTheLengthChange_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "afterUnderReportingTheLengthChange_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "after_under_reporting_the_length_change_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "VariableChangeRecordingScoreDirectorTest.unclosedBracketAtUndoTime_failsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/VariableChangeRecordingScoreDirectorTest.java",
+      "upstream_test": "unclosedBracketAtUndoTime_failsFast",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "local_test": "unclosed_bracket_at_undo_time_fails_fast",
+      "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
     }
   ],
   "fixtures": [
@@ -43555,6 +43870,45 @@
       "upstream_test": "TestdataAlwaysLoopedConstraintProvider",
       "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
       "modifications": "Retain required integer variable, mutually dependent Boolean odd/even shadows, exact source lists, nullable supplier inputs/fallback arithmetic, three entities, range 1..5 and parity-count penalties. Native metadata and compiled paths replace annotations. Count penalties use the full projected field set and suppress empty groups, equivalent to the source filtered/grouped constraints. Model validation fails before either scoring definition can run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.list_recording",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "modifications": "Adapt named entity/value identities and required valueList metadata to stable string keys, vectors and explicit native schema. Harness stores entity lists in a BTreeMap. Unused fixture generation, mutable Java shadow setters and annotation reflection are not ported; original native integration separately verifies owner/index publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.list_recording",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "modifications": "Adapt named entity/value identities and required valueList metadata to stable string keys, vectors and explicit native schema. Harness stores entity lists in a BTreeMap. Unused fixture generation, mutable Java shadow setters and annotation reflection are not ported; original native integration separately verifies owner/index publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.list_recording",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "local_path": "crates/solver/tests/list_recording_cases.rs",
+      "modifications": "Adapt named entity/value identities and required valueList metadata to stable string keys, vectors and explicit native schema. Harness stores entity lists in a BTreeMap. Unused fixture generation, mutable Java shadow setters and annotation reflection are not ported; original native integration separately verifies owner/index publication."
     }
   ]
 }

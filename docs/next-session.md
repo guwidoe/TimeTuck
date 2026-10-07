@@ -12982,3 +12982,47 @@ Live freshness matched verification digest: a100b2e7c0c77341e0ce4911fdad0f5ba5d0
 Existing provenance prefixes unchanged; appended3cases and13fixtures.
 Log work/fixed-shadow-final-check.log; evidence work/fixed-shadow-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## List change recording (current increment)
+
+Previous user-facing goal activation turn only confirmed goal status; revalidated
+worktree and resumed existing implementation. Initial compile64293 terminal0.
+Added ListChangeRecorder and live ListRecordingUndo for canonical list fields,
+shared/non-delegating handles, independent entity brackets, reverse undo and exact
+range notifications. Entire reverse replay validated before callbacks; snapshots
+publish and shared recording clears only after callbacks succeed. Ordinary panic
+preserves caller data/records; external callback effects not rolled back. Explicit
+observer API, whole-list snapshots; no automatic setters or performance claims.
+
+Read full VariableChangeRecordingScoreDirectorTest and reused fully read three list
+fixtures. Adapted all21 methods preserving lists, ranges, counts, event timing and
+errors; native Result variants/diagnostics replace Java exceptions. Stronger exact
+reverse notification order also asserted. Added three original tests: actual
+committed ListProblem move restores owner/index shadows and stream score through
+one final registry publication; invalid complete replay emits no callbacks; panic
+at every event leaves lists/records recoverable; invalid ranges/outside edits can
+be repaired. Forward suppression and Busy during replay covered.
+Focused18520 terminal0:21source tests. Native28658 terminal0:3tests. Provenance
+appended21cases and3fixtures, existing prefixes preserved. No upstream production
+implementation read. No benchmark/browser/release reruns. Source now frozen for
+one required final gate; do not repeat focused tests after a context reset.
+
+While final gate runs, read MoveDirectorTest lines2195..2322 (three complete
+methods) as possible next targets, not yet credited: lookUpWorkingObject delegates
+a value to backing lookup, requiring a distinct object with equal code;
+undoNestedPhaseMove mocks ruin/recreate where initially selected owner e1 losesv1
+and previously unselected e2 gainsv1. It asserts recorded before-actions for e1
+[v1] and e2[v2], each range0..1, despite mocked final duplicate v1 setup. A faithful
+native adaptation needs real dynamic owner discovery/recording, not just old RAII
+undo success. testSolverScopeNestedPhase asserts nested reconstruction uses a
+fresh solver scope exactlyonce and never passes main scope. These are individual
+methods, not a full-file review; do not read production classes they reference.
+
+Required gate2899 TERMINAL0. 3784 Rust tests and 178 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 468}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2205, 'failed': 0, 'pending': 2368, 'excluded': 282, 'unverified': 0, 'percent': 45.417}.
+Source before/after matched: 193e7988d1bed0fda9a2c343854e22de7ee4c8b32c81817c3e399cab8661c4c7
+Live freshness matched verification digest: e3463bcda5542cf99f712e794c2384658b1fad6c7c84b5461916b6166c086679.
+Existing provenance prefixes unchanged; appended21cases and3fixtures.
+Log work/list-recording-final-check.log; evidence work/list-recording-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

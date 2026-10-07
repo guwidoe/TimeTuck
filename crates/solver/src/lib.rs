@@ -786,3 +786,8 @@ pub use shadow_session::{
     ShadowInputs, ShadowNode, ShadowNodeRef, ShadowRead, ShadowSession, ShadowSessionBuilder,
     ShadowSessionCheckpoint, ShadowSessionError,
 };
+
+mod list_change_recording;
+pub use list_change_recording::{
+    ListChangeNotification, ListChangeRecorder, ListRecordingError, ListRecordingUndo,
+};
