@@ -14870,3 +14870,37 @@ No benchmark/browser/release reruns. All sessions terminal; goal remains active.
 Focused74508 TERMINAL0: all6source cases and3native regressions passed. Added repeated
 iterator exhaustion assertions after the focused run; final gate covered final
 formatted source. Formatting29961 and evidence74403 also terminal0. No live sessions.
+
+## Score definitions across all eight families
+
+Previous goal turn was verified progress; started94d36d2 clean. Read handoff and
+compatibility, full test-only eight *ScoreDefinitionTest classes and relevant
+native score, trend, decimal and bendable interfaces. No upstream production
+reads. Added ScoreDefinition trait in a new module without changing existing
+score arithmetic/search kernels: typed vector construction, labels/counts,
+zero/softest unit, sanitized component division and integer finite trend bounds.
+Exact widened integer division floors and reports MIN/-1 overflow; decimal
+arithmetic uses existing exact floor at max(dividend scale,0). Constructors and
+arithmetic clear structural state. Const-generic bendable shapes validate lengths;
+zero-level unit returns NoLevels; hard-only unit uses last hard level. Finite
+integer extrema do not alter infinity-based InitializingScoreBound/search.
+
+Added70full source methods, no helper fixtures. Preserved every supplied shape,
+label, level and division assertion, including all16decimal bendable construction
+shapes and integer bendable repeated unit divisor. Native regressions cover exact
+negative rounding, overflow, zero sanitization, decimal precision/scales, structural
+reset, empty/hard-only shapes, mixed trend completion bounds and actual exact solve.
+Compile70325 terminal0. No benchmarks/UI/release reruns or performance claim.
+
+Required gate44959 TERMINAL0. 4369 Rust tests and 214 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 556}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2606, 'failed': 0, 'pending': 1967, 'excluded': 282, 'unverified': 0, 'percent': 53.677}.
+Source before/after matched: fdab829f51050e9c517fe2c72c1f2b63b388867d42fe81608f10edcc2739e1e3
+Live freshness matched verification digest: 53c8148c4500ab9d7844fbe7e06d770907b296986fc9943bdd5a9e5bec1c5413.
+Existing provenance prefixes unchanged; appended70cases and0fixtures.
+Log work/score-definition-final-check.log; evidence work/score-definition-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Focused98592 TERMINAL0:70adapted methods and5native regressions. Final gate44959
+and evidence40166 terminal0. Source-method mapping audit found exact coverage of
+all70@Test methods across the eight classes, with prior provenance prefixes
+unchanged. Score APIs & types dashboard category is230/230(100%). No live sessions.

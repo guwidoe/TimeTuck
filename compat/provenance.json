@@ -38069,6 +38069,1056 @@
       "upstream_test": "sort",
       "local_test": "sort",
       "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "simple::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "simple::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.getLevelSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelSize",
+      "local_test": "simple::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "simple::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.buildOptimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyUp",
+      "local_test": "simple::optimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.buildOptimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyDown",
+      "local_test": "simple::optimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.buildPessimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyUp",
+      "local_test": "simple::pessimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.buildPessimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyDown",
+      "local_test": "simple::pessimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "simple::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "hardsoft::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "hardsoft::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.getLevelSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelSize",
+      "local_test": "hardsoft::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "hardsoft::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "hardsoft::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.buildOptimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyUp",
+      "local_test": "hardsoft::optimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.buildOptimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyDown",
+      "local_test": "hardsoft::optimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.buildPessimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyUp",
+      "local_test": "hardsoft::pessimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.buildPessimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyDown",
+      "local_test": "hardsoft::pessimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "hardsoft::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "hardmediumsoft::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "hardmediumsoft::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "hardmediumsoft::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "hardmediumsoft::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "hardmediumsoft::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.buildOptimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyUp",
+      "local_test": "hardmediumsoft::optimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.buildOptimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyDown",
+      "local_test": "hardmediumsoft::optimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.buildPessimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyUp",
+      "local_test": "hardmediumsoft::pessimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.buildPessimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyDown",
+      "local_test": "hardmediumsoft::pessimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "hardmediumsoft::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "bendable::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "bendable::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "bendable::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "bendable::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "bendable::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.createScoreWithIllegalArgument",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "createScoreWithIllegalArgument",
+      "local_test": "bendable::invalid_shape",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.createScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "createScore",
+      "local_test": "bendable::create",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.buildOptimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyUp",
+      "local_test": "bendable::optimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.buildOptimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildOptimisticBoundOnlyDown",
+      "local_test": "bendable::optimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.buildPessimisticBoundOnlyUp",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyUp",
+      "local_test": "bendable::pessimistic_only_up",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.buildPessimisticBoundOnlyDown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "buildPessimisticBoundOnlyDown",
+      "local_test": "bendable::pessimistic_only_down",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "bendable::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "simple_decimal::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "simple_decimal::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "simple_decimal::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "simple_decimal::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "simple_decimal::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "SimpleBigDecimalScoreDefinitionTest.divideBySanitizedDivisorClampsNegativeScale",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/SimpleBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisorClampsNegativeScale",
+      "local_test": "simple_decimal::negative_scale",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "hardsoft_decimal::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "hardsoft_decimal::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "hardsoft_decimal::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "hardsoft_decimal::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "hardsoft_decimal::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "hardsoft_decimal::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardSoftBigDecimalScoreDefinitionTest.divideBySanitizedDivisorClampsNegativeScale",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisorClampsNegativeScale",
+      "local_test": "hardsoft_decimal::negative_scale",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "hardmediumsoft_decimal::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "hardmediumsoft_decimal::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "hardmediumsoft_decimal::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "hardmediumsoft_decimal::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "hardmediumsoft_decimal::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "hardmediumsoft_decimal::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "HardMediumSoftBigDecimalScoreDefinitionTest.divideBySanitizedDivisorClampsNegativeScale",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/HardMediumSoftBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisorClampsNegativeScale",
+      "local_test": "hardmediumsoft_decimal::negative_scale",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.getZeroScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getZeroScore",
+      "local_test": "bendable_decimal::zero",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.getSoftestOneScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getSoftestOneScore",
+      "local_test": "bendable_decimal::one_softest",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.getLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelsSize",
+      "local_test": "bendable_decimal::level_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.getLevelLabels",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getLevelLabels",
+      "local_test": "bendable_decimal::labels",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.getFeasibleLevelsSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "getFeasibleLevelsSize",
+      "local_test": "bendable_decimal::feasible_count",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.createScoreWithIllegalArgument",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "createScoreWithIllegalArgument",
+      "local_test": "bendable_decimal::invalid_shape",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.createScore",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "createScore",
+      "local_test": "bendable_decimal::create",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.divideBySanitizedDivisor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisor",
+      "local_test": "bendable_decimal::divide",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/score_definition_cases.rs",
+      "id": "BendableBigDecimalScoreDefinitionTest.divideBySanitizedDivisorClampsNegativeScale",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/definition/BendableBigDecimalScoreDefinitionTest.java",
+      "status": "implemented",
+      "upstream_test": "divideBySanitizedDivisorClampsNegativeScale",
+      "local_test": "bendable_decimal::negative_scale",
+      "modifications": "Native ScoreDefinition trait replaces Java definition instances. Preserve every source metadata, shape, component, integer-extrema, division and negative-scale assertion. Const-generic bendable types replace runtime dimension configuration; invalid vector lengths return Result instead of IllegalArgumentException. Structural state is cleared. Integer overflow rejection and general negative division are separate native contracts, not inferred source coverage. Existing infinity-based solver bounds remain distinct."
     }
   ],
   "fixtures": [

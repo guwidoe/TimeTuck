@@ -958,3 +958,6 @@ pub use completion_search::{
 
 mod segmented_slice;
 pub use segmented_slice::{RepartitionError, SegmentedSlice, SegmentedSliceMut, repartition_lists};
+
+mod score_definition;
+pub use score_definition::{ScoreDefinition, ScoreDefinitionError};

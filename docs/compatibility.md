@@ -3912,3 +3912,13 @@ set domains. Three helper records retain attribution. Hash-indexed membership,
 first-representative deduplication, shared payload set operations, snapshot sorting
 and finite-model integration have independent regressions. EmptyValueRangeTest
 remains pending; no Java singleton or unsupported-operation claim is made.
+
+All70methods across Simple/HardSoft/HardMediumSoft/Bendable integer and decimal
+ScoreDefinitionTest classes now have complete adaptations. The native definition
+trait preserves zero/unit scores, labels, counts, bendable shape validation and
+construction, all integer finite bound components, sanitized per-level division
+and decimal negative-scale cases. All16decimal bendable construction shapes are
+covered. The integer bendable source's repeated unit divisor is retained verbatim
+in the test intent. General negative rounding, overflow errors and zero-level
+shapes are documented native behavior with independent regressions. Finite integer
+extrema are separate from the solver's existing infinite bounds.

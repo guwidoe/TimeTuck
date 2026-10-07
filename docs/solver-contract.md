@@ -1809,3 +1809,29 @@ models. Set operations do not make the solver a lazy-domain engine. The inherite
 bounded `sorted_by` creates an enumerated copy; `reordered_by` instead retains the
 set index and shares payloads, operating only on members already in storage.
 No end-to-end runtime improvement is claimed without a benchmark.
+
+## Typed score definitions
+
+`ScoreDefinition` adds typed construction from a vector of ordinary levels,
+level labels, total/feasibility level counts, zero and the softest unit score to
+all eight integer and decimal families. Bendable dimensions remain part of the
+Rust type. A wrong number of levels returns `ScoreDefinitionError::LevelCount`.
+The unit occupies the last ordinary level, including the last hard level when
+there are no soft levels; a zero-level shape returns `NoLevels`.
+
+`divide_by_sanitized_divisor` divides corresponding levels, treating each numeric
+zero divisor as one. Integer quotients use exact widened arithmetic and round
+down, including negative operands; MIN/-1 returns an indexed overflow error.
+Decimal quotients use exact arithmetic and floor at the dividend's scale clamped
+to zero. Scale overflow remains an error. These constructors and arithmetic clear
+structural state and leave their inputs unchanged. Generic callers can construct
+scores for ordinary solver runs without score-specific constructor branching.
+
+`finite_optimistic_bound` and `finite_pessimistic_bound` are available only for
+integer score levels. They validate the trend shape and independently retain
+ONLY_DOWN or ONLY_UP components, respectively, filling other components with
+integer MAX or MIN. These finite extrema do not replace the search engine's
+existing infinity-based `InitializingScoreBound`. Callers remain responsible for
+valid trend declarations across every completion, including overflow behavior;
+a pessimistic bound alone is not a feasible incumbent. Decimal score definitions
+continue to use the existing infinity-based trend API when bounds are needed.
