@@ -134,6 +134,52 @@ impl<V: Eq + Clone> ListProblem<V> {
     }
 }
 
+/// Build a single-list reconnection with orientation derived from the supplied
+/// edge order. Traverse from the first removed edge's first endpoint through its
+/// first incident added edge, then rotate the resulting cycle to the first
+/// unpinned value. Thus callers need not supply a successor from an expected tour.
+/// Reordering edge pairs can deliberately choose the opposite traversal direction.
+/// All other validity, pin and snapshot-binding rules match k_opt_move.
+pub fn list_k_opt_edge_move<V: Eq + Clone>(
+    problem: &ListProblem<V>,
+    before: &ListAssignment<V>,
+    entity: usize,
+    removed: &[(usize, usize)],
+    added: &[(usize, usize)],
+) -> Result<ListMove<V>, ListKOptError> {
+    problem.validate(before)?;
+    let row = before.list(entity).ok_or(ListError::EntityIndex {
+        entity,
+        count: problem.entities().len(),
+    })?;
+    let meta = &problem.entities()[entity];
+    if meta.is_pinned() {
+        return Err(ListError::PinChanged { entity }.into());
+    }
+    let first = removed.first().ok_or(ListKOptError::EdgeCount)?.0;
+    let successor = added
+        .iter()
+        .find_map(|&(a, b)| {
+            if a == first {
+                Some(b)
+            } else if b == first {
+                Some(a)
+            } else {
+                None
+            }
+        })
+        .ok_or(ListKOptError::FirstSuccessor)?;
+    let start = meta.pinned_prefix();
+    let mut tour = cycle_order(start, row.len(), removed, added, first, successor)?;
+    let anchor = tour
+        .iter()
+        .position(|&i| i == start)
+        .expect("complete validated cycle");
+    tour.rotate_left(anchor);
+    let target: Vec<_> = (0..start).chain(tour).collect();
+    Ok(movement(before, entity, &target))
+}
+
 pub(crate) fn cycle_order(
     start: usize,
     end: usize,

@@ -13887,3 +13887,38 @@ Live freshness matched verification digest: 846f1b0bb3bba2b26a5b1799e74a1285edbf
 Existing provenance prefixes unchanged; appended6cases and0fixtures.
 Log work/collector-session-final-check.log; evidence work/collector-session-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## K-opt edge orientation and full-suffix lifecycle brackets
+
+Starting HEAD187dcaa clean; prior captured collector session batch was verified and
+committed: progress. Read complete SelectorBasedKOptListMoveTest (including test
+helpers) and TestdataListEntity/Solution/Value fixture sources. No upstream production
+reads. Existing native k-opt tests had output-only fixtures and explicit successor
+selected from expected output, so full method credit remained pending.
+
+Added list_k_opt_edge_move: direction comes from first removed endpoint through
+its first incident added edge, then rotate validated cycle to unpinned anchor.
+Eight source single-entity cases now construct solely from original edges. Added
+ListNotificationScope::{ChangedRange,MovableSuffix} and prepare_with_scope to native
+ListLifecyclePlan. Default preserves minimal intervals; suffix policy widens only
+changed lists in an atomic plan. Existing gather path, score directors and transaction
+semantics unchanged. Eight source cases/threefixtures appended with callback checks;
+earlier partial fixtures untouched. No broad Java orientation/partition claim.
+
+Focused96495 TERMINAL0 initial eight cases. Regression56745 TERMINAL101: local
+observer closure needed binding to outlive rollback guard; corrected. Focused99169
+TERMINAL0 final eight edge-derived cases plus three notification regressions.
+Added fourth original edge-order/error regression before final gate. Native coverage
+includes multi-entity old/new lengths, exact undo ranges, prefix pins, default/no-op,
+stale plan, callback panic, edge direction and invalid inputs. Shared list modules
+changed, so final gate must run affected existing list regressions as selected.
+No benchmark/browser/release reruns. Goal remains active.
+
+Required gate37631 TERMINAL0. 4062 Rust tests and 193 doctests passed.
+Rust jobs: {'RUN': 450, 'REUSE': 60}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2425, 'failed': 0, 'pending': 2148, 'excluded': 282, 'unverified': 0, 'percent': 49.949}.
+Source before/after matched: 626ee4ccd9274699fbb90e14fc1b593be4bf6e54795ff4ca42beae50c2499405
+Live freshness matched verification digest: 5f551e1e64cdf946031d708b1f3b77f07d8f2d1b4e6032fc40a2bc927cd5e871.
+Existing provenance prefixes unchanged; appended8cases and3fixtures.
+Log work/kopt-lifecycle-final-check.log; evidence work/kopt-lifecycle-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

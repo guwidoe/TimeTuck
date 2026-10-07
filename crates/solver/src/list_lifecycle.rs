@@ -24,6 +24,17 @@ pub struct ListLifecycleEvent<'a, V> {
     pub change: ListLifecycleChange<'a, V>,
     pub assignment: &'a ListAssignment<V>,
 }
+/// Extent of each changed list's atomic notification bracket.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ListNotificationScope {
+    /// Smallest differing interval, excluding equal prefixes and suffixes.
+    #[default]
+    ChangedRange,
+    /// Entire movable suffix of every changed entity. Useful for listeners that
+    /// rebuild list-wide dependencies after compound reconnections.
+    MovableSuffix,
+}
+
 /// A prepared plan rejects a starting assignment that differs under V::Eq.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct StaleListPlan;
@@ -134,6 +145,24 @@ impl<'p, V: Eq + Clone> ListLifecyclePlan<'p, V> {
         initial: &ListAssignment<V>,
         movement: ListMove<V>,
     ) -> Result<Self, ListError> {
+        Self::prepare_with_scope(
+            problem,
+            initial,
+            movement,
+            ListNotificationScope::ChangedRange,
+        )
+    }
+    /// Prepare one atomic edit with an explicit notification extent. MovableSuffix
+    /// reports [pinned_prefix, list_length) before and after each changed list;
+    /// unaffected lists and no-ops produce no range events. Undo uses the same
+    /// extents in reverse. Validation and observer-panic rollback are unchanged.
+    /// This option does not change score-director update propagation.
+    pub fn prepare_with_scope(
+        problem: &'p ListProblem<V>,
+        initial: &ListAssignment<V>,
+        movement: ListMove<V>,
+        scope: ListNotificationScope,
+    ) -> Result<Self, ListError> {
         problem.validate(initial)?;
         let mut result = initial.clone();
         problem.apply(&mut result, &movement)?.commit();
@@ -154,12 +183,19 @@ impl<'p, V: Eq + Clone> ListLifecyclePlan<'p, V> {
         let stages = if initial == &result {
             vec![]
         } else {
-            vec![LifecycleStage::new(
-                initial.clone(),
-                result.clone(),
-                assigned,
-                unassigned,
-            )]
+            let mut stage =
+                LifecycleStage::new(initial.clone(), result.clone(), assigned, unassigned);
+            if scope == ListNotificationScope::MovableSuffix {
+                for range in &mut stage.before_ranges {
+                    range.start = problem.entities()[range.entity].pinned_prefix();
+                    range.end = initial.lists()[range.entity].len();
+                }
+                for range in &mut stage.after_ranges {
+                    range.start = problem.entities()[range.entity].pinned_prefix();
+                    range.end = result.lists()[range.entity].len();
+                }
+            }
+            vec![stage]
         };
         Ok(Self {
             _problem: problem,

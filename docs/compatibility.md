@@ -3549,3 +3549,21 @@ collectors are reused; explicit Bi input projection replaces the source null-vie
 mapper. This does not change graph collection's stable-ID ordering. Three native
 regressions exercise duplicate slots and immutable output snapshots, changed source
 facts, scoped/stale handles, clear/reuse, non-Clone payloads, and failure isolation.
+
+Prepared atomic list edits now offer ListNotificationScope::MovableSuffix, emitting
+[pinned_prefix, old_length) before and [pinned_prefix, new_length) after each changed
+list. The default keeps minimal differing intervals. No-op and unaffected lists
+remain silent. Undo reverses the extents; existing stale-plan validation, pin/range
+checks, one flush, and observer-panic restoration remain in force. This explicit
+observer option does not alter score-director propagation or staged gather behavior.
+
+list_k_opt_edge_move adds a deterministic edge-order constructor: start at the first
+removed edge's first endpoint, traverse its first incident added edge, then rotate
+the validated cycle to the first unpinned identity. Eight single-entity source k-opt
+methods now preserve all edge inputs, exact results, feasibility success, pinned
+prefix and complete before/after notification assertions. No expected output feeds
+the constructor. This convention matches these source cases; general Java implicit
+orientation and multi-entity partition choices remain unclaimed. Earlier output-only
+fixtures are unchanged. Four native regressions cover multi-entity length-changing
+notifications, rollback, no-ops, default scope, stale/pinned errors, callback panic,
+and opposite edge-order orientations. No benchmark speedup is claimed.

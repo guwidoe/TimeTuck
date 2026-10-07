@@ -851,3 +851,7 @@ pub use neighborhood_tester::{NeighborhoodAssertionError, NeighborhoodTester};
 
 mod collector_session;
 pub use collector_session::{CollectorHandle, CollectorSession, CollectorSessionError};
+
+pub use list_lifecycle::ListNotificationScope;
+
+pub use list_k_opt::list_k_opt_edge_move;
