@@ -15244,3 +15244,43 @@ their integration fixtures. No failed runs in this batch. ThreeRust jobs ran and
 upstream unchanged, source before/after identical, live dashboard freshness matched.
 During final review only inspected pending DefaultSolverTest method metadata from
 the report; no additional upstream test bodies read or adapted. Next work is open.
+
+## Compound indexed joins with reusable projection identity
+
+Previous implementation goal turn completed3e0ee7f with verified progress. The
+intervening timing answer inspected existing logs; no solver changes. Revalidated
+clean tree, read handoff/compatibility and full test-only EqualsFirstReorderTest.
+No upstream production reads. Existing individual equality/ordered/partitioned joins
+required callers to manually assemble compound conditions and sharing definitions.
+
+Added typed JoinProjection handles, JoinCondition and immutable JoinConditions.
+Stable equality-first normalization retains each projection identity and reuses
+already normalized conjunction storage. Equality/hash compare declared conditions
+by relation and projection identity. Typed construction enforces same left/right key
+type per condition, with different types across conditions and no Clone key bound.
+Graph apply indexes all equalities plus first inequality; remaining inequalities
+are independent pair filters. Empty conjunction is Cartesian. Per-builder registry
+shares equivalent normalized definitions for identical ordered parents, retains
+identity tokens against address reuse and drops with builder. Callback closures
+remain with graph nodes. No cross-builder sharing or callback-body comparison.
+Existing explicit typed join APIs remain available. All projection callbacks must
+be pure; no speed claim. Four source methods added, no fixtures.
+
+Initial focused19114 TERMINAL101: regression tests used dataset_snapshot (a sampling
+pool) where ID-preserving dataset_rows was required. Corrected tests to materialize
+rows as BTreeMap; implementation unchanged. Focused3999 TERMINAL0:4source+4native
+passed, including9000mutation/rollback steps over75heterogeneous conjunction shapes,
+self joins, empty/equality-only joins, shared projection call counts, parent identity,
+non-Clone keys and residual-predicate panic recovery. Added a fifth native regression
+for distinct left/right row and ID types, asymmetric projections, both inequality
+orientations and dropped definition handles. It will run in the final gate.
+
+Final gate18803 remains LIVE at this commit; keep polling that exact handle.
+Lint passed, and all4adapted+5native compound join tests passed inside the gate.
+The required broader regression run is not yet complete; do not count its partial
+results as a successful full check. Inputs remain frozen. Evidence helper
+work/record_compound_join_evidence.py now compares provenance against3e0ee7f,
+so it can run after the implementation commit. On terminal0 run that helper,
+record fresh dashboard/source evidence and commit the handoff separately.
+No benchmarks/release/browser reruns. Worktree input changes are limited to this
+compound join batch; no follow-up implementation has started.

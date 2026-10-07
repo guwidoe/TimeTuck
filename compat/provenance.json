@@ -41379,6 +41379,66 @@
       "upstream_test": "listVariableAllowsUnassignedValues",
       "local_test": "list_variable_allows_unassigned_values",
       "modifications": "Preserve exact ordered provider-family assertions for required/optional basic and list models. Native DefaultMoveFamily enum and explicit model optionality replace Java provider runtime classes, reflection metadata and DefaultNeighborhoodBuilder. Small inline native domains represent the referenced test-domain variable policies; no test-domain implementation or production code copied. Actual lazy move generation, structural validation, multicolumn row swaps, seeded family interleaving and all six model/scoring combinations have separate native regressions. Public documentation neighborhoods.adoc default-set description specifies assigned-only changes and same-owner two-opt. Native finite enumeration and equal live-family random weights do not claim Java random traces or sampling-rate parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/EqualsFirstReorderTest.java",
+      "local_path": "crates/solver/tests/compound_join_cases.rs",
+      "id": "EqualsFirstReorderTest.movesEqualToFrontCarryingMappings",
+      "status": "implemented",
+      "upstream_test": "movesEqualToFrontCarryingMappings",
+      "local_test": "moves_equal_to_front_carrying_mappings",
+      "modifications": "Preserve declared and normalized relation orders, left/right projection object identities, unchanged conjunction identity, declared inequality, normalized equality and equal hashes. Native JoinProjection handles, Rc-backed immutable JoinConditions and (String,i32) tuple replace Java Function instances, joiner implementation classes and the inline Shift record. Four methods use inline native projections in place of shared test fields. Hash numeric values are not compared across languages. Original regressions separately verify actual graph node sharing, mixed key types, independent multiple inequalities, incremental update/retract/rollback, self joins, non-Clone keys and callback panic recovery. No upstream production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/EqualsFirstReorderTest.java",
+      "local_path": "crates/solver/tests/compound_join_cases.rs",
+      "id": "EqualsFirstReorderTest.noEqualReturnsSameInstance",
+      "status": "implemented",
+      "upstream_test": "noEqualReturnsSameInstance",
+      "local_test": "no_equal_returns_same_instance",
+      "modifications": "Preserve declared and normalized relation orders, left/right projection object identities, unchanged conjunction identity, declared inequality, normalized equality and equal hashes. Native JoinProjection handles, Rc-backed immutable JoinConditions and (String,i32) tuple replace Java Function instances, joiner implementation classes and the inline Shift record. Four methods use inline native projections in place of shared test fields. Hash numeric values are not compared across languages. Original regressions separately verify actual graph node sharing, mixed key types, independent multiple inequalities, incremental update/retract/rollback, self joins, non-Clone keys and callback panic recovery. No upstream production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/EqualsFirstReorderTest.java",
+      "local_path": "crates/solver/tests/compound_join_cases.rs",
+      "id": "EqualsFirstReorderTest.alreadyEqualFirstReturnsSameInstance",
+      "status": "implemented",
+      "upstream_test": "alreadyEqualFirstReturnsSameInstance",
+      "local_test": "already_equal_first_returns_same_instance",
+      "modifications": "Preserve declared and normalized relation orders, left/right projection object identities, unchanged conjunction identity, declared inequality, normalized equality and equal hashes. Native JoinProjection handles, Rc-backed immutable JoinConditions and (String,i32) tuple replace Java Function instances, joiner implementation classes and the inline Shift record. Four methods use inline native projections in place of shared test fields. Hash numeric values are not compared across languages. Original regressions separately verify actual graph node sharing, mixed key types, independent multiple inequalities, incremental update/retract/rollback, self joins, non-Clone keys and callback panic recovery. No upstream production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/EqualsFirstReorderTest.java",
+      "local_path": "crates/solver/tests/compound_join_cases.rs",
+      "id": "EqualsFirstReorderTest.equivalentJoinsInDifferentOrderShareViaEquality",
+      "status": "implemented",
+      "upstream_test": "equivalentJoinsInDifferentOrderShareViaEquality",
+      "local_test": "equivalent_joins_in_different_order_share_via_equality",
+      "modifications": "Preserve declared and normalized relation orders, left/right projection object identities, unchanged conjunction identity, declared inequality, normalized equality and equal hashes. Native JoinProjection handles, Rc-backed immutable JoinConditions and (String,i32) tuple replace Java Function instances, joiner implementation classes and the inline Shift record. Four methods use inline native projections in place of shared test fields. Hash numeric values are not compared across languages. Original regressions separately verify actual graph node sharing, mixed key types, independent multiple inequalities, incremental update/retract/rollback, self joins, non-Clone keys and callback panic recovery. No upstream production implementation read or translated."
     }
   ],
   "fixtures": [

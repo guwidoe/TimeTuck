@@ -42,6 +42,8 @@ mod shared_aggregation;
 pub use shared_aggregation::{
     SharedCollect, SharedCollectList, SharedGroup, SharedGroupKeys, SharedGroupList,
 };
+mod compound_join;
+pub use compound_join::{JoinCondition, JoinConditions, JoinProjection};
 mod shared_relations;
 pub use shared_relations::{SharedExistence, SharedJoin};
 mod shared;
@@ -952,6 +954,7 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
     datasets: BTreeMap<usize, usize>,
+    compound_joins: compound_join::Registrations,
     activity_rules: Vec<ActivityRule>,
     activity_pruning: bool,
     arithmetic: crate::ScoringArithmetic,
@@ -969,6 +972,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             edges: Vec::new(),
             constraints: BTreeMap::new(),
             datasets: BTreeMap::new(),
+            compound_joins: compound_join::Registrations::default(),
             activity_rules: Vec::new(),
             activity_pruning: false,
             arithmetic: crate::ScoringArithmetic::default(),

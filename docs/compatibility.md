@@ -4020,3 +4020,17 @@ Required missing values still need construction initialization. Use this provide
 through existing *_with_provider or custom-phase provider APIs. Original regressions
 exercise actual moves and successful basic/list/mixed solves under both scoring
 backends; no runtime speed claim is made.
+
+Four EqualsFirstReorderTest methods now preserve stable equality-first ordering,
+left/right mapping identities, unchanged-definition identity and normalized
+equality/hash semantics. Native JoinProjection handles support heterogeneous Ord
+key types in immutable JoinConditions. Applying conditions builds an indexed join
+with all equalities as one partition key, the first inequality as an ordered key,
+and additional inequalities as independent pair filters. Equivalent normalized
+conditions using identical projection handles share nodes for identical ordered
+parent ports in one builder. Stable order within each group is preserved; this is
+not arbitrary commutative expression canonicalization. Empty conditions express a
+Cartesian join. Native original regressions cover graph integration and transactions;
+these four credits do not establish all upstream join-combiner semantics. Projection
+callbacks must remain pure, as with existing graph APIs. Type-erased owned keys use
+Rc storage and dynamic comparisons; no performance advantage is claimed or measured.

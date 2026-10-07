@@ -991,3 +991,5 @@ pub use candidate_pairs::{
 
 mod default_neighborhood;
 pub use default_neighborhood::{DefaultMoveFamily, DefaultNeighborhood, DefaultNeighborhoodError};
+
+pub use stream_graph::{JoinCondition, JoinConditions, JoinProjection};
