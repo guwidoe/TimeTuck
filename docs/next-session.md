@@ -13604,3 +13604,22 @@ Live freshness matched verification digest: dc0901f348a044a789390822ac0294668035
 Existing provenance prefixes unchanged; appended3cases and6fixtures.
 Log work/stream-consistency-final-check.log; evidence work/stream-consistency-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Assigned-value stream cases
+
+Stream diagnostics committed as ae52478; gate66018 and evidence17816 terminal0.
+Installed the two prepared, directly checked work drafts into tests; updated notice
+comments only. Ran prepared provenance script:10cases12fixtures appended. Covers
+four assigned-list join/existence transition cases, four filtered group-existence
+cases and two basic unassigned-exclusion cases. No production changes. Prior draft
+checks already established behavior; final selective gate follows on installed files.
+No benchmarks/browser/release reruns. Goal remains active.
+
+Required gate8456 TERMINAL0. 3931 Rust tests and 187 doctests passed.
+Rust jobs: {'REUSE': 491, 'RUN': 2}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2321, 'failed': 0, 'pending': 2252, 'excluded': 282, 'unverified': 0, 'percent': 47.806}.
+Source before/after matched: 1589cfea9b29398d2ea2f49262e3c7df6cd33c00443c5ccbcc9084d4cd9d0634
+Live freshness matched verification digest: 9a6d850993c26ac15c52d1165971b954a993df42ce75885d3d6f0718b5b408e8.
+Existing provenance prefixes unchanged; appended10cases and12fixtures.
+Log work/assigned-stream-final-check.log; evidence work/assigned-stream-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

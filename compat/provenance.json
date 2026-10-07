@@ -34694,6 +34694,156 @@
       "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
       "local_test": "solve_corrupted_incremental_initialized",
       "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_filterOnAssignedValue_unassignOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_filterOnAssignedValue_unassignOne",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "local_test": "join_filter_on_assigned_value_unassign_one",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_filterOnAssignedValue_unassignOneReassignOther",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_filterOnAssignedValue_unassignOneReassignOther",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "local_test": "join_filter_on_assigned_value_unassign_one_reassign_other",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExists_filterOnAssignedValue_unassignOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExists_filterOnAssignedValue_unassignOne",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "local_test": "if_exists_filter_on_assigned_value_unassign_one",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExists_filterOnAssignedValue_unassignOneReassignOther",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExists_filterOnAssignedValue_unassignOneReassignOther",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "local_test": "if_exists_filter_on_assigned_value_unassign_one_reassign_other",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Join1Filter",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_exists_0_join_1_filter",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join1Filter",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_exists_1_join_1_filter",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExistsDoesNotIncludeUnassigned",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_exists_does_not_include_unassigned",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifNotExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Join1Filter",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_not_exists_0_join_1_filter",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifNotExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join1Filter",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_not_exists_1_join_1_filter",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifNotExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifNotExistsDoesNotIncludeUnassigned",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "local_test": "if_not_exists_does_not_include_unassigned",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
     }
   ],
   "fixtures": [
@@ -47618,6 +47768,162 @@
       "upstream_test": "TestdataSolution",
       "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
       "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.list_assigned_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListEntity",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.list_assigned_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListValue",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.list_assigned_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListSolution",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.list_assigned_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.list_assigned_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "AbstractConstraintStreamTest",
+      "local_path": "crates/solver/tests/list_assigned_join_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TestdataLavishEntity",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntityGroup.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TestdataLavishEntityGroup",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValue.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TestdataLavishValue",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValueGroup.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TestdataLavishValueGroup",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "TestdataLavishSolution",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.bi_existence_filter_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "AbstractConstraintStreamTest",
+      "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
+      "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
     }
   ]
 }

@@ -3385,3 +3385,16 @@ and bounded evidence, cancellation in both totals and individual matches, datase
 payload changes, detached reports, rollback on corruption/panic/overflow, and trial
 poisoning without diagnostic work inflating evaluation counts. This is diagnostic
 functionality, not a benchmark or proof that an application objective is correct.
+
+## Assigned-value join and existence updates
+
+Ten additional Bi stream methods cover assigning, unassigning and atomically
+replacing list values through joins and existence checks; indexed/unindexed group
+predicates; and basic unassigned-value exclusion. Both sides of assigned-list joins
+filter out unassigned values before owner-dependent callbacks. Native list sources
+supply derived ownership and positions; composite moves replace paired Java list
+notifications. All original match and score assertions remain, including equal-owner
+cross-products and reassigning a previously removed value. Null basic values are
+excluded from pair generation and existence witnesses; removing such a value leaves
+the original nonexistence match intact. The existing graph implementation passes
+these cases without further production changes.
