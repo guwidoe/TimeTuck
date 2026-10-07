@@ -16115,3 +16115,47 @@ TERMINAL0. All completed source/report/live digests match. No benchmark/release/
 reruns. The prepared custom-inspection draft adds one public usage doctest after
 focused8625; implementation/test bodies unchanged. Native-only feature earns no
 additional source credit. Commit completed range evidence, then apply its guard.
+
+## Custom-phase inspected candidate routing
+
+Applied guarded work/apply_custom_inspection.py; do not reapply. New public
+CustomPhaseContext.evaluate_inspected routes dependency-flawed list/mixed previews
+to a handler without installation/scoring, using existing inspect_move backends.
+Basic models go through the ordinary scored path. Every attempt consumes one
+candidate/evaluation slot; preview-only flaws add zero constraint evaluations.
+Ordinary evaluate now delegates its post-budget body to a private shared helper;
+existing semantics retained. Inspection errors/panics latch failure; handler panics
+leave state usable as with ordinary evaluate. No provenance credits/fixtures added.
+Draft library35342 and focused8625 TERMINAL0:4original regressions pass across all
+six backends, both handlers, budgets, state/score rollback, counters and error/panic
+handling. Draft tested isolated copied native source, not upstream production code.
+Do not rerun unchanged focused tests. Required final gate next, freeze source then.
+
+Batched a related selector capability before the next final gate: new independent
+pillar_selection_policy module. Whole/subset/sequential policies retain reusable
+comparator handles with identity equality; sequential windows follow a stable row
+sort before canonical Pillar construction. Typed errors validate bounds/missing
+comparators; Community unlimited default retains exact2147483647; larger explicit
+usize bounds supported. Native selectors remain lazy and copy only row metadata.
+Read full TEST-ONLY SubPillarConfigPolicyTest; adapted7methods,0fixtures, no production
+source read. Three native cases cover row alignment/ties, comparator panic, lazy
+large combinations and actual direct/stream local-search integration.
+Focused13734 initially failed compilation because the new test used direct result
+fields instead of LocalSearchResult.best; corrected test access. Focused68903
+TERMINAL0:7adapted+3native pass. No unchanged custom-inspection focused rerun.
+Combined batch has custom-phase inspection plus pillar policy. Required final gate
+next; freeze Rust/provenance. No benchmark/browser/release reruns needed.
+
+Initial combined gate62940 TERMINAL101 at clippy: cloned_ref_to_slice_refs in an
+original whole-pillar assertion. Replaced expected cloned singleton with from_ref;
+assertion semantics unchanged, no production changes. Warm-up6143 remains live
+(compilation only, no evidence writes); keep it running. Restart final gate after
+this actual lint fix, not a duplicate of a successful verification. No extra focused
+rerun needed. The canonical final log is overwritten by the corrected gate.
+
+Corrected final gate39305 LIVE, fmt/clippy and119library tests passed; compilation
+warm-up6143 LIVE. Both handles confirmed live after the timing question. Source and
+provenance remain frozen. Prepared work/record_custom_pillar_evidence.py expects
++7cases/+0fixtures vsb34db3e; run once only after both handles finish successfully.
+Committing implementation while compilation continues; dashboard still reflects
+last completed runtime-range evidence, not these seven new adaptations.

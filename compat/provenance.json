@@ -42204,6 +42204,111 @@
       "local_test": "fail_custom_phase_value_range_assertion",
       "status": "implemented",
       "modifications": "Preserve construction of a two-entity/two-value list problem, execution of an out-of-range bad value through the actual local-search provider/custom phase, and the rejected value/entity/variable/allowed-range message. Native metadata labels and explicit value renderers replace Java reflection; native validation is always active rather than EnvironmentMode-dependent. Exact declared members replace Java interval punctuation. Ordinary native construction precedes each phase. No upstream production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.withoutSubpillars",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "withoutSubpillars",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "without_subpillars",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.withLimitedSubpillars",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "withLimitedSubpillars",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "with_limited_subpillars",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.unlimitedSequential",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "unlimitedSequential",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "unlimited_sequential",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.sequential",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "sequential",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "sequential",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.validation",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "validation",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "validation",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.equalitySizes",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "equalitySizes",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "equality_sizes",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubPillarConfigPolicyTest.equalityComparator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/entity/pillar/SubPillarConfigPolicyTest.java",
+      "upstream_test": "equalityComparator",
+      "local_path": "crates/solver/tests/pillar_selection_policy_cases.rs",
+      "local_test": "equality_comparator",
+      "status": "implemented",
+      "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
     }
   ],
   "fixtures": [

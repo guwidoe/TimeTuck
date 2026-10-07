@@ -64,6 +64,8 @@ impl<E: Error + 'static> Error for CustomPhaseError<E> {
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct CustomPhaseWork {
+    /// Initial scoring plus attempted candidate evaluations, including unscored
+    /// dependency-flaw inspections. Constraint work counts only actual callbacks.
     pub evaluations: u64,
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
@@ -85,6 +87,11 @@ pub(crate) trait CommandDirector<A, M, S> {
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
     fn initial_evaluations(&self) -> u128;
+    /// Some backends can inspect dependency flaws without installing/scoring.
+    /// Basic-only models have no dependency graph and use the ordinary trial.
+    fn preview(&self, _movement: &M) -> Result<Option<MoveInspection<A>>, Self::Error> {
+        Ok(None)
+    }
     fn assert_consistent(&mut self) -> Result<(), Self::Error>;
     /// The visitor returns whether to commit. An unwind drops the move guard.
     fn trial(
@@ -94,9 +101,12 @@ pub(crate) trait CommandDirector<A, M, S> {
     ) -> Result<(), Self::Error>;
 }
 macro_rules! director {
-    ([$($generics:tt)*] $director:ty, $assignment:ty, $movement:ty, $error:ty, $search:ident) => {
+    ([$($generics:tt)*] $director:ty, $assignment:ty, $movement:ty, $error:ty, $search:ident $(, $inspect:ident)?) => {
         impl<$($generics)*> CommandDirector<$assignment,$movement,S> for $director {
             type Error=$error;
+            $(fn preview(&self,movement:&$movement)->Result<Option<MoveInspection<$assignment>>,Self::Error> {
+                self.$inspect(movement).map(Some)
+            })?
             fn assignment(&self)->&$assignment {self.assignment()}
             fn score(&self)->S {self.score()}
             fn initial_evaluations(&self)->u128 {$search::initial_constraint_evaluations(self)}
@@ -117,10 +127,10 @@ use crate::{
 };
 director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, ScoringError, SearchDirector);
 director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] StreamScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, StreamScoringError, SearchDirector);
-director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListScoringError, ListSearchDirector);
-director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListStreamScoringError, ListSearchDirector);
-director!(['p,'c,B:Eq+Clone,L:Eq+Clone,S:AdditiveScore] MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedScoringError, MixedSearchDirector);
-director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedStreamScoringError, MixedSearchDirector);
+director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListScoringError, ListSearchDirector, inspect_move);
+director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListStreamScoringError, ListSearchDirector, inspect_move);
+director!(['p,'c,B:Eq+Clone,L:Eq+Clone,S:AdditiveScore] MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedScoringError, MixedSearchDirector, inspect_move);
+director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedStreamScoringError, MixedSearchDirector, inspect_move);
 
 /// Execute a native command against a bounded transactional scoring session.
 ///
@@ -144,7 +154,8 @@ director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] 
 ///
 /// Borrowed command session. Read-only assignments protect the contribution cache;
 /// execute/evaluate are the only ways to change or inspect candidate state.
-/// All operations calculate a fresh score. Partial native assignments are allowed.
+/// Execute and ordinary evaluate calculate a fresh score. Inspected evaluation can
+/// instead report dependency flaws without scoring. Partial assignments are allowed.
 /// Do not mutate captured model facts or constraint data during a command.
 ///
 /// Execute can deliberately worsen the working score; only a strict improvement
@@ -295,6 +306,69 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         if !self.begin() {
             return Ok(None);
         }
+        self.evaluate_started(movement, visit)
+    }
+    /// Preview list dependency consistency before temporary scoring. A flawed
+    /// candidate goes only to `flawed`, with its proposed assignment and affected
+    /// value indices; it is never installed or scored. Sound candidates go to
+    /// `valid` through the ordinary scored transaction. Basic models have no
+    /// dependency flaws and always use that path, including partial assignments.
+    ///
+    /// Every attempted candidate consumes one evaluation and move slot. An
+    /// unscored flawed preview adds zero constraint work. A stopped phase invokes
+    /// neither handler. Domain/pin/index errors invalidate the phase as usual;
+    /// caught handler panics leave it usable after rollback. Handler results
+    /// cannot borrow the preview/trial. Use ordinary evaluate when no preview is
+    /// needed; inspected sound candidates require an additional snapshot.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = ListProblem::new(vec![0, 1], vec![ListEntity::new(vec![0, 1])])?
+    ///     .with_dependencies(vec![vec![], vec![0]])?;
+    /// let n = ListConstraintNetwork::<_, SimpleScore>::new(1, 2);
+    /// let result = list_custom_phase(&p, &n, p.initial_assignment(),
+    ///     CustomPhaseConfig::default(), |context| {
+    ///         let swap = ListMove::Swap {
+    ///             left: ListPosition { entity: 0, index: 0 },
+    ///             right: ListPosition { entity: 0, index: 1 },
+    ///         };
+    ///         let affected = context.evaluate_inspected(&swap,
+    ///             |_, _| Vec::new(), |preview| preview.inconsistent_values().to_vec())?;
+    ///         assert_eq!(affected, Some(vec![0, 1]));
+    ///         Ok(())
+    ///     })?;
+    /// assert_eq!(result.assignment, p.initial_assignment());
+    /// assert_eq!(result.work.committed_moves, 0);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn evaluate_inspected<R>(
+        &mut self,
+        movement: &M,
+        valid: impl FnOnce(&A, S) -> R,
+        flawed: impl FnOnce(&MoveInspection<A>) -> R,
+    ) -> Result<Option<R>, CustomPhaseError<E>> {
+        if !self.begin() {
+            return Ok(None);
+        }
+        self.failed = true;
+        let preview = self
+            .director
+            .preview(movement)
+            .map_err(CustomPhaseError::Scoring)?;
+        self.failed = false;
+        if let Some(preview) = preview
+            && preview.is_flawed()
+        {
+            Ok(Some(flawed(&preview)))
+        } else {
+            self.evaluate_started(movement, valid)
+        }
+    }
+    fn evaluate_started<R>(
+        &mut self,
+        movement: &M,
+        visit: impl FnOnce(&A, S) -> R,
+    ) -> Result<Option<R>, CustomPhaseError<E>> {
         self.failed = true;
         let failed = &mut self.failed;
         let work = &mut self.work;

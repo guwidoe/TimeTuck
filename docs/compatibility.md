@@ -4182,3 +4182,26 @@ methods now exercise invalid moves after construction through actual native cust
 and local-search phases; three nested test fixtures are attributed. Native checks
 are always active, rather than gated by Java environment modes. Initial model-build
 and borrowed assignment diagnostic helpers continue to work with enriched causes.
+
+Custom phases now expose evaluate_inspected using existing list/mixed dependency
+previews. Dependency-flawed candidates go to a separate callback without installation
+or scoring; valid candidates use the ordinary transactional evaluator. Basic models
+use ordinary evaluation, including partial states. Every candidate attempt consumes
+one evaluation/move slot; unscored previews add zero constraint work. Domain/pin/index
+errors still invalidate the phase, while caught handler panics allow continuation
+with restored state. Existing phase limits apply before preview or callback execution.
+Four original regressions cover all six backends, both handlers, budgets, rollback,
+work counters and caught errors/panics. This is not a port of Java command-context
+score-call counts, and earns no additional upstream method credit.
+
+PillarSelectionPolicy now combines whole-pillar, arbitrary-subset and comparator-
+ordered consecutive selection. Comparators receive aligned variable-slot rows;
+stable sorting defines windows while each resulting pillar keeps canonical row
+metadata. Selection stays lazy after sorting and never clones planning values.
+Comparator handles compare by identity, and disabled bounds use None. The Community
+unlimited convenience retains its exact 1..=2147483647 default; explicit policies
+support native usize bounds. Seven SubPillarConfigPolicyTest methods are adapted.
+Native tests verify aligned rows, stable ties, bounds, input preservation on comparator
+panic, lazy large combinations, and comparator-driven local search with both basic
+scoring backends. Policies compose with ordinary pillar change/swap constructors and
+custom move providers; existing built-in selector configurations remain available.

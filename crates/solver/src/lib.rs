@@ -1050,3 +1050,8 @@ pub use problem_change_batch::ProblemChangeBatch;
 
 mod range_report;
 pub use range_report::ValueRangeReport;
+
+mod pillar_selection_policy;
+pub use pillar_selection_policy::{
+    PillarComparator, PillarSelectionPolicy, PillarSelectionPolicyError,
+};
