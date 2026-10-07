@@ -41319,6 +41319,66 @@
       "upstream_test": "throwsWhenUnknowinglyEmpty",
       "local_test": "throws_when_unknowingly_empty",
       "modifications": "Preserve seeds0..9, all element counts1..4 of A/B/C/D, rejection of every member, and immediate exhaustion. Native CandidateIndex unique traversal plus Iterator::filter replaces entry list/random/filter wrappers; None replaces NoSuchElementException and a repeated exhaustion assertion is added. Native PRNG traces differ."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/DefaultNeighborhoodProviderTest.java",
+      "local_path": "crates/solver/tests/default_neighborhood_cases.rs",
+      "id": "DefaultNeighborhoodProviderTest.basicVariable",
+      "status": "implemented",
+      "upstream_test": "basicVariable",
+      "local_test": "basic_variable",
+      "modifications": "Preserve exact ordered provider-family assertions for required/optional basic and list models. Native DefaultMoveFamily enum and explicit model optionality replace Java provider runtime classes, reflection metadata and DefaultNeighborhoodBuilder. Small inline native domains represent the referenced test-domain variable policies; no test-domain implementation or production code copied. Actual lazy move generation, structural validation, multicolumn row swaps, seeded family interleaving and all six model/scoring combinations have separate native regressions. Public documentation neighborhoods.adoc default-set description specifies assigned-only changes and same-owner two-opt. Native finite enumeration and equal live-family random weights do not claim Java random traces or sampling-rate parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/DefaultNeighborhoodProviderTest.java",
+      "local_path": "crates/solver/tests/default_neighborhood_cases.rs",
+      "id": "DefaultNeighborhoodProviderTest.basicVariableAllowsUnassigned",
+      "status": "implemented",
+      "upstream_test": "basicVariableAllowsUnassigned",
+      "local_test": "basic_variable_allows_unassigned",
+      "modifications": "Preserve exact ordered provider-family assertions for required/optional basic and list models. Native DefaultMoveFamily enum and explicit model optionality replace Java provider runtime classes, reflection metadata and DefaultNeighborhoodBuilder. Small inline native domains represent the referenced test-domain variable policies; no test-domain implementation or production code copied. Actual lazy move generation, structural validation, multicolumn row swaps, seeded family interleaving and all six model/scoring combinations have separate native regressions. Public documentation neighborhoods.adoc default-set description specifies assigned-only changes and same-owner two-opt. Native finite enumeration and equal live-family random weights do not claim Java random traces or sampling-rate parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/DefaultNeighborhoodProviderTest.java",
+      "local_path": "crates/solver/tests/default_neighborhood_cases.rs",
+      "id": "DefaultNeighborhoodProviderTest.listVariable",
+      "status": "implemented",
+      "upstream_test": "listVariable",
+      "local_test": "list_variable",
+      "modifications": "Preserve exact ordered provider-family assertions for required/optional basic and list models. Native DefaultMoveFamily enum and explicit model optionality replace Java provider runtime classes, reflection metadata and DefaultNeighborhoodBuilder. Small inline native domains represent the referenced test-domain variable policies; no test-domain implementation or production code copied. Actual lazy move generation, structural validation, multicolumn row swaps, seeded family interleaving and all six model/scoring combinations have separate native regressions. Public documentation neighborhoods.adoc default-set description specifies assigned-only changes and same-owner two-opt. Native finite enumeration and equal live-family random weights do not claim Java random traces or sampling-rate parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/DefaultNeighborhoodProviderTest.java",
+      "local_path": "crates/solver/tests/default_neighborhood_cases.rs",
+      "id": "DefaultNeighborhoodProviderTest.listVariableAllowsUnassignedValues",
+      "status": "implemented",
+      "upstream_test": "listVariableAllowsUnassignedValues",
+      "local_test": "list_variable_allows_unassigned_values",
+      "modifications": "Preserve exact ordered provider-family assertions for required/optional basic and list models. Native DefaultMoveFamily enum and explicit model optionality replace Java provider runtime classes, reflection metadata and DefaultNeighborhoodBuilder. Small inline native domains represent the referenced test-domain variable policies; no test-domain implementation or production code copied. Actual lazy move generation, structural validation, multicolumn row swaps, seeded family interleaving and all six model/scoring combinations have separate native regressions. Public documentation neighborhoods.adoc default-set description specifies assigned-only changes and same-owner two-opt. Native finite enumeration and equal live-family random weights do not claim Java random traces or sampling-rate parity."
     }
   ],
   "fixtures": [

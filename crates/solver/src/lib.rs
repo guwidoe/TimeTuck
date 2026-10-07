@@ -988,3 +988,6 @@ mod candidate_pairs;
 pub use candidate_pairs::{
     CandidatePairs, IndexedCandidatePairs, PairCountOverflow, PairMoveProvider, PairSampling,
 };
+
+mod default_neighborhood;
+pub use default_neighborhood::{DefaultMoveFamily, DefaultNeighborhood, DefaultNeighborhoodError};

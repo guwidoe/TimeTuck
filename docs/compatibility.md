@@ -4000,3 +4000,23 @@ PRNG traces differ. Original regressions exercise Cartesian blocks with multiple
 left rows, unique-draw position distributions, all ordered relations after mutations,
 u128-scale virtual products, bounded filtering and solving through both scoring
 backends. These checks make no runtime speed claim.
+
+Four DefaultNeighborhoodProvider methods now preserve the exact ordered default
+family sets for required/optional basic and list models. Native DefaultNeighborhood
+implements the move-provider extension for basic, list and mixed models; its checked
+opening methods expose errors. Explicit model optionality and DefaultMoveFamily
+replace Java reflection metadata and runtime provider classes. The pinned public
+neighborhoods documentation additionally specifies the behavioral defaults: changes
+stay between assigned values, and 2-opt stays within one list. Separate assign and
+unassign families handle optional values; tail swaps include reversing exchanges.
+
+Native enumeration is finite, lazy and ordered by family. Optional seeded random
+interleaving weights each live family equally and retains within-family order;
+Java sampling rates/traces are not claimed. Basic models may mix required/optional
+slots. Explicit aligned entity rows enable atomic multicolumn swaps; row pins and
+receiving domains restrict these swaps. Mixed providers flatten component families.
+List dependency cycles are rejected during generation when dependencies are enabled.
+Required missing values still need construction initialization. Use this provider
+through existing *_with_provider or custom-phase provider APIs. Original regressions
+exercise actual moves and successful basic/list/mixed solves under both scoring
+backends; no runtime speed claim is made.

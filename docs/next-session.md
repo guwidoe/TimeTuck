@@ -15196,3 +15196,51 @@ Finalgate42386 and evidence32937 TERMINAL0. Source before/after and live dashboa
 verification digest match. All verification sessions terminal; upstream unchanged.
 No performance measurements refreshed. Final test configuration explicitly selects
 BestAccepted for the three-step solver regression; both scoring backends reach9.
+
+## Model-aware default neighborhood provider
+
+Previous goal turn completedaa6af66 with verified progress. Started clean and read
+handoff/compatibility. Used fully read DefaultNeighborhoodProviderTest and reread
+TwoOptListMoveProviderTest62–124 (earlier combined output1–145 truncated). Read pinned
+public docs neighborhoods.adoc466–495 and850–880: default changes exclude null
+crossing and default2opt stays within an owner. No production implementation reads.
+
+Added DefaultNeighborhood with model-aware ordered family metadata and real lazy
+MoveProvider implementations for basic/list/mixed. Required basics change/swap;
+optional basics additionally assign/unassign in separate families. Required lists
+change/swap/within-owner2opt/tail-swap; optional lists append assign/unassign. Tail
+swaps enable reversal. Mixed families are flattened into one union. Sequential is
+default; optional native seeded random interleaving gives each live family equal
+weight and advances seed per step. Finite drains and duplicate successors preserve
+existing primitive-generator semantics; no Java sampling-rate/trace claim.
+
+Explicit with_entity_rows delegates atomic multicolumn swaps to EntitySwapProvider;
+row pins/domains apply, while other slots still get ordinary changes. Basic models
+can mix optional/required slots. Checked openings validate model and row metadata;
+MoveProvider adapter expects valid inputs. List dependency cycles are filtered via
+candidate copies only when dependencies are configured. Payload creation stays lazy.
+Use with existing *_with_provider/phase extension APIs. Existing LocalSearchConfig
+selection defaults remain unchanged; required initialization belongs to construction.
+
+Added4source methods and0fixtures. Focused21554 TERMINAL0:4source+6native regressions.
+Additional solver integration tests optional basic assignment and a four-element
+list reversal that ordinary single change/swap cannot accomplish in one step; checks
+basic/list/mixed paths with both scoped and stream scoring. Native properties cover
+pins/ranges, disjoint optional families, valid successors, dependency rejection,
+entity rows, reproducible complete randomized drains, snapshot reopening and laziness.
+
+Required gate65591 TERMINAL0. 4555 Rust tests and 222 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 571}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2751, 'failed': 0, 'pending': 1822, 'excluded': 282, 'unverified': 0, 'percent': 56.663}.
+Source before/after matched: cee884fcfda86b7646c3123612cf96e11a538d01c24d43d67a6a4ded4b7b29d2
+Live freshness matched verification digest: fe896d39e1a304601f396d07c469059a0d1d5b18f1580e5ef445af91ed22c663.
+Existing provenance prefixes unchanged; appended4cases and0fixtures.
+Log work/default-neighborhood-final-check.log; evidence work/default-neighborhood-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Focused solver76192, finalgate65591 and evidence54796 TERMINAL0. Final state includes
+4adapted cases and7native regressions; all six basic/list/mixed scoring paths solve
+their integration fixtures. No failed runs in this batch. ThreeRust jobs ran and
+571were reused, with46Python jobs reused. All verification sessions terminal;
+upstream unchanged, source before/after identical, live dashboard freshness matched.
+During final review only inspected pending DefaultSolverTest method metadata from
+the report; no additional upstream test bodies read or adapted. Next work is open.
