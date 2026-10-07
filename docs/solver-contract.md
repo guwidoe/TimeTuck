@@ -1787,3 +1787,25 @@ from improving existing values. Even an empty extension space cannot prove the
 whole model impossible. Ordinary `Enumerate` and branch-and-bound retain their
 unrestricted semantics. Exhaustion on the last permitted evaluation wins over an
 evaluation limit; a zero budget scores nothing in a nonempty extension space.
+
+## Ordered set value ranges
+
+`SetValueRange` retains the first representative of each equal value in encounter
+order. A hash index supports expected constant-time membership and reverse rank
+lookup; indexed reads also take constant time. Traversal and seeded sampling use
+the ordered storage, never hash iteration. Sampling gives each distinct member one
+rank, while `EnumeratedValueRange` continues to weight duplicate occurrences.
+
+Construction takes ownership without cloning payloads. Cloned snapshots, union,
+intersection, difference and stable `reordered_by` results share individual values.
+Borrowed `values` and `get_ref` also avoid payload clones, including for non-Clone
+values. Owned `ValueRange` access requires Clone as usual. Union keeps left members
+followed by unseen right members; intersection and difference retain left order and
+representatives. Reordering rebuilds the reverse index and leaves old snapshots
+unchanged, including on comparator panic. Equality/hashing must stay stable.
+
+The existing bounded `variable_from_range` feeds these distinct domains into finite
+models. Set operations do not make the solver a lazy-domain engine. The inherited
+bounded `sorted_by` creates an enumerated copy; `reordered_by` instead retains the
+set index and shares payloads, operating only on members already in storage.
+No end-to-end runtime improvement is claimed without a benchmark.

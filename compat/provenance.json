@@ -37979,6 +37979,96 @@
       "upstream_test": "testSublist",
       "local_test": "sublist",
       "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_test": "getSize",
+      "local_test": "get_size",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.get",
+      "status": "implemented",
+      "upstream_test": "get",
+      "local_test": "get",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_test": "contains",
+      "local_test": "contains",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_test": "createOriginalIterator",
+      "local_test": "original_iterator",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_test": "createRandomIterator",
+      "local_test": "random_iterator",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_test": "sort",
+      "local_test": "sort",
+      "modifications": "Independent ordered SetValueRange replaces LinkedHashSet-backed Java range. Preserve all source sizes, ranks, membership queries, complete iterator order and exhaustion, scripted random ranks and all four ascending/descending direct/factory comparator outputs. contains_assignment(None) represents the null query. Rust Option exhaustion replaces Java exhausted-next exception; native comparator closures replace solution-scope sorter adapters. No Java random seed trace or implementation equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -53035,6 +53125,45 @@
       "id": "FusedEqualIndexTest.lazyAllocation_leftOnlyKey_rightNotAllocated.shared_partition_queries",
       "upstream_test": "lazyAllocation_leftOnlyKey_rightNotAllocated",
       "modifications": "PARTIAL method fixture, no method credit. lazy_opposite_side_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/SetValueRangeTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "SetValueRangeTest.createRange.set_value_ranges",
+      "upstream_test": "createRange",
+      "modifications": "Helper attribution: native constructor retains first-encounter distinct order; assertion helpers preserve expected prefix or complete ordered values and repeated exhaustion as None. No method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "PlannerAssert.assertElementsOfIterator.set_value_ranges",
+      "upstream_test": "assertElementsOfIterator",
+      "modifications": "Helper attribution: native constructor retains first-encounter distinct order; assertion helpers preserve expected prefix or complete ordered values and repeated exhaustion as None. No method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/set_value_range_cases.rs",
+      "id": "PlannerAssert.assertAllElementsOfIterator.set_value_ranges",
+      "upstream_test": "assertAllElementsOfIterator",
+      "modifications": "Helper attribution: native constructor retains first-encounter distinct order; assertion helpers preserve expected prefix or complete ordered values and repeated exhaustion as None. No method credit."
     }
   ]
 }

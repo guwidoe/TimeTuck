@@ -14840,3 +14840,33 @@ Live freshness matched verification digest: c3209957c1130e26a0d64a8e4598daf3d9de
 Existing provenance prefixes unchanged; appended0cases and5fixtures.
 Log work/shared-partitions-final-check.log; evidence work/shared-partitions-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Ordered distinct value ranges
+
+Previous timing-answer turn gathered new timing evidence; resumed from7dc807a clean.
+Read compatibility/handoff, native range/managed range code and full test-only
+SetValueRangeTest/EmptyValueRangeTest plus iterator assertion helpers. No production
+upstream reads. Added independent SetValueRange with ordered Arc payloads and hash
+rank index. First equal representative retained; snapshots, stable sorting, union,
+intersection and difference share payloads (also usable with non-Clone values).
+Existing ValueRange methods supply distinct indexed/seeded sampling and bounded
+finite-variable conversion. No existing solver kernel changes.
+
+Six full source methods and3helper fixtures added. EmptyValueRangeTest still pending.
+Native regressions exhaust every pair of length0..3 ternary sequences for ordered
+set operations/rank consistency, force hash collisions with non-Clone identity
+payloads, check representative/pointer retention and comparator panic isolation,
+and exercise distinct scripted/seeded sampling, empty/optional domains, limits and
+real exact solving. No runtime benchmark claim.
+
+Required gate3817 TERMINAL0. 4294 Rust tests and 213 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 554}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2536, 'failed': 0, 'pending': 2037, 'excluded': 282, 'unverified': 0, 'percent': 52.235}.
+Source before/after matched: f7003c21bd67108f88a20c17c59004ee7f7a1618b3fc064facf24ae3c0e4e5ed
+Live freshness matched verification digest: 6333d1b2d14a2aba1c2fd76f4d478f3b9e535619105e0b2a4441b68f98e74572.
+Existing provenance prefixes unchanged; appended6cases and3fixtures.
+Log work/set-value-range-final-check.log; evidence work/set-value-range-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Focused74508 TERMINAL0: all6source cases and3native regressions passed. Added repeated
+iterator exhaustion assertions after the focused run; final gate covered final
+formatted source. Formatting29961 and evidence74403 also terminal0. No live sessions.

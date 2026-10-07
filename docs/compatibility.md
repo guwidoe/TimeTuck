@@ -3905,3 +3905,10 @@ invocation protocols remain pending. Native PartitionedJoinNode now co-locates b
 sides in one persistent equality map and exposes borrowed prospective-row queries.
 Existing full-pair oracle, panic, graph-rollback and solver integration regressions
 continue to apply; new tests compare both query directions against full scans.
+
+Six SetValueRangeTest methods now preserve every size, lookup, membership, ordered
+iteration, scripted sampling and comparator-order assertion using native ordered
+set domains. Three helper records retain attribution. Hash-indexed membership,
+first-representative deduplication, shared payload set operations, snapshot sorting
+and finite-model integration have independent regressions. EmptyValueRangeTest
+remains pending; no Java singleton or unsupported-operation claim is made.

@@ -594,10 +594,12 @@ pub use value_range::{
 };
 
 mod common_values;
+mod set_value_range;
 pub use common_values::{
     CommonValueBudget, CommonValueError, CommonValueRanges, SharedValueRange,
     intersection_probe_budget, sample_common_change,
 };
+pub use set_value_range::SetValueRange;
 
 mod exact_value_range;
 pub use exact_value_range::{BigIntegerValueRange, DecimalValueRange, ExactRangeError};
