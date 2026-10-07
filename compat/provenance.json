@@ -37814,6 +37814,171 @@
       "upstream_test": "solveListVariableWithEmptyEntityList",
       "local_test": "solve_list_variable_with_empty_entity_list",
       "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testMoveElementsOfDelegates",
+      "status": "implemented",
+      "upstream_test": "testMoveElementsOfDelegates",
+      "local_test": "move_elements_of_delegates",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testComplexMoveElementsOfDelegates",
+      "status": "implemented",
+      "upstream_test": "testComplexMoveElementsOfDelegates",
+      "local_test": "complex_move_elements_of_delegates",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testSize",
+      "status": "implemented",
+      "upstream_test": "testSize",
+      "local_test": "size",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testIsEmpty",
+      "status": "implemented",
+      "upstream_test": "testIsEmpty",
+      "local_test": "is_empty",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testContains",
+      "status": "implemented",
+      "upstream_test": "testContains",
+      "local_test": "contains",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testIterator",
+      "status": "implemented",
+      "upstream_test": "testIterator",
+      "local_test": "iterator",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testToArray",
+      "status": "implemented",
+      "upstream_test": "testToArray",
+      "local_test": "to_array",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testContainsAll",
+      "status": "implemented",
+      "upstream_test": "testContainsAll",
+      "local_test": "contains_all",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testIndexOf",
+      "status": "implemented",
+      "upstream_test": "testIndexOf",
+      "local_test": "index_of",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testLastIndexOf",
+      "status": "implemented",
+      "upstream_test": "testLastIndexOf",
+      "local_test": "last_index_of",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.testSublist",
+      "status": "implemented",
+      "upstream_test": "testSublist",
+      "local_test": "sublist",
+      "modifications": "Use independent borrowed SegmentedSlice/SegmentedSliceMut views and owned repartition_lists. Preserve all observed values, lengths, offsets, replacement return values and underlying list updates. Inclusive Java partition end indices become equivalent explicit lengths. Rust borrows replace concurrent mutable aliases; read-only repeated fixtures preserve logical duplicates. Option-wrapped fixture values represent Java null queries, Option indices replace -1, Vec collection replaces toArray, and bitmask enumeration covers every helper subset. Java cursor mutation/index conventions, signed exception messages, supplied-array identity and unsupported-operation methods remain pending; no claims for them."
     }
   ],
   "fixtures": [
@@ -52792,6 +52957,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
       "upstream_test": "buildSolverConfig / solve event assertions",
       "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_slice_cases.rs",
+      "id": "MultipleDelegateListTest.powerSet.segmented_slice_cases",
+      "upstream_test": "powerSet",
+      "modifications": "Enumerate all 64 subsets of the six fixture values using bit masks instead of recursive remove/deduplicate/sort; subset ordering is unobserved and all membership assertions are preserved."
     }
   ]
 }

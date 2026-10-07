@@ -953,3 +953,6 @@ mod completion_search;
 pub use completion_search::{
     visit_basic_completions, visit_list_completions, visit_mixed_completions,
 };
+
+mod segmented_slice;
+pub use segmented_slice::{RepartitionError, SegmentedSlice, SegmentedSliceMut, repartition_lists};

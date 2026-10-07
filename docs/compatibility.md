@@ -3885,3 +3885,14 @@ both pinned-null source methods remain pending. Completion is an explicit native
 strategy; restricted completion exhaustion is not reported as global optimality.
 Original regressions cover optional values, supplied phase state, insertion ordering,
 dependencies, callback stop, controls, phase continuation and all nine scoring routes.
+
+Eleven MultipleDelegateListTest methods now cover logical concatenation, ordered
+iteration/collection, membership and duplicate positions, mutable subranges, and
+repartitioning with all source offsets/sizes retained. Rust borrowed slices replace
+Java list aliases; explicit lengths replace inclusive partition ends. Signed Java
+exception messages, supplied-array identity, Java cursor conventions and unsupported
+operations remain pending. One power-set helper fixture is recorded separately.
+The borrowed view now supplies K-opt's combined values without an intermediate
+payload clone. Native regressions verify borrowing, empty segments, invalid ranges,
+non-Clone repartitioning and K-opt dependency-cycle rejection. No runtime performance
+claim is made; previous benchmark measurements have not been refreshed.

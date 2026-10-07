@@ -14767,3 +14767,40 @@ for next-step context; all7methods remain pending (lifecycle step bounds and sel
 configuration assertions need faithful coverage). No new adaptations from it.
 Updated the earlier solver-contract wording after gate to qualify unrestricted
 exhaustion; documentation-only, no Rust or verification input changes.
+
+## Borrowed segmented list views and K-opt dependency filtering
+
+Previous goal turn was verified progress; started cfa462d clean. Read compatibility
+and handoff. Read full test-only DiminishedReturnsScoreRingBufferTest; native
+DiminishedReturns already uses a deque, so no ring-buffer implementation/adaptations.
+Read MultipleDelegateListTest fully and first100lines of ElementDestinationSelectorTest.
+Selected real K-opt integration: remove temporary cloned combined payload vector.
+No production upstream reads. New SegmentedSlice/SegmentedSliceMut provide borrowed
+flat access, segment/index conversion, ordered/reverse iteration, ranges, replacement,
+swap and reversal. Bounds are usize/Option, no Java cursor semantics. General
+repartition_lists moves owned values without Clone, validates shape/checked sums and
+reserves all output storage before mutations. General utility has no model validation.
+K-opt explicit and sampled repartitioning now borrow suffixes through the view;
+working/target assignments still clone normally. No measured runtime claim.
+
+Also fixed sampled repartition panic on model DependencyCycle: reject proposals,
+matching range rejection. Regression compares seeded proposals with unconstrained
+sampling filtered by independent model apply/rollback, including actual rejections.
+Eleven upstream methods fully adapted;1powerSet fixture;allother source methods
+remain pending. Native regressions cover empty/repeated segments, flat-reference
+range/reversal/index behavior, invalid-state atomicity, non-Clone payload movement,
+setup clone counts and invalid-tour clone counts. Existing9K-opt regression methods
+cover exhaustive small tours/partitions, payloads, pins/ranges, seeding and complete
+list/mixed plans. Compile85772 terminal0. Focused70168 terminal101: test helper's
+nested string lifetime needed explicit annotation; fixed. Focused71050 terminal0:
+25tests. Afterwards added checked original-size sum and strengthened dependency
+oracle before final gate. No benchmark, browser or release reruns.
+
+Required gate42831 TERMINAL0. 4278 Rust tests and 212 doctests passed.
+Rust jobs: {'RUN': 490, 'REUSE': 63}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2530, 'failed': 0, 'pending': 2043, 'excluded': 282, 'unverified': 0, 'percent': 52.111}.
+Source before/after matched: 37c128cd7feb3eb8d66ab5584b6eaaea050d06045c69564f586c5604fceb2bb1
+Live freshness matched verification digest: 67f82947dab874e94843ead404e0a9cfb74c2b6f3bfce798a5741d6fe0fc2354.
+Existing provenance prefixes unchanged; appended11cases and1fixture.
+Log work/segmented-slices-final-check.log; evidence work/segmented-slices-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

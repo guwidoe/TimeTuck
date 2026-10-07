@@ -937,3 +937,23 @@ insert oracle, required/optional lists, pins/ranges/dependencies, partial assign
 empty/no-op neighborhoods, seed replay, lazy value cloning, evaluation limits and
 nonadjacent gathering improvements on all four list/mixed scoring paths. These are
 native tests and earn no additional upstream method credit.
+
+## Borrowed segments and repartitioning
+
+`SegmentedSlice` exposes multiple borrowed slices as one logical flat sequence.
+It stores boundaries and references, supports empty/repeated segments, converts
+between flat and segment indices, and offers ordered/reverse iteration and subviews.
+Flat lookup is logarithmic in the number of segments. `SegmentedSliceMut` supports
+replacement, swap, reversal and borrowed mutable subranges without cloning values;
+Rust borrowing prevents resizing or aliasing during the view's lifetime.
+`repartition_lists` redistributes owned payloads in unchanged combined order into
+explicit lengths, validating shape, sums and allocations before moving anything.
+These are general collection APIs, with no implicit solver pin/range checks.
+
+Explicit and sampled K-opt repartitioning use the borrowed view for selected
+movable suffixes. Existing snapshot-bound move construction and final model
+validation still apply. Sampled proposals violating dependency cycles are rejected
+just like receiving-range violations, instead of panicking. Setup no longer clones
+the combined value payloads; candidate construction still clones working states.
+This trades a temporary payload vector for segment metadata and indexed boundary
+lookups; runtime improvements have not been benchmarked.

@@ -2,14 +2,15 @@
 use crate::list_k_opt::cycle_order;
 use crate::list_k_opt_sampling::{draw_tour, feasible};
 use crate::{
-    ListAssignment, ListError, ListKOptError, ListKOptSampling, ListMove, ListPosition, ListProblem,
+    ListAssignment, ListError, ListKOptError, ListKOptSampling, ListMove, ListPosition,
+    ListProblem, SegmentedSlice,
 };
 
-fn members<V: Eq + Clone>(
+fn members<'a, V: Eq + Clone>(
     p: &ListProblem<V>,
-    a: &ListAssignment<V>,
+    a: &'a ListAssignment<V>,
     entities: &[usize],
-) -> Result<Vec<V>, ListKOptError> {
+) -> Result<SegmentedSlice<'a, V>, ListKOptError> {
     let mut values = Vec::new();
     for (i, &e) in entities.iter().enumerate() {
         if entities[..i].contains(&e) {
@@ -22,12 +23,12 @@ fn members<V: Eq + Clone>(
         if meta.is_pinned() {
             return Err(ListError::PinChanged { entity: e }.into());
         }
-        values.extend_from_slice(&a.lists()[e][meta.pinned_prefix()..]);
+        values.push(&a.lists()[e][meta.pinned_prefix()..]);
     }
     if entities.is_empty() {
         return Err(ListKOptError::Entities);
     }
-    Ok(values)
+    Ok(SegmentedSlice::new(values))
 }
 
 // Construct current-index relocations; final-state range/pin validation is atomic.
@@ -36,7 +37,7 @@ fn repartition<V: Eq + Clone>(
     p: &ListProblem<V>,
     a: &ListAssignment<V>,
     entities: &[usize],
-    values: &[V],
+    values: &SegmentedSlice<'_, V>,
     tour: &[usize],
     lengths: &[usize],
 ) -> Result<ListMove<V>, ListKOptError> {
@@ -52,7 +53,7 @@ fn repartition<V: Eq + Clone>(
         target.lists[e].extend(
             tour[offset..offset + length]
                 .iter()
-                .map(|&i| values[i].clone()),
+                .map(|&i| values.get(i).expect("tour index").clone()),
         );
         offset += length;
     }
@@ -128,7 +129,8 @@ impl<V: Eq + Clone> ListProblem<V> {
 /// Bounded combined-cycle proposals over all unpinned entities, including empty
 /// destinations. Choose k uniformly among feasible configured sizes, random cuts
 /// and reconnections, a uniform cycle rotation, and a uniformly sampled weak composition of the value count
-/// into suffix lengths. Reject retained cut edges or invalid receiving ranges.
+/// into suffix lengths. Reject retained cut edges, invalid receiving ranges or
+/// dependency cycles.
 /// Proposal counts are bounded; yields may repeat and final valid moves are not
 /// uniformly distributed. No Java sampling or implicit partition parity is claimed.
 ///
@@ -151,14 +153,11 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     order: impl Iterator<Item = usize>,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
     let entities: Vec<_> = order.filter(|&e| !p.entities()[e].is_pinned()).collect();
-    let values = entities
-        .iter()
-        .flat_map(|&e| {
-            a.lists()[e][p.entities()[e].pinned_prefix()..]
-                .iter()
-                .cloned()
-        })
-        .collect::<Vec<_>>();
+    let values = SegmentedSlice::new(
+        entities
+            .iter()
+            .map(|&e| &a.lists()[e][p.entities()[e].pinned_prefix()..]),
+    );
     let n = values.len();
     let sizes: Vec<_> = (config.sizes().minimum()..=config.sizes().maximum().min(n))
         .filter(|&k| feasible(n, k))
@@ -174,10 +173,13 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
             let mut tour = draw_tour(n, k, &mut random)?;
             tour.rotate_left(random.below(n as u64) as usize);
             let lengths = partition_lengths(n, entities.len(), &mut random);
-            // All non-range invariants follow from a permutation and composition.
+            // Layout follows from a permutation/composition; model constraints
+            // still filter receiving ranges and dependency cycles.
             match repartition(p, a, &entities, &values, &tour, &lengths) {
                 Ok(m) => Some(m),
-                Err(ListKOptError::List(ListError::ValueOutsideEntityRange { .. })) => None,
+                Err(ListKOptError::List(
+                    ListError::ValueOutsideEntityRange { .. } | ListError::DependencyCycle { .. },
+                )) => None,
                 Err(e) => panic!("invalid generated repartition: {e}"),
             }
         })
