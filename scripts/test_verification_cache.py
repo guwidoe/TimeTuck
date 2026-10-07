@@ -86,6 +86,31 @@ class InputTests(unittest.TestCase):
         self.assertNotEqual(before, (self.key(a), self.key(b)))
         self.assertEqual(library_symbol_owners.cache_info().misses, 2)
 
+    def test_library_walk_reuses_reads_and_keeps_nested_fixture_dependencies(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('pub struct Score; mod nested;')
+        nested = self.root / 'crates/solver/src/score/nested.rs'
+        nested.parent.mkdir()
+        nested.write_text('include_str!("values.txt");')
+        fixture = nested.with_name('values.txt')
+        fixture.write_text('first')
+        reads, read_text = [], Path.read_text
+        def tracked(path, *args, **kwargs):
+            reads.append(path)
+            return read_text(path, *args, **kwargs)
+        with patch.object(Path, 'read_text', tracked):
+            selected = rust_test_inputs(entry, self.root)
+        self.assertEqual(reads.count(score), 1)
+        self.assertEqual(reads.count(nested), 1)
+        self.assertIn(str(fixture.relative_to(self.root)), selected)
+        before = self.key(entry)
+        fixture.write_text('second')
+        self.assertNotEqual(before, self.key(entry))
+        nested.write_text('')
+        self.assertNotIn(str(fixture.relative_to(self.root)), rust_test_inputs(entry, self.root))
+
     def test_cached_index_rediscovers_modules_and_out_of_line_implementations(self):
         a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
         (self.root / a).write_text('use timetuck::Score;')

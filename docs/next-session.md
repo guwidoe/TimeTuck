@@ -16324,3 +16324,29 @@ Live freshness matched verification digest: ecd6b92338169165aa363cb5c58800e25bd5
 Existing provenance prefixes unchanged; appended22cases and0fixtures.
 Log work/source-activity-final-check.log; evidence work/source-activity-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Remove repeated verification dependency walks
+
+Previous goal turn produced timing evidence and confirmed gate79199 terminal0;
+source-activity evidence78194 then completed and was committed in e3d7f04.
+Profile of 30 target input selections/digests found repeated rust_entry_inputs
+walks dominated overhead (4042 calls,6.25s of11.26s under cProfile). Reworked
+verification_inputs.py to discover library direct edges/text once per selection,
+then reuse those edges in the symbol fixed-point walk. Every new selection still
+reads current file contents; no persistent/timestamp file cache or evidence rekey.
+Existing dependency/invalidation semantics retained, including nested includes.
+One regression asserts single reads and nested fixture change/removal detection.
+27 verification-cache tests and8 compatibility-report tests passed; logs
+work/dependency-walk-tests.log and work/dependency-walk-report-tests.log.
+Before/after full608target selection comparison:56.638s vs34.919s, zero changed
+input sets; work/input-selections-before.json and input-selections-comparison.json.
+This measures selection only, not end-to-end check or solver performance.
+Profiling sample11.262s→6.413s supports reduced dependency-walk overhead.
+No Rust/provenance changes in this tooling increment, so no Rust/benchmark/UI
+reruns. Changed verifier file correctly invalidates its dependent stored keys;
+next coherent Rust batch should run the required gate once and refresh report,
+without relabeling old evidence. Last completed solver evidence remains
+4726Rust231docs,2837/4855=58.435%,0failed (e3d7f04). Running dashboard7726 may
+need restart after next report refresh because its Python imports predate this
+verifier edit; don't restart or rerun browser checks solely for this handoff.
+All work sessions for these two batches terminal; active goal remains incomplete.

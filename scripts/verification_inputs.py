@@ -315,9 +315,12 @@ def selected_library_inputs(entries, root=ROOT):
     facade = 'crates/solver/src/lib.rs'
     if facade in entries:
         return library_inputs(root)
-    sources = {p for p in rust_entry_inputs(facade, root, include_test_items=False) if p.endswith('.rs')}
-    texts = {name: rust_dependencies_text(production_rust((root / name).read_text()))
-             for name in sorted(sources - {facade})}
+    # Discover each library file once per selection. Reuse its direct edges in
+    # the fixed-point walk instead of recursively reopening it for every symbol.
+    # This is a per-call snapshot: the next selection still reads fresh contents.
+    library_edges, library_texts = rust_entry_graph(facade, root, include_test_items=False)
+    texts = {name: rust_dependencies_text(source)
+             for name, source in sorted(library_texts.items()) if name != facade}
     facade_source = (root / facade).read_text() if (root / facade).is_file() else ''
     owners = library_symbol_owners(tuple(texts.items()), facade_source)
     trait_rules = []
@@ -329,9 +332,13 @@ def selected_library_inputs(entries, root=ROOT):
     selected, pending, referenced = set(), list(entries), set()
     while pending:
         name = pending.pop()
-        if name in selected or not (root / name).is_file(): continue
+        if name in selected: continue
+        if name not in library_texts and not (root / name).is_file(): continue
         selected.add(name)
-        pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
+        if name in library_edges and name not in entries:
+            pending.extend(library_edges[name] - selected)
+        else:
+            pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
         source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())
         words = dependency_words(source)
         referenced.update(words)
@@ -354,28 +361,36 @@ def rust_file_references(source):
             tuple(re.findall(r'(?:include(?:_str|_bytes)?!\s*\(\s*|#\[path\s*=\s*)"([^"]+)"', source)))
 
 
-def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
-    """One test/example, its local modules and literal include files."""
-    pending, found = [entry], set()
+def rust_entry_graph(entry, root=ROOT, *, include_test_items=True):
+    """Discover direct file references and source text in one fresh traversal."""
+    pending, edges, texts = [entry], {}, {}
     while pending:
         name = pending.pop()
-        if name in found:
+        if name in edges:
             continue
-        found.add(name)
+        edges[name] = set()
         path = root / name
         if not path.is_file() or path.suffix != '.rs':
             continue
         source = path.read_text()
         if not include_test_items:
             source = production_rust(source)
+        texts[name] = source
         base = path.parent if path.name in ('mod.rs', 'lib.rs') or path.parent.name in ('tests', 'examples') else path.with_suffix('')
         modules, literals = rust_file_references(source)
         for module in modules:
             for child in [base / f'{module}.rs', base / module / 'mod.rs']:
-                if child.is_file(): pending.append(child.relative_to(root).as_posix())
+                if child.is_file(): edges[name].add(child.relative_to(root).as_posix())
         for literal in literals:
-            pending.append((path.parent / literal).resolve().relative_to(root.resolve()).as_posix())
-    return found
+            edges[name].add((path.parent / literal).resolve().relative_to(root.resolve()).as_posix())
+        pending.extend(edges[name])
+    return edges, texts
+
+
+def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
+    """One test/example, its local modules and literal include files."""
+    edges, _ = rust_entry_graph(entry, root, include_test_items=include_test_items)
+    return set(edges)
 
 
 def doctest_inputs(root=ROOT):
