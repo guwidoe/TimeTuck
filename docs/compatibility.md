@@ -3313,3 +3313,28 @@ class filtering and givenSolution generation behavior. Original regressions cove
 rollback, detached snapshots, callback counts, exact decimals, zero/duplicate matches,
 minimum integer magnitude, disabled constraints and foreign handles. Shadow/list
 variable consistency cases remain pending; benchmarks are not refreshed by this batch.
+
+## Whole-score assertions
+
+`score_assertion` captures a graph's cached total and all named constraint scores,
+including disabled constraints. `ScoreAssertion::from_scores` accepts a director's
+cached total and contributions, preserving structural penalties separately rather
+than reconstructing a total by summing constraints. Duplicate names are rejected.
+Snapshots are detached; capture both inputs from the same state. These APIs do not
+recompute, repair facts or infer omitted constraints.
+
+Exact/greater/less assertions use the score type's equality and order. Failure
+objects retain typed expected/actual scores, custom context and every contribution;
+Display limits contribution details to five. Decimal scores retain exact precision
+and numeric equality across scales. Empty graphs produce a zero score.
+
+Six MultiConstraintAssertionTest methods preserve combined scores, typed/relative
+comparisons and assigned/all list-value filtering. Three additional single-constraint
+methods cover the same list cases, and DuplicateConstraintAssertionTest covers the
+original duplicate-name diagnostic. Native list membership replaces both inverse
+shadow and no-inverse Java representations. Source verifier expectations use graph
+constraint totals, excluding outer structural penalties. Original regressions cover
+structural totals from a scoped director, callback-free detached graph snapshots,
+disabled constraints, complete/truncated diagnostics, typed comparisons, duplicates,
+empty graphs and exact fractional scores. Automatic shadow preparation is
+still pending; no JVM verifier or reflection parity is claimed.

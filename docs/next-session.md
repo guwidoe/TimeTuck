@@ -13478,3 +13478,42 @@ Live freshness matched verification digest: 53357f60cfd71078a6974637d0359b2a87dc
 Existing provenance prefixes unchanged; appended24cases and11fixtures.
 Log work/constraint-assertion-final-check.log; evidence work/constraint-assertion-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Whole-score assertions
+
+Starting HEAD32c2909 clean. Added separate score_assertion module: detached cached
+whole-score snapshots, named contributions, typed exact/relative checks and boxed
+structured errors with bounded Display. Graph snapshots cover ordinary constraints;
+from_scores supports full director structural totals without resumming contributions.
+No existing engine/type impl changed. Ten upstream methods adapted:6MultiConstraint,
+3SingleConstraint list cases,1DuplicateConstraint. Read full Multi/Duplicate tests,
+all four provider formulas and generated extended fixtures; nine list fixture files.
+Java class/inverse representations use typed graph sources/native list membership;
+no reflection fallback or automatic shadow repair claim. Appended10cases23fixtures.
+
+Focused55550 terminal0:10source cases. Focused52064 terminal101:3native pass, decimal
+regression incorrectly expected scale-sensitive score equality (Decimal itself is
+scale-sensitive, DecimalScore equality is numeric). Corrected test to require numeric
+scale equivalence; implementation unchanged. Focused81745 follows. Final gate pending.
+No benchmarks/browser/release reruns. Goal remains active.
+Focused81745 TERMINAL0: all4native regressions passed. List helper return uses a type
+alias after focused source check; final gate covers this formatting/type-alias-only
+change. Final source/provenance frozen for required gate.
+
+Prepared next coverage direction while frozen gate runs: remaining Bi stream methods
+include incremental entity/value joins, unchanged join-key predicate updates, and
+assigned-list filtering/existence. Read AbstractBiConstraintStreamTest64..135,
+267..371,534..687; complete expected match lists retained there. Existing
+incremental_stream_cases covers Uni methods; deep_join_update_cases covers related
+Bavet regressions but not these methods. No new credit or production edits made.
+A coherent Bi/Tri adaptation batch can exercise these paths without changing the
+shared solver, unless an actual behavior failure requires a fix.
+
+Required gate91113 TERMINAL0. 3882 Rust tests and 186 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 484}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2275, 'failed': 0, 'pending': 2298, 'excluded': 282, 'unverified': 0, 'percent': 46.859}.
+Source before/after matched: e261f1f58f5f52984a507d0f4c8fa99ad9201423ca5ea31fb8722a865147e4b1
+Live freshness matched verification digest: 6a02961c4bed8f92e8de9490d4658004c83f93d7a09caabd16349a9fcaa79bd5.
+Existing provenance prefixes unchanged; appended10cases and23fixtures.
+Log work/score-assertion-final-check.log; evidence work/score-assertion-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

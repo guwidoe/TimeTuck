@@ -820,3 +820,6 @@ pub use constraint_assertion::{
     JustificationMatch, TrackedConstraint, constraint_assertion, track_constraint,
     track_decimal_constraint,
 };
+
+mod score_assertion;
+pub use score_assertion::{ScoreAssertion, ScoreAssertionError, score_assertion};
