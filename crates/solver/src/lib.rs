@@ -1067,3 +1067,9 @@ mod basic_entity_stream;
 pub use basic_entity_stream::{
     BasicEntityRows, BasicEntityRowsError, BasicEntityStream, basic_entity_stream,
 };
+
+mod benchmark_results;
+pub use benchmark_results::{
+    BenchmarkOutcome, BenchmarkRanking, BenchmarkResultError, BenchmarkScore, BenchmarkSummary,
+    ScoreDifferencePercentage,
+};

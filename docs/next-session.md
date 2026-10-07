@@ -16350,3 +16350,38 @@ without relabeling old evidence. Last completed solver evidence remains
 need restart after next report refresh because its Python imports predate this
 verifier edit; don't restart or rerun browser checks solely for this handoff.
 All work sessions for these two batches terminal; active goal remains incomplete.
+
+## Native benchmark result analysis
+
+New benchmark_results module exports BenchmarkScore, BenchmarkOutcome,
+BenchmarkSummary, BenchmarkRanking, ScoreDifferencePercentage and typed errors.
+Exact numeric score snapshots compare across families with zero-padded suffixes,
+ignore decimal representation scale, and retain structural priority. Summary
+counts failures/incomplete results and sums successful ordinary levels exactly;
+fewer failures then fewer incomplete results rank first. Total-score ties use
+sorted worst-to-best outcomes; worst-score comparison uses that entire sequence.
+Matching dataset/repetition identities remain caller responsibility. No runner or
+wall-clock collection implied. Percentage arithmetic checks dimensions, uses
+existing cancellation-preserving numeric ratios, and documents zero/IEEE behavior.
+Read full TEST-ONLY TotalScoreSolverRankingComparatorTest,
+WorstScoreSolverRankingComparatorTest, ResilientScoreComparatorTest,
+ScoreDifferencePercentageTest, and AbstractSolverRankingComparatorTest helper.
+Adapted17complete methods plus1helper fixture; no production/Enterprise reads.
+Source divide method actually multiplies, and both assertions are preserved.
+Four native regressions cover exact overflowing sums, failures/incomplete/empty,
+numeric decimal equality and sums, tiny changes/extreme scales, zero/IEEE math,
+and actual exhaustive-search scores under different budgets.
+Focused51346 TERMINAL0:17source+4native pass. Format applied before that run.
+Required final gate28286 LIVE, log work/benchmark-results-final-check.log;
+fmt/clippy passed, library/test targets executing. Warm38549 LIVE, compiles only
+pending cache-miss targets with --no-run; no tests or evidence writes. The prior
+verifier edit invalidated execution keys, so this is a broad refresh. Both handles
+must finish successfully; don't restart on timeout or modify source/provenance.
+Prepared work/record_benchmark_results_evidence.py references28286 and expects
++17cases/+1fixture vsba1dcb0; run only after gate/warm succeed. Dashboard process
+7726 imports old verifier code and may require restart for live freshness after
+report refresh. Last completed evidence2837/4855=58.435%,4726Rust231docs;
+17new methods not yet credited by completed full-gate evidence. No benchmark,
+release or browser reruns. Goal incomplete. Other gap investigation read full
+TEST-ONLY threshold-time lifecycle and BestSolutionHolder tests and portions of
+TotalRankSolverRankingWeightFactoryTest; no additional implementation/credits.

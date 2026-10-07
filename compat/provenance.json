@@ -42669,6 +42669,261 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "TotalScoreSolverRankingComparatorTest.normal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/TotalScoreSolverRankingComparatorTest.java",
+      "upstream_test": "normal",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "total_normal",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "TotalScoreSolverRankingComparatorTest.totalIsEqual",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/TotalScoreSolverRankingComparatorTest.java",
+      "upstream_test": "totalIsEqual",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "total_is_equal",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "TotalScoreSolverRankingComparatorTest.differentScoreDefinitions",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/TotalScoreSolverRankingComparatorTest.java",
+      "upstream_test": "differentScoreDefinitions",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "total_different_score_definitions",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "TotalScoreSolverRankingComparatorTest.uninitializedSingleBenchmarks",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/TotalScoreSolverRankingComparatorTest.java",
+      "upstream_test": "uninitializedSingleBenchmarks",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "total_uninitialized_single_benchmarks",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "WorstScoreSolverRankingComparatorTest.normal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/WorstScoreSolverRankingComparatorTest.java",
+      "upstream_test": "normal",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "worst_normal",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "WorstScoreSolverRankingComparatorTest.worstIsEqual",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/WorstScoreSolverRankingComparatorTest.java",
+      "upstream_test": "worstIsEqual",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "worst_is_equal",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "WorstScoreSolverRankingComparatorTest.differentScoreDefinitions",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/WorstScoreSolverRankingComparatorTest.java",
+      "upstream_test": "differentScoreDefinitions",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "worst_different_score_definitions",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "WorstScoreSolverRankingComparatorTest.uninitializedSingleBenchmarks",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/WorstScoreSolverRankingComparatorTest.java",
+      "upstream_test": "uninitializedSingleBenchmarks",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "worst_uninitialized_single_benchmarks",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ResilientScoreComparatorTest.compareTo",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/ResilientScoreComparatorTest.java",
+      "upstream_test": "compareTo",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "resilient_compare_to",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.calculateScoreDifferencePercentageException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "calculateScoreDifferencePercentageException",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_different_dimensions",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.calculateScoreDifferencePercentage",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "calculateScoreDifferencePercentage",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "calculate_score_difference_percentage",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.add",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "add",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_add",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.subtract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "subtract",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_subtract",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.multiply",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "multiply",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_multiply",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.divide",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "divide",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_divide_source",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.addWithWrongDimension",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "addWithWrongDimension",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_add_wrong_dimension",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
+    },
+    {
+      "id": "ScoreDifferencePercentageTest.subtractWithWrongDimension",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/ScoreDifferencePercentageTest.java",
+      "upstream_test": "subtractWithWrongDimension",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "local_test": "percentage_subtract_wrong_dimension",
+      "modifications": "Preserved every asserted score ordering, equality, percentage level, tolerance and dimension error using owned native benchmark scores, outcomes and summaries. Original score tuples and initialization-state transitions are retained; immutable summary reconstruction replaces mutable Java result accumulation/report mocks. Unasserted reporting fields and speed/winning-score metadata are omitted. Native exact numeric snapshots replace Java score definitions; typed dimension errors replace IllegalStateException. The upstream divide method actually calls multiply; both multiply assertions are retained, and true division has separate original coverage. No benchmark runner, Java report lifecycle or timing equivalence claimed."
     }
   ],
   "fixtures": [
@@ -58271,6 +58526,19 @@
       "id": "DefaultSolverTest.InvalidSelectorBasedMove.runtime_range",
       "upstream_test": "InvalidSelectorBasedMove",
       "modifications": "Its bad-value append to entity0 becomes invalid_assignment(current list length); ordinary transactional native ListMove assignment replaces raw score-director before/after notifications. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolverRankingComparatorTest.benchmark_result_setup",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/ranking/AbstractSolverRankingComparatorTest.java",
+      "upstream_test": "addSingleBenchmark/addSingleBenchmarkWithHardSoftLongScore",
+      "local_path": "crates/solver/tests/benchmark_results_cases.rs",
+      "modifications": "Native summary/simple/hs helpers preserve source score values, successful outcomes and initialized flags used by ranking tests. Native immutable aggregation replaces Java result/report objects. Unasserted winning/worst-relative-score and speed metadata are omitted; no additional test method credit."
     }
   ]
 }

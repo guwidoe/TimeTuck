@@ -4259,3 +4259,22 @@ replace mocked upstream capability/downstream activity, while assertions use set
 StreamActivity. Filter predicates do not erase structural source capability. The four
 remaining methods in the latter two classes assert lifecycle notifications and stay
 pending; this batch does not claim those notifications. No fixtures copied.
+
+Native benchmark result analysis now supports owned exact cross-family numeric
+scores (missing trailing levels treated as zero), ordinary-level totals without
+integer overflow, failure/incomplete counts, total-score and worst-score rankings,
+and floating per-level relative score changes. Decimal scale does not break
+numeric ties. Percentages preserve cancellation before conversion; zero baseline
+changes yield signed infinity and equal zeroes yield zero. Arithmetic dimensions
+are checked, and IEEE infinity/NaN behavior is explicit. Run scheduling, dataset
+identity alignment, timing collection and HTML reports remain separate concerns.
+Seventeen complete Community benchmark methods have adaptations: all four each
+from TotalScoreSolverRankingComparatorTest and WorstScoreSolverRankingComparatorTest,
+ResilientScoreComparatorTest.compareTo, and all eight ScoreDifferencePercentageTest
+methods. Native result reconstruction replaces Java mutation and report mocks;
+unasserted helper metadata is omitted and the helper adaptation is attributed.
+The source method named divide actually multiplies; its assertions are preserved.
+Four original regressions additionally exercise exact overflowing integer totals,
+failed/partial/empty outcomes, decimal equality and sums, extreme decimal scales,
+tiny relative changes, zero/IEEE arithmetic, and real exhaustive-search results
+under different evaluation budgets. No solver speed or runner parity claim.
