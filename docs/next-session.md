@@ -13692,3 +13692,34 @@ Live freshness matched verification digest: 58b85fe0eaef7fb7a121e968fc25ba6483e9
 Existing provenance prefixes unchanged; appended6cases and4fixtures.
 Log work/verification-consistency-final-check.log; evidence work/verification-consistency-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Explicit list-shadow verifier and selection cases
+
+Starting HEAD7e1ded5 clean. Previous turn added verifier-consistency production
+behavior and committed after gate37895; progress. Added verification_list_shadow_cases
+with5complete upstream methods: Single/Multi updateShadowVariablesListSingleSolution
+and Uni forEachIncludingUnassigned_excludeInconsistentEntities,
+forEach_excludeInconsistentEntities, forEachUnfiltered_includeUnassignedAndInconsistentEntities.
+Read all selected methods and full multiplelistener Value/Solution/Entity/Provider,
+TestdataObject and dependency SimpleSolution; dependency Value/Entity already read.
+Preserved every original score/match/justification. Native list registry/session
+explicitly prepares structural/cascade fields, retaining one unassigned value in
+the single case. Native field metadata/consistency and stream filters handle all
+list-cycle transitions. Two Uni methods' final duplicate e1 writes are preserved
+as e1=[dependency],e2=[] (dependent unassigned). No source production read or native
+production changes. Java setters/history/reflection not claimed. Appended5cases9fixtures.
+
+Focused68396 TERMINAL101: empty initial list element type needed explicit generic.
+Focused24767 TERMINAL101: helper closure's registry lifetime annotation overgeneral;
+changed closure to capture this registry. Focused48508 TERMINAL0: all5tests pass.
+Source frozen for final selective gate. No benchmark/browser/release reruns.
+Goal remains active; remaining methods elsewhere still substantial.
+
+Required gate29461 TERMINAL0. 3954 Rust tests and 188 doctests passed.
+Rust jobs: {'REUSE': 496, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2339, 'failed': 0, 'pending': 2234, 'excluded': 282, 'unverified': 0, 'percent': 48.177}.
+Source before/after matched: d78ac6b78bb61b9d46eda4408787aedfa7b5a7a603fb65cc8c904f4c5e0bf37a
+Live freshness matched verification digest: 3a181e0cf09e5c2031f7fdcc24fd5a7f8a8ae81ff999584033aacd431c05cef3.
+Existing provenance prefixes unchanged; appended5cases and9fixtures.
+Log work/verification-list-shadow-final-check.log; evidence work/verification-list-shadow-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

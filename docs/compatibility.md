@@ -3433,3 +3433,22 @@ nullable/explicit consistency, given-fact/given-solution, and unfiltered scoring
 expectations. Native tests additionally cover false entity cycles, downstream
 inference, detached snapshots, bounded diagnostics, invalid metadata and long
 chains. Whole-list shadow-setting verifier methods remain pending.
+
+## Explicit list-shadow preparation in verifier cases
+
+The two remaining Single/MultiConstraintAssertion shadow-setting methods now use
+VariableStateRegistry and ListShadowSession for explicit structural/cascade
+preparation before scoring. Native fields receive owner, index, previous, next
+and cascade results; all source penalty10, reward20, justification(-10,value0) and
+combined score10 assertions are preserved. Ordinary verification still leaves
+supplied values untouched. This adapter uses explicit native field assignments;
+it does not provide reflective setter discovery or Java setter-history parity.
+
+Three Uni stream-selection methods also preserve every match/score observation
+before, during and after list-induced dependency cycles. Actual list positions
+supply shadow dependencies, verification_consistency computes flags, and typed
+stream filters distinguish assigned, including-unassigned and unfiltered facts.
+Two source methods write e1 twice at the last transition; the native cases retain
+that final state (dependency assigned, dependent unassigned) instead of changing
+the source intent. Native atomic snapshot updates replace notifications followed
+by working-solution resets. No additional production changes were necessary.
