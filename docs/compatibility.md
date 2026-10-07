@@ -3896,3 +3896,12 @@ The borrowed view now supplies K-opt's combined values without an intermediate
 payload clone. Native regressions verify borrowing, empty segments, invalid ranges,
 non-Clone repartitioning and K-opt dependency-cycle rejection. No runtime performance
 claim is made; previous benchmark measurements have not been refreshed.
+
+Five partial FusedEqualIndexTest fixtures now exercise shared-partition row
+membership/counts, composite equality keys, ordered suffix direction, cleanup and
+lazy opposite-side observations. No additional full-method credit is claimed:
+Java bucket-handle identity, explicit empty-bucket creation/cleanup and factory
+invocation protocols remain pending. Native PartitionedJoinNode now co-locates both
+sides in one persistent equality map and exposes borrowed prospective-row queries.
+Existing full-pair oracle, panic, graph-rollback and solver integration regressions
+continue to apply; new tests compare both query directions against full scans.

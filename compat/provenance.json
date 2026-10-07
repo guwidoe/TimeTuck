@@ -52970,6 +52970,71 @@
       "id": "MultipleDelegateListTest.powerSet.segmented_slice_cases",
       "upstream_test": "powerSet",
       "modifications": "Enumerate all 64 subsets of the six fixture values using bit masks instead of recursive remove/deduplicate/sort; subset ordering is unobserved and all membership assertions are preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shared_partition_cases.rs",
+      "id": "FusedEqualIndexTest.singleEqualBucketSharingAndOps.shared_partition_queries",
+      "upstream_test": "singleEqualBucketSharingAndOps",
+      "modifications": "PARTIAL method fixture, no method credit. single_equal_bucket_ops_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shared_partition_cases.rs",
+      "id": "FusedEqualIndexTest.emptyBucketCleanup.shared_partition_queries",
+      "upstream_test": "emptyBucketCleanup",
+      "modifications": "PARTIAL method fixture, no method credit. empty_bucket_cleanup_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shared_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalPlusEqualKeyedByCompositeKey.shared_partition_queries",
+      "upstream_test": "equalPlusEqualKeyedByCompositeKey",
+      "modifications": "PARTIAL method fixture, no method credit. composite_equal_key_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shared_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalPlusLessThanSuffixIsPerSideAndFlipped.shared_partition_queries",
+      "upstream_test": "equalPlusLessThanSuffixIsPerSideAndFlipped",
+      "modifications": "PARTIAL method fixture, no method credit. equal_plus_less_than_suffix_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shared_partition_cases.rs",
+      "id": "FusedEqualIndexTest.lazyAllocation_leftOnlyKey_rightNotAllocated.shared_partition_queries",
+      "upstream_test": "lazyAllocation_leftOnlyKey_rightNotAllocated",
+      "modifications": "PARTIAL method fixture, no method credit. lazy_opposite_side_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
     }
   ]
 }

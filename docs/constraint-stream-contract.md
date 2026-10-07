@@ -1875,3 +1875,20 @@ running mapper/key callbacks. Mapping, key extraction, cloning and iterator work
 finish before state installation; failure leaves node/graph state unchanged under
 the existing transaction contract. Key callbacks and mapping must be pure. Work
 is O(n log d) for n expanded occurrences and d keys. No throughput claim is made.
+
+## Shared equality partitions
+
+`PartitionedJoinNode` now stores left and right ordered indexes in one shared
+partition per equality key. A side remains uninitialized until its first row;
+removing the last row from both sides removes the partition. Captured-key membership
+maps still support callback-free retraction. Candidate persistent roots and emitted
+events are completed before installing a change, including right-side event order
+normalization; graph checkpoints retain the whole shared state for rollback.
+
+`partition_count` and `partition_state` expose stored-key counts and lazy-side
+state without creating anything. `matching_right(equality, left_key)` and
+`matching_left(equality, right_key)` return borrowed rows for prospective inputs,
+using the configured relation and its reverse respectively. Neither query requires
+an input row on the querying side. Results follow ordered key and occurrence ID;
+absent partitions/sides yield empty iterators. Multiple equalities use tuple keys,
+and pure equality can use a unit ordered key. No runtime speed claim is made.

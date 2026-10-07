@@ -28,7 +28,7 @@
 //! ```
 
 mod partitioned;
-pub use partitioned::PartitionedJoinNode;
+pub use partitioned::{JoinPartitionState, PartitionedJoinNode};
 
 use crate::SnapshotMap;
 use std::any::Any;

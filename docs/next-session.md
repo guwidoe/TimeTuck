@@ -14804,3 +14804,39 @@ Live freshness matched verification digest: 67f82947dab874e94843ead404e0a9cfb74c
 Existing provenance prefixes unchanged; appended11cases and1fixture.
 Log work/segmented-slices-final-check.log; evidence work/segmented-slices-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Shared equality partitions and prospective join queries
+
+Previous goal turn was verified progress; started e0a3e42 clean. Read compatibility,
+handoff, full test-only FusedEqualIndexTest and existing native partitioned join /
+JoinSide / persistent map code. No upstream production reads. Refactored
+PartitionedJoinNode's separate side group maps into one persistent shared group map
+with lazy optional sides; captured left/right memberships remain separate. Generic
+update helper prepares candidate roots/events before installing them. Right output
+normalization now also precedes installation. Empty group cleanup waits for both
+sides to be empty. Graph checkpoint/restore/clear use the unified state.
+
+Added partition_count/state inspection and borrowed matching_left/matching_right
+queries for prospective keys, including queries with no inserted opposite row.
+Queries reverse ordered relations for left candidates, preserve key/ID ordering,
+and do not initialize missing partitions/sides. New native regressions compare
+600 updates across5relations and all55prospective keys per state with full scans,
+check lazy sides, transfers, retained opposite rows and complete cleanup.
+Five adapted source fixtures are deliberately partial: Java handle/pointer identity,
+explicit empty-bucket lifecycle and injectable factory counts remain pending.
+No source-method credit;5fixture records appended. No source hasSuffix adaptation.
+
+Focused83120 TERMINAL0:existing10cases and7regressions, including6000updates,
+clone/comparison fault sweeps, graph rollback and solver integration. Query-focused
+24503 TERMINAL101: fixture string key helpers required explicit static lifetime;
+corrected before final gate. Query-focused5220 TERMINAL0:5partial fixtures and2original regressions.
+No benchmark/browser/release reruns; no measured performance claim.
+
+Required gate69728 TERMINAL0. 4285 Rust tests and 212 doctests passed.
+Rust jobs: {'RUN': 523, 'REUSE': 32}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2530, 'failed': 0, 'pending': 2043, 'excluded': 282, 'unverified': 0, 'percent': 52.111}.
+Source before/after matched: 85659a2ce83e08a69819697d320cfd872835e94cdb23548301a9983cb616033c
+Live freshness matched verification digest: c3209957c1130e26a0d64a8e4598daf3d9de0ea2294e909dff6b82e7d1fcb338.
+Existing provenance prefixes unchanged; appended0cases and5fixtures.
+Log work/shared-partitions-final-check.log; evidence work/shared-partitions-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

@@ -170,8 +170,8 @@ mod existence_stream;
 pub use existence_stream::{ExistenceMode, ExistsNode};
 pub mod incremental_stream;
 pub use incremental_stream::{
-    FilterNode, GroupNode, JoinComparison, JoinNode, PartitionedJoinNode, ScoreNode,
-    StructuralStreamContribution, TupleChange,
+    FilterNode, GroupNode, JoinComparison, JoinNode, JoinPartitionState, PartitionedJoinNode,
+    ScoreNode, StructuralStreamContribution, TupleChange,
 };
 
 pub mod stream_graph;
