@@ -1023,3 +1023,10 @@ pub use mass_change_build::{mass_change_from_members, rebase_mass_change};
 
 mod list_mass_plan;
 pub use list_mass_plan::{ListMassChangePlan, rebase_list_mass_change_plan};
+
+mod range_diagnostics;
+pub use range_diagnostics::{
+    MixedRangeValidationError, RangeValidationError, RangeViolationLocation, ValueRangeViolation,
+    validate_basic_with_diagnostics, validate_list_with_diagnostics,
+    validate_mixed_with_diagnostics,
+};

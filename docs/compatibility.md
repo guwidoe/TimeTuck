@@ -4108,3 +4108,13 @@ and preserves the insertion boundary. Existing snapshot-bound ListMassChange sta
 unchanged. Three Community MassListChangeMoveTest methods now preserve equality,
 hashing and exact working-copy identity assertions. Original regressions cover
 changed source positions, colliding hashes and lookup failure/null behavior.
+
+Optional detailed assignment validators now preserve basic/list/mixed validation
+errors and enrich range failures with the exact borrowed payload, basic slot or
+list position, allowed values and unassignment policy. Global list membership and
+per-entity ranges remain distinct. Shape, pin, duplicate and dependency errors
+retain their original priority. Applications may supply entity/variable labels
+and value renderers; sparse ranges display every member. Existing constructors
+and search error types are unchanged. No complete upstream method credits are
+added: the DefaultSolver invalid-initial-value fixtures and automatic named
+solver-entry diagnostics remain pending.

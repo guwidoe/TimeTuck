@@ -15810,3 +15810,32 @@ Live freshness matched verification digest: b4aae6800e7d9b2d40e258bf8310e5080920
 Existing provenance prefixes unchanged; appended3cases and0fixtures.
 Log work/list-mass-plan-final-check.log; evidence work/list-mass-plan-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Detailed assignment range diagnostics
+
+Previous goal turn made progress: committed65672f6, final gate37487 and evidence9863
+terminal0. Current source adds independent range_diagnostics.rs/free validators
+for basic/list/mixed snapshots. Borrowed errors retain native causes and priority;
+range errors include payload, allowed values, optionality and exact slot/position.
+Application label/render callbacks format sparse ranges explicitly. No model or
+candidate mutation; no value Clone bound for basic diagnostics. Mixed payload
+types remain independent. Existing constructors/search error types unchanged.
+
+Read only TEST DefaultSolverTest2267–2383 as gap evidence; none adapted/copied.
+Four original regressions include441list candidates against ordinary validation,
+non-Clone basic values, pointer identity, sparse/empty/optional ranges, shape/pin/
+duplicate priority and heterogeneous mixed causes. Standalone focused16830 TERMINAL0
+against copied current a12cff9bad4db4df library; no repeated focused suite needed.
+Native-only capability adds no source method credits/provenance entries; initial
+construction and automatic named solver-entry diagnostics still need integration.
+Next run the required final gate once; formatted source frozen for it. No benchmark,
+release or browser changes. Goal remains active.
+
+Required gate15552 TERMINAL0. 4637 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 589}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2789, 'failed': 0, 'pending': 1784, 'excluded': 282, 'unverified': 0, 'percent': 57.446}.
+Source before/after matched: 24f18fd1ca6270751569e6cd2c93ce01fecc5d0723b66fa7ac38ffcf0bc69af5
+Live freshness matched verification digest: 162cf2c2ca6bd0bc15e67ce8e0327fb04fc8c4139def6a3125cddbf856f82ffb.
+Existing provenance prefixes unchanged; provenance unchanged (0cases and0fixtures).
+Log work/range-diagnostics-final-check.log; evidence work/range-diagnostics-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
