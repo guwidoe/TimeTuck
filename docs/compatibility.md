@@ -3682,3 +3682,17 @@ optional/pinned/empty boundaries, uniform slot counts and singleton RNG stabilit
 no value clones, retained old snapshots, all small two-value range masks and indexed
 group-gather local search on both scoring backends. Other source selector lifecycle,
 random scheduling and mutable replay cases remain pending. No speedup claim.
+
+
+Nine DefaultLocalSearchPhaseTest methods now exercise real basic/list solver phases
+on both scoring backends: initialized/pinned/optional-null/empty inputs, explicit
+tabu search, six-value/two-owner list construction followed by local search, and
+local-only rejection of uninitialized required basics. All source result assertions
+and the helper's nonempty-best-event check are retained. Native fixed slots carry
+entity identities; zero objectives replace the dummy Java easy calculator. Native
+HillClimbing and one-step VariableTabu settings make the unspecified/default phase
+choices explicit; Java default acceptors, random traces and exact counters are not
+claimed equivalent. Required pinned-null diagnostics remain pending because the
+source requires identifying the offending entity and variable, beyond the current
+native incomplete-assignment error. This batch establishes compatibility evidence
+for existing behavior; it adds no new search algorithm or performance measurement.

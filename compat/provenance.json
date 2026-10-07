@@ -36839,6 +36839,141 @@
       "local_path": "crates/solver/tests/numeric_decimal_cases.rs",
       "local_test": "hash_code_ignoring_scale",
       "modifications": "Preserve every decimal input and boolean/equality assertion. Native NumericDecimal sign predicates and numeric Eq/Hash replace static Java ScoreUtil utilities. Rust DefaultHasher verifies equal numeric values hash equally; exact Java hash numbers are not claimed or asserted upstream. Decimal representations remain unchanged. Other ScoreUtil arithmetic and scale methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveWithInitializedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveWithInitializedEntities",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_with_initialized_entities",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveWithPinnedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveWithPinnedEntities",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_with_pinned_entities",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveWithPinnedEntitiesWhenUnassignedAllowedAndPinnedToNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveWithPinnedEntitiesWhenUnassignedAllowedAndPinnedToNull",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_with_pinned_entities_when_unassigned_allowed_and_pinned_to_null",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveWithEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveWithEmptyEntityList",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_with_empty_entity_list",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveTabuSearchWithInitializedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveTabuSearchWithInitializedEntities",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_tabu_search_with_initialized_entities",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveTabuSearchWithPinnedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveTabuSearchWithPinnedEntities",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_tabu_search_with_pinned_entities",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveTabuSearchWithEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveTabuSearchWithEmptyEntityList",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_tabu_search_with_empty_entity_list",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveListVariable",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_list_variable",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.failsFastWithUninitializedSolutionBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "failsFastWithUninitializedSolutionBasicVariable",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "fails_fast_with_uninitialized_solution_basic_variable",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
     }
   ],
   "fixtures": [
@@ -50582,6 +50717,162 @@
       "upstream_test": "TestdataListEntityProvidingValue",
       "local_path": "crates/solver/tests/destination_range_cases.rs",
       "modifications": "Preserve three source entity ranges and assigned lists, exact reachable entity order for all five values, and forward/end/reverse traversal outputs for value3. Native ListDestinationIndex range queries and entities iterator replace FilteringEntityByValueSelector with mocked value selectors. Reverse traversal reopens the same immutable query snapshot with rev() rather than Java listIterator.previous(); no Java cursor mutation/lifecycle or random trace parity is claimed. Integer planning identities replace annotated TestdataListEntityProviding fixtures; list ownership/index comes from native assignment state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedEntity.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedEntity.java",
+      "upstream_test": "TestdataPinnedEntity",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedSolution.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedSolution.java",
+      "upstream_test": "TestdataPinnedSolution",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedEntity.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedEntity.java",
+      "upstream_test": "TestdataPinnedAllowsUnassignedEntity",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedSolution.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedSolution.java",
+      "upstream_test": "TestdataPinnedAllowsUnassignedSolution",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.buildSolverConfig/solve/generateTestdataSolution.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "PlannerTestUtils.buildSolverConfig/solve/generateTestdataSolution",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.local_search_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "DummySimpleScoreEasyScoreCalculator",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
     }
   ]
 }

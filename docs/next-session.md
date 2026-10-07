@@ -14220,3 +14220,37 @@ Live freshness matched verification digest: 88ce629cebadcffb870a4d3ffa2730232419
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/gather-sampling-final-check.log; evidence work/gather-sampling-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+
+## Local-search phase compatibility cases
+
+Previous987e4e8 goal turn was verified implementation progress; HEAD clean.
+Read current compatibility/handoff. Inspected ReachableValuesTest (combined output
+truncated), partial MoveTesterTest, existing native reachability/custom APIs, then
+full DefaultLocalSearchPhaseTest. Selected end-to-end phase coverage rather than
+inventing Java internal APIs. Read all ten relevant basic/pinned/optional/list
+fixture classes, PlannerTestUtils buildSolverConfig/solve/generateTestdataSolution
+sections and DummySimpleScoreEasyScoreCalculator. No production source reads.
+
+Added9 source methods with12 fixture provenance records in local_search_phase_cases.
+Both scoring backends retain helper event assertions, exact initial states and
+source outputs, with native stable slot identities, explicit phase sequences,
+zero objective, bounded HillClimbing/VariableTabu. Java default configuration,
+random traces/counters and exact error prose are not claimed. Required pinned-null
+method remains pending: native errors lack offending entity/variable diagnostics.
+No new library behavior in this batch; it closes existing compatibility evidence gaps.
+
+Focused23104 terminal101:8passed, uninitialized test expected the handoff error
+instead of the initial-phase error. Inspected native error path and corrected to
+SolverError::Phase{phase:0,error:IncompleteInitialAssignment}. Focused71556 TERMINAL0
+for that case only. Final formatted suite frozen for selective gate. No benchmark,
+release or browser reruns; goal remains active.
+
+Required gate70626 TERMINAL0. 4139 Rust tests and 202 doctests passed.
+Rust jobs: {'REUSE': 527, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2463, 'failed': 0, 'pending': 2110, 'excluded': 282, 'unverified': 0, 'percent': 50.731}.
+Source before/after matched: 2a57ef14b20219fdd0c5c34bc37bf8b36eef5a49261c8c078ee21c6c18fa0e33
+Live freshness matched verification digest: 79fb4f9414a9511721c0eb23fa7dc82561facf2a3179f059bbf2aa93d2b75f33.
+Existing provenance prefixes unchanged; appended9cases and12fixtures.
+Log work/local-search-phase-final-check.log; evidence work/local-search-phase-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
