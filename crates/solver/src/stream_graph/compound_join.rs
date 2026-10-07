@@ -249,6 +249,7 @@ impl<'a, L: 'a, R: 'a> JoinConditions<'a, L, R> {
 #[derive(Default)]
 pub(super) struct Registrations(Vec<Registration>);
 struct Registration {
+    mode: Option<ExistenceMode>,
     parents: [usize; 2],
     conditions: Vec<Identity>,
     output: usize,
@@ -265,12 +266,9 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
         let normalized = self.equals_first();
         let parents = [left.node, right.node];
         let identities: Vec<_> = normalized.0.iter().map(|c| c.identity.clone()).collect();
-        if let Some(entry) = b
-            .compound_joins
-            .0
-            .iter()
-            .find(|entry| entry.parents == parents && entry.conditions == identities)
-        {
+        if let Some(entry) = b.compound_joins.0.iter().find(|entry| {
+            entry.mode.is_none() && entry.parents == parents && entry.conditions == identities
+        }) {
             return Ok(StreamPort {
                 owner: b.owner.clone(),
                 node: entry.output,
@@ -322,6 +320,7 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
             joined
         };
         b.compound_joins.0.push(Registration {
+            mode: None,
             parents,
             conditions: identities,
             output: out.node,
@@ -329,3 +328,5 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
         Ok(out)
     }
 }
+
+mod existence;

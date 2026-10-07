@@ -4034,3 +4034,15 @@ Cartesian join. Native original regressions cover graph integration and transact
 these four credits do not establish all upstream join-combiner semantics. Projection
 callbacks must remain pure, as with existing graph APIs. Type-erased owned keys use
 Rc storage and dynamic comparisons; no performance advantage is claimed or measured.
+
+Compound conditions additionally support native existence and absence queries.
+All equalities form a partition key and the first inequality uses the ordered join
+index; remaining comparisons filter its candidates. The graph emits each qualifying
+left identity once, preserves payload updates and changes right-driven visibility
+only across zero matches. Equality-only and empty conjunctions use linear retained
+count state. Ordered queries retain accepted pair IDs and can require quadratic
+space for dense matches. Join, existence and absence registrations are distinct.
+Original regressions cover 4,000 updates and rollbacks with activity pruning enabled
+and disabled, repeated right matches, self joins, projection capture, all four
+inequalities and callback panic recovery. This API increment adds no upstream
+method credit or performance measurement.

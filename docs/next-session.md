@@ -16,8 +16,9 @@ active goal complete after one slice. No zero-mistake guarantee is possible.
 - Rust library has SimpleScore, HardSoftScore, HardMediumSoftScore and
   BendableScore<H,S> with structural
   values, ordering/feasibility, parsing/formatting, arithmetic and checked arithmetic.
-- 723 fully adapted source test methods, recorded individually in
-  `compat/provenance.json`. See the latest verified increment below for counts.
+- Fully adapted source test methods are recorded individually in
+  `compat/provenance.json`. The dashboard and latest verified increment below
+  contain the current coverage counts.
 - Finite domains, initial values, pinning, optional values and reversible
   change/swap/composite transactions. Read `docs/planning-contract.md`.
 - Ordered SolverPlan/MixedSolverPlan mix repeated construction, custom, exact and local phases in all six solver entry points,
@@ -15318,3 +15319,50 @@ right multiplicity and self relations. No upstream credits assigned to this draf
 Read full test-only JoinBiNodeActivityTest and DefaultLevelScoreStateTest during
 verification; no new adaptations from those reads. Existing native activity and
 late-acceptance APIs already cover much of their functional behavior. Goal active.
+
+## Compound indexed existence and absence
+
+Previous goal turn completed c1c5cf9/fb51e24 with verified progress. Revalidated
+clean tree and read handoff/compatibility. Applied the prepared draft after checking
+its source blob baseline, then improved it to index the first inequality instead
+of evaluating all inequalities within equality buckets. No upstream test/production
+sources read for this increment; no new provenance or upstream method credits.
+
+JoinConditions::apply_existence now shares normalized definitions per mode and
+ordered parent ports. Empty/all-equality conditions use existing ExistsEqualNode.
+Ordered conditions use a private graph node wrapping PartitionedJoinNode, with
+persistent left rows, accepted pair IDs and per-left counts. First inequality is
+indexed, residual inequalities filter matching candidates. Node checkpoints include
+both join indexes and visibility state; graph transactions restore them after
+callbacks fail. Right updates emit only zero-crossing visibility transitions; left
+updates preserve current payloads. Absence uses Left activity rule. Dense ordered
+matches can consume quadratic link state; no speed claim. The applied implementation
+supersedes the older ignored draft (do not copy that draft over the current code).
+
+Focused73721 TERMINAL0:2initial existence regressions+4adapted join+5native join.
+Added two targeted regressions for captured ordered projections/all four range
+bounds and callback-panic recovery of indexes/counts/links; focused28414 TERMINAL0
+with all4existence regressions. Fmt71088 TERMINAL0. No failed runs. Randomized
+full-enumeration comparisons cover4000changes/rollback across4conjunction shapes
+and2activity modes. No benchmark/release/browser reruns. Final inputs now frozen.
+
+Required gate71667 TERMINAL0. 4568 Rust tests and 224 doctests passed.
+Rust jobs: {'RUN': 541, 'REUSE': 36}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2755, 'failed': 0, 'pending': 1818, 'excluded': 282, 'unverified': 0, 'percent': 56.746}.
+Source before/after matched: 34283f730afb7362cca883731b6d78caf63d3a7910b790027bf98c12a688f2a1
+Live freshness matched verification digest: df1c5050c0cbebb598e8e4b74bd7822388fcc9e0b8f73358c45a6653a386682f.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/compound-existence-final-check.log; evidence work/compound-existence-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final gate71667, warm-up89718 and evidence79961 all TERMINAL0. Live dashboard
+freshness matched the completed Rust evidence; all source inputs stayed unchanged.
+Provenance unchanged. No benchmark/release/browser reruns or upstream edits.
+Warm-up compiled527pending affected targets with --no-run -j4; Cargo reported
+18m49s. Gate's blocked Cargo invocation reported18m50s for the overlapping wait/build.
+For time accounting, do not sum these overlapping durations. Lint reported1m18s.
+During the gate read pinned PUBLIC score-calculation.adoc574–658 (independent key
+projection, filtering joiners, index-order/performance guidance); no new adaptations.
+Corrected the obsolete723case header to refer to current verified coverage records.
+All implementation and verification changes are ready for the conventional commit.
+Older ignored existence draft files are superseded by the checked-in indexed node;
+no further implementation draft is pending. Next work remains open; goal active.
