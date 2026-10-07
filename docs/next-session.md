@@ -16199,3 +16199,20 @@ handles, do not restart on observation timeouts. Prepared evidence helper
 work/record_pillar_provider_evidence.py expects +0cases/+0fixtures vsd256c71;
 run once only after both handles finish successfully. Last completed dashboard
 remains2813/4855=57.94%; provider earns no source credit. No benchmarks/UI reruns.
+
+Warm-up99888 TERMINAL0, reported2m58s. Gate27697 LIVE, executing affected tests;
+source/provenance remain frozen. Prepared next increment under
+work/pillar-sampling-draft/STATUS.txt and guarded work/apply_pillar_sampling.py.
+Final isolated native build/focused80332 TERMINAL0:6native tests,0.31s. Direct
+seeded sampling of arbitrary/ordered subsets plus bounded basic/mixed provider;
+no source credits. Public doctests added after focused pass, bodies unchanged.
+After gate27697/evidence commit, apply and run one integrated final check.
+
+Required gate27697 TERMINAL0. 4692 Rust tests and 228 doctests passed.
+Rust jobs: {'RUN': 534, 'REUSE': 70}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2813, 'failed': 0, 'pending': 1760, 'excluded': 282, 'unverified': 0, 'percent': 57.94}.
+Source before/after matched: a6ac75916e31eba5e7eabd3822e9f0e88015db64ec30fead03eb64b77c7677fa
+Live freshness matched verification digest: 473cad8c1e2a355bc1bb5164a8215dfea4dda8e54bcea8b31891fd36b0db39c8.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/pillar-provider-final-check.log; evidence work/pillar-provider-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
