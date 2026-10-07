@@ -872,3 +872,6 @@ pub use list_reconciliation::{
 
 mod directed_two_opt;
 pub use directed_two_opt::list_directed_two_opt_plan;
+
+mod directed_two_opt_provider;
+pub use directed_two_opt_provider::{DirectedTwoOptProvider, list_directed_two_opt_moves};

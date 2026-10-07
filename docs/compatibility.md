@@ -3651,3 +3651,17 @@ Java rebase and default callback ordering remain unclaimed. Four native regressi
 cover all small cut pairs, empty tails, invalid/pinned/dependency rejection, observer
 panic rollback and scoped/stream score-cache apply/undo/commit consistency. No speedup
 claim or benchmark refresh.
+
+DirectedTwoOptProvider connects wrapped two-opt plans to native local search via
+MoveProvider for list and mixed models on both backends. list_directed_two_opt_moves
+validates its starting state, lazily scans directed cut pairs followed by unordered
+owner-pair tail exchanges, includes empty receiving tails, and omits no-op or invalid
+final states. Distinct cuts may have the same successor. Temporary preparation uses
+owned snapshots; no constant-time sampling or speedup is claimed. Mixed candidates
+leave basic variables unchanged; callers may combine additional providers explicitly.
+
+Four original tests establish a wrapped-only single-step improvement for list and
+mixed search, both backends, retained basic assignments, pins/range/dependency filtering,
+empty receivers, lazy opening and bounded scoring. These are native integration
+checks and add no upstream-method credit. Built-in neighborhoods retain their prior
+behavior; custom-provider selection remains explicit.

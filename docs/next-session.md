@@ -14087,3 +14087,31 @@ Live freshness matched verification digest: a5c00f30d3ee6ec62ad9fe07701431395ae2
 Existing provenance prefixes unchanged; appended9cases and6fixtures.
 Log work/directed-two-opt-final-check.log; evidence work/directed-two-opt-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Directed two-opt automatic search provider
+
+Starting HEAD84a36ea clean; prior wrapped-move batch verified/committed: progress.
+Read native provider and list/mixed local search integration APIs. No upstream reads
+or test adaptation this batch. Added independent directed_two_opt_provider module:
+list_directed_two_opt_moves validates current state, lazily scans local ordered cuts
+then cross-owner suffix pairs, skips full pins/unchanged/invalid results and supports
+empty receiving tails. DirectedTwoOptProvider implements existing list and mixed
+MoveProvider; mixed candidates have an empty basic composite, documented explicitly.
+Native acceptance/limits/scoring/undo are exercised through existing search paths.
+No edits to existing neighborhood/core solver implementation; no new method credit.
+
+Focused9060 TERMINAL0:4 original tests. Both list backends and both mixed backends
+find a target requiring wrapped reversal; ordinary two-opt control remains at zero.
+Other checks cover retained basics, ranges/full/prefix pins, dependency rejection,
+empty-tail receivers, invalid starting state, no cloning on iterator opening and
+bounded evaluations. Source formatted/frozen for final selective gate.
+No benchmark/browser/release reruns; goal remains active.
+
+Required gate40299 TERMINAL0. 4110 Rust tests and 199 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 519}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2449, 'failed': 0, 'pending': 2124, 'excluded': 282, 'unverified': 0, 'percent': 50.443}.
+Source before/after matched: 33b051f1ff0fc27584011a27428035b838ddb059dfb14b2ea1ada50ff6f14631
+Live freshness matched verification digest: d9593ddb33f02ee69fa0472dd581ddc6ea1299938edd9181ae199888b749ddbe.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/directed-two-opt-provider-final-check.log; evidence work/directed-two-opt-provider-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
