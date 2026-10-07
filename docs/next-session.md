@@ -16288,3 +16288,12 @@ Evidence helper work/record_basic_entity_evidence.py expects +2cases/+0fixtures
 vsf2a695e and references gate60902; run once after both handles finish successfully.
 Last completed dashboard remains2813/4855=57.94%,4698Rust230doctests. Two new
 source cases are not yet credited by completed dashboard evidence. No UI/bench reruns.
+
+Required gate60902 TERMINAL0. 4704 Rust tests and 231 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 604}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2815, 'failed': 0, 'pending': 1758, 'excluded': 282, 'unverified': 0, 'percent': 57.981}.
+Source before/after matched: b5833c5a5aa5344c8c34c89e459b6fe6ce2df37f39670bc9c3f9d9f2c988bb6d
+Live freshness matched verification digest: 27a64379ff63a539018b0b780dccd03714c329dd232080eb711e53a7831748fd.
+Existing provenance prefixes unchanged; appended2cases and0fixtures.
+Log work/basic-entity-final-check.log; evidence work/basic-entity-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
