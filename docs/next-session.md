@@ -15414,3 +15414,77 @@ No extra production source reads. Inspected verification_inputs.py without chang
 it: module-granularity inherent implementations still follow every use of their
 receiver type; this remains a likely source of broad invalidation. No new tooling
 change or demonstrated narrower safe dependency rule in this increment.
+
+### K-opt verification continuation
+Previous goal turn made progress via implementation commitf554388. Gate79821
+subsequently TERMINAL143 (termination while Cargo waited for the warm-up's lock;
+no failing test diagnostic). Process inspection confirmed verify_checks/run_rust_tests
+and its test Cargo child were gone. Preserved its output as
+work/kopt-topology-interrupted-check.log. Warm-up55315 remained LIVE and was not
+restarted. Resumed required check as gate66115, same frozen inputs and canonical
+environment; successful prior jobs are reused. Poll66115 and55315 to terminal.
+Evidence helper now names66115 and still compares provenance against04a20b8.
+
+While waiting, prepared UNAPPLIED/UNCOMPILED native identity-rebasing implementation
+work/move_rebase.rs and tests work/move_rebase_cases.rs plus
+work/move_rebase_regression.rs. Free functions rebase basic/list/mixed moves across
+independent variable/entity/value namespaces, memoize repeated identities, reject
+collisions, retain nested shape and positional boundaries; destination state/domain
+validation remains with normal apply. Source Eq defines value identity. List
+rebasing requires corresponding list positions, not arbitrary reordered lists.
+Five original regressions drafted; none verified yet. Existing six-case composite
+execution draft remains in work/composite_move_cases.rs.
+Read TEST-ONLY SelectorBasedChangeMoveTest76–125 and
+SelectorBasedSwapMoveTest162–218 including complete rebase methods and complete
+assertSameProperties helpers. CompositeMoveTest and SelectorBasedCompositeMoveTest
+were fully read in the preceding turn; TestdataSolution generation fixture was
+read20–68. No production implementation read and no draft method credits assigned.
+
+Rebasing draft preparation progressed without changing the frozen crate inputs.
+Standalone wrapper work/rebase_draft_check.rs imports the built timetuck rlib as
+base and aliases the wrapper as timetuck, compiling draft code/tests from work/.
+Initial58583 TERMINAL1 was a test-only inferred i32 where u8 was intended. Fixed
+explicit ListMove<u8>; standalone35639 TERMINAL0,14 tests passed. Draft lint93451
+TERMINAL1 flagged six redundant identity closures in tests; fixed them, draft lint
+79845 TERMINAL0. No draft production implementation changes were needed.
+
+Read complete TEST-ONLY rebase methods and assertSameProperties helpers in all six
+SelectorBasedListAssign/Unassign/Change/Swap/SubListChange/SubListSwapMoveTest files
+(extracted balanced full methods), plus ListChange1–48 and ListSwap1–42 shared field
+setup. Added work/list_move_rebase_cases.rs: six complete native adaptations. An
+initial standalone compile required an explicit Rc<String> array type; corrected
+only that test declaration. Standalone16381 TERMINAL0: six new cases passed (14
+previously passing cases filtered), and lint of the entire20-case draft passed.
+List change/swap moved-value identity assertions dereference the mapped position
+in the corresponding destination opening assignment; Java cached getter lifecycle
+is not claimed. List unassign preserves a distinct owned result plus mapped/source
+metadata checks. All new source/helper reads are test-only, no production reads.
+
+Next batch can be applied with work/apply_move_rebase.py AFTER the k-opt gate
+finishes and its evidence is recorded. The script verifies the crate-facade hash
+in work/move-rebase-lib-base.hash, copies five draft files, adds public exports,
+appends15cases and8fixture attributions, and updates compatibility documentation.
+It has NOT been run; review before applying. It includes the six existing-composite
+cases, three basic/composite rebase cases and six list rebase cases. Five original
+rebasing regressions cover execution/rollback, all list variants, independent mixed
+namespaces, repeated identity memoization, collisions, lookup errors and panics.
+Official Cargo validation and required gate remain necessary after application.
+Gate66115 and warm-up55315 remain the current live handles; do not start duplicates.
+
+Required gate66115 TERMINAL0. 4582 Rust tests and 224 doctests passed.
+Rust jobs: {'REUSE': 39, 'RUN': 540}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2765, 'failed': 0, 'pending': 1808, 'excluded': 282, 'unverified': 0, 'percent': 56.952}.
+Source before/after matched: 1d32262ae7e73eee364d308da3a1f9c264d55e52e72f4915cc6406dc0dd87424
+Live freshness matched verification digest: ff8c3eadcac2ca4746513ff1a52cdd3d8733d28c04070012acfc0dbf42397dbd.
+Existing provenance prefixes unchanged; appended10cases and1fixtures.
+Log work/kopt-topology-final-check.log; evidence work/kopt-topology-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final gate66115 and evidence28597 TERMINAL0. Warm-up55315 TERMINAL0 (24m24s,
+overlapping the gates' Cargo waits). Implementationf554388 is now fully verified;
+source before/after and live dashboard digest match. Previous gate79821 termination
+was recovered using existing cache entries; no test failure occurred. All k-opt
+verification processes are terminal. No benchmark/browser/release reruns.
+During the final wait inspected pending report metadata and test-only
+DefaultSolverTest2795–2908, with ensureListVariableStateIsReusedAcrossPhases reread
+untruncated2865–2907; no adaptations from those methods yet. Read native
+DiminishedReturns header/state API1–155 only. No additional implementation chosen.
