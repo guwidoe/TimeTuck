@@ -3619,3 +3619,19 @@ termination. Native receipt completion substitutes for the processed-change even
 flag. This claims observed changed-result delivery, not Java director identity or
 callback timing. Original integration also changes entity order/membership, domains
 and pins across three consumed revisions while checking held snapshots remain intact.
+
+ListAssignmentSnapshot/reconcile_list_problem add identity-based warm starts for
+changed list models. Current full/prefix pins reserve ownership before any retained
+rows; existing entities keep eligible surviving values in previous order. New
+entities use current initial rows after retained ownership, independently of entity
+order. Existing empty rows stay empty. Deleted owners, removed/ineligible values
+and new unclaimed values remain unassigned for construction. Current registry objects
+replace stale equal identities; optionality, ranges and dependencies are preserved.
+Existing dependency repair clears cycles/downstream values and rejects pinned cycles.
+
+Five original reconciliation tests and one live three-revision integration cover
+these contracts. The integration runs list and mixed models with both scoring
+backends, including reordered/deleted owners, new full/prefix pins, entity ranges,
+missing-value construction and retained independent snapshots. Mixed models compose
+the basic/list helpers before rebuilding scores. No new upstream method credit or
+performance claim; Java score-director lifecycle parity remains pending.

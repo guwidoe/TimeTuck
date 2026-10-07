@@ -14022,3 +14022,36 @@ Live freshness matched verification digest: 5794a530921a05e39b0a5d85994cce0c5555
 Existing provenance prefixes unchanged; appended1case and5fixtures.
 Log work/problem-reconciliation-final-check.log; evidence work/problem-reconciliation-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## List and mixed runtime reconciliation
+
+Starting HEAD8bf11f6 clean; preceding basic reconciliation committed after verified
+gate11679: progress. Read native list model, dependencies, mixed composition and
+live regressions. Skimmed ProblemChangeBarrageIT and searched change-director tests
+for future work; no adaptation/credit from those. No upstream production reads.
+
+Added independent ListAssignmentSnapshot/ListReconciliationError/reconcile_list_problem.
+Validate identity cardinality/uniqueness and global snapshot value uniqueness.
+Reserve all current full/prefix pins, then surviving old ownership, then new-entity
+initial defaults in separate passes. Clone from current registry; preserve ranges,
+optionality/dependencies through existing model APIs. Clear introduced dependency
+cycles via prepare_assignment; pinned cycles fail. No implicit reassignment across
+owners; construction handles required missing values. Old inputs/snapshots unchanged.
+Compose with preceding basic reconcile_problem for mixed solving; no core solver edits.
+
+Focused81610 TERMINAL0:5 native tests (pins/ranges/reordering/new/deleted/empty owners,
+no previous snapshot, dependency repair/pin rejection, updated equal-identity facts,
+invalid IDs/duplicate values). Focused28429 TERMINAL0: live daemon integration for
+list+mixed on both scoring backends across3 revisions; exact starts, pins, final
+membership, changed basic pins and held snapshots asserted. No source cases/fixtures
+appended; dashboard credit unchanged. Final formatted source frozen for selective gate.
+No benchmark/browser/release reruns; goal remains active.
+
+Required gate3345 TERMINAL0. 4093 Rust tests and 197 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 515}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2440, 'failed': 0, 'pending': 2133, 'excluded': 282, 'unverified': 0, 'percent': 50.257}.
+Source before/after matched: 5f5e4b44bc459857fa54beb2c93da34ba6fc8174bc6f09de83c905cd3ab8a660
+Live freshness matched verification digest: 07893577e0d425bf70d281b703baa85c69ab8324fbfb266bd60e64837dd7dc09.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/list-reconciliation-final-check.log; evidence work/list-reconciliation-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

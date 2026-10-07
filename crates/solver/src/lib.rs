@@ -864,3 +864,8 @@ pub use phase_best_buffer::{BufferedSolverUpdate, PhaseBestBuffer};
 
 mod problem_reconciliation;
 pub use problem_reconciliation::{AssignmentSnapshot, ReconciliationError, reconcile_problem};
+
+mod list_reconciliation;
+pub use list_reconciliation::{
+    ListAssignmentSnapshot, ListReconciliationError, reconcile_list_problem,
+};
