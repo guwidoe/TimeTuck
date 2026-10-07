@@ -15629,3 +15629,36 @@ No benchmark/browser/release reruns. Goal remains active.
 While waiting, inspected verification dependency scan (no edits), native
 DiminishedReturns1–245 and TEST-ONLY DiminishedReturnsScoreRingBufferTest1–175.
 The latter asserts physical buffer layout; no adaptation or new API chosen.
+
+Required gate50968 TERMINAL0. 4615 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 549, 'REUSE': 36}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2780, 'failed': 0, 'pending': 1793, 'excluded': 282, 'unverified': 0, 'percent': 57.261}.
+Source before/after matched: 266028e72b4a6089b83d4d32f2d408fd9f930aa43f4fc24b50c18bd04507728b
+Live freshness matched verification digest: 41231c8ced56e2dae1d6202d91cd930169e3c401ad57f5a80ad3d0688320bc4a.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/shadow-diagnostics-final-check.log; evidence work/shadow-diagnostics-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Final gate50968, warm-up68818 and evidence76160 TERMINAL0. Warm-up493targets
+took6m08s, overlapping gate lock wait; never sum those durations. Commit1272756 is
+fully verified. Source before/after and live freshness match. No remaining live
+checks; no benchmark/browser/release reruns. Goal active.
+
+Prepared the next increment during compilation in work/shadow-source-draft/.
+Original missing_shadow_sources preflight API returns owned ShadowSourceReference
+target/source identities for every missing direct reference from registered targets,
+deduplicated in stable order. It does not recursively inspect unregistered entities.
+Works before initialization/with dirty state; no input/supplier execution or cache
+mutation. Resolver errors/panics preserve caches (external effects are not reversible).
+Draft tests6159 TERMINAL0: two original regressions plus one inherited doctest passed;
+lint28557 TERMINAL0 with warnings denied. Copied native session into an isolated
+crate to test private-module integration without changing live gate inputs.
+No upstream adaptations or credits. Draft wrapper/imports must not replace lib.rs.
+Next: inspect work/shadow-source-draft/STATUS.txt and run the baseline-hash-guarded
+work/apply_shadow_sources.py, which has been parsed/reviewed but NOT executed.
+Then document, format and run the required gate once; no repeated focused test is
+needed before it. Previous regression evidence is now complete, so application is
+unblocked. Draft adds57production lines and2regressions, with exports.
+Additional test-only reads this turn: full MixedMoveSelectorTest,
+UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest, and
+MixedMoveSelectorSplitBiasIT; no adaptations from these. No upstream production read.
