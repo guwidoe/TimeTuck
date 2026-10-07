@@ -16385,3 +16385,26 @@ report refresh. Last completed evidence2837/4855=58.435%,4726Rust231docs;
 release or browser reruns. Goal incomplete. Other gap investigation read full
 TEST-ONLY threshold-time lifecycle and BestSolutionHolder tests and portions of
 TotalRankSolverRankingWeightFactoryTest; no additional implementation/credits.
+
+While gate28286/warm38549 remain live, prepared the next implementation entirely
+under work/benchmark-runner-draft (no verification input changes). Public runner
+schedules serial warm-ups then repetitions/problems/configurations, matches seeds
+across configurations, clones input before timing, retains typed callback errors,
+supports cooperative cancellation, and supplies measured-only summaries/timing.
+No new upstream credits: native API uses run counts/owned data, no Java report paths.
+Full TEST-ONLY DefaultPlannerBenchmarkTest and PlannerBenchmarkTest read as context.
+Draft module benchmark_runner.rs, five integration regressions in
+benchmark_runner_regression.rs, and runnable benchmark_configs.rs example.
+Draft unit build/run47955 TERMINAL0: one controlled-clock test proves cloning
+excluded and warm-ups/failures excluded from performance aggregates. Draft
+integration command TERMINAL0: five tests for schedule/seeds/clones, warm-up
+errors, cancellation, invalid/overflow shapes, actual finite solves. Draft example
+compiled/executed TERMINAL0 and emitted six CSV rows for three budgets/two problems;
+full enumeration reaches score0 in both. Output work/benchmark-runner-draft/example-output.csv
+is a debug demonstration, not benchmark evidence or a Timefold comparison.
+work/apply_benchmark_runner.py is prepared, NOT APPLIED. After gate/warm success,
+record benchmark-results evidence and commit it, then apply runner, format exports,
+and run its integrated gate once. No repeat of unchanged draft focused checks.
+At last poll both28286 and38549 confirmed live; warm compiler actively processes
+Rust targets. Keep handles, do not restart. Broad cache refresh stems from earlier
+verifier script edit; source/provenance remain frozen until that evidence is saved.
