@@ -934,3 +934,6 @@ pub use list_value_change::{
     ListChangePairing, ListValueChange, ListValueChangeProvider, list_anchored_value_changes,
     list_value_changes, sample_list_value_changes,
 };
+
+mod sampled_sublist_provider;
+pub use sampled_sublist_provider::{SampledSubListNeighborhood, SampledSubListProvider};

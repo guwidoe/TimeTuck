@@ -3816,3 +3816,14 @@ move code and finite output count, including ephemeral same-list destinations.
 Five original regressions compare both enumerators over54 required/optional partial
 states, check actual execution/undo and retained pre-removal metadata, validation,
 sampling reproducibility/bounds and complete list/mixed provider-driven solves.
+
+SampledSubListProvider now binds bounded sublist relocation/reversal/unassignment
+and asymmetric sublist exchange sampling to complete list and mixed solver plans.
+It rebuilds indexes from each current assignment, seeds by completed step, preserves
+sample order and duplicates, and rejects dependency violations and unchanged states
+before scoring. Native attempt limits bound rejected work; an empty sample is not
+proof of local optimality. Missing values require a separate construction phase.
+Four original regressions cover sampler replay including seed overflow, partial
+consumption and changed snapshots, pins/ranges/dependencies, empty/invalid inputs,
+and complete list/mixed plans with both policies. No additional upstream method
+credit, Java random trace parity or performance improvement is claimed.

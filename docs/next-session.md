@@ -14586,3 +14586,37 @@ Live freshness matched verification digest: 7e9865aeb439159d65c5abbc39b11e30e01a
 Existing provenance prefixes unchanged; appended6cases and20fixtures.
 Log work/list-value-change-final-check.log; evidence work/list-value-change-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Sampled sublist providers
+
+Previous goal work verified value-driven list changes; committed79c05ce after
+reviewing staged docs/provenance and adding the verified handoff. Latest timing
+question produced measured evidence, not implementation; resumed with clean HEAD.
+Read compatibility/current handoff and RandomSubListSelectorTest plus full
+RandomSubListChangeMoveSelectorTest. Existing native samplers already implement
+span selection; no source tests adapted this batch and provenance unchanged.
+
+New sampled_sublist_provider module wraps existing change/swap samplers in a
+standard list/mixed MoveProvider. Fallible direct select opening, per-step wrapping
+seed, bounded attempts, immutable snapshot reconstruction, final native apply/undo
+filtering rejects dependencies and unchanged states before engine scoring.
+Preserves sampled order and duplicates; no missing-value construction or optimality
+claim. No shared solver edits. Original regression fixtures only.
+Focused42893 terminal101: missing SolverSequence lifetime in helper; fixed.
+Focused47569 terminal101: first-improving mixed-owner objective reached a genuine
+local optimum at2 rather than asserted4. Replaced that unsuitable universal quality
+expectation with a known attainable receiver-placement objective and best-candidate
+selection. This does not alter production search behavior or claim global optimality.
+Focused44564 TERMINAL0:4 tests, complete list/mixed plans both policies, replay,
+changed snapshots, pins/ranges/dependencies, empty/invalid configs and seed overflow.
+Final formatted source frozen for required selective gate; no benchmark/browser/
+release reruns needed. All focused sessions terminal.
+
+Required gate7160 TERMINAL0. 4216 Rust tests and 207 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 541}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2491, 'failed': 0, 'pending': 2082, 'excluded': 282, 'unverified': 0, 'percent': 51.308}.
+Source before/after matched: 547217c17dadb5c481eece380472614080b6dd01cd3a17d5296971e5c5d768bf
+Live freshness matched verification digest: f776f3ffe4187482da3c2f22d11e4bc0753ec744f3690173ed08486e34ddf19c.
+Existing provenance prefixes unchanged; no provenance changes.
+Log work/sampled-sublist-provider-final-check.log; evidence work/sampled-sublist-provider-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
