@@ -3494,3 +3494,24 @@ inclusive comparison boundaries and flipped >= queries. Four native regressions
 cover 2000 mutations against a reference map, non-Clone duplicate payloads, range
 and multi-key membership, failure preservation, cleanup and repeated lazy errors.
 Existing stream nodes have not been rewired; no solver speedup is claimed.
+
+The native MembershipCandidateIndex adds mutable captured multi-key candidate
+rows, explicit tuple-key partitions, removal/replacement, and borrowed query views.
+Queries deduplicate candidate identities across overlapping and repeated keys;
+unique and repeating seeded sampling use the resulting identity set. Empty-key
+rows remain retained without matching. Payloads require neither Clone nor Eq.
+Queries eagerly store deduplicated references; this does not establish Java lazy
+first-draw allocation behavior or automatic stream-node maintenance. Callers must
+update the index when their working assignments change.
+
+Twenty-five additional Containing/ContainedIn/ContainingAnyOfIndexerTest methods
+preserve their complete observable assertions, including composite queries,
+duplicate insertion identity, missing-key exhaustion, seeds 0..9 drains, and 30
+repeated draws. Native upsert replaces the same ID rather than retaining duplicate
+insertion handles. Native Iterator None replaces Java exhaustion exceptions;
+PRNG traces are not compared. The twenty first-draw trials use seeds derived from
+native root 0. The source single-draw method checks membership, not allocation;
+its name is retained without claiming equivalent internal removedSet behavior.
+Earlier credited membership methods remain unchanged. Native regressions separately
+cover 2,000 updates against a scan model, empty versus null keys, non-Clone payloads,
+panicking key input, and overlap-independent sampling. No performance claim is made.

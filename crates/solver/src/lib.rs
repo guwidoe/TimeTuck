@@ -842,3 +842,6 @@ mod candidate_index;
 pub use candidate_index::{
     CandidateBucket, CandidateIndex, CandidateIndexError, IndexedCandidate, repeating_candidates,
 };
+
+mod membership_candidate_index;
+pub use membership_candidate_index::{MembershipCandidateIndex, MembershipMatches};

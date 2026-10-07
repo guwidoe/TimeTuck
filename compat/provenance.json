@@ -35744,6 +35744,381 @@
       "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
       "local_test": "random_iterator_right_bridge_flip_reaches_reverse_walk",
       "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.isRemovable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "isRemovable",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_is_removable",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.removeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "removeTwice",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_remove_twice",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.forEachDuplicates",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "forEachDuplicates",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_for_each_duplicates",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIterator",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIteratorDedupesAcrossBuckets",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorDedupesAcrossBuckets",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator_dedupes_across_buckets",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIteratorSingleDrawNeedsNoDedupe",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorSingleDrawNeedsNoDedupe",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator_single_draw_needs_no_dedupe",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIteratorDuplicateQueryKeys",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorDuplicateQueryKeys",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator_duplicate_query_keys",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIteratorUnmatchedQueryKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorUnmatchedQueryKey",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator_unmatched_query_key",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.uniqueRandomIteratorCompositeJoiner",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorCompositeJoiner",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_unique_random_iterator_composite_joiner",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingAnyOfIndexerTest.randomIteratorNeverEnds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingAnyOfIndexerTest.java",
+      "upstream_test": "randomIteratorNeverEnds",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "any_random_iterator_never_ends",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.isRemovable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "isRemovable",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_is_removable",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.removeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "removeTwice",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_remove_twice",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.forEach_containedInCombo",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "forEach_containedInCombo",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_for_each_contained_in_combo",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.uniqueRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "uniqueRandomIterator",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_unique_random_iterator",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.uniqueRandomIteratorUnmatchedQueryKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorUnmatchedQueryKey",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_unique_random_iterator_unmatched_query_key",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainingIndexerTest.randomIteratorNeverEnds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainingIndexerTest.java",
+      "upstream_test": "randomIteratorNeverEnds",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "containing_random_iterator_never_ends",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.isRemovable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "isRemovable",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_is_removable",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.removeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "removeTwice",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_remove_twice",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.forEach_containCombo",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "forEach_containCombo",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_for_each_contain_combo",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.uniqueRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "uniqueRandomIterator",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_unique_random_iterator",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.uniqueRandomIteratorDrainsEachMatchExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorDrainsEachMatchExactlyOnce",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_unique_random_iterator_drains_each_match_exactly_once",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.duplicateQueryKeyIsVisitedOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "duplicateQueryKeyIsVisitedOnce",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_duplicate_query_key_is_visited_once",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.uniqueRandomIteratorUnmatchedQueryKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorUnmatchedQueryKey",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_unique_random_iterator_unmatched_query_key",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.randomIteratorNeverEnds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "randomIteratorNeverEnds",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_random_iterator_never_ends",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ContainedInIndexerTest.uniqueRandomIteratorFirstDrawIsNotBiasedToFirstBucket",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ContainedInIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorFirstDrawIsNotBiasedToFirstBucket",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "local_test": "contained_unique_random_iterator_first_draw_is_not_biased_to_first_bucket",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
     }
   ],
   "fixtures": [
@@ -49123,6 +49498,19 @@
       "upstream_test": "AbstractIndexerTest",
       "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
       "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.membership_candidate_index_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "AbstractIndexerTest",
+      "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
+      "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
     }
   ]
 }

@@ -13793,3 +13793,36 @@ Live freshness matched verification digest: ee99455865e3ebd6d377dc9bcd1ce760f5e0
 Existing provenance prefixes unchanged; appended25cases and2fixtures.
 Log work/candidate-index-final-check.log; evidence work/candidate-index-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Deduplicated membership candidates
+
+Starting HEADcc23dc9 with membership module/cases already in progress. Previous
+status turn inspected timing only; resumed concrete implementation here. Added
+MembershipCandidateIndex with captured multi-key rows, inverted ID postings,
+upsert/remove/get/clear, empty-row retention, tuple-key composite partitions,
+and MembershipMatches borrowed iteration/unique/repeating sampling. Query eagerly
+deduplicates references in ID order; no payload Clone or Java lazy allocation claim.
+Independent public component requires explicit caller synchronization.
+
+Read all three membership IndexerTest classes and AbstractIndexerTest helper;
+appended25cases and1helper fixture. Retained all source assertions, native seed0/2
+order difference, ten-seed exhaustion and thirty-draw repeating coverage. Native
+root-derived seeds replace Java nextLong for twenty first-draw trials. Existing
+source-case provenance unchanged. No upstream production implementation read.
+
+Focused69089 TERMINAL101: test helper needed explicit index lifetime. Fixed;
+focused fixed command TERMINAL0 with25cases. Regression28741 TERMINAL101: function
+keyword typo in new test; fixed before final gate. Added four native regressions
+covering2000mutation scan reference, null versus empty memberships/non-Clone payload,
+input iterator panic preserving old row, and overlap-independent sample sequences.
+Final source formatted with cargo fmt; final selective gate follows.
+No benchmark/browser/release reruns. Goal remains active.
+
+Required gate45874 TERMINAL0. 4033 Rust tests and 191 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 501}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2406, 'failed': 0, 'pending': 2167, 'excluded': 282, 'unverified': 0, 'percent': 49.557}.
+Source before/after matched: a798f1f59ba441cc9da379865b36c20516adf3b3d15b1d2885c6495585c8b2cc
+Live freshness matched verification digest: cf1cdfd41e4b4a9400da935cf40db041cb9f5b29aea9bbf54de4f2cc512f9d70.
+Existing provenance prefixes unchanged; appended25cases and1fixture.
+Log work/membership-candidate-final-check.log; evidence work/membership-candidate-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
