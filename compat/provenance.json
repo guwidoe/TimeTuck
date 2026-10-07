@@ -36404,6 +36404,171 @@
       "local_path": "crates/solver/tests/kopt_lifecycle_cases.rs",
       "local_test": "test_double_bridge4_opt_long",
       "modifications": "Preserve each source removed/added edge pair, feasibility success, exact final list, pinned prefix and full before/after changed range. Native usize identities replace TestdataList values and native callbacks replace Mockito verification. Native list_k_opt_edge_move derives direction from the first removed endpoint through its first incident added edge and rotates to the first unpinned value; no expected-result data is passed into move construction. This explicit edge-order convention matches these cases without claiming general Java descriptor orientation/layout equivalence. ListLifecyclePlan MovableSuffix emits full source ranges and one native Flush. Earlier output-only fixture tests remain unchanged; these complete methods add actual notification observations. Java annotation/reflection setup is replaced by explicit model metadata; no production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.putRemoveSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "putRemoveSize",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "put_remove_size",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.boundaryComparisonHandlesExtremeCompareToWithoutOverflow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "boundaryComparisonHandlesExtremeCompareToWithoutOverflow",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "boundary_comparison_handles_extreme_compare_to_without_overflow",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorDrainsEachMatchExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorDrainsEachMatchExactlyOnce",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "unique_random_iterator_drains_each_match_exactly_once",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorIncludesBoundaryBucket",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorIncludesBoundaryBucket",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "unique_random_iterator_includes_boundary_bucket",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorSingleBucketMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorSingleBucketMap",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "unique_random_iterator_single_bucket_map",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorEmptyRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorEmptyRange",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "unique_random_iterator_empty_range",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.randomIteratorEmptyRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorEmptyRange",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "random_iterator_empty_range",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorFirstDrawIsNotBiasedToFirstBucket",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorFirstDrawIsNotBiasedToFirstBucket",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "unique_random_iterator_first_draw_is_not_biased_to_first_bucket",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.randomIteratorReverseOrderArrayMode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorReverseOrderArrayMode",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "random_iterator_reverse_order_array_mode",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.randomIteratorRightBridgeFlipReachesReverseWalk",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorRightBridgeFlipReachesReverseWalk",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "random_iterator_right_bridge_flip_reaches_reverse_walk",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComparisonIndexerTest.randomIteratorSingleBucketMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorSingleBucketMap",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "local_test": "random_iterator_single_bucket_map",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -49861,6 +50026,19 @@
       "upstream_test": "TestdataListValue",
       "local_path": "crates/solver/tests/kopt_lifecycle_cases.rs",
       "modifications": "Preserve each source removed/added edge pair, feasibility success, exact final list, pinned prefix and full before/after changed range. Native usize identities replace TestdataList values and native callbacks replace Mockito verification. Native list_k_opt_edge_move derives direction from the first removed endpoint through its first incident added edge and rotates to the first unpinned value; no expected-result data is passed into move construction. This explicit edge-order convention matches these cases without claiming general Java descriptor orientation/layout equivalence. ListLifecyclePlan MovableSuffix emits full source ranges and one native Flush. Earlier output-only fixture tests remain unchanged; these complete methods add actual notification observations. Java annotation/reflection setup is replaced by explicit model metadata; no production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.comparison_candidate_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "AbstractIndexerTest",
+      "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
+      "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
     }
   ]
 }

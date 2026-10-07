@@ -855,3 +855,6 @@ pub use collector_session::{CollectorHandle, CollectorSession, CollectorSessionE
 pub use list_lifecycle::ListNotificationScope;
 
 pub use list_k_opt::list_k_opt_edge_move;
+
+mod comparison_candidates;
+pub use comparison_candidates::{CandidateSide, comparison_candidates};

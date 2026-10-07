@@ -3567,3 +3567,20 @@ orientation and multi-entity partition choices remain unclaimed. Earlier output-
 fixtures are unchanged. Four native regressions cover multi-entity length-changing
 notifications, rollback, no-ops, default scope, stale/pinned errors, callback panic,
 and opposite edge-order orientations. No benchmark speedup is claimed.
+
+comparison_candidates adds relation-oriented borrowed CandidateIndex queries using
+JoinComparison and an explicit CandidateSide. Right-side storage reverses the
+relation automatically. Equality and inclusive/exclusive ranges use native bounds,
+without comparator negation, key arithmetic or payload copies. Occurrences remain
+distinct and use the existing unique/repeating sampling over composed buckets.
+
+Eleven remaining observable ComparisonIndexerTest methods now preserve removal,
+boundary, empty/singleton exhaustion, ten-seed drains, repeated draw membership and
+coverage, right-side flipping, and first-draw reachability. Native Ord replaces Java
+integer comparator results (the extreme-sign fixture maps MIN/MAX to Ordering).
+Native random traces differ; twenty first-draw seeds derive from root0. Tests that
+assert Java storage modes or factory eligibility remain pending. The source comment
+claiming key20 matches >25 is not its assertion; the actual strict predicate is
+preserved. Two native regressions check all five relations on both sides over i64
+extremes before/after rekeying, plus borrowed non-Clone payloads and explicit Option
+ordering. Existing graph join behavior is unchanged; no speedup is claimed.

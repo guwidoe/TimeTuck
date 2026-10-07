@@ -13922,3 +13922,33 @@ Live freshness matched verification digest: 5f551e1e64cdf946031d708b1f3b77f07d8f
 Existing provenance prefixes unchanged; appended8cases and3fixtures.
 Log work/kopt-lifecycle-final-check.log; evidence work/kopt-lifecycle-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Relation-oriented candidate queries
+
+Starting HEAD67b6355 clean. Previous goal turn committed edge-oriented k-opt and
+full-suffix notification support with broad verified gate37631: progress. Read full
+ComparisonIndexerTest; AbstractIndexerTest helper was read in preceding index batches.
+Added independent comparison_candidates module/function and CandidateSide enum,
+reusing existing JoinComparison reversal and CandidateIndex ordered bounds. Equal,
+LT/LTE/GT/GTE queries borrow buckets with no payload Clone and no key arithmetic.
+No existing implementation module changed; exports and two new test targets added.
+
+Eleven observable methods appended with one helper fixture. Preserve original
+30/100repeated draws, seeds0..9 drains/exhaustion and twenty native-root-derived
+first draws. ExtremeKey preserves original comparator signs via Ordering. Source
+reverse-array comment claims key20 matches >25, but its actual predicate/helper
+assertions exclude20; adaptation preserves actual behavior. Java internal storage
+and eligibility methods remain pending. Two original tests cover all five relations
+and both stored sides against direct scans at i64 extremes before/after rekeying,
+plus Option keys and borrowed non-Clone payloads. Focused37763 TERMINAL0:11+2cases.
+Final source formatted/frozen for selective gate. No benchmark/browser/release
+reruns. Goal remains active.
+
+Required gate17334 TERMINAL0. 4075 Rust tests and 194 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 509}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2436, 'failed': 0, 'pending': 2137, 'excluded': 282, 'unverified': 0, 'percent': 50.175}.
+Source before/after matched: d9f15c4058eafa2a5a5db86642a682f2b743a68561199f20e9ad94fa6a9d4d31
+Live freshness matched verification digest: 4945a4a3271752879aa6fa76d73f96a9e5568aee32c7cb2ae73f3a9c6e2ea67d.
+Existing provenance prefixes unchanged; appended11cases and1fixture.
+Log work/comparison-candidate-final-check.log; evidence work/comparison-candidate-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
