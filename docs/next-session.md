@@ -15145,3 +15145,54 @@ shared equality buckets and lazily initialized ordered sides; CandidateIndex alr
 has dense keyed buckets/random iteration. DiminishedReturns uses VecDeque histories;
 its source ring-buffer tests assert physical array states, so do not add a duplicate
 implementation merely to reproduce internal layouts. Next work remains open.
+
+## Uniform indexed pair spaces and native move providers
+
+Previous goal turn completedfe82db5 with verified progress. Started clean, read
+handoff/compatibility. Read test-only FilteredUniqueIterationTest,
+IndexerRandomIteratorMarkerTest, DefaultRepeatingRandomIteratorTest,
+DefaultUniqueRandomIteratorTest, PairFairnessBiasIT, DatasetBucketBiasIT,
+AbstractBiasIT, BucketedFixture, BiasReport and AbstractIndexerTest helper excerpts.
+No production reads. Existing RetiringPairs is intentionally uniform over left rows,
+so it can bias pairs toward small buckets; retained its documented semantics.
+
+Added CandidatePairs borrowed Cartesian blocks, checked u128 cardinalities and
+binary-search rank lookup. Repeating sampling uses uniform integer ranks; unique
+sampling reuses sparse UniqueIndices remapping. Empty products use no metadata;
+manual duplicate blocks deliberately repeat occurrences. CandidateIndex::join builds
+disjoint blocks for equality and four ordered relations. No materialized pair set
+or payload Clone. Metadata can be quadratic in key groups. PairMoveProvider provides
+bounded unique/repeating move proposals, deterministic per-step seeds, lazy mapping
+with current problem/assignment/step and rejected-proposal work bounds. Captured
+keys are immutable; caller rebuilds when assignment-dependent keys change.
+
+Added4source methods and14fixture/helper attributions. Preserved620000draw fairness
+counts, both skewed indexed shapes, cached-pair shape, five-sigma criteria, unique
+complete drain, and all40fully-filtered combinations. Original tests cover all five
+relations over180mutations, unequal two-sided products,20000unique permutations,
+non-Clone identity, huge virtual ZST products/overflow atomicity and both native
+scoring backends. Initial focused82440:4source+5native passed; solver test expected
+best-choice progress but used default first-accepted, yielding6instead of9in3steps.
+Corrected test configuration to explicit BestAccepted; implementation unchanged.
+Focused solver correction75886 TERMINAL0 on final test configuration. Finalgate42386
+runs frozen inputs. During verification read full test-only
+DefaultNeighborhoodProviderTest: required basic defaults change/swap; optional basic
+adds assign/unassign before swap; required list defaults change/swap/two-opt/tail-swap;
+optional list adds assign/unassign. No adaptations from this read. Existing native
+LocalSearchConfig defaults ChangeAndSwap and FirstAccepted; list docs describe
+change/swap/optional replacement rather than the entire upstream default family set.
+Potential next work: model-aware default neighborhoods with actual move generation,
+not merely metadata matching. No default behavior changed in this batch.
+
+Required gate42386 TERMINAL0. 4544 Rust tests and 221 doctests passed.
+Rust jobs: {'RUN': 12, 'REUSE': 560}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2747, 'failed': 0, 'pending': 1826, 'excluded': 282, 'unverified': 0, 'percent': 56.581}.
+Source before/after matched: 483d4710628f48e301082fde8d5bb22a29070e58cf4176a7e19cfe262a8bf3a6
+Live freshness matched verification digest: 48831e15a0292a1c5782ce87502306565b65160474f0b9b1a10d7143aad782b4.
+Existing provenance prefixes unchanged; appended4cases and14fixtures.
+Log work/candidate-pairs-final-check.log; evidence work/candidate-pairs-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Finalgate42386 and evidence32937 TERMINAL0. Source before/after and live dashboard
+verification digest match. All verification sessions terminal; upstream unchanged.
+No performance measurements refreshed. Final test configuration explicitly selects
+BestAccepted for the three-step solver regression; both scoring backends reach9.

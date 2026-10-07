@@ -41259,6 +41259,66 @@
       "upstream_line": 1551,
       "local_test": "list_iterator_partial_remove_across_compaction",
       "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "PairFairnessBiasIT.indexedJoin_bucketsAreUniformPerPair",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/PairFairnessBiasIT.java",
+      "upstream_test": "indexedJoin_bucketsAreUniformPerPair",
+      "local_test": "indexed_join_buckets_are_uniform_per_pair",
+      "modifications": "Preserve both indexed bucket shapes [2,20] and [10,20,40,80,160], 620000 draws per shape/cached case, all-pair reachability and five-binomial-sigma bound; unique drain preserves no duplicates and complete pair count, additionally exact membership. Native CandidateIndex equality joins, PairMoveProvider and materialized candidate pair cache replace Java move-stream/session/dataset objects. Numeric occurrence IDs replace entity/value codes and change-move identities. Native seed0 generator replaces Java Random; no identical traces or Java session lifecycle equivalence claimed. Separate native solver integration exercises the provider in both scoring backends. Filtering-only biased method is not adapted. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "PairFairnessBiasIT.cachedJoin_sameSkewedShapeStaysUniformOverAllMaterializedPairs",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/PairFairnessBiasIT.java",
+      "upstream_test": "cachedJoin_sameSkewedShapeStaysUniformOverAllMaterializedPairs",
+      "local_test": "cached_join_same_skewed_shape_stays_uniform_over_all_materialized_pairs",
+      "modifications": "Preserve both indexed bucket shapes [2,20] and [10,20,40,80,160], 620000 draws per shape/cached case, all-pair reachability and five-binomial-sigma bound; unique drain preserves no duplicates and complete pair count, additionally exact membership. Native CandidateIndex equality joins, PairMoveProvider and materialized candidate pair cache replace Java move-stream/session/dataset objects. Numeric occurrence IDs replace entity/value codes and change-move identities. Native seed0 generator replaces Java Random; no identical traces or Java session lifecycle equivalence claimed. Separate native solver integration exercises the provider in both scoring backends. Filtering-only biased method is not adapted. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "PairFairnessBiasIT.justInTimeJoin_uniqueDrainCoversEveryPairExactlyOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/PairFairnessBiasIT.java",
+      "upstream_test": "justInTimeJoin_uniqueDrainCoversEveryPairExactlyOnce",
+      "local_test": "just_in_time_join_unique_drain_covers_every_pair_exactly_once",
+      "modifications": "Preserve both indexed bucket shapes [2,20] and [10,20,40,80,160], 620000 draws per shape/cached case, all-pair reachability and five-binomial-sigma bound; unique drain preserves no duplicates and complete pair count, additionally exact membership. Native CandidateIndex equality joins, PairMoveProvider and materialized candidate pair cache replace Java move-stream/session/dataset objects. Numeric occurrence IDs replace entity/value codes and change-move identities. Native seed0 generator replaces Java Random; no identical traces or Java session lifecycle equivalence claimed. Separate native solver integration exercises the provider in both scoring backends. Filtering-only biased method is not adapted. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "FilteredUniqueIterationTest.throwsWhenUnknowinglyEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FilteredUniqueIterationTest.java",
+      "upstream_test": "throwsWhenUnknowinglyEmpty",
+      "local_test": "throws_when_unknowingly_empty",
+      "modifications": "Preserve seeds0..9, all element counts1..4 of A/B/C/D, rejection of every member, and immediate exhaustion. Native CandidateIndex unique traversal plus Iterator::filter replaces entry list/random/filter wrappers; None replaces NoSuchElementException and a repeated exhaustion assertion is added. Native PRNG traces differ."
     }
   ],
   "fixtures": [
@@ -56497,6 +56557,188 @@
       "id": "ElementAwareArrayListTest.randomSeeds.entry_list",
       "upstream_test": "randomSeeds",
       "modifications": "Preserve ten deterministic seed streams initialized from 0xCAFEBABE; native SplitMix64 replaces Java Random and therefore does not claim identical traces. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BucketedFixture.BucketedFixture.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BucketedFixture.java",
+      "upstream_test": "BucketedFixture",
+      "modifications": "One numeric left occurrence per bucket and distinct globally numbered right occurrences retain the exact bucket shapes; integer equality keys replace code-prefix parsing. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BucketedFixture.joiner.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BucketedFixture.java",
+      "upstream_test": "joiner",
+      "modifications": "Native equality join replaces entity-code/value-prefix equality. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BucketedFixture.movesFor.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BucketedFixture.java",
+      "upstream_test": "movesFor",
+      "modifications": "Expected numeric identity pairs replace native Java change-move identities. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "PairFairnessBiasIT.bucketSizeLists.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/PairFairnessBiasIT.java",
+      "upstream_test": "bucketSizeLists",
+      "modifications": "Both original shapes retained verbatim. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "AbstractBiasIT.PickPair.build.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/AbstractBiasIT.java",
+      "upstream_test": "PickPair.build",
+      "modifications": "PairMoveProvider maps matching occurrence IDs into a tuple identifying each change proposal; native solver integration is separately tested. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "AbstractBiasIT.SIGMA_LIMIT.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/AbstractBiasIT.java",
+      "upstream_test": "SIGMA_LIMIT",
+      "modifications": "Preserve five-sigma acceptance threshold. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BiasReport.tally.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "tally",
+      "modifications": "Preserve all620000draw counts in a native ordered frequency map. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BiasReport.expectWeights.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectWeights",
+      "modifications": "Preserve per-pair share1/totalPairCount. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BiasReport.expectUniform.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectUniform",
+      "modifications": "Preserve uniform share of the complete expected pair set. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BiasReport.assertWithinSigma.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "assertWithinSigma",
+      "modifications": "Preserve reachability and worst standardized deviation <=5; emit observed worst sigma even on success, strengthen rejection of unexpected categories. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "BiasReport.deviations.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "deviations",
+      "modifications": "Preserve mean=N*p and binomial standard deviation sqrt(N*p*(1-p)); these fixtures have positive deviation. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "FilteredUniqueIterationTest.randomSeeds.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FilteredUniqueIterationTest.java",
+      "upstream_test": "randomSeeds",
+      "modifications": "Preserve ten explicit seeds0..9, native PRNG rather than Java Random. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "FilteredUniqueIterationTest.beforeEach.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FilteredUniqueIterationTest.java",
+      "upstream_test": "beforeEach",
+      "modifications": "Construct fresh seeded native traversal for every seed/count combination. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/candidate_pair_cases.rs",
+      "id": "AbstractIndexerTest.toEntries.candidate_pairs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "toEntries",
+      "modifications": "Native candidate index insertion preserves occurrence identity and order for the finite A/B/C/D prefix fixture. Helper/fixture attribution only; no extra method credit."
     }
   ]
 }

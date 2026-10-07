@@ -205,6 +205,40 @@ impl<K: Ord + Clone, I: Ord + Clone, T> CandidateIndex<K, I, T> {
         }
         out
     }
+    /// All occurrence pairs satisfying `left_key comparison right_key`.
+    /// Uses borrowed Cartesian blocks for matching key groups, never a vector
+    /// of all pairs. Equal payloads with different IDs remain distinct. Equality
+    /// uses one lookup per left key; ordered relations enumerate matching key
+    /// groups. Metadata may reach left-key-count times right-key-count.
+    /// Queries borrow both indexes; build a fresh view after mutation.
+    pub fn join<'a, J: Ord + Clone, U>(
+        &'a self,
+        right: &'a CandidateIndex<K, J, U>,
+        comparison: crate::JoinComparison,
+    ) -> Result<crate::IndexedCandidatePairs<'a, I, T, J, U>, crate::PairCountOverflow> {
+        use crate::JoinComparison::*;
+        use std::ops::Bound::{Excluded, Included, Unbounded};
+        let mut pairs = crate::CandidatePairs::new();
+        for (key, left) in self.buckets.iter() {
+            if comparison == Equal {
+                if let Some(other) = right.buckets.get(key) {
+                    pairs.push_product(left, other)?;
+                }
+                continue;
+            }
+            let bounds = match comparison {
+                LessThan => (Excluded(key.clone()), Unbounded),
+                LessThanOrEqual => (Included(key.clone()), Unbounded),
+                GreaterThan => (Unbounded, Excluded(key.clone())),
+                GreaterThanOrEqual => (Unbounded, Included(key.clone())),
+                Equal => unreachable!(),
+            };
+            for (_, other) in right.buckets.range(bounds) {
+                pairs.push_product(left, other)?;
+            }
+        }
+        Ok(pairs)
+    }
     pub fn clear(&mut self) {
         self.positions.clear();
         self.buckets.clear();

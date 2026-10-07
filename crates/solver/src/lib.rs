@@ -983,3 +983,8 @@ pub use ordered_set_collector::OrderedSetCollector;
 
 mod entry_list;
 pub use entry_list::{EntryCursor, EntryList, EntryListError, ListEntry};
+
+mod candidate_pairs;
+pub use candidate_pairs::{
+    CandidatePairs, IndexedCandidatePairs, PairCountOverflow, PairMoveProvider, PairSampling,
+};

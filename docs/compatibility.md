@@ -3977,3 +3977,26 @@ Ten deterministic 10000-operation reference runs and a 20000-round growth guard
 use native random streams, not identical Java traces. Two methods involving signed
 negative indexes remain pending. These utility cases do not establish new solver
 quality or performance results.
+
+Indexed candidate pair views now borrow Cartesian products of matching key buckets
+without materializing all pairs. Equality and all four ordered relations use exact
+u128 pair counts; repeating draws and sparse unique permutations are uniform over
+pair occurrences, including unequal bucket sizes. Duplicate identities on opposite
+sides remain separate roles. Repeated blocks added manually intentionally add weight.
+Construction metadata scales with matching bucket pairs, which can be quadratic in
+key count; this is not a performance measurement. Overflow rejects an append without
+changing the view. Mutable indexes require dropping and rebuilding borrowed views.
+PairMoveProvider maps pairs into native moves with current assignment/step context
+and a cap on inspected pairs, including rejected proposals. Its captured keys remain
+immutable; assignment-dependent keys require rebuilding at the appropriate boundary.
+
+Three PairFairnessBiasIT methods preserve both skewed fixtures, 620000draws per
+indexed/cached case and the original five-sigma bound, plus complete unique-pair
+drain. Native pair views, move providers and a materialized pair cache replace Java
+stream/session/dataset wiring; no Java lifecycle equivalence is claimed. The
+filtering-only deliberately biased case remains pending. One FilteredUniqueIteration
+method additionally covers every rejecting-filter seed/count combination. Native
+PRNG traces differ. Original regressions exercise Cartesian blocks with multiple
+left rows, unique-draw position distributions, all ordered relations after mutations,
+u128-scale virtual products, bounded filtering and solving through both scoring
+backends. These checks make no runtime speed claim.
