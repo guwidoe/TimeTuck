@@ -899,3 +899,41 @@ families and basic-slot filters from MixedNeighborhood; basic/list-only models
 reject it explicitly. All families and pools share current state, acceptor, retained
 best and resource limits. Defaults preserve the previous seeded trace. These are
 native search controls and do not imply Java selection-distribution parity.
+
+
+## Bounded random gather neighborhoods
+
+`sampled_list_gather_moves` accepts `GatherSamplingConfig` with validated inclusive
+minimum/maximum member counts, an attempt budget, a seed and opt-in unassignment.
+It clips maximum size to movable registered identities; too few identities or zero
+attempts yield an empty fused iterator. Setup validates the snapshot, indexes eligible
+receivers and collects movable identities without cloning value payloads.
+
+Each attempt draws size uniformly, then an ordered group without replacement using
+a partial Fisher-Yates permutation, then an eligible pre-removal destination slot.
+The group intersects receiver ranges through ListDestinationIndex. Full/prefix pins
+exclude source values and receiving positions; pending unassigned values remain
+eligible. Optional unassignment contributes one destination and is rejected during
+setup for a required-list model. Required partial assignments may gain missing values.
+The gather builder adjusts removal indices and validates dependencies and final state.
+No-op, impossible-receiver and dependency-invalid proposals consume attempts without
+yielding. Duplicate successors remain; sampling is not uniform over final assignments.
+
+The iterator retains one index permutation and receiver metadata, never the full
+factorial gather catalog. Each proposal still has group/range work and validated
+move construction may clone a temporary assignment; no constant-time or measured
+performance claim is made. Exhaustion can miss feasible moves. Callers choose a
+bounded attempt count appropriate for cooperative cancellation.
+
+GatherSamplingProvider regenerates the snapshot at each search step using seed plus
+completed_steps with wrapping arithmetic. List and mixed scoped/stream scoring use
+the standard acceptance, evaluation limits and rollback paths. Mixed moves preserve
+basic variables. Empty sampled scans can end ordinary local search; compose providers
+when a fallback neighborhood is needed. Invalid model/config combinations panic at
+the infallible provider boundary; direct sampling offers fallible setup.
+
+Six original cases cover small reachable-state equivalence to an independent remove/
+insert oracle, required/optional lists, pins/ranges/dependencies, partial assignments,
+empty/no-op neighborhoods, seed replay, lazy value cloning, evaluation limits and
+nonadjacent gathering improvements on all four list/mixed scoring paths. These are
+native tests and earn no additional upstream method credit.

@@ -144,6 +144,10 @@ mod decimal;
 pub use decimal::Decimal;
 mod numeric_decimal;
 pub use numeric_decimal::NumericDecimal;
+mod gather_sampling;
+pub use gather_sampling::{
+    GatherSamplingConfig, GatherSamplingProvider, sampled_list_gather_moves,
+};
 mod decimal_math;
 pub use decimal_math::{DecimalArithmeticError, ParseDecimalError};
 mod decimal_score;

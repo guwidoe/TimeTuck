@@ -14186,3 +14186,37 @@ Live freshness matched verification digest: 36f9525b396c619394fea44f164bd7c55463
 Existing provenance prefixes unchanged; appended4cases and0fixtures.
 Log work/numeric-decimal-final-check.log; evidence work/numeric-decimal-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+
+## Bounded gather sampling and provider
+
+Previous goal turn08e2f83 was verified implementation progress; starting HEAD clean.
+Read current compatibility/handoff. Inspected full PendingListChangeTrackerTest,
+partial/truncated RandomSubListSwapMoveSelectorTest and first120lines of
+SwapMoveSelectorTest to locate gaps; no adaptations/fixtures or upstream production
+reads. Chose a native solver gap: existing gather enumerates factorial permutations.
+Added independent gather_sampling module with validated GatherSamplingConfig,
+sampled_list_gather_moves and GatherSamplingProvider. Bounded partial Fisher-Yates
+group draws use existing range-aware destination index and validated gather builder.
+Pins/ranges/dependencies, optional removal and required partial initialization work
+through existing models. Providers refresh per step for list/mixed and preserve
+basic assignments. Sampling distribution, rejection budget and early exhaustion
+limitations documented; no final-assignment uniformity or speed claim.
+
+Focused28349 terminal101 due test using allowing_unassigned as a constructor; fixed
+to native builder and corrected private config struct-update in test before rerun.
+Focused3827 TERMINAL0:4 original sampling regressions and2 integration tests passed.
+Independent remove/insert oracle agrees on complete small sampled successor sets;
+all four list/mixed scoped/stream engines find a nonadjacent group improvement.
+Selective input inspection confirms unrelated candidate/directed-two-opt jobs do
+not depend on new module. Final source formatted/frozen for required gate.
+No new provenance, benchmark/browser/release reruns. Goal remains active.
+
+Required gate69935 TERMINAL0. 4130 Rust tests and 202 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 524}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2454, 'failed': 0, 'pending': 2119, 'excluded': 282, 'unverified': 0, 'percent': 50.546}.
+Source before/after matched: fd4a55689f2381172f5220cb4699e289fe2c8e89491e48da102ada3ac768d62f
+Live freshness matched verification digest: 88ce629cebadcffb870a4d3ffa273023241999d0e9c71f1b96bd018f8316f538.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/gather-sampling-final-check.log; evidence work/gather-sampling-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
