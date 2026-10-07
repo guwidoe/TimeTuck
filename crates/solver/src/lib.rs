@@ -813,3 +813,10 @@ pub use mixed_construction_provider::MixedConstructionProvider;
 
 mod score_consistency;
 pub use score_consistency::{ConstraintScoreDifference, ScoreConsistencyReport, ScoreCorruption};
+
+mod constraint_assertion;
+pub use constraint_assertion::{
+    ConstraintAssertion, ConstraintAssertionError, ConstraintComparison, ConstraintExpectation,
+    JustificationMatch, TrackedConstraint, constraint_assertion, track_constraint,
+    track_decimal_constraint,
+};

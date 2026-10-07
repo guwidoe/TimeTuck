@@ -13442,3 +13442,39 @@ Live freshness matched verification digest: e4b93e440c0ba4127d4bb8e6b8f5121464ae
 Existing provenance prefixes unchanged; appended1case and6fixtures.
 Log work/descent-final-check.log; evidence work/descent-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Constraint assertion API
+
+Starting HEAD a0fd397. Added separate constraint_assertion module with tracked integer/
+decimal terminals and detached assertion snapshots. Retains raw factors through map
+nodes; cached weighted totals/matches supply snapshots without scoring callback reruns.
+Typed count/magnitude comparisons, numeric decimal equality, no-impact checks and
+occurrence-aware justification matching include structured/custom-context errors.
+Existing graph/search implementation unchanged. No out-of-line impl on shared types.
+
+Focused76013 TERMINAL0:24 adapted source methods (84 scalar chains plus relative,
+unique-pair and justification cases). Focused63643 TERMINAL0:4 original regressions
+for rollback/detachment, callbacks, fractional scales/duplicates/zeros, minimum i64
+magnitude, disabled pruning and foreign handles. Earlier draft94535 failed compile:
+removed unsupported Debug derive and borrowed count pattern to avoid partial move.
+No production upstream implementation read. Appended24cases11fixtures; existing
+provenance prefixes retained. Final gate follows on frozen source. No benchmarks,
+browser or release reruns. Goal remains active.
+
+Read remaining SingleConstraintAssertionTest specs while frozen gate runs:
+96..150 shadow cascade and missing referenced entities;721..877 three list-unassigned
+cases (including no inverse shadow);1168..end five nullable/explicit inconsistency
+cases. They remain pending. Source tests preserve supplied nullable invalid flags
+and times unless explicit shadow-setting is requested; ordinary assertions must not
+silently repair facts. Existing native ShadowSession/ListShadowSession offer explicit
+updates but no full verifier fixture-preparation facade. A future integration must
+keep supplied-vs-computed data semantics distinct. No production source was read.
+
+Required gate68474 TERMINAL0. 3868 Rust tests and 185 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 482}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2265, 'failed': 0, 'pending': 2308, 'excluded': 282, 'unverified': 0, 'percent': 46.653}.
+Source before/after matched: 74b23db53fc789c5b185772b050af14a22bd4390ec868e8019501bf3002b12dd
+Live freshness matched verification digest: 53357f60cfd71078a6974637d0359b2a87dcde6c7ffe41f9b4b9a5c553fd8af1.
+Existing provenance prefixes unchanged; appended24cases and11fixtures.
+Log work/constraint-assertion-final-check.log; evidence work/constraint-assertion-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

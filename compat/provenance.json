@@ -33644,6 +33644,366 @@
       "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
       "local_test": "variable_neighborhood_descent_still_works_without_neighborhoods",
       "modifications": "Preserve TestdataSolution.generateSolution(3values,2entities), DummyEasyScoreCalculator distinct-first-value penalty, score target0, non-null successful solution and PlannerTestUtils best-event assertion. Run scoped and stream full solves using the native variable_neighborhood_descent configuration, with Change then Swap, strict improvement, first accepted selection and restart after improvement. Replace JVM local-search/preview configuration with explicit native configuration; no Java preview flag or trace claim. Bound work at200steps/10000candidate evaluations and additionally assert target attainment, model validity and input preservation. Tagged ordinal identities replace object identity. Stream aggregate adapters keep stable variable positions during partial replay. The algorithm follows the pinned public local-search documentation; no production implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.penalizesAndDoesNotReward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "penalizesAndDoesNotReward",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::penalizes_and_does_not_reward",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.rewardsButDoesNotPenalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "rewardsButDoesNotPenalize",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::rewards_but_does_not_penalize",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.hasNoImpact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "hasNoImpact",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::has_no_impact",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.hasNoImpactWithMixedConstraint",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "hasNoImpactWithMixedConstraint",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::has_no_impact_with_mixed_constraint",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impacts",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impacts",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impactsMoreThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impactsMoreThan",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts_more_than",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impactsLessThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impactsLessThan",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts_less_than",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impactsBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impactsBy",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts_by",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impactsByMoreThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impactsByMoreThan",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts_by_more_than",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.impactsByLessThan",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "impactsByLessThan",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::impacts_by_less_than",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.penalizesByCountAndDoesNotReward",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "penalizesByCountAndDoesNotReward",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::penalizes_by_count_and_does_not_reward",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.penalizesByBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "penalizesByBigDecimal",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::penalizes_by_big_decimal",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.rewardsByCountButDoesNotPenalize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "rewardsByCountButDoesNotPenalize",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::rewards_by_count_but_does_not_penalize",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.rewardsByBigDecimal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "rewardsByBigDecimal",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "matrix::rewards_by_big_decimal",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.getImpactEnablesRelativeComparison",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "getImpactEnablesRelativeComparison",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "get_impact_enables_relative_comparison",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.getScoreEnablesRelativeComparisonForRewards",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "getScoreEnablesRelativeComparisonForRewards",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "get_score_enables_relative_comparison_for_rewards",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.getScoreComparesGivenSolutions",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "getScoreComparesGivenSolutions",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "get_score_compares_given_solutions",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.uniquePairShouldWorkOnStringPlanningId",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "uniquePairShouldWorkOnStringPlanningId",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "unique_pair_should_work_on_string_planning_id",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifies",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifies",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifiesWithCustomMessage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifiesWithCustomMessage",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies_with_custom_message",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifiesEmptyMatches",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifiesEmptyMatches",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies_empty_matches",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifiesExactly",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifiesExactly",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies_exactly",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifiesExactlyWithCustomMessage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifiesExactlyWithCustomMessage",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies_exactly_with_custom_message",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.justifiesExactlyEmptyMatches",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "justifiesExactlyEmptyMatches",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "local_test": "justifies_exactly_empty_matches",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
     }
   ],
   "fixtures": [
@@ -45853,6 +46213,149 @@
       "upstream_test": "TestdataSolution",
       "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
       "modifications": "Preserve TestdataSolution.generateSolution(3values,2entities), DummyEasyScoreCalculator distinct-first-value penalty, score target0, non-null successful solution and PlannerTestUtils best-event assertion. Run scoped and stream full solves using the native variable_neighborhood_descent configuration, with Change then Swap, strict improvement, first accepted selection and restart after improvement. Replace JVM local-search/preview configuration with explicit native configuration; no Java preview flag or trace claim. Bound work at200steps/10000candidate evaluations and additionally assert target attainment, model validity and input preservation. Tagged ordinal identities replace object identity. Stream aggregate adapters keep stable variable positions during partial replay. The algorithm follows the pinned public local-search documentation; no production implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SingleConstraintAssertionTest.assertion_matrix",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/SingleConstraintAssertionTest.java",
+      "upstream_test": "scalar constants and 84 assertion chains",
+      "local_path": "crates/solver/tests/support/constraint_assertion_matrix.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierConstraintProvider.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierConstraintProvider.java",
+      "upstream_test": "TestdataConstraintVerifierConstraintProvider",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierJustificationProvider.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierJustificationProvider.java",
+      "upstream_test": "TestdataConstraintVerifierJustificationProvider",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierSolution.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierSolution.java",
+      "upstream_test": "TestdataConstraintVerifierSolution",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierExtendedSolution.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierExtendedSolution.java",
+      "upstream_test": "TestdataConstraintVerifierExtendedSolution",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierFirstEntity.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierFirstEntity.java",
+      "upstream_test": "TestdataConstraintVerifierFirstEntity",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConstraintVerifierSecondEntity.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestdataConstraintVerifierSecondEntity.java",
+      "upstream_test": "TestdataConstraintVerifierSecondEntity",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestFirstJustification.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestFirstJustification.java",
+      "upstream_test": "TestFirstJustification",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSecondJustification.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintverifier/TestSecondJustification.java",
+      "upstream_test": "TestSecondJustification",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.constraint_assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/constraint_assertion_cases.rs",
+      "modifications": "Adapt original assertion chains, success/failure outcomes, custom contexts and message substrings to typed Rust expectations and Result errors. Preserve 84 scalar chains across 14 methods, relative score/impact comparisons, String planning-ID unique pairs, and all six justification method branches. Native tracked graph terminals retain raw signed factors and weighted scores separately. Tagged First/Second facts preserve Java entity class filtering; givenSolution explicitly flattens entity/value collections, preserving ordinary and extended generation formulas. Tagged justification variants and Java-record-style Debug strings preserve identity class distinctions and diagnostic checks. Native snapshots use graph constraint weight/pruning semantics; no full Java ConstraintVerifier, shadow-variable consistency, overload or reflection parity is claimed."
     }
   ]
 }

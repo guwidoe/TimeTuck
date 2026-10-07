@@ -3288,3 +3288,28 @@ successful solve and best-event assertion with both scoring backends. JVM previe
 configuration is not reproduced. Native regressions distinguish first-family
 priority from highest-score selection, zero-weight disabling, equal-score stopping,
 limits and return to single changes after a group move escapes a local trap.
+
+## Constraint assertions
+
+Opt-in `track_constraint` and `track_decimal_constraint` terminals retain signed
+unweighted factors alongside tuples. `constraint_assertion` creates a detached
+snapshot with separate penalty/reward counts, unweighted magnitudes, cached weighted
+score, and caller-defined justifications. Factor callbacks run on tuple propagation,
+not inspection. Numeric impact expectations ignore decimal scale. Cancelling impacts
+still fail `NoImpact`; zero-factor matches retain justifications but affect neither
+count. Contains/exact justification checks preserve occurrence multiplicity and allow
+arbitrary order. An empty expectation requires no justifications in either mode.
+
+Tracking adds a graph map node and uses ordinary graph weight overrides, pruning,
+arithmetic and rollback. Disabled constraints have no matches. Raw factor signs
+classify penalties/rewards even for negative weights. Foreign handles fail before
+justification callbacks. Multi-node registration errors require discarding the builder.
+This is a native assertion API, not Java ConstraintVerifier or shadow repair parity.
+
+24 SingleConstraintAssertionTest methods cover 84 scalar assertion chains, relative
+impact/score comparisons, String planning-ID unique pairs and six justification
+methods, preserving failure messages and custom contexts. Fixtures retain entity
+class filtering and givenSolution generation behavior. Original regressions cover
+rollback, detached snapshots, callback counts, exact decimals, zero/duplicate matches,
+minimum integer magnitude, disabled constraints and foreign handles. Shadow/list
+variable consistency cases remain pending; benchmarks are not refreshed by this batch.
