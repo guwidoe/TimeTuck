@@ -13623,3 +13623,30 @@ Live freshness matched verification digest: 9a6d850993c26ac15c52d1165971b954a993
 Existing provenance prefixes unchanged; appended10cases and12fixtures.
 Log work/assigned-stream-final-check.log; evidence work/assigned-stream-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Grouped existence and tuple flattening
+
+Starting HEAD9c393dd clean. Previous goal turn completed evidence and committed the
+assigned-value batch, so it made progress. Added stream_composition_cases.rs with
+seven complete source methods: Bi/Tri/Quad ifExistsAfterGroupBy, Bi/Tri flatten,
+Tri ifExists/ifNotExistsDoesNotIncludeUnassigned. Read complete selected source
+methods and used previously inspected lavish fixtures/helper. Quad unassigned
+methods are empty and remain pending. No upstream production read.
+Native two/three/four distinct-count collectors feed existence; flatten retains
+prefixes and duplicate occurrences. Exact match tuples, per-match and total scores
+checked across every original transition. Additional native grouped assertions:
+one of two witnesses removed, rollback of final removal, committed removal,
+left update without witnesses, witness reactivation. No production changes.
+Initial focused compile failed on mistyped exists_equal; corrected to the existing
+existence_equal API. Focused chunk69d70e TERMINAL0: all7tests passed. Appended7cases
+and8fixtures. Source frozen for one final selective gate. No benchmark/UI/release
+reruns. Goal remains active.
+
+Required gate87261 TERMINAL0. 3938 Rust tests and 187 doctests passed.
+Rust jobs: {'REUSE': 493, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2328, 'failed': 0, 'pending': 2245, 'excluded': 282, 'unverified': 0, 'percent': 47.951}.
+Source before/after matched: 0492d93411db6abff84aab6adc369e9978359848b17c6e40bcdc5d982ef05d0b
+Live freshness matched verification digest: 6a7e9f9d8f82eda75ba9a02ee9641ebee157276c1c1f73916bb37c338c784be3.
+Existing provenance prefixes unchanged; appended7cases and8fixtures.
+Log work/stream-composition-final-check.log; evidence work/stream-composition-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

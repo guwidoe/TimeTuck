@@ -34844,6 +34844,111 @@
       "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
       "local_test": "if_not_exists_does_not_include_unassigned",
       "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.ifExistsAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExistsAfterGroupBy",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "bi_if_exists_after_group_by",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "flatten",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "bi_flatten",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExistsAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExistsAfterGroupBy",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "tri_if_exists_after_group_by",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.flatten",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "flatten",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "tri_flatten",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExistsDoesNotIncludeUnassigned",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "tri_if_exists_does_not_include_unassigned",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifNotExistsDoesNotIncludeUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExistsDoesNotIncludeUnassigned",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "tri_if_not_exists_does_not_include_unassigned",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifExistsAfterGroupBy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExistsAfterGroupBy",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "local_test": "quad_if_exists_after_group_by",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
     }
   ],
   "fixtures": [
@@ -47924,6 +48029,110 @@
       "upstream_test": "AbstractConstraintStreamTest",
       "local_path": "crates/solver/tests/bi_existence_filter_cases.rs",
       "modifications": "Preserve all source initial/update/removal match identities, per-match -1 and total score expectations. Native list membership supplies owner/index and assigned filtering before join/existence callbacks; callbacks retain source non-null assertions. Native Composite assignment/replacement operations replace Java before/after list notifications, scoring the completed atomic assignment. Stable IDs and typed sources replace Java object/class identity; unique-pair order follows fixture code order. Basic source facts include a null planning value that is excluded from both pair generation and existence witnesses; its removal preserves the original match. Filtered existence cases retain indexed/unindexed predicates, code-dependent filters and group removals. No Java callback API/reflection parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TestdataLavishEntity",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntityGroup.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TestdataLavishEntityGroup",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishExtra.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishExtra.java",
+      "upstream_test": "TestdataLavishExtra",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValue.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TestdataLavishValue",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValueGroup.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TestdataLavishValueGroup",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "TestdataLavishSolution",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.stream_composition_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "AbstractConstraintStreamTest",
+      "local_path": "crates/solver/tests/stream_composition_cases.rs",
+      "modifications": "Preserve every source initial/update/removal match and per-match/total score assertion. Typed source IDs replace Java object identity and explicit tuple projections replace Java arity APIs. Native paired/triple/quad reversible distinct-count collectors retain every count field before existence filtering. Unique pairs follow fixture code order. Flatten retains tuple prefixes and duplicate occurrences. Unassigned facts are excluded from both tuple construction and witnesses. Additional native grouped tests cover witness multiplicity, rollback, updates without witnesses and reactivation; these add no source method credit. Empty Quad unassigned methods remain pending."
     }
   ]
 }

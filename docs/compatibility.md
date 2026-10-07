@@ -3398,3 +3398,13 @@ cross-products and reassigning a previously removed value. Null basic values are
 excluded from pair generation and existence witnesses; removing such a value leaves
 the original nonexistence match intact. The existing graph implementation passes
 these cases without further production changes.
+
+## Grouped existence and tuple flattening
+
+Seven additional Bi/Tri/Quad stream methods cover existence after two, three and
+four distinct-count collectors, tuple-prefix-preserving flattening with duplicate
+occurrences, and exclusion of unassigned facts from three-way existence witnesses.
+Every original match and score assertion is retained through value changes and
+removals. Additional native checks cover witness multiplicity, rollback, grouped
+changes while no witness exists, and reactivation. Existing engine behavior passes
+without production changes. Empty upstream Quad unassigned methods earn no credit.
