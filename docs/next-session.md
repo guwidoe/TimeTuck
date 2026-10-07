@@ -16091,3 +16091,27 @@ Existing SegmentedSliceMut already supports replacement/swaps/ranges/repartition
 source cursor cases have unusual index/set semantics and runtime unsupported-method
 checks, unlike native borrow-enforced restrictions. Avoid rebuilding these existing
 APIs. No next-feature draft applied or prepared. Goal remains active.
+
+Runtime diagnostics committed as c3bc4ca while full gate41780/warm-up41966 remain
+live (both polled, neither restarted). No source/provenance changed during them.
+Prepared a new isolated native draft while waiting: work/custom-inspection-draft/
+STATUS.txt and work/apply_custom_inspection.py. New custom-phase evaluate_inspected
+routes real dependency previews using existing inspection backends and ordinary
+budget/rollback handling. Draft library35342/focused8625 TERMINAL0 (4original tests,
+all6backends); no method/fixture credit. Draft is not applied. After this gate and
+its evidence commit, apply the guarded script, review, then run one integrated gate.
+
+Required gate41780 TERMINAL0. 4672 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 530, 'REUSE': 70}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2806, 'failed': 0, 'pending': 1767, 'excluded': 282, 'unverified': 0, 'percent': 57.796}.
+Source before/after matched: 306c665f230bdc3a50d96826171e64ee3c345b8d92076015517c24fc8efd75b3
+Live freshness matched verification digest: f0955fd496a8b7c20f41f28ccf40a59cb8acbfd42360361937fe8fff4f2c881d.
+Existing provenance prefixes unchanged; appended2cases and3fixtures.
+Log work/runtime-range-final-check.log; evidence work/runtime-range-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Warm-up41966 TERMINAL0, reported14m31s. Required gate41780 and evidence97536 also
+TERMINAL0. All completed source/report/live digests match. No benchmark/release/UI
+reruns. The prepared custom-inspection draft adds one public usage doctest after
+focused8625; implementation/test bodies unchanged. Native-only feature earns no
+additional source credit. Commit completed range evidence, then apply its guard.
