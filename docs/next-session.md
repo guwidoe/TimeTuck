@@ -13517,3 +13517,34 @@ Live freshness matched verification digest: 6a02961c4bed8f92e8de9490d4658004c83f
 Existing provenance prefixes unchanged; appended10cases and23fixtures.
 Log work/score-assertion-final-check.log; evidence work/score-assertion-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Incremental arity join/existence cases
+
+Starting HEAD1a6c301 clean. Previous goal turn made verified committed progress.
+Added arity_join_cases.rs (17source methods:10Bi/5Tri/2Quad) and
+arity_existence_cases.rs (16source methods:8Tri/8Quad). No production changes.
+Read all selected source methods and lavish fixture/helper definitions. Existing
+native graph passes unchanged-key predicate flips, nullable/composite equality,
+Cartesian/filtered joins, entity retractions and shared-source group removals.
+Matches and individual scores are asserted at every original transition.
+
+Source AssertableMatch compares justification facts without order; existence cases
+normalize tagged IDs while retaining multiplicity. Unique pair ordering is explicit
+native ID order. Two source Tri zero-join cases notify entity removal but remove it
+from the entity-group list; native adaptation delivers the explicit retract event.
+Read Bi64..135,267..687 (excluding unimplemented joiner ordering rejection),
+Tri60..315,366..502,546..686; Quad59..142,160..298,322..457. Disabled empty methods
+and reflection/configuration cases remain pending. No upstream production read.
+
+Focused62211 TERMINAL0:17join cases. Focused41582 TERMINAL0:16existence cases.
+Appended33cases15fixtures. Source and provenance frozen for one required final gate.
+No benchmark/browser/release reruns. Goal remains active.
+
+Required gate52546 TERMINAL0. 3915 Rust tests and 186 doctests passed.
+Rust jobs: {'REUSE': 487, 'RUN': 2}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2308, 'failed': 0, 'pending': 2265, 'excluded': 282, 'unverified': 0, 'percent': 47.539}.
+Source before/after matched: becd9496d38fbd517fe23a1cb5c99d3e9d60289f48b59fd63fdb0bf07d9a33e6
+Live freshness matched verification digest: 7429f5321673c973ffe991c576fa114cc81f6baefe7801a0d89cf25d65a0251a.
+Existing provenance prefixes unchanged; appended33cases and15fixtures.
+Log work/arity-stream-final-check.log; evidence work/arity-stream-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

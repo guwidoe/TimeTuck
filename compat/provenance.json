@@ -34154,6 +34154,501 @@
       "local_path": "crates/solver/tests/score_assertion_cases.rs",
       "local_test": "throws_exception_on_duplicate_constraint_id",
       "modifications": "Preserve complete combined-score and relative-score assertions, original failure contexts, list assigned/all-value counts, and duplicate-name error text. Native typed ScoreAssertion snapshots replace Java fluent verifier overloads. Recreate all four provider constraints, including mixed sign by code A and unique second-entity pairs joined on String value. Preserve ExtendedSolution.generateSolution(4,5) entity partition and value formulas. Distinct graph sources replace Java class filtering. Native ListProblem/ListStreamScoreDirector supplies membership/index from list assignment; assigned-only filtering and including-unassigned streams work with optional or required lists without an inverse field on value objects. The source inverse-shadow and no-inverse representations map to this one idiomatic native representation; no reflection/inverse-field fallback algorithm parity is claimed. Assert ordinary constraint totals via graph snapshots, excluding structural penalties added by the outer director as source verifier scores do. General ScoreAssertion::from_scores also supports complete director totals including structural state. No automatic shadow repair or JVM API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.filter_entity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "filter_entity",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::filter_entity",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.filter_consecutive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "filter_consecutive",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::filter_consecutive",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_0",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_0",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_0",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_1Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_1Equal",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_1_equal",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_1Filtering",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_1Filtering",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_1_filtering",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_2Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_2Equal",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_2_equal",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_mixedEqualsAndFiltering",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_mixedEqualsAndFiltering",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_mixed_equals_and_filtering",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_filtering_updateLeftUnchangedKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_filtering_updateLeftUnchangedKey",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_filtering_update_left_unchanged_key",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_filtering_updateRightUnchangedKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_filtering_updateRightUnchangedKey",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_filtering_update_right_unchanged_key",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractBiConstraintStreamTest.join_1Filtering_updateUnchangedKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_1Filtering_updateUnchangedKey",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "bi::join_1_filtering_update_unchanged_key",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.filter_entity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "filter_entity",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "tri::filter_entity",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.filter_consecutive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "filter_consecutive",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "tri::filter_consecutive",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.join_0",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "join_0",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "tri::join_0",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.join_1Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "join_1Equal",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "tri::join_1_equal",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.join_2Equal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "join_2Equal",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "tri::join_2_equal",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.filter_entity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "filter_entity",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "quad::filter_entity",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.filter_consecutive",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "filter_consecutive",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "local_test": "quad::filter_consecutive",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Joiner0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_exists_0_joiner_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_exists_0_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_exists_1_join_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_exists_1_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifNotExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Joiner0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_not_exists_0_joiner_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifNotExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_not_exists_0_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifNotExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_not_exists_1_join_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractTriConstraintStreamTest.ifNotExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "tri::if_not_exists_1_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Joiner0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_exists_0_joiner_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExists_0Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_exists_0_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_exists_1_join_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExists_1Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_exists_1_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifNotExists_0Joiner0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Joiner0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_not_exists_0_joiner_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifNotExists_0Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_0Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_not_exists_0_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifNotExists_1Join0Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join0Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_not_exists_1_join_0_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractQuadConstraintStreamTest.ifNotExists_1Join1Filter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_1Join1Filter",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "local_test": "quad::if_not_exists_1_join_1_filter",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
     }
   ],
   "fixtures": [
@@ -46805,6 +47300,201 @@
       "upstream_test": "TestdataDisallowsUnassignedListWithoutInverseShadowVarConstraintProvider",
       "local_path": "crates/solver/tests/score_assertion_cases.rs",
       "modifications": "Preserve complete combined-score and relative-score assertions, original failure contexts, list assigned/all-value counts, and duplicate-name error text. Native typed ScoreAssertion snapshots replace Java fluent verifier overloads. Recreate all four provider constraints, including mixed sign by code A and unique second-entity pairs joined on String value. Preserve ExtendedSolution.generateSolution(4,5) entity partition and value formulas. Distinct graph sources replace Java class filtering. Native ListProblem/ListStreamScoreDirector supplies membership/index from list assignment; assigned-only filtering and including-unassigned streams work with optional or required lists without an inverse field on value objects. The source inverse-shadow and no-inverse representations map to this one idiomatic native representation; no reflection/inverse-field fallback algorithm parity is claimed. Assert ordinary constraint totals via graph snapshots, excluding structural penalties added by the outer director as source verifier scores do. General ScoreAssertion::from_scores also supports complete director totals including structural state. No automatic shadow repair or JVM API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TestdataLavishEntity",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishExtra.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishExtra.java",
+      "upstream_test": "TestdataLavishExtra",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValue.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TestdataLavishValue",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntityGroup.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TestdataLavishEntityGroup",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValueGroup.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TestdataLavishValueGroup",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "TestdataLavishSolution",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "code and planning identity",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.arity_join_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore/assertMatch/AssertableMatch",
+      "local_path": "crates/solver/tests/arity_join_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntity.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TestdataLavishEntity",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValue.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TestdataLavishValue",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishEntityGroup.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TestdataLavishEntityGroup",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishValueGroup.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TestdataLavishValueGroup",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLavishSolution.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "TestdataLavishSolution",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "code and planning identity",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractConstraintStreamTest.arity_existence_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "assertScore/assertMatch/AssertableMatch",
+      "local_path": "crates/solver/tests/arity_existence_cases.rs",
+      "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
     }
   ]
 }

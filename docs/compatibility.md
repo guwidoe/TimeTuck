@@ -3338,3 +3338,22 @@ structural totals from a scoped director, callback-free detached graph snapshots
 disabled constraints, complete/truncated diagnostics, typed comparisons, duplicates,
 empty graphs and exact fractional scores. Automatic shadow preparation is
 still pending; no JVM verifier or reflection parity is claimed.
+
+## Incremental joins and existence across tuple arities
+
+33 additional stream methods cover entity/consecutive filters in Bi/Tri/Quad,
+Cartesian/equality/composite/filtering joins, unchanged-key predicate changes, and
+Tri/Quad existence and nonexistence with zero/one equality and filter conditions.
+Each adaptation retains every source match and score assertion before and after
+changes. Group removals can affect both base joins and existence witnesses in the
+same graph transaction. Unique-pair identity order and optional string keys remain
+explicit; null join keys retain their source equality behavior.
+
+Tests use the existing graph implementation. No engine fix was needed. Native
+retractions replace Java notifications, including the two Tri zero-join source cases
+whose explicit removal notification accompanies removal from a different collection.
+Existence match assertions preserve unordered source justification semantics and
+occurrence counts, using tagged identities to distinguish fact classes. Join tests
+additionally require ordered tuple payloads. Inapplicable Java reflection/selector
+configuration and disabled methods receive no new credit. No benchmark refresh or
+performance claim is attached to this test-only batch.
