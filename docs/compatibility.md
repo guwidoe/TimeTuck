@@ -4064,3 +4064,14 @@ list-relative coordinates. Destination model validation remains with normal appl
 list rebasing requires position-for-position corresponding starting assignments.
 Six builtin composite methods preserve execution and temporary undo assertions using
 the existing native MoveTester. Java reflective metadata is not reproduced.
+
+Native SolutionManager now refreshes owned solution snapshots without running a
+search. Everything, ShadowsOnly and ScoreOnly policies independently control
+materialized shadows and stored scores; errors and callback panics publish neither
+part of a requested update. Basic/list/mixed constructors use existing native
+constraint networks, including initialization penalties. List constructors refresh
+owner/index/previous/next fields in value-universe order and reject stale structural
+shadows on score-only updates. Custom adapters can use the existing typed shadow
+scheduler. They must explicitly define any additional declarative shadow validation.
+This capability adds no complete upstream method credits: Java factory/manager
+construction variants and full declarative diagnostic fixtures remain pending.

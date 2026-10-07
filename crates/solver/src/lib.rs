@@ -1003,3 +1003,10 @@ mod move_rebase;
 pub use move_rebase::{
     MoveRebaseError, MoveRebaseNamespace, rebase_basic_move, rebase_list_move, rebase_mixed_move,
 };
+
+mod solution_manager;
+pub use solution_manager::{
+    BasicSolutionManager, ListSolutionManager, ListSolutionShadows, ManagedSolution,
+    MixedSolutionManager, SolutionManager, SolutionRefreshError, SolutionUpdatePolicy,
+    basic_solution_manager, list_solution_manager, mixed_solution_manager,
+};

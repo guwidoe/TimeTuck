@@ -15537,3 +15537,53 @@ this batch. No benchmark/release/browser reruns or upstream changes. All gate,
 evidence, standalone and lint sessions are terminal. Ready to commit. Goal active.
 All move-rebase/composite draft files in work/ are now applied; do not reapply the
 old script or treat them as pending. No further implementation draft is queued.
+
+## Explicit solution refresh outside search
+
+Previous turn completedda181d6 with verified progress. Began clean and read handoff/
+compatibility. Inspected pending inventory, fully read TEST-ONLY GraphStructureTest,
+MixedMoveSelectorTest and SolutionManagerTest (first1–230, then230–438 before the
+combined output's later native-code truncation). No adaptations from those classes.
+Read pinned PUBLIC modeling-planning-problems.adoc2430–2478: shadow updates outside
+solver configuration/search. No upstream production reads.
+
+Implemented native ManagedSolution and SolutionManager with Everything/ShadowsOnly/
+ScoreOnly policies. Typed callbacks prepare shadows, validate the selected snapshot
+and score it; output publication follows all successful work. No Clone bounds on
+managed data; ordinary callback errors/panics leave assignments/shadows/scores intact.
+External callback state and interior mutation are explicitly outside the contract.
+Displaced values are dropped after both outputs are published. ShadowsOnly preserves
+the previous score deliberately; result returns the currently stored optional score.
+
+Concrete basic/list/mixed factories bind existing model validation and constraint
+networks, retaining required-variable structural penalties. List projections store
+all four built-in shadows in stable value-universe order; ScoreOnly rejects stale
+or missing projections. Custom cascading/declarative shadows require explicit
+adapters; an original test uses existing ShadowSession evaluation. These interfaces
+are new native capability, not complete Java SolutionManager compatibility. No
+source method credits or fixture adaptations; provenance unchanged.
+
+Focused27949 TERMINAL0: six original tests cover policy/callback order, non-Clone
+outputs, injected errors/panics at all stages, all three real scoring models,
+rotated partial lists, every stale shadow field, invalid model input, and the typed
+shadow scheduler. Added a seventh native regression after that pass: score-backend
+shape failure must not publish prepared list shadows, while ShadowsOnly avoids the
+calculator. It will run in the final gate. No further focused rerun. Final formatted
+inputs now frozen; no benchmark/browser/release runs or performance claims.
+
+Required gate17227 TERMINAL0. 4609 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 582}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2780, 'failed': 0, 'pending': 1793, 'excluded': 282, 'unverified': 0, 'percent': 57.261}.
+Source before/after matched: 192c5262b2c29f4109dc0dbabd0319b1366fc493d819ff0f49fb4bdf6cc9bae4
+Live freshness matched verification digest: dff61c16d53c3943b343440b2ce11ba0ec5566fa13c55cfa2768d701521a211a.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/solution-manager-final-check.log; evidence work/solution-manager-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Timing snapshot requested by user: latest solution refresh batch from preceding
+commit19:31:45 to final gate completion20:37:21 (local),65m36s elapsed.
+Focused run27s plus final gate4m49s =5m16s verification wall time (~8%).
+Recorded compilation/lint including merged doctest compilation178s; actual test
+execution5s. Remaining gate time includes cache/input/report overhead. Remaining
+~60m is implementation, reading, review and other uninstrumented time, not a
+pure coding measurement. Cached job timings excluded. Evidence44390 TERMINAL0.
