@@ -3178,3 +3178,29 @@ per-entity assignment assertions. Step destination sorting covers entity-range
 list configurations. Native tests additionally prove changing priorities affect
 actual solver choices, and cover retries, resets, stable ties and failed refresh.
 No Java configuration/reflection parity or new performance result is claimed.
+
+## Mixed component construction providers
+
+`MixedConstructionProvider` composes a basic provider and a list provider in either
+existing mixed construction order. Each candidate changes only its originating
+component while the complete mixed objective scores it. Sorted and step-sorted
+providers can therefore share a construction phase without duplicating scoring,
+validation, pin enforcement or rollback. This is sequential component scheduling;
+atomic candidates that change both components still use a custom mixed provider.
+
+The adapter owns its children and tracks separate completed-placement counters.
+Only actual completion notifications advance them; discarded atomic scans retry
+unchanged. Partial solves can resume with the same adapter even when the enclosing
+solve counter restarts. For an independent phase, `reset_with` requires an explicit
+child reset callback and then clears scheduling state. Fully assigned or exhausted
+components are skipped; optional rejection passes control to the remaining child
+when the rejecting child stops. Exhausted components are not reopened automatically
+if another component's changes would make an optional move more attractive.
+
+One candidate is prefetched to detect an empty child; remaining proposals are lazy.
+Direct users must deliver completion notifications, and the adapter binds to one
+problem. Native tests cover cross-component objectives on both solver backends,
+heterogeneous value types, state-dependent sort factories, resumable budgets,
+retries/reset, optional rejection, zero budget, lazy cursors, foreign-model rejection,
+pinned initial values, prefixes and receiver ranges. This increment adds native
+capability without claiming new upstream case coverage or performance results.

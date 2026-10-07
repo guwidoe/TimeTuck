@@ -13209,3 +13209,46 @@ valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProviding
 (-1 null, +1 assigned); list/valuerange/TestdataListEntityProvidingScoreCalculator
 (+2 owner size>=2, +1 otherwise). Their model fixtures still need attribution/read
 before adapting those cases. No credit added from these preparatory reads.
+
+## Mixed component construction providers (current increment)
+
+Previous goal turn6733904 was progress; starting tree clean. Added
+MixedConstructionProvider owning basic/list providers and using existing mixed
+construction scoring. BasicThenLists/ListsThenBasic, separate child counters driven
+by completion notifications, empty/fully-assigned skip, optional-rejection handoff,
+lazy one-item prefetch, pointer binding, reset_with explicit child resets.
+Resuming from returned assignment retains child counters although outer solve
+counter restarts. Direct callers must notify completed scans. Cross-component
+atomic moves remain custom providers; exhausted optional components aren't revisited.
+
+Compile14661 terminal0. First focused70487 terminal101: test passed a basic
+SolverSequence where MixedSolverSequence is required; corrected test configuration.
+Focused73433 terminal0: first3integration tests pass over both backends/orders,
+including heterogeneous types, actual joint objective, dynamic sorted factories,
+atomic retry, partial solve resume/reset and optional rejection policies. Added
+2more native tests for lazy/zero-budget/foreign-model behavior and pins/ranges.
+No upstream cases adapted; provenance unchanged. Final required gate next.
+No benchmark/browser/release reruns. Goal remains active.
+
+Format12494 terminal0. Gate66758 terminal101 while compiling the new lazy test:
+CountingBasic's moves signature omitted the trait's Move<i32>:'a bound. Corrected
+the test helper signature; production implementation unchanged. First gate log
+retained as work/mixed-provider-check-attempt1.log. Rerun final gate for failed
+compile/changed test input; no redundant standalone full-suite run.
+
+Prepared next source adaptations during gate: read complete optional-sort fixtures
+unassignedvar/sort/TestdataAllowsUnassignedSortable{Entity,Solution} and
+list/unassignedvar/sort/TestdataAllowsUnassignedListSortable{Entity,Solution}, plus
+unassignedvar/TestdataAllowsUnassigned{Entity,Solution}. Single-value penalty cases
+use generated rank0, null basic/empty list, HardSoft -1 hard per assigned basic or
+nonempty list owner, and step limit3. These six fixtures are read but not adapted
+or credited. Their Java descriptor imports were not followed into production.
+
+Required gate76892 TERMINAL0. 3815 Rust tests and 182 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 476}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2222, 'failed': 0, 'pending': 2351, 'excluded': 282, 'unverified': 0, 'percent': 45.767}.
+Source before/after matched: 2cd51970ce90c4c117fbac5072b08c8a5ec3334182a6e283574f332677fca80f
+Live freshness matched verification digest: fbb91ed0538ad294118288556b540a9620b472d703534e1bc59324ebce3afdbf.
+Provenance unchanged; native capability only, no additional source-case credit.
+Log work/mixed-provider-final-check.log; evidence work/mixed-provider-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
