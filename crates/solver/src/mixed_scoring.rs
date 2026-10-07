@@ -81,19 +81,21 @@ pub enum MixedScoringError {
         constraint: usize,
     },
     StructuralCountOverflow,
-    CorruptedConstraint {
-        constraint: usize,
-    },
+    ScoreCorruption(Box<crate::ScoreCorruption>),
     CorruptedTotal,
 }
 impl fmt::Display for MixedScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "mixed scoring error: {self:?}")
+        match self {
+            Self::ScoreCorruption(report) => report.fmt(f),
+            _ => write!(f, "mixed scoring error: {self:?}"),
+        }
     }
 }
 impl Error for MixedScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
@@ -532,10 +534,23 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             };
             result.evaluations += 1;
             result.constraint_evaluations += candidate.constraint_evaluations() as u128;
-            if assert_scores
-                && network.calculate(problem, candidate.assignment())? != candidate.score()
-            {
-                return Err(MixedScoringError::CorruptedTotal);
+            if assert_scores {
+                let mut cached = candidate.contributions.to_vec();
+                for (index, score) in &candidate.updates {
+                    cached[*index] = score.clone();
+                }
+                let report = consistency_report(
+                    problem,
+                    network,
+                    candidate.assignment(),
+                    &candidate.score(),
+                    &cached,
+                )?;
+                if !report.is_consistent() {
+                    return Err(MixedScoringError::ScoreCorruption(Box::new(
+                        report.diagnostic(),
+                    )));
+                }
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(
@@ -610,24 +625,31 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
     /// Recompute every contribution to detect even mutually cancelling corruption.
     /// Diagnostics do not change cached contributions or move evaluation counts.
     pub fn assert_consistent(&self) -> Result<(), MixedScoringError> {
-        for (i, cached) in self.contributions.iter().enumerate() {
-            let actual = self
-                .network
-                .contribution(i, self.problem, &self.assignment)?;
-            if actual != *cached {
-                return Err(MixedScoringError::CorruptedConstraint { constraint: i });
-            }
+        let report = self.consistency_report()?;
+        if report.is_consistent() {
+            Ok(())
+        } else {
+            Err(MixedScoringError::ScoreCorruption(Box::new(
+                report.diagnostic(),
+            )))
         }
-        let total = self
-            .network
-            .arithmetic
-            .sum(&self.contributions)
-            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
-        if with_structure(total, self.problem, &self.assignment)? != self.score {
-            return Err(MixedScoringError::CorruptedTotal);
-        }
-        Ok(())
     }
+    /// Recompute every constraint exactly once and retain all changed contributions
+    /// plus cached and fresh totals, including structural state. Does not mutate
+    /// assignment/caches or search counters. Callback side effects cannot be undone.
+    /// Arithmetic/model errors abort reporting and retain their ordinary error type.
+    pub fn consistency_report(
+        &self,
+    ) -> Result<crate::ScoreConsistencyReport<S>, MixedScoringError> {
+        consistency_report(
+            self.problem,
+            self.network,
+            &self.assignment,
+            &self.score,
+            &self.contributions,
+        )
+    }
+
     /// Reevaluate the union of constraints depending on touched basic variables,
     /// touched lists, and values in those lists before/after the move. This includes
     /// neighbors and no-op writes, and evaluates repeated dependencies once.
@@ -719,6 +741,31 @@ impl<B, L, S: Clone> ScoredMixedMove<'_, B, L, S> {
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
     }
+}
+
+fn consistency_report<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    assignment: &MixedAssignment<B, L>,
+    working: &S,
+    cached: &[S],
+) -> Result<crate::ScoreConsistencyReport<S>, MixedScoringError> {
+    crate::score_consistency::compare(
+        working,
+        network
+            .constraints
+            .iter()
+            .zip(cached)
+            .map(|(c, score)| (c.name.as_str(), score)),
+        |i| network.contribution(i, problem, assignment),
+        |fresh| {
+            let sum = network
+                .arithmetic
+                .sum(fresh)
+                .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
+            with_structure(sum, problem, assignment)
+        },
+    )
 }
 
 #[cfg(test)]

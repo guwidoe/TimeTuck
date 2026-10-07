@@ -76,19 +76,21 @@ pub enum ListScoringError {
     StructuralContribution {
         constraint: usize,
     },
-    CorruptedConstraint {
-        constraint: usize,
-    },
+    ScoreCorruption(Box<crate::ScoreCorruption>),
     CorruptedTotal,
 }
 impl fmt::Display for ListScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "list scoring error: {self:?}")
+        match self {
+            Self::ScoreCorruption(report) => report.fmt(f),
+            _ => write!(f, "list scoring error: {self:?}"),
+        }
     }
 }
 impl Error for ListScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
@@ -493,10 +495,23 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             };
             result.evaluations += 1;
             result.constraint_evaluations += candidate.constraint_evaluations() as u128;
-            if assert_scores
-                && network.calculate(problem, candidate.assignment())? != candidate.score()
-            {
-                return Err(ListScoringError::CorruptedTotal);
+            if assert_scores {
+                let mut cached = candidate.contributions.to_vec();
+                for (index, score) in &candidate.updates {
+                    cached[*index] = score.clone();
+                }
+                let report = consistency_report(
+                    problem,
+                    network,
+                    candidate.assignment(),
+                    &candidate.score(),
+                    &cached,
+                )?;
+                if !report.is_consistent() {
+                    return Err(ListScoringError::ScoreCorruption(Box::new(
+                        report.diagnostic(),
+                    )));
+                }
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(
@@ -571,24 +586,29 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
     /// Check individual contributions, detecting cancelling errors as well as
     /// total corruption. Diagnostic callback evaluations are not move statistics.
     pub fn assert_consistent(&self) -> Result<(), ListScoringError> {
-        for (i, cached) in self.contributions.iter().enumerate() {
-            let actual = self
-                .network
-                .contribution(i, self.problem, &self.assignment)?;
-            if actual != *cached {
-                return Err(ListScoringError::CorruptedConstraint { constraint: i });
-            }
+        let report = self.consistency_report()?;
+        if report.is_consistent() {
+            Ok(())
+        } else {
+            Err(ListScoringError::ScoreCorruption(Box::new(
+                report.diagnostic(),
+            )))
         }
-        let total = self
-            .network
-            .arithmetic
-            .sum(&self.contributions)
-            .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
-        if with_structure(total, self.problem, &self.assignment) != self.score {
-            return Err(ListScoringError::CorruptedTotal);
-        }
-        Ok(())
     }
+    /// Recompute every constraint exactly once and retain all changed contributions
+    /// plus cached and fresh totals, including structural state. Does not mutate
+    /// assignment/caches or search counters. Callback side effects cannot be undone.
+    /// Arithmetic/model errors abort reporting and retain their ordinary error type.
+    pub fn consistency_report(&self) -> Result<crate::ScoreConsistencyReport<S>, ListScoringError> {
+        consistency_report(
+            self.problem,
+            self.network,
+            &self.assignment,
+            &self.score,
+            &self.contributions,
+        )
+    }
+
     /// Reevaluate each dependent constraint once. Entity scopes depend on touched
     /// lists; value scopes depend on any value present in those lists before or
     /// after the composite, including neighbors whose index/adjacency changed.
@@ -674,6 +694,31 @@ impl<V, S: Clone> ScoredListMove<'_, V, S> {
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
     }
+}
+
+fn consistency_report<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    assignment: &ListAssignment<V>,
+    working: &S,
+    cached: &[S],
+) -> Result<crate::ScoreConsistencyReport<S>, ListScoringError> {
+    crate::score_consistency::compare(
+        working,
+        network
+            .constraints
+            .iter()
+            .zip(cached)
+            .map(|(c, score)| (c.name.as_str(), score)),
+        |i| network.contribution(i, problem, assignment),
+        |fresh| {
+            let sum = network
+                .arithmetic
+                .sum(fresh)
+                .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
+            Ok(with_structure(sum, problem, assignment))
+        },
+    )
 }
 
 #[cfg(test)]

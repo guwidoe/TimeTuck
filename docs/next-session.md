@@ -13305,3 +13305,78 @@ Live freshness matched verification digest: d478d2640efc529a6f91ac933cbea1e35dcf
 Existing provenance prefixes unchanged; appended9cases and26fixtures.
 Log work/construction-phase-final-check.log; evidence work/construction-phase-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Scoped score consistency diagnostics (current increment)
+
+Previous goal turn41818da was progress; starting tree clean. Added typed
+ScoreConsistencyReport/ConstraintScoreDifference and boxed ScoreCorruption error
+evidence. Basic/list/mixed directors recompute all scoped contributions exactly once,
+retain all differences and structural totals. assert_consistent uses the report.
+Candidate selection assertions overlay sparse updates on the cached contribution
+vector then compare every constraint; previously only totals were checked, missing
+cancelling scope errors. Normal unchecked candidate scoring has no new work.
+Report/error formatting bounded5rows; structured data complete; equality typed.
+Legacy CorruptedConstraint variant replaced by ScoreCorruption, updated4 native
+regressions. Stream graph error format/match checking remains unchanged.
+
+Compile73199 terminal0. First focused3340 terminal101: candidate select_best is
+crate-private; moved candidate regression to internal unit tests. Combined92585
+finished0 but its first lib command failed (used bool instead of early-pick closure);
+its 3 integration report tests passed. Corrected policy closure; focused59355
+terminal0 for all-three-model cancelling-scope candidate detection/rollback test.
+Source10487 terminal0: three corrupted easy-score cases pass. Format42750 terminal0.
+No production upstream implementation read. Source methods386..455 and nested
+calculator2559..2567 read previously; actual Random corruption replaced with
+counter%1000 for deterministic tests. Full-assert diagnostic wording adapted to
+native actual named constraint evidence; PHASE_ASSERT case remains pending.
+Appended3cases6fixtures; prefixes unchanged. Frozen source ready for final gate.
+No benchmark/browser/release reruns. Goal remains active.
+
+Gate54929 terminal101 at clippy: needless_question_mark on mixed report helper's
+Ok(with_structure(...)?) return. Replaced with direct Result return. No behavior
+change; retain failed log as work/score-consistency-check-attempt1.log. Required
+gate rerun follows failed lint/changed source. Focused behavior results still valid.
+
+Prepared stream diagnostic follow-up while gate runs: existing StreamGraph
+assert_consistent uses a rollback transaction, checkpoints all nodes, clears/replays
+source rows, compares total plus Node::scores_match (terminal match identities/
+scores and dataset payloads), and restores on error/panic. GraphTransaction asserts
+poison its caller on failure while preserving score_evaluations. Read complete
+native regressions stream_search.rs fresh_graph_assertions_detect_cancelling_match_changes_and_restore_on_failure
+and stream_dataset_regression.rs diagnostic_rebuild_compares_dataset_payloads_even_without_scores.
+Graph errors currently discard changed-node identities and cached/rebuilt totals.
+A future typed stream report must retain dataset-only mismatches and cancelling
+per-match changes even when constraint totals equal; an aggregate-score-only report
+would lose existing guarantees. Node IDs and named constraints can be reported
+without adding Debug bounds to generic tuple identities. No stream changes yet.
+
+Prepared next batch without changing frozen gate inputs: work/solver_neighborhood_cases.rs
+contains six pending DefaultSolverTest adaptations (solveWithNeighborhoods,
+solveWithDefaultNeighborhoodProvider, solveWithNeighborhoodsAndMoveSelectors,
+solveWithDefaultNeighborhoodProviderMultiVar/MultiEntity/ListVar). Both backends,
+full source objectives/fixtures, seed20261007, 200steps/10000moves, target0, events,
+validity and input preservation. work/add_solver_neighborhood_provenance.py is
+prepared but NOT run (6cases18fixtures). Install only after current gate/evidence
+and commit so reporting inputs remain stable. Draft compiled directly against
+current already-built rlib; session71667 terminal101 exposed partial stream replay
+rows causing indexed-objective panic. Fix materializes a full None-filled variable
+vector by stable index; session44009 terminal0 all6methods/12backend solves.
+These are development checks only, not yet dashboard coverage. No source fixture
+credit before provenance/install and final gate. Read source DefaultSolverTest
+184..386,2578..2685 and full multivar/multientity fixtures. Basic TestdataSolution
+generateSolution takes value count FIRST; use3values/2entities. Source easy objectives
+penalize distinct forbidden identities, not multiplicity. Native bounded seeded
+hill climbing crosses plateau in multi-entity fixture. Java preview enable/rejection
+and variable-neighborhood-descent cases remain pending. PlannerTestUtils.solve
+asserts nonempty Best events; all adapted helpers retain this assertion.
+
+Gate37746 terminal101 only at the new score_consistency doctest: default i32 inference conflicts with i64 SimpleScore multiplication. All3831 Rust tests passed;182of183doctests passed. Make both example inputs explicitly i64; production implementation unchanged. Retain attempt2 log. Rerun required gate using matching successful Rust jobs; do not repeat broad successful tests manually.
+
+Required gate26023 TERMINAL0. 3831 Rust tests and 183 doctests passed.
+Rust jobs: {'RUN': 1, 'REUSE': 480}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2234, 'failed': 0, 'pending': 2339, 'excluded': 282, 'unverified': 0, 'percent': 46.014}.
+Source before/after matched: d25d0e80c99c74e01f2c0b7f57bbde2d9a0562061e5d80e310d0506e34a06588
+Live freshness matched verification digest: 227158ed5f9d14fbe914e5ba0137f6f338f203e37f31413a6f74974309ba57a7.
+Existing provenance prefixes unchanged; appended3cases and6fixtures.
+Log work/score-consistency-final-check.log; evidence work/score-consistency-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

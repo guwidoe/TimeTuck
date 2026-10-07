@@ -322,8 +322,8 @@ fn fresh_check_recalculates_and_reports_corruption_after_restoring() {
     assert!(matches!(
         result,
         Err(TemporaryMoveError::RestoredScore(
-            ScoringError::CorruptedConstraint { constraint: 0 }
-        ))
+            ScoringError::ScoreCorruption(report)
+        )) if report.constraints[0].constraint == 0
     ));
     assert_eq!(d.assignment(), &p.initial_assignment());
     assert_eq!(d.score(), SimpleScore::new(1));

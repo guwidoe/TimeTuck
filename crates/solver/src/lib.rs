@@ -806,3 +806,6 @@ pub use sorted_construction::{
 
 mod mixed_construction_provider;
 pub use mixed_construction_provider::MixedConstructionProvider;
+
+mod score_consistency;
+pub use score_consistency::{ConstraintScoreDifference, ScoreConsistencyReport, ScoreCorruption};

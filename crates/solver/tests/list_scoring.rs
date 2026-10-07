@@ -380,9 +380,16 @@ fn diagnostics_detect_cancelling_contribution_corruption() {
     let d = ListScoreDirector::new(&p, &net, p.initial_assignment()).unwrap();
     offset.set(10);
     assert_eq!(net.calculate(&p, d.assignment()).unwrap(), d.score());
+    let Err(ListScoringError::ScoreCorruption(report)) = d.assert_consistent() else {
+        panic!("expected corruption diagnostic")
+    };
     assert_eq!(
-        d.assert_consistent(),
-        Err(ListScoringError::CorruptedConstraint { constraint: 0 })
+        report
+            .constraints
+            .iter()
+            .map(|c| c.constraint)
+            .collect::<Vec<_>>(),
+        vec![0, 1]
     );
     offset.set(0);
     d.assert_consistent().unwrap();

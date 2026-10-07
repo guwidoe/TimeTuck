@@ -3224,3 +3224,31 @@ The required-null pin exception method remains pending: native models deliberate
 permit a pinned required null and return an incomplete partial construction result,
 with no complete solution available. Existing native tests specify that behavior.
 This batch does not relabel it as a passing exception test or alter partial solves.
+
+## Scoped score consistency diagnostics
+
+Basic, list and mixed ScoreDirectors expose `consistency_report`, returning typed
+cached/recomputed totals and every differing named constraint contribution. Each
+constraint is evaluated exactly once in that report; cancelling differences remain
+visible. Totals retain structural state and the network's arithmetic policy.
+Arithmetic or callback errors abort reporting without repairing caches. Callback
+side effects are not rolled back. Equality compares actual score values, including
+custom scores whose Debug text is indistinguishable.
+
+`assert_consistent` now returns a boxed ScoreCorruption diagnostic through each
+scoped scoring error type. Display includes working/recomputed scores and up to
+five changed constraints; structured fields retain all differences. Candidate
+checks also compare all individual contributions against the candidate's effective
+cache, closing a total-only check that missed cancelling scope errors. Failing
+candidate checks roll back assignment/cache transactions. Diagnostic evaluations
+remain outside reported search work counts and run only when requested/enabled.
+This change covers scoped networks; stream graph match/dataset diagnostics retain
+their existing behavior. No performance claim or JVM environment-mode API is added.
+
+Three DefaultSolverTest corrupted-easy-score cases cover initialized/uninitialized
+assertion failures and unchecked successful execution. A deterministic changing
+score replaces random corruption. Native labels and actual named-constraint evidence
+replace Java labels and its analysis-unavailable fallback. Existing cancellation
+corruption regressions now inspect complete structured differences. Original tests
+cover report completeness, formatting truncation, structural totals, exact callback
+counts, overflow recovery, typed equality, and candidate rollback in all three models.

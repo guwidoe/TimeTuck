@@ -41,9 +41,7 @@ pub enum ScoringError {
     StructuralContribution {
         constraint: usize,
     },
-    CorruptedConstraint {
-        constraint: usize,
-    },
+    ScoreCorruption(Box<crate::ScoreCorruption>),
     CorruptedTotal,
 }
 impl fmt::Display for ScoringError {
@@ -73,10 +71,7 @@ impl fmt::Display for ScoringError {
                 f,
                 "constraint {constraint} returned a nonzero structural component"
             ),
-            Self::CorruptedConstraint { constraint } => write!(
-                f,
-                "constraint {constraint} differs from its cached contribution"
-            ),
+            Self::ScoreCorruption(report) => report.fmt(f),
             Self::CorruptedTotal => {
                 f.write_str("cached total differs from full score recomputation")
             }
@@ -86,6 +81,7 @@ impl fmt::Display for ScoringError {
 impl Error for ScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
@@ -508,10 +504,21 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             let candidate = self.apply(&movement)?;
             result.evaluations += 1;
             result.constraint_evaluations += candidate.constraint_evaluations() as u128;
-            if assert_scores
-                && network.calculate(problem, candidate.assignment())? != candidate.score()
-            {
-                return Err(ScoringError::CorruptedTotal);
+            if assert_scores {
+                let mut cached = candidate.contributions.to_vec();
+                for (index, score) in &candidate.updates {
+                    cached[*index] = score.clone();
+                }
+                let report = consistency_report(
+                    problem,
+                    network,
+                    candidate.assignment(),
+                    &candidate.score(),
+                    &cached,
+                )?;
+                if !report.is_consistent() {
+                    return Err(ScoringError::ScoreCorruption(Box::new(report.diagnostic())));
+                }
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(
@@ -557,22 +564,27 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     /// Compare every cached contribution and the total against fresh calculation.
     /// This is diagnostic work and is not included in search evaluation budgets.
     pub fn assert_consistent(&self) -> Result<(), ScoringError> {
-        for (i, cached) in self.contributions.iter().enumerate() {
-            let actual = self.network.contribution(i, &self.assignment)?;
-            if *cached != actual {
-                return Err(ScoringError::CorruptedConstraint { constraint: i });
-            }
+        let report = self.consistency_report()?;
+        if report.is_consistent() {
+            Ok(())
+        } else {
+            Err(ScoringError::ScoreCorruption(Box::new(report.diagnostic())))
         }
-        let sum = self
-            .network
-            .arithmetic
-            .sum(&self.contributions)
-            .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
-        if self.score != with_structure(sum, self.problem, &self.assignment) {
-            return Err(ScoringError::CorruptedTotal);
-        }
-        Ok(())
     }
+    /// Recompute every constraint exactly once and retain all changed contributions
+    /// plus cached and fresh totals, including structural state. Does not mutate
+    /// assignment/caches or search counters. Callback side effects cannot be undone.
+    /// Arithmetic/model errors abort reporting and retain their ordinary error type.
+    pub fn consistency_report(&self) -> Result<crate::ScoreConsistencyReport<S>, ScoringError> {
+        consistency_report(
+            self.problem,
+            self.network,
+            &self.assignment,
+            &self.score,
+            &self.contributions,
+        )
+    }
+
     /// Compute a candidate transaction. Errors and ordinary panic unwinding
     /// restore values; caches remain unchanged until `ScoredMove::commit`.
     pub fn apply(&mut self, movement: &Move<V>) -> Result<ScoredMove<'_, V, S>, ScoringError> {
@@ -643,6 +655,31 @@ impl<V, S: Clone> ScoredMove<'_, V, S> {
         *self.cached_score = self.candidate_score;
         self.transaction.commit();
     }
+}
+
+fn consistency_report<V: Eq, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    assignment: &Assignment<V>,
+    working: &S,
+    cached: &[S],
+) -> Result<crate::ScoreConsistencyReport<S>, ScoringError> {
+    crate::score_consistency::compare(
+        working,
+        network
+            .constraints
+            .iter()
+            .zip(cached)
+            .map(|(c, score)| (c.name.as_str(), score)),
+        |i| network.contribution(i, assignment),
+        |fresh| {
+            let sum = network
+                .arithmetic
+                .sum(fresh)
+                .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
+            Ok(with_structure(sum, problem, assignment))
+        },
+    )
 }
 
 #[cfg(test)]

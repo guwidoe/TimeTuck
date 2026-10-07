@@ -533,9 +533,16 @@ fn diagnostics_detect_cancelling_corruption_and_bendable_wrapping_is_consistent(
         network.calculate(&problem, director.assignment()).unwrap(),
         director.score()
     );
+    let Err(MixedScoringError::ScoreCorruption(report)) = director.assert_consistent() else {
+        panic!("expected corruption diagnostic")
+    };
     assert_eq!(
-        director.assert_consistent(),
-        Err(MixedScoringError::CorruptedConstraint { constraint: 0 })
+        report
+            .constraints
+            .iter()
+            .map(|c| c.constraint)
+            .collect::<Vec<_>>(),
+        vec![0, 1]
     );
     changed.set(0);
     director.assert_consistent().unwrap();

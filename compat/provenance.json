@@ -33494,6 +33494,51 @@
       "local_path": "crates/solver/tests/construction_phase_cases.rs",
       "local_test": "penalize_list_variable",
       "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCorruptedEasyUninitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedEasyUninitialized",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "local_test": "solve_corrupted_easy_uninitialized",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCorruptedEasyInitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedEasyInitialized",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "local_test": "solve_corrupted_easy_initialized",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCorruptedEasyUnasserted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedEasyUnasserted",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "local_test": "solve_corrupted_easy_unasserted",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
     }
   ],
   "fixtures": [
@@ -45313,6 +45358,84 @@
       "upstream_test": "ListPenalizeAssignedConstraintProvider",
       "local_path": "crates/solver/tests/construction_phase_cases.rs",
       "modifications": "Retain -1 hard per nonnull basic assignment or per nonempty list owner respectively, and HardSoft score type. Native scoring callbacks replace provider class wiring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CorruptedEasyScoreCalculator.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "CorruptedEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig; solve",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.score_corruption",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
+      "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
     }
   ]
 }

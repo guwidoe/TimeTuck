@@ -242,7 +242,7 @@ fn cache_diagnostic_detects_illegal_fact_mutation_even_when_totals_cancel() {
     );
     assert!(matches!(
         director.assert_consistent(),
-        Err(ScoringError::CorruptedConstraint { constraint: 0 })
+        Err(ScoringError::ScoreCorruption(report)) if report.constraints.len() == 2 && report.constraints[0].constraint == 0
     ));
 }
 
