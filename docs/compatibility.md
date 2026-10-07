@@ -3603,3 +3603,19 @@ publishes exactly score0/initialized/construction-phase0; no-op uninitialized so
 publishes no improvement; interrupted construction retains a scored partial result
 and nonempty delivery. Four native regressions cover coalescing, origin changes,
 flush idempotence, ignored baselines, completeness and clone-failure preservation.
+
+AssignmentSnapshot and reconcile_problem provide basic-variable warm starts across
+changed domains and entity membership/order, using explicit stable variable IDs.
+New pins take precedence; valid previous assignments survive by identity, using the
+new domain's object for equal values. Missing entities/removed values use the new
+initial state; old null assignments remain null. Snapshots and inputs stay owned
+and unchanged. Duplicate IDs and wrong lengths fail explicitly. The new model keeps
+optionality and pillar metadata; scoring is rebuilt, never copied from a prior score.
+
+DefaultSolverTest.solveWithProblemChange now has an adaptation on both scoring
+backends: four initialized entities/facts, zero score, bounded local search, daemon,
+immediate queued fifth-fact addition, successful changed-solution consumption and
+termination. Native receipt completion substitutes for the processed-change event
+flag. This claims observed changed-result delivery, not Java director identity or
+callback timing. Original integration also changes entity order/membership, domains
+and pins across three consumed revisions while checking held snapshots remain intact.

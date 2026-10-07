@@ -13992,3 +13992,33 @@ User timing answer: last five completed batches 06:46:48–07:24:39 Vienna,
 37m51s elapsed. Recorded build/lint498s and testexecution74s across focused/final
 logs: at least25% verification; remaining75% includes implementation/specs/tests/docs
 and unmeasured overhead. K-opt accounts for417s. Not a precise coding-time split.
+
+## Identity-based reconciliation for runtime problem changes
+
+Starting HEADcfd78af clean; previous batch committed verified phase best delivery:
+progress. Read current live solver, model resume APIs and original live regression.
+Read DefaultSolverTest.solveWithProblemChange and relevant next method; second
+method director identity/close assertions remain pending. Read TestdataSolution,
+Entity, Value, PlannerTestUtils configuration helper and dummy zero scorer tests.
+No upstream production reads. Added AssignmentSnapshot/reconcile_problem independent
+module with explicit ID validation, canonical new-domain values, current pins,
+new/missing/removed-value fallbacks and preserved optionality/pillar model metadata.
+No previous score copied. Live generic manager and existing model code unchanged.
+
+Three original reconciliation cases cover ID reorder/add/remove, invalid IDs,
+domain removal, optional/null/new pins, changed facts behind stable value equality,
+no previous snapshot and empty models. One source method/five fixtures appended;
+source addition case plus original three-revision integration run both scorers and
+verify immutable delivered snapshots. Focused57597 TERMINAL0 for3 native cases.
+Focused80878 TERMINAL0 for adapted live change and original daemon reconciliation
+on both scoring backends. Source formatted/frozen for final selective gate.
+No benchmark/browser/release reruns; no performance claim. Goal remains active.
+
+Required gate11679 TERMINAL0. 4087 Rust tests and 196 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 513}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2440, 'failed': 0, 'pending': 2133, 'excluded': 282, 'unverified': 0, 'percent': 50.257}.
+Source before/after matched: 84b92377aa3914ce2de814c1e2ca71bd6978374f58823f4d442420746c5b7abf
+Live freshness matched verification digest: 5794a530921a05e39b0a5d85994cce0c5555fbc5ac84236e244a22e911e89b0b.
+Existing provenance prefixes unchanged; appended1case and5fixtures.
+Log work/problem-reconciliation-final-check.log; evidence work/problem-reconciliation-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

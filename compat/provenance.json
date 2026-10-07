@@ -36614,6 +36614,21 @@
       "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
       "local_test": "solve_stops_when_partially_initialized",
       "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithProblemChange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithProblemChange",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "local_test": "solve_with_problem_change",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -50175,6 +50190,71 @@
       "upstream_test": "DummySimpleScoreEasyScoreCalculator",
       "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
       "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.live_problem_reconciliation_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.live_problem_reconciliation_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.live_problem_reconciliation_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.live_problem_reconciliation_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "PlannerTestUtils",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.live_problem_reconciliation_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "DummySimpleScoreEasyScoreCalculator",
+      "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
+      "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
     }
   ]
 }

@@ -861,3 +861,6 @@ pub use comparison_candidates::{CandidateSide, comparison_candidates};
 
 mod phase_best_buffer;
 pub use phase_best_buffer::{BufferedSolverUpdate, PhaseBestBuffer};
+
+mod problem_reconciliation;
+pub use problem_reconciliation::{AssignmentSnapshot, ReconciliationError, reconcile_problem};
