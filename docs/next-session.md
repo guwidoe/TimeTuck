@@ -15366,3 +15366,51 @@ Corrected the obsolete723case header to refer to current verified coverage recor
 All implementation and verification changes are ready for the conventional commit.
 Older ignored existence draft files are superseded by the checked-in indexed node;
 no further implementation draft is pending. Next work remains open; goal active.
+
+## K-opt topology analysis and circular reversal
+
+Previous goal implementation completed04a20b8; subsequent timing inspection yielded
+updated build/test cost evidence. Started clean, read handoff/compatibility and full
+TEST-ONLY KOptUtilsTest.java. No upstream production sources read. Added native
+ListKOptTopology with stable component labels, canonical component tours, preserved
+input edge metadata, explicit traversal orientation and validation. Existing
+single-list and repartition cycle_order now delegates to it; disconnected tours
+remain inspectable but cannot become a single-list move. Existing validation
+ordering retained, with reversed ranges safely rejected as TooFewValues.
+
+Added exact arbitrary-precision pure_k_opt_topology_count from independent
+inclusion-exclusion over restored cuts; counts abstract distinct-endpoint path
+segments, not model-specific candidates. Added generic allocation-free
+reverse_cyclic_span, now used by wrapped directed two-opt before its existing
+anchor rotation. Supports empty slices and length boundaries; errors do not mutate.
+
+Ten KOptUtilsTest methods adapted with full pair/label/reversal/count assertions,
+one construction fixture attributed. Four original regressions exhaust every
+simple degree-two graph through six vertices against independent flood-fill labels,
+all traversal orientations, pinned move application/undo and metadata reorderings;
+independent endpoint matching enumeration checks k=2..7 counts; all circular bounds
+through length30 and non-Clone payloads; malformed graph/range validation.
+Focused51728 TERMINAL0: all14 tests passed. Final formatted state changes only even
+parity spelling to idiomatic is_multiple_of; final gate will verify it. No failed
+runs, benchmark/release/browser checks or performance claims. Required gate next.
+
+Final gate79821 is LIVE at the implementation commit. Lint passed (2m30s), library
+116tests passed; the integration run has not finished. Keep polling that exact
+handle, not a replacement run. Warm-up55315 is also LIVE: selected540still-pending
+cache misses and builds them together with --no-run -j4. It creates no test/evidence
+records. Do not double-count warm-up time with the gate's overlapping Cargo wait.
+On terminal0 for the gate, run work/record_kopt_topology_evidence.py (baseline04a20b8,
+expects10cases+1fixture), poll it to terminal, review live freshness and commit the
+completed handoff. Inputs remain frozen. Full verification is NOT claimed yet.
+
+During the gate read full TEST-ONLY builtin CompositeMoveTest and
+SelectorBasedCompositeMoveTest plus TestdataSolution.generateSolution wrappers and
+private fixture implementation (lines20–68). Native composite execution/draft APIs
+already implement the six builtin methods' observable behavior. Prepared formatted,
+UNAPPLIED and UNTESTED draft work/composite_move_cases.rs for those six methods;
+no provenance or method credit yet. For later application, attribute the generated
+solution fixture (cyclic initial assignment) and preserve source assertion coverage.
+No extra production source reads. Inspected verification_inputs.py without changing
+it: module-granularity inherent implementations still follow every use of their
+receiver type; this remains a likely source of broad invalidation. No new tooling
+change or demonstrated narrower safe dependency rule in this increment.

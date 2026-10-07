@@ -188,75 +188,7 @@ pub(crate) fn cycle_order(
     first: usize,
     first_successor: usize,
 ) -> Result<Vec<usize>, ListKOptError> {
-    let n = end - start;
-    if n < 3 {
-        return Err(ListKOptError::TooFewValues);
-    }
-    if removed.len() < 2 || removed.len() != added.len() {
-        return Err(ListKOptError::EdgeCount);
-    }
-    let check = |edges: &[(usize, usize)]| -> Result<Vec<(usize, usize)>, ListKOptError> {
-        let mut result = Vec::with_capacity(edges.len());
-        for &(a, b) in edges {
-            if a == b || a < start || b < start || a >= end || b >= end {
-                return Err(ListKOptError::InvalidEdge);
-            }
-            let e = edge(a, b);
-            if result.contains(&e) {
-                return Err(ListKOptError::DuplicateEdge);
-            }
-            result.push(e);
-        }
-        Ok(result)
-    };
-    let removed = check(removed)?;
-    let added = check(added)?;
-    let mut edges: Vec<_> = (start..end)
-        .map(|i| edge(i, if i + 1 == end { start } else { i + 1 }))
-        .collect();
-    for e in &removed {
-        let Some(i) = edges.iter().position(|x| x == e) else {
-            return Err(ListKOptError::InvalidEdge);
-        };
-        edges.swap_remove(i);
-    }
-    for e in added {
-        if edges.contains(&e) {
-            return Err(ListKOptError::DuplicateEdge);
-        }
-        edges.push(e);
-    }
-    let mut neighbors = vec![Vec::new(); n];
-    for (a, b) in edges {
-        neighbors[a - start].push(b);
-        neighbors[b - start].push(a);
-    }
-    if neighbors.iter().any(|v| v.len() != 2) {
-        return Err(ListKOptError::Degree);
-    }
-    if first < start || first >= end || !neighbors[first - start].contains(&first_successor) {
-        return Err(ListKOptError::FirstSuccessor);
-    }
-    let mut target = vec![first];
-    let mut seen = vec![false; n];
-    seen[first - start] = true;
-    let mut previous = first;
-    let mut current = first_successor;
-    while current != first {
-        if seen[current - start] {
-            return Err(ListKOptError::Disconnected);
-        }
-        seen[current - start] = true;
-        target.push(current);
-        let row = &neighbors[current - start];
-        let next = if row[0] == previous { row[1] } else { row[0] };
-        previous = current;
-        current = next;
-    }
-    if seen.iter().any(|x| !x) {
-        return Err(ListKOptError::Disconnected);
-    }
-    Ok(target)
+    crate::ListKOptTopology::new(start..end, removed, added)?.order_from(first, first_successor)
 }
 
 // Boolean counter without machine-word limits. Singleton paths have one orientation.

@@ -41439,6 +41439,156 @@
       "upstream_test": "equivalentJoinsInDifferentOrderShareViaEquality",
       "local_test": "equivalent_joins_in_different_order_share_via_equality",
       "modifications": "Preserve declared and normalized relation orders, left/right projection object identities, unchanged conjunction identity, declared inequality, normalized equality and equal hashes. Native JoinProjection handles, Rc-backed immutable JoinConditions and (String,i32) tuple replace Java Function instances, joiner implementation classes and the inline Shift record. Four methods use inline native projections in place of shared test fields. Hash numeric values are not compared across languages. Original regressions separately verify actual graph node sharing, mixed key types, independent multiple inequalities, incremental update/retract/rollback, self joins, non-Clone keys and callback panic recovery. No upstream production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetRemovedEdgesList",
+      "status": "implemented",
+      "upstream_test": "testGetRemovedEdgesList",
+      "local_test": "get_removed_edges_list",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetAddedEdgesList",
+      "status": "implemented",
+      "upstream_test": "testGetAddedEdgesList",
+      "local_test": "get_added_edges_list",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetCyclesForPermutationOneCycle",
+      "status": "implemented",
+      "upstream_test": "testGetCyclesForPermutationOneCycle",
+      "local_test": "cycles_for_permutation_one_cycle",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetCyclesForPermutationTwoCycle",
+      "status": "implemented",
+      "upstream_test": "testGetCyclesForPermutationTwoCycle",
+      "local_test": "cycles_for_permutation_two_cycles",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetCyclesForPermutationThreeCycle",
+      "status": "implemented",
+      "upstream_test": "testGetCyclesForPermutationThreeCycle",
+      "local_test": "cycles_for_permutation_three_cycles",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.flipSubarray",
+      "status": "implemented",
+      "upstream_test": "flipSubarray",
+      "local_test": "flip_subarray",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.flipSubarraySecondEndsBeforeFirst",
+      "status": "implemented",
+      "upstream_test": "flipSubarraySecondEndsBeforeFirst",
+      "local_test": "flip_subarray_second_ends_before_first",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.flipSubarraySecondEndsBeforeFirstUnbalanced",
+      "status": "implemented",
+      "upstream_test": "flipSubarraySecondEndsBeforeFirstUnbalanced",
+      "local_test": "flip_subarray_second_ends_before_first_unbalanced",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.flipSubarrayFirstEndsBeforeSecondUnbalanced",
+      "status": "implemented",
+      "upstream_test": "flipSubarrayFirstEndsBeforeSecondUnbalanced",
+      "local_test": "flip_subarray_first_ends_before_second_unbalanced",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.testGetPureKOptMoveTypes",
+      "status": "implemented",
+      "upstream_test": "testGetPureKOptMoveTypes",
+      "local_test": "pure_k_opt_move_types",
+      "modifications": "Preserve all edge pairs (including endpoint direction), component counts and label arrays, four circular reversal before/after/restoration arrays, and seven pure topology counts. One-based native positions directly represent v1..v12 identity; padded zero is appended only in the test adapter to compare the complete Java label array. Native validated ListKOptTopology replaces descriptor endpoint permutations and mocked list state. Edge slice equality strengthens unordered pair membership. Generic in-place circular reversal replaces the int-array helper and is shared by directed two-opt. Exact arbitrary-precision count replaces long; no claim of Java overflow behavior. No production implementation read or translated."
     }
   ],
   "fixtures": [
@@ -56859,6 +57009,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
       "upstream_test": "toEntries",
       "modifications": "Native candidate index insertion preserves occurrence identity and order for the finite A/B/C/D prefix fixture. Helper/fixture attribution only; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptUtilsTest.java",
+      "local_path": "crates/solver/tests/k_opt_utils_cases.rs",
+      "id": "KOptUtilsTest.fromRemovedAndAddedEdges.topology",
+      "upstream_test": "fromRemovedAndAddedEdges",
+      "modifications": "Adapt valid descriptor construction fixtures to native one-based position ranges and edge pairs; preserve original tours, cuts and additions. Native constructor supplies graph validation instead of Java incl/tourArray identity permutations, successor callbacks and mocked variable state. Only fixture attribution; helper exception text and Java descriptor internals are not method credits. Inline v1..v12 identities become positions."
     }
   ]
 }

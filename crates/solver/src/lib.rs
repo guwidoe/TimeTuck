@@ -993,3 +993,8 @@ mod default_neighborhood;
 pub use default_neighborhood::{DefaultMoveFamily, DefaultNeighborhood, DefaultNeighborhoodError};
 
 pub use stream_graph::{JoinCondition, JoinConditions, JoinProjection};
+
+mod list_k_opt_topology;
+pub use list_k_opt_topology::{ListKOptTopology, pure_k_opt_topology_count};
+mod cyclic_span;
+pub use cyclic_span::{CyclicSpanError, reverse_cyclic_span};

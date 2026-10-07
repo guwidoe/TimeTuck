@@ -4046,3 +4046,13 @@ Original regressions cover 4,000 updates and rollbacks with activity pruning ena
 and disabled, repeated right matches, self joins, projection capture, all four
 inequalities and callback panic recovery. This API increment adds no upstream
 method credit or performance measurement.
+
+Ten KOptUtilsTest methods now preserve removed/added edge identities, one/two/three
+component label arrays, circular reversal/restoration and pure k-opt counts for
+k=2..8. Native ListKOptTopology validates a degree-two reconnection, exposes all
+components, and supplies the connected traversal used by single-list and repartition
+move construction. Labels describe absolute positions within a range; the adapter
+adds the source's unused zero sentinel. Pure topology counts use arbitrary precision
+and distinct path endpoints; they do not count legal moves under pins, singleton
+segments or model constraints. Circular reversal is shared with directed two-opt,
+whose complete move plan still applies its existing anchor rotation and pin rules.

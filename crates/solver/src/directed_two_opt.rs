@@ -91,11 +91,13 @@ pub fn list_directed_two_opt_plan<'p, V: Clone + Eq>(
         }
     } else {
         let prefix = problem.entities()[first.entity].pinned_prefix();
-        let positions: Vec<_> = (first.index..left).chain(prefix..second.index).collect();
         let mut target: Vec<_> = (0..left).collect();
-        for (&at, &source) in positions.iter().zip(positions.iter().rev()) {
-            target[at] = source;
-        }
+        crate::reverse_cyclic_span(
+            &mut target[prefix..],
+            first.index - prefix,
+            second.index - prefix,
+        )
+        .expect("validated insertion boundaries");
         if prefix == 0 && !target.is_empty() {
             let anchor = target
                 .iter()
