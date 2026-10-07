@@ -3269,3 +3269,22 @@ assertions and additionally require target attainment, valid assignments and unc
 inputs. Stream full-objective adapters preserve variable positions during incremental
 source replay. No Java default algorithm, random trace, preview-flag validation or
 variable-neighborhood-descent claim is made by these cases.
+
+## Variable-neighborhood descent configuration
+
+`variable_neighborhood_descent` exposes first-improvement descent through the
+existing incremental search engine. Enabled families are searched in their supplied
+order; the first strict improvement is installed and scanning restarts from the
+first family. Equal-score moves are rejected. Positive weight magnitudes do not
+change priority; zero disables a family. Random union order is rejected. Empty
+unions and exhausted non-improving neighborhoods stop without a selected move.
+Ordinary search limits, targets, cancellation and assertion options remain available.
+Overriding the returned policy fields or supplying a custom provider changes these
+semantics. This is a named configuration of existing machinery, not a second loop.
+
+The behavior follows the pinned public local-search documentation's VND algorithm
+description. One additional DefaultSolverTest method preserves the ordinary VND
+successful solve and best-event assertion with both scoring backends. JVM preview
+configuration is not reproduced. Native regressions distinguish first-family
+priority from highest-score selection, zero-weight disabling, equal-score stopping,
+limits and return to single changes after a group move escapes a local trap.

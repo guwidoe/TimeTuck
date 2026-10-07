@@ -1,6 +1,6 @@
 //! Original weighted selection and all-backend integration regressions.
 use std::{cell::Cell, collections::BTreeMap};
-use timetuck::*;
+use timetuck::{variable_neighborhood_descent, *};
 #[test]
 fn seeded_weights_are_repeatable_and_proportional_at_different_scales() {
     let run = |scale| {
@@ -253,13 +253,21 @@ fn combining_single_and_group_changes_escapes_a_local_trap() {
         (Neighborhood::MassChange(MassChangeConfig::all()), 1),
     ];
     for order in [UnionOrder::Sequential, UnionOrder::Random { seed: 91 }] {
+        let neighborhoods = NeighborhoodUnion {
+            children: &children,
+            order,
+        };
+        let base = if order == UnionOrder::Sequential {
+            variable_neighborhood_descent(&neighborhoods).unwrap()
+        } else {
+            LocalSearchConfig {
+                neighborhood_union: Some(&neighborhoods),
+                ..Default::default()
+            }
+        };
         let config = LocalSearchConfig {
-            neighborhood_union: Some(&NeighborhoodUnion {
-                children: &children,
-                order,
-            }),
             assert_scores: true,
-            ..Default::default()
+            ..base
         };
         let union = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
         assert_eq!(union.best.unwrap().score, s(10));

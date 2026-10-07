@@ -494,6 +494,10 @@ pub use scoped_weights::ConstraintWeightError;
 mod scoring_arithmetic;
 pub use scoring_arithmetic::{ScoreOverflow, ScoringArithmetic};
 
+mod variable_neighborhood_descent;
+pub use variable_neighborhood_descent::{
+    DescentRequiresSequentialOrder, variable_neighborhood_descent,
+};
 mod move_union;
 pub use move_union::{MoveUnion, NeighborhoodUnion, UnionOrder};
 

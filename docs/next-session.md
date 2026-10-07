@@ -13399,3 +13399,46 @@ Live freshness matched verification digest: 6d059b5d4bffef31e96de9cf6d343c890f5b
 Existing provenance prefixes unchanged; appended6cases and18fixtures.
 Log work/solver-neighborhood-final-check.log; evidence work/solver-neighborhood-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Variable-neighborhood descent (in progress)
+
+Prior turn99b2005 completed two commits; starting tree clean. Added separate
+variable_neighborhood_descent module implementing NeighborhoodUnion::descent_config
+and DescentRequiresSequentialOrder. This composes existing sequential union,
+StrictImprovement, FirstAccepted, Original order and Stop rejection; no second
+search loop or core scoring changes. Zero children disabled, empty union valid;
+random ordering errors. Config remains mutable; overrides/custom providers can
+change algorithm. Read pinned PUBLIC docs local-search.adoc709..762 (not production):
+first improving move, original family order, restart first after improvement.
+
+Existing move_union_regression trap case uses named config for sequential branch;
+random branch preserved. New native tests exercise priority against a higher score
+in a later family, disabled child, one-step/zero-candidate limits, tie/empty stop,
+and random rejection. Existing solver_neighborhood_cases helper now takes mode;
+six prior cases preserve their exact configuration, seventh uses named descent.
+Appended1sourcecase6fixtures, preserving previous provenance prefixes. Source
+DefaultSolverTest301..316 and basic source fixtures already read. Focused79313
+is running for3testtargets. Full gate/commit still required after focused success.
+
+Focused79313 terminal0: all14 tests across3targets passed. This includes source
+VND solve in both backends and the existing six-model/backend union regression.
+Final source frozen; required gate follows. No benchmark/browser/release reruns.
+
+Gate68360 deliberately terminated143 (verified process group29693) to fix avoidable broad invalidation before wasting another full rebuild. Input scanner attaches out-of-line impl blocks to every reference of their type; adding an impl for NeighborhoodUnion pulled the new helper into unrelated search targets. Expose the same policy through standalone variable_neighborhood_descent(&union) instead; matches existing free-function solver API and keeps dependency graph narrow. No cache records or old hashes rewritten. Preserve attempt1 log; previously completed matching jobs remain reusable. Updated docs/provenance to final free-function API. Required final gate still pending.
+
+Free-function focused38031 terminal0:14tests passed. Explicitly import
+variable_neighborhood_descent in the3consumer tests: the current heuristic skips
+unqualified calls directly after struct-update '..', whereas named imports are
+tracked. Inspection21850 terminal0 confirms helper included for all3affectedtargets
+and excluded from solver.rs/assignment_controls_regression.rs. This changes neither
+cache plumbing nor hashes of old evidence. Imports/formatting finalized after
+focused compilation; full gate will verify final state. No further source edits.
+
+Required gate50985 TERMINAL0. 3840 Rust tests and 184 doctests passed.
+Rust jobs: {'RUN': 30, 'REUSE': 453}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2241, 'failed': 0, 'pending': 2332, 'excluded': 282, 'unverified': 0, 'percent': 46.159}.
+Source before/after matched: fa573b17f0011cfa4a922d49ed33a40ec5dc55ac9488df5f2218ea9f67ef437d
+Live freshness matched verification digest: e4b93e440c0ba4127d4bb8e6b8f5121464aebc8743ac7b85bf8e4d61d816ea24.
+Existing provenance prefixes unchanged; appended1case and6fixtures.
+Log work/descent-final-check.log; evidence work/descent-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

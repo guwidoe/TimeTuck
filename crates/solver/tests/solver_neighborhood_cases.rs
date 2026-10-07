@@ -1,6 +1,6 @@
 // Adapted from pinned Community DefaultSolverTest and testdomain fixtures.
 // Apache-2.0; exact source identities and native substitutions: compat/provenance.json.
-use timetuck::*;
+use timetuck::{variable_neighborhood_descent, *};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum Value {
@@ -30,7 +30,13 @@ fn plan<'a>(union: Option<&'a NeighborhoodUnion<'a>>) -> SolverSequence<'a, Simp
         })],
     }
 }
-fn basic(p: &FiniteProblem<Value>, objective: fn(&[Option<Value>]) -> SimpleScore, union: bool) {
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Mode {
+    Default,
+    ExtraSwap,
+    Descent,
+}
+fn basic(p: &FiniteProblem<Value>, objective: fn(&[Option<Value>]) -> SimpleScore, mode: Mode) {
     let original = p.initial_assignment();
     let union_config = NeighborhoodUnion {
         // Preserve default change/swap candidates plus an explicit swap selector.
@@ -38,7 +44,19 @@ fn basic(p: &FiniteProblem<Value>, objective: fn(&[Option<Value>]) -> SimpleScor
         order: UnionOrder::Sequential,
     };
     for stream in [false, true] {
-        let config = plan(union.then_some(&union_config));
+        let descent = NeighborhoodUnion {
+            children: &[(Neighborhood::Change, 1), (Neighborhood::Swap, 1)],
+            order: UnionOrder::Sequential,
+        };
+        let mut config = plan((mode == Mode::ExtraSwap).then_some(&union_config));
+        if mode == Mode::Descent {
+            config.phases = vec![SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: 200,
+                max_move_evaluations: Some(10_000),
+                assert_scores: true,
+                ..variable_neighborhood_descent(&descent).unwrap()
+            })];
+        }
         let mut events = 0;
         let mut observe = |e: SolverEvent<'_, Assignment<Value>, SimpleScore>| {
             if matches!(e, SolverEvent::Best(_)) {
@@ -106,15 +124,15 @@ fn basic_score(values: &[Option<Value>]) -> SimpleScore {
 }
 #[test]
 fn solve_with_neighborhoods() {
-    basic(&basic_problem(), basic_score, false);
+    basic(&basic_problem(), basic_score, Mode::Default);
 }
 #[test]
 fn solve_with_default_neighborhood_provider() {
-    basic(&basic_problem(), basic_score, false);
+    basic(&basic_problem(), basic_score, Mode::Default);
 }
 #[test]
 fn solve_with_neighborhoods_and_move_selectors() {
-    basic(&basic_problem(), basic_score, true);
+    basic(&basic_problem(), basic_score, Mode::ExtraSwap);
 }
 #[test]
 fn solve_with_default_neighborhood_provider_multi_var() {
@@ -142,7 +160,7 @@ fn solve_with_default_neighborhood_provider_multi_var() {
             let tertiary = v.chunks_exact(3).any(|e| e[2] == Some(Value::Other(0)));
             SimpleScore::new(-i64::from(primary) - i64::from(secondary) - i64::from(tertiary))
         },
-        false,
+        Mode::Default,
     );
 }
 #[test]
@@ -166,7 +184,7 @@ fn solve_with_default_neighborhood_provider_multi_entity() {
                     - i64::from(v[2..].contains(&Some(Value::Lead(0)))),
             )
         },
-        false,
+        Mode::Default,
     );
 }
 #[test]
@@ -221,4 +239,9 @@ fn solve_with_default_neighborhood_provider_list_var() {
         p.validate(&r.assignment).unwrap();
         assert_eq!(p.initial_assignment().lists(), &[vec![0, 1], vec![]]);
     }
+}
+
+#[test]
+fn variable_neighborhood_descent_still_works_without_neighborhoods() {
+    basic(&basic_problem(), basic_score, Mode::Descent);
 }
