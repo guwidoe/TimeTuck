@@ -13757,3 +13757,39 @@ Live freshness matched verification digest: b0f4a31297e2c847b7d443c69d554988e51f
 Existing provenance prefixes unchanged; appended17cases and0fixtures.
 Log work/lazy-concat-final-check.log; evidence work/lazy-concat-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Mutable indexed candidates and range sampling
+
+Starting HEADf7d4e4d clean. Previous turn implemented LazyConcat and committed17cases
+with verified gate39966; progress. Added independent candidate_index module:
+CandidateIndex<K,I,T>, stable IDs/dense key buckets/position map, insert/remove/
+replace/get/clear, borrowed CandidateBucket iteration/indexing/unique/repeated
+sampling, multi-key deduplicated and ordered-range LazyConcat borrowed query views.
+Added repeating_candidates free function for composed queries. Native payloads need
+no Clone/Eq; queries prevent mutation by borrow. Removal uses swap and repairs moved
+position, cleans empty bucket. No existing stream-node rewiring or performance claim.
+
+Read full EqualIndexerTest, EqualsAndComparisonIndexerTest and AbstractIndexerTest
+helper. Adapted15+10pendingmethods, preserving all source assertions including
+finite exhaustion, predicates, first membership, full drains, seed0 repetition30/60
+and flipped >= range drain with seeds0..9. Previously passed comparison cases remain
+unchanged. Source handles/exceptions become stable IDs/typed errors/Iterator None;
+no Java trace/storage identity claim. Appended25cases2fixture helper adaptations.
+
+Focused4706 TERMINAL0:15equalitycases. Focused5832 TERMINAL0:3native regressions,
+including2000mutations against BTreeMap reference. Focused80233 TERMINAL0:10rangecases.
+Before final gate added fourth native regression for empty/lazy repeated query and
+cached supplier errors; collapsed test else-if and used find instead of filter.next.
+Source frozen for final selective gate. No benchmark/browser/release reruns.
+Goal remains active.
+Gate1450 TERMINAL101 at clippy: find(...).is_none() in empty-filter tests should use
+!any(...). Updated both occurrences; no production/behavior change.
+
+Required gate54867 TERMINAL0. 4004 Rust tests and 190 doctests passed.
+Rust jobs: {'RUN': 4, 'REUSE': 498}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2381, 'failed': 0, 'pending': 2192, 'excluded': 282, 'unverified': 0, 'percent': 49.042}.
+Source before/after matched: 3478c43dab06bbc49369be9982bd2818d19a23625991f1b7ec75b865fd3a2aed
+Live freshness matched verification digest: ee99455865e3ebd6d377dc9bcd1ce760f5e00989734e14253be79b76dfa156ff.
+Existing provenance prefixes unchanged; appended25cases and2fixtures.
+Log work/candidate-index-final-check.log; evidence work/candidate-index-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

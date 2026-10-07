@@ -35369,6 +35369,381 @@
       "local_path": "crates/solver/tests/lazy_concat_cases.rs",
       "local_test": "stream",
       "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.isRemovable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "isRemovable",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "is_removable",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.put",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "put",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "put",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.removeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "removeTwice",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "remove_twice",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.forEach",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "forEach",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "for_each",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.iteratorEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "iteratorEmpty",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "iterator_empty",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.iteratorSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "iteratorSingleElement",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "iterator_single_element",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.iteratorMultipleElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "iteratorMultipleElements",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "iterator_multiple_elements",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.iteratorNoMatchingKey",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "iteratorNoMatchingKey",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "iterator_no_matching_key",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorEmpty",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_empty",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorSingleElement",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_single_element",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorMultipleElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorMultipleElements",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_multiple_elements",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorRemoveAllElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorRemoveAllElements",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_remove_all_elements",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorWithFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorWithFilter",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_with_filter",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.randomIteratorNeverEnds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "randomIteratorNeverEnds",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "random_iterator_never_ends",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualIndexerTest.uniqueRandomIteratorWithFilterEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorWithFilterEmpty",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_with_filter_empty",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.removeTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "removeTwice",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "remove_twice",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorEmpty",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_empty",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorSingleElement",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorSingleElement",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_single_element",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorMultipleElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorMultipleElements",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_multiple_elements",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorComparisonBoundary",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorComparisonBoundary",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_comparison_boundary",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorRemoveAllElements",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorRemoveAllElements",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_remove_all_elements",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorWithFilter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorWithFilter",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_with_filter",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorWithFilterEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorWithFilterEmpty",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_with_filter_empty",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.uniqueRandomIteratorWithFilterAndBoundary",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorWithFilterAndBoundary",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "unique_random_iterator_with_filter_and_boundary",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EqualsAndComparisonIndexerTest.randomIteratorRightBridgeFlipReachesReverseWalk",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/EqualsAndComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorRightBridgeFlipReachesReverseWalk",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "local_test": "random_iterator_right_bridge_flip_reaches_reverse_walk",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
     }
   ],
   "fixtures": [
@@ -48722,6 +49097,32 @@
       "upstream_test": "AbstractConstraintStreamTest",
       "local_path": "crates/solver/tests/verification_list_shadow_cases.rs",
       "modifications": "Preserve every source score, match and justification assertion. Native VariableStateRegistry and ListShadowSession explicitly prepare owner/index/previous/next and cascade values before verifier scoring; native fields replace Java setters/listener history, with no history equivalence claim. Constraint snapshots retain -10 penalty, +20 reward, score-and-value justification and combined +10. Native unassigned values use an absent location and are excluded from assigned streams. Dynamic field metadata and verification_consistency infer dependency cycles from actual final list snapshots; typed stream filters preserve assigned/including-unassigned/unfiltered selection. Native atomic list snapshot updates replace Java notifications plus setWorkingSolution resets, preserving each observed state. IncludingUnassigned and Unfiltered source methods write e1 twice during their final transition; preserve e1=[dependency], e2=[] and dependent unassigned, rather than repairing source fixture behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.equal_candidate_index_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "AbstractIndexerTest",
+      "local_path": "crates/solver/tests/equal_candidate_index_cases.rs",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractIndexerTest.range_candidate_index_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "AbstractIndexerTest",
+      "local_path": "crates/solver/tests/range_candidate_index_cases.rs",
+      "modifications": "Preserve every original bucket size, membership, removal error, iterator exhaustion, first-pick membership, filtered set and seeded drain/repetition assertion. Native stable string IDs replace UniTuple/entry handles; captured tuple keys replace Java joiners and CompositeKey. Unknown repeated removal returns a typed error. Rust Iterator/Peekable None exhaustion replaces hasNext and NoSuchElementException. Native seeded sampling preserves membership, coverage and occurrence uniqueness without Java PRNG trace parity. Equality-plus-comparison uses inclusive native tuple-key ranges; the flipped right-side query uses age >= 40 within the same gender. Borrowed LazyConcat views and sparse global sampling replace internal tree walks without claiming Java storage/layout/bridge identity parity. Original helper repeats retain 30/60 draws and seeds 0..9 as applicable."
     }
   ]
 }

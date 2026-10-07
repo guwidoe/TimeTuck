@@ -3470,3 +3470,27 @@ cover selective sampling, duplicate occurrences, non-Clone borrowed values,
 reverse iteration, malformed suppliers, panic retry and total-length overflow.
 This adds an indexed candidate collection; no join-node rewiring or speedup claim
 is made, and no previous benchmark measurement has been refreshed.
+
+## Mutable indexed candidate queries
+
+CandidateIndex stores stable IDs in dense keyed buckets and supports insertion,
+removal, replacement/rekeying, borrowed lookup and bucket queries. A position map
+keeps removals valid after swapping in a bucket's final entry. Empty buckets are
+removed. Duplicate insertion and unknown removal/replacement are typed errors.
+Payloads require neither Clone nor Eq. Keys are captured explicitly; callers
+synchronize this standalone neighborhood component with working assignments.
+
+Bucket queries support finite sampling without replacement and indefinite seeded
+sampling with replacement. Multi-key queries deduplicate repeated keys and compose
+borrowed LazyConcat groups; range queries use native ordered-key bounds. Both
+support global occurrence sampling. repeating_candidates also samples composed
+queries without flattening, preserving lazy supplier/error behavior. Borrowing
+prevents index mutation while query results remain live. Removal may change bucket
+order, and no Java PRNG trace or storage-layout parity is claimed.
+
+Fifteen EqualIndexer and ten remaining EqualsAndComparisonIndexer methods now
+preserve every original match/size/exhaustion/filter/repetition assertion, including
+inclusive comparison boundaries and flipped >= queries. Four native regressions
+cover 2000 mutations against a reference map, non-Clone duplicate payloads, range
+and multi-key membership, failure preservation, cleanup and repeated lazy errors.
+Existing stream nodes have not been rewired; no solver speedup is claimed.

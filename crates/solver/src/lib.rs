@@ -837,3 +837,8 @@ pub use verification_consistency::{
 
 mod lazy_concat;
 pub use lazy_concat::{LazyConcat, LazyConcatError};
+
+mod candidate_index;
+pub use candidate_index::{
+    CandidateBucket, CandidateIndex, CandidateIndexError, IndexedCandidate, repeating_candidates,
+};
