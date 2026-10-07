@@ -823,3 +823,8 @@ pub use constraint_assertion::{
 
 mod score_assertion;
 pub use score_assertion::{ScoreAssertion, ScoreAssertionError, score_assertion};
+
+mod stream_consistency;
+pub use stream_consistency::{
+    StreamConsistencyReport, StreamNodeDifference, StreamScoreCorruption,
+};

@@ -120,7 +120,10 @@ fn diagnostic_rebuild_compares_dataset_payloads_even_without_scores() {
     t.apply(&s, TupleChange::put(0, 3)).unwrap();
     t.commit().unwrap();
     multiplier.set(5);
-    assert_eq!(g.assert_consistent(), Err(GraphError::CorruptedScore));
+    assert!(matches!(
+        g.assert_consistent(),
+        Err(GraphError::CorruptedScore(_))
+    ));
     assert_eq!(g.dataset_rows(&d).unwrap()[&0], 6);
     multiplier.set(2);
     g.assert_consistent().unwrap();

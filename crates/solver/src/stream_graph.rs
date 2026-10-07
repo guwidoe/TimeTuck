@@ -102,7 +102,7 @@ pub enum GraphError {
     StructuralContribution(String),
     FailedTransaction,
     Dependency(String),
-    CorruptedScore,
+    CorruptedScore(Box<crate::StreamScoreCorruption>),
 }
 impl fmt::Display for GraphError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -132,9 +132,7 @@ impl fmt::Display for GraphError {
             Self::StructuralContribution(name) => {
                 write!(f, "stream constraint {name} has a structural contribution")
             }
-            Self::CorruptedScore => {
-                f.write_str("cached stream matches, datasets or total differ from a fresh rebuild")
-            }
+            Self::CorruptedScore(report) => report.fmt(f),
             Self::FailedTransaction => {
                 f.write_str("stream transaction failed; drop it to roll back")
             }
@@ -146,6 +144,7 @@ impl std::error::Error for GraphError {
         match self {
             Self::DecimalWeightArithmetic { error, .. } => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
+            Self::CorruptedScore(report) => Some(report.as_ref()),
             _ => None,
         }
     }
@@ -2060,12 +2059,18 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     /// Rebuild from source rows with empty operator caches and compare every
     /// terminal match ID/score, captured dataset rows and the total. Original state is restored even on
     /// failure/unwind. Diagnostic callback work is excluded from search counters.
-    pub fn assert_consistent(&mut self) -> Result<(), GraphError> {
+    pub fn consistency_report(&mut self) -> Result<crate::StreamConsistencyReport<S>, GraphError> {
         let events: Vec<_> = self
             .nodes
             .iter()
             .enumerate()
             .flat_map(|(id, n)| n.source_events().into_iter().map(move |e| (id, e)))
+            .collect();
+        let working_nodes: Vec<_> = self.nodes.iter().map(|node| node.score()).collect();
+        let names: BTreeMap<_, _> = self
+            .constraints
+            .iter()
+            .map(|(name, node)| (*node, name.clone()))
             .collect();
         let mut trial = self.transaction();
         // Replay order may differ from insertion order. Compare every retained
@@ -2082,15 +2087,35 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         for (id, event) in events {
             trial.propagate(id, event)?;
         }
-        if trial.graph.score != trial.original_score
-            || trial
-                .journal
-                .iter()
-                .any(|(id, old)| !trial.graph.nodes[*id].scores_match(old.as_ref()))
-        {
-            return Err(GraphError::CorruptedScore);
+        let nodes = trial
+            .journal
+            .iter()
+            .filter_map(|(id, old)| {
+                let node = &trial.graph.nodes[*id];
+                (!node.scores_match(old.as_ref())).then(|| crate::StreamNodeDifference {
+                    node: *id,
+                    constraint: names.get(id).cloned(),
+                    working_score: working_nodes[*id].clone(),
+                    recomputed_score: node.score(),
+                })
+            })
+            .collect();
+        Ok(crate::StreamConsistencyReport {
+            working_score: trial.original_score.clone(),
+            recomputed_score: trial.graph.score.clone(),
+            nodes,
+        })
+    }
+    /// Assert the same complete retained-state checks as `consistency_report`,
+    /// returning its detached evidence on corruption. Diagnostic rebuilds never
+    /// repair caches; graph state is restored on errors and callback panics.
+    pub fn assert_consistent(&mut self) -> Result<(), GraphError> {
+        let report = self.consistency_report()?;
+        if report.is_consistent() {
+            Ok(())
+        } else {
+            Err(GraphError::CorruptedScore(Box::new(report.diagnostic())))
         }
-        Ok(())
     }
     /// Full state for a multi-move scope; transaction capture contains only the
     /// nodes touched by that single transaction and cannot restore a later edit.

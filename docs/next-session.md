@@ -13548,3 +13548,59 @@ Live freshness matched verification digest: 7429f5321673c973ffe991c576fa114cc81f
 Existing provenance prefixes unchanged; appended33cases and15fixtures.
 Log work/arity-stream-final-check.log; evidence work/arity-stream-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Stream corruption evidence
+
+Starting HEAD05a4bb0 clean; previous goal turn made verified committed progress.
+Added StreamConsistencyReport/StreamNodeDifference typed evidence and detached
+StreamScoreCorruption. Graph consistency_report reuses the existing journaled rebuild,
+compares every original checked terminal/dataset and restores state on return/error/
+panic. assert_consistent now returns boxed evidence in GraphError::CorruptedScore;
+Error::source exposes it. Named constraints plus dataset node IDs retain cancelled
+per-match/per-constraint differences even with equal totals. No intermediate-cache
+or uncaptured terminal-payload comparison claim. Formatting bounded5nodes, structured
+records complete. Existing five error-category assertions updated for payload variant.
+
+Compile66361 terminal0. First focused67255 terminal101: adapted solver test used
+nonexistent planning_source helper/result.best; corrected to typed source tuple and
+SolverResult fields. Two immediate compile retries exposed score Option and assignment
+(non-Option) expectations; corrected from compiler/type evidence. Focused21252
+TERMINAL0:31tests across6targets, including3source solver cases and3newnative reports.
+Existing cancelling-match, dataset, history-dependent projection/decimal, panic and
+search accounting regressions pass. Added one report doctest after focused success.
+
+Read DefaultSolverTest2737..2804 and nested calculator2906..end; basic testdomain
+fixtures reused from prior full reads. Adapted initialized count2 and initialized/
+uninitialized corruption with deterministic changing scores. Actual native match
+names/differences replace Java registry match b/diagnostic labels. Appended3cases6fixtures.
+Source/provenance frozen for final gate. Shared graph changes require affected broad
+regression coverage; reuse remains enabled for unchanged inputs. No benchmarks/browser/
+release reruns. Goal remains active.
+
+While gate66018 runs, prepared (NOT installed, NOT credited, NOT yet compiled)
+work/list_assigned_join_cases.rs:4Bi assigned-list join/existence cases, and
+work/bi_existence_filter_cases.rs:4Bi indexed/unindexed filtered existence cases.
+Read complete Bi136..266,746..877,899..1022,1061..1197; current native list source/
+director/move APIs inspected. Source assertion semantics and assigned row callbacks
+retained; native Composite list replacements replace Java before/after notifications.
+Install/adapt provenance after this gate/commit so frozen verification inputs stay
+unchanged. Work drafts formatted only. Source basic unassigned existence specs also
+read; they remain pending. No additional solver implementation changes in preparation.
+Draft check26869 TERMINAL0: all8prepared cases passed when compiled directly against
+the current built native rlib. This is development evidence only; files remain in
+work/, with no provenance/dashboard credit until installed and gated separately.
+Added two basic unassigned-existence cases to the second work draft (complete source
+specs already read), now6tests; direct compile/run terminal0 in chunk71d3b9. Prepared
+work/add_assigned_stream_provenance.py for10cases12fixtures, NOT executed. To install
+next batch: copy both work/*.rs drafts to same basenames under crates/solver/tests,
+then run that provenance script, document and run the final selective gate. Original
+4list cases remain covered by successful direct check26869; second draft6passed.
+
+Required gate66018 TERMINAL0. 3921 Rust tests and 187 doctests passed.
+Rust jobs: {'RUN': 434, 'REUSE': 57}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2311, 'failed': 0, 'pending': 2262, 'excluded': 282, 'unverified': 0, 'percent': 47.6}.
+Source before/after matched: e8c1baaf3ad7588815c1b0095e6a62c75dceac8b35d30df1ec703672798d4edd
+Live freshness matched verification digest: dc0901f348a044a789390822ac0294668035af6740ba7f9fd0717eec68d10dc9.
+Existing provenance prefixes unchanged; appended3cases and6fixtures.
+Log work/stream-consistency-final-check.log; evidence work/stream-consistency-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

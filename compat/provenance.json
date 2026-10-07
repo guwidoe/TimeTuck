@@ -34649,6 +34649,51 @@
       "local_path": "crates/solver/tests/arity_existence_cases.rs",
       "local_test": "quad::if_not_exists_1_join_1_filter",
       "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveIncrementalInitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveIncrementalInitialized",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "local_test": "solve_incremental_initialized",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCorruptedIncrementalUninitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedIncrementalUninitialized",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "local_test": "solve_corrupted_incremental_uninitialized",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveCorruptedIncrementalInitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedIncrementalInitialized",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "local_test": "solve_corrupted_incremental_initialized",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
     }
   ],
   "fixtures": [
@@ -47495,6 +47540,84 @@
       "upstream_test": "assertScore/assertMatch/AssertableMatch",
       "local_path": "crates/solver/tests/arity_existence_cases.rs",
       "modifications": "Preserve each source method's initial matches, every notification/update/removal, per-match -1 and total scores using native transactional StreamGraph pipelines. Separate sources and typed/position-qualified ordinal IDs replace Java classes/object identities and code ordering; Option string keys preserve null equality and composite keys preserve both equality projections. Cartesian joins plus filters represent filtering joiners; indexed joins retain equality keys. Unique pairs use ordered stable identities. Native tuple updates replace before/after callbacks. Filter/join cases additionally check ordered tuple payloads; existence cases follow the source AssertableMatch helper's unordered justification semantics while retaining occurrence counts and tagged fact types. Repeated references remain repeated. Facts not read by a constraint (unrelated numeric properties and randomized longProperty) are omitted. Source removal notifications are delivered as retractions, including Tri zero-join cases where the source removes an entity from the wrong Java collection but explicitly notifies its removal. Group-removal cases exercise both base-join and existence dependencies on the same source. No Java object/reflection/match-policy API parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataIncrementalScoreCalculator.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "TestdataIncrementalScoreCalculator",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CorruptedIncrementalScoreCalculator.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "CorruptedIncrementalScoreCalculator",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.stream_consistency",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/solver_incremental_corruption_cases.rs",
+      "modifications": "Preserve initialized two-entity/two-value fixture and initialized-count score2, and both initialized/uninitialized corruption failures. Native stream terminals maintain cached incremental contributions; explicit graph replay assertions replace FULL_ASSERT Java calculator lifecycle checks. Corrupted calculator Random.nextInt(1000) becomes a deterministic counter modulo1000 so repeated evaluations differ reliably. Native named retained matches replace the deliberately unrelated Java registry match b=1; validate actual changed-constraint evidence instead of reproducing inconsistent registry plumbing. Diagnostic labels working score/recomputed score replace workingScore/uncorruptedScore, and the named constraint with retained-match differences replaces the generic Score corruption analysis heading. Bounded construction/local solve uses assertions and max10localsteps; successful solve retains score2 and non-null solution semantics, additionally requiring assigned fields and best events. No Java random trace or incremental-calculator ABI parity claimed."
     }
   ]
 }

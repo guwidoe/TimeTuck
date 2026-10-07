@@ -456,7 +456,10 @@ fn fresh_graph_assertions_detect_cancelling_match_changes_and_restore_on_failure
     graph.assert_consistent().unwrap();
     let before = graph.constraint_matches(&c).unwrap().clone();
     altered.set(true);
-    assert_eq!(graph.assert_consistent(), Err(GraphError::CorruptedScore));
+    assert!(matches!(
+        graph.assert_consistent(),
+        Err(GraphError::CorruptedScore(_))
+    ));
     assert_eq!(graph.score(), SimpleScore::ZERO);
     assert_eq!(graph.constraint_matches(&c).unwrap(), &before);
     altered.set(false);
@@ -471,7 +474,10 @@ fn fresh_graph_assertions_detect_cancelling_match_changes_and_restore_on_failure
     tx.assert_consistent().unwrap();
     assert_eq!(tx.score_evaluations(), calls);
     altered.set(true);
-    assert_eq!(tx.assert_consistent(), Err(GraphError::CorruptedScore));
+    assert!(matches!(
+        tx.assert_consistent(),
+        Err(GraphError::CorruptedScore(_))
+    ));
     assert_eq!(tx.commit(), Err(GraphError::FailedTransaction));
     assert_eq!(graph.constraint_matches(&c).unwrap(), &before);
 }

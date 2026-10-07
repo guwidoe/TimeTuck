@@ -202,7 +202,10 @@ fn diagnostic_rebuild_rejects_history_dependent_output_and_restores_state() {
     t.apply(&s, TupleChange::put(0, 20)).unwrap();
     t.commit().unwrap();
     assert_eq!(g.score(), SimpleScore::new(22));
-    assert_eq!(g.assert_consistent(), Err(GraphError::CorruptedScore));
+    assert!(matches!(
+        g.assert_consistent(),
+        Err(GraphError::CorruptedScore(_))
+    ));
     assert_eq!(g.score(), SimpleScore::new(22));
     let mut t = g.transaction();
     t.apply(&s, TupleChange::put(0, 30)).unwrap();

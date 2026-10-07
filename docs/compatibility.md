@@ -3357,3 +3357,31 @@ occurrence counts, using tagged identities to distinguish fact classes. Join tes
 additionally require ordered tuple payloads. Inapplicable Java reflection/selector
 configuration and disabled methods receive no new credit. No benchmark refresh or
 performance claim is attached to this test-only batch.
+
+## Stream corruption evidence
+
+`StreamGraph::consistency_report` rebuilds from source rows, compares the graph
+score and every terminal's match identities/scores plus every captured dataset's
+identities/payloads, then restores the original state. Reports retain typed cached
+and recomputed totals and all changed node IDs; terminal differences include their
+constraint names. Equal totals do not hide cancelling changes within a terminal or
+across constraints, and dataset-only changes remain visible. Intermediate operator
+caches and uncaptured terminal payloads are not directly compared, as before.
+
+`assert_consistent` uses this same report and returns
+`GraphError::CorruptedScore(Box<StreamScoreCorruption>)` with detached evidence.
+The error source exposes the diagnostic. Display includes five node differences;
+structured fields retain all of them. Failed transaction assertions still poison
+the trial and restore its original state on drop. Callback panics and arithmetic
+errors retain the original rollback behavior. Diagnostic evaluations stay outside
+search counters; ordinary unchecked scoring adds no report work. External callback
+side effects remain the caller's responsibility.
+
+Three DefaultSolverTest incremental-calculator methods now have adaptations:
+initialized count scoring and initialized/uninitialized corruption. Deterministic
+changing scores replace random corruption, and named native match differences
+replace Java diagnostic labels/registry details. Native regressions verify complete
+and bounded evidence, cancellation in both totals and individual matches, dataset
+payload changes, detached reports, rollback on corruption/panic/overflow, and trial
+poisoning without diagnostic work inflating evaluation counts. This is diagnostic
+functionality, not a benchmark or proof that an application objective is correct.

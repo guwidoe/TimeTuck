@@ -256,7 +256,10 @@ fn mixed_scale_rebuild_reports_history_difference_without_losing_cached_state() 
     t.commit().unwrap();
     let saved = g.constraint_matches(&terminal).unwrap().clone();
     assert_eq!(g.score(), SimpleScore::new(350));
-    assert_eq!(g.assert_consistent(), Err(GraphError::CorruptedScore));
+    assert!(matches!(
+        g.assert_consistent(),
+        Err(GraphError::CorruptedScore(_))
+    ));
     assert_eq!(g.score(), SimpleScore::new(350));
     assert_eq!(g.constraint_matches(&terminal).unwrap(), &saved);
 }
