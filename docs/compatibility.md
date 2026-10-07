@@ -3204,3 +3204,23 @@ heterogeneous value types, state-dependent sort factories, resumable budgets,
 retries/reset, optional rejection, zero budget, lazy cursors, foreign-model rejection,
 pinned initial values, prefixes and receiver ranges. This increment adds native
 capability without claiming new upstream case coverage or performance results.
+
+## Construction phase behavior cases
+
+Nine more DefaultConstructionHeuristicPhaseTest methods exercise complete
+construction-only solves on both network and stream backends: initialized values
+and independent result storage, ordinary and optional-null pins, no entities,
+entity-provided basic/list ranges and hard-score
+penalties for optional assignment. Source arithmetic and final assignments are
+preserved. The shared source helper's nonempty best-event assertion is retained,
+including already initialized and empty solutions. The default helper uses a
+constant-zero objective, not a uniqueness penalty.
+
+Native entity indices and string fact identities replace Java entity/value objects.
+Optional scored decisions explicitly use EvaluateUnassigned. List owner/index and
+neighbor views derive from the assignment instead of annotated setters. No automatic reflection or annotation discovery is claimed.
+
+The required-null pin exception method remains pending: native models deliberately
+permit a pinned required null and return an incomplete partial construction result,
+with no complete solution available. Existing native tests specify that behavior.
+This batch does not relabel it as a passing exception test or alter partial solves.

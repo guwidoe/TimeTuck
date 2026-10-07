@@ -33359,6 +33359,141 @@
       "local_path": "crates/solver/tests/construction_sorting_cases.rs",
       "local_test": "solve_list_variable_entity_range_queue_factory",
       "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithInitializedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithInitializedEntities",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_initialized_entities",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithInitializedSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithInitializedSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_initialized_solution",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithPinnedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithPinnedEntities",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_pinned_entities",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithPinnedEntitiesWhenUnassignedAllowedAndPinnedToNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithPinnedEntitiesWhenUnassignedAllowedAndPinnedToNull",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_pinned_entities_when_unassigned_allowed_and_pinned_to_null",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithEmptyEntityList",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_empty_entity_list",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithEntityValueRangeBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithEntityValueRangeBasicVariable",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_entity_value_range_basic_variable",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveWithEntityValueRangeListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveWithEntityValueRangeListVariable",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "solve_with_entity_value_range_list_variable",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.penalizeBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "penalizeBasicVariable",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "penalize_basic_variable",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.penalizeListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "penalizeListVariable",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "local_test": "penalize_list_variable",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
     }
   ],
   "fixtures": [
@@ -44840,6 +44975,344 @@
       "upstream_test": "TestdataObject",
       "local_path": "crates/solver/tests/construction_sorting_cases.rs",
       "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedEntity.java",
+      "upstream_test": "TestdataPinnedEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedSolution.java",
+      "upstream_test": "TestdataPinnedSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedEntity.java",
+      "upstream_test": "TestdataPinnedAllowsUnassignedEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedAllowsUnassignedSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/unassignedvar/TestdataPinnedAllowsUnassignedSolution.java",
+      "upstream_test": "TestdataPinnedAllowsUnassignedSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingValue.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSortableEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/sort/TestdataAllowsUnassignedSortableEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedSortableEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSortableSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/sort/TestdataAllowsUnassignedSortableSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedSortableSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedListSortableEntity.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/sort/TestdataAllowsUnassignedListSortableEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedListSortableEntity",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedListSortableSolution.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/sort/TestdataAllowsUnassignedListSortableSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedListSortableSolution",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSortableValue.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataSortableValue.java",
+      "upstream_test": "TestdataSortableValue",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSortableObjectComparator.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObjectComparator.java",
+      "upstream_test": "TestSortableObjectComparator",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSortableObject.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObject.java",
+      "upstream_test": "TestSortableObject",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingScoreCalculator.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingScoreCalculator.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingScoreCalculator",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingScoreCalculator.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingScoreCalculator.java",
+      "upstream_test": "TestdataListEntityProvidingScoreCalculator",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "DummySimpleScoreEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Preserve source initial values, pins, optionality, receiver ranges, entity positions, value-code identities, score arithmetic and final assertions. Execute construction-only solver sequences on both network and stream backends with score consistency checks. Preserve PlannerTestUtils.solve best-event-nonempty assertion. Native immutable entity indices replace e1/e2/e3 object codes; string values preserve fact identities. Owned independent assignment storage replaces Java solution cloning; source TestdataEntity has no shadows. ListAssignment owner/index views replace fixture shadow fields. Native EvaluateUnassigned is explicit for scored optional choices; Preserve used for zero-objective cases. Empty entity case omits three unused Java solution-level facts because native domains belong to variables. Penalty cases retain HardSoft score and step limit3, using explicit scoring callbacks instead of reflective ConstraintProvider discovery. Pinned-required-null exception case remains pending due to native partial-construction semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solve.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Adapt buildSolverConfig default zero objective and solve helper assertion that at least one best-solution event exists. Native solver sequence runs only the construction phase selected by each source method; no unused local-search phase, synchronized JVM meter handling, mocks or reflection helpers are ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.PenalizeAssignedConstraintProvider.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "PenalizeAssignedConstraintProvider",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Retain -1 hard per nonnull basic assignment or per nonempty list owner respectively, and HardSoft score type. Native scoring callbacks replace provider class wiring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.ListPenalizeAssignedConstraintProvider.construction_phase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "ListPenalizeAssignedConstraintProvider",
+      "local_path": "crates/solver/tests/construction_phase_cases.rs",
+      "modifications": "Retain -1 hard per nonnull basic assignment or per nonempty list owner respectively, and HardSoft score type. Native scoring callbacks replace provider class wiring."
     }
   ]
 }

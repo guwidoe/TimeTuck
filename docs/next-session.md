@@ -13252,3 +13252,56 @@ Live freshness matched verification digest: fbb91ed0538ad294118288556b540a9620b4
 Provenance unchanged; native capability only, no additional source-case credit.
 Log work/mixed-provider-final-check.log; evidence work/mixed-provider-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Construction phase functional cases (current increment)
+
+Previous goal turn6f72da2 was progress; starting tree clean. Adapted9 remaining
+functional DefaultConstructionHeuristicPhaseTest methods with full construction
+solves on both backends (18 runs): initialized values/independent output storage,
+pins/optional-null pin, empty entities,
+entity ranges and hard-score optional penalties. Preserve source helper best-event
+assertion. No production solver change was necessary; these source cases close
+compatibility evidence gaps. Required pinned-null exception case remains pending:
+existing native solver_resume_regression explicitly permits partial construction
+around it and returns no complete solution. Do not manufacture an exception test.
+
+Read full PlannerTestUtils (adapt buildSolverConfig's Dummy zero calculator and
+solve's best-event-nonempty assertion only); DummySimpleScoreEasyScoreCalculator;
+pinned entity/solution and pinned/unassignedvar entity/solution; optional list
+entity/solution/value; entity-provided optional basic entity/solution; entity-provided
+list entity/solution/value; reread basic TestdataEntity (no shadow variables).
+Other basic/common and optional-sort fixtures and four easy-score fixtures already
+read in previous turns. No production implementation imports followed.
+
+First focused compile failed: collect_list emits ListSnapshot instead of slice and
+untyped observer closure did not satisfy higher-ranked event lifetimes. Corrected
+native harness collection and observer parameter types. Focused68113 TERMINAL0:
+11 focused cases passed, then provenance duplicate detection found two optional
+cases already credited in construction_optional_cases.rs. Removed those duplicate
+tests and their unused fixture records; retain existing coverage/evidence. Final
+batch adds9cases26fixtures; existing entries unchanged.
+No benchmark/browser/release reruns. Final required gate after source freeze.
+
+Next-target investigation: queried current report pending identities before reading
+DefaultSolverTest;43 pending methods include score corruption/environment-mode cases.
+Read file1..265 (imports and first4methods),386..551 (corrupted easy cases plus
+empty/pinned/custom/partial initialization),1400..1544 (sort/mixed cases mostly
+already credited), and2559..2577 (CorruptedEasyScoreCalculator creates Random and
+returns random0..999 each calculation; TestingNeighborhoodProvider throws).
+Do not claim full-file read. ScoringError currently identifies corrupted constraint
+index or total only; assert_consistent recomputes contributions but discards cached/
+actual score values. Rich typed score-consistency diagnostics across basic/list/
+mixed directors are a useful next implementation; source full-assert cases expect
+working/recomputed score diagnostics. Deterministic changing-score callbacks should
+replace random corruption in adapted tests, documented explicitly. Native event
+semantics differ for incomplete best snapshots; don't copy JVM event filtering
+implicitly. Existing successful jobs remain reusable until relevant source changes.
+
+Required gate57148 TERMINAL0. 3824 Rust tests and 182 doctests passed.
+Rust jobs: {'REUSE': 478, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2231, 'failed': 0, 'pending': 2342, 'excluded': 282, 'unverified': 0, 'percent': 45.953}.
+Source before/after matched: fecc913d52911913106e34fb724199a4705e74193534902791d5f6bef95b14cd
+Live freshness matched verification digest: d478d2640efc529a6f91ac933cbea1e35dcfe19d53f13ac33d561b93ddeaa60f.
+Existing provenance prefixes unchanged; appended9cases and26fixtures.
+Log work/construction-phase-final-check.log; evidence work/construction-phase-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
