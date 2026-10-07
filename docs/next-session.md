@@ -14688,3 +14688,40 @@ Live freshness matched verification digest: f40bcfac2077f91355fdd4f0b67d4700e16b
 Existing provenance prefixes unchanged; appended9cases and2fixtures.
 Log work/scaling-map-final-check.log; evidence work/scaling-map-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Entity-row swap providers
+
+Previous goal turn was verified progress; startinga164e0f clean. Read compatibility/
+current handoff and pending methods. Read full SwapMoveSelectorTest in sections,
+native pillar/schema/model/neighborhood behavior, TestdataAllowsUnassignedEntity-
+ProvidingEntity/Solution fixtures, relevant SelectorTestUtils.mockEntitySelector
+and PlannerAssert finite-selector assertions. Reused previously read TestdataEntity,
+TestdataValue/Object. No production upstream reads.
+
+New entity_swap_provider module validates disjoint aligned row schemas while
+preserving caller row IDs. Supports unordered, Cartesian, paired and bounded
+sampled pairs. Pin filtering precedes pairing; domains/null transfer filter whole
+atomic Composite swaps. Equal tuples/no-ops optional; self-row pairs excluded.
+Unknown orders validate even if opposite side empty. Upper-bound count separate
+from emitted count. Providers integrate basic/mixed solve plans and leave unselected
+basic/list variables untouched. Seed+step replay doesn't depend on consumed prefix.
+No changes to shared scoring/model/search implementations.
+
+Added1 fully adapted source method: originalLeftUnequalsRightWithEntityRange.
+Added10fixtures:4partial lifecycle methods,5domainfixtures,1mockselectorhelper.
+Partial methods retain all five source output sequences but do not claim lifecycle
+callback counts; original source methods remain pending. Existing provenance intact.
+Compile53134 TERMINAL0; Focused31845 TERMINAL0:2 source/partial fixture tests and5
+original regressions. Native tests cover97 small assignments and rollback, range/
+pin/schema/null handling, each pair policy/replay/empty bounds and full basic/mixed
+plans in deterministic and sampled modes. Final formatted source frozen for gate.
+No benchmark/browser/release reruns or performance claims.
+
+Required gate95791 TERMINAL0. 4250 Rust tests and 210 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 546}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2513, 'failed': 0, 'pending': 2060, 'excluded': 282, 'unverified': 0, 'percent': 51.761}.
+Source before/after matched: 9a12a58ab7fe9663eb4a3b8caa3f40bc43bbe10783c57e0b1007ac62cbb98517
+Live freshness matched verification digest: f3ab9f5f655b594ef916d406df4cb7c4b63c835798111a61705add9ce958bca7.
+Existing provenance prefixes unchanged; appended1case and10fixtures.
+Log work/entity-swap-final-check.log; evidence work/entity-swap-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

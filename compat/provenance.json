@@ -37709,6 +37709,21 @@
       "upstream_test": "randomChurnMatchesTreeMapModel",
       "local_test": "random_churn_matches_tree_map_model",
       "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SwapMoveSelectorTest.originalLeftUnequalsRightWithEntityRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalLeftUnequalsRightWithEntityRange",
+      "local_test": "original_left_unequals_right_with_entity_range",
+      "modifications": "Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
     }
   ],
   "fixtures": [
@@ -52388,6 +52403,136 @@
       "id": "ScalingNavigableMapTest.keys.scaling_map",
       "upstream_test": "keys/ascendingKeys/descendingKeys",
       "modifications": "Native borrowed iterators collect ordered integer keys; reverse traversal uses DoubleEndedIterator in tree-mode source cases. Do not adapt the source helper behavior that ignores reversal in array mode; that source method stays pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SwapMoveSelectorTest.originalLeftEqualsRight.entity_swap_partial",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalLeftEqualsRight",
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SwapMoveSelectorTest.emptyOriginalLeftEqualsRight.entity_swap_partial",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "emptyOriginalLeftEqualsRight",
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SwapMoveSelectorTest.originalLeftUnequalsRight.entity_swap_partial",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalLeftUnequalsRight",
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SwapMoveSelectorTest.emptyRightOriginalLeftUnequalsRight.entity_swap_partial",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "emptyRightOriginalLeftUnequalsRight",
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Stable native row/variable/value indices replace Java named objects, reflection and mutable solution beans. Preserve selected value ranges, initial nulls and optionality used by source cases; unrelated fixture methods are not adapted. Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "test fixture",
+      "modifications": "Stable native row/variable/value indices replace Java named objects, reflection and mutable solution beans. Preserve selected value ranges, initial nulls and optionality used by source cases; unrelated fixture methods are not adapted. Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "TestdataEntity.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Stable native row/variable/value indices replace Java named objects, reflection and mutable solution beans. Preserve selected value ranges, initial nulls and optionality used by source cases; unrelated fixture methods are not adapted. Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "TestdataValue.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "test fixture",
+      "modifications": "Stable native row/variable/value indices replace Java named objects, reflection and mutable solution beans. Preserve selected value ranges, initial nulls and optionality used by source cases; unrelated fixture methods are not adapted. Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "TestdataObject.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "test fixture",
+      "modifications": "Stable native row/variable/value indices replace Java named objects, reflection and mutable solution beans. Preserve selected value ranges, initial nulls and optionality used by source cases; unrelated fixture methods are not adapted. Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_cases.rs",
+      "id": "SelectorTestUtils.mockEntitySelector.entity_swap_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockEntitySelector",
+      "modifications": "Explicit finite caller row orders and native iterator reopening replace the finite mocked selector iterator/listIterator orders. No Java descriptor mocking or lifecycle behavior is claimed."
     }
   ]
 }

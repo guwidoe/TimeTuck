@@ -3859,3 +3859,19 @@ both representations. Three original regressions cover range boundaries/errors,
 double-ended iteration, supplier panic atomicity, clear and live candidate-index
 rekey/removal/query/sample behavior across promotion. No performance measurement
 or parity with unread upstream tuning constants is claimed.
+
+EntitySwapProvider now exchanges aligned basic-variable columns of individual
+entities, independently of equal-valued pillar grouping. Validated disjoint rows
+retain caller identity/order. Unordered, Cartesian and paired orders support pins,
+receiving domains, optional null transfer and explicit no-op metadata. Selected
+pinned slots exclude their complete row; unselected variables are untouched.
+Bounded sampling retains pair multiplicity and replays seed+step; rejected proposals
+consume attempts. Basic/mixed provider bindings reuse ordinary transaction/scoring
+engines; mixed list assignments are unchanged. Upper-bound pair counts deliberately
+include candidates later rejected by self/range/no-op checks.
+One SwapMoveSelectorTest method fully preserves optional-null entity ranges, ordered
+outputs and advertised pair-space size. Four lifecycle-bearing source methods have
+partial ordered/reopening fixtures only and remain pending. Five original tests
+cover97 small optional/required states with execution/undo, multi-column range/pin
+checks, malformed configurations, replay and both complete solver model families.
+Java lifecycle and random no-change fallback policies are not claimed.

@@ -943,3 +943,8 @@ pub use slot_reservations::{SlotReservationError, SlotReservationMap};
 
 mod scaling_map;
 pub use scaling_map::{ScalingMap, ScalingMapConfig};
+
+mod entity_swap_provider;
+pub use entity_swap_provider::{
+    EntitySwapCandidate, EntitySwapError, EntitySwapOrder, EntitySwapProvider,
+};
