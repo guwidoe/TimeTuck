@@ -32729,6 +32729,21 @@
       "upstream_test": "changingVariableOfParentShouldChangeDependentVariableOfChildren",
       "local_test": "changing_variable_of_parent_changes_dependent_variable_of_children",
       "modifications": "Use actual native MixedProblem temporary basic-variable change over required delays 1/2 and a required list [v1,v2]. Stable indices represent a/v1/v2. Typed snapshots derive previous links from the native assignment; compiled previous and previous.delay paths automatically bind shadow dependencies. Preserve changed v1 delay and v2 previousDelay assertions. Add explicit initial/undo assertions through a no-supplier checkpoint restore. Explicit native metadata and cached typed shadow fields replace Java reflection and mutable setters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_model_shadow_cases.rs",
+      "id": "ListModelTest.simpleList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ListModelTest.java",
+      "upstream_test": "simpleList",
+      "local_test": "simple_list",
+      "modifications": "Preserve one initially empty required list, owner position/start time 0, v1/v2/v3 positions 1/2/3 and durations 60/120/30, objective minimizing every end time, score limit -344, exact final order and all six start/end assertions. Native deterministic construction/local search with score assertions replaces Java FULL_ASSERT/reflection; add 1000-evaluation and 32-step safety limits. Compiled source paths bind separate start/end shadow fields inside transactional stream scoring. Final values come from the same runtime bound to the returned solution. Stable indices replace object codes; native list snapshots supply owner/previous references."
     }
   ],
   "fixtures": [
@@ -43274,6 +43289,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/mixed/TestdataMixedValue.java",
       "upstream_test": "TestdataMixedValue",
       "modifications": "Adapt required delay/valueList metadata, previous/entity/previousDelay declarations, literal identities and previousDelay supplier sources previous plus previous.delay. Typed Value snapshots carry stable identity, delay and borrowed previous objects. Native mixed assignments retain list ownership; the unused Java owner field and score storage are omitted. Suppliers read the dynamically resolved delay field or return None without a predecessor."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_model_shadow_cases.rs",
+      "id": "TestdataDeclarativeSimpleListConstraintProvider.list_model_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListConstraintProvider.java",
+      "upstream_test": "TestdataDeclarativeSimpleListConstraintProvider",
+      "modifications": "Retain required values metadata, owner/previous shadows, exact entity and job facts, start supplier sources entity and previous.endTime, end supplier source startTime, null semantics and total-end-time penalty. Use typed canonical metadata and compiled path sessions rather than annotations/setters. Native indices retain e1/v1/v2/v3 identities; immutable snapshots derive builtin owner/previous from actual candidate lists. Graph-owned caches store separate start and end fields; selected fields are projected into a normal scoring tuple."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_model_shadow_cases.rs",
+      "id": "TestdataDeclarativeSimpleListEntity.list_model_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListEntity.java",
+      "upstream_test": "TestdataDeclarativeSimpleListEntity",
+      "modifications": "Retain required values metadata, owner/previous shadows, exact entity and job facts, start supplier sources entity and previous.endTime, end supplier source startTime, null semantics and total-end-time penalty. Use typed canonical metadata and compiled path sessions rather than annotations/setters. Native indices retain e1/v1/v2/v3 identities; immutable snapshots derive builtin owner/previous from actual candidate lists. Graph-owned caches store separate start and end fields; selected fields are projected into a normal scoring tuple."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_model_shadow_cases.rs",
+      "id": "TestdataDeclarativeSimpleListSolution.list_model_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListSolution.java",
+      "upstream_test": "TestdataDeclarativeSimpleListSolution",
+      "modifications": "Retain required values metadata, owner/previous shadows, exact entity and job facts, start supplier sources entity and previous.endTime, end supplier source startTime, null semantics and total-end-time penalty. Use typed canonical metadata and compiled path sessions rather than annotations/setters. Native indices retain e1/v1/v2/v3 identities; immutable snapshots derive builtin owner/previous from actual candidate lists. Graph-owned caches store separate start and end fields; selected fields are projected into a normal scoring tuple."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_model_shadow_cases.rs",
+      "id": "TestdataDeclarativeSimpleListValue.list_model_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListValue.java",
+      "upstream_test": "TestdataDeclarativeSimpleListValue",
+      "modifications": "Retain required values metadata, owner/previous shadows, exact entity and job facts, start supplier sources entity and previous.endTime, end supplier source startTime, null semantics and total-end-time penalty. Use typed canonical metadata and compiled path sessions rather than annotations/setters. Native indices retain e1/v1/v2/v3 identities; immutable snapshots derive builtin owner/previous from actual candidate lists. Graph-owned caches store separate start and end fields; selected fields are projected into a normal scoring tuple."
     }
   ]
 }

@@ -12843,3 +12843,58 @@ Live freshness matched verification digest: 34ad2547131e2ae16f8564ef797a34bf7ac6
 Existing provenance prefixes unchanged; appended1case and3fixtures.
 Log work/shadow-source-bindings-final-check.log; evidence work/shadow-source-bindings-evidence.json.
 No benchmark/browser/release reruns. Goal remains active.
+
+## Typed shadow sessions inside stream scoring (current increment)
+
+Previous goal turn bba6576 made progress; starting tree clean. Added graph-native
+map_shadows in stream_graph/shadows.rs. It consumes a ShadowSessionBuilder and
+projects complete world snapshots into normal stream tuples. Per-input identity
+stores an independent session checkpoint in SnapshotMap. Scratch session installs
+that identity's state before update. Graph checkpoints contain only owned cache
+state; restore/clear install the initial scratch state without callbacks. Unknown
+sources/projection errors become GraphError::Dependency. External callback side
+effects remain outside rollback; suppliers must depend only on registered inputs,
+compiled path signatures and immutable facts. No automatic model setter claim.
+
+ShadowSession checkpoints now clone persistent caches and retain pending/requested
+edges internally. Public checkpoint still requires current state; public restore
+still validates source signatures and sampled inputs. Internal capture/install
+support graph rollback without resampling readers. Checkpoints retain identity.
+
+Read ListModelTest and all four simple_list fixtures in full. Adapted exact empty
+required list, positions/durations, compiled entity/previous.endTime/startTime
+sources, null behavior, total-end-time penalty, -344 goal, final v3/v1/v2 order
+and six time assertions. Real solve_list_stream constructs and optimizes; final
+fields come from the same graph runtime bound to the returned solution. Native
+assert_scores checks both phases; deterministic bounded search (1000 evaluations,
+32 local steps) replaces Java solver configuration. Four fixtures appended with
+one case; existing provenance prefixes unchanged. No production source read.
+
+Compile16998 and focused25249 exited0: source case and four existing session tests.
+Original70056 failed because the saved-winner test used default FirstAccepted with
+one step but expected the best candidate. Set BestAccepted explicitly; focused4508
+exited0 (three original tests). Added projection-count assertion after that focused
+pass; final gate will verify final code. Tests cover independent identity caches,
+non-Clone fields, retraction/reinsertion, reader/supplier/projection/score panics,
+projection error, nested list moves and saved candidate installation. No benchmark
+or UI work; source/provenance frozen for required selective verification.
+
+Next specifications read while the gate runs: full AffectedEntitiesUpdaterTest
+(still pending) and full DeclarativeShadowVariablesMethodVariablesTest plus all
+five shadow/method_variables fixtures (still pending, not adapted). Method-variable
+case: two initially empty owners A/B; subclass values codes 1,2,31. Getter-declared
+previous exists on base and covariant override on subclass. codeSum supplier is
+previous.codeSum + code, or own code for no predecessor; initialized codeSum=code.
+Hard penalty counts duplicate characters per sum; soft reward sums lengths.
+TRACKED_FULL_ASSERT, score calculation limit1000, final HardSoftScore(0,6).
+Native metadata/getter registration and true solver execution are necessary;
+merely asserting a hard-coded score or classification does not establish behavior.
+
+Required gate80610 exited0. 3755 Rust tests and 177 doctests passed.
+Rust jobs: {'RUN': 409, 'REUSE': 57}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2181, 'failed': 0, 'pending': 2392, 'excluded': 282, 'unverified': 0, 'percent': 44.923}.
+Source before/after matched: bca7f572925aba7527dd6798042995e807dcbf2103077a2e3f64d72d45d058a3
+Live freshness matched verification digest: 3fea31ed1b0bf4bf7109810ff6f76e5ecac4974a60e401984ed7d275ffae640e.
+Existing provenance prefixes unchanged; appended1case and4fixtures.
+Log work/shadow-stream-final-check.log; evidence work/shadow-stream-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

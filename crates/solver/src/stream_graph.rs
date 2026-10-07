@@ -35,6 +35,7 @@ pub use activity::{NodeActivity, StreamActivity};
 mod dataset;
 mod precompute;
 pub use precompute::SharedPrecompute;
+mod shadows;
 mod shared_sets;
 pub use shared_sets::{SharedConcat, SharedDistinct, SharedPaddedConcat};
 mod shared_aggregation;

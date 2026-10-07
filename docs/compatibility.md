@@ -3029,3 +3029,27 @@ cover live rewiring, nulls, cycle recovery, duplicate/reordered groups, mismatch
 restore, missing sources/root identity and explicit/automatic binding conflicts.
 Node registration and root access remain explicit; node universe changes and Java
 reflection are separate concerns. Resolution currently scans registered nodes.
+
+## Typed shadow sessions in transactional scoring
+
+`StreamGraphBuilder::map_shadows` evaluates registered heterogeneous shadow fields
+from complete world snapshots and projects typed results into scored or joined
+tuples. Each input identity has its own persistent dependency cache. Explicit
+edges and compiled source paths both work. Trial undo, saved winners and nested
+move scopes restore caches without readers, suppliers or projections; retraction
+removes a cache and reinsertion starts fresh. Diagnostic rebuilds replay current
+world snapshots from fresh caches. Cached field values need not implement Clone.
+
+World snapshots must include every registered root. Mutable facts need registered
+input readers or compiled path signatures; captured facts remain immutable.
+Callback history and external side effects are not transactional. This is an
+explicit native integration, not automatic Java field discovery or setters.
+
+ListModelTest.simpleList now runs actual construction and local search through
+compiled owner/previous/start/end dependencies and this scoring integration. It
+starts with an empty required list, minimizes all end times, reaches -344, and
+preserves the exact order and six time assertions. Native score assertions check
+rebuild consistency; deterministic bounded search replaces Java configuration.
+Four source fixtures are attributed. Original tests exercise independent row
+caches, non-Clone values, retraction, rollback, callback failures, nested list
+moves and saved-winner installation without replay. No performance claim is made.

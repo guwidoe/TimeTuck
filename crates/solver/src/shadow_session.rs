@@ -428,11 +428,14 @@ pub struct ShadowSession<'a, 's, K, W> {
     pending: BTreeSet<usize>,
     cache: DependencyCache<usize, Stored>,
 }
+#[derive(Clone)]
 pub struct ShadowSessionCheckpoint {
     identity: Rc<()>,
     cache: DependencyCache<usize, Stored>,
     edges: BTreeSet<(usize, usize)>,
     manual_edges: BTreeSet<(usize, usize)>,
+    requested_edges: BTreeSet<(usize, usize)>,
+    pending: BTreeSet<usize>,
     resolved: Vec<Option<Vec<usize>>>,
 }
 impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
@@ -587,13 +590,18 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     }
     pub fn checkpoint(&self) -> Result<ShadowSessionCheckpoint, ShadowSessionError> {
         self.ready()?;
-        Ok(ShadowSessionCheckpoint {
+        Ok(self.capture())
+    }
+    pub(crate) fn capture(&self) -> ShadowSessionCheckpoint {
+        ShadowSessionCheckpoint {
             identity: self.identity.clone(),
             cache: self.cache.clone(),
             edges: self.applied.clone(),
             manual_edges: self.manual_applied.clone(),
+            requested_edges: self.edges.clone(),
+            pending: self.pending.clone(),
             resolved: self.resolved.clone(),
-        })
+        }
     }
     pub fn restore(
         &mut self,
@@ -614,16 +622,19 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
                 return Err(ShadowSessionError::SnapshotMismatch);
             }
         }
-        let edges = saved.manual_edges.clone();
-        let manual_applied = edges.clone();
-        let applied = saved.edges.clone();
-        self.cache = saved.cache.clone();
-        self.edges = edges;
-        self.applied = applied;
-        self.manual_applied = manual_applied;
-        self.resolved = resolved.signatures;
-        self.pending.clear();
+        self.install(saved);
         Ok(())
+    }
+    // Internal graph snapshots already own the matching source world. Restoring
+    // these must neither sample input readers nor invoke derived suppliers.
+    pub(crate) fn install(&mut self, saved: &ShadowSessionCheckpoint) {
+        assert!(Rc::ptr_eq(&self.identity, &saved.identity));
+        self.cache = saved.cache.clone();
+        self.edges = saved.requested_edges.clone();
+        self.applied = saved.edges.clone();
+        self.manual_applied = saved.manual_edges.clone();
+        self.resolved = saved.resolved.clone();
+        self.pending = saved.pending.clone();
     }
 }
 
