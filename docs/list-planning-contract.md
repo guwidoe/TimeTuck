@@ -957,3 +957,32 @@ just like receiving-range violations, instead of panicking. Setup no longer clon
 the combined value payloads; candidate construction still clones working states.
 This trades a temporary payload vector for segment metadata and indexed boundary
 lookups; runtime improvements have not been benchmarked.
+
+## Ordered destination selection and sampling
+
+`ListDestinationSelector` borrows a validated assignment and accepts independent
+entity and anchor orders. Entity entries contribute their first unpinned insertion
+position; movable assigned anchors contribute the following position. Full entity
+pins, pinned anchors and missing anchors are excluded. Duplicate entries retain
+occurrence order and sampling weight. Entity selection controls the starting
+positions only; an anchor may name a value on another entity.
+
+`all` returns an owned `ListDestinationOrder`; `for_values` also intersects receiver
+ranges and removes anchors belonging to the selected group. Each query derives a
+fresh order, so changing the selected group cannot retain an old exclusion. Optional
+unassignment, when requested, is first, including when no receiver is eligible.
+The owned order supports indexed/double-ended traversal and repeated uniform rank
+sampling. Empty and singleton `sample` calls consume no randomness. Positions are
+snapshots before source removal; reopen after assignment changes and validate actual
+moves, including source pins, adjusted indices and dependencies.
+
+`SampledAnchoredListChangeProvider` supports list and mixed construction/local-search
+bindings. It filters source pins, then draws a source occurrence and a destination
+from that source's eligible order. It can assign missing values, relocate assigned
+ones and optionally unassign them. Candidates use existing full move validation;
+no-ops, empty destinations and dependency rejections consume attempts. Memory does
+not retain a Cartesian move catalog: destination choices are built only for the
+current proposal. Reopening uses seed+completed_steps with wrapping addition, so
+partial consumption cannot disturb replay. A bounded empty sample does not prove
+optimality. Mixed moves preserve basic variables. No Java selector fallback or
+random-trace equivalence and no measured runtime improvement are claimed.

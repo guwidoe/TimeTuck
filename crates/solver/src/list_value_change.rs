@@ -401,3 +401,107 @@ impl<B: Clone + Eq, V: Clone + Eq>
         )
     }
 }
+
+/// Bounded, range-aware sampling over configured source occurrences and ordered
+/// entity starts/value anchors. Source pins are filtered before drawing. Receiver
+/// ranges are filtered for each selected source before drawing its destination.
+/// Empty destination sets, rejected dependencies and excluded no-ops consume an
+/// attempt. An empty sample is not a proof of a local optimum.
+///
+/// Sampling is uniform over source occurrences, then eligible destination
+/// occurrences, not over all valid moves. Duplicate inputs retain weight. Opening
+/// validates all configured identities. Each opening owns a PRNG initialized with
+/// seed+completed_steps (wrapping), so partial consumption does not alter replays.
+/// Native sampling traces are distinct from Java's selector mixing protocol.
+#[derive(Clone, Debug)]
+pub struct SampledAnchoredListChangeProvider<V> {
+    pub values: Vec<V>,
+    pub entities: Vec<usize>,
+    pub anchors: Vec<V>,
+    pub include_unassigned: bool,
+    pub include_noops: bool,
+    pub seed: u64,
+    pub attempts_per_step: u64,
+}
+impl<V: Clone + Eq> SampledAnchoredListChangeProvider<V> {
+    pub fn select<'a>(
+        &self,
+        problem: &'a ListProblem<V>,
+        assignment: &'a ListAssignment<V>,
+        completed_steps: u64,
+    ) -> Result<impl Iterator<Item = ListValueChange<V>> + use<'a, V>, ListError> {
+        let selection = ValueChangeSelection::new(problem, assignment)?;
+        let values = selection.sources(&self.values)?;
+        let destinations = crate::ListDestinationSelector::new(
+            problem,
+            assignment,
+            &self.entities,
+            &self.anchors,
+            self.include_unassigned,
+        )?;
+        let mut random = SampleRandom::new(self.seed.wrapping_add(completed_steps));
+        let mut remaining = self.attempts_per_step;
+        let include_noops = self.include_noops;
+        Ok(std::iter::from_fn(move || {
+            let n = NonZeroUsize::new(values.len())?;
+            while remaining > 0 {
+                remaining -= 1;
+                let id = values[if n.get() == 1 { 0 } else { random.index(n) }];
+                let choices = destinations
+                    .for_values(std::slice::from_ref(&problem.values()[id]))
+                    .expect("registered source");
+                if let Some(destination) = choices.sample(&mut random)
+                    && let Some(candidate) = selection.candidate(id, destination, include_noops)
+                {
+                    return Some(candidate);
+                }
+            }
+            None
+        })
+        .fuse())
+    }
+}
+impl<V: Clone + Eq> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
+    for SampledAnchoredListChangeProvider<V>
+{
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a ListProblem<V>,
+        a: &'a ListAssignment<V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a>
+    where
+        ListMove<V>: 'a,
+    {
+        Box::new(
+            self.select(p, a, step)
+                .expect("sampled anchored provider requires valid configuration")
+                .map(ListValueChange::into_move),
+        )
+    }
+}
+impl<B: Clone + Eq, V: Clone + Eq>
+    MoveProvider<MixedProblem<B, V>, MixedAssignment<B, V>, MixedMove<B, V>>
+    for SampledAnchoredListChangeProvider<V>
+{
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a MixedProblem<B, V>,
+        a: &'a MixedAssignment<B, V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = MixedMove<B, V>> + 'a>
+    where
+        MixedMove<B, V>: 'a,
+    {
+        p.validate(a)
+            .expect("sampled anchored provider requires valid mixed assignment");
+        Box::new(
+            self.select(p.lists(), a.lists(), step)
+                .expect("sampled anchored provider requires valid configuration")
+                .map(|candidate| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists: candidate.into_move(),
+                }),
+        )
+    }
+}

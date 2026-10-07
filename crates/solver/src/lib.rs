@@ -961,3 +961,7 @@ pub use segmented_slice::{RepartitionError, SegmentedSlice, SegmentedSliceMut, r
 
 mod score_definition;
 pub use score_definition::{ScoreDefinition, ScoreDefinitionError};
+
+mod list_destination_selector;
+pub use list_destination_selector::{ListDestinationOrder, ListDestinationSelector};
+pub use list_value_change::SampledAnchoredListChangeProvider;

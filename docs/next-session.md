@@ -14904,3 +14904,45 @@ Focused98592 TERMINAL0:70adapted methods and5native regressions. Final gate44959
 and evidence40166 terminal0. Source-method mapping audit found exact coverage of
 all70@Test methods across the eight classes, with prior provenance prefixes
 unchanged. Score APIs & types dashboard category is230/230(100%). No live sessions.
+
+## Reusable ordered list destinations and sampled anchored changes
+
+Previous goal turn was verified progress; started38a2d5f clean. Read handoff and
+compatibility. Read ElementDestinationSelectorTest original/random, entity-range,
+partial-pin/unassigned, fully-pinned and empty/start methods plus iterator helpers.
+Some full-file output was truncated; no claim to full read of mutable-recorder
+refresh/lifecycle/discard methods. Also inspected native destination indexes and
+value-driven change providers. No upstream production reads. Briefly inspected
+DefaultLevelScoreStateTest in truncated output; no adaptations or changes from it.
+
+New ListDestinationSelector exposes independent ordered entity-start and anchor
+inputs, shared borrowed snapshot validation, group receiver-range intersection
+and self-anchor exclusion. Owned ListDestinationOrder supports rank, finite and
+repeating sampling APIs. Duplicate occurrences persist; optional None is first.
+Added SampledAnchoredListChangeProvider in existing value-change module, reusing
+candidate validation for list/mixed construction and local search. Per-attempt
+source draw precedes range-filtered destination draw, no Cartesian move catalog;
+seed+step replay, bounded failures/no-ops/dependencies and source-pin filtering.
+
+Five source methods, six helper fixtures added. Native cases cover all27small
+assignment states with pins/groups, query refresh, error inputs, explicit seeded
+pair oracle, undo, replay after partial consumption, missing assignments, blocked
+receivers, zero attempts, optional no-ops, dependency rejection and complete
+list/mixed construction+local plans. Compile39795 terminal0. No benchmark claim.
+Focused16749 TERMINAL0:5source methods,5native regressions and5existing change
+regressions. Added dependency-rejection regression afterwards; final gate covers
+it. Formatting48932 terminal0. First gate39499 terminal101: Clippy required the
+fixed two-row test collection to be an array. Corrected that test-only allocation;
+failure log work/ordered-destinations-check-lint-failed.log. Final rerun41075 follows.
+
+Required gate41075 TERMINAL0. 4380 Rust tests and 215 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 556}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2611, 'failed': 0, 'pending': 1962, 'excluded': 282, 'unverified': 0, 'percent': 53.78}.
+Source before/after matched: db9152679b785bb497e10174bd7971fafdb9da9115e0068ffb8eddd855bf7204
+Live freshness matched verification digest: ba44b2332d407f7159560fb7e72781ddef81ba31e6e29c52f9e9c623f438bb2c.
+Existing provenance prefixes unchanged; appended5cases and6fixtures.
+Log work/ordered-destinations-final-check.log; evidence work/ordered-destinations-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Evidence22380 TERMINAL0 confirmed live report freshness. Final native regression
+suite includes all6tests, including added dependency rejection. All process handles
+terminal. Upstream submodule and all previous provenance entries remain unchanged.

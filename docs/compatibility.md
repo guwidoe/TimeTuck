@@ -3922,3 +3922,11 @@ covered. The integer bendable source's repeated unit divisor is retained verbati
 in the test intent. General negative rounding, overflow errors and zero-level
 shapes are documented native behavior with independent regressions. Finite integer
 extrema are separate from the solver's existing infinite bounds.
+
+Five additional ElementDestinationSelectorTest methods now preserve original and
+scripted-random ordering/counts, empty selection and pinned/unpinned entity starts.
+Six PlannerAssert helper records retain attribution. Native finite/repeating APIs
+replace selector mode metadata. Receiver-group filtering, duplicate weighting,
+seeded bounded sampling and complete list/mixed plans have independent regressions.
+Java fallback-stream, mutable mimic-recorder and lifecycle callback cases remain
+pending. The previously adapted originalWithEntityValueRange method is unchanged.
