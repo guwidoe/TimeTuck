@@ -13380,3 +13380,22 @@ Live freshness matched verification digest: 227158ed5f9d14fbe914e5ba0137f6f338f2
 Existing provenance prefixes unchanged; appended3cases and6fixtures.
 Log work/score-consistency-final-check.log; evidence work/score-consistency-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Full-solve neighborhoods
+
+Scoring diagnostics committed as0e6a31a after gate26023 and evidence71819 terminal0.
+Installed previously checked work/solver_neighborhood_cases.rs into tests; appended
+6sourcecases18fixtures with prepared provenance script. Original objective and every
+source helper assertion retained in both backends. No solver implementation changes.
+Draft focused44009 passed all6methods/12solves against current compiled implementation;
+formatting-only changes since. Full gate follows on final test/provenance state.
+Java preview-mode rejection and VND remain pending. No benchmark or UI changes.
+
+Required gate61390 TERMINAL0. 3837 Rust tests and 183 doctests passed.
+Rust jobs: {'REUSE': 481, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2240, 'failed': 0, 'pending': 2333, 'excluded': 282, 'unverified': 0, 'percent': 46.138}.
+Source before/after matched: c8bf273bb959adf39256b795dde6229907c76ee87ce1f86cfa6e764eee246c99
+Live freshness matched verification digest: 6d059b5d4bffef31e96de9cf6d343c890f5b326abb451332af4803177468db45.
+Existing provenance prefixes unchanged; appended6cases and18fixtures.
+Log work/solver-neighborhood-final-check.log; evidence work/solver-neighborhood-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

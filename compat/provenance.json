@@ -33539,6 +33539,96 @@
       "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
       "local_test": "solve_corrupted_easy_unasserted",
       "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithNeighborhoods",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithNeighborhoods",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_neighborhoods",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithDefaultNeighborhoodProvider",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithDefaultNeighborhoodProvider",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_default_neighborhood_provider",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithNeighborhoodsAndMoveSelectors",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithNeighborhoodsAndMoveSelectors",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_neighborhoods_and_move_selectors",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithDefaultNeighborhoodProviderMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithDefaultNeighborhoodProviderMultiVar",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_default_neighborhood_provider_multi_var",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithDefaultNeighborhoodProviderMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithDefaultNeighborhoodProviderMultiEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_default_neighborhood_provider_multi_entity",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveWithDefaultNeighborhoodProviderListVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithDefaultNeighborhoodProviderListVar",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "local_test": "solve_with_default_neighborhood_provider_list_var",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
     }
   ],
   "fixtures": [
@@ -45436,6 +45526,240 @@
       "upstream_test": "TestdataObject",
       "local_path": "crates/solver/tests/solver_score_corruption_cases.rs",
       "modifications": "Preserve two-value/two-entity initialized or uninitialized fixture and construction plus ten-step local search. Replace source nondeterministic Random.nextInt(1000) corruption with a deterministic counter modulo1000, so consecutive evaluations differ without flakiness. An all-variable scoped native objective replaces the easy-score calculator. Per-phase assert_scores selects checked/unchecked execution. Preserve asserted failure versus unasserted successful solve and successful best-event publication. Native ScoreCorruption reports use working score/recomputed score labels instead of workingScore/uncorruptedScore. Since native scoped diagnostics identify the actual failing named constraint, assert that evidence instead of the JVM easy-calculator analysis-unavailable fallback. No Java environment-mode enum/PHASE_ASSERT semantics claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummyEasyScoreCalculator.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "DummyEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummyMultiVarEasyScoreCalculator.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "DummyMultiVarEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummyMultiEntityEasyScoreCalculator.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "DummyMultiEntityEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestingListEasyScoreCalculator.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "TestingListEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataOtherValue.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataOtherValue.java",
+      "upstream_test": "TestdataOtherValue",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiVarEntity.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarEntity.java",
+      "upstream_test": "TestdataMultiVarEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiVarSolution.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarSolution.java",
+      "upstream_test": "TestdataMultiVarSolution",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataLeadEntity.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataLeadEntity.java",
+      "upstream_test": "TestdataLeadEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataHerdEntity.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataHerdEntity.java",
+      "upstream_test": "TestdataHerdEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiEntitySolution.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataMultiEntitySolution.java",
+      "upstream_test": "TestdataMultiEntitySolution",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.solver_neighborhoods",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "local_path": "crates/solver/tests/solver_neighborhood_cases.rs",
+      "modifications": "Preserve generated initialized fixtures, required/optional field ranges, original distinct-identity and list-size objectives, successful non-null solutions, and PlannerTestUtils best-event assertion. Run both scoped and stream backends. Native default change/swap neighborhoods replace the Java preview Neighborhoods API; a union with an additional swap child represents an explicitly configured swap selector beside default neighborhoods. No Java preview flag/reflection/configuration rejection parity is claimed. Use bounded 200-step hill climbing with seed20261007 and 10000 move evaluations, retaining source best-score limit0 and additionally asserting target attainment, independent objective recomputation, input preservation and model validity. Initialized fixtures enter native local search directly. Tagged ordinal identities replace Java object references; multi-variable fields are flattened in entity order, retaining optional tertiary null and distinct value/other/lead identity spaces. Stream aggregate rows are placed by stable variable index, with absent rows unassigned during replay, before full objective evaluation. No Java trace or default-search algorithm equivalence claim."
     }
   ]
 }

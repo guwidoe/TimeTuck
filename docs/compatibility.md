@@ -3252,3 +3252,20 @@ replace Java labels and its analysis-unavailable fallback. Existing cancellation
 corruption regressions now inspect complete structured differences. Original tests
 cover report completeness, formatting truncation, structural totals, exact callback
 counts, overflow recovery, typed equality, and candidate rollback in all three models.
+
+## Full-solve neighborhood cases
+
+Six additional DefaultSolverTest methods exercise default basic/list neighborhoods,
+default candidates combined with an explicit swap selector, multiple fields per
+entity, and two entity types with distinct value/reference domains. Each runs with
+scoped and stream scoring. Native default change/swap candidates and neighborhood
+unions replace Java preview configuration. The fixtures preserve their original
+objectives: distinct forbidden identities and squared excess list length. The
+multi-variable fixture retains the optional tertiary field and its separate domain.
+
+Bounded hill climbing uses seed 20261007, 200 steps and 10,000 move evaluations,
+with the source score target of zero. Checks retain successful solution and best-event
+assertions and additionally require target attainment, valid assignments and unchanged
+inputs. Stream full-objective adapters preserve variable positions during incremental
+source replay. No Java default algorithm, random trace, preview-flag validation or
+variable-neighborhood-descent claim is made by these cases.
