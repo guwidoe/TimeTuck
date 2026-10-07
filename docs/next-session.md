@@ -15103,3 +15103,45 @@ Final gate38824 and evidence30067 TERMINAL0. New dependency rules kept this batc
 to3Rust jobs, reusing565existing jobs and46Python jobs. Final native graph tests
 assert successful commits; full replay agrees with weighted order-sensitive scores.
 All verification sessions terminal, upstream unchanged, no runtime performance claim.
+
+## Stable entry storage and bidirectional editing cursors
+
+Previous status turn produced timing evidence; this goal continuation resumed from
+clean4e08820. Read compatibility/handoff and used the fully read test-only
+ElementAwareArrayListTest specification, rechecking relevant assertions. No upstream
+production reads. Added independent EntryList/ListEntry/EntryCursor: local Rc
+identity, weak owner/revision tokens, gapped slots, quarter-live-length hole guard,
+explicit compaction, order-preserving indexed insertion, nonmutating slot/get reads,
+detached bidirectional editing and nonstructural value replacement. Handles survive
+relocation and reject foreign/removed entries. List destruction invalidates handles;
+last payload remains accessible, and earlier returned Rc payloads remain snapshots.
+No Clone payload requirement. External structural edits invalidate cursors; cursor
+edits update their own position/revision. Failed edits preserve cursors. Indexed
+reads scan gaps; allocation capacity can retain a high-water mark. No speed claim.
+
+Added85source methods and3helper fixtures with pinned declaration lines to distinguish
+nested duplicate names. Two negative-index methods remain pending for unsigned
+native indices. Ten10000-operation stress streams and20000-round growth guard use
+explicit native deterministic random streams; no identical Java trace claim.
+Six native regressions cover foreign/stale identities, list destruction, non-Clone
+payload lifetime/snapshot identity, callback panic, actual retained-hole cursor
+traversal, invalidation/failed edits and30000vector-referenced cursor operations.
+
+Required gate74255 TERMINAL0. 4534 Rust tests and 220 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 567}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2743, 'failed': 0, 'pending': 1830, 'excluded': 282, 'unverified': 0, 'percent': 56.498}.
+Source before/after matched: 90d0368b02071dcb41ae9def356fc0a5d64a93f2866310d3b3761f34af769551
+Live freshness matched verification digest: 4524f85287a1ad94b44b0fffa8047f2e04ca4d3aac3401943efaf6c0daa5a02b.
+Existing provenance prefixes unchanged; appended85cases and3fixtures.
+Log work/entry-list-final-check.log; evidence work/entry-list-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Focused73621, final74255 and evidence89075 TERMINAL0. No failed runs in this batch.
+Final gate ran3Rust jobs and reused567; all46Python jobs reused. Live freshness
+matches the new report. No live verification sessions; upstream unchanged.
+During final verification, read full test-only FusedEqualIndexTest and
+RandomAccessLeafIndexerTest, plus DiminishedReturnsScoreRingBufferTest1–180 only.
+No adaptations from those reads. Existing native PartitionedJoinNode already has
+shared equality buckets and lazily initialized ordered sides; CandidateIndex already
+has dense keyed buckets/random iteration. DiminishedReturns uses VecDeque histories;
+its source ring-buffer tests assert physical array states, so do not add a duplicate
+implementation merely to reproduce internal layouts. Next work remains open.

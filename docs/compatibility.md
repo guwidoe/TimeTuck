@@ -3963,3 +3963,17 @@ The set additionally powers OrderedSetCollector over explicit occurrence IDs.
 Distinct output order and representatives use the lowest current occurrence ID,
 so graph rollback and full recomputation agree independently of event delivery.
 This collector has original native coverage and earns no upstream method credit.
+
+Eighty-five ElementAwareArrayList methods now have native EntryList adaptations.
+Stable entry identities survive insertion and compaction; removed or foreign handles
+cannot remove another entry. Gapped slots distinguish holes from live Option::None
+payloads. Detached bidirectional cursors support insertion, removal and replacement;
+other structural edits invalidate them, while replacement remains visible to other
+cursors. Handles use local Rc ownership, need no payload Clone, and retain their last
+value after removal; values already returned by reads remain snapshots. Slot count
+is bounded to 1.25 times live length after edits, but allocation capacity may retain
+its high-water mark. Indexed reads scan holes; insertion/compaction are linear.
+Ten deterministic 10000-operation reference runs and a 20000-round growth guard
+use native random streams, not identical Java traces. Two methods involving signed
+negative indexes remain pending. These utility cases do not establish new solver
+quality or performance results.

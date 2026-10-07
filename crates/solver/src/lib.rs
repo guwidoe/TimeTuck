@@ -980,3 +980,6 @@ pub use sequenced_set::{
 };
 mod ordered_set_collector;
 pub use ordered_set_collector::OrderedSetCollector;
+
+mod entry_list;
+pub use entry_list::{EntryCursor, EntryList, EntryListError, ListEntry};

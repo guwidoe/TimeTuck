@@ -39899,6 +39899,1366 @@
       "local_path": "crates/solver/tests/sequenced_set_cases.rs",
       "local_test": "clear_returns_to_empty",
       "modifications": "Native ScalingSequencedSet preserves mutation return values, sizes, membership, insertion order, promotion/demotion observations, null-as-Option, first/last, live reverse views and original-view identity. Arc handles preserve value identity without payload Clone. Snapshot vectors/fixed arrays replace Java arrays; Option replaces empty-element exceptions and Debug replaces toString. Equality/hash contract comparisons use differently ordered native sets instead of Java LinkedHashSet; numeric Java hashes are not claimed. Unsupported-operation methods and signed/zero constructor rejection remain pending; native capacity hints accept zero. No production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.emptyList.L34",
+      "status": "implemented",
+      "upstream_test": "emptyList",
+      "upstream_line": 34,
+      "local_test": "empty_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addSingleElement.L42",
+      "status": "implemented",
+      "upstream_test": "addSingleElement",
+      "upstream_line": 42,
+      "local_test": "add_single_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addMultipleElements.L56",
+      "status": "implemented",
+      "upstream_test": "addMultipleElements",
+      "upstream_line": 56,
+      "local_test": "add_multiple_elements",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeSingleElement.L68",
+      "status": "implemented",
+      "upstream_test": "removeSingleElement",
+      "upstream_line": 68,
+      "local_test": "remove_single_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeAlreadyRemovedElement.L85",
+      "status": "implemented",
+      "upstream_test": "removeAlreadyRemovedElement",
+      "upstream_line": 85,
+      "local_test": "remove_already_removed_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeAllElements.L98",
+      "status": "implemented",
+      "upstream_test": "removeAllElements",
+      "upstream_line": 98,
+      "local_test": "remove_all_elements",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addEntryAfterChurnAppendsInOrder.L112",
+      "status": "implemented",
+      "upstream_test": "addEntryAfterChurnAppendsInOrder",
+      "upstream_line": 112,
+      "local_test": "add_entry_after_churn_appends_in_order",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAfterLargeArrayFreePathPreservesOrder.L130",
+      "status": "implemented",
+      "upstream_test": "addAfterLargeArrayFreePathPreservesOrder",
+      "upstream_line": 130,
+      "local_test": "add_after_large_array_free_path_preserves_order",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachOnEmptyList.L153",
+      "status": "implemented",
+      "upstream_test": "forEachOnEmptyList",
+      "upstream_line": 153,
+      "local_test": "for_each_on_empty_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachWithoutGaps.L164",
+      "status": "implemented",
+      "upstream_test": "forEachWithoutGaps",
+      "upstream_line": 164,
+      "local_test": "for_each_without_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachWithGaps.L175",
+      "status": "implemented",
+      "upstream_test": "forEachWithGaps",
+      "upstream_line": 175,
+      "local_test": "for_each_with_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachCompactsWithGaps.L188",
+      "status": "implemented",
+      "upstream_test": "forEachCompactsWithGaps",
+      "upstream_line": 188,
+      "local_test": "for_each_compacts_with_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachClearsWhenAllRemoved.L208",
+      "status": "implemented",
+      "upstream_test": "forEachClearsWhenAllRemoved",
+      "upstream_line": 208,
+      "local_test": "for_each_clears_when_all_removed",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachCompactsWithTailGaps.L224",
+      "status": "implemented",
+      "upstream_test": "forEachCompactsWithTailGaps",
+      "upstream_line": 224,
+      "local_test": "for_each_compacts_with_tail_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getGapsBeforeTargetDoesNotRelocate.L247",
+      "status": "implemented",
+      "upstream_test": "getGapsBeforeTargetDoesNotRelocate",
+      "upstream_line": 247,
+      "local_test": "get_gaps_before_target_does_not_relocate",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getGapsBeforeTarget_trailingCleanup.L274",
+      "status": "implemented",
+      "upstream_test": "getGapsBeforeTarget_trailingCleanup",
+      "upstream_line": 274,
+      "local_test": "get_gaps_before_target_trailing_cleanup",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getGapsOnlyAfterTarget.L293",
+      "status": "implemented",
+      "upstream_test": "getGapsOnlyAfterTarget",
+      "upstream_line": 293,
+      "local_test": "get_gaps_only_after_target",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getLastElement_trailingGapsWithNoPrefix.L310",
+      "status": "implemented",
+      "upstream_test": "getLastElement_trailingGapsWithNoPrefix",
+      "upstream_line": 310,
+      "local_test": "get_last_element_trailing_gaps_with_no_prefix",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getLastElement_trailingGapsWithPrefix.L332",
+      "status": "implemented",
+      "upstream_test": "getLastElement_trailingGapsWithPrefix",
+      "upstream_line": 332,
+      "local_test": "get_last_element_trailing_gaps_with_prefix",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getGapsMixedAroundTarget.L353",
+      "status": "implemented",
+      "upstream_test": "getGapsMixedAroundTarget",
+      "upstream_line": 353,
+      "local_test": "get_gaps_mixed_around_target",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeEntryReturnedByPartialCompact.L372",
+      "status": "implemented",
+      "upstream_test": "removeEntryReturnedByPartialCompact",
+      "upstream_line": 372,
+      "local_test": "remove_entry_returned_by_partial_compact",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeSuffixEntry_positionUnchanged.L393",
+      "status": "implemented",
+      "upstream_test": "removeSuffixEntry_positionUnchanged",
+      "upstream_line": 393,
+      "local_test": "remove_suffix_entry_position_unchanged",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.sequentialGet_gapsProgressMigrate.L415",
+      "status": "implemented",
+      "upstream_test": "sequentialGet_gapsProgressMigrate",
+      "upstream_line": 415,
+      "local_test": "sequential_get_gaps_progress_migrate",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getThenForEach_fullCompactCorrect.L442",
+      "status": "implemented",
+      "upstream_test": "getThenForEach_fullCompactCorrect",
+      "upstream_line": 442,
+      "local_test": "get_then_for_each_full_compact_correct",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getThenAddAt_fullCompactCorrect.L466",
+      "status": "implemented",
+      "upstream_test": "getThenAddAt_fullCompactCorrect",
+      "upstream_line": 466,
+      "local_test": "get_then_add_at_full_compact_correct",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getOutOfBounds_throwsIOOB.L493",
+      "status": "implemented",
+      "upstream_test": "getOutOfBounds_throwsIOOB",
+      "upstream_line": 493,
+      "local_test": "get_out_of_bounds_throws_i_o_o_b",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryGetElement.L513",
+      "status": "implemented",
+      "upstream_test": "entryGetElement",
+      "upstream_line": 513,
+      "local_test": "entry_get_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryIsRemovedFalse.L522",
+      "status": "implemented",
+      "upstream_test": "entryIsRemovedFalse",
+      "upstream_line": 522,
+      "local_test": "entry_is_removed_false",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryIsRemovedTrue.L531",
+      "status": "implemented",
+      "upstream_test": "entryIsRemovedTrue",
+      "upstream_line": 531,
+      "local_test": "entry_is_removed_true",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryToStringActive.L542",
+      "status": "implemented",
+      "upstream_test": "entryToStringActive",
+      "upstream_line": 542,
+      "local_test": "entry_to_string_active",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryToStringRemoved.L551",
+      "status": "implemented",
+      "upstream_test": "entryToStringRemoved",
+      "upstream_line": 551,
+      "local_test": "entry_to_string_removed",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAndGet.L568",
+      "status": "implemented",
+      "upstream_test": "addAndGet",
+      "upstream_line": 568,
+      "local_test": "add_and_get",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEach.L577",
+      "status": "implemented",
+      "upstream_test": "forEach",
+      "upstream_line": 577,
+      "local_test": "for_each",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forEachWithGaps.L587",
+      "status": "implemented",
+      "upstream_test": "forEachWithGaps",
+      "upstream_line": 587,
+      "local_test": "for_each_with_gaps_2",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeNullEntry.L599",
+      "status": "implemented",
+      "upstream_test": "removeNullEntry",
+      "upstream_line": 599,
+      "local_test": "remove_null_entry",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.iterator.L610",
+      "status": "implemented",
+      "upstream_test": "iterator",
+      "upstream_line": 610,
+      "local_test": "iterator",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryElement.L642",
+      "status": "implemented",
+      "upstream_test": "entryElement",
+      "upstream_line": 642,
+      "local_test": "entry_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.multipleOperations.L656",
+      "status": "implemented",
+      "upstream_test": "multipleOperations",
+      "upstream_line": 656,
+      "local_test": "multiple_operations",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeFromVariousPositions.L674",
+      "status": "implemented",
+      "upstream_test": "removeFromVariousPositions",
+      "upstream_line": 674,
+      "local_test": "remove_from_various_positions",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.interleavedOperations.L693",
+      "status": "implemented",
+      "upstream_test": "interleavedOperations",
+      "upstream_line": 693,
+      "local_test": "interleaved_operations",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.largeListWithManyGaps.L709",
+      "status": "implemented",
+      "upstream_test": "largeListWithManyGaps",
+      "upstream_line": 709,
+      "local_test": "large_list_with_many_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeAllThenAddNew.L734",
+      "status": "implemented",
+      "upstream_test": "removeAllThenAddNew",
+      "upstream_line": 734,
+      "local_test": "remove_all_then_add_new",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.multipleForEachCalls.L754",
+      "status": "implemented",
+      "upstream_test": "multipleForEachCalls",
+      "upstream_line": 754,
+      "local_test": "multiple_for_each_calls",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.positionTrackingAfterCompaction.L770",
+      "status": "implemented",
+      "upstream_test": "positionTrackingAfterCompaction",
+      "upstream_line": 770,
+      "local_test": "position_tracking_after_compaction",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtEnd.L796",
+      "status": "implemented",
+      "upstream_test": "addAtEnd",
+      "upstream_line": 796,
+      "local_test": "add_at_end",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtBeginning.L809",
+      "status": "implemented",
+      "upstream_test": "addAtBeginning",
+      "upstream_line": 809,
+      "local_test": "add_at_beginning",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtMiddle.L824",
+      "status": "implemented",
+      "upstream_test": "addAtMiddle",
+      "upstream_line": 824,
+      "local_test": "add_at_middle",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtCompactsFirst.L837",
+      "status": "implemented",
+      "upstream_test": "addAtCompactsFirst",
+      "upstream_line": 837,
+      "local_test": "add_at_compacts_first",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtFillsGap.L854",
+      "status": "implemented",
+      "upstream_test": "addAtFillsGap",
+      "upstream_line": 854,
+      "local_test": "add_at_fills_gap",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtCompactsGappedList.L876",
+      "status": "implemented",
+      "upstream_test": "addAtCompactsGappedList",
+      "upstream_line": 876,
+      "local_test": "add_at_compacts_gapped_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtRotatesIntoGap.L898",
+      "status": "implemented",
+      "upstream_test": "addAtRotatesIntoGap",
+      "upstream_line": 898,
+      "local_test": "add_at_rotates_into_gap",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtBeyondSize.L933",
+      "status": "implemented",
+      "upstream_test": "addAtBeyondSize",
+      "upstream_line": 933,
+      "local_test": "add_at_beyond_size",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtBeyondLogicalSizeOnGappyList.L943",
+      "status": "implemented",
+      "upstream_test": "addAtBeyondLogicalSizeOnGappyList",
+      "upstream_line": 943,
+      "local_test": "add_at_beyond_logical_size_on_gappy_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtEmptyList.L962",
+      "status": "implemented",
+      "upstream_test": "addAtEmptyList",
+      "upstream_line": 962,
+      "local_test": "add_at_empty_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.existingEntriesRemovableAfterAddAt.L973",
+      "status": "implemented",
+      "upstream_test": "existingEntriesRemovableAfterAddAt",
+      "upstream_line": 973,
+      "local_test": "existing_entries_removable_after_add_at",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtConsumesAllGaps.L986",
+      "status": "implemented",
+      "upstream_test": "addAtConsumesAllGaps",
+      "upstream_line": 986,
+      "local_test": "add_at_consumes_all_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.forwardIteration.L1015",
+      "status": "implemented",
+      "upstream_test": "forwardIteration",
+      "upstream_line": 1015,
+      "local_test": "forward_iteration",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.backwardIteration.L1031",
+      "status": "implemented",
+      "upstream_test": "backwardIteration",
+      "upstream_line": 1031,
+      "local_test": "backward_iteration",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeFwd.L1047",
+      "status": "implemented",
+      "upstream_test": "removeFwd",
+      "upstream_line": 1047,
+      "local_test": "remove_fwd",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeBwd.L1064",
+      "status": "implemented",
+      "upstream_test": "removeBwd",
+      "upstream_line": 1064,
+      "local_test": "remove_bwd",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.set.L1085",
+      "status": "implemented",
+      "upstream_test": "set",
+      "upstream_line": 1085,
+      "local_test": "set",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtCursor.L1101",
+      "status": "implemented",
+      "upstream_test": "addAtCursor",
+      "upstream_line": 1101,
+      "local_test": "add_at_cursor",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addWithGaps.L1118",
+      "status": "implemented",
+      "upstream_test": "addWithGaps",
+      "upstream_line": 1118,
+      "local_test": "add_with_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.addAtEndAfterMidIterationRemoval.L1132",
+      "status": "implemented",
+      "upstream_test": "addAtEndAfterMidIterationRemoval",
+      "upstream_line": 1132,
+      "local_test": "add_at_end_after_mid_iteration_removal",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.noSuchElement.L1156",
+      "status": "implemented",
+      "upstream_test": "noSuchElement",
+      "upstream_line": 1156,
+      "local_test": "no_such_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeWithoutNext.L1168",
+      "status": "implemented",
+      "upstream_test": "removeWithoutNext",
+      "upstream_line": 1168,
+      "local_test": "remove_without_next",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.startAtIndex.L1179",
+      "status": "implemented",
+      "upstream_test": "startAtIndex",
+      "upstream_line": 1179,
+      "local_test": "start_at_index",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeViaIteratorOnGappyList.L1195",
+      "status": "implemented",
+      "upstream_test": "removeViaIteratorOnGappyList",
+      "upstream_line": 1195,
+      "local_test": "remove_via_iterator_on_gappy_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.nextRemoveNextPreviousCycle.L1219",
+      "status": "implemented",
+      "upstream_test": "nextRemoveNextPreviousCycle",
+      "upstream_line": 1219,
+      "local_test": "next_remove_next_previous_cycle",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeLastElementNoDoubleCme.L1242",
+      "status": "implemented",
+      "upstream_test": "removeLastElementNoDoubleCme",
+      "upstream_line": 1242,
+      "local_test": "remove_last_element_no_double_cme",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.setWithoutNextOrPrevious.L1258",
+      "status": "implemented",
+      "upstream_test": "setWithoutNextOrPrevious",
+      "upstream_line": 1258,
+      "local_test": "set_without_next_or_previous",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.compactRemovesAllGaps.L1275",
+      "status": "implemented",
+      "upstream_test": "compactRemovesAllGaps",
+      "upstream_line": 1275,
+      "local_test": "compact_removes_all_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.compactNoOpWhenAlreadyCompact.L1295",
+      "status": "implemented",
+      "upstream_test": "compactNoOpWhenAlreadyCompact",
+      "upstream_line": 1295,
+      "local_test": "compact_no_op_when_already_compact",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.compactEmptyList.L1308",
+      "status": "implemented",
+      "upstream_test": "compactEmptyList",
+      "upstream_line": 1308,
+      "local_test": "compact_empty_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.getBeforeFirstGapFastPath.L1317",
+      "status": "implemented",
+      "upstream_test": "getBeforeFirstGapFastPath",
+      "upstream_line": 1317,
+      "local_test": "get_before_first_gap_fast_path",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.firstGapAdvancesAfterPartialCompact.L1334",
+      "status": "implemented",
+      "upstream_test": "firstGapAdvancesAfterPartialCompact",
+      "upstream_line": 1334,
+      "local_test": "first_gap_advances_after_partial_compact",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.removeLoweringBoundaryStillCompacts.L1353",
+      "status": "implemented",
+      "upstream_test": "removeLoweringBoundaryStillCompacts",
+      "upstream_line": 1353,
+      "local_test": "remove_lowering_boundary_still_compacts",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.stressTestAgainstReferenceArrayList.L1374",
+      "status": "implemented",
+      "upstream_test": "stressTestAgainstReferenceArrayList",
+      "upstream_line": 1374,
+      "local_test": "stress_test_against_reference_array_list",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.slotCountCoversGaps.L1426",
+      "status": "implemented",
+      "upstream_test": "slotCountCoversGaps",
+      "upstream_line": 1426,
+      "local_test": "slot_count_covers_gaps",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryAtDistinguishesGapFromNullElement.L1440",
+      "status": "implemented",
+      "upstream_test": "entryAtDistinguishesGapFromNullElement",
+      "upstream_line": 1440,
+      "local_test": "entry_at_distinguishes_gap_from_null_element",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entryAtDoesNotCompact.L1472",
+      "status": "implemented",
+      "upstream_test": "entryAtDoesNotCompact",
+      "upstream_line": 1472,
+      "local_test": "entry_at_does_not_compact",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.slotSpaceStaysBounded.L1493",
+      "status": "implemented",
+      "upstream_test": "slotSpaceStaysBounded",
+      "upstream_line": 1493,
+      "local_test": "slot_space_stays_bounded",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.entriesSurviveCompaction.L1513",
+      "status": "implemented",
+      "upstream_test": "entriesSurviveCompaction",
+      "upstream_line": 1513,
+      "local_test": "entries_survive_compaction",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.listIteratorRemoveAllAcrossCompaction.L1534",
+      "status": "implemented",
+      "upstream_test": "listIteratorRemoveAllAcrossCompaction",
+      "upstream_line": 1534,
+      "local_test": "list_iterator_remove_all_across_compaction",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.listIteratorPartialRemoveAcrossCompaction.L1551",
+      "status": "implemented",
+      "upstream_test": "listIteratorPartialRemoveAcrossCompaction",
+      "upstream_line": 1551,
+      "local_test": "list_iterator_partial_remove_across_compaction",
+      "modifications": "Native EntryList, stable Rc-backed ListEntry handles and detached cursors replace Java collection/inner-entry/listIterator objects. Removal takes an explicit mutable owner; Rc payload snapshots require no Clone. Preserve complete operation sequences, lengths, order, null-as-Option, removed state, positions, compaction/slot assertions and cursor mutations. Read bounds/exhaustion use Option; edit errors use Result. Position access replaces contains(@index), while active/removed diagnostic tests retain exact strings. Native removal may compact before a later read; comments describing old partial-compaction internals are not implementation requirements. Ten 10000-operation stress runs retain operation weights, bounds, reference comparisons and per-step length checks; explicit native SplitMix64 streams replace Java Random traces, also for the 20000-round growth guard. Negative-index cases remain pending because native indices are unsigned. No production implementation read."
     }
   ],
   "fixtures": [
@@ -55098,6 +56458,45 @@
       "upstream_test": "generateSolution",
       "local_path": "crates/solver/tests/move_tester_cases.rs",
       "modifications": "Initialized fixture helper only: preserve value/entity counts and cyclic i % valueCount initialization. Native numeric values and finite variables replace named Java objects and solution metadata; uninitialized overload is not adapted. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.copyUsingForEach.entry_list",
+      "upstream_test": "copyUsingForEach",
+      "modifications": "Native copy helper accumulates cloned test payloads through for_each, retaining encounter order; production payloads require no Clone. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.fill.entry_list",
+      "upstream_test": "fill",
+      "modifications": "Preserve e0..eN string fixtures and returned entry handles. Helper attribution only; no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "local_path": "crates/solver/tests/entry_list_cases.rs",
+      "id": "ElementAwareArrayListTest.randomSeeds.entry_list",
+      "upstream_test": "randomSeeds",
+      "modifications": "Preserve ten deterministic seed streams initialized from 0xCAFEBABE; native SplitMix64 replaces Java Random and therefore does not claim identical traces. Helper attribution only; no additional method credit."
     }
   ]
 }
