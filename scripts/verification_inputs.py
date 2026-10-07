@@ -240,11 +240,13 @@ def library_symbol_owners(texts, facade_source):
         for header in re.findall(r'^impl\b([^{}]+)\{', source, re.M):
             header = header.strip()
             parameters = set()
+            generic_bounds = ''
             if header.startswith('<'):
                 depth = 0
                 for i, char in enumerate(header):
                     depth += (char == '<') - (char == '>')
                     if depth == 0:
+                        generic_bounds = header[1:i]
                         parameters = set(re.findall(r'(?:^|,)\s*(\w+)\s*(?=[:=,]|$)', header[1:i]))
                         header = header[i+1:].strip()
                         break
@@ -255,9 +257,21 @@ def library_symbol_owners(texts, facade_source):
             symbol = re.match(r'(?:&\s*)?(?:\w+::)*(\w+)', target)
             if trait and trait[1] in traits and symbol:
                 receiver = '*' if symbol[1] in parameters else symbol[1]
+                wrapper = re.fullmatch(r'(?:\w+::)*(?:Box|Rc|Arc)\s*<\s*(\w+)\s*>', target)
+                bound = (re.search(r'(?:^|,)\s*' + re.escape(wrapper[1]) +
+                                   r'\s*:\s*(?:\w+::)*(\w+)', generic_bounds)
+                         if wrapper is not None else None)
+                forwarding_wrapper = bound is not None and bound[1] == trait[1]
                 owners.setdefault('@trait-impl:' + receiver + ':' + trait[1], set()).add(name)
                 for kind, member in traits[trait[1]]:
                     if kind == 'fn':
+                        # Box<T>/Rc<T>/Arc<T> forwarding impls require a named
+                        # trait dependency. An unrelated boxed payload and a
+                        # common method such as size must not select them.
+                        # Factory return types and concrete implementations reveal
+                        # the trait; explicit trait-based lookup remains above.
+                        if forwarding_wrapper:
+                            continue
                         key = '@trait-method:' + receiver + ':' + member
                     else:
                         # Qualify common associated names such as Error to avoid

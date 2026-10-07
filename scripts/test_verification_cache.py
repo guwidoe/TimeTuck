@@ -232,6 +232,46 @@ class InputTests(unittest.TestCase):
         (self.root / entry).write_text('use timetuck::Score;')
         self.assertIn(selected, rust_test_inputs(entry, self.root))
 
+    def test_generic_box_forwarders_do_not_connect_unrelated_method_names(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; mod traits; mod extension; mod factory;')
+        (self.root / 'crates/solver/src/score.rs').write_text(
+            'pub struct Score; impl Score { pub fn size(&self) -> usize { 3 } }')
+        (self.root / 'crates/solver/src/traits.rs').write_text(
+            'pub trait DraftModel { fn size(&self) -> usize; }')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        for wrapper in ['Box', 'std::boxed::Box', 'Rc', 'Arc']:
+            extension.write_text('impl<T: DraftModel> DraftModel for ' + wrapper +
+                                 '<T> { fn size(&self) -> usize { (**self).size() } }')
+            (self.root / entry).write_text(
+                'use timetuck::*; fn run(s: ' + wrapper + '<Score>) { s.size(); }')
+            before = self.key(entry)
+            self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+            extension.write_text(extension.read_text().replace('(**self).size()', '4'))
+            self.assertEqual(before, self.key(entry))
+            # Trait objects name the dependency even when invoked through a glob.
+            (self.root / entry).write_text(
+                'use timetuck::*; fn run(s: ' + wrapper + '<dyn DraftModel>) { s.size(); }')
+            self.assertIn(selected, rust_test_inputs(entry, self.root))
+            before = self.key(entry)
+            extension.write_text(extension.read_text().replace('4', '5'))
+            self.assertNotEqual(before, self.key(entry))
+            # Inferred factory results also expose the trait dependency.
+            (self.root / 'crates/solver/src/factory.rs').write_text(
+                'pub fn make() -> ' + wrapper + '<dyn DraftModel> { todo!() }')
+            (self.root / entry).write_text('use timetuck::*; fn run() { make().size(); }')
+            self.assertIn(selected, rust_test_inputs(entry, self.root))
+        # A concrete wrapper implementation is not a generic forwarder.
+        extension.write_text('impl DraftModel for Box<Score> { fn size(&self) -> usize { 1 } }')
+        (self.root / entry).write_text('use timetuck::*; fn run(s: Box<Score>) { s.size(); }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+        # A universal implementation adds methods to unrelated payloads too.
+        extension.write_text('impl<T> DraftModel for Box<T> { fn size(&self) -> usize { 1 } }')
+        (self.root / entry).write_text('use timetuck::*; fn run(s: Box<i32>) { s.size(); }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+
     def test_benchmark_dependencies_are_separate_from_tests_and_other_adapters(self):
         score = measurement_digest('performance', self.root)
         kopt = measurement_digest('kopt-performance', self.root)

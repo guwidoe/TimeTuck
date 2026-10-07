@@ -15944,3 +15944,36 @@ handles now terminal. Two independently tested drafts are ready, neither applied
    recorded. Three provenance cases/0fixtures prepared. Apply AFTER cache-fix gate/
    commit, then review/format/document/final-check once. No duplicate focused tests.
 No source changes occurred during gate30738; no benchmark/release/browser reruns.
+
+## Narrow generic-wrapper verification dependencies
+
+Committed completed timer evidence d0cb054, then applied the guarded
+work/apply_verification_wrapper.py. Do not reapply. Only verification_inputs.py and
+its regression suite changed; Rust/provenance untouched since gate30738. Reviewed
+patch and preserved explicit trait, inferred factory, concrete wrapper and universal
+implementation dependencies. Draft final20187 already passed26Python tests, so no
+separate duplicate rerun; full gate runs the integrated test. Selected real-source
+module counts are recorded in work/verification-wrapper-draft/scope-comparison.json.
+Next final check establishes honest new keys/current report; no old evidence rekeyed.
+Keep Rust inputs frozen to reuse the just-compiled executables. Diminished-defaults
+draft remains unapplied until this gate completes and cache fix is committed.
+
+Required gate25256 TERMINAL0. 4653 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 594}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2799, 'failed': 0, 'pending': 1774, 'excluded': 282, 'unverified': 0, 'percent': 57.652}.
+Source before/after matched: 1280ce063cf6ae33f146cc92d44012bda2fa37be00db19ffba1904b3398fcfd9
+Live freshness matched verification digest: 429696d04f2aad72efd60708c750deb63ea6951e91a906b75f08a1e104426301.
+Existing provenance prefixes unchanged; provenance unchanged.
+Log work/wrapper-cache-final-check.log; evidence work/wrapper-cache-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Wrapper-cache gate25256 TERMINAL0; new keys established by actual executions, not
+metadata rewriting. No Rust source changed during this gate. Python cache suite
+26tests passed in the integrated final gate. First evidence72434 failed only live
+freshness: dashboard PID28988 had imported old fingerprint code. Restarted the
+owned local server; new server session7726 intentionally remains running at8765.
+Corrected evidence30253 TERMINAL0; live/report digest matched. No test rerun after
+server restart. All verification jobs terminal; dashboard service stays live.
+Next: commit this cache fix, then apply work/apply_diminished_defaults.py per its
+STATUS.txt. Draft remains unapplied;5focused tests and draft lint already passed.
+Do not rerun those unchanged tests separately. Goal remains active.

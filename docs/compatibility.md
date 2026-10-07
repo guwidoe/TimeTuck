@@ -4139,3 +4139,12 @@ longer arms stagnation implicitly. Total elapsed limits still include initializa
 Six UnimprovedTimeMillisSpentTerminationTest methods preserve all timestamp,
 progress, lifecycle and negative-input assertions using explicit native events
 instead of mocked Java scopes. Solve-wide cross-phase policy remains independent.
+
+Development verification no longer treats an unrelated Box/Rc/Arc payload plus a
+common method name as a dependency on every generic forwarding implementation.
+The refinement applies only when the wrapped type parameter is directly bounded
+by the same public trait. Named trait dependencies, factory return types, concrete
+wrappers and universal implementations remain tracked. In the measured range-
+collector target this reduces selected modules from164to11 and removes an unrelated
+search-timer dependency; solver targets still select the timer. This is a selective
+development heuristic, not compiler-level dependency analysis.
