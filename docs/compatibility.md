@@ -3452,3 +3452,21 @@ Two source methods write e1 twice at the last transition; the native cases retai
 that final state (dependency assigned, dependent unassigned) instead of changing
 the source intent. Native atomic snapshot updates replace notifications followed
 by working-solution resets. No additional production changes were necessary.
+
+## Lazy indexed candidate groups
+
+`LazyConcat` combines borrowed slices, owned vectors and deferred candidate groups
+with advertised lengths. Length and bounds checks do not load groups. Indexed or
+iterated access loads only the selected group, caches its contents, and borrows
+items without requiring Clone. Seeded sampling without replacement composes the
+native sparse index sampler and preserves duplicate occurrences. Length overflow
+leaves the collection unchanged. A supplier length mismatch is cached as a typed
+error without shifting later indices; a panicking supplier can be retried.
+
+Seventeen ComposingList methods preserve complete ordered-content, indexing,
+iteration, laziness, caching and bounds assertions. Negative Java indexing remains
+pending because the native API takes usize. Four native regressions additionally
+cover selective sampling, duplicate occurrences, non-Clone borrowed values,
+reverse iteration, malformed suppliers, panic retry and total-length overflow.
+This adds an indexed candidate collection; no join-node rewiring or speedup claim
+is made, and no previous benchmark measurement has been refreshed.

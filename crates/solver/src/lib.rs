@@ -834,3 +834,6 @@ pub use verification_consistency::{
     MissingVerificationEntity, VerificationConsistency, VerificationConsistencyError,
     VerificationEntity, VerificationShadow, VerificationShadowRef, verification_consistency,
 };
+
+mod lazy_concat;
+pub use lazy_concat::{LazyConcat, LazyConcatError};

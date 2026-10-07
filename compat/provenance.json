@@ -35114,6 +35114,261 @@
       "local_path": "crates/solver/tests/verification_list_shadow_cases.rs",
       "local_test": "for_each_unfiltered_include_unassigned_and_inconsistent_entities",
       "modifications": "Preserve every source score, match and justification assertion. Native VariableStateRegistry and ListShadowSession explicitly prepare owner/index/previous/next and cascade values before verifier scoring; native fields replace Java setters/listener history, with no history equivalence claim. Constraint snapshots retain -10 penalty, +20 reward, score-and-value justification and combined +10. Native unassigned values use an absent location and are excluded from assigned streams. Dynamic field metadata and verification_consistency infer dependency cycles from actual final list snapshots; typed stream filters preserve assigned/including-unassigned/unfiltered selection. Native atomic list snapshot updates replace Java notifications plus setWorkingSolution resets, preserving each observed state. IncludingUnassigned and Unfiltered source methods write e1 twice during their final transition; preserve e1=[dependency], e2=[] and dependent unassigned, rather than repairing source fixture behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.emptySublists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "emptySublists",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "empty_sublists",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.singleSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "singleSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "single_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.multipleSublists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "multipleSublists",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "multiple_sublists",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.mixedEmptyAndNonEmptySublists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "mixedEmptyAndNonEmptySublists",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "mixed_empty_and_non_empty_sublists",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.onDemandSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "onDemandSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "on_demand_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.multipleOnDemandSublists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "multipleOnDemandSublists",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "multiple_on_demand_sublists",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.mixedEagerAndOnDemandSublists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "mixedEagerAndOnDemandSublists",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "mixed_eager_and_on_demand_sublists",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.emptyOnDemandSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "emptyOnDemandSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "empty_on_demand_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.onDemandSublistLazyInitialization",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "onDemandSublistLazyInitialization",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "on_demand_sublist_lazy_initialization",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.onDemandSublistCachesResult",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "onDemandSublistCachesResult",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "on_demand_sublist_caches_result",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.getFromFirstSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "getFromFirstSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "get_from_first_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.getFromMiddleSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "getFromMiddleSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "get_from_middle_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.getFromLastSublist",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "getFromLastSublist",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "get_from_last_sublist",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.indexOutOfBoundsAtSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "indexOutOfBoundsAtSize",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "index_out_of_bounds_at_size",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.indexOutOfBoundsLargerThanSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "indexOutOfBoundsLargerThanSize",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "index_out_of_bounds_larger_than_size",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.iteration",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "iteration",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "iteration",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ComposingListTest.stream",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "stream",
+      "local_path": "crates/solver/tests/lazy_concat_cases.rs",
+      "local_test": "stream",
+      "modifications": "Preserve every original length, emptiness, ordered content, indexed value, lazy supplier, cached call count and bounds-message assertion. Native LazyConcat groups use unsigned indexing and Result errors; Java exception type maps to LazyConcatError::Index with the same asserted Index/Size numbers. Java collections/suppliers map to Vec and closures; AtomicBoolean/MutableInt map to Cell. Iterator result values replace Java Iterable/Stream collection traversal. The negative-index method is not adapted and remains pending because native indices are usize. No upstream production implementation was read or ported."
     }
   ],
   "fixtures": [

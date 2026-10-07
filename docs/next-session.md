@@ -13723,3 +13723,37 @@ Live freshness matched verification digest: 3a181e0cf09e5c2031f7fdcc24fd5a7f8a8a
 Existing provenance prefixes unchanged; appended5cases and9fixtures.
 Log work/verification-list-shadow-final-check.log; evidence work/verification-list-shadow-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Lazy indexed candidate groups
+
+Starting HEAD0147146 clean. Previous turn committed5cases after gate29461; progress.
+Inspected remaining inventory and several test-only specifications before choosing
+missing lazy group composition (no native counterpart). No upstream production read.
+Added independent lazy_concat module: LazyConcat with eager owned/borrowed groups,
+deferred known lengths, OnceCell cached results, binary-searched cumulative indices,
+unsigned bounds Result errors, overflow rejection, lazy/reversible exact-size
+iteration, sparse seeded sampling through existing unique_indices. No payload Clone
+requirement. Mismatched supplier lengths cache errors; panic leaves cache retryable;
+zero-length suppliers never run. Single-threaded cache; recursive access unsupported.
+Existing solver internals unchanged; no performance claim/benchmark refresh.
+
+Adapted17complete ComposingListTest methods; negative-index case stays pending
+(usize API). Full test source read. Original lengths/content/index/callback/error
+message assertions retained; native Cell replaces Java mutable counter/boolean.
+No fixture adaptation. Four native regressions cover sampling/caching/multiplicity,
+borrowed non-Clone payloads, reverse iterator, invalid length, panic, bounds, overflow.
+Focused55224 TERMINAL0 for17cases. Follow-up55030 TERMINAL101 compiling native test
+because consuming calls array conflicted with captured borrows; use each_ref().map.
+Focused13844 TERMINAL0 for4native regressions. Final source frozen for selective gate.
+No benchmark/browser/release reruns. Goal remains active.
+Gate4101 TERMINAL101 at clippy: samples return type redundantly specified Iterator
+alongside its FusedIterator supertrait. Removed redundant bound; behavior unchanged.
+
+Required gate39966 TERMINAL0. 3975 Rust tests and 189 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 496}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2356, 'failed': 0, 'pending': 2217, 'excluded': 282, 'unverified': 0, 'percent': 48.527}.
+Source before/after matched: a37a0ecb741de1296bf22045568b5b0a0b0f9a4e0882456ac454d61ce0721cb2
+Live freshness matched verification digest: b0f4a31297e2c847b7d443c69d554988e51fd62559941406ee005c8d88c4826f.
+Existing provenance prefixes unchanged; appended17cases and0fixtures.
+Log work/lazy-concat-final-check.log; evidence work/lazy-concat-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
