@@ -36629,6 +36629,141 @@
       "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
       "local_test": "solve_with_problem_change",
       "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doMove",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_move",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "is_move_doable",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "is_move_doable_value_range_provider_on_entity",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.isMoveDoableTailSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "isMoveDoableTailSwap",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "is_move_doable_tail_swap",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doTailSwap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doTailSwap",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_tail_swap",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doMoveSecondEndsBeforeFirst",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doMoveSecondEndsBeforeFirst",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_move_second_ends_before_first",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doMoveSecondEndsBeforeFirstUnbalanced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doMoveSecondEndsBeforeFirstUnbalanced",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_move_second_ends_before_first_unbalanced",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doMoveFirstEndsBeforeSecondUnbalanced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doMoveFirstEndsBeforeSecondUnbalanced",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_move_first_ends_before_second_unbalanced",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.doMoveSecondEndsBeforeFirstPinned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "doMoveSecondEndsBeforeFirstPinned",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "local_test": "do_move_second_ends_before_first_pinned",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
     }
   ],
   "fixtures": [
@@ -50255,6 +50390,84 @@
       "upstream_test": "DummySimpleScoreEasyScoreCalculator",
       "local_path": "crates/solver/tests/live_problem_reconciliation_cases.rs",
       "modifications": "Preserve four initialized entities assigned round-robin to four values, zero objective, construction plus ten-step local search, daemon solving, immediately queued addition of a fifth problem fact, consumed updated solution with five values and early termination. Exercise dependency-network and stream-graph backends. Owned native Facts/Solution and stable integer IDs replace annotated Java objects; LiveSolverManager serial changes and receipt completion after successful consumer delivery replace the Java problem-change director and isEveryProblemChangeProcessed event flag. A bounded channel wait replaces CountDownLatch/60-second JUnit timeout. reconcile_problem retains valid assignments by identity and builds a fresh scored model; no Java score-director identity, callback timing, or object-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingEntity.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingSolution.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingValue.directed_two_opt_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
+      "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
     }
   ]
 }

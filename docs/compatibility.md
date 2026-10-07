@@ -3635,3 +3635,19 @@ backends, including reordered/deleted owners, new full/prefix pins, entity range
 missing-value construction and retained independent snapshots. Mixed models compose
 the basic/list helpers before rebuilding scores. No new upstream method credit or
 performance claim; Java score-director lifecycle parity remains pending.
+
+list_directed_two_opt_plan adds explicit boundary-selected list reconnection.
+Ascending cuts reverse a span; descending cuts reverse a cyclic movable span,
+retaining the original first value as anchor only when no prefix is pinned.
+Cross-entity cuts exchange suffixes, including empty suffix transfers. Plans validate
+pins, ranges and dependencies before observation and preserve ordinary atomic undo.
+Wrapped edits notify the whole movable suffix; others use changed intervals. Scoring
+directors can consume the plan's movement; existing two-opt enumeration is unchanged.
+
+Nine SelectorBasedTwoOptListMoveTest cases now preserve all output, doability and
+before/after interval assertions, including unequal wrapped segments, pinned prefixes
+and entity-provided ranges. Native ID/pin/range/lifecycle substitutions are recorded;
+Java rebase and default callback ordering remain unclaimed. Four native regressions
+cover all small cut pairs, empty tails, invalid/pinned/dependency rejection, observer
+panic rollback and scoped/stream score-cache apply/undo/commit consistency. No speedup
+claim or benchmark refresh.

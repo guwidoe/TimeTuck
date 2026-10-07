@@ -14055,3 +14055,35 @@ Live freshness matched verification digest: 07893577e0d425bf70d281b703baa85c69ab
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/list-reconciliation-final-check.log; evidence work/list-reconciliation-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Directed wrapped two-opt plans
+
+Starting HEADaf8385a clean; list/mixed reconciliation batch verified/committed:
+progress. Inspected report gaps, native diminished-return/sample code and truncated
+ring-buffer tests (no changes/credit); selected a substantive missing wrapped two-opt
+operation. Read full SelectorBasedTwoOptListMoveTest and all six basic/entity-range
+list fixtures. No upstream production reads. Rebase method remains pending.
+
+Added independent list_directed_two_opt_plan: typed validated insertion-boundary
+cuts; forward reversal; descending cyclic movable-span reversal, unpinned original
+anchor rotation, pinned-prefix preservation; cross-owner suffix exchange including
+empty tails. Composite native swaps materialize wrapped permutations. Existing
+lifecycle preparation validates final pins/ranges/dependencies and provides undo.
+Wrapped scope is MovableSuffix; other scope ChangedRange. Existing provider/core
+solver modules unchanged; plan.movement works with existing score directors.
+
+Focused91367 TERMINAL0 for9 adapted methods including exact notification intervals;
+provenance appended9cases/6fixtures. Four native regression cases added for all
+small directed cuts and prefixes, empty tails/no-op, invalid/pinned/dependency errors,
+observer-panic rollback, scoped/stream score updates/rollback/commits.
+Focused23971 TERMINAL0 for4 native regression cases. Final formatted source frozen
+for selective gate. No benchmark/browser/release reruns; goal remains active.
+
+Required gate29578 TERMINAL0. 4106 Rust tests and 198 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 517}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2449, 'failed': 0, 'pending': 2124, 'excluded': 282, 'unverified': 0, 'percent': 50.443}.
+Source before/after matched: a9d784d0fc85d696cca512725bc50acf6b0e09cf3e1ad9e4431d06ab38043db2
+Live freshness matched verification digest: a5c00f30d3ee6ec62ad9fe07701431395ae2fd1289b9521701052a17fa33c04f.
+Existing provenance prefixes unchanged; appended9cases and6fixtures.
+Log work/directed-two-opt-final-check.log; evidence work/directed-two-opt-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

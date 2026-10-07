@@ -869,3 +869,6 @@ mod list_reconciliation;
 pub use list_reconciliation::{
     ListAssignmentSnapshot, ListReconciliationError, reconcile_list_problem,
 };
+
+mod directed_two_opt;
+pub use directed_two_opt::list_directed_two_opt_plan;
