@@ -16009,3 +16009,41 @@ Latest user timing answer used actual six gate log birth/finish timestamps:
 48m56s verification running during 65m48s (74%), with overlapping implementation;
 this is not a measured coding-time split. Previous status turn yielded timing
 evidence but no implementation; resume with the completed defaults commit.
+
+## Grouped live problem changes
+
+Previous goal turn's timing evidence informed continued work; committed verified
+termination defaults as4f7f360 without rerunning unchanged checks. Added independent
+ProblemChangeBatch module, exported from lib. Heterogeneous owned edits compose into
+one existing queued callback/revision/receipt, preserving live manager machinery.
+No interleaved queued changes/solves within a group; no rollback promise. Empty batch
+requests a fresh solve. Callback errors/panics stop later edits with indexed messages;
+remaining callbacks individually disposed through existing native panic containment.
+Cancellation applies around the group, as documented. Job and manager-ID submission.
+Read full TEST-ONLY BasicPlumbingTerminationTest; two adaptations preserve deferred
+counts and restart observations using real jobs and bounded channels, with explicit
+API differences in provenance. No copied fixtures or production source reads.
+Six focused tests passed in standalone harness (tool completed directly, exit0):
+two adapted plus four native integration/regression tests. Harness copies the exact
+native capture/dispose helpers and links the saved current library, while compiling
+the new module directly. No need to repeat focused run. Required final gate next;
+freeze Rust/provenance until complete. No benchmark/browser/release reruns.
+
+During gate88418, investigated additional TEST-ONLY sources (no adaptations):
+full DefaultProblemChangeDirectorTest; DefaultSolverTest2380-2401,2480-2545,
+2600-2745, including invalid custom/move fixture declarations. No production reads.
+Grouped changes alone do not establish incremental score-director notification or
+structural rebuild behavior, so no credits for those cases. Runtime custom/local
+range errors still lack the payload/range detail exposed by assignment validators;
+propagation needs implementation across relevant backends, not just a validator test.
+Native working_object_lookup already resolves external stable IDs to working Arcs;
+avoid a redundant registry. Detailed next-gap notes: work/problem-change-batch-next-gap.txt.
+
+Required gate88418 TERMINAL0. 4664 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 595}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2804, 'failed': 0, 'pending': 1769, 'excluded': 282, 'unverified': 0, 'percent': 57.755}.
+Source before/after matched: 584be2cd98cf67eea4933d9d8c9ef321f1809b6276f4ffc60299296df04af5f2
+Live freshness matched verification digest: f8a272454a6c2777ab6680302e90e330832678154660469d9a21d76192b5de80.
+Existing provenance prefixes unchanged; appended2cases and0fixtures.
+Log work/problem-change-batch-final-check.log; evidence work/problem-change-batch-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

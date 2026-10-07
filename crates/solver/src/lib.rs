@@ -1044,3 +1044,6 @@ pub use diminished_defaults::{
     apply_diminished_returns_default, apply_mixed_diminished_returns_default,
     default_diminished_returns_config,
 };
+
+mod problem_change_batch;
+pub use problem_change_batch::ProblemChangeBatch;

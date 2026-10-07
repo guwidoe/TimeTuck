@@ -42144,6 +42144,36 @@
       "local_test": "diminished_returns_custom_duration",
       "status": "implemented",
       "modifications": "Preserve default thirty-second window, exact 1/10000 improvement ratio, additive custom time-unit window and explicit 123-minute Duration with ratio1/2. Construct a typed native DiminishedReturns policy in every case instead of Java factory/type reflection. Exact rational ratios replace floating point; std Duration arithmetic replaces unit setter configuration. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BasicPlumbingTerminationTest.addProblemChangeWithoutDaemon",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/BasicPlumbingTerminationTest.java",
+      "upstream_test": "addProblemChangeWithoutDaemon",
+      "local_path": "crates/solver/tests/problem_change_batch_cases.rs",
+      "local_test": "add_problem_change_without_daemon",
+      "status": "implemented",
+      "modifications": "Preserve deferred single +1 and grouped +1/+20 callbacks, zero count before processing, and final counts 1/21. Real non-daemon native jobs replace mocked solver scopes. A clean initial run token, cancellation after enqueue, and a fresh uncancelled second run followed by completion replace the false/true/false restart-decision observations. Bounded channels control processing deterministically. Native batches use one revision/receipt; Java queue internals and score-director fixture are not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BasicPlumbingTerminationTest.addProblemChangesWithoutDaemon",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/BasicPlumbingTerminationTest.java",
+      "upstream_test": "addProblemChangesWithoutDaemon",
+      "local_path": "crates/solver/tests/problem_change_batch_cases.rs",
+      "local_test": "add_problem_changes_without_daemon",
+      "status": "implemented",
+      "modifications": "Preserve deferred single +1 and grouped +1/+20 callbacks, zero count before processing, and final counts 1/21. Real non-daemon native jobs replace mocked solver scopes. A clean initial run token, cancellation after enqueue, and a fresh uncancelled second run followed by completion replace the false/true/false restart-decision observations. Bounded channels control processing deterministically. Native batches use one revision/receipt; Java queue internals and score-director fixture are not reproduced."
     }
   ],
   "fixtures": [

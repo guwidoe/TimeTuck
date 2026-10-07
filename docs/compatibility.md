@@ -4156,3 +4156,15 @@ limits. Each phase uses its existing local timer; this introduces no cross-phase
 rate measurement. Three TerminationFactoryTest methods preserve default, additive
 unit-duration and explicit-duration settings using typed native policies. Native
 regressions cover idempotency, later-added phases and non-Clone score parameters.
+
+Live problem changes can now be grouped into a `ProblemChangeBatch`: heterogeneous
+owned callbacks run in order as one submitted revision, with no intervening queued
+edit or solve. One receipt acknowledges delivery of that revision or a later one.
+Errors and panics stop remaining edits with a one-based position; earlier mutations
+are retained, so this is not transactional rollback. Cancellation is checked around
+the group. Empty batches request another solve without editing the model. Pending
+callbacks are disposed individually, including on failure, cancellation or rejection.
+Two BasicPlumbingTerminationTest adaptations preserve deferred callbacks and
+non-daemon restart behavior with real native jobs and bounded channel coordination.
+Original tests cover concurrent submission, delivery acknowledgement, empty batches,
+failure/panic receipts and disposal. No Java queue or score-director API parity claimed.
