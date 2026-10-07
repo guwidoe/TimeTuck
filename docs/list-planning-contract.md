@@ -1011,3 +1011,30 @@ brackets must first be closed in the target recording. Later source/target edits
 and their live undo handles are independent. Lookup side effects are outside the
 transaction. This API requires stable Clone/Eq identity and maps whole saved list
 snapshots, including unchanged values; it does not infer missing target objects.
+
+### Custom move drafts
+
+`MoveDraft::new(&problem, &assignment)` accepts finite, list or mixed models.
+`push` applies an ordinary native move to an isolated copy and retains only
+successful steps. Read `assignment()` to build later steps in current coordinates;
+clone the draft to branch or save a checkpoint. `finish()` produces a native move,
+and `into_parts()` returns both final assignment and move. Replay the move from
+its original starting assignment through the usual model or score director.
+Partial assignments follow the model's existing validation, including domains,
+pins and list uniqueness. Composite pushes use ordinary composite validation.
+
+`MoveTester::new(&problem).using(&mut assignment)` binds a callback context.
+`execute` publishes its completed draft and returns the replayable move;
+`execute_temporarily` exposes the draft to an inspection callback without
+publishing it. Callback errors or panics leave the original assignment unchanged.
+Inspection may also edit its private draft or return an error as its result.
+External callback effects are not rolled back. A callback can restore its own
+cloned checkpoint, but replacing its draft with one from another opening returns
+`MoveTestError::ReplacedDraft`, even if that opening used the same model.
+
+Drafts clone assignment snapshots; they do not promise constant-time edits or
+compute scores/shadows themselves. Mixed replay groups basic and list steps by
+component, preserving each component's order and the final state. Normal score
+backends observe the resulting native move. Custom `MoveDraftModel` adapters must
+provide independent assignment clones, nonmutating apply-to-copy operations and
+composition that reproduces the ordered steps' final assignment.

@@ -969,3 +969,6 @@ pub use list_value_change::SampledAnchoredListChangeProvider;
 mod pending_list_changes;
 pub use list_change_recording::ListRecordingRebaseError;
 pub use pending_list_changes::{PendingListChangeStorage, PendingListChanges};
+
+mod move_tester;
+pub use move_tester::{MoveDraft, MoveDraftModel, MoveTestContext, MoveTestError, MoveTester};

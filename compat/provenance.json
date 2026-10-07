@@ -39374,6 +39374,81 @@
       "local_path": "crates/solver/tests/list_action_rebase_cases.rs",
       "local_test": "rebase_preserves_closed_action_and_working_identity",
       "modifications": "Native ListChangeRecorder before/after snapshots and undo replace direct Java action construction. Preserve restored values, insertion undo, unclosed-action error and exact before/after range notifications. Native batch undo also emits one shadow refresh. Result errors and native callback wording replace Java exception classes/messages. Rebase uses separate Arc working entities/values and real WorkingObjectLookup registries; pointer assertions prove lookup did not retain original instances. Native recording stores both before/after snapshots, so both old/new values are registered and mapped."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.buildSucceeds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "buildSucceeds",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "local_test": "build_succeeds",
+      "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.usingSucceeds",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "usingSucceeds",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "local_test": "using_succeeds",
+      "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeSimpleMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeSimpleMove",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "local_test": "execute_simple_move",
+      "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeTemporarilyWithUndo",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeTemporarilyWithUndo",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "local_test": "temporary_swap_undo",
+      "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeTemporarilyWithComplexMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeTemporarilyWithComplexMove",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "local_test": "temporary_complex_rotation",
+      "modifications": "Native validated finite model references replace Java solution metadata; indexed integer values replace entity/value objects. Preserve successful runner/context creation, committed swap, temporary swap/rotation observations and complete restoration. Inspection reads the isolated draft instead of externally aliased Java entities. Rust non-null references replace construction non-null assertions, with model identity/assignment assertions added. Four runtime-null methods remain pending; no Java reflection or alias-mutation equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -54560,6 +54635,19 @@
       "upstream_test": "mockAction",
       "local_path": "crates/solver/tests/pending_list_change_cases.rs",
       "modifications": "Distinct Rc allocations replace mock action objects; pointer equality retains action identity assertions. Helper attribution only."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.move_drafts",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "local_path": "crates/solver/tests/move_tester_cases.rs",
+      "modifications": "Initialized fixture helper only: preserve value/entity counts and cyclic i % valueCount initialization. Native numeric values and finite variables replace named Java objects and solution metadata; uninitialized overload is not adapted. No extra method credit."
     }
   ]
 }

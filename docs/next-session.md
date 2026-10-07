@@ -14984,3 +14984,43 @@ Focused16030 covered40tests (12new source cases,4new native regressions and24exi
 recorder cases/regressions). Final gate55414 and evidence78279 terminal0. No live
 sessions. Working-object pointer checks prove rebased undo uses target allocations;
 no source record consumption occurred in failure/collision/panic regressions.
+
+## Custom move drafts across native models
+
+Previous goal turn made implementation progress and verified the live gate; this
+turn completed verification. Started4ffbc0b. Read compatibility/handoff and full
+MoveTesterTest plus initialized TestdataSolution.generateSolution test helper.
+No upstream production reads. Added MoveDraftModel adapters for finite/list/mixed
+models, isolated MoveDraft assignments with ordered successful steps, and
+MoveTester commit/temporary callbacks. Native returned moves replay through
+existing score directors. Errors/panics leave caller assignments unchanged;
+failed pushes retain earlier successful steps. Cloned checkpoints are accepted;
+foreign draft replacement is rejected. Mixed composition keeps component order.
+
+Focused11855 TERMINAL0:5adapted cases and5native regressions. Earlier compile5235
+failed on test variant naming and overly general callback lifetimes, corrected to
+ListMove::Change and the context model lifetime. Added5source methods and1fixture;
+prior provenance prefixes unchanged. Four Java runtime-null methods remain pending.
+
+Required gate44609 and evidence76738 TERMINAL0. 4406 Rust tests and216doctests
+passed, with499RUN/67REUSE Rust jobs and46reused Python jobs. Broad invalidation
+comes from library_symbol_owners associating all trait implementations with target
+model types: the new adapters enter most solver targets' dependencies even though
+existing model implementations are unchanged. Verification scripts were unchanged.
+Prebuild93966 TERMINAL0 used real cache keys to select216affected targets for
+Cargo --no-run -j4; it ran no tests or verification-record writes. Cargo reported
+6m58s, overlapping the gate's build-lock wait; do not add these intervals together.
+
+Dashboard2628/4855=54.130%,1945pending,282excluded,0failed/unverified.
+Source before/after matched:
+f4bb3a5865c4d0abf4e97a830e2292373eb3215651b16016eb14f3a96eadb2fa
+Live freshness matched verification digest:
+324a98cf3d869befe7bad0f70330c79825dde5ee03fdfd4aa2555a1c54c69361
+Log work/move-drafts-final-check.log; evidence work/move-drafts-evidence.json.
+Generated dashboard report is intentionally ignored by Git. No benchmark/browser/
+release reruns or performance claim. All handles terminal; goal remains active.
+
+During the gate, read full NeighborhoodTesterTest (already adapted), full
+ScalingSequencedSetTest, and MoveDirectorTest2190–2431;80–210output was partly
+truncated. No adaptations from these reads. Remaining move-director cases include
+metadata access, Java argument distinctions and nested-phase bookkeeping.

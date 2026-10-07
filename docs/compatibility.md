@@ -3940,3 +3940,12 @@ WorkingObjectLookup. Java exception classes/callback names become native errors;
 batch undo additionally emits a shadow refresh. Original regressions exercise
 non-Clone action churn, interleaved open edits, memoized/type-changing lookups,
 collisions, lookup failures/panics and independent source/target replay.
+
+Five MoveTesterTest methods now preserve successful construction/binding, committed
+swap, temporary swap/rotation observations and full restoration. Native model
+references and isolated draft callbacks replace reflection metadata and mutation
+observed through Java entity aliases. Four runtime-null argument cases remain
+pending; Rust references/closures are non-null. One initialized cyclic solution
+helper retains attribution. Original regressions additionally cover basic/list/mixed
+composition, pins, partial lists, independent branches, rollback on errors/panics,
+foreign-draft rejection and replay through incremental list scoring.
