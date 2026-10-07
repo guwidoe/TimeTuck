@@ -3584,3 +3584,22 @@ claiming key20 matches >25 is not its assertion; the actual strict predicate is
 preserved. Two native regressions check all five relations on both sides over i64
 extremes before/after rekeying, plus borrowed non-Clone payloads and explicit Option
 ordering. Existing graph join behavior is unchanged; no speedup is claimed.
+
+PhaseBestBuffer provides optional phase-level owned result delivery over native
+SolverUpdate. An explicit scored-initial baseline suppresses unchanged initial
+snapshots. The buffer keeps only the latest improvement in the observed phase,
+returns a pending previous-phase snapshot on origin change, and requires a final
+flush after a successful solve. It preserves native phase/completeness metadata;
+raw immediate solver observers and scoring remain unchanged. Reset by constructing
+a new buffer for each solve/problem revision. Ordinary snapshot-clone failure
+preserves pending delivery. No asynchronous timing or Java default trace is claimed.
+
+DefaultSolverTest.solve, solveStopsWhenUninitialized and
+solveStopsWhenPartiallyInitialized now preserve all result and helper event-content
+assertions through this explicit adapter, on both scoring backends. They retain the
+source zero objective, two/five unassigned variables, two-value domains, no-op custom
+phase, two construction steps and ten-step local bound. Complete construction
+publishes exactly score0/initialized/construction-phase0; no-op uninitialized solving
+publishes no improvement; interrupted construction retains a scored partial result
+and nonempty delivery. Four native regressions cover coalescing, origin changes,
+flush idempotence, ignored baselines, completeness and clone-failure preservation.

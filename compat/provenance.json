@@ -36569,6 +36569,51 @@
       "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
       "local_test": "random_iterator_single_bucket_map",
       "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solve",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "local_test": "solve",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveStopsWhenUninitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveStopsWhenUninitialized",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "local_test": "solve_stops_when_uninitialized",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverTest.solveStopsWhenPartiallyInitialized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveStopsWhenPartiallyInitialized",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "local_test": "solve_stops_when_partially_initialized",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
     }
   ],
   "fixtures": [
@@ -50039,6 +50084,97 @@
       "upstream_test": "AbstractIndexerTest",
       "local_path": "crates/solver/tests/comparison_candidate_cases.rs",
       "modifications": "Preserve source insertion/removal membership and size, inclusive/exclusive comparison boundaries, singleton/empty exhaustion, ten-seed complete drains, and thirty/one-hundred repeated draws with full coverage. Native CandidateIndex keys and stable IDs replace raw keys and UniTuple handles; comparison_candidates uses explicit stored side and reverses the native JoinComparison for right-side queries. Native Iterator None/Peekable replaces Java hasNext/NoSuchElementException. Native root-0-derived seeds replace Random.nextLong for twenty first-draw trials; no Java PRNG trace claim. ExtremeKey maps the original i32 MIN/MAX comparator signs to native Ordering without negation. The reverse-array source comment incorrectly says query25 includes key20; preserve actual strict-greater predicate and helper assertions, which only match key30. No internal Java array/tree mode or automatic factory-routing equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NoChangeCustomPhaseCommand.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/NoChangeCustomPhaseCommand.java",
+      "upstream_test": "NoChangeCustomPhaseCommand",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "PlannerTestUtils",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BestScoreChangedEvent.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/BestScoreChangedEvent.java",
+      "upstream_test": "BestScoreChangedEvent",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DummySimpleScoreEasyScoreCalculator.solver_phase_delivery_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "DummySimpleScoreEasyScoreCalculator",
+      "local_path": "crates/solver/tests/solver_phase_delivery_cases.rs",
+      "modifications": "Preserve two-value domains, two/five-entity unassigned starts, ordinary zero score, ten-step local-search bound, two-step construction cutoff and no-op custom phase. Run every case through native dependency-network and stream-graph solving. PhaseBestBuffer is an explicit native delivery adapter with a supplied scored-initial baseline and final flush; it preserves the source exact single initialized construction event (score0,phase0), no events for unchanged uninitialized custom solve, and nonempty events for partial construction. Native phase enum/index replaces EventProducerId, owned assignments replace mutable solution objects, and typed results replace non-null checks. This establishes the observed result/event contents through the adapter, not Java immediate callback timing or default raw observer trace parity. Earlier raw native observation behavior is unchanged. Helpers adapted: PlannerTestUtils buildSolverConfig/solve/solveAssertingEvents, dummy zero calculator, no-change command and BestScoreChangedEvent projection."
     }
   ]
 }

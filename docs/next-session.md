@@ -13952,3 +13952,43 @@ Live freshness matched verification digest: 4945a4a3271752879aa6fa76d73f96a9e556
 Existing provenance prefixes unchanged; appended11cases and1fixture.
 Log work/comparison-candidate-final-check.log; evidence work/comparison-candidate-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Phase-level retained best delivery
+
+Starting HEADb6c10eb clean; previous relation-query batch committed after gate17334:
+progress. Inspected DefaultSolverTest solve/uninitialized/partial methods and runtime
+problem-change cases. Runtime changes remain pending; no changes there this batch.
+Read relevant PlannerTestUtils helpers, BestScoreChangedEvent, NoChangeCustomPhaseCommand,
+DummySimpleScoreEasyScoreCalculator and Testdata fixtures (Entity/Solution read in
+preceding batches; TestdataValue read here). No production upstream reads.
+
+Added independent PhaseBestBuffer/BufferedSolverUpdate with explicit initial-score
+baseline, per-origin latest pending snapshot, observe returning preceding pending
+snapshot, explicit/idempotent flush and has_pending. Raw solver observation unchanged.
+Accepted updates clone before consuming old pending state; ordinary clone failure
+preserves it. Needs fresh instance per solve/revision; native callback timing is
+explicitly different from Java. Three source cases/sevenfixtures appended, exercised
+on both dependency and graph backends. Full construction preserves exact event score,
+phase and initialized flag; no-op custom preserves scored partial result and noevents;
+two-step construction preserves partial result and at least one event.
+
+Focused31304 TERMINAL101: observer closure needed explicit borrowed SolverUpdate
+argument for higher-ranked lifetime. Fixed. Focused30532 TERMINAL0 for3sourcecases
+on both backends; regression40286 TERMINAL0 for4original buffer cases. Final formatted
+state frozen for selective gate. No benchmark/browser/release reruns; goal active.
+
+Required gate26710 TERMINAL0. 4082 Rust tests and 195 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 511}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2439, 'failed': 0, 'pending': 2134, 'excluded': 282, 'unverified': 0, 'percent': 50.237}.
+Source before/after matched: 816f9be70993957f089c2da7de530f05f024683cfe9277654479c3ae7206e6ea
+Live freshness matched verification digest: 5c31c695704bf4d01def7b9c2edb87a1abf685f106291a5cd12e807cd7c1bb16.
+Existing provenance prefixes unchanged; appended3cases and7fixtures.
+Log work/phase-best-final-check.log; evidence work/phase-best-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Gate9053 TERMINAL101: clippy rejected test-helper return type complexity.
+Added PhaseDeliveryResult alias; formatted and gate26710 passed as recorded above.
+User timing answer: last five completed batches 06:46:48–07:24:39 Vienna,
+37m51s elapsed. Recorded build/lint498s and testexecution74s across focused/final
+logs: at least25% verification; remaining75% includes implementation/specs/tests/docs
+and unmeasured overhead. K-opt accounts for417s. Not a precise coding-time split.
