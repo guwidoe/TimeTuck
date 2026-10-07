@@ -3827,3 +3827,20 @@ Four original regressions cover sampler replay including seed overflow, partial
 consumption and changed snapshots, pins/ranges/dependencies, empty/invalid inputs,
 and complete list/mixed plans with both policies. No additional upstream method
 credit, Java random trace parity or performance improvement is claimed.
+
+SlotReservationMap supplies bounded index remapping with implicit identities,
+small sparse logs and one-way dense promotion. The test-specified transition is
+min(16, slot_count/2) nonidentity entries; updates and identities consume no extra
+log entry. Native Result errors validate bounds before mutation, and failed dense
+allocation preserves existing mappings. Display sorts reservations by slot.
+UniqueIndices now uses this representation for pools of at most64 occurrences;
+larger/u128 virtual ranges keep sparse hashing. Sampling order and random draws
+remain unchanged; no measured performance claim is made.
+Twelve SlotReservationMapTest methods are fully adapted, including10,000 oracle
+operations with all200 slots compared after each operation (native seeded RNG
+replaces Java Random). Two signed-negative/exception source methods remain pending;
+positive out-of-range assertions are recorded as a partial fixture only.
+Additional tests cover counts/previous values/clear in both representations,
+failed allocation, error atomicity and unique-sampling equivalence to swap-remove
+across the small-pool boundary. Existing huge-range and solver sampling regressions
+remain applicable. The map does not enforce unique logical indices by itself.

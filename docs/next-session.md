@@ -14620,3 +14620,38 @@ Live freshness matched verification digest: f776f3ffe4187482da3c2f22d11e4bc0753e
 Existing provenance prefixes unchanged; no provenance changes.
 Log work/sampled-sublist-provider-final-check.log; evidence work/sampled-sublist-provider-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Adaptive slot reservations and unique sampling
+
+Previous goal turn was verified implementation progress; starting8e5ebee clean.
+Read compatibility/handoff, report pending classes and full test-only
+SlotReservationMapTest. No production upstream reads. New independent
+slot_reservations module provides implicit-identity maps, test-specified sparse
+threshold min(16,count/2), one-way dense promotion, validated atomic errors,
+previous-resolution return values, counts/clear and sorted display.
+UniqueIndices uses this map for pools<=64, retaining HashMap/u128 for larger ranges.
+Draw counts/order remain unchanged. Dense allocation bounded64 in sampling; direct
+map callers explicitly accept potential full-size dense promotion. No performance
+claim or benchmark refresh. All private helper types have distinct names.
+
+Twelve source methods adapted with unchanged deterministic assertions;10k random
+oracle operations over200slots use native seed0 instead of JavaRandom0, documented.
+Negative-size and mixed signed/exception source methods remain pending; positive
+bounds assertions recorded only as a partial fixture. Added12case and2fixture
+provenance records; existing records untouched. Three additional regression tests
+cover counts/clear/old values, invalid/allocation atomicity and swap-remove oracle
+sampling around representation boundaries. Prior unique_sampling tests exercise
+small exhaustive permutations, huge ranges, callback error/panic and solver use.
+Focused75729 TERMINAL0:27 tests. Adjusted sampler cutoff32->64 before final gate so
+small-pool sampling can actually use dense promotion (a shrinking32pool cannot
+exceed16 active reservations); expanded boundary tests accordingly. No behavior
+change to selected indices. Final formatted source frozen for required gate.
+
+Required gate5115 TERMINAL0. 4231 Rust tests and 208 doctests passed.
+Rust jobs: {'RUN': 15, 'REUSE': 530}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2503, 'failed': 0, 'pending': 2070, 'excluded': 282, 'unverified': 0, 'percent': 51.555}.
+Source before/after matched: 6fe3044e34a30d7591695306981b615ea1691493f2ea696814dcb76b797e36f5
+Live freshness matched verification digest: a619bf9c0e7c0a5975a09c2d8765da60e67d4cebac245d8bcc74f76fa20a01be.
+Existing provenance prefixes unchanged; appended12cases and2fixtures.
+Log work/slot-reservations-final-check.log; evidence work/slot-reservations-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

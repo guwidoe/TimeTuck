@@ -1,5 +1,5 @@
 //! Lazy uniform sampling of indexed occurrences without replacement.
-use crate::{ValueRange, random::SplitMix64};
+use crate::{SlotReservationMap, ValueRange, random::SplitMix64};
 use std::{collections::HashMap, error::Error, fmt, iter::FusedIterator};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -20,9 +20,55 @@ impl fmt::Display for UniqueSampleError {
 }
 impl Error for UniqueSampleError {}
 
+// Dense storage is bounded to tiny pools. Larger spaces keep the sparse u128
+// representation, including virtual ranges that cannot be materialized.
+enum UniqueRemapping {
+    Small(SlotReservationMap),
+    Wide(HashMap<u128, u128>),
+}
+impl UniqueRemapping {
+    fn new(length: u128) -> Self {
+        if length <= 64 {
+            Self::Small(SlotReservationMap::new(length as usize))
+        } else {
+            Self::Wide(HashMap::new())
+        }
+    }
+    fn len(&self) -> usize {
+        match self {
+            Self::Small(m) => m.len(),
+            Self::Wide(m) => m.len(),
+        }
+    }
+    fn take(&mut self, index: u128) -> u128 {
+        match self {
+            Self::Small(m) => m.release(index as usize).expect("live slot") as u128,
+            Self::Wide(m) => m.remove(&index).unwrap_or(index),
+        }
+    }
+    fn set(&mut self, index: u128, value: u128) {
+        match self {
+            Self::Small(m) => {
+                m.reserve(index as usize, value as usize)
+                    .expect("live slot remapping");
+            }
+            Self::Wide(m) => {
+                m.insert(index, value);
+            }
+        }
+    }
+    fn clear(&mut self) {
+        match self {
+            Self::Small(m) => m.clear(),
+            Self::Wide(m) => m.clear(),
+        }
+    }
+}
+
 /// Lazy permutation of 0..length. Every successful draw removes one occurrence.
-/// Storage grows only with consumed draws, never with the declared range length.
-/// A sparse swap table represents the still-live prefix: a draw chooses a position
+/// Small pools can allocate at most 64 dense entries; large ranges retain storage
+/// proportional to consumed draws. A swap table represents the still-live prefix:
+/// a draw chooses a position
 /// in that prefix, then the last live occurrence fills its vacated position.
 /// Uniform independent draws therefore yield a uniform permutation.
 ///
@@ -30,17 +76,19 @@ impl Error for UniqueSampleError {}
 /// draw. Invalid draws emit one error and permanently exhaust this cursor. A draw
 /// callback panic happens before any mapping mutation; its own effects cannot be
 /// rolled back. Hash-table iteration order never participates in selection.
-/// No Java PRNG trace parity is claimed. Bounds and counts may exceed usize::MAX.
+/// Pools of at most 64 occurrences use an adaptive slot map; larger pools retain
+/// sparse hashing. This does not change draws or their order. No Java PRNG trace
+/// parity is claimed. Bounds and counts may exceed usize::MAX.
 pub struct UniqueIndices<D> {
     remaining: u128,
-    moved: HashMap<u128, u128>,
+    moved: UniqueRemapping,
     draw: D,
 }
 impl<D: FnMut(u128) -> u128> UniqueIndices<D> {
     pub fn with_draw(length: u128, draw: D) -> Self {
         Self {
             remaining: length,
-            moved: HashMap::new(),
+            moved: UniqueRemapping::new(length),
             draw,
         }
     }
@@ -51,8 +99,8 @@ impl<D: FnMut(u128) -> u128> UniqueIndices<D> {
     pub fn has_next(&self) -> bool {
         self.remaining != 0
     }
-    /// Number of sparse remapping entries, not the source cardinality. Allocated
-    /// table capacity may remain larger after entries have been removed.
+    /// Number of nonidentity remappings, not the source cardinality. Allocated
+    /// storage may remain larger after entries have been removed.
     pub fn stored_indices(&self) -> usize {
         self.moved.len()
     }
@@ -74,10 +122,10 @@ impl<D: FnMut(u128) -> u128> Iterator for UniqueIndices<D> {
             return Some(Err(UniqueSampleError::InvalidDraw { index, bound }));
         }
         let last = bound - 1;
-        let selected = self.moved.remove(&index).unwrap_or(index);
-        let replacement = self.moved.remove(&last).unwrap_or(last);
+        let selected = self.moved.take(index);
+        let replacement = self.moved.take(last);
         if index != last {
-            self.moved.insert(index, replacement);
+            self.moved.set(index, replacement);
         }
         self.remaining = last;
         Some(Ok(selected))

@@ -937,3 +937,6 @@ pub use list_value_change::{
 
 mod sampled_sublist_provider;
 pub use sampled_sublist_provider::{SampledSubListNeighborhood, SampledSubListProvider};
+
+mod slot_reservations;
+pub use slot_reservations::{SlotReservationError, SlotReservationMap};
