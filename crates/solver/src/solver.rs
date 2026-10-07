@@ -3556,3 +3556,13 @@ pub fn solve_mixed_stream_with_extensions<
         Some(&mut extensions.move_providers),
     )
 }
+
+#[path = "calculator_solver.rs"]
+mod calculator;
+pub use calculator::{
+    solve_calculator, solve_calculator_with_events, solve_calculator_with_extensions,
+    solve_calculator_with_observer, solve_list_calculator, solve_list_calculator_with_events,
+    solve_list_calculator_with_extensions, solve_list_calculator_with_observer,
+    solve_mixed_calculator, solve_mixed_calculator_with_events,
+    solve_mixed_calculator_with_extensions, solve_mixed_calculator_with_observer,
+};

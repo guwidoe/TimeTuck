@@ -908,6 +908,129 @@ pub(crate) fn mixed_stream<
     }
 }
 
+// Backend-independent entry points for calculator-backed phase providers.
+pub(crate) fn basic_director<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
+    problem: &FiniteProblem<V>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig<'_>,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        FiniteProblem<V>,
+        Assignment<V>,
+        Move<V>,
+        S,
+    >,
+    create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, D::Error>
+where
+    D::Error: From<crate::ModelError>,
+{
+    problem.validate(&initial).map_err(D::Error::from)?;
+    if let Some(observer) = context.observer {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                create(a)
+                    .map(|d| BasicEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            BasicShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| create(a).map(BasicEngine),
+            context.control,
+        )
+    }
+}
+
+pub(crate) fn list_director<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
+    problem: &ListProblem<V>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig<'_>,
+    context: crate::provider_search::ProviderContext<
+        '_,
+        ListProblem<V>,
+        ListAssignment<V>,
+        ListMove<V>,
+        S,
+    >,
+    create: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, D::Error>
+where
+    D::Error: From<crate::ListError>,
+{
+    problem.validate(&initial).map_err(D::Error::from)?;
+    if let Some(observer) = context.observer {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                create(a)
+                    .map(|d| ListEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            ListShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| create(a).map(ListEngine),
+            context.control,
+        )
+    }
+}
+
+pub(crate) fn mixed_director<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+    D: MixedSearchDirector<B, L, S>,
+>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig<'_>,
+    context: MixedContext<'_, B, L, S>,
+    create: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, D::Error>
+where
+    D::Error: From<crate::MixedError>,
+{
+    problem.validate(&initial).map_err(D::Error::from)?;
+    if let Some(observer) = context.observer {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| {
+                create(a)
+                    .map(|d| MixedEngine(crate::solution_observation::Observed::new(d, observer)))
+            },
+            context.control,
+        )
+    } else {
+        construct(
+            MixedShape(problem),
+            initial,
+            config,
+            context.provider,
+            |a| create(a).map(MixedEngine),
+            context.control,
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

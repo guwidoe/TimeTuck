@@ -14395,3 +14395,50 @@ Live freshness matched verification digest: b859b6f6bf955d1bdafb5b08101c9462d303
 Existing provenance prefixes unchanged; appended2cases and7fixtures.
 Log work/list-mixed-calculator-final-check.log; evidence work/list-mixed-calculator-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Complete calculator-backed solver plans
+
+Previous7bd3291 goal turn was verified implementation progress; starting HEAD clean.
+Read current compatibility/handoff and native solver/provider/repair/observation
+code. No upstream production or new upstream specification reads/adaptations.
+Added calculator_solver as child of solver.rs to reuse its private orchestration,
+phase output conversions, bound/exact runners and event state. Public solve_calculator,
+solve_list_calculator, solve_mixed_calculator each have best-observer, lifecycle-event
+and SolverExtensions forms. All native phase types supported: construction/local,
+repair, custom, enumeration and branch-and-bound. Generic provider-construction
+boundaries reuse its existing validation/interruption engine. Factories are borrowed
+Fn()->C and independent per scoring session; callback work remains excluded from
+opaque per-calculation constraint units. Match collection disabled in solve APIs.
+
+Compile28241 terminal101 for inferred observer closure lifetime; explicit
+SolutionUpdate argument lifetimes fixed it. Compile13121 TERMINAL0. Focused77626
+TERMINAL0:3 original plan regressions. Expanded providers/custom/cancellation checks;
+focused29955 TERMINAL0:7 tests. Compare 75 three-model strategy/budget plans (enumerate
+and all4 bounded exploration orders), 15 shared-limit/observer configurations,
+three complete provider+custom+exact compositions, zero/cancelled/unbound/frozen
+factory behavior, invalid provider phase and initialization-triggered cancellation.
+Normalize only opaque constraint-work counters in scoped comparisons; preserve
+other totals, complete results, phase reasons and full event/best sequences.
+No provenance changes, benchmarks/browser/release reruns or performance claims.
+Final formatted source frozen for one final shared-solver regression gate.
+
+Previous timing-only turn supplied evidence; no implementation change. Revalidated
+worktree and terminal failed gate39619. Fixed its three type-complexity lints with
+private aliases and moved provider helpers before tests. No behavior changes.
+Retry the final gate on the formatted state; no benchmarks or UI reruns.
+
+Required gate22109 TERMINAL0. 4175 Rust tests and 203 doctests passed.
+Rust jobs: {'RUN': 473, 'REUSE': 62}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2476, 'failed': 0, 'pending': 2097, 'excluded': 282, 'unverified': 0, 'percent': 50.999}.
+Source before/after matched: 5af1fc937aa866514734a689e6167f248837efbf6187a391b7c5b1a95e57aef3
+Live freshness matched verification digest: 8046f0544ce6554f0781c3b210357a2896e7f5b0e99d63eced34235dc4bcccd4.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/calculator-solver-final-check.log; evidence work/calculator-solver-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Next gaps: generic calculator sessions support owned problem data, but native
+solve adapters currently disable match collection; calculator explanation aggregation
+and dynamic model/weight changes remain distinct work. Re-read abstract/incremental
+score-director semantics tests and full TestdataConstraintWeightOverridesSolution
+test fixture during the gate; no new adaptations or production reads.
+Removed superseded pending SolverSequence sentence from compatibility docs only.

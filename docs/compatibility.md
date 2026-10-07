@@ -3737,4 +3737,17 @@ now preserve full/prefix list pinning scores through the incremental calculator
 fixtures. Original regressions additionally compare 36 construction and36 local
 search configurations with scoped backends, and exercise joint rollback, native
 pin validation, match totals, custom commands/providers and failure recovery.
-Direct SolverSequence configuration remains pending. No performance claim is made.
+No performance claim is made.
+
+Calculator-backed complete solves now accept SolverSequence/MixedSolverSequence
+and SolverExtensions across basic, list and mixed models. They share orchestration
+for construction, local search, repair, custom commands, enumeration and bounded
+exact search, including provider-bound construction/local phases. Retained-best
+handoffs, initialization events, shared limits and frozen-model handling follow
+the existing engines. Each phase or exact/repair scoring session gets an independent
+factory-created calculator; incremental state is reused within construction/local
+candidate scans. Match collection is disabled in solve entry points. Original
+regressions compare results, phase/work counters (excluding opaque constraint work)
+and events across 75 plan/budget/strategy combinations, 15 shared-limit comparisons,
+three provider/command compositions and factory-skipping/observer-cancellation cases.
+These add no upstream method credit and establish no performance comparison.

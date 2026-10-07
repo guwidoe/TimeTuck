@@ -910,3 +910,11 @@ pub use mixed_calculator_search::{
     mixed_calculator_construction, mixed_calculator_custom_phase,
     mixed_calculator_local_search_from, mixed_calculator_local_search_with_provider,
 };
+
+pub use solver::{
+    solve_calculator, solve_calculator_with_events, solve_calculator_with_extensions,
+    solve_calculator_with_observer, solve_list_calculator, solve_list_calculator_with_events,
+    solve_list_calculator_with_extensions, solve_list_calculator_with_observer,
+    solve_mixed_calculator, solve_mixed_calculator_with_events,
+    solve_mixed_calculator_with_extensions, solve_mixed_calculator_with_observer,
+};
