@@ -56,7 +56,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// Evaluate typed shadow fields from complete immutable world snapshots.
     /// Each input identity owns a separate dependency cache; all share the given
     /// registration and supplier definitions. Sources may use explicit edges or
-    /// compiled paths. The projection reads the updated session and produces a
+    /// compiled paths. Statically guaranteed source-path cycles are rejected
+    /// before any callbacks; dynamic reference cycles remain runtime values.
+    /// The projection reads the updated session and produces a
     /// normal scored/joinable tuple under the input identity.
     ///
     /// Candidate undo, saved winners and nested sessions restore graph-owned
@@ -113,7 +115,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         U: Clone + 'static,
     {
         self.validate(input)?;
-        let session = builder.build();
+        let session = builder
+            .try_build()
+            .map_err(|e| GraphError::Dependency(e.to_string()))?;
         let initial = session.capture();
         let output = self.push(Shadows {
             session,

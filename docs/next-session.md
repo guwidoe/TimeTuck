@@ -12898,3 +12898,87 @@ Live freshness matched verification digest: 3fea31ed1b0bf4bf7109810ff6f76e5ecac4
 Existing provenance prefixes unchanged; appended1case and4fixtures.
 Log work/shadow-stream-final-check.log; evidence work/shadow-stream-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Fixed shadow cycles and accessor-model solves (current increment)
+
+Previous turn d01a7c2 was progress; starting tree clean. ShadowSessionBuilder retains
+compiled on-root source fields at bind time and validates their registered same-key
+nodes using DependencyTopology. Only actual cycle members contribute sorted unique
+field names to FixedDependencyCycle. Missing root sources reject before callbacks.
+New validate_fixed_dependencies and try_build perform no readers/root getters or
+suppliers. Existing low-level build stays permissive, manual edges remain mutable,
+and previous/group/object references stay dynamic. map_shadows now uses try_build,
+so real solver graph initialization rejects permanent source-path loops.
+
+Read full AlwaysLoopedShadowVariableTest, ExtendedValuesTest and their eight fixtures.
+Reused last turn's complete MethodVariablesTest and five fixtures. Three source cases:
+- Real solve_stream rejects odd/even root cycle with both names, source 3 entities,
+  required range1..5 and target0; original null/fallback suppliers/parity penalties
+  retained, plus no-callback assertion.
+- Two real list solves preserve A/B, codes1/2/31, previous.codeSum concatenation,
+  duplicate hard penalty and length soft reward; native score assertions and1000
+  evaluation limit reach0hard/6soft. Getter-list versus field-list adapters differ.
+  Rust BaseValue composition and explicit getter registration replace Java class
+  inheritance/annotation discovery; no broad inheritance/reflection claim. All
+  source instances are subclass instances. Independent final objective checks added.
+Provenance appended3cases and13fixtures; original prefixes preserved.
+
+Focused50009 exited0 (accessor cases before diagnostic text change); focused56384
+exited0 (all3source cases on updated code). Original86411 exited0 (2tests): exact
+cycle members excluding downstream, self loop, missing registration, no callbacks,
+and map_shadows permits dynamic predecessor cycles, restores trial cache and recovers
+from committed cycles. No upstream production implementation read. Source/provenance
+frozen after formatting for required gate; no benchmark/browser/release reruns.
+
+Read full GraphStructureTest (144 lines) during final gate: 12 pending metadata
+classification cases. Empty/base-only roots are EMPTY; previous-only list roots
+are SINGLE_DIRECTIONAL_PARENT/PREVIOUS; actual nonempty concurrent groups and
+followers require arbitrary single-entity handling; multi-entity/list-element or
+multiple active directional parents are ARBITRARY. Empty groups do not force the
+arbitrary strategy. Any future classification work should drive actual execution
+strategy selection, not just introduce labels to claim these cases.
+
+Continuation checkpoint: required final gate is LIVE as session97019, launched with
+matching login environment and logging to work/fixed-shadow-final-check.log.
+Last authoritative poll returned session97019 running; log reached explanation_diff_regression.
+Do not restart, rerun focused tests or change frozen source merely for a new turn.
+Poll97019 until terminal, then inspect report/source metadata and live /api/freshness,
+append evidence, review/stage the handoff tail and commit this increment. Eight
+intended files, including this handoff, are staged. All
+focused handles50009,56384,86411 are terminal0. No final-gate success claim yet.
+
+While gate97019 continued, read full VariableChangeRecordingScoreDirectorTest
+(564 lines, tests only), a useful next implementation target: 21 pending methods.
+Each list before/after bracket records one undo range plus one before/after undo
+notification pair. Interleaved entities pair independently by stable identity;
+sequential same-entity brackets remain separate and undo in reverse. Exact tests
+cover same range replacement, removal/insertion across owners, swap, nested cross
+owner brackets, batched3-owner rotation, identical/overlapping/touching sequential
+ranges. Non-delegating recorder handles share pending records. Undo handles are
+live: created before any before or during an open bracket, they see later closure
+and changes. Undo clears pending state so later brackets can open. Reject duplicate
+before, orphan/duplicate after, mismatched from-index (also across shared handles),
+reported length delta differing from actual, and undo with an unclosed bracket.
+Preserve exact restored lists, notification ranges/counts and one shadow-update
+notification for tests that assert those. Only the test was read this turn; its
+three core/testdomain/list fixtures need inspection before adapting. Existing
+native RAII move sessions are not automatically proof of this lower-level event
+recording contract. Do not copy referenced production classes from comments.
+
+Verification breadth observed: scripts/verification_inputs.py selects all children
+of a selected Rust module and associates every out-of-line impl with its target
+type. Therefore stream_graph/shadows.rs brings ShadowSession dependencies into
+unrelated StreamGraphBuilder jobs. This explains the broad reruns on these recent
+batches; separate job keys exist but this dependency scan remains conservative.
+Any selective extension-method refinement needs actual cache tests and must retain
+original evidence dates/checksums; do not merely rewrite keys on old results.
+
+Required gate97019 is now TERMINAL0 (supersedes earlier live checkpoint).
+3760 Rust tests and 177 doctests passed.
+Rust jobs: {'RUN': 412, 'REUSE': 57}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2184, 'failed': 0, 'pending': 2389, 'excluded': 282, 'unverified': 0, 'percent': 44.985}.
+Source before/after matched: 15c00df8320704b13523d244a540e8b78acb89eb37aafb24f812f4a5db8d4997
+Live freshness matched verification digest: a100b2e7c0c77341e0ce4911fdad0f5ba5d0935c5ff76adf1b11381fac4a69f0.
+Existing provenance prefixes unchanged; appended3cases and13fixtures.
+Log work/fixed-shadow-final-check.log; evidence work/fixed-shadow-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

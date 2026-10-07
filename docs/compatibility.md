@@ -3053,3 +3053,24 @@ rebuild consistency; deterministic bounded search replaces Java configuration.
 Four source fixtures are attributed. Original tests exercise independent row
 caches, non-Clone values, retraction, rollback, callback failures, nested list
 moves and saved-winner installation without replay. No performance claim is made.
+
+## Permanent shadow cycles and accessor models
+
+ShadowSessionBuilder validates compiled references owned by their root before
+building a checked session. These dependencies always address the same registered
+entity and cannot disappear when the world changes. `try_build` rejects their
+cycles with the sorted, deduplicated field names of actual cycle members, excluding
+downstream dependents. Missing root-field registrations also fail before callbacks.
+`map_shadows` uses this validation automatically. Links through other objects stay
+dynamic and may become inconsistent and recover normally. Explicit manual edges
+remain mutable; low-level `build` retains its permissive cache semantics.
+
+AlwaysLoopedShadowVariableTest now exercises real solver initialization and rejects
+the odd/even fixed loop before readers or suppliers run. MethodVariables and
+ExtendedValues cases now solve the two-owner concatenated-code models to 0hard/6soft
+through getter-based source paths and transactional shadow scoring. Rust composition
+models shared base storage; explicit registration replaces Java annotations and
+covariant accessor discovery. This does not claim Java reflection or inheritance
+support. Three source cases and thirteen fixtures are attributed. Original tests
+cover precise cycle membership, self loops, missing registrations, dynamic cycle
+recovery and score/cache rollback.

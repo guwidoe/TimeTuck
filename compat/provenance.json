@@ -32744,6 +32744,51 @@
       "upstream_test": "simpleList",
       "local_test": "simple_list",
       "modifications": "Preserve one initially empty required list, owner position/start time 0, v1/v2/v3 positions 1/2/3 and durations 60/120/30, objective minimizing every end time, score limit -344, exact final order and all six start/end assertions. Native deterministic construction/local search with score assertions replaces Java FULL_ASSERT/reflection; add 1000-evaluation and 32-step safety limits. Compiled source paths bind separate start/end shadow fields inside transactional stream scoring. Final values come from the same runtime bound to the returned solution. Stable indices replace object codes; native list snapshots supply owner/previous references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DeclarativeShadowVariablesMethodVariablesTest.methodDefinedVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DeclarativeShadowVariablesMethodVariablesTest.java",
+      "upstream_test": "methodDefinedVariables",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "local_test": "method_defined_variables",
+      "modifications": "Preserve two empty required owners A/B, subclass codes 1/2/31, previous.codeSum source, concatenation order, duplicate-character hard penalty, length soft reward, 1000 evaluation bound and exact HardSoftScore(0,6). Real native construction/local search uses compiled paths and graph-owned shadow sessions with score assertions. Rust composition of BaseValue into Value replaces Java inheritance; explicit typed getter registration replaces annotation discovery and covariant casting. Only subclass instances exist in the source case. Getter-list and field-list adapters remain separate branches; no general Java reflection/inheritance compatibility is claimed. Native stable indices replace object codes. Add independent final-list objective checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DeclarativeShadowVariablesExtendedValuesTest.extendedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/DeclarativeShadowVariablesExtendedValuesTest.java",
+      "upstream_test": "extendedValues",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "local_test": "extended_values",
+      "modifications": "Preserve two empty required owners A/B, subclass codes 1/2/31, previous.codeSum source, concatenation order, duplicate-character hard penalty, length soft reward, 1000 evaluation bound and exact HardSoftScore(0,6). Real native construction/local search uses compiled paths and graph-owned shadow sessions with score assertions. Rust composition of BaseValue into Value replaces Java inheritance; explicit typed getter registration replaces annotation discovery and covariant casting. Only subclass instances exist in the source case. Getter-list and field-list adapters remain separate branches; no general Java reflection/inheritance compatibility is claimed. Native stable indices replace object codes. Add independent final-list objective checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AlwaysLoopedShadowVariableTest.failsIfAlwaysLoopedVariablePresent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AlwaysLoopedShadowVariableTest.java",
+      "upstream_test": "failsIfAlwaysLoopedVariablePresent",
+      "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
+      "local_test": "fails_if_always_looped_variable_present",
+      "modifications": "Invoke the real finite stream solver with three initially unassigned entities, required value range 1..5 and best-score limit 0. Register original value/odd/even source declarations through compiled paths. Preserve supplier null/fallback behavior and parity-count scoring definitions. Stream initialization rejects guaranteed root-field cycles before callbacks. Rust GraphError wrapped by SolverError replaces IllegalArgumentException; assert fixed-dependency-loop diagnostic plus both odd/even names. Add zero reader/supplier call assertion."
     }
   ],
   "fixtures": [
@@ -43341,6 +43386,175 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListValue.java",
       "upstream_test": "TestdataDeclarativeSimpleListValue",
       "modifications": "Retain required values metadata, owner/previous shadows, exact entity and job facts, start supplier sources entity and previous.endTime, end supplier source startTime, null semantics and total-end-time penalty. Use typed canonical metadata and compiled path sessions rather than annotations/setters. Native indices retain e1/v1/v2/v3 identities; immutable snapshots derive builtin owner/previous from actual candidate lists. Graph-owned caches store separate start and end fields; selected fields are projected into a normal scoring tuple."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeMethodVariablesBaseValue.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/method_variables/TestdataDeclarativeMethodVariablesBaseValue.java",
+      "upstream_test": "TestdataDeclarativeMethodVariablesBaseValue",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeMethodVariablesSubclassValue.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/method_variables/TestdataDeclarativeMethodVariablesSubclassValue.java",
+      "upstream_test": "TestdataDeclarativeMethodVariablesSubclassValue",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeMethodVariablesEntity.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/method_variables/TestdataDeclarativeMethodVariablesEntity.java",
+      "upstream_test": "TestdataDeclarativeMethodVariablesEntity",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeMethodVariablesSolution.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/method_variables/TestdataDeclarativeMethodVariablesSolution.java",
+      "upstream_test": "TestdataDeclarativeMethodVariablesSolution",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeMethodVariablesConstraintProvider.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/method_variables/TestdataDeclarativeMethodVariablesConstraintProvider.java",
+      "upstream_test": "TestdataDeclarativeMethodVariablesConstraintProvider",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeExtendedBaseValue.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedBaseValue.java",
+      "upstream_test": "TestdataDeclarativeExtendedBaseValue",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeExtendedSubclassValue.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedSubclassValue.java",
+      "upstream_test": "TestdataDeclarativeExtendedSubclassValue",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeExtendedEntity.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedEntity.java",
+      "upstream_test": "TestdataDeclarativeExtendedEntity",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeExtendedSolution.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedSolution.java",
+      "upstream_test": "TestdataDeclarativeExtendedSolution",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeExtendedConstraintProvider.accessor_shadow",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedConstraintProvider.java",
+      "upstream_test": "TestdataDeclarativeExtendedConstraintProvider",
+      "local_path": "crates/solver/tests/accessor_shadow_cases.rs",
+      "modifications": "Adapt base previous storage/getter, subclass code concatenation supplier and previous.codeSum path, required owner lists, exact codes and both scoring constraints. Rust composed base storage and explicit getter registration replace Java inheritance/annotations. Per-owner full snapshots include all registered values; only assigned values enter scoring, preserving list forEach semantics. Cached codeSum is calculated for every registered value, including its own code without a predecessor. No mutable Java shadow setters or automatic member discovery are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAlwaysLoopedEntity.fixed_shadow_cycle",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/always_looped/TestdataAlwaysLoopedEntity.java",
+      "upstream_test": "TestdataAlwaysLoopedEntity",
+      "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
+      "modifications": "Retain required integer variable, mutually dependent Boolean odd/even shadows, exact source lists, nullable supplier inputs/fallback arithmetic, three entities, range 1..5 and parity-count penalties. Native metadata and compiled paths replace annotations. Count penalties use the full projected field set and suppress empty groups, equivalent to the source filtered/grouped constraints. Model validation fails before either scoring definition can run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAlwaysLoopedSolution.fixed_shadow_cycle",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/always_looped/TestdataAlwaysLoopedSolution.java",
+      "upstream_test": "TestdataAlwaysLoopedSolution",
+      "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
+      "modifications": "Retain required integer variable, mutually dependent Boolean odd/even shadows, exact source lists, nullable supplier inputs/fallback arithmetic, three entities, range 1..5 and parity-count penalties. Native metadata and compiled paths replace annotations. Count penalties use the full projected field set and suppress empty groups, equivalent to the source filtered/grouped constraints. Model validation fails before either scoring definition can run."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAlwaysLoopedConstraintProvider.fixed_shadow_cycle",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/always_looped/TestdataAlwaysLoopedConstraintProvider.java",
+      "upstream_test": "TestdataAlwaysLoopedConstraintProvider",
+      "local_path": "crates/solver/tests/fixed_shadow_cycle_cases.rs",
+      "modifications": "Retain required integer variable, mutually dependent Boolean odd/even shadows, exact source lists, nullable supplier inputs/fallback arithmetic, three entities, range 1..5 and parity-count penalties. Native metadata and compiled paths replace annotations. Count penalties use the full projected field set and suppress empty groups, equivalent to the source filtered/grouped constraints. Model validation fails before either scoring definition can run."
     }
   ]
 }

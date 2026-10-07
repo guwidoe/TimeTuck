@@ -17,11 +17,19 @@ pub enum ShadowSessionError {
     SnapshotMismatch,
     SourcePath(SourcePathError),
     UnregisteredSource,
+    FixedDependencyCycle(Vec<String>),
     Dependency(DependencyError<usize>),
 }
 impl fmt::Display for ShadowSessionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "shadow session: {self:?}")
+        match self {
+            Self::FixedDependencyCycle(variables) => write!(
+                f,
+                "fixed dependency loops for shadow variables: {}",
+                variables.join(", ")
+            ),
+            _ => write!(f, "shadow session: {self:?}"),
+        }
     }
 }
 impl Error for ShadowSessionError {}
@@ -140,6 +148,7 @@ struct Node<'a, 's, K, W> {
     entity: K,
     operation: Operation<'a, W>,
     sources: Option<Box<SourceResolver<'a, 's, K, W>>>,
+    fixed_sources: Vec<PlanningVariableRef<'s>>,
 }
 /// Explicit typed field registration; native entity keys identify model objects.
 /// Metadata is borrowed, and handles cannot be used with a different builder/session.
@@ -188,6 +197,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             entity,
             operation,
             sources: None,
+            fixed_sources: vec![],
         });
         Ok(node)
     }
@@ -280,7 +290,14 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
                 "source path target/root differs from node",
             ));
         }
+        let fixed_sources = paths
+            .iter()
+            .flat_map(|path| path.references())
+            .filter(|reference| reference.on_root())
+            .map(|reference| reference.variable())
+            .collect();
         let expected = node.entity.clone();
+        self.nodes[index].fixed_sources = fixed_sources;
         self.nodes[index].sources = Some(Box::new(move |world| {
             let root = root(world);
             if identify(root).as_ref() != Some(&expected) {
@@ -317,6 +334,55 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             sources,
         )
     }
+    /// Reject source-path cycles that cannot be broken by changing a world.
+    /// References owned by the root always address this node's stable entity
+    /// key. Links through previous elements, groups and other objects remain
+    /// dynamic and may become inconsistent at runtime instead. Manual edges are
+    /// intentionally mutable and do not participate in this fixed-path check.
+    /// Validation invokes no root accessors, readers or suppliers.
+    pub fn validate_fixed_dependencies(&self) -> Result<(), ShadowSessionError> {
+        let mut topology =
+            DependencyTopology::new(0..self.nodes.len()).map_err(ShadowSessionError::Dependency)?;
+        let mut edges = vec![];
+        for (target, node) in self.nodes.iter().enumerate() {
+            for field in &node.fixed_sources {
+                let source = self
+                    .nodes
+                    .iter()
+                    .position(|candidate| {
+                        candidate.variable == *field && candidate.entity == node.entity
+                    })
+                    .ok_or(ShadowSessionError::UnregisteredSource)?;
+                edges.push((target, source));
+            }
+        }
+        topology
+            .update(&[], &edges)
+            .map_err(ShadowSessionError::Dependency)?;
+        let mut variables = BTreeSet::new();
+        for (index, node) in self.nodes.iter().enumerate() {
+            if topology
+                .is_cyclic(&index)
+                .map_err(ShadowSessionError::Dependency)?
+            {
+                variables.insert(node.variable.name().to_owned());
+            }
+        }
+        if variables.is_empty() {
+            Ok(())
+        } else {
+            Err(ShadowSessionError::FixedDependencyCycle(
+                variables.into_iter().collect(),
+            ))
+        }
+    }
+    /// Build a session after rejecting statically guaranteed source-path cycles.
+    pub fn try_build(self) -> Result<ShadowSession<'a, 's, K, W>, ShadowSessionError> {
+        self.validate_fixed_dependencies()?;
+        Ok(self.build())
+    }
+    /// Build a low-level session permitting inconsistent fixed cycles. Use
+    /// try_build for model validation, as the stream scoring integration does.
     pub fn build(self) -> ShadowSession<'a, 's, K, W> {
         let topology = DependencyTopology::new(0..self.nodes.len()).expect("unique node indices");
         let pending = (0..self.nodes.len()).collect();
