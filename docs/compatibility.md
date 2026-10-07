@@ -3697,3 +3697,15 @@ basic-variable slot through PinnedUnassignedVariable; the fixture maps this slot
 the source entity e3 and its value variable. Structured identity replaces Java
 exception wording. This adds specific startup diagnostics, without changing the
 search algorithm or adding a performance measurement.
+
+Custom incremental calculators now have an owned working-solution session with
+reset and before/after change callbacks. An optional registry retains distinct
+match occurrences, per-constraint/overall ordinary scores, justifications and
+explicit cancellation handles. Ten IncrementalScoreDirectorTest methods cover
+policy fallback, registration, cancellation and reset. Native regressions compare
+400 changes (including inverse updates for rejected trials) against full sums,
+with matching enabled/disabled, and cover expired/foreign handles, atomic score
+overflow and callback failure recovery. Calculator scores remain independent of
+explanation totals. Callers supply complete change descriptors; dependency
+inference and integration of this calculator backend into built-in heuristic
+engines remain pending. The registry does not yet aggregate fact indictments.

@@ -36989,6 +36989,156 @@
       "local_path": "crates/solver/tests/local_search_phase_cases.rs",
       "local_test": "solve_with_pinned_entities_when_unassigned_not_allowed_and_pinned_to_null",
       "modifications": "Preserve the three source entity/value states, required semantics, pinned e3, explicit local-only phase and bounded score calculations. Both native scoring backends must fail with PinnedUnassignedVariable identifying slot2; the stable native slot maps to source entity e3 and its value variable. Structured variable identity replaces substring matching of the Java entity/variable exception message; Java wording/reflection is not claimed. Reuses already recorded TestdataPinnedEntity/Solution/Value and PlannerTestUtils fixture adaptations in this same local file. Earlier unpinned missing e1 must not obscure the pinned e3 diagnosis. Existing generic initial incompleteness, partial-result policies and automatic initial-assignment search remain distinct."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.illegalStateExceptionThrownWhenConstraintMatchNotEnabled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "illegalStateExceptionThrownWhenConstraintMatchNotEnabled",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "illegal_state_exception_thrown_when_constraint_match_not_enabled",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.constraintMatchTotalsNeverNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "constraintMatchTotalsNeverNull",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "constraint_match_totals_never_null",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.constraintMatchIsNotEnabledWhenScoreCalculatorNotConstraintMatchAware",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "constraintMatchIsNotEnabledWhenScoreCalculatorNotConstraintMatchAware",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "constraint_match_is_not_enabled_when_score_calculator_not_constraint_match_aware",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.registerConstraintMatchThrowsWhenConstraintMatchingDisabled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "registerConstraintMatchThrowsWhenConstraintMatchingDisabled",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "register_constraint_match_throws_when_constraint_matching_disabled",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.registerConstraintMatchUpdatesTotalScoreAndMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "registerConstraintMatchUpdatesTotalScoreAndMap",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "register_constraint_match_updates_total_score_and_map",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.cancelRegistrationUpdatesTotalScoreAndMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "cancelRegistrationUpdatesTotalScoreAndMap",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "cancel_registration_updates_total_score_and_map",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.cancelRegistrationTwiceThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "cancelRegistrationTwiceThrows",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "cancel_registration_twice_throws",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.multipleConstraintMatchesAcrossDifferentConstraints",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "multipleConstraintMatchesAcrossDifferentConstraints",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "multiple_constraint_matches_across_different_constraints",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.resetClearsConstraintMatchMapAndResetsScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "resetClearsConstraintMatchMapAndResetsScore",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "reset_clears_constraint_match_map_and_resets_score",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.registrationConstraintRefAndScoreAreAccessible",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "registrationConstraintRefAndScoreAreAccessible",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "local_test": "registration_constraint_ref_and_score_are_accessible",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
     }
   ],
   "fixtures": [
@@ -50888,6 +51038,19 @@
       "upstream_test": "DummySimpleScoreEasyScoreCalculator",
       "local_path": "crates/solver/tests/local_search_phase_cases.rs",
       "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "IncrementalScoreDirectorTest.calculators.incremental_calculator_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorTest.java",
+      "upstream_test": "RegistryCapturingCalculator, anonymous AnalyzableIncrementalScoreCalculator instances, mockIncrementalScoreCalculator and mockIncrementalScoreDirectorFactory",
+      "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
+      "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
     }
   ]
 }

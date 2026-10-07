@@ -14286,3 +14286,34 @@ Log work/pinned-start-final-check.log; evidence work/pinned-start-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
 
 While gate ran, read full DefaultLevelScoreStateTest as a possible next specification; no code, fixture or coverage changes from that read. Its remaining step-index/baseline cases are still pending.
+
+## Custom incremental calculator sessions
+
+Previous goal turn produced verified pinned-start progress (c3c5163); subsequent
+user timing reply changed no implementation. Started this batch from clean HEAD.
+Read current compatibility/handoff and full IncrementalScoreDirectorTest (re-read
+truncated reset section separately); no production source reads. Added independent
+incremental_calculator module: IncrementalCalculator<P>, CalculatorSession,
+MatchRegistry and explicit occurrence cancellation handles. Own working data,
+callback ordering, reset invalidation, checked registry totals, stable retained
+metadata, policy fallback and unavailable-until-reset after failure/unwind.
+Calculated score remains separate from match totals. Built-in engine integration
+and fact indictment aggregation remain pending; no claim of those capabilities.
+
+Adapted all10 source methods plus1 shared calculator fixture record. Three original
+regressions cover 400 incremental updates/rejected-trial reversals against full
+sums with explanations on/off, callback failure/panic recovery, foreign/expired/
+cloned handles, and atomic overflow on registration/cancellation. Focused86296
+terminal101: generic ZERO temporary borrow, fixed with local binding; removed
+unused import and fixed test mutable/immutable borrow before retry. Focused28306
+TERMINAL0:10 source and3 native tests passed. Final formatted source frozen for
+required selective gate. No benchmark, release or browser reruns needed.
+
+Required gate58859 TERMINAL0. 4156 Rust tests and 202 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 528}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2474, 'failed': 0, 'pending': 2099, 'excluded': 282, 'unverified': 0, 'percent': 50.958}.
+Source before/after matched: 19f2d59a2adcb046ce4de83ca286bbf0ab5cbf5ab24819277e2b7f707bed0f92
+Live freshness matched verification digest: cc197cea14061220c4757c5b8de331b9c13d9d4a06b489fa5e75299033997571.
+Existing provenance prefixes unchanged; appended10cases and1fixture.
+Log work/incremental-calculator-final-check.log; evidence work/incremental-calculator-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
