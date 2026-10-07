@@ -36974,6 +36974,21 @@
       "local_path": "crates/solver/tests/local_search_phase_cases.rs",
       "local_test": "fails_fast_with_uninitialized_solution_basic_variable",
       "modifications": "Preserve initial values, optionality/pins, entity-code/assignment assertions, zero-score assertion, empty results, and PlannerTestUtils.solve nonempty-best-event assertion. Stable native variable indices carry entity codes instead of Java annotated objects; unused solution-level facts have no native slots. Use explicit local-only sequences (or construction plus local search for six list values/two owners), native 10-score-evaluation/10-step bounds, deterministic HillClimbing for unspecified local-search configuration and VariableTabu tenure1/aspiration for explicit tabu. Native seeds/order/counters and Java default acceptor settings are not claimed equivalent; source asserts no exact search traces. Both scoped and stream scoring use a zero objective matching DummySimpleScoreEasyScoreCalculator. Typed IncompleteInitialAssignment at phase0 replaces the uninitialized-entities message. Required pinned-null entity/variable diagnostics remain pending and are not covered by this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultLocalSearchPhaseTest.solveWithPinnedEntitiesWhenUnassignedNotAllowedAndPinnedToNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/DefaultLocalSearchPhaseTest.java",
+      "upstream_test": "solveWithPinnedEntitiesWhenUnassignedNotAllowedAndPinnedToNull",
+      "local_path": "crates/solver/tests/local_search_phase_cases.rs",
+      "local_test": "solve_with_pinned_entities_when_unassigned_not_allowed_and_pinned_to_null",
+      "modifications": "Preserve the three source entity/value states, required semantics, pinned e3, explicit local-only phase and bounded score calculations. Both native scoring backends must fail with PinnedUnassignedVariable identifying slot2; the stable native slot maps to source entity e3 and its value variable. Structured variable identity replaces substring matching of the Java entity/variable exception message; Java wording/reflection is not claimed. Reuses already recorded TestdataPinnedEntity/Solution/Value and PlannerTestUtils fixture adaptations in this same local file. Earlier unpinned missing e1 must not obscure the pinned e3 diagnosis. Existing generic initial incompleteness, partial-result policies and automatic initial-assignment search remain distinct."
     }
   ],
   "fixtures": [

@@ -33,6 +33,11 @@ pub enum MixedLocalSearchError {
     Scoring(MixedScoringError),
     StreamScoring(crate::MixedStreamScoringError),
     Acceptance(AcceptanceError),
+    /// Index of the first required pinned basic variable without an assigned
+    /// value. List entities are in a separate index space and are not reported.
+    PinnedUnassignedVariable {
+        variable: usize,
+    },
     IncompleteInitialAssignment,
 }
 impl fmt::Display for MixedLocalSearchError {
@@ -42,6 +47,10 @@ impl fmt::Display for MixedLocalSearchError {
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
             Self::DiminishedReturns(e) => e.fmt(f),
+            Self::PinnedUnassignedVariable { variable } => write!(
+                f,
+                "mixed local search cannot initialize pinned required basic variable {variable}: its value is unassigned"
+            ),
             Self::IncompleteInitialAssignment => {
                 f.write_str("mixed local search requires a complete initial assignment")
             }
@@ -55,7 +64,7 @@ impl Error for MixedLocalSearchError {
             Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
             Self::DiminishedReturns(e) => Some(e),
-            Self::IncompleteInitialAssignment => None,
+            Self::IncompleteInitialAssignment | Self::PinnedUnassignedVariable { .. } => None,
         }
     }
 }
@@ -229,6 +238,11 @@ where
         }
     }
     if !problem.is_complete(&initial) {
+        if let Some(variable) =
+            crate::local_search::pinned_unassigned_variable(problem.basic(), initial.basic())
+        {
+            return Err(MixedLocalSearchError::PinnedUnassignedVariable { variable });
+        }
         return Err(MixedLocalSearchError::IncompleteInitialAssignment);
     }
     let mut result = MixedLocalSearchResult {

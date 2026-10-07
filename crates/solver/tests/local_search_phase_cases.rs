@@ -137,6 +137,23 @@ fn solve_with_pinned_entities_when_unassigned_allowed_and_pinned_to_null() {
     }
 }
 #[test]
+fn solve_with_pinned_entities_when_unassigned_not_allowed_and_pinned_to_null() {
+    let p = problem(&[None, Some("v2"), None], true, false);
+    for stream in [false, true] {
+        let error = run(&p, false, stream).unwrap_err();
+        let SolverError::Phase {
+            phase: 0,
+            error: LocalSearchError::PinnedUnassignedVariable { variable },
+        } = error
+        else {
+            panic!("expected a pinned-variable diagnostic: {error:?}")
+        };
+        // The native slot identifies the source's entity e3 and its value field.
+        let identities = [("e1", "value"), ("e2", "value"), ("e3", "value")];
+        assert_eq!(identities[variable], ("e3", "value"));
+    }
+}
+#[test]
 fn solve_with_empty_entity_list() {
     empty(false);
 }

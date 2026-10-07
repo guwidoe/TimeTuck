@@ -1744,3 +1744,25 @@ completion after empty pools, initialization boundaries, and validation across a
 six paths. A controlled shared-condition test checks prefix retention and excludes
 search-only control calls. These tests add no upstream method credit; provider
 SelectionSource lifecycle events still need explicit wiring by callers.
+
+
+## Pinned-variable startup diagnostics
+
+Explicit basic and mixed local-search starts now report
+`PinnedUnassignedVariable { variable }` when a required pinned basic slot is unset.
+The first such slot in model order is reported, even if an earlier movable slot is
+also missing. Mixed indexes identify basic variables, independently of list-owner
+indexes. Optional pinned None values remain valid. Model validation keeps precedence,
+so malformed lengths, values and changed pins retain their existing model error.
+The check precedes scoring/provider execution and applies at zero evaluation budget.
+
+Both scoped and stream backends use the same startup check. A local-search phase in
+a solver sequence wraps the error with its phase index. Other incomplete explicit
+starts retain IncompleteInitialAssignment; construction handoff policy, frozen-model
+shortcuts, automatic initial assignment selection and partial exact/custom results
+retain their prior contracts. This diagnostic identifies native slots; callers map
+slots to application entity/variable names. It does not reproduce Java reflection or
+exception text. The remaining DefaultLocalSearchPhaseTest pinned-null method now
+checks that slot2 identifies e3.value on both basic scoring paths; original cases
+cover both mixed paths, multiple missing pins, optional pins, model-error priority,
+zero budgets and no scoring/provider calls.

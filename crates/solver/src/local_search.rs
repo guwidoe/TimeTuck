@@ -33,6 +33,12 @@ pub enum LocalSearchError {
     Scoring(ScoringError),
     StreamScoring(crate::StreamScoringError),
     Acceptance(AcceptanceError),
+    /// The first required pinned basic slot without a value in the supplied
+    /// start. Its index identifies the model variable, even when an earlier
+    /// unpinned slot is also unassigned. Optional pinned None values are valid.
+    PinnedUnassignedVariable {
+        variable: usize,
+    },
     IncompleteInitialAssignment,
 }
 impl fmt::Display for LocalSearchError {
@@ -42,6 +48,10 @@ impl fmt::Display for LocalSearchError {
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
             Self::DiminishedReturns(e) => e.fmt(f),
+            Self::PinnedUnassignedVariable { variable } => write!(
+                f,
+                "local search cannot initialize pinned required variable {variable}: its value is unassigned"
+            ),
             Self::IncompleteInitialAssignment => {
                 f.write_str("local search requires a complete initial assignment")
             }
@@ -55,9 +65,22 @@ impl Error for LocalSearchError {
             Self::StreamScoring(e) => e,
             Self::Acceptance(e) => e,
             Self::DiminishedReturns(e) => e,
-            Self::IncompleteInitialAssignment => return None,
+            Self::IncompleteInitialAssignment | Self::PinnedUnassignedVariable { .. } => {
+                return None;
+            }
         })
     }
+}
+// Call after model validation, so malformed assignments retain their model error.
+pub(crate) fn pinned_unassigned_variable<V: Eq>(
+    problem: &FiniteProblem<V>,
+    assignment: &Assignment<V>,
+) -> Option<usize> {
+    problem
+        .variables()
+        .iter()
+        .zip(assignment.values())
+        .position(|(v, value)| v.is_pinned() && !v.allows_unassigned() && value.is_none())
 }
 impl From<crate::StreamScoringError> for LocalSearchError {
     fn from(e: crate::StreamScoringError) -> Self {
@@ -590,6 +613,9 @@ where
     if let Some(initial) = &initial {
         problem.validate(initial)?;
         if !problem.is_complete(initial) {
+            if let Some(variable) = pinned_unassigned_variable(problem, initial) {
+                return Err(LocalSearchError::PinnedUnassignedVariable { variable });
+            }
             return Err(LocalSearchError::IncompleteInitialAssignment);
         }
     }

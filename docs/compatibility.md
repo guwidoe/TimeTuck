@@ -3684,7 +3684,7 @@ group-gather local search on both scoring backends. Other source selector lifecy
 random scheduling and mutable replay cases remain pending. No speedup claim.
 
 
-Nine DefaultLocalSearchPhaseTest methods now exercise real basic/list solver phases
+All ten DefaultLocalSearchPhaseTest methods now exercise real basic/list solver phases
 on both scoring backends: initialized/pinned/optional-null/empty inputs, explicit
 tabu search, six-value/two-owner list construction followed by local search, and
 local-only rejection of uninitialized required basics. All source result assertions
@@ -3692,7 +3692,8 @@ and the helper's nonempty-best-event check are retained. Native fixed slots carr
 entity identities; zero objectives replace the dummy Java easy calculator. Native
 HillClimbing and one-step VariableTabu settings make the unspecified/default phase
 choices explicit; Java default acceptors, random traces and exact counters are not
-claimed equivalent. Required pinned-null diagnostics remain pending because the
-source requires identifying the offending entity and variable, beyond the current
-native incomplete-assignment error. This batch establishes compatibility evidence
-for existing behavior; it adds no new search algorithm or performance measurement.
+claimed equivalent. Required pinned-null starts now identify the offending native
+basic-variable slot through PinnedUnassignedVariable; the fixture maps this slot to
+the source entity e3 and its value variable. Structured identity replaces Java
+exception wording. This adds specific startup diagnostics, without changing the
+search algorithm or adding a performance measurement.

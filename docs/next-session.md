@@ -14254,3 +14254,35 @@ Live freshness matched verification digest: 79fb4f9414a9511721c0eb23fa7dc82561fa
 Existing provenance prefixes unchanged; appended9cases and12fixtures.
 Log work/local-search-phase-final-check.log; evidence work/local-search-phase-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+
+## Required pinned-variable startup diagnostics
+
+Previousa2b7ef8 turn was verified compatibility progress; starting HEAD clean.
+Read current compatibility/handoff and pinned-null upstream source method in full;
+reuse previously read/recorded pinned fixtures in local_search_phase_cases. No
+production source reads. Added PinnedUnassignedVariable{variable} to basic/mixed
+local-search errors. Shared basic-slot helper runs only after validated explicit
+initial input is found incomplete, before score/director/provider execution.
+Optional pins and generic incompleteness retain behavior; handoff policy, frozen
+shortcuts and implicit initial-assignment search unchanged. Typed native slot2
+maps to source e3.value; exact Java exception text is not claimed.
+
+Focused92317 TERMINAL0:all10 upstream phase cases and3 native diagnostic regressions.
+Native checks cover both basic/mixed scoring backends, zero/nonzero budgets,
+provider/scoring suppression, earliest required pinned slot after an optional pin,
+malformed input precedence and valid optional/initialized pins. Appended1case and
+no fixtures; existing provenance prefix unchanged. Shared search kernels changed,
+so the final gate must run affected regression jobs once. No benchmark, browser or
+release reruns required; final formatted source frozen. Goal remains active.
+
+Required gate4730 TERMINAL0. 4143 Rust tests and 202 doctests passed.
+Rust jobs: {'RUN': 468, 'REUSE': 61}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2464, 'failed': 0, 'pending': 2109, 'excluded': 282, 'unverified': 0, 'percent': 50.752}.
+Source before/after matched: 79ae967bdb0bd8fdd59d3524ddf66757e63d47bfcfd191550e324c5dfe0a0d9d
+Live freshness matched verification digest: e33f45c965c1cd8fcf258e24b7d1783dafacbe86971fc72d45267e18fde15a1c.
+Existing provenance prefixes unchanged; appended1case and0fixtures.
+Log work/pinned-start-final-check.log; evidence work/pinned-start-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+While gate ran, read full DefaultLevelScoreStateTest as a possible next specification; no code, fixture or coverage changes from that read. Its remaining step-index/baseline cases are still pending.
