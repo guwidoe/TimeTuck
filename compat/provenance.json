@@ -37724,6 +37724,96 @@
       "upstream_test": "originalLeftUnequalsRightWithEntityRange",
       "local_test": "original_left_unequals_right_with_entity_range",
       "modifications": "Explicit native rows/Cartesian orders replace annotated entity descriptors and mimic selectors. Preserve optional null assignments, every entity value range, all six ordered move codes, finite exhaustion and the advertised nine-pair upper bound before self-pair filtering. Selected columns are swapped atomically using ordinary native moves; optional no-ops retain null/null pairs. No Java object reflection or lifecycle forwarding is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveBasicVariableWithInitializedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveBasicVariableWithInitializedEntities",
+      "local_test": "solve_basic_variable_with_initialized_entities",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveListVariableWithInitializedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveListVariableWithInitializedEntities",
+      "local_test": "solve_list_variable_with_initialized_entities",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveBasicWithPinnedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveBasicWithPinnedEntities",
+      "local_test": "solve_basic_with_pinned_entities",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveListWithPinnedEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveListWithPinnedEntities",
+      "local_test": "solve_list_with_pinned_entities",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveBasicVariableWithEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveBasicVariableWithEmptyEntityList",
+      "local_test": "solve_basic_variable_with_empty_entity_list",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.solveListVariableWithEmptyEntityList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "upstream_test": "solveListVariableWithEmptyEntityList",
+      "local_test": "solve_list_variable_with_empty_entity_list",
+      "modifications": "Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
     }
   ],
   "fixtures": [
@@ -52533,6 +52623,175 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
       "upstream_test": "mockEntitySelector",
       "modifications": "Explicit finite caller row orders and native iterator reopening replace the finite mocked selector iterator/listIterator orders. No Java descriptor mocking or lifecycle behavior is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataEntity.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataValue.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataObject.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataSolution.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataListEntity.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataListValue.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataListSolution.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataPinnedEntity.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataPinnedSolution.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/pinned/TestdataPinnedSolution.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataListPinnedEntityProvidingEntity.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/pinned/TestdataListPinnedEntityProvidingEntity.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "TestdataListPinnedEntityProvidingSolution.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/pinned/TestdataListPinnedEntityProvidingSolution.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "DummySimpleScoreEasyScoreCalculator.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "test fixture",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/completion_phase_cases.rs",
+      "id": "PlannerTestUtils.completion_phase_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig / solve event assertions",
+      "modifications": "Adapt only the value ranges, initial state, pins, zero scoring or event assertions used by the six completion cases. Unrelated fixture/helper methods are not adapted. Native exact completion strategy and immutable indexed assignments replace Java solver configuration and mutable beans. Stable entity slots map to e1/e2/e3; string values replace named value objects. Preserve all retained assignments, null/non-null checks, sizes/membership, per-entity ranges and full/prefix pins. Successful Result replaces non-null solution; zero objective replaces DummySimpleScoreEasyScoreCalculator. Preserve helper best-solution-event presence/absence assertions. No JVM reflection, shadow-listener lifecycle or internal node replay equivalence claimed. Native completion exhaustion is deliberately separate from global optimality."
     }
   ]
 }

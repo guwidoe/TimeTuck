@@ -279,9 +279,9 @@ candidate budget, cancellation, elapsed/shared-stagnation limits, score goal and
 feasibility goal, in that order. Enumeration and active callbacks are non-preemptive.
 Only a visit to the next candidate can establish that an unvisited suffix remains.
 Consequently, actually exhausting enumeration takes precedence over limits, goals
-or cancellation reached by the final callback. Exhaustion ends the plan immediately
-and skips future phases/factories. SolverTermination::Optimal and is_optimal()
-require an exhausted exact phase plus a retained complete scored solution; hard
+or cancellation reached by the final callback. Exhaustion of the unrestricted space
+ends the plan immediately and skips future phases/factories. SolverTermination::Optimal
+and is_optimal() require exhausted unrestricted exact search plus a retained complete scored solution; hard
 feasibility is not required. Without a complete solution, exhaustion cannot claim
 optimality. PlanCompleted and any bounded prefix never prove it.
 
@@ -1766,3 +1766,24 @@ exception text. The remaining DefaultLocalSearchPhaseTest pinned-null method now
 checks that slot2 identifies e3.value on both basic scoring paths; original cases
 cover both mixed paths, multiple missing pins, optional pins, model-error priority,
 zero budgets and no scoring/provider calls.
+
+## Completing an existing assignment
+
+`ExactSearchStrategy::Complete` explores extensions of the assignment entering
+that phase. It retains assigned basic values and existing list owners and relative
+order. Missing list members may be inserted before, between or after existing
+members when pins, ranges and dependencies permit; optional members may stay
+absent. Optional basic variables already holding values also stay fixed.
+The existing model preparation for dependency inconsistencies occurs before phases.
+Standalone `visit_basic_completions`, `visit_list_completions` and
+`visit_mixed_completions` instead validate the supplied state without repairing it.
+Visitors return true on exhaustion and false on callback stop, never changing input.
+
+Completion uses the same scoring, budget, cancellation and event machinery as
+ordinary exact enumeration across basic, list and mixed models with scoped,
+stream and calculator scoring. `CompletionExhausted` describes only the restricted
+extension space. It neither claims global optimality nor prevents later phases
+from improving existing values. Even an empty extension space cannot prove the
+whole model impossible. Ordinary `Enumerate` and branch-and-bound retain their
+unrestricted semantics. Exhaustion on the last permitted evaluation wins over an
+evaluation limit; a zero budget scores nothing in a nonempty extension space.

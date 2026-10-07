@@ -262,7 +262,12 @@ fn all_phase_types_and_budgets_match_scoped_solvers() {
     let bn = bn();
     let ln = ln();
     let mn = mn();
-    let strategies = std::iter::once(ExactSearchStrategy::Enumerate).chain(
+    let strategies = [
+        ExactSearchStrategy::Enumerate,
+        ExactSearchStrategy::Complete,
+    ]
+    .into_iter()
+    .chain(
         [
             NodeExploration::DepthFirst,
             NodeExploration::BreadthFirst,
@@ -655,4 +660,116 @@ fn validation_and_observer_cancellation_precede_future_factories() {
     assert_eq!(r.termination, SolverTermination::Cancelled);
     assert_eq!(count.get(), 1);
     assert!(r.complete);
+}
+
+#[test]
+fn completion_retains_decisions_across_all_nine_scoring_routes() {
+    let b = FiniteProblem::new(vec![
+        Variable::new(vec![0, 1, 2]).with_initial(1),
+        Variable::new(vec![0, 1, 2]),
+    ])
+    .unwrap();
+    let l = ListProblem::new(
+        vec![1, 2],
+        vec![ListEntity::new(vec![1, 2]), ListEntity::new(vec![])],
+    )
+    .unwrap();
+    let m = MixedProblem::new(b.clone(), l.clone());
+    for unrestricted_after in [false, true] {
+        let mut c = SolverSequence {
+            phases: vec![SolverPhase::Exact(ExactPhaseConfig {
+                strategy: ExactSearchStrategy::Complete,
+                ..Default::default()
+            })],
+            ..Default::default()
+        };
+        if unrestricted_after {
+            c.phases
+                .push(SolverPhase::Exact(ExactPhaseConfig::default()));
+        }
+        let expected = solve(&b, &bn(), c.clone()).unwrap();
+        assert_eq!(
+            expected.score,
+            Some(SimpleScore::new(if unrestricted_after { 4 } else { 3 }))
+        );
+        assert_eq!(expected.is_optimal(), unrestricted_after);
+        assert_eq!(
+            expected.phases[0].termination,
+            PhaseTermination::Exact(ExactPhaseTermination::CompletionExhausted)
+        );
+        same(
+            solve_calculator(&b, &Basic::default, c.clone()).unwrap(),
+            expected.clone(),
+        );
+        same(
+            solve_stream(
+                &b,
+                || {
+                    let mut g = StreamGraphBuilder::new();
+                    let s = g.source::<usize, (usize, Option<i64>)>();
+                    g.score("basic", s.port(), |(_, v)| SimpleScore::new(v.unwrap_or(0)))?;
+                    Ok((g.build(), s))
+                },
+                c.clone(),
+            )
+            .unwrap(),
+            expected,
+        );
+        let expected = solve_list(&l, &ln(), c.clone()).unwrap();
+        assert_eq!(
+            expected.score,
+            Some(SimpleScore::new(if unrestricted_after { -3 } else { -5 }))
+        );
+        assert_eq!(expected.is_optimal(), unrestricted_after);
+        same(
+            solve_list_calculator(&l, &Lists::default, c.clone()).unwrap(),
+            expected.clone(),
+        );
+        same(
+            solve_list_stream(
+                &l,
+                || {
+                    let mut g = StreamGraphBuilder::new();
+                    let s = ListStreamSources::new(&mut g);
+                    g.score("list", s.entities.port(), |(_, l)| {
+                        SimpleScore::new(cost(l))
+                    })?;
+                    Ok((g.build(), s))
+                },
+                c.clone(),
+            )
+            .unwrap(),
+            expected,
+        );
+        let c = mixed_config(c);
+        let expected = solve_mixed(&m, &mn(), c.clone()).unwrap();
+        assert_eq!(
+            expected.score,
+            Some(SimpleScore::new(if unrestricted_after { 1 } else { -2 }))
+        );
+        assert_eq!(expected.is_optimal(), unrestricted_after);
+        same(
+            solve_mixed_calculator(&m, &Mixed::default, c.clone()).unwrap(),
+            expected.clone(),
+        );
+        same(
+            solve_mixed_stream(
+                &m,
+                || {
+                    let mut g = StreamGraphBuilder::new();
+                    let s = MixedStreamSources::new(&mut g);
+                    g.score("basic", s.basic.port(), |(_, v)| {
+                        SimpleScore::new(v.unwrap_or(0))
+                    })?;
+                    g.score("list", s.lists.entities.port(), |(_, l)| {
+                        SimpleScore::new(cost(l))
+                    })?;
+                    Ok((g.build(), s))
+                },
+                c,
+            )
+            .unwrap(),
+            expected,
+        );
+    }
 }

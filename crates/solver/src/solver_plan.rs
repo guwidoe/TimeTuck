@@ -62,6 +62,12 @@ impl Default for BoundedPhaseConfig {
 pub enum ExactSearchStrategy {
     #[default]
     Enumerate,
+    /// Enumerate only completions of the phase-entry assignment. Keep assigned
+    /// basic values and existing list owners/relative order; new list values may
+    /// be inserted anywhere allowed by pins, ranges and dependencies. Optional
+    /// missing values may remain absent. Exhaustion proves only the best completion,
+    /// so later phases still run and SolverResult::is_optimal remains false.
+    Complete,
     BranchAndBound(BoundedPhaseConfig),
 }
 
@@ -109,6 +115,8 @@ impl<'a, S> From<ExactSearchConfig<'a>> for ExactPhaseConfig<'a, S> {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ExactPhaseTermination {
     Exhausted,
+    /// The restricted completion space was exhausted, not the full model space.
+    CompletionExhausted,
     FrontierLimit,
     EvaluationLimit,
     MoveEvaluationLimit,

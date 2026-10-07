@@ -14725,3 +14725,45 @@ Live freshness matched verification digest: f3ab9f5f655b594ef916d406df4cb7c4b63c
 Existing provenance prefixes unchanged; appended1case and10fixtures.
 Log work/entity-swap-final-check.log; evidence work/entity-swap-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Exact completion search
+
+Previous informational turn measured timing; resumed existing completion-search
+implementation from a31598a. Compile45458 confirmed terminal0. No upstream
+production reads. Reused/read DefaultExhaustiveSearchPhaseTest and its test-only
+models/helpers. New public completion visitors retain assigned basic values and
+existing list owners/relative order, with optional omissions and legal insertions.
+Refactored existing iterative enumerators to share traversal with supplied state.
+ExactSearchStrategy::Complete wired through all9 model/scoring routes. New
+CompletionExhausted avoids global-optimality/no-global-solution claims and allows
+later phases. Existing exact strategies unchanged. Required pinned-null Java
+exception behavior remains pending; native model explicitly permits this partial
+state. Internal node replay methods remain pending.
+
+Added6source cases and13fixture records; previous entries unchanged. Preserved
+all source assertions including helper best-event presence/absence. Native cases
+compare list completion sets against filtered full enumeration for every partial
+three-value/two-list state, verify pins/ranges/dependencies, mixed product/stops,
+optional/pinned-null basic states, invalid input, controls, phase-entry preservation
+and initialization events. Extended calculator cross-backend matrix to Complete
+and added all9 scoring routes with completion->unrestricted exact continuation.
+Focused92572 terminal101 (test incorrectly expected initialization without following
+local phase); focused67204 terminal101 (default first accepted move differs from
+best accepted). Corrected test setup to request BestAccepted, retaining assertions.
+
+Required gate10865 TERMINAL0. 4262 Rust tests and 211 doctests passed.
+Rust jobs: {'RUN': 488, 'REUSE': 63}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2519, 'failed': 0, 'pending': 2054, 'excluded': 282, 'unverified': 0, 'percent': 51.885}.
+Source before/after matched: bd4f57cd2e093e29426dde5dbac347bcf3f3b717a472781d82c3f0484b8bc104
+Live freshness matched verification digest: 247fda00bedd6c76fd2d09e43e5fc89606f4637639d35a674acc07a99964b6df.
+Existing provenance prefixes unchanged; appended6cases and13fixtures.
+Log work/completion-search-final-check.log; evidence work/completion-search-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Focused60606 TERMINAL0:5 regression tests; previous focused67204 also passed all6
+new source cases, and92572 passed all8 calculator regressions. Final gate above
+covers all final formatted Rust. During the gate read full test-only BruteForceTest
+for next-step context; all7methods remain pending (lifecycle step bounds and selector
+configuration assertions need faithful coverage). No new adaptations from it.
+Updated the earlier solver-contract wording after gate to qualify unrestricted
+exhaustion; documentation-only, no Rust or verification input changes.

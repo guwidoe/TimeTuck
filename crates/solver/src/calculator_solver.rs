@@ -282,13 +282,21 @@ fn solve_calculator_impl<
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         p.validate(a.as_ref().expect("initial state"))
                             .map_err(ScoringError::from)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::search::visit_assignments(p, visit),
+                            |visit| {
+                                exact::visit_basic_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 CalculatorScoreDirector::new(p, a.clone(), factory, false)
                                     .and_then(|d| d.score())
@@ -739,13 +747,21 @@ fn solve_list_calculator_impl<
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         p.validate(a.as_ref().expect("initial state"))
                             .map_err(ListScoringError::from)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::list_search::visit_list_assignments(p, visit),
+                            |visit| {
+                                exact::visit_list_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 ListCalculatorScoreDirector::new(p, a.clone(), factory, false)
                                     .and_then(|d| d.score())
@@ -1206,13 +1222,21 @@ fn solve_mixed_calculator_impl<
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         p.validate(a.as_ref().expect("initial state"))
                             .map_err(MixedScoringError::from)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| exact::visit_mixed(p, visit),
+                            |visit| {
+                                exact::visit_mixed_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 MixedCalculatorScoreDirector::new(p, a.clone(), factory, false)
                                     .and_then(|d| d.score())

@@ -948,3 +948,8 @@ mod entity_swap_provider;
 pub use entity_swap_provider::{
     EntitySwapCandidate, EntitySwapError, EntitySwapOrder, EntitySwapProvider,
 };
+
+mod completion_search;
+pub use completion_search::{
+    visit_basic_completions, visit_list_completions, visit_mixed_completions,
+};

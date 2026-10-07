@@ -607,7 +607,10 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             ),
             PhaseTermination::Exact(reason) => (
                 SolverPhaseKind::Exact,
-                reason != ExactPhaseTermination::Exhausted,
+                !matches!(
+                    reason,
+                    ExactPhaseTermination::Exhausted | ExactPhaseTermination::CompletionExhausted
+                ),
             ),
             PhaseTermination::Custom(reason) => (
                 SolverPhaseKind::Custom,
@@ -1505,12 +1508,20 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::search::visit_assignments(p, visit),
+                            |visit| {
+                                exact::visit_basic_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 n.calculate(p, a)
                                     .map(|score| (score, n.active_constraint_count() as u128))
@@ -1838,12 +1849,20 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::list_search::visit_list_assignments(p, visit),
+                            |visit| {
+                                exact::visit_list_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 n.calculate(p, a)
                                     .map(|score| (score, n.active_constraint_count() as u128))
@@ -2120,12 +2139,20 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         n.validate(p, a.as_ref().expect("initial state"))?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| exact::visit_mixed(p, visit),
+                            |visit| {
+                                exact::visit_mixed_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| {
                                 n.calculate(p, a)
                                     .map(|score| (score, n.active_constraint_count() as u128))
@@ -2414,12 +2441,20 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         crate::stream_scoring::validate_source(&g, &s)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::search::visit_assignments(p, visit),
+                            |visit| {
+                                exact::visit_basic_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| exact::score_basic(p, &mut g, &s, a),
                             observed.then_some(&mut notify),
                         )?
@@ -2713,12 +2748,20 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         s.validate(&g)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| crate::list_search::visit_list_assignments(p, visit),
+                            |visit| {
+                                exact::visit_list_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| exact::score_list(p, &mut g, &s, a),
                             observed.then_some(&mut notify),
                         )?
@@ -3043,12 +3086,20 @@ fn solve_mixed_stream_impl<
                         unreachable!("handled special phase")
                     }
                     PhaseRequest::Exact(c, prior) => {
+                        let completion = matches!(c.strategy, ExactSearchStrategy::Complete);
                         s.validate(&g)?;
                         exact::run_observed(
                             c,
                             prior,
                             time,
-                            |visit| exact::visit_mixed(p, visit),
+                            |visit| {
+                                exact::visit_mixed_strategy(
+                                    p,
+                                    a.as_ref().expect("phase entry"),
+                                    completion,
+                                    visit,
+                                )
+                            },
                             |a| exact::score_mixed(p, &mut g, &s, a),
                             observed.then_some(&mut notify),
                         )?

@@ -3875,3 +3875,13 @@ partial ordered/reopening fixtures only and remain pending. Five original tests
 cover97 small optional/required states with execution/undo, multi-column range/pin
 checks, malformed configurations, replay and both complete solver model families.
 Java lifecycle and random no-change fallback policies are not claimed.
+
+Six DefaultExhaustiveSearchPhaseTest methods now cover completing initialized
+basic/list entities, full/prefix pins and per-entity list ranges, and empty entity
+collections. Adaptations preserve the PlannerTestUtils best-event presence/absence
+assertions and its zero objective. Native immutable entity slots replace named Java
+beans; successful Results replace non-null solutions. Internal node restoration and
+both pinned-null source methods remain pending. Completion is an explicit native
+strategy; restricted completion exhaustion is not reported as global optimality.
+Original regressions cover optional values, supplied phase state, insertion ordering,
+dependencies, callback stop, controls, phase continuation and all nine scoring routes.

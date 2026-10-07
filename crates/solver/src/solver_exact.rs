@@ -17,6 +17,43 @@ pub(super) fn run_observed<A: Clone, S: AdditiveScore, E>(
     run_with_clock_observed(config, prior, control, enumerate, evaluate, clock, observer)
 }
 
+pub(super) fn visit_basic_strategy<V: Eq + Clone>(
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+    completion: bool,
+    visit: impl FnMut(&Assignment<V>) -> bool,
+) -> bool {
+    if completion {
+        crate::search::visit_basic_from(p, a.clone(), true, visit)
+    } else {
+        crate::search::visit_assignments(p, visit)
+    }
+}
+pub(super) fn visit_list_strategy<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    a: &ListAssignment<V>,
+    completion: bool,
+    visit: impl FnMut(&ListAssignment<V>) -> bool,
+) -> bool {
+    if completion {
+        crate::list_search::visit_list_from(p, a.clone(), visit)
+    } else {
+        crate::list_search::visit_list_assignments(p, visit)
+    }
+}
+pub(super) fn visit_mixed_strategy<B: Eq + Clone, L: Eq + Clone>(
+    p: &MixedProblem<B, L>,
+    a: &MixedAssignment<B, L>,
+    completion: bool,
+    visit: impl FnMut(&MixedAssignment<B, L>) -> bool,
+) -> bool {
+    if completion {
+        crate::visit_mixed_completions(p, a, visit).expect("validated phase assignment")
+    } else {
+        visit_mixed(p, visit)
+    }
+}
+
 #[cfg(test)]
 pub(super) fn run_with_clock<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
@@ -40,12 +77,17 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
 ) -> Result<PhaseOutput<A, S>, E> {
     use ExactPhaseTermination as X;
     let mut timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
+    let exhausted_reason = if matches!(config.strategy, ExactSearchStrategy::Complete) {
+        X::CompletionExhausted
+    } else {
+        X::Exhausted
+    };
     let mut out = PhaseOutput {
         assignment: None,
         complete: prior.is_some(),
         score: prior,
         work: SolverWork::default(),
-        termination: PhaseTermination::Exact(X::Exhausted),
+        termination: PhaseTermination::Exact(exhausted_reason),
     };
     timer.start_search();
     let mut error = None;
@@ -117,7 +159,7 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
     // Checking controls before the next candidate allows final exhaustion to win
     // over a budget/goal/cancellation reached by the final scoring callback.
     if exhausted {
-        out.termination = PhaseTermination::Exact(X::Exhausted);
+        out.termination = PhaseTermination::Exact(exhausted_reason);
     }
     Ok(out)
 }

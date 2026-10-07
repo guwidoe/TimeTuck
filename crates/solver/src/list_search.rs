@@ -187,9 +187,9 @@ where
 // As for basic enumeration, false stops immediately without further callbacks.
 pub(crate) fn visit_list_assignments<V: Eq + Clone>(
     problem: &ListProblem<V>,
-    mut visit: impl FnMut(&ListAssignment<V>) -> bool,
+    visit: impl FnMut(&ListAssignment<V>) -> bool,
 ) -> bool {
-    let mut working = ListAssignment::new(
+    let working = ListAssignment::new(
         problem
             .entities()
             .iter()
@@ -202,6 +202,14 @@ pub(crate) fn visit_list_assignments<V: Eq + Clone>(
             })
             .collect(),
     );
+    visit_list_from(problem, working, visit)
+}
+
+pub(crate) fn visit_list_from<V: Eq + Clone>(
+    problem: &ListProblem<V>,
+    mut working: ListAssignment<V>,
+    mut visit: impl FnMut(&ListAssignment<V>) -> bool,
+) -> bool {
     if !problem.can_complete(&working) {
         return true;
     }

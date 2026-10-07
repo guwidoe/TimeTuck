@@ -236,18 +236,28 @@ where
 // visitor stops enumeration immediately, including when nested in mixed search.
 pub(crate) fn visit_assignments<V: Eq + Clone>(
     problem: &FiniteProblem<V>,
+    visit: impl FnMut(&Assignment<V>) -> bool,
+) -> bool {
+    visit_basic_from(problem, problem.initial_assignment(), false, visit)
+}
+
+pub(crate) fn visit_basic_from<V: Eq + Clone>(
+    problem: &FiniteProblem<V>,
+    mut working: Assignment<V>,
+    only_missing: bool,
     mut visit: impl FnMut(&Assignment<V>) -> bool,
 ) -> bool {
     if problem.search_space_size() == Some(0) {
         return true;
     }
     let variables = problem.variables();
-    let mut working = problem.initial_assignment();
     let mut choices = vec![0_usize; variables.len()];
     let movable: Vec<_> = variables
         .iter()
         .enumerate()
-        .filter_map(|(i, v)| (!v.is_pinned()).then_some(i))
+        .filter_map(|(i, v)| {
+            (!v.is_pinned() && (!only_missing || working.values[i].is_none())).then_some(i)
+        })
         .collect();
     for &index in &movable {
         working.values[index] = variables[index].domain().first().cloned();
