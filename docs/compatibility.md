@@ -4168,3 +4168,17 @@ Two BasicPlumbingTerminationTest adaptations preserve deferred callbacks and
 non-daemon restart behavior with real native jobs and bounded channel coordination.
 Original tests cover concurrent submission, delivery acknowledgement, empty batches,
 failure/panic receipts and disposal. No Java queue or score-director API parity claimed.
+
+Variables and list entities now accept optional labels/value renderers for runtime
+range diagnostics. Rejected assignments and moves retain an owned ValueRangeReport
+through rollback, custom-phase errors, local-search errors and both scoring backends
+for basic/list/mixed models. The original ModelError/ListError classification and
+error source remain accessible. No Debug/Display/Clone/'static bound is added to
+basic planning values. Formatters execute only for range errors; cloned/resumed
+models retain metadata. Metadata errors, pins, duplicates and index checks keep
+existing priority. Sparse allowed ranges are listed exactly. K-opt still filters
+range-invalid candidates regardless of attached diagnostics. Two DefaultSolverTest
+methods now exercise invalid moves after construction through actual native custom
+and local-search phases; three nested test fixtures are attributed. Native checks
+are always active, rather than gated by Java environment modes. Initial model-build
+and borrowed assignment diagnostic helpers continue to work with enriched causes.

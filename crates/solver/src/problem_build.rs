@@ -12,19 +12,20 @@ pub fn build_basic_with_diagnostics<V: Eq + Clone>(
     variables: &[Variable<V>],
 ) -> Result<FiniteProblem<V>, RangeValidationError<'_, ModelError, V>> {
     FiniteProblem::new(variables.to_vec()).map_err(|cause| {
-        let violation = if let ModelError::ValueOutsideDomain { variable } = &cause {
-            let meta = &variables[*variable];
-            meta.initial().map(|value| ValueRangeViolation {
-                location: RangeViolationLocation::Basic {
-                    variable: *variable,
-                },
-                value,
-                allowed: meta.domain(),
-                allows_unassigned: meta.allows_unassigned(),
-            })
-        } else {
-            None
-        };
+        let violation =
+            if let ModelError::ValueOutsideDomain { variable } = cause.without_range_report() {
+                let meta = &variables[*variable];
+                meta.initial().map(|value| ValueRangeViolation {
+                    location: RangeViolationLocation::Basic {
+                        variable: *variable,
+                    },
+                    value,
+                    allowed: meta.domain(),
+                    allows_unassigned: meta.allows_unassigned(),
+                })
+            } else {
+                None
+            };
         RangeValidationError { cause, violation }
     })
 }
@@ -47,7 +48,7 @@ pub fn build_list_with_diagnostics<'a, V: Eq + Clone>(
             }
         })
         .map_err(|cause| {
-            let rejected = match &cause {
+            let rejected = match cause.without_range_report() {
                 ListError::ValueOutsideDomain => {
                     entities.iter().enumerate().find_map(|(entity, meta)| {
                         meta.initial()

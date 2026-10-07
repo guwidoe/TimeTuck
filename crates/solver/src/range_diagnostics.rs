@@ -84,21 +84,22 @@ pub fn validate_basic_with_diagnostics<'a, V: Eq>(
     assignment: &'a Assignment<V>,
 ) -> Result<(), RangeValidationError<'a, ModelError, V>> {
     problem.validate(assignment).map_err(|cause| {
-        let violation = if let ModelError::ValueOutsideDomain { variable } = &cause {
-            let meta = &problem.variables()[*variable];
-            assignment.values()[*variable]
-                .as_ref()
-                .map(|value| ValueRangeViolation {
-                    location: RangeViolationLocation::Basic {
-                        variable: *variable,
-                    },
-                    value,
-                    allowed: meta.domain(),
-                    allows_unassigned: meta.allows_unassigned(),
-                })
-        } else {
-            None
-        };
+        let violation =
+            if let ModelError::ValueOutsideDomain { variable } = cause.without_range_report() {
+                let meta = &problem.variables()[*variable];
+                assignment.values()[*variable]
+                    .as_ref()
+                    .map(|value| ValueRangeViolation {
+                        location: RangeViolationLocation::Basic {
+                            variable: *variable,
+                        },
+                        value,
+                        allowed: meta.domain(),
+                        allows_unassigned: meta.allows_unassigned(),
+                    })
+            } else {
+                None
+            };
         RangeValidationError { cause, violation }
     })
 }
@@ -111,7 +112,7 @@ pub fn validate_list_with_diagnostics<'a, V: Eq + Clone>(
     assignment: &'a ListAssignment<V>,
 ) -> Result<(), RangeValidationError<'a, ListError, V>> {
     problem.validate(assignment).map_err(|cause| {
-        let rejected = match &cause {
+        let rejected = match cause.without_range_report() {
             ListError::ValueOutsideDomain => {
                 assignment
                     .lists()

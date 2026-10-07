@@ -11,14 +11,33 @@ pub struct Variable<V> {
     initial: Option<V>,
     pinned: bool,
     allows_unassigned: bool,
+    range_diagnostic: Option<crate::range_report::RangeDiagnostic<V>>,
 }
 impl<V> Variable<V> {
+    /// Attach labels and a formatter used only when an assigned value violates
+    /// its range. Reports own rendered strings and survive candidate rollback.
+    /// The renderer must be deterministic and must not mutate planning state.
+    /// Cloned/resumed models retain this metadata. Ordinary errors are unchanged
+    /// when no diagnostic metadata is attached; no Debug/Display bound is added.
+    pub fn with_range_diagnostics(
+        mut self,
+        entity: impl Into<String>,
+        variable: impl Into<String>,
+        render: impl Fn(&V) -> String + Send + Sync + 'static,
+    ) -> Self {
+        self.range_diagnostic = Some(crate::range_report::RangeDiagnostic::new(
+            entity, variable, render,
+        ));
+        self
+    }
+
     pub fn new(domain: Vec<V>) -> Self {
         Self {
             domain,
             initial: None,
             pinned: false,
             allows_unassigned: false,
+            range_diagnostic: None,
         }
     }
     pub fn with_initial(mut self, value: V) -> Self {
@@ -32,6 +51,20 @@ impl<V> Variable<V> {
     pub fn allowing_unassigned(mut self) -> Self {
         self.allows_unassigned = true;
         self
+    }
+    fn range_error(&self, variable: usize, value: &V) -> ModelError {
+        let cause = ModelError::ValueOutsideDomain { variable };
+        match &self.range_diagnostic {
+            None => cause,
+            Some(d) => ModelError::RangeViolation {
+                cause: Box::new(cause),
+                report: d.report(
+                    crate::RangeViolationLocation::Basic { variable },
+                    value,
+                    &self.domain,
+                ),
+            },
+        }
     }
     pub fn domain(&self) -> &[V] {
         &self.domain
@@ -50,17 +83,53 @@ impl<V> Variable<V> {
 /// Invalid domain metadata or an assignment that violates the model.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ModelError {
-    InvalidSampleSize { minimum: usize, maximum: usize },
-    NullCrossingRequired { variable: usize },
-    DuplicateValue { variable: usize },
-    ValueOutsideDomain { variable: usize },
-    PinnedValueChanged { variable: usize },
-    AssignmentLength { expected: usize, actual: usize },
+    /// Optional rendered context; the original classification remains in cause.
+    RangeViolation {
+        cause: Box<Self>,
+        report: Box<crate::ValueRangeReport>,
+    },
+    InvalidSampleSize {
+        minimum: usize,
+        maximum: usize,
+    },
+    NullCrossingRequired {
+        variable: usize,
+    },
+    DuplicateValue {
+        variable: usize,
+    },
+    ValueOutsideDomain {
+        variable: usize,
+    },
+    PinnedValueChanged {
+        variable: usize,
+    },
+    AssignmentLength {
+        expected: usize,
+        actual: usize,
+    },
     Move(MoveError),
+}
+impl ModelError {
+    pub fn range_report(&self) -> Option<&crate::ValueRangeReport> {
+        match self {
+            Self::RangeViolation { report, .. } => Some(report),
+            _ => None,
+        }
+    }
+    /// Recover the original classification without discarding the owned report.
+    pub fn without_range_report(&self) -> &Self {
+        let mut cause = self;
+        while let Self::RangeViolation { cause: inner, .. } = cause {
+            cause = inner;
+        }
+        cause
+    }
 }
 impl fmt::Display for ModelError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::RangeViolation { report, .. } => report.fmt(f),
             Self::InvalidSampleSize { minimum, maximum } => {
                 write!(f, "invalid sample bounds {minimum}..={maximum}")
             }
@@ -87,6 +156,7 @@ impl fmt::Display for ModelError {
 impl Error for ModelError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::RangeViolation { cause, .. } => Some(cause.as_ref()),
             Self::Move(error) => Some(error),
             _ => None,
         }
@@ -116,12 +186,10 @@ impl<V: Eq> FiniteProblem<V> {
                     return Err(ModelError::DuplicateValue { variable: index });
                 }
             }
-            if variable
-                .initial
-                .as_ref()
-                .is_some_and(|value| !variable.domain.contains(value))
+            if let Some(value) = &variable.initial
+                && !variable.domain.contains(value)
             {
-                return Err(ModelError::ValueOutsideDomain { variable: index });
+                return Err(variable.range_error(index, value));
             }
         }
         Ok(Self {
@@ -159,11 +227,10 @@ impl<V: Eq> FiniteProblem<V> {
             });
         }
         for (i, (variable, value)) in self.variables.iter().zip(&assignment.values).enumerate() {
-            if value
-                .as_ref()
-                .is_some_and(|value| !variable.domain.contains(value))
+            if let Some(value) = value
+                && !variable.domain.contains(value)
             {
-                return Err(ModelError::ValueOutsideDomain { variable: i });
+                return Err(variable.range_error(i, value));
             }
             if variable.pinned && variable.initial != *value {
                 return Err(ModelError::PinnedValueChanged { variable: i });

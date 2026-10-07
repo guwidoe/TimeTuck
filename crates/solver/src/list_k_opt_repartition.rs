@@ -177,9 +177,15 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
             // still filter receiving ranges and dependency cycles.
             match repartition(p, a, &entities, &values, &tour, &lengths) {
                 Ok(m) => Some(m),
-                Err(ListKOptError::List(
-                    ListError::ValueOutsideEntityRange { .. } | ListError::DependencyCycle { .. },
-                )) => None,
+                Err(ListKOptError::List(ref error))
+                    if matches!(
+                        error.without_range_report(),
+                        ListError::ValueOutsideEntityRange { .. }
+                            | ListError::DependencyCycle { .. }
+                    ) =>
+                {
+                    None
+                }
                 Err(e) => panic!("invalid generated repartition: {e}"),
             }
         })

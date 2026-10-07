@@ -83,6 +83,7 @@ pub enum ListScoringError {
 impl fmt::Display for ListScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Model(error) if error.range_report().is_some() => error.fmt(f),
             Self::ScoreCorruption(report) => report.fmt(f),
             Self::Calculator(error) => error.fmt(f),
             _ => write!(f, "list scoring error: {self:?}"),

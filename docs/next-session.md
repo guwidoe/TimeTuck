@@ -16047,3 +16047,47 @@ Live freshness matched verification digest: f8a272454a6c2777ab6680302e90e3308326
 Existing provenance prefixes unchanged; appended2cases and0fixtures.
 Log work/problem-change-batch-final-check.log; evidence work/problem-change-batch-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Runtime value-range error reports
+
+Previous turn made progress:4f9b23a committed grouped live changes; gate88418 and
+evidence93364 terminal0, dashboard freshness matched. No old checks repeated.
+Implemented optional Variable/ListEntity.with_range_diagnostics labels/renderers,
+owned ValueRangeReport, and enriched ModelError/ListError wrappers preserving the
+original classification/source. Failure-only rendering; model clones retain metadata.
+Reports survive move rollback and flow through all native scoring/phase/search
+backends. Existing borrowed diagnostics unwrap causes; k-opt range filtering also
+unwraps so optional diagnostics cannot alter generated candidate acceptance.
+Read TEST-ONLY DefaultSolverTest2380-2401,2480-2545,2600-2745 in prior goal turn;
+no new production reads. Adapted two invalid custom/local search methods with actual
+construction and phase/provider execution. Attributed three nested invalid-move
+fixtures; native descriptor-free moves and explicit labels replace Java internals.
+Focused36484 TERMINAL0: two adapted/four native tests pass. Added further tests for
+all six local-search backends and non-Debug/non-Clone/borrowed values afterwards;
+focused70335 pending at this note. No repetitive focused rerun of unchanged cases.
+Shared model/error changes require broad final regression. Final gate not yet started.
+
+Focused70335 TERMINAL0: local-search provider error propagation passes across all
+six backends, including both mixed components. Borrowed/non-Clone/non-Debug value
+regression compiles; it is included in the final gate. Gate41780 LIVE: fmt/clippy
+passed and119library tests passed; waiting for broad compilation at accessor_shadow.
+Warm-up41966 LIVE: compiling529still-pending affected targets with --no-run -j4,
+no test execution or evidence writes. Poll these handles, do not restart on timeout.
+Rust/provenance frozen. After both complete, run work/record_runtime_range_evidence.py
+(expects2appended cases/3fixtures vs4f9b23a), inspect live freshness, and commit.
+
+Further TEST-ONLY gap investigation during this run (not adapted or credited):
+DefaultSolverTest2795-2899 (phase assertion settings/list-state reuse), full
+JoinBiNodeActivityTest and SingleInputNodeActivityTest, full
+DefaultPhaseCommandContextTest, BruteForceTest1-200, MultipleDelegateListTest1-83,
+216-270,305-452. Existing native stream_graph/activity already implements structural
+activity snapshots/pruning, while these source cases additionally assert lifecycle
+notification calls; don't claim those from only snapshots. Existing temporary_moves
+process_inspected already routes dependency-flawed list/mixed previews separately,
+without scoring/installing them. CustomPhaseContext exposes ordinary evaluate only;
+source command-context cases assert one/two score calculations on mocked structural
+scores, so do not substitute partial-state tests without addressing those semantics.
+Existing SegmentedSliceMut already supports replacement/swaps/ranges/repartition;
+source cursor cases have unusual index/set semantics and runtime unsupported-method
+checks, unlike native borrow-enforced restrictions. Avoid rebuilding these existing
+APIs. No next-feature draft applied or prepared. Goal remains active.

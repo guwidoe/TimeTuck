@@ -39,6 +39,14 @@ pub enum MixedError {
     Basic(ModelError),
     Lists(ListError),
 }
+impl MixedError {
+    pub fn range_report(&self) -> Option<&crate::ValueRangeReport> {
+        match self {
+            Self::Basic(e) => e.range_report(),
+            Self::Lists(e) => e.range_report(),
+        }
+    }
+}
 impl fmt::Display for MixedError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {

@@ -1047,3 +1047,6 @@ pub use diminished_defaults::{
 
 mod problem_change_batch;
 pub use problem_change_batch::ProblemChangeBatch;
+
+mod range_report;
+pub use range_report::ValueRangeReport;

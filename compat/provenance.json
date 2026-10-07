@@ -42174,6 +42174,36 @@
       "local_test": "add_problem_changes_without_daemon",
       "status": "implemented",
       "modifications": "Preserve deferred single +1 and grouped +1/+20 callbacks, zero count before processing, and final counts 1/21. Real non-daemon native jobs replace mocked solver scopes. A clean initial run token, cancellation after enqueue, and a fresh uncancelled second run followed by completion replace the false/true/false restart-decision observations. Bounded channels control processing deterministically. Native batches use one revision/receipt; Java queue internals and score-director fixture are not reproduced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/runtime_range_cases.rs",
+      "id": "DefaultSolverTest.failLocalSearchValueRangeAssertion",
+      "upstream_test": "failLocalSearchValueRangeAssertion",
+      "local_test": "fail_local_search_value_range_assertion",
+      "status": "implemented",
+      "modifications": "Preserve construction of a two-entity/two-value list problem, execution of an out-of-range bad value through the actual local-search provider/custom phase, and the rejected value/entity/variable/allowed-range message. Native metadata labels and explicit value renderers replace Java reflection; native validation is always active rather than EnvironmentMode-dependent. Exact declared members replace Java interval punctuation. Ordinary native construction precedes each phase. No upstream production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/runtime_range_cases.rs",
+      "id": "DefaultSolverTest.failCustomPhaseValueRangeAssertion",
+      "upstream_test": "failCustomPhaseValueRangeAssertion",
+      "local_test": "fail_custom_phase_value_range_assertion",
+      "status": "implemented",
+      "modifications": "Preserve construction of a two-entity/two-value list problem, execution of an out-of-range bad value through the actual local-search provider/custom phase, and the rejected value/entity/variable/allowed-range message. Native metadata labels and explicit value renderers replace Java reflection; native validation is always active rather than EnvironmentMode-dependent. Exact declared members replace Java interval punctuation. Ordinary native construction precedes each phase. No upstream production implementation used."
     }
   ],
   "fixtures": [
@@ -57737,6 +57767,45 @@
       "upstream_test": "three optional PlanningVariable fields and six-argument constructor",
       "local_path": "crates/solver/tests/problem_build_cases.rs",
       "modifications": "multi_var_entity flattens the three optional fields and their per-entity/solution ranges into three ordered native variables; retains initial values and shared solution range. No Java descriptors, inheritance or accessors ported. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/runtime_range_cases.rs",
+      "id": "DefaultSolverTest.InvalidCustomPhaseCommand.runtime_range",
+      "upstream_test": "InvalidCustomPhaseCommand",
+      "modifications": "Its invalid value assignment at entity0/index0 becomes invalid_assignment(0) executed by the actual native custom phase. Native metadata replaces descriptor lookup. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/runtime_range_cases.rs",
+      "id": "DefaultSolverTest.InvalidMoveListFactory.runtime_range",
+      "upstream_test": "InvalidMoveListFactory",
+      "modifications": "Its singleton invalid candidate becomes the local-search provider closure; native provider iteration replaces Java original/random factory methods and size metadata. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "local_path": "crates/solver/tests/runtime_range_cases.rs",
+      "id": "DefaultSolverTest.InvalidSelectorBasedMove.runtime_range",
+      "upstream_test": "InvalidSelectorBasedMove",
+      "modifications": "Its bad-value append to entity0 becomes invalid_assignment(current list length); ordinary transactional native ListMove assignment replaces raw score-director before/after notifications. No extra method credit."
     }
   ]
 }

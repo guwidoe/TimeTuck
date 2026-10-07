@@ -88,6 +88,7 @@ pub enum MixedScoringError {
 impl fmt::Display for MixedScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Model(error) if error.range_report().is_some() => error.fmt(f),
             Self::ScoreCorruption(report) => report.fmt(f),
             Self::Calculator(error) => error.fmt(f),
             _ => write!(f, "mixed scoring error: {self:?}"),

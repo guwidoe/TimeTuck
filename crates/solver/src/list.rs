@@ -12,14 +12,33 @@ pub struct ListEntity<V> {
     pinned_prefix: usize,
     pinned: bool,
     value_range: Option<Vec<V>>,
+    range_diagnostic: Option<crate::range_report::RangeDiagnostic<V>>,
 }
 impl<V> ListEntity<V> {
+    /// Attach labels and a formatter used only when an assigned value violates
+    /// its range. Reports own rendered strings and survive candidate rollback.
+    /// The renderer must be deterministic and must not mutate planning state.
+    /// Cloned/resumed models retain this metadata. Ordinary errors are unchanged
+    /// when no diagnostic metadata is attached; no Debug/Display bound is added.
+    pub fn with_range_diagnostics(
+        mut self,
+        entity: impl Into<String>,
+        variable: impl Into<String>,
+        render: impl Fn(&V) -> String + Send + Sync + 'static,
+    ) -> Self {
+        self.range_diagnostic = Some(crate::range_report::RangeDiagnostic::new(
+            entity, variable, render,
+        ));
+        self
+    }
+
     pub fn new(initial: Vec<V>) -> Self {
         Self {
             initial,
             pinned_prefix: 0,
             pinned: false,
             value_range: None,
+            range_diagnostic: None,
         }
     }
     /// Preserve the first `length` values in order; appending remains possible.
@@ -113,6 +132,11 @@ impl<V: Eq> ListAssignment<V> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListError {
+    /// Optional rendered context; the original classification remains in cause.
+    RangeViolation {
+        cause: Box<Self>,
+        report: Box<crate::ValueRangeReport>,
+    },
     /// Invalid dependency declaration (indices refer to the value registry).
     Dependency(crate::DependencyError<usize>),
     DependencyCount {
@@ -176,12 +200,38 @@ pub enum ListError {
         right: ListRange,
     },
 }
-impl fmt::Display for ListError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "invalid list planning state or move: {self:?}")
+impl ListError {
+    pub fn range_report(&self) -> Option<&crate::ValueRangeReport> {
+        match self {
+            Self::RangeViolation { report, .. } => Some(report),
+            _ => None,
+        }
+    }
+    /// Recover the original classification without discarding the owned report.
+    pub fn without_range_report(&self) -> &Self {
+        let mut cause = self;
+        while let Self::RangeViolation { cause: inner, .. } = cause {
+            cause = inner;
+        }
+        cause
     }
 }
-impl Error for ListError {}
+impl fmt::Display for ListError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::RangeViolation { report, .. } => report.fmt(f),
+            _ => write!(f, "invalid list planning state or move: {self:?}"),
+        }
+    }
+}
+impl Error for ListError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            Self::RangeViolation { cause, .. } => Some(cause.as_ref()),
+            _ => None,
+        }
+    }
+}
 
 /// A global value registry, with optional per-entity range restrictions. Assigned
 /// values appear exactly once.
@@ -312,12 +362,17 @@ impl<V: Eq + Clone> ListProblem<V> {
             {
                 return Err(ListError::PinChanged { entity });
             }
-            for value in list {
+            for (index, value) in list.iter().enumerate() {
+                let position = ListPosition { entity, index };
                 if !self.values.contains(value) {
-                    return Err(ListError::ValueOutsideDomain);
+                    return Err(self.range_error(position, value, ListError::ValueOutsideDomain));
                 }
                 if !self.accepts(entity, value) {
-                    return Err(ListError::ValueOutsideEntityRange { entity });
+                    return Err(self.range_error(
+                        position,
+                        value,
+                        ListError::ValueOutsideEntityRange { entity },
+                    ));
                 }
                 if seen.contains(&value) {
                     return Err(ListError::DuplicateAssignedValue);
@@ -326,6 +381,25 @@ impl<V: Eq + Clone> ListProblem<V> {
             }
         }
         Ok(())
+    }
+    fn range_error(&self, position: ListPosition, value: &V, cause: ListError) -> ListError {
+        let meta = &self.entities[position.entity];
+        let Some(d) = &meta.range_diagnostic else {
+            return cause;
+        };
+        let allowed = if matches!(cause, ListError::ValueOutsideEntityRange { .. }) {
+            meta.value_range.as_deref().unwrap_or(&self.values)
+        } else {
+            &self.values
+        };
+        ListError::RangeViolation {
+            cause: Box::new(cause),
+            report: d.report(
+                crate::RangeViolationLocation::List { position },
+                value,
+                allowed,
+            ),
+        }
     }
     // Callers already validate entity indices and global value membership.
     pub(crate) fn accepts(&self, entity: usize, value: &V) -> bool {
@@ -383,7 +457,11 @@ impl<V: Eq + Clone> ListProblem<V> {
                         return Err(ListError::AlreadyAssigned);
                     }
                     if !self.values.contains(value) {
-                        return Err(ListError::ValueOutsideDomain);
+                        return Err(self.range_error(
+                            *destination,
+                            value,
+                            ListError::ValueOutsideDomain,
+                        ));
                     }
                     record(value);
                     transaction.assignment.lists[destination.entity]
