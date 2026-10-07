@@ -1017,3 +1017,6 @@ pub use shadow_session::{
 };
 
 pub use shadow_session::{ShadowSourceReference, missing_shadow_sources};
+
+mod mass_change_build;
+pub use mass_change_build::{mass_change_from_members, rebase_mass_change};

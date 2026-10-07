@@ -41814,6 +41814,96 @@
       "local_test": "sublist_swap_rebase",
       "status": "implemented",
       "modifications": "Preserve target owner identities, all indices/span bounds/lengths/reversal flags and moved/left/right value pointer identities. Owners use native destination indices with reversed order; Rc handles preserve destination value identity. Native positional moves resolve their moved values from the corresponding destination opening assignment instead of Java cached getters. Unassign preserves distinct owned result identity (plus stronger mapped-metadata/source-unchanged checks). The null Java descriptor is not needed for native metadata rebasing. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.executeSetsEveryMemberToDestinationValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "executeSetsEveryMemberToDestinationValue",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "execute_sets_every_member_to_destination_value",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.executeToNullUnassignsEveryMember",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "executeToNullUnassignsEveryMember",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "execute_to_null_unassigns_every_member",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.undoRestoresEveryMembersOriginalValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "undoRestoresEveryMembersOriginalValue",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "undo_restores_every_members_original_value",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.getPlanningEntitiesReturnsEveryMember",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "getPlanningEntitiesReturnsEveryMember",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "get_planning_entities_returns_every_member",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.equalsAndHashCodeIgnoreMemberDrawOrder",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCodeIgnoreMemberDrawOrder",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "equals_and_hash_code_ignore_member_draw_order",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MassChangeMoveTest.rebaseReturnsMoveWhoseSampleHoldsWorkingSolutionCopies",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "rebaseReturnsMoveWhoseSampleHoldsWorkingSolutionCopies",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "local_test": "rebase_returns_move_whose_sample_holds_working_solution_copies",
+      "status": "implemented",
+      "modifications": "Preserve all member/destination, assignment and temporary-undo assertions with native variable-slot identities and MoveTester. Numeric slots replace entity objects; rebasing maps source slots to distinct destination slots and preserves Rc value identity. Equality/hash ignore member draw order; null uses Option and unrelated-object rejection uses Rust Any/type separation. Native metadata avoids Java reflection. describe() is not adapted or credited. No production implementation translated."
     }
   ],
   "fixtures": [
@@ -57351,6 +57441,19 @@
       "upstream_test": "assertSameProperties",
       "local_path": "crates/solver/tests/list_move_rebase_cases.rs",
       "modifications": "Inline helper assertions with native variant matching, mapped owner indices, exact boundaries and flags. Resolve change/swap moved-value identity from the destination opening assignment; Rc pointer comparisons retain identity checks. Source v1/v2/v3 fields become local stable handles. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.mass_metadata",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int,int) and private initialized overload",
+      "local_path": "crates/solver/tests/mass_change_metadata_cases.rs",
+      "modifications": "Preserve value/entity counts, ordered entity slots and cyclic initial assignments; use numeric values and variable slots instead of generated object labels. No extra method credit."
     }
   ]
 }

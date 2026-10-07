@@ -78,7 +78,9 @@ impl Default for MassChangeConfig {
 /// composite includes every member, including members already at the target.
 /// Regenerate candidates after the assignment changes. Domain/pin validation
 /// and rollback remain the responsibility of the model or score director.
-#[derive(Clone, Debug, Eq, PartialEq)]
+/// Equality and hashing compare member sets and destination; draw order remains
+/// available through members() and the executable composite.
+#[derive(Clone, Debug)]
 pub struct MassChange<V> {
     members: Vec<usize>,
     destination: Option<V>,
@@ -116,6 +118,28 @@ impl<V: Clone> MassChange<V> {
         }
     }
 }
+impl<V: PartialEq> PartialEq for MassChange<V> {
+    fn eq(&self, other: &Self) -> bool {
+        if self.destination != other.destination || self.members.len() != other.members.len() {
+            return false;
+        }
+        let mut left = self.members.clone();
+        let mut right = other.members.clone();
+        left.sort_unstable();
+        right.sort_unstable();
+        left == right
+    }
+}
+impl<V: Eq> Eq for MassChange<V> {}
+impl<V: std::hash::Hash> std::hash::Hash for MassChange<V> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        let mut members = self.members.clone();
+        members.sort_unstable();
+        members.hash(state);
+        self.destination.hash(state);
+    }
+}
+
 impl Neighborhood {
     pub(crate) fn validate_basic<V: Eq>(self, p: &FiniteProblem<V>) -> Result<(), ModelError> {
         if matches!(self, Self::Assign | Self::Unassign | Self::PillarUnassign) {

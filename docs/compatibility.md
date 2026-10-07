@@ -4091,3 +4091,11 @@ before evaluating any input or derived field. Missing entities are not recursive
 expanded; getter/identity callback failures propagate without an incomplete report.
 Ordinary permissive shadow updates preserve their existing error behavior. Native
 regressions add no complete upstream method credits.
+
+Mass-change moves can now be constructed from explicit slot groups and rebased
+with validated target identity mappings. Duplicate input slots collapse in first
+appearance order; empty/singleton groups are supported. MassChange equality and
+hashing ignore member draw order, while executable composites retain it. Six more
+Community MassChangeMoveTest methods preserve execution, required unassignment,
+temporary undo, member metadata, equality/hash and rebasing assertions. Native
+slots replace entity identities; the Java description method remains pending.

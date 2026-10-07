@@ -15720,3 +15720,58 @@ Original upstream getPlanningValues method already credited; no duplicate credit
 Java describe() remains pending. Source reads: full TEST-ONLY MassChangeMoveTest
 and TestdataSolution generator22–64; also scanned MoveDirectorTest method names.
 No upstream production implementation read. Goal remains active.
+
+## Explicit mass-change construction, identity and rebasing
+
+Previous turn completedf7db212 with final gate/evidence terminal0. Applied guarded
+work/apply_mass_metadata.py after mass_change.rs hash matched; do not reapply it.
+Integrated mass_change_from_members/rebase_mass_change and order-independent
+MassChange Eq/Hash. Execution preserves stored member order. Constructors remove
+duplicate slots; empty/singleton groups are valid and empty retains destination.
+Rebase invokes each slot once then non-null destination once, rejects collisions,
+and preserves source state. Model application still validates pins/domains.
+
+Six upstream cases and one TestdataSolution generator fixture attributed. No
+new upstream reads. The eight standalone tests/lint passed in the previous turn;
+added one integrated original test comparing generated and explicitly constructed
+MassChange identity/hashing with opposite composite order. It runs in the final
+gate; no redundant focused rerun. No benchmark/release/browser work.
+Final formatted inputs are frozen for the required gate.
+
+Final gate66933 remains LIVE; fmt/clippy succeeded, library and initial integration
+targets passed. Warm-up44280 is LIVE, compiling550still-pending affected targets
+with --no-run -j4; it writes no verification evidence. Gate currently waits for
+the build lock. Poll these exact handles; do not restart on observation timeouts.
+Logs: work/mass-metadata-final-check.log and work/mass-metadata-prebuild.log.
+Inputs remain frozen. After gate terminal0 run work/record_mass_metadata_evidence.py
+(prepared, not executed; expects6new cases+1fixture versusf7db212), wait for the
+live freshness check, then commit evidence/handoff. Current implementation may be
+committed with full verification explicitly pending. No benchmark/browser/release
+runs; no compatibility-count increase claimed before gate/report completion.
+
+Prepared next independent module in work/list-mass-plan-draft/. ListMassChangePlan
+is an identity-based recipe resolved against the current assignment using existing
+gather_move; existing compiled ListMassChange remains unchanged. Unassignment
+Eq/Hash ignore draw order; insertion Eq/Hash preserve it and destination. Duplicate
+members normalize in first-appearance order. Rebase maps each value once and the
+optional owner once, rejects value collisions and retains boundary index. Hashing
+unordered groups sorts inner hashes, requiring no Ord and remaining consistent
+even when different members have colliding hashes.
+
+Read full TEST-ONLY MassListChangeMoveTest (three remaining methods); no production
+source. Draft has3adapted cases plus3original regressions: moving-source resolution,
+equal unassignment effects, hash collisions, lookup counts/errors, null-owner bypass
+and exact working Rc identities. Initial compile87738 TERMINAL1 lacked recent
+MoveRebase exports, consistent with selecting an old .rlib during the main rebuild.
+Pinned/copied the known current a12cff9bad4db4df library instead (hash stored in
+draft/library.sha256). Corrected57389 TERMINAL0: all6tests passed in0.01s;
+clippy27013 TERMINAL0, warnings denied. No production change needed for that error.
+Never select an arbitrary newest .rlib while the main build is replacing artifacts.
+
+After current full verification is complete/recorded, inspect draft/STATUS.txt
+and apply work/apply_list_mass_plan.py, parsed/reviewed but NOT executed. It adds
+a new module and2test targets and appends3source method attributions (no fixtures).
+Do not copy draft main.rs or compiled library into crates/. Review, document and
+format the integrated state, then run the final gate once; avoid redundant focused
+tests unless integration materially changes behavior. All draft sessions terminal.
+Goal remains active.
