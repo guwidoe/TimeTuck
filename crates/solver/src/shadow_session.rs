@@ -581,6 +581,13 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// Return handles for changed derived fields, including inconsistency changes.
     pub fn update(&mut self, world: &W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
         let resolved = self.resolve_sources(world, &self.edges)?;
+        self.update_resolved(world, resolved)
+    }
+    fn update_resolved(
+        &mut self,
+        world: &W,
+        resolved: ResolvedSources,
+    ) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
         let prepared = self
             .nodes
             .iter()
@@ -715,3 +722,5 @@ pub use diagnostics::{
     ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
     update_consistent_shadows,
 };
+
+pub use diagnostics::{ShadowSourceReference, missing_shadow_sources};

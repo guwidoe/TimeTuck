@@ -4083,3 +4083,11 @@ requested/applied dependencies and pending notifications. It integrates with nat
 SolutionManager adapters; permissive scoring updates remain available. This adds
 no upstream method credits: complete SolutionManager fixture/factory and diagnostic
 assertions have not been adapted.
+
+Missing-source preflight now returns owned target/source field identities for all
+missing direct references from registered shadow targets, deduplicated in source
+order. Strict refresh uses this check automatically and resolves each path once
+before evaluating any input or derived field. Missing entities are not recursively
+expanded; getter/identity callback failures propagate without an incomplete report.
+Ordinary permissive shadow updates preserve their existing error behavior. Native
+regressions add no complete upstream method credits.

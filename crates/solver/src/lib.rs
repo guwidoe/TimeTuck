@@ -1015,3 +1015,5 @@ pub use shadow_session::{
     ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
     update_consistent_shadows,
 };
+
+pub use shadow_session::{ShadowSourceReference, missing_shadow_sources};

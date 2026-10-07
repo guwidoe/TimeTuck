@@ -15662,3 +15662,61 @@ unblocked. Draft adds57production lines and2regressions, with exports.
 Additional test-only reads this turn: full MixedMoveSelectorTest,
 UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest, and
 MixedMoveSelectorSplitBiasIT; no adaptations from these. No upstream production read.
+
+## Integrated missing-source diagnostics
+
+Previous turn completed verification of1272756 and committedc138d40. Applied the
+validated missing-source draft after both parent hashes matched; do not reapply
+work/apply_shadow_sources.py. Extended it to integrate strict refresh: new
+ConsistentShadowUpdateError::MissingSources carries owned, ordered, deduplicated
+target/source keys. Strict refresh resolves paths once and rejects missing fields
+before any input reader or supplier. Existing update body is shared through private
+update_resolved; ordinary update keeps its original first-error resolution policy.
+
+Original tests now include64changing DAG snapshots with duplicate/reordered group
+references, exact callback counts and equivalence to ordinary installed signatures.
+Focused85844 TERMINAL0:3new-source tests,6loop/atomic refresh tests and3existing
+compiled-path tests passed. This focused run was needed because strict refresh
+and shared evaluation were extended beyond the previously validated draft. No
+upstream reads, fixture adaptations, credits or benchmark claims this turn.
+Starting final gate once on formatted state; inputs frozen during verification.
+
+Required gate9239 TERMINAL0. 4618 Rust tests and 226 doctests passed.
+Rust jobs: {'RUN': 550, 'REUSE': 36}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2780, 'failed': 0, 'pending': 1793, 'excluded': 282, 'unverified': 0, 'percent': 57.261}.
+Source before/after matched: a2918ed4f078c2ef11b3e7ddb41e7597f9cfd3e2943794fdd4ed124ec29e4163
+Live freshness matched verification digest: c80313fa82ea34920b6176cb97e7ae0b93dfe6f3ac7c14ae95bb21d59a3fe78c.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/shadow-sources-final-check.log; evidence work/shadow-sources-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Final gate9239, warm-up38638 and evidence40617 TERMINAL0. All4618Rust tests
+and226doctests passed. Source before/after and live freshness matched. Warm-up
+compiled549targets from the prior shared-shadow affected set in3m34s, overlapping
+the gate lock wait; no tests or evidence writes in warm-up. This avoided repeating
+a full dependency-selection scan. All verification processes terminal. Ready to
+commit current missing-source integration. No benchmark/browser/release reruns.
+
+Prepared next coherent increment in work/mass-metadata-draft/ while checks ran.
+Original mass_change_from_members constructor deduplicates slot identities in first
+appearance order, supports empty/singleton groups and leaves pin/domain validation
+to model application. Existing MassChange gets order-independent Eq/Hash while
+its stored member order and executable composite remain unchanged. Rebase helper
+maps every variable once, rejects target collisions, maps non-null destination
+once (including empty groups), and leaves null/source state untouched.
+
+Draft tests80398 TERMINAL0:6adapted Community MassChangeMoveTest cases and2original
+regressions passed using the already-built current library (no duplicate library
+build). Standalone clippy-driver returned0 with warnings denied; log
+work/mass-metadata-draft/lint.log. Draft type.rs is a native excerpt for isolated
+testing and MUST NOT replace the full mass_change.rs.
+Next: inspect work/mass-metadata-draft/STATUS.txt; run work/apply_mass_metadata.py
+only after current commit. Script has been parsed/reviewed but NOT executed. It
+checks the original mass_change.rs hash, installs only the proposed Eq/Hash and
+new factory/rebase module/tests, and appends6case+1fixture provenance entries.
+Review/format/document integrated changes and run the required gate once. No
+repeat focused test needed unless substantive new integration changes are made.
+Original upstream getPlanningValues method already credited; no duplicate credit.
+Java describe() remains pending. Source reads: full TEST-ONLY MassChangeMoveTest
+and TestdataSolution generator22–64; also scanned MoveDirectorTest method names.
+No upstream production implementation read. Goal remains active.

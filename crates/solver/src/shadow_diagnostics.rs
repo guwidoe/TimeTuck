@@ -1,5 +1,7 @@
 //! Inspect runtime shadow loops and reject inconsistent refreshes atomically.
-use super::{ShadowNodeRef, ShadowSession, ShadowSessionCheckpoint, ShadowSessionError};
+use super::{
+    ResolvedSources, ShadowNodeRef, ShadowSession, ShadowSessionCheckpoint, ShadowSessionError,
+};
 use crate::PlanningType;
 use std::{error::Error, fmt};
 
@@ -66,11 +68,33 @@ pub fn shadow_consistency<K: Eq + Clone, W>(
 pub enum ConsistentShadowUpdateError<K> {
     Session(ShadowSessionError),
     Inconsistent(ShadowConsistencyReport<K>),
+    MissingSources(Vec<ShadowSourceReference<K>>),
 }
 impl<K: fmt::Debug> fmt::Display for ConsistentShadowUpdateError<K> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Session(e) => e.fmt(f),
+            Self::MissingSources(references) => {
+                write!(f, "shadow refresh has missing source fields: ")?;
+                for (i, reference) in references.iter().enumerate() {
+                    if i != 0 {
+                        write!(f, "; ")?;
+                    }
+                    let target = &reference.target;
+                    let source = &reference.source;
+                    write!(
+                        f,
+                        "{}({:?}).{} -> {}({:?}).{}",
+                        target.entity_type.name(),
+                        target.entity,
+                        target.variable,
+                        source.entity_type.name(),
+                        source.entity,
+                        source.variable
+                    )?;
+                }
+                Ok(())
+            }
             Self::Inconsistent(report) => {
                 write!(
                     f,
@@ -104,7 +128,7 @@ impl<K: fmt::Debug> Error for ConsistentShadowUpdateError<K> {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::Session(e) => Some(e),
-            Self::Inconsistent(_) => None,
+            Self::Inconsistent(_) | Self::MissingSources(_) => None,
         }
     }
 }
@@ -126,7 +150,9 @@ impl<K: Eq, W> Drop for RestoreOnDrop<'_, '_, '_, K, W> {
     }
 }
 
-/// Update only if every shadow is consistent. An error reports owned loop and
+/// Update only if every source is registered and every shadow is consistent.
+/// Paths resolve once; missing sources are collected before input readers or
+/// derived suppliers run. An error reports owned missing-source or loop and
 /// affected-field identities from the rejected snapshot, then restores the old
 /// cache, dependency edges and pending notifications without invoking callbacks.
 /// Callback and diagnostic-construction panics also restore that state. Panics
@@ -143,11 +169,86 @@ pub fn update_consistent_shadows<K: Eq + Clone, W>(
         session,
         saved: Some(saved),
     };
-    let changed = guard.session.update(world)?;
+    let (resolved, missing) = resolve_with_diagnostics(guard.session, world)?;
+    if !missing.is_empty() {
+        return Err(ConsistentShadowUpdateError::MissingSources(missing));
+    }
+    let changed = guard.session.update_resolved(world, resolved)?;
     let report = shadow_consistency(guard.session)?;
     if !report.is_consistent() {
         return Err(ConsistentShadowUpdateError::Inconsistent(report));
     }
     guard.saved = None;
     Ok(changed)
+}
+
+/// A registered target field referring to an entity field absent from the session.
+/// Keys and field names are owned, so reports may outlive the evaluated world.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ShadowSourceReference<K> {
+    pub target: ShadowVariableKey<K>,
+    pub source: ShadowVariableKey<K>,
+}
+
+/// Resolve compiled source paths and report all missing direct field references
+/// from registered targets, in registration/path order. Duplicate target/source
+/// pairs occur once. This is a preflight inspection, including before first update
+/// or while edits are pending; it does not run input readers or shadow suppliers,
+/// consume pending notifications, publish a cache, or invoke setters.
+///
+/// Only registered targets have path resolvers. This does not discover additional
+/// dependencies of missing entities. Null/empty paths have no missing target.
+/// Resolver/getter/identity callbacks run normally and must return promptly; their
+/// side effects are not rolled back. Path or identity-resolution errors propagate
+/// instead of returning an incomplete report. It is legal to inspect a different
+/// world without refreshing the session, so this does not assert currentness.
+pub fn missing_shadow_sources<K: Eq + Clone, W>(
+    session: &ShadowSession<'_, '_, K, W>,
+    world: &W,
+) -> Result<Vec<ShadowSourceReference<K>>, ShadowSessionError> {
+    Ok(resolve_with_diagnostics(session, world)?.1)
+}
+
+fn resolve_with_diagnostics<K: Eq + Clone, W>(
+    session: &ShadowSession<'_, '_, K, W>,
+    world: &W,
+) -> Result<(ResolvedSources, Vec<ShadowSourceReference<K>>), ShadowSessionError> {
+    let mut missing = Vec::new();
+    let mut edges = session.edges.clone();
+    let mut signatures = Vec::with_capacity(session.nodes.len());
+    for (index, node) in session.nodes.iter().enumerate() {
+        let Some(resolve) = &node.sources else {
+            signatures.push(None);
+            continue;
+        };
+        let mut signature = Vec::new();
+        for (field, entity) in resolve(world)? {
+            if let Some(source) = session
+                .nodes
+                .iter()
+                .position(|n| n.variable == field && n.entity == entity)
+            {
+                edges.insert((index, source));
+                signature.push(source);
+                continue;
+            }
+            let reference = ShadowSourceReference {
+                target: ShadowVariableKey {
+                    entity_type: node.variable.entity().entity_type(),
+                    entity: node.entity.clone(),
+                    variable: node.variable.name().to_owned(),
+                },
+                source: ShadowVariableKey {
+                    entity_type: field.entity().entity_type(),
+                    entity,
+                    variable: field.name().to_owned(),
+                },
+            };
+            if !missing.contains(&reference) {
+                missing.push(reference);
+            }
+        }
+        signatures.push(Some(signature));
+    }
+    Ok((ResolvedSources { edges, signatures }, missing))
 }
