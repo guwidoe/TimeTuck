@@ -12803,3 +12803,43 @@ Live freshness matched verification digest: b2efce35e16a291c30944f46b35867fe67e2
 Existing provenance prefixes unchanged; appended4cases and6fixtures.
 Log work/shadow-session-final-check.log; evidence work/shadow-session-evidence.json.
 No benchmark/browser/release reruns. All handles terminal; goal remains active.
+
+
+## Automatic compiled source bindings (current increment)
+
+Previous turn4e8b0db was progress; starting tree clean. ShadowSessionBuilder now
+binds compiled paths and typed root/identity readers to derived targets. Update
+resolves every path before input sampling, validates canonical field/root identity
+and registered source nodes, and automatically computes dependency edge changes.
+Ordered source-node signatures preserve duplicates and group order separately
+from deduplicated graph edges, invalidating targets on meaningful traversal changes.
+Manual and automatic targets coexist; one target cannot use both. Source-bound
+roots must remain present and map to their registered key.
+
+ShadowInputs.for_field reads dynamically selected dependencies by canonical metadata,
+with foreign-schema/type validation. Values are unique-node registration order,
+not raw group multiplicity. Restore validates signatures plus sampled inputs and
+restores cache, manual edges and resolved edges without suppliers. No automatic
+field setters, Java reflection or changing-node-universe claim.
+
+Read all three TestdataMixed fixtures; reused full MixedModelTest read. Adapted
+its parent-delay method using actual native mixed temporary change and compiled
+previous/previous.delay paths, with extra initial/undo checks. Three original tests
+cover chain rewiring/cycles/restore/null, group order/duplicate/empty transitions,
+missing sources, root identity and conflicting bindings. Existing session tests
+cover manual-edge and panic behavior; added for_field metadata/type checks there.
+
+Compile94704 failed on missing imports from an exact-text edit; fixed imports.
+Focused35875 exited0: eight tests (four session, three source binding, one source
+case). Added for_field metadata checks afterward; final gate verifies final source.
+Provenance appends one case and three fixtures; prefixes unchanged. No production
+implementation read. Source and provenance frozen for the selective gate.
+
+Required gate22842 exited0. 3751 Rust tests and 176 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 459}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2180, 'failed': 0, 'pending': 2393, 'excluded': 282, 'unverified': 0, 'percent': 44.902}.
+Source before/after matched: c1af6b795d2e5023db15b18c63c33b4b8e356566eb9f083749b8c3a159a41302
+Live freshness matched verification digest: 34ad2547131e2ae16f8564ef797a34bf7ac6920c05d103731e9c5ccc0d81500c.
+Existing provenance prefixes unchanged; appended1case and3fixtures.
+Log work/shadow-source-bindings-final-check.log; evidence work/shadow-source-bindings-evidence.json.
+No benchmark/browser/release reruns. Goal remains active.

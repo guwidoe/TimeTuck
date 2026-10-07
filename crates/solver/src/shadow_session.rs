@@ -1,7 +1,7 @@
 //! Typed heterogeneous shadow scheduling over the native dependency cache.
 use crate::{
-    DependencyCache, DependencyError, DependencyTopology, DerivedValue, PlanningSchema,
-    PlanningType, PlanningVariableKind, PlanningVariableRef,
+    CompiledSourcePath, DependencyCache, DependencyError, DependencyTopology, DerivedValue,
+    PlanningSchema, PlanningType, PlanningVariableKind, PlanningVariableRef, SourcePathError,
 };
 use std::{any::Any, collections::BTreeSet, error::Error, fmt, marker::PhantomData, rc::Rc};
 
@@ -15,6 +15,8 @@ pub enum ShadowSessionError {
     NotDependency,
     NotCurrent,
     SnapshotMismatch,
+    SourcePath(SourcePathError),
+    UnregisteredSource,
     Dependency(DependencyError<usize>),
 }
 impl fmt::Display for ShadowSessionError {
@@ -82,8 +84,34 @@ pub struct ShadowRead<'a, T> {
 pub struct ShadowInputs<'a> {
     identity: &'a Rc<()>,
     values: &'a [(&'a usize, &'a DerivedValue<Stored>)],
+    fields: &'a [PlanningVariableRef<'a>],
 }
 impl ShadowInputs<'_> {
+    /// Read the registered dependencies for a canonical field, in registration
+    /// order. Repeated references to one node contribute once; path traversal
+    /// multiplicity is not a second cached field value.
+    pub fn for_field<T: 'static>(
+        &self,
+        field: PlanningVariableRef<'_>,
+    ) -> Result<Vec<Option<&T>>, ShadowSessionError> {
+        if self.fields.first().is_some_and(|registered| {
+            !std::ptr::eq(registered.entity().solution(), field.entity().solution())
+        }) {
+            return Err(ShadowSessionError::Metadata(
+                "field belongs to another schema",
+            ));
+        }
+        if !matches!(field.kind(), PlanningVariableKind::List { .. })
+            && field.value_type() != PlanningType::of::<T>()
+        {
+            return Err(ShadowSessionError::WrongType);
+        }
+        self.values
+            .iter()
+            .filter(|(index, _)| self.fields[**index] == field)
+            .map(|(_, value)| value.value.as_ref().map(Stored::get).transpose())
+            .collect()
+    }
     /// Only declared incoming dependencies can be read. None is a consistent
     /// absent value; inconsistent dependencies suppress the entire supplier.
     pub fn get<T: 'static>(&self, node: &ShadowNode<T>) -> Result<Option<&T>, ShadowSessionError> {
@@ -105,10 +133,13 @@ enum Operation<'a, W> {
     Input(Box<Reader<'a, W>>),
     Derived(Box<Supplier<'a, W>>),
 }
+type SourceResolver<'a, 's, K, W> =
+    dyn Fn(&W) -> Result<Vec<(PlanningVariableRef<'s>, K)>, ShadowSessionError> + 'a;
 struct Node<'a, 's, K, W> {
     variable: PlanningVariableRef<'s>,
     entity: K,
     operation: Operation<'a, W>,
+    sources: Option<Box<SourceResolver<'a, 's, K, W>>>,
 }
 /// Explicit typed field registration; native entity keys identify model objects.
 /// Metadata is borrowed, and handles cannot be used with a different builder/session.
@@ -156,6 +187,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             variable,
             entity,
             operation,
+            sources: None,
         });
         Ok(node)
     }
@@ -214,6 +246,64 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             Operation::Derived(Box::new(move |w, i| supplier(w, i).map(Stored::new))),
         )
     }
+    /// Resolve these compiled paths on every update. The root and every source
+    /// object must map to a registered stable entity key. All referenced fields,
+    /// including built-in invalidation fields, must be registered as nodes.
+    /// Explicit dependencies and automatic paths cannot control the same target.
+    pub fn bind_source_paths<T, R: 'static>(
+        &mut self,
+        target: &ShadowNode<T>,
+        paths: Vec<&'a CompiledSourcePath<'a, 's>>,
+        root: impl for<'w> Fn(&'w W) -> &'w R + 'a,
+        identify: impl Fn(&dyn Any) -> Option<K> + 'a,
+    ) -> Result<(), ShadowSessionError>
+    where
+        K: Clone + 'a,
+        's: 'a,
+    {
+        let index = lookup(&self.identity, self.nodes.len(), &target.node)?;
+        let node = &self.nodes[index];
+        if matches!(node.operation, Operation::Input(_))
+            || node.sources.is_some()
+            || self.edges.iter().any(|(target, _)| *target == index)
+        {
+            return Err(ShadowSessionError::Metadata(
+                "target already bound or is an input",
+            ));
+        }
+        if paths.is_empty()
+            || paths
+                .iter()
+                .any(|p| p.target() != node.variable || p.root_type() != PlanningType::of::<R>())
+        {
+            return Err(ShadowSessionError::Metadata(
+                "source path target/root differs from node",
+            ));
+        }
+        let expected = node.entity.clone();
+        self.nodes[index].sources = Some(Box::new(move |world| {
+            let root = root(world);
+            if identify(root).as_ref() != Some(&expected) {
+                return Err(ShadowSessionError::Metadata(
+                    "source root has a different entity identity",
+                ));
+            }
+            let mut resolved = vec![];
+            for path in &paths {
+                for reference in path.references() {
+                    for entity in reference
+                        .entities(root)
+                        .map_err(ShadowSessionError::SourcePath)?
+                    {
+                        let key = identify(entity).ok_or(ShadowSessionError::UnregisteredSource)?;
+                        resolved.push((reference.variable(), key));
+                    }
+                }
+            }
+            Ok(resolved)
+        }));
+        Ok(())
+    }
     pub fn set_dependencies<T>(
         &mut self,
         target: &ShadowNode<T>,
@@ -235,6 +325,8 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             nodes: self.nodes,
             edges: self.edges,
             applied: BTreeSet::new(),
+            manual_applied: BTreeSet::new(),
+            resolved: vec![],
             pending,
             cache: DependencyCache::new(topology, |_, _| None),
         }
@@ -261,6 +353,11 @@ fn replace_dependencies<K, W>(
     sources: &[ShadowNodeRef],
 ) -> Result<(), ShadowSessionError> {
     let index = lookup(identity, nodes.len(), target)?;
+    if nodes[index].sources.is_some() {
+        return Err(ShadowSessionError::Metadata(
+            "compiled paths control this target",
+        ));
+    }
     if matches!(nodes[index].operation, Operation::Input(_)) {
         return Err(ShadowSessionError::Metadata(
             "input readers cannot have dependencies",
@@ -281,6 +378,14 @@ fn replace_dependencies<K, W>(
 /// propagation. Each affected supplier runs at most once per flush. Cycles and
 /// their descendants receive absent, inconsistent results without supplier calls.
 /// Explicit dependencies may be rewired between updates, including cycle recovery.
+///
+/// Compiled source paths can instead resolve incoming dependencies from each world
+/// snapshot. Paths validate canonical target/root types and stable object identity.
+/// Every referenced variable/entity must be registered. Resolution finishes before
+/// readers or suppliers run. Ordered source signatures retain duplicate/group order
+/// changes even when graph edges are unchanged; graph edges remain deduplicated.
+/// Restore validates these signatures as well as input values. Registration remains
+/// explicit, and all bound roots must remain present in the fixed node universe.
 ///
 /// Suppliers must read declared inputs and immutable world facts. Changes to facts
 /// not represented by input readers require mark_dirty on their direct consumers.
@@ -318,6 +423,8 @@ pub struct ShadowSession<'a, 's, K, W> {
     nodes: Vec<Node<'a, 's, K, W>>,
     edges: BTreeSet<(usize, usize)>,
     applied: BTreeSet<(usize, usize)>,
+    manual_applied: BTreeSet<(usize, usize)>,
+    resolved: Vec<Option<Vec<usize>>>,
     pending: BTreeSet<usize>,
     cache: DependencyCache<usize, Stored>,
 }
@@ -325,8 +432,10 @@ pub struct ShadowSessionCheckpoint {
     identity: Rc<()>,
     cache: DependencyCache<usize, Stored>,
     edges: BTreeSet<(usize, usize)>,
+    manual_edges: BTreeSet<(usize, usize)>,
+    resolved: Vec<Option<Vec<usize>>>,
 }
-impl<K, W> ShadowSession<'_, '_, K, W> {
+impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     pub fn variable(
         &self,
         node: &ShadowNodeRef,
@@ -355,7 +464,7 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
         Ok(())
     }
     fn ready(&self) -> Result<(), ShadowSessionError> {
-        if self.pending.is_empty() && self.edges == self.applied {
+        if self.pending.is_empty() && self.edges == self.manual_applied {
             Ok(())
         } else {
             Err(ShadowSessionError::NotCurrent)
@@ -373,8 +482,36 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
             inconsistent: value.inconsistent,
         })
     }
+    fn resolve_sources(
+        &self,
+        world: &W,
+        manual: &BTreeSet<(usize, usize)>,
+    ) -> Result<ResolvedSources, ShadowSessionError> {
+        let mut edges = manual.clone();
+        let mut signatures = vec![];
+        for (index, node) in self.nodes.iter().enumerate() {
+            let signature = if let Some(resolve) = &node.sources {
+                let mut signature = vec![];
+                for (variable, entity) in resolve(world)? {
+                    let source = self
+                        .nodes
+                        .iter()
+                        .position(|n| n.variable == variable && n.entity == entity)
+                        .ok_or(ShadowSessionError::UnregisteredSource)?;
+                    edges.insert((index, source));
+                    signature.push(source);
+                }
+                Some(signature)
+            } else {
+                None
+            };
+            signatures.push(signature);
+        }
+        Ok(ResolvedSources { edges, signatures })
+    }
     /// Return handles for changed derived fields, including inconsistency changes.
     pub fn update(&mut self, world: &W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
+        let resolved = self.resolve_sources(world, &self.edges)?;
         let prepared = self
             .nodes
             .iter()
@@ -384,6 +521,11 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
             })
             .collect::<Vec<_>>();
         let mut dirty = self.pending.clone();
+        for (index, signature) in resolved.signatures.iter().enumerate() {
+            if signature.is_some() && self.resolved.get(index) != Some(signature) {
+                dirty.insert(index);
+            }
+        }
         for (index, node) in self.nodes.iter().enumerate() {
             if matches!(node.operation, Operation::Input(_))
                 && self.cache.values()[&index].value != prepared[index]
@@ -393,18 +535,24 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
         }
         let removals = self
             .applied
-            .difference(&self.edges)
+            .difference(&resolved.edges)
             .copied()
             .collect::<Vec<_>>();
-        let additions = self
+        let additions = resolved
             .edges
             .difference(&self.applied)
             .copied()
             .collect::<Vec<_>>();
+        let fields = self
+            .nodes
+            .iter()
+            .map(|node| node.variable)
+            .collect::<Vec<_>>();
         let nodes = &mut self.nodes;
         let identity = &self.identity;
         // Prepare potentially allocating publication data before installing a new cache.
-        let applied = self.edges.clone();
+        let manual_applied = self.edges.clone();
+        let applied = resolved.edges;
         let mut next = self.cache.clone();
         let changed = next.update(
             &removals,
@@ -412,7 +560,14 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
             &dirty.into_iter().collect::<Vec<_>>(),
             |index, values| match &mut nodes[*index].operation {
                 Operation::Input(_) => prepared[*index].clone(),
-                Operation::Derived(supplier) => supplier(world, ShadowInputs { identity, values }),
+                Operation::Derived(supplier) => supplier(
+                    world,
+                    ShadowInputs {
+                        identity,
+                        values,
+                        fields: &fields,
+                    },
+                ),
             },
         )?;
         let changed = changed
@@ -425,6 +580,8 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
             .collect();
         self.cache = next;
         self.applied = applied;
+        self.manual_applied = manual_applied;
+        self.resolved = resolved.signatures;
         self.pending.clear();
         Ok(changed)
     }
@@ -434,6 +591,8 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
             identity: self.identity.clone(),
             cache: self.cache.clone(),
             edges: self.applied.clone(),
+            manual_edges: self.manual_applied.clone(),
+            resolved: self.resolved.clone(),
         })
     }
     pub fn restore(
@@ -444,6 +603,10 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
         if !Rc::ptr_eq(&self.identity, &saved.identity) {
             return Err(ShadowSessionError::ForeignNode);
         }
+        let resolved = self.resolve_sources(world, &saved.manual_edges)?;
+        if resolved.edges != saved.edges || resolved.signatures != saved.resolved {
+            return Err(ShadowSessionError::SnapshotMismatch);
+        }
         for (index, node) in self.nodes.iter().enumerate() {
             if let Operation::Input(read) = &node.operation
                 && read(world) != saved.cache.values()[&index].value
@@ -451,12 +614,20 @@ impl<K, W> ShadowSession<'_, '_, K, W> {
                 return Err(ShadowSessionError::SnapshotMismatch);
             }
         }
-        let edges = saved.edges.clone();
-        let applied = edges.clone();
+        let edges = saved.manual_edges.clone();
+        let manual_applied = edges.clone();
+        let applied = saved.edges.clone();
         self.cache = saved.cache.clone();
         self.edges = edges;
         self.applied = applied;
+        self.manual_applied = manual_applied;
+        self.resolved = resolved.signatures;
         self.pending.clear();
         Ok(())
     }
+}
+
+struct ResolvedSources {
+    edges: BTreeSet<(usize, usize)>,
+    signatures: Vec<Option<Vec<usize>>>,
 }

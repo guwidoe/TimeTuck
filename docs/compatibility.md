@@ -3005,3 +3005,27 @@ parameters. Native time fixtures retain the source origin and exact second offse
 Java empty entity-array and null inverse-collection errors remain pending. Original
 tests cover heterogeneous chains, native list trial/undo, equality stopping, cycles,
 non-Clone snapshots, undeclared/foreign handles, absent inputs and panic recovery.
+
+
+## Source paths bound to shadow execution
+
+ShadowSessionBuilder can bind compiled source paths to derived nodes. Each update
+traverses current typed objects, validates root identity and resolves canonical
+field/entity pairs to registered nodes before readers or suppliers run. Changing
+references, null parents and group membership rewire the dependency graph
+automatically. Manual edges remain available for separate targets. Unknown sources
+and conflicting bindings fail before publication changes.
+
+Ordered reference signatures retain group order and repeated members, so a changed
+traversal invalidates its target even when the deduplicated edge set stays the same.
+Suppliers can read dependencies by canonical field; returned values represent unique
+registered nodes in registration order. Group cardinality/order can be read from
+the current world and are covered by the traversal signature. Restore validates
+both signatures and sampled inputs, then restores cached values without suppliers.
+
+The MixedModelTest parent-delay case uses actual temporary mixed moves and compiled
+previous/previous.delay paths. Three fixtures are attributed. Original regressions
+cover live rewiring, nulls, cycle recovery, duplicate/reordered groups, mismatched
+restore, missing sources/root identity and explicit/automatic binding conflicts.
+Node registration and root access remain explicit; node universe changes and Java
+reflection are separate concerns. Resolution currently scans registered nodes.

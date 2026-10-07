@@ -228,8 +228,18 @@ fn metadata_handles_and_declared_input_access_are_checked() {
             .is_err()
     );
     let hidden = source.clone();
+    let source_field = e.variable("bias").unwrap();
+    let foreign_field = other.entity::<Route>().unwrap().variable("bias").unwrap();
     let target = b
         .derive(e.variable("flag").unwrap(), 0, move |_, i| {
+            assert!(matches!(
+                i.for_field::<i64>(foreign_field),
+                Err(ShadowSessionError::Metadata(_))
+            ));
+            assert!(matches!(
+                i.for_field::<bool>(source_field),
+                Err(ShadowSessionError::WrongType)
+            ));
             Some(matches!(
                 i.get(&hidden),
                 Err(ShadowSessionError::NotDependency)
