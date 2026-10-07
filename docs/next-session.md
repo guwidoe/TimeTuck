@@ -13856,3 +13856,34 @@ Live freshness matched verification digest: b5de61e8247a390a83f4db88e555175eb678
 Existing provenance prefixes unchanged; appended5cases and2fixtures.
 Log work/neighborhood-tester-final-check.log; evidence work/neighborhood-tester-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Captured collector sessions
+
+Starting HEAD29f64e8 clean. Previous turn committed live neighborhood tester and
+verified gate98260: progress. Read full NeighborhoodsCollectorsTest. Existing list,
+finishing and pair collectors already provide core aggregation; new CollectorSession
+adds owned captured contributions, session-scoped explicit handles, insert/insert_with,
+remove/replace_with, contribution lookup, clear, len and empty finish. Monotonic u64
+ordinals support standalone encounter order. Rc owner tokens prevent foreign-handle
+aliasing; removed/cleared IDs are never reused. Delegate mutations stage isolated
+clones before installing both aggregate and captured row. No V Clone/Eq requirement.
+Mapper and delegate failures leave prior state intact under collector contract.
+No graph-node changes or Java internal/layout equivalence claim.
+
+Six source methods appended, no external fixture adaptations. Bi tests project
+(integer,string) input to integer; native PairCollector and FinishingCollector
+preserve every source output before/after each handle removal. Added three native
+regressions for mutable source capture, duplicate slots, snapshot persistence,
+foreign/stale handles, clear/reuse, non-Clone payloads, mapper/delegate panic and
+rejected removal/replacement preservation. Focused6319 TERMINAL0 initial six cases;
+focused88273 TERMINAL0 final six cases plus three regressions. Final state formatted
+and frozen for selective gate. No benchmark/browser/release reruns; goal active.
+
+Required gate70446 TERMINAL0. 4050 Rust tests and 193 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 505}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2417, 'failed': 0, 'pending': 2156, 'excluded': 282, 'unverified': 0, 'percent': 49.784}.
+Source before/after matched: 7bdbffb71593c7c6f73d707897400a64b0dee9ece70cb2d3eee744fcc2407e9a
+Live freshness matched verification digest: 846f1b0bb3bba2b26a5b1799e74a1285edbfbe0ca6606c86af9f8732c46fbf19.
+Existing provenance prefixes unchanged; appended6cases and0fixtures.
+Log work/collector-session-final-check.log; evidence work/collector-session-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

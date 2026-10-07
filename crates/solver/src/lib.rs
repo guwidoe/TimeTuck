@@ -848,3 +848,6 @@ pub use membership_candidate_index::{MembershipCandidateIndex, MembershipMatches
 
 mod neighborhood_tester;
 pub use neighborhood_tester::{NeighborhoodAssertionError, NeighborhoodTester};
+
+mod collector_session;
+pub use collector_session::{CollectorHandle, CollectorSession, CollectorSessionError};

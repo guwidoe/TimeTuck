@@ -3532,3 +3532,20 @@ add exact pull-budget/early-stop checks on infinite providers, provider failure
 propagation, empty requests, and shared score-director commit/panic rollback.
 A successful produces_none_of checks only the bounded prefix. Reentrant mutable
 state access is unsupported; this is a single-threaded testing helper.
+
+CollectorSession now owns captured reversible-collector contributions behind
+session-scoped explicit removal handles. Duplicate values remain separate slots;
+insert_with and replace_with can map working facts once using a stable ordinal.
+Removal uses the captured old contribution, never a recomputed mutable fact.
+Monotonic ordinals are suitable for standalone list encounter order and are never
+reused after clear. Foreign/removed handles and delegate rejection are typed errors.
+Mutations stage the delegate collector, preserving both captured rows and aggregate
+on ordinary mapping/collector panic or rejected operations, under the existing
+ReversibleCollector isolation contract. Inputs need neither Clone nor Eq.
+
+All six NeighborhoodsCollectorsTest methods preserve their ordered list, finish
+length, paired-list and full removal assertions. Existing list, finishing and pair
+collectors are reused; explicit Bi input projection replaces the source null-view
+mapper. This does not change graph collection's stable-ID ordering. Three native
+regressions exercise duplicate slots and immutable output snapshots, changed source
+facts, scoped/stale handles, clear/reuse, non-Clone payloads, and failure isolation.
