@@ -16255,3 +16255,36 @@ Live freshness matched verification digest: 895a4c8452baa382455e0354ceccbea599cd
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/pillar-sampling-final-check.log; evidence work/pillar-sampling-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Whole-entity basic constraint streams
+
+Applied guarded work/apply_basic_entity_stream.py; do not reapply. New checked
+BasicEntityRows maps disjoint slots to stable entity/column IDs, including ragged
+rows and empty entity sets. basic_entity_stream groups current planning facts,
+requires all source columns present, and optionally filters any unassigned field.
+Uses existing flat-map/list-aggregation/filter/map graph operators; native helpers
+support basic and mixed sources with transaction rollback. No production reads.
+Read TEST-ONLY AbstractUniConstraintStreamTest934-969 and1105-1129; adapted both
+methods fully (+2cases,0fixtures). Draft94070 library/two source cases passed,
+then native test compilation failed on mistyped TupleChange::remove; corrected to
+existing retract. Corrected native focused command completed directly with exit0:4regressions passed; no rerun
+of the unchanged source cases/library. Added public usage doctest afterwards.
+Other TEST-ONLY gap investigation this turn: full GraphStructureTest, first115lines
+of DiminishedReturnsScoreRingBufferTest, full AcceptorFactoryTest, MoveDirectorTest
+2190-2370, and full ScoreUtilTest. No adaptations/credits from these investigations;
+existing native features cover many logical behaviors while Java private layout,
+lifecycle notifications, descriptor/reflection and factory semantics remain distinct.
+Required final gate next on frozen Rust/provenance. No benchmark/UI/release reruns.
+
+Initial gate69709 TERMINAL1 at formatting only: new lib.rs export needed wrapping.
+Applied the formatter's exact layout; no behavior change. Warm-up38277 remains
+live, compilation only. Corrected gate next; canonical log overwritten and evidence
+helper handle must be updated. No extra focused rerun.
+
+Corrected entity-row gate60902 LIVE: formatting passed; clippy compiling.
+Warm-up38277 LIVE, selecting/compiling pending affected targets only. Both handles
+confirmed live; no restarts on observation timeouts. Rust/provenance frozen.
+Evidence helper work/record_basic_entity_evidence.py expects +2cases/+0fixtures
+vsf2a695e and references gate60902; run once after both handles finish successfully.
+Last completed dashboard remains2813/4855=57.94%,4698Rust230doctests. Two new
+source cases are not yet credited by completed dashboard evidence. No UI/bench reruns.

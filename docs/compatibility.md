@@ -4234,3 +4234,17 @@ can stop search without proving a local optimum. Six original tests verify seede
 replay, sampling support/distribution, sorted-row preparation, large subsets,
 range/pin/schema filtering and actual two-step solving on four backend paths.
 No additional upstream method/fixture credit; no benchmark speed claim.
+
+BasicEntityRows and basic_entity_stream now project selected basic planning slots
+into stable whole-entity facts. Rows may have different widths and caller-defined
+column order; slots must be disjoint, in range and each row nonempty. Unselected
+variables are ignored and pins do not remove facts. All source fields must exist;
+assigned-only mode additionally requires every selected value, even for optional
+variables. Including-unassigned mode retains null fields. This composes with basic
+and mixed planning sources and existing graph transactions/rollback.
+Two complete AbstractUniConstraintStreamTest methods preserve score and entity
+matches for assigned-only and including-unassigned optional basic variables.
+Four original regressions cover all partial multi-field assignments, commits/undo,
+missing-source retraction/reinsertion, schema errors, ignored-variable callback
+work, pinned facts and mixed joint-trial/panic rollback. No reflection or Java
+notification-order equivalence claimed; no extra fixture files copied.

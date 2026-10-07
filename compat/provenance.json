@@ -42309,6 +42309,36 @@
       "local_test": "equality_comparator",
       "status": "implemented",
       "modifications": "Preserve enabled/disabled mode, comparator presence, all size bounds including the 2147483647 default, invalid-bound/missing-comparator rejection, size equality and comparator identity equality. Disabled sizes use None instead of Java nonpositive sentinels. Typed Rust errors replace IllegalStateException; optional configuration represents null. Arc-backed comparator handles replace JVM comparator identity, and native entity rows are selected variable-slot vectors. No production implementation copied."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.forEach_basicVarUninitialized",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEach_basicVarUninitialized",
+      "local_path": "crates/solver/tests/basic_entity_stream_cases.rs",
+      "local_test": "for_each_basic_var_uninitialized",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved every score and entity-match assertion using native optional basic variables and entity-row projection. Stable row IDs 0/1 represent e1/e2; string values preserve v1/v2. Native eager scored moves replace Java before/after notifications and working-solution resets; complete final score recomputation is checked separately. No Java descriptor, object-reflection or callback-order parity claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.forEachIncludingUnassigned_basicVarUninitialized",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEachIncludingUnassigned_basicVarUninitialized",
+      "local_path": "crates/solver/tests/basic_entity_stream_cases.rs",
+      "local_test": "for_each_including_unassigned_basic_var_uninitialized",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved every score and entity-match assertion using native optional basic variables and entity-row projection. Stable row IDs 0/1 represent e1/e2; string values preserve v1/v2. Native eager scored moves replace Java before/after notifications and working-solution resets; complete final score recomputation is checked separately. No Java descriptor, object-reflection or callback-order parity claimed."
     }
   ],
   "fixtures": [

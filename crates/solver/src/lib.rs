@@ -1062,3 +1062,8 @@ pub use pillar_schema::pillar_groups;
 
 mod sampled_pillar_provider;
 pub use sampled_pillar_provider::SampledPillarMoveProvider;
+
+mod basic_entity_stream;
+pub use basic_entity_stream::{
+    BasicEntityRows, BasicEntityRowsError, BasicEntityStream, basic_entity_stream,
+};
