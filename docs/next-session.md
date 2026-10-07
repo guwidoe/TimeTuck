@@ -14509,3 +14509,44 @@ Live freshness matched verification digest: 4973c31d013115893c8119974d4d30c3ea8f
 Existing provenance prefixes unchanged; appended3cases and5fixtures.
 Log work/calculator-dynamic-final-check.log; evidence work/calculator-dynamic-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Value-driven list swap selection
+
+Previousd1e05a7 goal turn was verified implementation progress; starting HEAD clean.
+Read compatibility/current handoff and full ListSwapMoveSelectorTest. Read16 model
+fixture files for list/optional/entity-range/pinned variants; reused fully read
+TestdataValue/Object. Read relevant TestdataListUtils selector setup helpers,
+SelectorTestUtils mockIterableValueSelector and PlannerAssert selector aliases.
+No upstream production implementation reads.
+Independent list_value_swap module adds Cartesian/Paired caller value orders,
+optional no-ops, assigned/unassigned replacement, pin/range/dependency filtering,
+bounded pair sampling and standard list/mixed provider implementations. Opening
+validates model/orders and caches locations; candidate preparation remains lazy.
+Required unassigned values are excluded; optional two-unassigned/equal pairs yield
+no-ops only when requested. Random sampling bounds attempts including rejected
+pairs, preserves caller RNG, and avoids draws for empty/singleton selections.
+
+Six deterministic source methods fully adapted;3 random source prefixes recorded
+as partial fixtures only, source methods still pending because native finite pairs
+do not implement Java never-ending metadata or random policies. Added6cases and
+23fixtures (18 models,2 selector helpers,3 partial methods), existing entries unchanged.
+Compile92043 TERMINAL0. Focused22926 TERMINAL0:9 tests, compiler warned unused move
+rollback guard; made intended drop explicit. Expanded20030 TERMINAL0:9 adapted/
+partial fixture tests +4 native regressions (27 partial states, sampler/validation,
+list/mixed provider improvements and reopening). Final formatted source frozen for
+selective final gate; no benchmark, browser or release reruns needed.
+
+Gate55383 deliberately stopped TERMINAL143 after identifying false dependency
+invalidation: private Selection implementation attached this module to existing
+scoring::Selection in verification_inputs symbol ownership. Confirmed both owners,
+stopped the verified-live gate process tree, then renamed helper ValueSwapSelection.
+No behavior change or cache hash relabeling; retry final gate on renamed source.
+
+Required gate30502 TERMINAL0. 4201 Rust tests and 205 doctests passed.
+Rust jobs: {'RUN': 113, 'REUSE': 427}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2485, 'failed': 0, 'pending': 2088, 'excluded': 282, 'unverified': 0, 'percent': 51.184}.
+Source before/after matched: 0337a74c1106dda5562d03bcf6c70e1f276ab29dc3f5d6355a0de2acfa792f66
+Live freshness matched verification digest: 01061a7ae5d2b2289efbbddf98eb9e4fd9cc8bb6e9ec52ad00670d7edf0c78bd.
+Existing provenance prefixes unchanged; appended6cases and23fixtures.
+Log work/list-value-swap-final-check.log; evidence work/list-value-swap-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

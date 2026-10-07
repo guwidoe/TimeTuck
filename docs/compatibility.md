@@ -3784,3 +3784,19 @@ working-object mutation and notifications; these cases do not establish dynamic
 native finite-domain model reconfiguration or factory descriptor identity.
 Five original regressions cover all three native calculator directors, complete
 plans, error/panic rollback, reset recovery and repeated-match cancellation.
+
+Value-driven list swaps now accept independent caller-ordered value streams with
+Cartesian or finite paired selection, optional explicit no-ops, assigned/unassigned
+replacement, pin filtering, bidirectional receiving ranges and final dependency
+validation. A bounded sampler draws ordered pairs with replacement; rejected pairs
+consume attempts. It is not uniform over valid moves and does not reproduce Java
+random sequences. ListValueSwapProvider reopens selection at each list/mixed search
+step. Opening caches locations and filtered orders, without constructing moves;
+candidate validation uses temporary assignments and makes no performance claim.
+Six deterministic ListSwapMoveSelectorTest methods preserve all ordered move codes,
+including positions, reverse duplicates, no-ops, pins, ranges and optional values.
+Three additional source random-prefix fixtures preserve supplied mocked sequences
+and output prefixes but add no method credit; never-ending metadata remains pending.
+Four original regressions cover 27 partial assignments against existing swap
+successors, sampler bounds/reproducibility/no opening randomness, dependency rejection,
+invalid values and provider-driven list/mixed search improvements.

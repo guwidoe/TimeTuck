@@ -923,3 +923,8 @@ mod calculator_explanation;
 pub use calculator_explanation::{
     CalculatorScoreExplanation, explain_calculator_matches, explain_calculator_matches_default,
 };
+
+mod list_value_swap;
+pub use list_value_swap::{
+    ListSwapPairing, ListValueSwapProvider, list_value_swap_moves, sample_list_value_swaps,
+};
