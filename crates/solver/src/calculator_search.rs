@@ -37,217 +37,27 @@ use crate::*;
 use crate::{scoring::Selection, search_scoring::SearchDirector};
 use std::panic::{AssertUnwindSafe, catch_unwind};
 
-/// A calculator backend for native basic moves. Change descriptors contain the
-/// sorted unique variables touched by the whole move. Callbacks see complete
-/// pre/post assignments, including for composites and their inverse updates.
-///
-/// The factory must create independent calculator state with the same objective.
-/// It is called at initialization and by explicit consistency checks. Calculators
-/// return ordinary scores; this director supplies required-variable structure.
-/// One calculator invocation is counted as one opaque constraint evaluation;
-/// callback work, inverse notifications and diagnostic recomputation are not
-/// separately counted. Scans replay the winner's notifications without scoring
-/// it twice. Calculators and factories must be deterministic and keep captured
-/// problem facts immutable throughout the search.
-///
-/// Candidate preparation copies the assignment, but never the calculator cache.
-/// A rollback callback failure restores assignment data and invalidates the
-/// director until reset. External callback side effects cannot be rolled back.
-pub struct CalculatorScoreDirector<'p, V, C, F>
-where
-    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
-{
-    problem: &'p FiniteProblem<V>,
-    factory: F,
-    session: CalculatorSession<Assignment<V>, C>,
-    score: C::Score,
-    failure: Option<MatchRegistryError>,
+crate::calculator_backend::calculator_backend!(
+    CalculatorScoreDirector,
+    CalculatorMove,
+    [V],
+    Assignment<V>,
+    FiniteProblem<V>,
+    Move<V>,
+    Vec<usize>,
+    ScoringError,
+    basic_changes,
+    basic_structure
+);
+fn basic_changes<V>(movement: &Move<V>) -> Vec<usize> {
+    movement.touched_variables()
 }
-impl<'p, V, C, F> CalculatorScoreDirector<'p, V, C, F>
-where
-    V: Eq + Clone,
-    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
-    F: Fn() -> C,
-{
-    pub fn new(
-        problem: &'p FiniteProblem<V>,
-        initial: Assignment<V>,
-        factory: F,
-        request_matches: bool,
-    ) -> Result<Self, ScoringError> {
-        problem.validate(&initial)?;
-        let mut session = CalculatorSession::new(initial, factory(), request_matches)
-            .map_err(ScoringError::Calculator)?;
-        let score = Self::calculate(problem, &mut session)?;
-        Ok(Self {
-            problem,
-            factory,
-            session,
-            score,
-            failure: None,
-        })
-    }
-    fn calculate(
-        problem: &FiniteProblem<V>,
-        session: &mut CalculatorSession<Assignment<V>, C>,
-    ) -> Result<C::Score, ScoringError> {
-        let score = session.score().map_err(ScoringError::Calculator)?;
-        if score.structural() != 0 {
-            return Err(ScoringError::Calculator(
-                MatchRegistryError::StructuralContribution,
-            ));
-        }
-        Ok(crate::scoring::with_structure(
-            score,
-            problem,
-            session.solution(),
-        ))
-    }
-    fn healthy(&self) -> Result<(), ScoringError> {
-        if let Some(error) = &self.failure {
-            return Err(ScoringError::Calculator(error.clone()));
-        }
-        self.session
-            .registry()
-            .map(|_| ())
-            .map_err(ScoringError::Calculator)
-    }
-    pub fn assignment(&self) -> &Assignment<V> {
-        self.session.solution()
-    }
-    pub fn score(&self) -> Result<C::Score, ScoringError> {
-        self.healthy()?;
-        Ok(self.score.clone())
-    }
-    pub fn registry(&self) -> Result<&MatchRegistry<C::Score, C::Justification>, ScoringError> {
-        self.healthy()?;
-        self.session.registry().map_err(ScoringError::Calculator)
-    }
-    /// Recover by rebuilding the calculator on a validated assignment. Invalid
-    /// model input leaves the previous director untouched; callback errors do not.
-    pub fn reset(&mut self, initial: Assignment<V>) -> Result<(), ScoringError> {
-        self.problem.validate(&initial)?;
-        self.failure = Some(MatchRegistryError::NeedsReset);
-        self.session
-            .reset(initial)
-            .map_err(ScoringError::Calculator)?;
-        self.score = Self::calculate(self.problem, &mut self.session)?;
-        self.failure = None;
-        Ok(())
-    }
-    /// Compare cached, live calculator and fresh-reset scores without repairing
-    /// the live calculator or invalidating its retained match handles.
-    pub fn assert_consistent(&mut self) -> Result<(), ScoringError> {
-        self.healthy()?;
-        let live = Self::calculate(self.problem, &mut self.session)?;
-        let mut fresh = CalculatorSession::new(self.assignment().clone(), (self.factory)(), false)
-            .map_err(ScoringError::Calculator)?;
-        let recomputed = Self::calculate(self.problem, &mut fresh)?;
-        for working in [&self.score, &live] {
-            if *working != recomputed {
-                return Err(ScoringError::ScoreCorruption(Box::new(
-                    ScoreConsistencyReport {
-                        working_score: working.clone(),
-                        recomputed_score: recomputed,
-                        constraints: vec![],
-                    }
-                    .diagnostic(),
-                )));
-            }
-        }
-        Ok(())
-    }
-    pub fn apply(
-        &mut self,
-        movement: &Move<V>,
-    ) -> Result<CalculatorMove<'_, 'p, V, C, F>, ScoringError> {
-        self.apply_with_score(movement, None)
-    }
-    fn apply_with_score(
-        &mut self,
-        movement: &Move<V>,
-        known_score: Option<C::Score>,
-    ) -> Result<CalculatorMove<'_, 'p, V, C, F>, ScoringError> {
-        self.healthy()?;
-        let mut candidate = self.assignment().clone();
-        self.problem.apply(&mut candidate, movement)?.commit();
-        let variables = movement.touched_variables();
-        let previous_score = self.score.clone();
-        let prior = Some(self.assignment().clone());
-        let guard = CalculatorMove {
-            director: self,
-            prior,
-            variables,
-            previous_score,
-        };
-        guard
-            .director
-            .session
-            .change(&guard.variables, |a| *a = candidate)
-            .map_err(ScoringError::Calculator)?;
-        guard.director.score = match known_score {
-            Some(score) => score,
-            None => Self::calculate(guard.director.problem, &mut guard.director.session)?,
-        };
-        Ok(guard)
-    }
-}
-
-/// Drop sends inverse notifications and restores the original assignment/score.
-/// Rollback panics are contained, recorded as a calculator error and make the
-/// director unavailable until reset; an already-unwinding visitor panic continues.
-/// Normal guard limits (forget, abort, panicking value destructors) apply.
-#[must_use = "dropping the move rolls it back; commit to retain it"]
-pub struct CalculatorMove<'d, 'p, V, C, F>
-where
-    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
-{
-    director: &'d mut CalculatorScoreDirector<'p, V, C, F>,
-    prior: Option<Assignment<V>>,
-    variables: Vec<usize>,
-    previous_score: C::Score,
-}
-impl<V, C, F> CalculatorMove<'_, '_, V, C, F>
-where
-    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
-{
-    pub fn assignment(&self) -> &Assignment<V> {
-        self.director.session.solution()
-    }
-    pub fn score(&self) -> C::Score {
-        self.director.score.clone()
-    }
-    pub fn commit(mut self) {
-        self.prior = None;
-    }
-}
-impl<V, C, F> Drop for CalculatorMove<'_, '_, V, C, F>
-where
-    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
-{
-    fn drop(&mut self) {
-        if self.prior.is_none() {
-            return;
-        }
-        let result = catch_unwind(AssertUnwindSafe(|| {
-            self.director.session.change(&self.variables, |a| {
-                *a = self.prior.take().expect("pending rollback");
-            })
-        }));
-        let failure = match result {
-            Ok(Ok(())) => None,
-            Ok(Err(error)) => Some(error),
-            Err(_) => Some(MatchRegistryError::Calculator(
-                "calculator rollback callback panicked".into(),
-            )),
-        };
-        if let Some(prior) = self.prior.take() {
-            self.director.session.restore_failed(prior);
-        }
-        // Errors/panics after the rollback mutation already poison the session.
-        self.director.failure = failure;
-        self.director.score = self.previous_score.clone();
-    }
+fn basic_structure<V: Eq, S: AdditiveScore>(
+    score: S,
+    problem: &FiniteProblem<V>,
+    assignment: &Assignment<V>,
+) -> Result<S, ScoringError> {
+    Ok(crate::scoring::with_structure(score, problem, assignment))
 }
 
 impl<V, C, F> SearchDirector<V, C::Score> for CalculatorScoreDirector<'_, V, C, F>

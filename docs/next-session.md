@@ -14360,3 +14360,38 @@ with entity add/remove, live/reset constraint weights, and full/prefix-pinned li
 initialization scores. The list tests assert entity-count ordinary scores plus
 required-unassigned structural counts. Basic calculator backend is now usable;
 list/mixed calculator backends and SolverSequence integration remain next steps.
+
+## List and mixed calculator backends
+
+Previous180dbfd goal turn was verified implementation progress; starting HEAD clean.
+Read current compatibility/handoff. Reused fully read AbstractScoreDirectorSemanticsTest
+and IncrementalScoreDirectorSemanticsTest; read all six pinned/prefix entity/value/
+solution fixtures in full. No upstream production reads. Added list/mixed calculator
+backends with construction, local/provider search, custom commands and typed model
+scoring errors. Extracted basic calculator transaction/guard code into shared
+calculator_backend macro used by all three backends, preserving basic public API.
+List descriptors identify sorted touched entities; MixedCalculatorChange separates
+basic/list indices. Whole-move callbacks observe both mixed components atomically.
+Rollback failures restore assignments but require reset before cached scores can be
+used. Structural missing counts come from existing model scoring helpers.
+
+Appended2 source cases and7 fixture records for full/prefix list pinning through
+incremental calculators; all other abstract score-director methods still pending.
+Added4 original regressions covering 36 construction and36 local-search configs,
+list/mixed providers/custom commands, joint rollback/panic, model validation before
+callbacks, match totals and failed-inverse recovery. Re-ran6 existing basic backend
+regressions because its implementation moved to shared macro.
+Compile44316 terminal101: generation typo in List/MixedSelection type delimiters;
+corrected and moved list descriptor docs off macro invocation. Compile11132 TERMINAL0.
+Focused91032 TERMINAL0:2 adapted,4 new native and6 existing basic tests passed.
+No measured performance change, benchmarks/browser/release reruns. SolverSequence
+backend integration remains pending. Final formatted source frozen for one final gate.
+
+Required gate98751 TERMINAL0. 4168 Rust tests and 203 doctests passed.
+Rust jobs: {'RUN': 472, 'REUSE': 62}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2476, 'failed': 0, 'pending': 2097, 'excluded': 282, 'unverified': 0, 'percent': 50.999}.
+Source before/after matched: 169890fa11c722ecf10a44fe4e003b7a48c424b115aba07287eb86aefc365cdf
+Live freshness matched verification digest: b859b6f6bf955d1bdafb5b08101c9462d303c953e3392d2683bad2d52fc449c2.
+Existing provenance prefixes unchanged; appended2cases and7fixtures.
+Log work/list-mixed-calculator-final-check.log; evidence work/list-mixed-calculator-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

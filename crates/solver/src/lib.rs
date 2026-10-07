@@ -896,3 +896,17 @@ pub use calculator_search::{
     CalculatorMove, CalculatorScoreDirector, calculator_construction, calculator_custom_phase,
     calculator_local_search_from, calculator_local_search_with_provider,
 };
+
+mod calculator_backend;
+mod list_calculator_search;
+pub use list_calculator_search::{
+    ListCalculatorMove, ListCalculatorScoreDirector, list_calculator_construction,
+    list_calculator_custom_phase, list_calculator_local_search_from,
+    list_calculator_local_search_with_provider,
+};
+mod mixed_calculator_search;
+pub use mixed_calculator_search::{
+    MixedCalculatorChange, MixedCalculatorMove, MixedCalculatorScoreDirector,
+    mixed_calculator_construction, mixed_calculator_custom_phase,
+    mixed_calculator_local_search_from, mixed_calculator_local_search_with_provider,
+};

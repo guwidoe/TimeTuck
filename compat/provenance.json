@@ -37139,6 +37139,36 @@
       "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
       "local_test": "registration_constraint_ref_and_score_are_accessible",
       "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractScoreDirectorSemanticsTest.listVariableEntityPinningSupported",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/AbstractScoreDirectorSemanticsTest.java",
+      "upstream_test": "listVariableEntityPinningSupported",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "local_test": "list_variable_entity_pinning_supported",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractScoreDirectorSemanticsTest.listVariableIndexPinningSupported",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/AbstractScoreDirectorSemanticsTest.java",
+      "upstream_test": "listVariableIndexPinningSupported",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "local_test": "list_variable_index_pinning_supported",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
     }
   ],
   "fixtures": [
@@ -51051,6 +51081,97 @@
       "upstream_test": "RegistryCapturingCalculator, anonymous AnalyzableIncrementalScoreCalculator instances, mockIncrementalScoreCalculator and mockIncrementalScoreDirectorFactory",
       "local_path": "crates/solver/tests/incremental_calculator_cases.rs",
       "modifications": "Preserve disabled-policy errors, unsupported-calculator policy fallback, non-null enabled totals, exact registration contributions and constraint occurrence counts, cancellation/second-cancellation failure, reset clearing, and accessible registration metadata. Native CalculatorSession and typed IncrementalCalculator replace mocked Java director factory/descriptors and Object solution with unit; string constraint names replace ConstraintRef. Registry is explicitly borrowed during callbacks/cancellation instead of retained as a Java service. Required Rust justification payload replaces the non-null assertion. A shared configurable test calculator preserves the RegistryCapturingCalculator and anonymous calculators' reset registrations and score return values, including first-reset-only -7 with independently calculated zero. Native error variants retain the tested message fragments; no Java reflection, builder, close lifecycle or automatic built-in search backend integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedListIncrementalScoreCalculator and TestdataPinnedWithIndexListIncrementalScoreCalculator.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorSemanticsTest.java",
+      "upstream_test": "TestdataPinnedListIncrementalScoreCalculator and TestdataPinnedWithIndexListIncrementalScoreCalculator",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedListSolution.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/TestdataPinnedListSolution.java",
+      "upstream_test": "TestdataPinnedListSolution",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedListEntity.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/TestdataPinnedListEntity.java",
+      "upstream_test": "TestdataPinnedListEntity",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedListValue.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/TestdataPinnedListValue.java",
+      "upstream_test": "TestdataPinnedListValue",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListSolution.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "upstream_test": "TestdataPinnedWithIndexListSolution",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListEntity.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "TestdataPinnedWithIndexListEntity",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListValue.calculator_list_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "upstream_test": "TestdataPinnedWithIndexListValue",
+      "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
     }
   ]
 }

@@ -61,6 +61,7 @@ struct Constraint<'a, B, L, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum MixedScoringError {
+    Calculator(crate::MatchRegistryError),
     Model(MixedError),
     /// Counts in basic-variable, list-entity, list-value order.
     ModelShape {
@@ -88,6 +89,7 @@ impl fmt::Display for MixedScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::ScoreCorruption(report) => report.fmt(f),
+            Self::Calculator(error) => error.fmt(f),
             _ => write!(f, "mixed scoring error: {self:?}"),
         }
     }
@@ -97,6 +99,7 @@ impl Error for MixedScoringError {
         match self {
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
+            Self::Calculator(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             Self::DecimalWeightArithmetic { error, .. } => Some(error),

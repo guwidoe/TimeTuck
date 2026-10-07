@@ -3723,3 +3723,18 @@ optional diagnostic recomputation are not separately counted. No upstream method
 are credited for these original tests. List/mixed models and direct solver-sequence
 configuration for this backend remain pending. Candidate preparation copies the
 assignment; no performance improvement is claimed or measured in this increment.
+
+Custom calculators now also drive list and mixed construction, local search,
+lazy move providers and custom commands. All three native calculator backends
+share the same transaction/rollback implementation. List change descriptors are
+sorted touched-entity indices; mixed descriptors keep basic variables and list
+entities in separate vectors and callbacks observe both complete components.
+Calculators tracking list membership/owner/index/neighbor facts inspect the
+before/after contents of touched entities. They receive whole-move notifications,
+not Java list-listener event sequences. Required unassigned basic/list values
+supply native structural scores. Two AbstractScoreDirectorSemanticsTest methods
+now preserve full/prefix list pinning scores through the incremental calculator
+fixtures. Original regressions additionally compare 36 construction and36 local
+search configurations with scoped backends, and exercise joint rollback, native
+pin validation, match totals, custom commands/providers and failure recovery.
+Direct SolverSequence configuration remains pending. No performance claim is made.

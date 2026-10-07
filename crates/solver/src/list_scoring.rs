@@ -56,6 +56,7 @@ struct Constraint<'a, V, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListScoringError {
+    Calculator(crate::MatchRegistryError),
     Model(ListError),
     ModelShape {
         expected_entities: usize,
@@ -83,6 +84,7 @@ impl fmt::Display for ListScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::ScoreCorruption(report) => report.fmt(f),
+            Self::Calculator(error) => error.fmt(f),
             _ => write!(f, "list scoring error: {self:?}"),
         }
     }
@@ -92,6 +94,7 @@ impl Error for ListScoringError {
         match self {
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
+            Self::Calculator(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),
             Self::ScoreOverflow { .. } => Some(&crate::ScoreOverflow),
             Self::DecimalWeightArithmetic { error, .. } => Some(error),
