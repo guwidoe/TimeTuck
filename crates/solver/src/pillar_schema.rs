@@ -53,7 +53,7 @@ fn selections(
         None => Box::new(std::iter::once((0..n).collect())),
     }
 }
-fn accepts<V: Eq>(p: &FiniteProblem<V>, variable: usize, value: Option<&V>) -> bool {
+pub(crate) fn accepts<V: Eq>(p: &FiniteProblem<V>, variable: usize, value: Option<&V>) -> bool {
     match value {
         Some(v) => p.variables()[variable].domain().contains(v),
         None => p.variables()[variable].allows_unassigned(),
@@ -242,4 +242,26 @@ pub(crate) fn ordered_with_schema<'a, V: Eq + Clone>(
             })
     });
     changes.chain(swaps)
+}
+
+/// Group unpinned entity rows by equal selected value tuples in the current
+/// assignment. Uses the attached schema or one row per basic variable. Groups
+/// follow their first variable's encounter order; rows within a Pillar are canonical.
+/// No planning values are cloned. Call again after changing the assignment.
+pub fn pillar_groups<V: Eq>(
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+) -> Result<Vec<Pillar>, ModelError> {
+    p.validate(a)?;
+    let rows = p
+        .pillar_schema()
+        .map(|s| s.rows.clone())
+        .unwrap_or_else(|| Arc::new((0..p.variables().len()).map(|i| vec![i]).collect()));
+    Ok(groups(p, a, &rows, 0..p.variables().len())
+        .iter()
+        .map(|g| {
+            Pillar::from_rows(g.iter().map(|&i| rows[i].clone()).collect())
+                .expect("nonempty disjoint schema rows")
+        })
+        .collect())
 }

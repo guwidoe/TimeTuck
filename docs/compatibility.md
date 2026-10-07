@@ -4205,3 +4205,17 @@ Native tests verify aligned rows, stable ties, bounds, input preservation on com
 panic, lazy large combinations, and comparator-driven local search with both basic
 scoring backends. Policies compose with ordinary pillar change/swap constructors and
 custom move providers; existing built-in selector configurations remain available.
+
+Native PillarMoveProvider rebuilds value-tuple groups at every step and applies
+independent comparator-aware policies to both sides of swaps. It also produces
+single-column changes from selected subpillars. Model schemas, pinned rows,
+optional null targets and every destination range are respected; mixed bindings
+preserve list assignments. Group metadata is eager, but subsets/candidates are lazy;
+impossible group-size combinations are rejected before subset enumeration. Both
+swap orientations are retained. Public pillar_groups exposes checked current-state
+groups without cloning planning values. Six original regressions cover four solver
+paths, schema/pin/regrouping behavior, an independent successor oracle with custom
+row order and asymmetric policies, and large lazy spaces/value-clone boundaries.
+TEST-ONLY DefaultPillarSelectorTest1-340 informed gap investigation, but no source
+method is credited: native per-step grouping does not reproduce Java lifecycle
+notification counts or its sampled random traces. No copied test fixtures.

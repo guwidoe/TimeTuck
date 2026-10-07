@@ -16177,3 +16177,25 @@ Live freshness matched verification digest: 21f2c80579df28b47e6369ab885ce3fd6780
 Existing provenance prefixes unchanged; appended7cases and0fixtures.
 Log work/custom-pillar-final-check.log; evidence work/custom-pillar-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Dynamic comparator-aware pillar providers
+
+Applied work/apply_pillar_provider.py; do not reapply. New PillarMoveProvider
+implements basic/mixed MoveProvider, regrouping on every opening via public checked
+pillar_groups. Reuses existing schema grouping/range acceptance; policies generate
+lazy changes and asymmetric swaps. Selected pins excluded; all destination domains
+checked; mixed list assignments preserved. Whole defaults and explicit policies;
+no Java random trace/lifecycle callback equivalence claimed, no provenance credits.
+Isolated native draft initial library6229 TERMINAL0; added prefilter for impossible
+left/right sizes, then draft build/focused45796 TERMINAL0 with -Dwarnings:6original
+regressions passed, including both scoring backends on basic/mixed models.
+No unchanged focused rerun required. Next run the required final integrated gate
+once on frozen Rust state. Benchmark/release/browser reruns not needed.
+
+Required integrated gate27697 LIVE; fmt/clippy passed (38.21s lint), library build
+completed (18.80s). Compilation-only warm-up99888 LIVE, selecting pending affected
+targets; it writes no verification evidence. Rust/provenance frozen. Poll the same
+handles, do not restart on observation timeouts. Prepared evidence helper
+work/record_pillar_provider_evidence.py expects +0cases/+0fixtures vsd256c71;
+run once only after both handles finish successfully. Last completed dashboard
+remains2813/4855=57.94%; provider earns no source credit. No benchmarks/UI reruns.

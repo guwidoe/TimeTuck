@@ -1055,3 +1055,7 @@ mod pillar_selection_policy;
 pub use pillar_selection_policy::{
     PillarComparator, PillarSelectionPolicy, PillarSelectionPolicyError,
 };
+
+mod pillar_provider;
+pub use pillar_provider::PillarMoveProvider;
+pub use pillar_schema::pillar_groups;
