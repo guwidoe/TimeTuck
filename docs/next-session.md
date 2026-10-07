@@ -13084,3 +13084,71 @@ Live freshness matched verification digest: f60e834c1d2e3c95d9b0854028663faa2d1c
 Existing provenance prefixes unchanged; appended7cases and4fixtures.
 Log work/solution-tracker-final-check.log; evidence work/solution-tracker-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Sorted construction providers (current increment)
+
+Previous goal turn73aebe1 was progress; starting tree clean. Added phase-scoped
+SortedBasicConstruction/ListConstruction providers on existing QueuedMoveProvider;
+no parallel sorting engine or model reordering. Stable comparator ordering, actual
+initial-state factory, sequential/valuequeue/pooled placement, live eligibility,
+optional-policy handling, pins, receiver ranges and list prefix insertion bounds.
+Domains stored as Arc slices and move values cloned on consumption. reset rewinds
+same order; reconstruct provider for new phase-dependent priorities. Bound model
+identity asserted on use. Preparation outside search time budget. Per-step dynamic
+sort/mixed adapters remain future work; no broad config or performance claim.
+
+Read complete source generateEntityFactorySortingConfiguration and
+ generateValueFactorySortingConfiguration plus both corresponding methods and
+nested easy score calculators. Reused/read seven basic/list fixtures, read both
+TestdataObjectSortableDescendingComparator and Factory. Adapted both methods with
+all4alternatives each(two factory/two comparator) on both actual solver backends.
+Exact[2,1,0] assignments, original duplicate and list-size objectives, extra score
+and factory-once checks. Provenance2cases13fixtures; existing prefixes unchanged.
+
+Initial compile57952 terminal101 (moved value in list iterator); replaced filter
+and map with one closure. Initial focused67600 terminal101 (test extension type
+shared across incompatible backends); each branch now owns typed extensions.
+Focused21133 terminal0: both source cases pass across16runs. Native8190 terminal101:
+a test expected cyclic value ordering to resume after explicitly rewinding it;
+reset correctly restarts values. Corrected reset test to use fresh initial state,
+keeping separate atomic-interruption retry test. Native36808 pending inspection.
+No production upstream sources read. Final gate follows formatting/source freeze.
+
+Native36808 terminal0: all3regressions pass. Format14963 terminal0. Source and
+provenance frozen for one required gate. No other live processes from this batch.
+No benchmark/browser/release reruns.
+
+Gate20016 TERMINAL101 at clippy: two filter_map_bool_then warnings in new list
+candidate cursors. Replaced those bool::then expressions with explicit conditional
+Options (same behavior, avoids splitting ownership across two closures). Original
+log preserved as work/sorted-construction-check-attempt1.log. Final gate rerun is
+required for failed check/changed source; focused behavior suites need no extra
+standalone rerun because the required gate will execute the changed jobs.
+
+Next-source preparation: read remaining common configurations throughline586 and
+advanced list configuration800..996 (small truncated section recovered920..951),
+plus list entity-range generator1056..1091 and its two methods1095..1146. Existing
+common/advanced-basic configurations were already read. Advanced-list methods
+compare ascending/descending values against descending or explicitly unsorted
+owners. Under STEP owner cache, an unspecified owner sorter defaults descending;
+under PHASE an explicit NONE hack keeps encounter order. Entity-range configurations
+use STEP sorting and one extra sorted destination-value/range-filter case. These
+remain uncredited: per-step comparator evaluation should be supported before
+claiming those configurations. Their sortable fixtures still need full inspection.
+
+Required gate44188 TERMINAL0. 3799 Rust tests and 180 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 472}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2214, 'failed': 0, 'pending': 2359, 'excluded': 282, 'unverified': 0, 'percent': 45.602}.
+Source before/after matched: 27b962b9e26705ea3f63b839eae7ed02014b49ee541972903916e3eb3deba339
+Live freshness matched verification digest: b4c456e2161e420854827083ee5df82ed6a3f000d79c2998edefb7c4d61816b5.
+Existing provenance prefixes unchanged; appended2cases and13fixtures.
+Log work/sorted-construction-final-check.log; evidence work/sorted-construction-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Read full next-target score fixtures while waiting: sort/comparator/
+OneValuePerEntityComparatorEasyScoreCalculator is HardSoft(-repeated,-distinct),
+where assigned excludesnull and repeated=assigned-distinct. list/sort/comparator/
+ListOneValuePerEntityEasyScoreCalculator subtracts10soft per exactly-one owner,
+10hard otherwise, plus1hard per owner regardless of size. These differ from this
+increment's factory-sorting SimpleScore objectives; do not reuse the wrong score
+when adapting remaining comparator tests. Other sortable fixtures still unread.

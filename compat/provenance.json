@@ -33209,6 +33209,36 @@
       "local_path": "crates/solver/tests/solution_tracker_cases.rs",
       "local_test": "score_corruption_good_undo_shadow_variables",
       "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveEntityFactorySorting",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveEntityFactorySorting",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "local_test": "solve_entity_factory_sorting",
+      "modifications": "Preserve all four generated configurations (two comparator-factory, two comparator entries), three generated entity/value identities, initially unassigned state, exact descending-rank assignment [2,1,0], and source easy-score objectives. Execute a real construction-only SolverSequence with bound SortedBasicConstruction/SortedListConstruction on both native network and stream backends. Explicit phase comparator callbacks replace Java comparator classes; factory callback receives the real problem/initial assignment exactly once. Native queued keys replace selector/mimic configuration. Add exact final-score and factory-count assertions. No Java reflective configuration parity or per-step sorting claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveValueFactorySorting",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveValueFactorySorting",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "local_test": "solve_value_factory_sorting",
+      "modifications": "Preserve all four generated configurations (two comparator-factory, two comparator entries), three generated entity/value identities, initially unassigned state, exact descending-rank assignment [2,1,0], and source easy-score objectives. Execute a real construction-only SolverSequence with bound SortedBasicConstruction/SortedListConstruction on both native network and stream backends. Explicit phase comparator callbacks replace Java comparator classes; factory callback receives the real problem/initial assignment exactly once. Native queued keys replace selector/mimic configuration. Add exact final-score and factory-count assertions. No Java reflective configuration parity or per-step sorting claim."
     }
   ],
   "fixtures": [
@@ -44066,6 +44096,175 @@
       "upstream_test": "TestdataObject",
       "local_path": "crates/solver/tests/solution_tracker_cases.rs",
       "modifications": "Adapt generateSolution(3,3) round-robin initial values, Generated Entity/Value codes, nullable value field, metadata and code-based diagnostic rendering. Native BTreeMap<String,Option<String>> stores the detached model values; Java inheritance, annotations, unused fixture helpers and score storage are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateEntityFactorySortingConfiguration.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateEntityFactorySortingConfiguration",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt all four comparator/factory alternatives for each method and preserve exact score arithmetic: basic assigned minus distinct duplicate penalty, list owner penalty -2 for size<=1 and -11 otherwise. Native bound providers replace reflective/mimic selector wiring; both scoring backends tested."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateValueFactorySortingConfiguration.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateValueFactorySortingConfiguration",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt all four comparator/factory alternatives for each method and preserve exact score arithmetic: basic assigned minus distinct duplicate penalty, list owner penalty -2 for size<=1 and -11 otherwise. Native bound providers replace reflective/mimic selector wiring; both scoring backends tested."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.TestdataListSolutionEasyScoreCalculator.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "TestdataListSolutionEasyScoreCalculator",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt all four comparator/factory alternatives for each method and preserve exact score arithmetic: basic assigned minus distinct duplicate penalty, list owner penalty -2 for size<=1 and -11 otherwise. Native bound providers replace reflective/mimic selector wiring; both scoring backends tested."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.TestdataSolutionEasyScoreCalculator.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "TestdataSolutionEasyScoreCalculator",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt all four comparator/factory alternatives for each method and preserve exact score arithmetic: basic assigned minus distinct duplicate penalty, list owner penalty -2 for size<=1 and -11 otherwise. Native bound providers replace reflective/mimic selector wiring; both scoring backends tested."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObjectSortableDescendingComparator.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataObjectSortableDescendingComparator.java",
+      "upstream_test": "TestdataObjectSortableDescendingComparator",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObjectSortableDescendingComparatorFactory.sorted_construction",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataObjectSortableDescendingComparatorFactory.java",
+      "upstream_test": "TestdataObjectSortableDescendingComparatorFactory",
+      "local_path": "crates/solver/tests/sorted_construction_cases.rs",
+      "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
     }
   ]
 }

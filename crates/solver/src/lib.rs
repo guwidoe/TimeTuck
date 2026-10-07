@@ -797,3 +797,6 @@ pub use solution_tracker::{
     SolutionCorruptionReport, SolutionEventViolation, SolutionSnapshot, SolutionTracker,
     SolutionTrackingError, VariableValueViolation, format_tracking_list,
 };
+
+mod sorted_construction;
+pub use sorted_construction::{SortedBasicConstruction, SortedListConstruction};

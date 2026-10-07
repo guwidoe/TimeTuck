@@ -3126,3 +3126,28 @@ undo, heterogeneous field types, non-Clone values, identical printed labels,
 missing entities, foreign snapshots, duplicate stages and failed reader recovery.
 Registration freezes at the first before-move capture. Starting a new move resets
 all prior snapshots and event windows; event audits must have a single consumer.
+
+## Sorted construction providers
+
+`SortedBasicConstruction` and `SortedListConstruction` add stable, phase-scoped
+entity and value ordering to the existing queued construction engine. They bind
+to actual construction phases on network and stream backends without rearranging
+model IDs. Basic sequential, cyclic value-queue and pooled placement are supported;
+list sequential/value queues and pooled insertion honor sorted destination owners,
+pinned prefixes and receiver ranges. Equal comparisons preserve encounter order.
+
+Comparators run when preparing the provider. Comparator factories receive the
+initial problem and assignment once; rebuild the provider when those priorities
+change. `reset` rewinds the existing order. Eligibility is checked against current
+assignments at each placement. Use the bound model and matching optional policy.
+The existing engine handles scores, early choice, limits, interruption and undo.
+Sorting is outside the search call's time budget; dynamic per-step sorting and
+mixed-model ordering adapters are not included. No performance claim is made.
+
+Two DefaultConstructionHeuristicPhaseTest methods now cover all eight generated
+comparator/factory alternatives on both scoring backends, preserving [2,1,0]
+assignments and exact source objectives. Thirteen fixtures/helpers are attributed.
+Original tests cover all placement modes, stable IDs, fresh-run reset, bounded
+candidate cloning, atomic interrupted-scan retry, optional rejection, pins and
+receiver ranges. Sorted orders are shared; unconsumed basic-domain tails are not
+cloned into move values.
