@@ -4219,3 +4219,18 @@ row order and asymmetric policies, and large lazy spaces/value-clone boundaries.
 TEST-ONLY DefaultPillarSelectorTest1-340 informed gap investigation, but no source
 method is credited: native per-step grouping does not reproduce Java lifecycle
 notification counts or its sampled random traces. No copied test fixtures.
+
+Native seeded pillar sampling draws directly from prepared row metadata without
+enumerating combinations. Sizes are uniform within clipped bounds; subsets or
+comparator-ordered windows are uniform conditional on size. Sparse partial
+Fisher-Yates uses O(k) scratch entries for k selected rows. Public policy.sample
+owns its metadata, retains duplicate draws and does not reproduce Java traces.
+SampledPillarMoveProvider regroups each basic/mixed step using seed+step (wrapping),
+with a bounded number of lazy attempts. Enabled families and eligible groups are
+sampled uniformly; changes sample a column and first-row target, swaps sample
+independent groups. Same-group swaps, unchanged targets and range-invalid draws
+consume attempts without scoring. Mixed lists remain unchanged. An empty sample
+can stop search without proving a local optimum. Six original tests verify seeded
+replay, sampling support/distribution, sorted-row preparation, large subsets,
+range/pin/schema filtering and actual two-step solving on four backend paths.
+No additional upstream method/fixture credit; no benchmark speed claim.

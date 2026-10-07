@@ -119,3 +119,93 @@ impl PillarSelectionPolicy {
         }))
     }
 }
+
+/// Owned row metadata prepared once for repeated direct random draws.
+pub(crate) struct PreparedPillarSamples {
+    rows: Vec<Vec<usize>>,
+    min: usize,
+    max: usize,
+    consecutive: bool,
+}
+impl PillarSelectionPolicy {
+    pub(crate) fn prepare_samples(&self, pillar: &Pillar) -> Option<PreparedPillarSamples> {
+        let n = pillar.rows().len();
+        let (min, max) = self.sizes().unwrap_or((n, n));
+        if min > n {
+            return None;
+        }
+        let mut rows = pillar.rows().to_vec();
+        if let Some(c) = self.comparator() {
+            rows.sort_by(|a, b| (c.0)(a, b));
+        }
+        Some(PreparedPillarSamples {
+            rows,
+            min,
+            max: max.min(n),
+            consecutive: matches!(self.0, Selection::Sequential(..)),
+        })
+    }
+    /// Draw at most `count` independent subpillars with replacement using a native
+    /// seed. A pillar smaller than the minimum produces no samples. Sizes are
+    /// uniform over the clipped bounds; conditional on size, subsets (or sorted
+    /// contiguous windows) are uniform. This is not uniform over all subsets when
+    /// their sizes differ. Whole-pillar selection repeats the whole pillar.
+    ///
+    /// Copies/sorts row metadata once. Each draw selects directly without
+    /// enumerating combinations; arbitrary subsets use O(k) scratch entries for
+    /// k selected rows. Results own only slot metadata, not planning values.
+    /// Native seeds do not reproduce Java random traces.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let pillar = Pillar::new(0..80)?;
+    /// let policy = PillarSelectionPolicy::subsets(40, 40)?;
+    /// let sample = policy.sample(&pillar, 42, 3).collect::<Vec<_>>();
+    /// assert_eq!(sample.len(), 3);
+    /// assert!(sample.iter().all(|p| p.rows().len() == 40));
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn sample(
+        &self,
+        pillar: &Pillar,
+        seed: u64,
+        count: u64,
+    ) -> Box<dyn Iterator<Item = Pillar>> {
+        if count == 0 {
+            return Box::new(std::iter::empty());
+        }
+        let Some(prepared) = self.prepare_samples(pillar) else {
+            return Box::new(std::iter::empty());
+        };
+        let mut random = crate::random::SplitMix64::new(seed);
+        Box::new((0..count).map(move |_| prepared.draw(&mut random)))
+    }
+}
+impl PreparedPillarSamples {
+    pub(crate) fn draw(&self, random: &mut crate::random::SplitMix64) -> Pillar {
+        let size = self.min + random.below((self.max - self.min + 1) as u64) as usize;
+        let n = self.rows.len();
+        let indices: Vec<usize> = if size == n {
+            (0..n).collect()
+        } else if self.consecutive {
+            let start = random.below((n - size + 1) as u64) as usize;
+            (start..start + size).collect()
+        } else {
+            // Sparse partial Fisher-Yates: represent only displaced indices.
+            let mut displaced = std::collections::BTreeMap::new();
+            (0..size)
+                .map(|i| {
+                    let j = i + random.below((n - i) as u64) as usize;
+                    let picked = displaced.remove(&j).unwrap_or(j);
+                    if j != i {
+                        let replacement = displaced.remove(&i).unwrap_or(i);
+                        displaced.insert(j, replacement);
+                    }
+                    picked
+                })
+                .collect()
+        };
+        Pillar::from_rows(indices.into_iter().map(|i| self.rows[i].clone()).collect())
+            .expect("sampled distinct rows from a valid pillar")
+    }
+}

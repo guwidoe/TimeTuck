@@ -1059,3 +1059,6 @@ pub use pillar_selection_policy::{
 mod pillar_provider;
 pub use pillar_provider::PillarMoveProvider;
 pub use pillar_schema::pillar_groups;
+
+mod sampled_pillar_provider;
+pub use sampled_pillar_provider::SampledPillarMoveProvider;

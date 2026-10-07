@@ -16216,3 +16216,33 @@ Live freshness matched verification digest: 473cad8c1e2a355bc1bb5164a8215dfea4dd
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/pillar-provider-final-check.log; evidence work/pillar-provider-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Bounded direct pillar sampling
+
+Applied guarded work/apply_pillar_sampling.py; do not reapply. PillarSelectionPolicy
+sample prepares comparator-sorted metadata once and draws sizes/subsets/windows
+directly. Sparse partial Fisher-Yates uses O(k) scratch; no combination enumeration.
+SampledPillarMoveProvider offers reproducible bounded basic/mixed local-search
+sampling with independent per-step seed, range filtering, duplicate retention and
+rejection attempts counted. Lists preserved in mixed use. Same seed/step replays
+regardless of previous consumption; empty sampling does not prove local optimality.
+Initial draft library57845 TERMINAL0; then zero-budget/disabled fast paths added.
+Final draft build/focused80332 TERMINAL0, six native regressions passed (0.31s).
+Two public usage doctests added afterwards, native bodies unchanged. No provenance
+changes or upstream credits, and no new upstream source reads. Required integrated
+final gate next on frozen source; no unchanged focused/benchmark/UI/release reruns.
+
+Initial sampler gate38950 TERMINAL101 at clippy: suspicious_map/manual_inspect on
+one owned-sampling assertion. Replaced map(identity-with-assertion) with inspect;
+semantics unchanged, no production change and no extra focused rerun. The earlier
+needless borrowed Copy oracle closure was also cleaned up before integration.
+Warm-up77342 remains live, compilation only; keep it running. Corrected final gate
+next overwrites the canonical log. Evidence helper handle must be updated.
+
+Corrected sampler gate14082 LIVE: fmt/clippy passed (6.77s lint), library compiling.
+Warm-up77342 LIVE, selecting/compiling only pending affected targets; no evidence
+writes. Both handles confirmed live, no restarts on observation timeouts. Source
+and provenance frozen. work/record_pillar_sampling_evidence.py now references
+14082 and expects +0cases/+0fixtures vs7907cf0. Run once after both handles finish
+successfully, check live freshness, commit the evidence. Last verified dashboard
+2813/4855=57.94%,4692Rust228doctests; sampler evidence not yet included.
