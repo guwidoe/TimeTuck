@@ -39194,6 +39194,186 @@
       "upstream_test": "notEmptyIfThereAreEntitiesWithPinning",
       "local_test": "starts_after_pinned_prefixes",
       "modifications": "Native ListDestinationSelector snapshot and separate finite/repeating iteration APIs replace mock selector lifecycle and mode flags. Preserve ordered entity-start and anchor positions, duplicate entity occurrence, counts, empty exhaustion, pinned prefix boundaries, random scripted rank sequence and requested bound. Numeric entity/value identities replace named test objects. Rust Option exhaustion replaces iterator exceptions; repeating iterator continuation uses an additional valid rank instead of the unused Java -1 sentinel. No Java mixed-stream fallback, mimic-recorder mutation, phase callback or PRNG-seed equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.putThenRemove_singleSlot_noEscalation",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "putThenRemove_singleSlot_noEscalation",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "single_slot",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.sameEntityReopeningAFreshBracket_doesNotEscalate",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "sameEntityReopeningAFreshBracket_doesNotEscalate",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "reopen_same_entity",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.secondDistinctEntity_escalatesToMap",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "secondDistinctEntity_escalatesToMap",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "distinct_entities_promote",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.secondBracketWhileTheFirstIsStillPending_failsFast_singleSlot",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "secondBracketWhileTheFirstIsStillPending_failsFast_singleSlot",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "duplicate_single_fails",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.secondBracketWhileTheFirstIsStillPending_failsFast_afterEscalation",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "secondBracketWhileTheFirstIsStillPending_failsFast_afterEscalation",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "duplicate_after_promotion_fails",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.removeForUnknownEntity_returnsNull",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "removeForUnknownEntity_returnsNull",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "unknown_returns_none",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.clear_removesEveryPendingEntry",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "clear_removesEveryPendingEntry",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "clear_promoted",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.clear_alsoResetsTheSingleSlotBeforeAnyEscalation",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "clear_alsoResetsTheSingleSlotBeforeAnyEscalation",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "local_test": "clear_single",
+      "modifications": "Independent PendingListChanges uses stable native entity keys, one inline entry and an ordered overflow map. Preserve action identity through Rc::ptr_eq, independent removals, sequential reopen, duplicate rejection and clear. Result::AlreadyOpen replaces IllegalArgumentException and its native Display wording replaces the Java callback name. Additional storage-mode assertions verify inline/promotion/reset behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListVariableBeforeChangeActionTest.undoRestoresTheCapturedRangeAndNotifiesOnce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/ListVariableBeforeChangeActionTest.java",
+      "upstream_test": "undoRestoresTheCapturedRangeAndNotifiesOnce",
+      "local_path": "crates/solver/tests/list_action_rebase_cases.rs",
+      "local_test": "undo_restores_and_notifies",
+      "modifications": "Native ListChangeRecorder before/after snapshots and undo replace direct Java action construction. Preserve restored values, insertion undo, unclosed-action error and exact before/after range notifications. Native batch undo also emits one shadow refresh. Result errors and native callback wording replace Java exception classes/messages. Rebase uses separate Arc working entities/values and real WorkingObjectLookup registries; pointer assertions prove lookup did not retain original instances. Native recording stores both before/after snapshots, so both old/new values are registered and mapped."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListVariableBeforeChangeActionTest.undoOfAPureInsertClearsWhatWasInserted",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/ListVariableBeforeChangeActionTest.java",
+      "upstream_test": "undoOfAPureInsertClearsWhatWasInserted",
+      "local_path": "crates/solver/tests/list_action_rebase_cases.rs",
+      "local_test": "undo_insert_clears_inserted",
+      "modifications": "Native ListChangeRecorder before/after snapshots and undo replace direct Java action construction. Preserve restored values, insertion undo, unclosed-action error and exact before/after range notifications. Native batch undo also emits one shadow refresh. Result errors and native callback wording replace Java exception classes/messages. Rebase uses separate Arc working entities/values and real WorkingObjectLookup registries; pointer assertions prove lookup did not retain original instances. Native recording stores both before/after snapshots, so both old/new values are registered and mapped."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListVariableBeforeChangeActionTest.undoOfAnUnmergedActionFailsFast",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/ListVariableBeforeChangeActionTest.java",
+      "upstream_test": "undoOfAnUnmergedActionFailsFast",
+      "local_path": "crates/solver/tests/list_action_rebase_cases.rs",
+      "local_test": "unclosed_action_fails",
+      "modifications": "Native ListChangeRecorder before/after snapshots and undo replace direct Java action construction. Preserve restored values, insertion undo, unclosed-action error and exact before/after range notifications. Native batch undo also emits one shadow refresh. Result errors and native callback wording replace Java exception classes/messages. Rebase uses separate Arc working entities/values and real WorkingObjectLookup registries; pointer assertions prove lookup did not retain original instances. Native recording stores both before/after snapshots, so both old/new values are registered and mapped."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListVariableBeforeChangeActionTest.rebasePreservesMergedState",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/ListVariableBeforeChangeActionTest.java",
+      "upstream_test": "rebasePreservesMergedState",
+      "local_path": "crates/solver/tests/list_action_rebase_cases.rs",
+      "local_test": "rebase_preserves_closed_action_and_working_identity",
+      "modifications": "Native ListChangeRecorder before/after snapshots and undo replace direct Java action construction. Preserve restored values, insertion undo, unclosed-action error and exact before/after range notifications. Native batch undo also emits one shadow refresh. Result errors and native callback wording replace Java exception classes/messages. Rebase uses separate Arc working entities/values and real WorkingObjectLookup registries; pointer assertions prove lookup did not retain original instances. Native recording stores both before/after snapshots, so both old/new values are registered and mapped."
     }
   ],
   "fixtures": [
@@ -54367,6 +54547,19 @@
       "id": "PlannerAssert.assertEmptyNeverEndingIterableSelector.ordered_destinations",
       "upstream_test": "assertEmptyNeverEndingIterableSelector",
       "modifications": "Helper attribution only: preserve complete ordered positions or repeating prefixes, size assertions and exhaustion/continuation. Native finite/repeating APIs stand for selector mode metadata; integer entity/index pairs replace printable codes. No additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PendingListChangeTrackerTest.mockAction.pending_list_changes",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/PendingListChangeTrackerTest.java",
+      "upstream_test": "mockAction",
+      "local_path": "crates/solver/tests/pending_list_change_cases.rs",
+      "modifications": "Distinct Rc allocations replace mock action objects; pointer equality retains action identity assertions. Helper attribution only."
     }
   ]
 }

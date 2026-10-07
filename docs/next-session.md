@@ -14946,3 +14946,41 @@ No benchmark/browser/release reruns. All sessions terminal; goal remains active.
 Evidence22380 TERMINAL0 confirmed live report freshness. Final native regression
 suite includes all6tests, including added dependency rejection. All process handles
 terminal. Upstream submodule and all previous provenance entries remain unchanged.
+
+## Pending bracket storage and independent recording rebase
+
+Previous goal turn was verified progress; started327253a clean. Read compatibility
+and handoff, full test-only PendingListChangeTrackerTest and
+ListVariableBeforeChangeActionTest; inspected native recorder/lookup contracts.
+Also read ScoreUtilTest but made no adaptations from it. No production reads.
+Implemented PendingListChanges with one inline entry and ordered overflow map,
+retaining original action ownership without cloning on promotion. Clear resets
+mode; duplicate insert never overwrites. Integrated into ListChangeRecorder.
+
+Added generic recorder rebase with explicit target field and fallible lookups.
+Memoizes distinct source entities/values, rejects target identity collisions,
+preserves full before/after snapshots, ranges, open brackets, ordering and delegation.
+Target recording independent of source; native types may change with matching
+field metadata/unassignment policy. Failures/panics leave source unchanged and
+reentrant mutation is Busy. No runtime performance claim.
+
+Added12source methods and1mockAction helper fixture. Native regressions cover
+4000pending operations against a map with non-Clone payload/pointer checks,
+open/interleaved edits, live undo reuse and independent histories, memoized mapping,
+changed value/key types, metadata errors, collisions, lookup failure/panic and
+reentrant mutation. Existing recorder integration tests cover native moves, shadows,
+stream scoring and notification panic atomicity. Compile41130 terminal0 before
+final noncloning tracker revision; focused16030 terminal0 on final implementation.
+
+Required gate55414 TERMINAL0. 4396 Rust tests and 215 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 558}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2623, 'failed': 0, 'pending': 1950, 'excluded': 282, 'unverified': 0, 'percent': 54.027}.
+Source before/after matched: f7896b79af9990ee46a346bf59cb9e4c4435f61b5e520288902264250fa5cb3d
+Live freshness matched verification digest: 4a318bbf7ff8f30466596035c8971341886962243e9e2510d47f615cc3f77614.
+Existing provenance prefixes unchanged; appended12cases and1fixture.
+Log work/list-rebase-final-check.log; evidence work/list-rebase-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Focused16030 covered40tests (12new source cases,4new native regressions and24existing
+recorder cases/regressions). Final gate55414 and evidence78279 terminal0. No live
+sessions. Working-object pointer checks prove rebased undo uses target allocations;
+no source record consumption occurred in failure/collision/panic regressions.

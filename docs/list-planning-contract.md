@@ -986,3 +986,28 @@ current proposal. Reopening uses seed+completed_steps with wrapping addition, so
 partial consumption cannot disturb replay. A bounded empty sample does not prove
 optimality. Mixed moves preserve basic variables. No Java selector fallback or
 random-trace equivalence and no measured runtime improvement are claimed.
+
+## Pending edits and rebased recordings
+
+`PendingListChanges` holds the first open entity inline, activating a BTreeMap for
+additional simultaneous entities. Sequential open/close operations avoid map
+allocation. The first slot stays inline after promotion; closing it lets another
+entity reuse that slot. `clear` resets the mode. Duplicate inserts fail without
+replacing an action. Insert/remove and promotion never clone keys or actions.
+`ListChangeRecorder` now uses this tracker for its pending edit indices, retaining
+its existing candidate-state publication and failure behavior.
+
+`ListChangeRecorder::rebase` maps a snapshot into an independent recorder with
+explicit target field metadata and fallible entity/value lookup callbacks. It
+preserves before/after snapshots, range boundaries, edit order, open brackets and
+notification delegation. Each distinct source key/value is mapped once; repeated
+occurrences reuse the result. Distinct source identities may not collapse to the
+same target identity. Target value types may differ, but metadata must match the
+target type and the source list's unassignment policy.
+
+Errors and lookup panics leave the source intact. Reentrant mutations during lookup
+return Busy. Completed target undo does not consume source history; unfinished
+brackets must first be closed in the target recording. Later source/target edits
+and their live undo handles are independent. Lookup side effects are outside the
+transaction. This API requires stable Clone/Eq identity and maps whole saved list
+snapshots, including unchanged values; it does not infer missing target objects.

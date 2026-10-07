@@ -69,7 +69,7 @@ struct Edit<E, V> {
 }
 struct Recording<E, V> {
     edits: Vec<Rc<Edit<E, V>>>,
-    pending: BTreeMap<E, usize>,
+    pending: crate::PendingListChanges<E, usize>,
 }
 impl<E: Clone, V> Clone for Recording<E, V> {
     fn clone(&self) -> Self {
@@ -83,7 +83,7 @@ impl<E, V> Default for Recording<E, V> {
     fn default() -> Self {
         Self {
             edits: vec![],
-            pending: BTreeMap::new(),
+            pending: crate::PendingListChanges::default(),
         }
     }
 }
@@ -205,7 +205,7 @@ impl<'s, E: Ord + Clone, V: Eq + Clone + 'static> ListChangeRecorder<'s, E, V> {
             to,
         });
         let mut next = current.clone();
-        next.pending.insert(entity.clone(), next.edits.len());
+        next.pending.insert(entity.clone(), next.edits.len())?;
         next.edits.push(Rc::new(Edit {
             entity,
             from,
@@ -331,5 +331,108 @@ impl<'s, E: Ord + Clone, V: Eq + Clone> ListRecordingUndo<'s, E, V> {
         *lists = prepared;
         *state = Recording::default();
         Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ListRecordingRebaseError<X> {
+    Recording(ListRecordingError),
+    Lookup(X),
+    EntityCollision,
+    ValueCollision,
+}
+impl<X: fmt::Debug> fmt::Display for ListRecordingRebaseError<X> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "list recording rebase: {self:?}")
+    }
+}
+impl<X: fmt::Debug> Error for ListRecordingRebaseError<X> {}
+impl<'s, E: Ord + Clone, V: Eq + Clone + 'static> ListChangeRecorder<'s, E, V> {
+    /// Rebase a snapshot of all recorded edits into an independent recording.
+    /// Target metadata must describe a list with the same unassignment policy.
+    /// Each distinct source entity/value is looked up once; repeated occurrences
+    /// reuse that result. Distinct source identities may not collapse to one target.
+    /// Open brackets stay open; completed ranges and notification delegation survive.
+    ///
+    /// Lookup errors/panics leave the source recording unchanged. While lookups run,
+    /// reentrant recording mutations return Busy. The new undo handle affects only
+    /// target lists, and later source/target edits are independent. External lookup
+    /// side effects cannot be rolled back. Clone/Eq must preserve stable identity.
+    pub fn rebase<'t, E2: Ord + Clone, V2: Eq + Clone + 'static, X>(
+        &self,
+        variable: PlanningVariableRef<'t>,
+        mut entity_lookup: impl FnMut(&E) -> Result<E2, X>,
+        mut value_lookup: impl FnMut(&V) -> Result<V2, X>,
+    ) -> Result<ListChangeRecorder<'t, E2, V2>, ListRecordingRebaseError<X>> {
+        if variable.kind() != self.variable.kind() {
+            return Err(ListRecordingRebaseError::Recording(
+                ListRecordingError::Metadata,
+            ));
+        }
+        let mut rebased =
+            ListChangeRecorder::new(variable).map_err(ListRecordingRebaseError::Recording)?;
+        let source = self
+            .state
+            .try_borrow()
+            .map_err(|_| ListRecordingRebaseError::Recording(ListRecordingError::Busy))?;
+        let mut entities = BTreeMap::<E, E2>::new();
+        let mut target_entities = std::collections::BTreeSet::new();
+        let mut values = Vec::<(V, V2)>::new();
+        let mut target = Recording::default();
+        for edit in &source.edits {
+            let entity = if let Some(entity) = entities.get(&edit.entity) {
+                entity.clone()
+            } else {
+                let entity =
+                    entity_lookup(&edit.entity).map_err(ListRecordingRebaseError::Lookup)?;
+                if !target_entities.insert(entity.clone()) {
+                    return Err(ListRecordingRebaseError::EntityCollision);
+                }
+                entities.insert(edit.entity.clone(), entity.clone());
+                entity
+            };
+            let mut map_list = |list: &[V]| -> Result<Rc<Vec<V2>>, ListRecordingRebaseError<X>> {
+                let mut mapped = Vec::with_capacity(list.len());
+                for value in list {
+                    let target_value = if let Some((_, target)) =
+                        values.iter().find(|(source, _)| source == value)
+                    {
+                        target.clone()
+                    } else {
+                        let target =
+                            value_lookup(value).map_err(ListRecordingRebaseError::Lookup)?;
+                        if values.iter().any(|(_, existing)| existing == &target) {
+                            return Err(ListRecordingRebaseError::ValueCollision);
+                        }
+                        values.push((value.clone(), target.clone()));
+                        target
+                    };
+                    mapped.push(target_value);
+                }
+                Ok(Rc::new(mapped))
+            };
+            let before = map_list(&edit.before)?;
+            let after = edit
+                .after
+                .as_ref()
+                .map(|(to, list)| Ok((*to, map_list(list)?)))
+                .transpose()?;
+            if after.is_none() {
+                target
+                    .pending
+                    .insert(entity.clone(), target.edits.len())
+                    .map_err(ListRecordingRebaseError::Recording)?;
+            }
+            target.edits.push(Rc::new(Edit {
+                entity,
+                from: edit.from,
+                before_to: edit.before_to,
+                before,
+                after,
+            }));
+        }
+        rebased.state = Rc::new(RefCell::new(target));
+        rebased.delegate = self.delegate;
+        Ok(rebased)
     }
 }

@@ -965,3 +965,7 @@ pub use score_definition::{ScoreDefinition, ScoreDefinitionError};
 mod list_destination_selector;
 pub use list_destination_selector::{ListDestinationOrder, ListDestinationSelector};
 pub use list_value_change::SampledAnchoredListChangeProvider;
+
+mod pending_list_changes;
+pub use list_change_recording::ListRecordingRebaseError;
+pub use pending_list_changes::{PendingListChangeStorage, PendingListChanges};

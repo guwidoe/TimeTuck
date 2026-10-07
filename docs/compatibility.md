@@ -3930,3 +3930,13 @@ replace selector mode metadata. Receiver-group filtering, duplicate weighting,
 seeded bounded sampling and complete list/mixed plans have independent regressions.
 Java fallback-stream, mutable mimic-recorder and lifecycle callback cases remain
 pending. The previously adapted originalWithEntityValueRange method is unchanged.
+
+Eight PendingListChangeTrackerTest methods and four ListVariableBeforeChangeActionTest
+methods now have complete adaptations. Native pending storage preserves action
+identity, duplicate rejection, interleaved removal, reuse and clearing. Rebased
+recordings preserve captured values, range notifications, insertion undo and open
+bracket failures. Separate working Arc allocations verify actual rebasing through
+WorkingObjectLookup. Java exception classes/callback names become native errors;
+batch undo additionally emits a shadow refresh. Original regressions exercise
+non-Clone action churn, interleaved open edits, memoized/type-changing lookups,
+collisions, lookup failures/panics and independent source/target replay.
