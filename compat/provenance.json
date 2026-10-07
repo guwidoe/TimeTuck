@@ -36764,6 +36764,21 @@
       "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
       "local_test": "do_move_second_ends_before_first_pinned",
       "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.originalWithEntityValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "upstream_test": "originalWithEntityValueRange",
+      "local_path": "crates/solver/tests/destination_range_cases.rs",
+      "local_test": "original_with_entity_value_range",
+      "modifications": "Preserve three source entity ranges and assigned lists, exact reachable entity order for all five values, and forward/end/reverse traversal outputs for value3. Native ListDestinationIndex range queries and entities iterator replace FilteringEntityByValueSelector with mocked value selectors. Reverse traversal reopens the same immutable query snapshot with rev() rather than Java listIterator.previous(); no Java cursor mutation/lifecycle or random trace parity is claimed. Integer planning identities replace annotated TestdataListEntityProviding fixtures; list ownership/index comes from native assignment state."
     }
   ],
   "fixtures": [
@@ -50468,6 +50483,45 @@
       "upstream_test": "TestdataListEntityProvidingValue",
       "local_path": "crates/solver/tests/directed_two_opt_cases.rs",
       "modifications": "Preserve source lists, cut indices, expected complete output order, every doability/range rejection and exact per-entity before/after notification interval. Native list_directed_two_opt_plan interprets directed cuts, reverses the wrapped movable span and retains the original anchor for unpinned wrapped lists; it uses native composite swaps/tail edits and validated lifecycle plans. Explicit prefix metadata replaces mocked pin descriptors; native entity ranges replace ValueRangeManager. Typed preparation errors/nonchanged assignments replace false doability. Integer planning identities and derived list positions replace annotated fixture objects and initialized shadows; registry order follows encounter order because no source assertion depends on it. Native lifecycle observers replace Mockito call verification; no Java callback ordering or rebasing equivalence is claimed. Existing non-wrapping neighborhood enumeration is unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingEntity.destination_range_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "local_path": "crates/solver/tests/destination_range_cases.rs",
+      "modifications": "Preserve three source entity ranges and assigned lists, exact reachable entity order for all five values, and forward/end/reverse traversal outputs for value3. Native ListDestinationIndex range queries and entities iterator replace FilteringEntityByValueSelector with mocked value selectors. Reverse traversal reopens the same immutable query snapshot with rev() rather than Java listIterator.previous(); no Java cursor mutation/lifecycle or random trace parity is claimed. Integer planning identities replace annotated TestdataListEntityProviding fixtures; list ownership/index comes from native assignment state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingSolution.destination_range_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "local_path": "crates/solver/tests/destination_range_cases.rs",
+      "modifications": "Preserve three source entity ranges and assigned lists, exact reachable entity order for all five values, and forward/end/reverse traversal outputs for value3. Native ListDestinationIndex range queries and entities iterator replace FilteringEntityByValueSelector with mocked value selectors. Reverse traversal reopens the same immutable query snapshot with rev() rather than Java listIterator.previous(); no Java cursor mutation/lifecycle or random trace parity is claimed. Integer planning identities replace annotated TestdataListEntityProviding fixtures; list ownership/index comes from native assignment state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingValue.destination_range_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "local_path": "crates/solver/tests/destination_range_cases.rs",
+      "modifications": "Preserve three source entity ranges and assigned lists, exact reachable entity order for all five values, and forward/end/reverse traversal outputs for value3. Native ListDestinationIndex range queries and entities iterator replace FilteringEntityByValueSelector with mocked value selectors. Reverse traversal reopens the same immutable query snapshot with rev() rather than Java listIterator.previous(); no Java cursor mutation/lifecycle or random trace parity is claimed. Integer planning identities replace annotated TestdataListEntityProviding fixtures; list ownership/index comes from native assignment state."
     }
   ]
 }

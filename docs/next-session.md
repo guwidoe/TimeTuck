@@ -14115,3 +14115,39 @@ Live freshness matched verification digest: d9593ddb33f02ee69fa0472dd581ddc6ea12
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/directed-two-opt-provider-final-check.log; evidence work/directed-two-opt-provider-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Range-aware indexed list destinations
+
+Starting HEAD3d58b93 clean; prior directed two-opt provider verified/committed:
+progress. Read native list_destinations (value-independent slots), list move builder
+and gather plan APIs. Inspected ElementDestinationSelectorTest (full initial output
+truncated, complete originalWithEntityValueRange section read separately) and partial
+ListChangeMoveSelectorTest. Adapt only the fully read range method; other methods
+remain pending. Three entity-range fixtures were read fully in directed two-opt batch.
+No upstream production reads.
+
+Added independent ListDestinationIndex/ListDestinationSet/ListDestinationError.
+Snapshot-bound borrowed model/assignment, cached per-value eligible receivers, group
+intersection, compact prefix-counted intervals, ordinal get, exact/reverse iteration,
+entity iteration and uniform with-replacement slot sampling via SampleRandom. Full
+pins excluded; prefix append allowed; optional None once; unknown values error;
+empty group all movable entities. No value clones. Pre-removal positions do not
+claim move doability; callers use gather or other validated move construction.
+
+Focused68618 TERMINAL0:1 adapted range case plus4 native regressions. Tests preserve
+all five receiver sets and forward/end/reverse outputs, use 12000 deterministic
+native sampling draws with broad bounds, check singleton RNG stability, pins/ranges/
+group intersections, empty/invalid states, all64 two-value receiver masks and owned
+old snapshots without cloning values. Added fifth native group-gather search test
+for both backends; one source case/three fixtures appended with native substitutions.
+Focused88003 TERMINAL0 for new group-gather search test only. Final source formatted
+and frozen for selective gate. No benchmark/browser/release reruns; goal active.
+
+Required gate77794 TERMINAL0. 4116 Rust tests and 200 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 520}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2450, 'failed': 0, 'pending': 2123, 'excluded': 282, 'unverified': 0, 'percent': 50.463}.
+Source before/after matched: 795b5e659d84ee6e013f45bb51d788c25b2c7c83755bcf06f81d577e1e8c8a7e
+Live freshness matched verification digest: b240b84910c717a98f1dc28c4504bdba31a6487a8d7d0ef379aaad2bcc2ffffc.
+Existing provenance prefixes unchanged; appended1case and3fixtures.
+Log work/destination-index-final-check.log; evidence work/destination-index-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

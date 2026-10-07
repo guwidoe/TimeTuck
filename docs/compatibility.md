@@ -3665,3 +3665,20 @@ mixed search, both backends, retained basic assignments, pins/range/dependency f
 empty receivers, lazy opening and bounded scoring. These are native integration
 checks and add no upstream-method credit. Built-in neighborhoods retain their prior
 behavior; custom-provider selection remains explicit.
+
+ListDestinationIndex caches value-to-receiver membership and insertion intervals
+for a borrowed immutable list model/assignment. Single/group queries intersect
+ranges, exclude full pins, respect prefix insertion bounds and include optional
+unassignment exactly once. Owned ListDestinationSet results provide exact counts,
+ordinal lookup, forward/reverse traversal and seeded uniform slot sampling. No value
+clones or flattened per-slot storage are needed. Query results are snapshots, and
+positions refer to the pre-removal assignment; source pin/dependency checks remain
+with move construction. Empty groups select all movable entities; unknown values fail.
+
+ElementDestinationSelectorTest.originalWithEntityValueRange now preserves all five
+receiver sets/orders and both traversal directions; native rev over the same snapshot
+replaces Java cursor rewind. Five native regressions cover group/range intersections,
+optional/pinned/empty boundaries, uniform slot counts and singleton RNG stability,
+no value clones, retained old snapshots, all small two-value range masks and indexed
+group-gather local search on both scoring backends. Other source selector lifecycle,
+random scheduling and mutable replay cases remain pending. No speedup claim.
